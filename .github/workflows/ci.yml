@@ -36,6 +36,32 @@ jobs:
       - run: rustup component add clippy --toolchain 1.98.1
       - name: Rust build disk budget
         run: df -h .
+      - name: PostgreSQL payroll roster owners and workflow recovery
+        env:
+          SQLX_OFFLINE: "true"
+        run: |
+          python3 - <<'PYCODE'
+          import os
+          import subprocess
+          import sys
+          harness = ["backend-fork/tools/lanes/pgtest.sh", os.environ["GITHUB_WORKSPACE"] + "/backend-fork"]
+          commands = [
+              harness + ["cargo", "test", "--locked", "--no-fail-fast", "-p", "console-payroll-adapter-postgres", "--test", "pay_run_port_as_runtime_role", "--test", "roster_materialisation", "--test", "payroll_lifecycle_rls_as_runtime_role", "--", "--test-threads=1"],
+              harness + ["cargo", "test", "--locked", "-p", "console-workflow-runtime-adapter-postgres", "--test", "payroll_drain_period_lock", "--", "--test-threads=1"],
+          ]
+          outcomes = [subprocess.run(command, check=False).returncode for command in commands]
+          sys.exit(1 if any(outcomes) else 0)
+          PYCODE
+      - name: Payroll owner and regression Clippy
+        env:
+          SQLX_OFFLINE: "true"
+        working-directory: backend-fork/backend
+        run: cargo clippy --locked -p console-payroll-adapter-postgres --lib --test pay_run_port_as_runtime_role -- -D warnings
+      - name: Workflow owner and regression Clippy
+        env:
+          SQLX_OFFLINE: "true"
+        working-directory: backend-fork/backend
+        run: cargo clippy --locked -p console-workflow-runtime-adapter-postgres --lib --test payroll_drain_period_lock -- -D warnings
       - name: PostgreSQL and real-browser inquiry
         env:
           SQLX_OFFLINE: "true"
