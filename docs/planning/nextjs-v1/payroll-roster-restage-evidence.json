@@ -9,7 +9,7 @@
   "test_first": {
     "approved_test_commit": "ed7ad6bc2272ccad7c82142330dfaee35089fc20",
     "CI_test_candidate": "603782a4fc4e12a78819a84975705f1195b1ae2b",
-    "admission_command": "python3 backend-fork/tools/lanes/fanout.py admit --spec .artifacts/acceptance/payroll-roster-freeze/lane-spec.json",
+    "admission_command": "python3 backend-fork/tools/lanes/fanout.py admit --spec /Users/jasonlee/Developer/frontend/.artifacts/acceptance/payroll-roster-freeze/lane-spec.json",
     "red_runs": [
       {
         "path": ".artifacts/acceptance/payroll-roster-freeze/run-20260930T163318.739583Z/report.json",
@@ -33,7 +33,8 @@
     "admission_exit": 0,
     "admission_receipt_sha256": "8d6f5e6e7f259955d244681a5679ffaeed5d79b1464b8379f9bd2dbadeab1e2f",
     "reviewer": "/root/source_fidelity_adversary",
-    "verdict": "ACCEPT exact clean test source and executed red admission"
+    "verdict": "ACCEPT exact clean test source and executed red admission",
+    "admission_cwd": "/Users/jasonlee/Developer/frontend/.worktrees/payroll-roster-freeze"
   },
   "source_commit": "b0a017a7eb1ca64bca420bc9167712345bb9f5e8",
   "source_sha256": {

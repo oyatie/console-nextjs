@@ -4035,7 +4035,7 @@
       "source_commit": "b0a017a7eb1ca64bca420bc9167712345bb9f5e8",
       "status": "bounded_native_owner_fix_green_final_CI_pending",
       "evidence_path": "docs/planning/nextjs-v1/payroll-roster-restage-evidence.json",
-      "sha256": "63ea400728c1e3ca568a1a3d39aecf2a800b86bd9659341972a2bfda67ae355d",
+      "sha256": "bbead4fc08d9d094f025f72ba6a9f3ee271bfa8aeb638b17dca51fbfbf959e70",
       "remaining_holds": [
         "Seeded statuses/calculations prove preservation only; no legal/tax calculation, natural-person approval, payable amount or payment acceptance.",
         "PostgreSQL stage commit/ack interruption is injected after actual owner commit; no process-crash or two-site durability proof.",
