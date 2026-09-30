@@ -60,7 +60,7 @@ async fn apply_without_checklist_denies_and_writes_nothing(owner_pool: PgPool) {
         )
         .unwrap(),
     );
-    let token = bearer(&pool, &keys, admin).await;
+    let token = bearer(&owner_pool, &keys, admin).await;
 
     // No body at all (no Content-Type ⇒ `checklist_all_acknowledged: None`).
     let denied = send(
@@ -129,7 +129,7 @@ async fn apply_with_checklist_admits_and_applies(owner_pool: PgPool) {
         )
         .unwrap(),
     );
-    let token = bearer(&pool, &keys, admin).await;
+    let token = bearer(&owner_pool, &keys, admin).await;
 
     let applied = send(
         service,
