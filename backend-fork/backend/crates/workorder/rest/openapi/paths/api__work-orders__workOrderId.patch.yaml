@@ -1,0 +1,29 @@
+tags:
+  - work-orders
+operationId: updateWorkOrderIntake
+summary: Edit work-order intake narrative fields
+security:
+- bearerAuth: []
+parameters:
+- $ref: '#/components/parameters/WorkOrderId'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/UpdateWorkOrderIntakeRequest'
+responses:
+  '200':
+    description: Work order updated.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/WorkOrderSummary'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '422':
+    $ref: '#/components/responses/ValidationError'

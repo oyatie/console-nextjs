@@ -1,0 +1,14 @@
+type: object
+required:
+- items
+- next_cursor
+properties:
+  items:
+    type: array
+    items:
+      $ref: '#/components/schemas/InboxDocSummary'
+  next_cursor:
+    type:
+    - string
+    - 'null'
+    format: uuid

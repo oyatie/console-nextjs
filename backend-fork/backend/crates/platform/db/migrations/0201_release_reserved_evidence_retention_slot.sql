@@ -1,0 +1,25 @@
+-- Close the 0201 hole. This migration intentionally changes no schema.
+--
+-- 0201 was pre-assigned as a "reserved gap" for a future evidence-retention
+-- subject and left unwritten. That reservation was itself the defect: the
+-- sequence ran 0200 -> 0202, and `console-gate-migration-safety` reports
+-- NonContiguousMigrationVersion for exactly this shape. The gate is right to.
+-- A hole on the main line is a live hazard, not a bookkeeping wart: any
+-- database that has already applied 0202 will REJECT a migration that later
+-- lands *into* 0201 (sqlx's out-of-order guard), so the reservation could
+-- never actually have been redeemed on a migrated environment.
+--
+-- Releasing the number rather than filling it with speculative schema:
+--   * the sequence becomes contiguous, so the standing gate violation clears
+--     for every lane instead of being inherited by each one;
+--   * the out-of-order hazard is removed permanently, because 0201 can no
+--     longer be claimed later;
+--   * the evidence-retention work, when it is actually written, takes a fresh
+--     number at merge time — which is what the corrected ledger protocol
+--     (docs/program/wave4-migration-slot-ledger.md §5, "assign at LAND time,
+--     not at charter time") requires of every lane now.
+--
+-- No DDL, no DML, no privilege change. Applying this file is a no-op beyond
+-- recording 0201 as spent in the migration history.
+
+SELECT 1;

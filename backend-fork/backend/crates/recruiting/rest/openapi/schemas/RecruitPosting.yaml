@@ -1,0 +1,72 @@
+type: object
+required:
+- id
+- posting_no
+- role_title
+- company
+- worksite
+- employment_type
+- scope
+- headcount
+- hired_count
+- deadline
+- requirements
+- position_ref
+- status
+- published_at
+- closed_at
+- created_at
+- updated_at
+properties:
+  id:
+    $ref: '#/components/schemas/Uuid'
+  posting_no:
+    type: string
+    description: Per-organization display code, JP-0001.
+  role_title:
+    type: string
+  company:
+    type: string
+  worksite:
+    type: string
+  employment_type:
+    $ref: '#/components/schemas/RecruitEmploymentType'
+  scope:
+    $ref: '#/components/schemas/RecruitPostingScope'
+  headcount:
+    type: integer
+    format: int32
+  hired_count:
+    type: integer
+    format: int32
+  deadline:
+    type:
+    - string
+    - 'null'
+    format: date
+    description: Null = open-ended (상시).
+  requirements:
+    type: array
+    items:
+      type: string
+  position_ref:
+    type:
+    - string
+    - 'null'
+    description: Optional ontology position instance reference.
+  status:
+    $ref: '#/components/schemas/RecruitPostingStatus'
+  published_at:
+    type:
+    - string
+    - 'null'
+    format: date-time
+  closed_at:
+    type:
+    - string
+    - 'null'
+    format: date-time
+  created_at:
+    $ref: '#/components/schemas/Timestamp'
+  updated_at:
+    $ref: '#/components/schemas/Timestamp'

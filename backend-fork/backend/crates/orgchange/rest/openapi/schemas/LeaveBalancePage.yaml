@@ -1,0 +1,23 @@
+type: object
+required:
+- items
+- total
+- limit
+- offset
+- summary
+properties:
+  items:
+    type: array
+    items:
+      $ref: '#/components/schemas/LeaveBalanceItem'
+  total:
+    type: integer
+    format: int64
+  limit:
+    type: integer
+    format: int64
+  offset:
+    type: integer
+    format: int64
+  summary:
+    $ref: '#/components/schemas/LeaveBalanceSummary'

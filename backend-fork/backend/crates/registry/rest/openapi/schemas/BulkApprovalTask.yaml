@@ -1,0 +1,27 @@
+type: object
+required:
+- task_id
+- run_id
+- waiting_key
+- title
+- status
+- bulk_decision
+properties:
+  task_id:
+    $ref: '#/components/schemas/Uuid'
+  run_id:
+    $ref: '#/components/schemas/Uuid'
+  waiting_key:
+    type: string
+  title:
+    type: string
+  assignee_role_key:
+    type: string
+  status:
+    type: string
+  claimed_by:
+    $ref: '#/components/schemas/Uuid'
+  due_at:
+    $ref: '#/components/schemas/Timestamp'
+  bulk_decision:
+    $ref: '#/components/schemas/BulkApprovalCapability'

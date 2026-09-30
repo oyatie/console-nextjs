@@ -1,0 +1,9 @@
+type: object
+required:
+- start
+- end
+properties:
+  start:
+    $ref: '#/components/schemas/Timestamp'
+  end:
+    $ref: '#/components/schemas/Timestamp'

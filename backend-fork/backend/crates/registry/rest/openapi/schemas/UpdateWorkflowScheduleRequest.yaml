@@ -1,0 +1,11 @@
+type: object
+properties:
+  label:
+    type: string
+    maxLength: 120
+  cron_expr:
+    type: string
+  timezone:
+    type: string
+  enabled:
+    type: boolean

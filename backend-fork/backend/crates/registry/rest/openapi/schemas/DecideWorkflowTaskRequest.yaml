@@ -1,0 +1,17 @@
+type: object
+required:
+- decision
+- idempotency_key
+properties:
+  decision:
+    type: string
+    enum:
+    - approve
+    - reject
+    - return
+  comment:
+    type: string
+    description: Required and non-empty when decision is reject or return.
+  idempotency_key:
+    type: string
+    minLength: 16

@@ -1,0 +1,4 @@
+type: string
+enum:
+- COMPLETED
+- FOLLOW_UP_REQUIRED

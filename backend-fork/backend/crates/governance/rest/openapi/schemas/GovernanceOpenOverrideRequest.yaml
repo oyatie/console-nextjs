@@ -1,0 +1,16 @@
+type: object
+required:
+- target_type
+- target_id
+- reason
+- before_snapshot
+properties:
+  target_type:
+    type: string
+  target_id:
+    $ref: '#/components/schemas/Uuid'
+  reason:
+    type: string
+  before_snapshot:
+    type: object
+    additionalProperties: true

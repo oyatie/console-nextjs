@@ -1,0 +1,29 @@
+type: object
+required:
+- site
+- sla
+- tickets
+- work_orders
+- attendance
+- acceptances
+properties:
+  site:
+    $ref: '#/components/schemas/FieldSiteSummary'
+  sla:
+    $ref: '#/components/schemas/FieldSlaSummary'
+  tickets:
+    type: array
+    items:
+      $ref: '#/components/schemas/SupportTicketSummary'
+  work_orders:
+    type: array
+    items:
+      $ref: '#/components/schemas/FieldWorkOrderRef'
+  attendance:
+    type: array
+    items:
+      $ref: '#/components/schemas/FieldAttendanceEvent'
+  acceptances:
+    type: array
+    items:
+      $ref: '#/components/schemas/SupportTicketAcceptance'

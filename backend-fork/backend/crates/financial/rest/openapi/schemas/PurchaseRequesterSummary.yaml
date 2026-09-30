@@ -1,0 +1,9 @@
+type: object
+required:
+- user_id
+- display_name
+properties:
+  user_id:
+    $ref: '#/components/schemas/Uuid'
+  display_name:
+    type: string

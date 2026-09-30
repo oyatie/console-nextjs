@@ -1,0 +1,7 @@
+      type: string
+      enum:
+      - P1
+      - P2
+      - P3
+      - OUTSOURCE
+      - UNSET

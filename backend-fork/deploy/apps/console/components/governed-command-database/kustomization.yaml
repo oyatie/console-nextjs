@@ -1,0 +1,166 @@
+apiVersion: kustomize.config.k8s.io/v1alpha1
+kind: Component
+# DARK, opt-in database topology for the PR-473 expand rehearsal. This
+# component is intentionally not referenced by base, prod, or any Argo CD
+# Application. Activate it only from a separately reviewed overlay.
+resources:
+  - database-topology-job.yaml
+
+patches:
+  - target: { group: postgresql.cnpg.io, version: v1, kind: Cluster, name: console-db }
+    patch: |-
+      - op: add
+        path: /metadata/annotations
+        value:
+          argocd.argoproj.io/sync-wave: "0"
+      - op: add
+        path: /spec/enableSuperuserAccess
+        value: false
+      - op: add
+        path: /spec/postgresql/parameters/max_prepared_transactions
+        value: "0"
+      - op: replace
+        path: /spec/managed/roles
+        value:
+          - name: console_app
+            ensure: present
+            login: true
+            superuser: false
+            createdb: false
+            createrole: false
+            bypassrls: true
+            inherit: true
+            replication: false
+            inRoles: [console_leave_definer, console_ontology_writer]
+            passwordSecret:
+              name: console-db-app
+          - name: console_rt
+            ensure: present
+            login: true
+            superuser: false
+            createdb: false
+            createrole: false
+            bypassrls: false
+            inherit: false
+            replication: false
+            passwordSecret:
+              name: console-db-rt
+          - name: console_leave_cmd
+            ensure: present
+            login: true
+            superuser: false
+            createdb: false
+            createrole: false
+            bypassrls: false
+            inherit: false
+            replication: false
+            passwordSecret:
+              name: console-db-leave-command
+          - name: console_ontology_cmd
+            ensure: present
+            login: true
+            superuser: false
+            createdb: false
+            createrole: false
+            bypassrls: false
+            inherit: false
+            replication: false
+            passwordSecret:
+              name: console-db-ontology-command
+          - name: console_platform_force_cmd
+            ensure: present
+            login: true
+            superuser: false
+            createdb: false
+            createrole: false
+            bypassrls: false
+            inherit: false
+            replication: false
+            passwordSecret:
+              name: console-db-platform-force-command
+          - name: console_leave_definer
+            ensure: present
+            login: false
+            superuser: false
+            createdb: false
+            createrole: false
+            bypassrls: false
+            inherit: false
+            replication: false
+            disablePassword: true
+          - name: console_ontology_writer
+            ensure: present
+            login: false
+            superuser: false
+            createdb: false
+            createrole: false
+            bypassrls: false
+            inherit: false
+            replication: false
+            disablePassword: true
+  - target: { group: argoproj.io, version: v1alpha1, kind: Rollout, name: console-app }
+    patch: |-
+      - op: add
+        path: /metadata/annotations
+        value:
+          argocd.argoproj.io/sync-wave: "3"
+      - op: add
+        path: /spec/template/metadata/annotations
+        value:
+          console.oyatie.com/database-role-defaults: "0167"
+      - op: add
+        path: /spec/template/spec/containers/0/env/-
+        value:
+          name: LEAVE_COMMAND_DATABASE_URL
+          valueFrom:
+            secretKeyRef: { name: console-db-leave-command, key: uri }
+      - op: add
+        path: /spec/template/spec/containers/0/env/-
+        value:
+          name: ONTOLOGY_COMMAND_DATABASE_URL
+          valueFrom:
+            secretKeyRef: { name: console-db-ontology-command, key: uri }
+      - op: add
+        path: /spec/template/spec/containers/0/env/-
+        value:
+          name: PLATFORM_FORCE_COMMAND_DATABASE_URL
+          valueFrom:
+            secretKeyRef: { name: console-db-platform-force-command, key: uri }
+  - target: { group: apps, version: v1, kind: Deployment, name: console-worker }
+    patch: |-
+      - op: add
+        path: /metadata/annotations
+        value:
+          argocd.argoproj.io/sync-wave: "3"
+      - op: add
+        path: /spec/template/metadata/annotations
+        value:
+          console.oyatie.com/database-role-defaults: "0167"
+  - target: { group: batch, version: v1, kind: Job, name: console-migrate }
+    patch: |-
+      - op: replace
+        path: /metadata/annotations/argocd.argoproj.io~1hook
+        value: Sync
+      - op: add
+        path: /metadata/annotations/argocd.argoproj.io~1sync-wave
+        value: "2"
+  - target: { group: networking.k8s.io, version: v1, kind: NetworkPolicy, name: allow-postgres-from-app }
+    patch: |-
+      - op: replace
+        path: /spec/ingress/0/from/0/podSelector/matchExpressions/0/values
+        value: [console-app, console-worker, console-migrate, console-db-topology]
+  - target: { group: networking.k8s.io, version: v1, kind: NetworkPolicy, name: default-deny-egress-app-tier }
+    patch: |-
+      - op: replace
+        path: /spec/podSelector/matchExpressions/0/values
+        value: [console-app, console-worker, console-migrate, console-db-topology]
+  - target: { group: networking.k8s.io, version: v1, kind: NetworkPolicy, name: allow-app-egress-dns }
+    patch: |-
+      - op: replace
+        path: /spec/podSelector/matchExpressions/0/values
+        value: [console-app, console-worker, console-migrate, console-db-topology]
+  - target: { group: networking.k8s.io, version: v1, kind: NetworkPolicy, name: allow-app-egress-postgres }
+    patch: |-
+      - op: replace
+        path: /spec/podSelector/matchExpressions/0/values
+        value: [console-app, console-worker, console-migrate, console-db-topology]

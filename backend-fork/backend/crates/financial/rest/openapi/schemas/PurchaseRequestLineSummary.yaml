@@ -1,0 +1,33 @@
+type: object
+required:
+- id
+- line_no
+- item
+- quantity
+- unit_supply_price_won
+- vat_won
+- vat_overridden
+- line_total_won
+properties:
+  id:
+    $ref: '#/components/schemas/Uuid'
+  line_no:
+    type: integer
+    format: int32
+    minimum: 1
+  item:
+    type: string
+  quantity:
+    type: integer
+    format: int32
+  unit_supply_price_won:
+    type: integer
+    format: int64
+  vat_won:
+    type: integer
+    format: int64
+  vat_overridden:
+    type: boolean
+  line_total_won:
+    type: integer
+    format: int64

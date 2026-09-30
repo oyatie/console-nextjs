@@ -1,0 +1,16 @@
+type: object
+required:
+- title
+- total
+- employees
+properties:
+  title:
+    type: string
+  total:
+    type: integer
+    format: int64
+    minimum: 0
+  employees:
+    type: array
+    items:
+      $ref: '#/components/schemas/HrOrgChartEmployee'

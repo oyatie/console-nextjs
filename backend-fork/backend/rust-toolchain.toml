@@ -1,0 +1,5 @@
+[toolchain]
+# Pinned to stable 1.98.1 (official channel manifest checked 2026-09-12).
+# Bump deliberately; CI and local builds must agree.
+channel = "1.98.1"
+components = ["rustfmt", "clippy"]

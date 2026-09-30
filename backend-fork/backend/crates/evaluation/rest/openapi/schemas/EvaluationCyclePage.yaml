@@ -1,0 +1,6 @@
+type: object
+additionalProperties: false
+required: [items, total]
+properties:
+  items: { type: array, items: { $ref: '#/components/schemas/EvaluationCycleSummary' } }
+  total: { type: integer, format: int64 }

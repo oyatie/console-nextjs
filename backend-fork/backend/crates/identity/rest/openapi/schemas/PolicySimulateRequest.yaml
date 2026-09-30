@@ -1,0 +1,8 @@
+type: object
+required:
+- request
+properties:
+  request:
+    $ref: '#/components/schemas/PolicySimRequest'
+  include_draft_id:
+    $ref: '#/components/schemas/Uuid'

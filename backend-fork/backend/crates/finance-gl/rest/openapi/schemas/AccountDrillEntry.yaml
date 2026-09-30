@@ -1,0 +1,36 @@
+type: object
+required:
+- voucher_id
+- voucher_no
+- status
+- line_id
+- account_code
+- side
+- amount_won
+- entry_at
+properties:
+  voucher_id:
+    $ref: '#/components/schemas/Uuid'
+  voucher_no:
+    type: string
+  status:
+    $ref: '#/components/schemas/VoucherStatus'
+  line_id:
+    $ref: '#/components/schemas/Uuid'
+  account_code:
+    type: string
+  side:
+    $ref: '#/components/schemas/DebitCredit'
+  amount_won:
+    type: integer
+    format: int64
+  source_object_type:
+    type:
+    - string
+    - 'null'
+  source_object_id:
+    type:
+    - string
+    - 'null'
+  entry_at:
+    $ref: '#/components/schemas/Timestamp'

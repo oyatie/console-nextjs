@@ -1,0 +1,49 @@
+{
+  "schema_version": 2,
+  "faces": [
+    {
+      "id": "first-party-buck",
+      "source_roots": [
+        "backend/app",
+        "backend/crates",
+        "backend/ci",
+        "tools/buck/gen_first_party.py"
+      ],
+      "output_patterns": [
+        "backend/app/**/BUCK",
+        "backend/crates/**/BUCK",
+        "backend/ci/**/BUCK"
+      ],
+      "writer": {
+        "kind": "repo-exec",
+        "executable": "tools/buck/generated-face-first-party.sh",
+        "target": "//tools/buck:generated-face-first-party"
+      },
+      "drift_gate": {
+        "tier": "cheap",
+        "kind": "writer-snapshot"
+      }
+    },
+    {
+      "id": "reindeer-third-party-rust",
+      "source_roots": [
+        "backend/Cargo.toml",
+        "backend/Cargo.lock",
+        "third-party/rust/reindeer.toml",
+        "third-party/rust/reindeer"
+      ],
+      "output_patterns": [
+        "third-party/rust/BUCK"
+      ],
+      "writer": {
+        "kind": "repo-exec",
+        "executable": "tools/buck/generated-face-reindeer.sh",
+        "target": "//tools/buck:generated-face-reindeer"
+      },
+      "drift_gate": {
+        "tier": "expensive",
+        "kind": "writer-snapshot"
+      }
+    }
+  ]
+}

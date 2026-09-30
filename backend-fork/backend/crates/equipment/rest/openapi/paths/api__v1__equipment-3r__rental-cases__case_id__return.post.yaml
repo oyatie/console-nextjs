@@ -1,0 +1,13 @@
+tags: [equipment-3r]
+operationId: returnEquipment3rCase
+summary: Record the unit return; unit enters assessment
+security: [{ bearerAuth: [] }]
+parameters: [{ name: case_id, in: path, required: true, schema: { $ref: '#/components/schemas/Uuid' } }]
+requestBody: { required: true, content: { application/json: { schema: { type: object, required: [returnedAt], properties: { returnedAt: { type: string, format: date-time } } } } } }
+responses:
+  '200': { description: Case returned, content: { application/json: { schema: { $ref: '#/components/schemas/Equipment3rCaseView' } } } }
+  '401': { $ref: '#/components/responses/Unauthorized' }
+  '403': { $ref: '#/components/responses/Forbidden' }
+  '404': { description: Unknown or cross-org case }
+  '409': { description: Case not HANDED_OVER }
+  '422': { $ref: '#/components/responses/ValidationError' }

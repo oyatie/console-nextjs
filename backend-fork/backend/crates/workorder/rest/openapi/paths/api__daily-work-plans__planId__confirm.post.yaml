@@ -1,0 +1,15 @@
+tags:
+  - daily-work-plans
+operationId: confirmDailyWorkPlan
+summary: Confirm an approved daily work plan
+security:
+- bearerAuth: []
+parameters:
+- $ref: '#/components/parameters/PlanId'
+responses:
+  '200':
+    description: Daily plan confirmed.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/DailyPlanSummary'

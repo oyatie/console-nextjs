@@ -1,0 +1,15 @@
+[package]
+name = "console-payroll-domain"
+version = "0.1.0"
+description = "Pure Korean payroll rate tables and release-gate kernel."
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+console-kernel-core = { workspace = true }
+time = { workspace = true }
+
+[lints]
+workspace = true

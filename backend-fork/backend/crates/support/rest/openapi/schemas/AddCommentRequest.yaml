@@ -1,0 +1,9 @@
+type: object
+required:
+- body
+properties:
+  body:
+    type: string
+    minLength: 1
+  is_internal_note:
+    type: boolean

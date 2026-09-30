@@ -1,0 +1,31 @@
+tags:
+  - integrity
+operationId: listIntegrityFindings
+summary: List governance findings (anomaly / 검토 필요) for the current org
+description: 'Lists governance findings raised by the integrity engine (#34): records that need human review such as
+  self-approval (자가 승인 기록) and price anomalies (이상 징후). Findings are framed as "검토 필요" — items requiring review, NOT
+  accusations of wrongdoing. Gated to EXECUTIVE and SUPER_ADMIN only (IntegrityFindingsRead); an ADMIN must not read
+  findings about themselves. RLS-armed to the caller''s org. Results are ordered by severity (CRITICAL first) then detected_at
+  descending. This endpoint is not paginated.'
+security:
+- bearerAuth: []
+parameters:
+- name: status
+  in: query
+  required: false
+  description: Optional lifecycle filter. Omit to return findings of every status.
+  schema:
+    $ref: '#/components/schemas/FindingStatus'
+responses:
+  '200':
+    description: The list of governance findings for the current org.
+    content:
+      application/json:
+        schema:
+          type: array
+          items:
+            $ref: '#/components/schemas/GovernanceFinding'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'

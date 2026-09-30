@@ -1,0 +1,91 @@
+type: object
+required:
+- id
+- company
+- name
+- identity_resolution_strategy
+- identity_resolution_confidence
+- identity_review_required
+- identity_name_only_merge
+- home_branch_review_required
+- created_at
+- updated_at
+properties:
+  id:
+    $ref: '#/components/schemas/Uuid'
+  company:
+    type: string
+  name:
+    type: string
+  employee_number:
+    type: string
+    nullable: true
+  org_unit:
+    type: string
+    nullable: true
+  worksite_name:
+    type: string
+    nullable: true
+  worksite:
+    type: string
+    nullable: true
+  job:
+    type: string
+    nullable: true
+  position:
+    type: string
+    nullable: true
+  hire_date:
+    type: string
+    nullable: true
+  exit_date:
+    type: string
+    nullable: true
+  status:
+    type: string
+    nullable: true
+  leave_accrued:
+    type: string
+    nullable: true
+  leave_used:
+    type: string
+    nullable: true
+  leave_remaining:
+    type: string
+    nullable: true
+  home_branch_id:
+    type: string
+    format: uuid
+    nullable: true
+    description: Active authoritative leave-routing branch; null requires HR review before self-service filing.
+  home_branch_name:
+    type: string
+    nullable: true
+  home_branch_review_required:
+    type: boolean
+    description: True when no active authoritative home branch is configured.
+  identity_resolution_strategy:
+    type: string
+    enum:
+    - employee_number
+    - legal_identifier_hash
+    - birth_hire_fingerprint
+    - source_row_fingerprint
+    description: Non-PII strategy used to keep same-name employees from being merged by name alone.
+  identity_resolution_confidence:
+    type: string
+    enum:
+    - high
+    - medium
+    - low
+    description: Confidence derived from the accepted identity strategy; never from user-supplied labels.
+  identity_review_required:
+    type: boolean
+    description: True when HR must manually verify the employee identity before account linkage or duplicate cleanup.
+  identity_name_only_merge:
+    type: boolean
+    description: Always false; name-only merging is not allowed because different people can share a name.
+  created_at:
+    $ref: '#/components/schemas/Timestamp'
+  updated_at:
+    $ref: '#/components/schemas/Timestamp'

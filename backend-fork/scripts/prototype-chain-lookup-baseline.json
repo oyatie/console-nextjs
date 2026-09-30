@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "notes": "Fail-closed residual register for scripts/check-prototype-chain-lookups.mjs (console-g14a). Unknown findings fail. Stale entries fail. Missing listed subjects fail closed. examined-zero fails on files actually read (scanned < SCANNED_FLOOR). findingId includes line so duplicate snippets at distinct sites stay distinct. Shrink when call sites move to Object.hasOwn/own(); do not grow without a bead reason. Not a spelling-list fix lane — the census is the total primitive. Restacked onto main after console-i91 (#742): shrunk 14 stale residuals cleared by i91 own-property; line-shifted verify-console-pr-authority-bootstrap residual (53→54).",
+  "residuals": [
+    {
+      "file": "scripts/console/run-verification-queue.mjs",
+      "line": 249,
+      "kind": "undefined-compare",
+      "key": "key",
+      "snippet": "if (FORBIDDEN_WRAPPER_ENV.some((key) => process.env[key] !== undefined)) fail('wrapper-affecting environment is forbidden for compatible exact-SHA cohorts');",
+      "reason": "Post-i91 residual — process.env[key] !== undefined shape; env allowlist today, still untrusted-keyed lookup class."
+    },
+    {
+      "file": "scripts/console/run-verification-queue.mjs",
+      "line": 312,
+      "kind": "optional-computed",
+      "key": "key",
+      "snippet": "const available = () => Object.fromEntries(RESOURCE_KEYS.map((key) => [key, resourceBudgets?.[key] ?? Number.MAX_SAFE_INTEGER]));",
+      "reason": "Post-i91 residual — resourceBudgets?.[key] on runtime budget map."
+    },
+    {
+      "file": "scripts/console/validate-console-truth-ledger.mjs",
+      "line": 303,
+      "kind": "optional-computed",
+      "key": "area",
+      "snippet": "for (const area of ['identity_scope', 'object_action_workflow', 'search', 'audit_lineage', 'interoperability']) nonempty(omni.required_outcomes?.[area], `shared omni-platform gate ${area}`);",
+      "reason": "Post-i91 residual — required_outcomes?.[area] on ledger omni maps."
+    }
+  ]
+}

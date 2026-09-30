@@ -1,0 +1,17 @@
+type: object
+required:
+- message_id
+- thread_id
+- acked
+- ack_count
+properties:
+  message_id:
+    $ref: '#/components/schemas/Uuid'
+  thread_id:
+    $ref: '#/components/schemas/Uuid'
+  acked:
+    type: boolean
+    description: Whether the caller's ack is present after the toggle.
+  ack_count:
+    type: integer
+    format: int64

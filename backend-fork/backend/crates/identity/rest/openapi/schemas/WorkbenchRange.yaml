@@ -1,0 +1,10 @@
+type: object
+additionalProperties: false
+required:
+- from
+- to
+properties:
+  from:
+    $ref: '#/components/schemas/Timestamp'
+  to:
+    $ref: '#/components/schemas/Timestamp'

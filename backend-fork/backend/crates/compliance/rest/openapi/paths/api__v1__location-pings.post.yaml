@@ -1,0 +1,22 @@
+tags:
+  - location-pings
+operationId: recordLocationPing
+summary: Ingest an on-duty GPS ping when consent is granted
+description: Coordinates are destructible and never written to audit_events.
+security:
+- bearerAuth: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/LocationPingRequest'
+responses:
+  '204':
+    description: Location ping accepted.
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '422':
+    $ref: '#/components/responses/ValidationError'

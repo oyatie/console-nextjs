@@ -1,0 +1,9 @@
+type: object
+description: >-
+  The fresh passkey assertion proving present possession of an
+  authenticator. Its absence yields 428 (precondition required).
+required:
+- step_up
+properties:
+  step_up:
+    $ref: '#/components/schemas/PasskeyStepUpAssertion'

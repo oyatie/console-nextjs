@@ -1,0 +1,27 @@
+type: object
+description: An object-type registry row plus the caller-visible active instance count.
+required:
+- kind
+- description
+- status
+- active_count
+properties:
+  kind:
+    type: string
+  code_prefix:
+    type: string
+    nullable: true
+    description: Canonical per-kind code prefix (e.g. AP-, CS-); absent for id/name-referenced kinds.
+  description:
+    type: string
+  status:
+    type: string
+    description: Type lifecycle state (draft, active, archived).
+    enum:
+    - draft
+    - active
+    - archived
+  active_count:
+    type: integer
+    format: int64
+    description: Instances of this kind visible to the caller (same per-kind visibility as resolveObject).

@@ -1,0 +1,5 @@
+      name: kind
+      in: path
+      required: true
+      description: Lowercase path representation of a review kind.
+      schema: { type: string, enum: [self, manager] }

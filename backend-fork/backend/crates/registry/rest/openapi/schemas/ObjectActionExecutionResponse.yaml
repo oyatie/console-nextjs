@@ -1,0 +1,29 @@
+type: object
+required:
+- execution_id
+- action_id
+- object_type
+- object_id
+- status
+- audit_event_id
+- target_href
+- message
+properties:
+  execution_id:
+    $ref: '#/components/schemas/Uuid'
+  action_id:
+    type: string
+  object_type:
+    type: string
+  object_id:
+    $ref: '#/components/schemas/Uuid'
+  status:
+    type: string
+    enum:
+    - succeeded
+  audit_event_id:
+    $ref: '#/components/schemas/Uuid'
+  target_href:
+    type: string
+  message:
+    type: string

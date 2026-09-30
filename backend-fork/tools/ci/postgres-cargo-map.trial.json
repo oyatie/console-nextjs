@@ -1,0 +1,120 @@
+{
+  "schema_version": 1,
+  "entries": [
+    {
+      "buck_wrapper": "//tools/buck:dispatch-p1-postgres",
+      "name": "dispatch-p1-postgres",
+      "buck_inner": "//backend/crates/dispatch/adapter-postgres:console-dispatch-adapter-postgres-itest-p1_dispatch",
+      "package": "console-dispatch-adapter-postgres",
+      "crate_dir": "backend/crates/dispatch/adapter-postgres",
+      "kind": "test",
+      "test": "p1_dispatch",
+      "cargo_argv": [
+        "cargo",
+        "test",
+        "--locked",
+        "--manifest-path",
+        "backend/Cargo.toml",
+        "-p",
+        "console-dispatch-adapter-postgres",
+        "--test",
+        "p1_dispatch",
+        "--",
+        "--test-threads=1"
+      ],
+      "in_workflow_postgres_job": true
+    },
+    {
+      "buck_wrapper": "//tools/buck:attendance-cancel-substitution-postgres",
+      "name": "attendance-cancel-substitution-postgres",
+      "buck_inner": "//backend/crates/attendance/adapter-postgres:console-attendance-adapter-postgres-itest-cancel_substitution",
+      "package": "console-attendance-adapter-postgres",
+      "crate_dir": "backend/crates/attendance/adapter-postgres",
+      "kind": "test",
+      "test": "cancel_substitution",
+      "cargo_argv": [
+        "cargo",
+        "test",
+        "--locked",
+        "--manifest-path",
+        "backend/Cargo.toml",
+        "-p",
+        "console-attendance-adapter-postgres",
+        "--test",
+        "cancel_substitution",
+        "--",
+        "--test-threads=1"
+      ],
+      "in_workflow_postgres_job": true
+    },
+    {
+      "buck_wrapper": "//tools/buck:attendance-concurrency-postgres",
+      "name": "attendance-concurrency-postgres",
+      "buck_inner": "//backend/crates/attendance/adapter-postgres:console-attendance-adapter-postgres-itest-concurrency",
+      "package": "console-attendance-adapter-postgres",
+      "crate_dir": "backend/crates/attendance/adapter-postgres",
+      "kind": "test",
+      "test": "concurrency",
+      "cargo_argv": [
+        "cargo",
+        "test",
+        "--locked",
+        "--manifest-path",
+        "backend/Cargo.toml",
+        "-p",
+        "console-attendance-adapter-postgres",
+        "--test",
+        "concurrency",
+        "--",
+        "--test-threads=1"
+      ],
+      "in_workflow_postgres_job": true
+    },
+    {
+      "buck_wrapper": "//tools/buck:ontology-object-type-lifecycle-postgres",
+      "name": "ontology-object-type-lifecycle-postgres",
+      "buck_inner": "//backend/crates/ontology/rest:console-ontology-rest-itest-object_type_lifecycle_over_http",
+      "package": "console-ontology-rest",
+      "crate_dir": "backend/crates/ontology/rest",
+      "kind": "test",
+      "test": "object_type_lifecycle_over_http",
+      "cargo_argv": [
+        "cargo",
+        "test",
+        "--locked",
+        "--manifest-path",
+        "backend/Cargo.toml",
+        "-p",
+        "console-ontology-rest",
+        "--test",
+        "object_type_lifecycle_over_http",
+        "--",
+        "--test-threads=1"
+      ],
+      "in_workflow_postgres_job": true
+    },
+    {
+      "buck_wrapper": "//tools/buck:ontology-object-policy-attach-postgres",
+      "name": "ontology-object-policy-attach-postgres",
+      "buck_inner": "//backend/crates/ontology/rest:console-ontology-rest-itest-object_policy_attach_as_runtime_role",
+      "package": "console-ontology-rest",
+      "crate_dir": "backend/crates/ontology/rest",
+      "kind": "test",
+      "test": "object_policy_attach_as_runtime_role",
+      "cargo_argv": [
+        "cargo",
+        "test",
+        "--locked",
+        "--manifest-path",
+        "backend/Cargo.toml",
+        "-p",
+        "console-ontology-rest",
+        "--test",
+        "object_policy_attach_as_runtime_role",
+        "--",
+        "--test-threads=1"
+      ],
+      "in_workflow_postgres_job": true
+    }
+  ]
+}

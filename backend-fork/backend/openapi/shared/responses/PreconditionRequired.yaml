@@ -1,0 +1,5 @@
+      description: A required passkey step-up or other precondition is missing.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorBody'

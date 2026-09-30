@@ -1,0 +1,30 @@
+tags:
+  - sales
+operationId: updateInquiryStatus
+summary: Update a customer inquiry's triage status (#6)
+description: Admin-gated (SalesManage). Transitions an inquiry between NEW/CONTACTED/CLOSED.
+security:
+- bearerAuth: []
+parameters:
+- name: id
+  in: path
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/UpdateInquiryStatusRequest'
+responses:
+  '204':
+    description: The inquiry status was updated.
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '422':
+    $ref: '#/components/responses/ValidationError'

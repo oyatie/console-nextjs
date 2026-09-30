@@ -1,0 +1,16 @@
+type: object
+required: [work_order_id, request_no, branch_id, status, priority, symptom, equipment_id, customer_id, site_id, updated_at]
+properties:
+  work_order_id: { $ref: '#/components/schemas/Uuid' }
+  request_no: { type: string }
+  branch_id: { $ref: '#/components/schemas/Uuid' }
+  status: { $ref: '#/components/schemas/WorkOrderStatus' }
+  priority: { $ref: '#/components/schemas/PriorityLevel' }
+  symptom: { type: string }
+  equipment_id: { $ref: '#/components/schemas/Uuid' }
+  customer_id: { $ref: '#/components/schemas/Uuid' }
+  site_id: { $ref: '#/components/schemas/Uuid' }
+  target_due_at: { $ref: '#/components/schemas/Timestamp' }
+  assigned_mechanic_id: { $ref: '#/components/schemas/Uuid' }
+  dispatch: { $ref: '#/components/schemas/DispatchQueueDispatch' }
+  updated_at: { $ref: '#/components/schemas/Timestamp' }

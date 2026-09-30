@@ -1,0 +1,8 @@
+type: string
+enum:
+- REQUEST
+- BEFORE
+- DURING
+- AFTER
+- REPORT
+- OUTSOURCE_RESULT

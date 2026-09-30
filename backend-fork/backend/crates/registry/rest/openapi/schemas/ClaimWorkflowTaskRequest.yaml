@@ -1,0 +1,7 @@
+type: object
+required:
+- idempotency_key
+properties:
+  idempotency_key:
+    type: string
+    minLength: 16

@@ -1,0 +1,59 @@
+tags:
+  - leave
+operationId: createLeaveRequestV2
+summary: File a self-service 연차/반차 request (본인 연차 신청)
+description: >-
+  The caller files a leave request for THEMSELVES. `subject_employee_id`
+  and the routing `branch_id` are resolved server-side from the caller's
+  own account and employee.home_branch_id — never from input — so a
+  caller can only file for their own employee record. No directory feature
+  is required (filing one's own leave is a base employee capability); the
+  gate is an active account linked to an active employee; an unlinked or
+  inactive subject is denied with 403. Missing home-branch authority returns the
+  stable 409 `leave_home_branch_review_required`. The request preserves
+  date and AM/PM intent in `review_required`; no calendar-day or fixed-half
+  quantity is invented. A separate resolver pins authoritative evidence
+  before any approval can move the ledger. Modern clients generate one
+  `idempotency_key` per user intent and reuse it after an unknown or lost
+  response. The same key and canonical client intent return the original
+  request without another mutation or audit; a different intent conflicts.
+security:
+  - bearerAuth: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/LeaveCreateRequest'
+responses:
+  '201':
+    description: The created pending leave request.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/LeaveRequestV2View'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '409':
+    description: The linked active employee has no explicit home branch (`leave_home_branch_review_required`), or the supplied `idempotency_key` is already bound to different client intent (`leave_create.idempotency_conflict`).
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ErrorBody'
+  '422':
+    description: >-
+      Invalid leave type, date range, or partial-day intent — or a body
+      carrying the retired `reason` field (근로기준법 §60: 연차에는 사유가
+      없다).
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ErrorBody'
+  '503':
+    description: JWT verification or the separately credentialed leave command database is not configured.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ErrorBody'

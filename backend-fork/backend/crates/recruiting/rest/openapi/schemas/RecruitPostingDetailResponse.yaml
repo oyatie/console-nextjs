@@ -1,0 +1,11 @@
+type: object
+required:
+- posting
+- applicants
+properties:
+  posting:
+    $ref: '#/components/schemas/RecruitPosting'
+  applicants:
+    type: array
+    items:
+      $ref: '#/components/schemas/RecruitApplicantSummary'

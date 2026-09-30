@@ -1,0 +1,17 @@
+type: object
+required:
+- score
+- by
+- at
+properties:
+  score:
+    $ref: '#/components/schemas/RecruitAssessmentScore'
+  by:
+    oneOf:
+    - $ref: '#/components/schemas/Uuid'
+    - type: 'null'
+  at:
+    type:
+    - string
+    - 'null'
+    format: date-time

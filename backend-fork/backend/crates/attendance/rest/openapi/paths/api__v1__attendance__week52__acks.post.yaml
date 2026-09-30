@@ -1,0 +1,11 @@
+tags: [attendance]
+operationId: acknowledgeAttendanceWeek52
+summary: Idempotently acknowledge a week-52 adjustment
+security: [{ bearerAuth: [] }]
+requestBody: { required: true, content: { application/json: { schema: { $ref: '#/components/schemas/AttendanceWeek52AckRequest' } } } }
+responses:
+  '200': { description: Acknowledged complete Week-52 row, content: { application/json: { schema: { $ref: '#/components/schemas/AttendanceWeek52Row' } } } }
+  '401': { $ref: '#/components/responses/Unauthorized' }
+  '403': { $ref: '#/components/responses/Forbidden' }
+  '404': { $ref: '#/components/responses/NotFound' }
+  '422': { $ref: '#/components/responses/ValidationError' }

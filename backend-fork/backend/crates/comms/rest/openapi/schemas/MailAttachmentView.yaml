@@ -1,0 +1,19 @@
+type: object
+required:
+- id
+- filename
+- content_type
+- size_bytes
+- is_inline
+properties:
+  id:
+    $ref: '#/components/schemas/Uuid'
+  filename:
+    type: string
+  content_type:
+    type: string
+  size_bytes:
+    type: integer
+    format: int64
+  is_inline:
+    type: boolean

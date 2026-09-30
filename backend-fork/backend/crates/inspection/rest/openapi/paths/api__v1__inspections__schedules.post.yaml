@@ -1,0 +1,37 @@
+tags:
+  - inspections
+operationId: createInspectionSchedule
+summary: Create a regular inspection schedule
+security:
+- bearerAuth: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/CreateInspectionScheduleRequest'
+responses:
+  '201':
+    description: Inspection schedule created.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/InspectionScheduleSummary'
+  '400':
+    $ref: '#/components/responses/ValidationError'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '409':
+    $ref: '#/components/responses/Conflict'
+  '422':
+    $ref: '#/components/responses/ValidationError'
+  '503':
+    description: JWT verification is not configured.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ErrorBody'

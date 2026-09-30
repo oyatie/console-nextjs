@@ -1,0 +1,6 @@
+      description: Webmail is not configured on this server (the master key CONSOLE_MAIL_MASTER_KEY is absent), or JWT verification
+        is not configured. The app is otherwise healthy.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorBody'

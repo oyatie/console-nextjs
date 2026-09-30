@@ -1,0 +1,8 @@
+      type: apiKey
+      in: query
+      name: ct
+      description: >-
+        HS256 token minted by THIS service, carrying the org and document binding for
+        an ONLYOFFICE editing session. Verified with no clock-skew grace, so it is
+        mandatory and short-lived. Distinct from bearerAuth: it is a query parameter,
+        not a user session.

@@ -1,0 +1,23 @@
+tags:
+  - policy
+operationId: listPolicyRoles
+summary: List built-in role templates and tenant custom roles
+security:
+- bearerAuth: []
+responses:
+  '200':
+    description: Built-in system role templates and tenant custom role definitions.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/PolicyRoleCatalogResponse'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '503':
+    description: JWT verification is not configured.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ErrorBody'

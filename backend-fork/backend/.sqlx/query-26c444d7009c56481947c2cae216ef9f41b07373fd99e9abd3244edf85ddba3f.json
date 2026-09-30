@@ -1,0 +1,30 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n                    SELECT\n                        COUNT(*) FILTER (\n                            WHERE accept_window_ends_at < now()\n                        ) AS \"breached!\",\n                        COUNT(*) FILTER (\n                            WHERE accept_window_ends_at >= now()\n                            AND accept_window_ends_at\n                                < now() + make_interval(mins => $1::int)\n                        ) AS \"at_risk!\"\n                    FROM p1_dispatches\n                    WHERE status = 'BROADCASTING'\n                    ",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "breached!",
+        "type_info": "Int8",
+        "origin": "Expression"
+      },
+      {
+        "ordinal": 1,
+        "name": "at_risk!",
+        "type_info": "Int8",
+        "origin": "Expression"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Int4"
+      ]
+    },
+    "nullable": [
+      null,
+      null
+    ]
+  },
+  "hash": "26c444d7009c56481947c2cae216ef9f41b07373fd99e9abd3244edf85ddba3f"
+}

@@ -1,0 +1,33 @@
+tags:
+  - me
+operationId: createMyTodo
+summary: Create a todo owned by the authenticated user
+description: >-
+  The owner is always the authenticated principal. Scope chips
+  (person/team/site/entity refs) and object links (kind+id pairs) are
+  validated ref lists of at most 20 entries each. Audited as todo.create.
+security:
+- bearerAuth: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/CreateTodoRequest'
+responses:
+  '201':
+    description: The created todo.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/TodoSummary'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '422':
+    $ref: '#/components/responses/ValidationError'
+  '503':
+    description: JWT verification is not configured.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ErrorBody'

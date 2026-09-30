@@ -1,0 +1,36 @@
+tags:
+  - period-locks
+operationId: listPeriodLocks
+summary: List payroll/accounting period locks
+description: Close-authority gated (PeriodLockManage, org-wide). Lists lock history newest first; active locks are
+  rows with no unlockedAt.
+security:
+- bearerAuth: []
+parameters:
+- name: domain
+  in: query
+  required: false
+  schema:
+    type: string
+    enum: [payroll, accounting]
+- name: limit
+  in: query
+  required: false
+  schema:
+    type: integer
+    format: int64
+    minimum: 1
+    maximum: 200
+responses:
+  '200':
+    description: Period locks, newest first.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/PeriodLockList'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '503':
+    description: JWT verification is not configured.

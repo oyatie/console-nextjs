@@ -1,0 +1,19 @@
+type: object
+description: Triage an OPEN finding. A memo is required when status is DISMISSED or ESCALATED, optional for REVIEWED.
+  Max 2000 characters.
+required:
+- status
+properties:
+  status:
+    type: string
+    description: Target triage status. OPEN is not a valid target.
+    enum:
+    - REVIEWED
+    - DISMISSED
+    - ESCALATED
+  memo:
+    type:
+    - string
+    - 'null'
+    maxLength: 2000
+    description: Reviewer memo. Required when dismissing or escalating.

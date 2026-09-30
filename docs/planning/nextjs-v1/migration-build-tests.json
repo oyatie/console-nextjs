@@ -1,0 +1,25 @@
+{
+  "scope": "Native Cargo migration directory invalidation; isolated SQLx fixture only",
+  "base_backend_candidate": "2406ee701d5f8c75d9079931e50e209da070169944122077b0d15b398c7a9b38",
+  "mechanics_sha256": "10bed6f7125c9fedfcbf39aec76bdc9a9a5ffa7d3ea9336a255da5914c89fbdd",
+  "expected_phases": 10,
+  "expected_fixture_tests_per_phase": 10,
+  "files": [
+    {
+      "path": "tools/check-migration-build.py",
+      "sha256": "cd073606c89b1500d47f4e8bedffabe7a4236855136acff48db26f73fe2b3cfa",
+      "bytes": 16623
+    },
+    {
+      "path": "tools/check-empty-install.py",
+      "sha256": "09a60521443a831a42a8dca13bdcfbaba0b31922ac5abd7d320fd3d569b430fb",
+      "bytes": 43594
+    }
+  ],
+  "previous_manifest_sha256": "f7577cebc1aca13acfce86cc34d8cb5e30a6af5dcdffba12ea9487d432cadec6",
+  "review_changes": [
+    "Use fixture-only Cargo metadata resolution to retain copied registry pins",
+    "Predeclare every phase and report setup/compile failure plus unreached phases explicitly",
+    "Launch child with current Python executable; initial diagnostic used PATH Python3.9without tomllib and executed0fixture tests"
+  ]
+}

@@ -1,0 +1,7 @@
+type: string
+enum:
+- CLOCK_IN
+- OUT_FOR_WORK
+- BUSINESS_TRIP
+- RETURNED
+- CLOCK_OUT

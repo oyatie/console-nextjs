@@ -1,0 +1,45 @@
+tags:
+  - hr
+operationId: draftEmployeeExitApproval
+summary: Draft or submit employee exit approval documents
+security:
+- bearerAuth: []
+parameters:
+- name: id
+  in: path
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          submit:
+            type: boolean
+            default: false
+          note:
+            type: string
+          settlement_input:
+            type: object
+            additionalProperties: true
+responses:
+  '200':
+    description: Employee exit case with generated approval payloads.
+    content:
+      application/json:
+        schema:
+          type: object
+          additionalProperties: true
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '409':
+    $ref: '#/components/responses/Conflict'
+  '422':
+    $ref: '#/components/responses/ValidationError'

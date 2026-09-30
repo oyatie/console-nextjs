@@ -1,0 +1,17 @@
+tags:
+  - workflow-studio
+operationId: listWorkflowSchedules
+summary: List workflow cron schedules
+security:
+- bearerAuth: []
+responses:
+  '200':
+    description: Workflow schedules.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/WorkflowScheduleListResponse'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'

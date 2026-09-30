@@ -1,0 +1,13 @@
+type: object
+required: [kind, definitions, bindings]
+properties:
+  kind:
+    type: string
+  definitions:
+    type: array
+    items:
+      $ref: '#/components/schemas/WorkflowDefinitionResponse'
+  bindings:
+    type: array
+    items:
+      $ref: '#/components/schemas/TriggerBindingResponse'

@@ -1,0 +1,35 @@
+tags:
+- maintenance
+operationId: voidSettlement
+summary: Void a DRAFT or SUBMITTED settlement (completion reviewer holding an admin-tier role; reason required)
+security:
+- bearerAuth: []
+parameters:
+- name: settlementId
+  in: path
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/VoidSettlementRequest'
+responses:
+  '200':
+    description: The voided settlement; VOID frees the one-live-settlement slot.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/SettlementSummary'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '409':
+    $ref: '#/components/responses/Conflict'
+  '422':
+    $ref: '#/components/responses/ValidationError'

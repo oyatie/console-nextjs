@@ -1,0 +1,16 @@
+type: object
+required:
+- task_id
+- run_id
+- status
+properties:
+  task_id:
+    $ref: '#/components/schemas/Uuid'
+  run_id:
+    $ref: '#/components/schemas/Uuid'
+  status:
+    type: string
+  claimed_by:
+    $ref: '#/components/schemas/Uuid'
+  claimed_at:
+    $ref: '#/components/schemas/Timestamp'

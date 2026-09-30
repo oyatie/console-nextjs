@@ -1,0 +1,22 @@
+[package]
+name = "console-gate-dev-auth-absence"
+version = "0.1.0"
+description = "CI gate: proves the dev-auth local role-switch feature is unreachable from console-app's default (release) feature set."
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[[bin]]
+name = "console-gate-dev-auth-absence"
+path = "src/main.rs"
+
+[lib]
+name = "console_gate_dev_auth_absence"
+path = "src/lib.rs"
+
+[dependencies]
+serde_json = { workspace = true }
+
+[lints]
+workspace = true

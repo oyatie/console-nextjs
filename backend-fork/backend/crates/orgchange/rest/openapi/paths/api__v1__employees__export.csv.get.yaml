@@ -1,0 +1,19 @@
+tags:
+  - employees
+operationId: exportEmployeesCsv
+summary: Export standardized employee directory CSV
+description: Exports canonical employee fields only. Raw import ledger values, payroll data, account numbers, resident
+  identifiers, and import provenance are not included.
+security:
+- bearerAuth: []
+responses:
+  '200':
+    description: Standardized employee CSV.
+    content:
+      text/csv:
+        schema:
+          type: string
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'

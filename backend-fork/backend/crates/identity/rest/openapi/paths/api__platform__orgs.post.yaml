@@ -1,0 +1,31 @@
+tags:
+  - platform
+operationId: onboardPlatformOrg
+summary: Onboard a new tenant organization (platform vendor tier)
+description: Creates a tenant organization, seeds its first SUPER_ADMIN account, and returns the one-time bootstrap OTP
+  exactly once. Platform token required; tenant tokens are rejected before the handler runs.
+security:
+- bearerAuth: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/CreatePlatformOrgRequest'
+responses:
+  '201':
+    description: Tenant onboarding succeeded; deliver the OTP out-of-band and do not log it.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/PlatformOrgOnboardingResponse'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '409':
+    $ref: '#/components/responses/Conflict'
+  '422':
+    $ref: '#/components/responses/ValidationError'
+  '503':
+    $ref: '#/components/responses/ServiceUnavailable'

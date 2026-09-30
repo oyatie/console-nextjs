@@ -1,0 +1,22 @@
+type: object
+required:
+- org_id
+- display_name
+properties:
+  org_id:
+    $ref: '#/components/schemas/Uuid'
+  display_name:
+    type: string
+    minLength: 1
+  phone:
+    type: string
+  tenant_roles:
+    type: array
+    items:
+      $ref: '#/components/schemas/PlatformTenantRole'
+    default:
+    - MEMBER
+  group_role:
+    allOf:
+    - $ref: '#/components/schemas/PlatformGroupRole'
+    default: GROUP_ADMIN

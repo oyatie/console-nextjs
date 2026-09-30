@@ -1,0 +1,28 @@
+[package]
+name = "console-support-adapter-postgres"
+version = "0.1.0"
+description = "Postgres adapter for the support-ticket domain."
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+console-support-application = { workspace = true }
+console-support-domain = { workspace = true }
+console-kernel-core = { workspace = true }
+console-platform-db = { workspace = true }
+hex = { workspace = true }
+console-platform-request-context = { workspace = true }
+serde_json = { workspace = true }
+sha2 = { workspace = true }
+sqlx = { workspace = true }
+thiserror = { workspace = true }
+time = { workspace = true }
+uuid = { workspace = true }
+
+[dev-dependencies]
+tokio = { workspace = true }
+
+[lints]
+workspace = true

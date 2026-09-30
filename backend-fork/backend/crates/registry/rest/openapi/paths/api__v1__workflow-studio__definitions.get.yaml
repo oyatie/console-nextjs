@@ -1,0 +1,20 @@
+tags:
+  - workflow-studio
+operationId: listWorkflowDefinitions
+summary: List tenant workflow definitions
+description: Lists tenant-owned workflow definitions with latest version metadata, approval/payment line requirements,
+  notification rules, and action allowlist. The backing schema keeps definitions tenant-scoped under RLS and stores
+  versions/change events append-only.
+security:
+- bearerAuth: []
+responses:
+  '200':
+    description: Workflow definitions for the caller's tenant.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/WorkflowDefinitionListResponse'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'

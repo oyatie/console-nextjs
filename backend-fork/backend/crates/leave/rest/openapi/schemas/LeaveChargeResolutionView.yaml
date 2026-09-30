@@ -1,0 +1,31 @@
+type: object
+required:
+- request_id
+- request_version
+- charge_units
+- charge_state
+- charge_version
+- server_digest
+- resolution_origin
+- resolved_by
+properties:
+  request_id: {$ref: '#/components/schemas/Uuid'}
+  request_version:
+    type: integer
+    format: int64
+    minimum: 1
+    description: New mutable request/workflow CAS token after the resolution commits.
+  charge_units: {$ref: '#/components/schemas/LeaveUnits'}
+  charge_state: {type: string, enum: [resolved]}
+  charge_version:
+    type: integer
+    format: int64
+    minimum: 1
+    description: Immutable revision of the newly recorded charge-evidence snapshot.
+  server_digest: {type: string, pattern: '^[0-9a-f]{64}$'}
+  resolution_origin: {type: string, enum: [automated, manual]}
+  resolved_by:
+    type:
+    - string
+    - 'null'
+    format: uuid

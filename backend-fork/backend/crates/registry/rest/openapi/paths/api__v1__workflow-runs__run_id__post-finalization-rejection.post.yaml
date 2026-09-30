@@ -1,0 +1,38 @@
+tags:
+  - workflow-runs
+operationId: createWorkflowPostFinalizationRejection
+summary: Create a compensating post-finalization rejection (사후 반려)
+description: Records a compensating document linked to an already-finalized run and notifies the whole approval line.
+  The terminal run is never reopened or mutated; a new POST_FINALIZATION_REJECTION document is created instead.
+  Policy-gated (legacy enforce, inert Cedar shadow). Idempotent on idempotency_key.
+security:
+- bearerAuth: []
+parameters:
+- name: run_id
+  in: path
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/PostFinalizationRejectionRequest'
+responses:
+  '200':
+    description: Compensating document created (replays return the recorded result).
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/PostFinalizationRejectionResponse'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '409':
+    $ref: '#/components/responses/Conflict'
+  '422':
+    $ref: '#/components/responses/ValidationError'

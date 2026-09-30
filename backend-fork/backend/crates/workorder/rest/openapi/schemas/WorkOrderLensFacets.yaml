@@ -1,0 +1,23 @@
+type: object
+required:
+- status
+- priority
+- maintenance_type
+- maintenance_cause
+properties:
+  status:
+    type: array
+    items:
+      $ref: '#/components/schemas/WorkOrderFacetBucket'
+  priority:
+    type: array
+    items:
+      $ref: '#/components/schemas/WorkOrderFacetBucket'
+  maintenance_type:
+    type: array
+    items:
+      $ref: '#/components/schemas/WorkOrderFacetBucket'
+  maintenance_cause:
+    type: array
+    items:
+      $ref: '#/components/schemas/WorkOrderFacetBucket'

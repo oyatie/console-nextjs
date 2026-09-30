@@ -1,0 +1,36 @@
+tags:
+  - mail
+operationId: forwardMail
+summary: Prepare a forward (sets In-Reply-To / References)
+description: Stores exact SMTP MIME and envelope under a stable operation ID, then reports UNKNOWN until independent
+  two-site confirmation and a fenced outbound claim are available. No delivery is attempted or acknowledged.
+  First preparation is audited (email.send.prepare). Requires MailUse.
+security:
+- bearerAuth: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/SendMailRequest'
+responses:
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '409':
+    description: operation_id already names a different mail request.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ErrorBody'
+  '422':
+    $ref: '#/components/responses/ValidationError'
+  '429':
+    $ref: '#/components/responses/TooManyRequests'
+  '503':
+    description: No delivery was attempted; durable admission is UNKNOWN. The error includes operation_id for reconciliation.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ErrorBody'

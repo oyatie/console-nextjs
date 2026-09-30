@@ -1,0 +1,72 @@
+{
+  "source": "console-inventory-rest",
+  "paths": {
+    "/api/v1/inventory/cycle-counts": [
+      "get",
+      "post"
+    ],
+    "/api/v1/inventory/cycle-counts/{count_id}": [
+      "get"
+    ],
+    "/api/v1/inventory/cycle-counts/{count_id}/cancel": [
+      "post"
+    ],
+    "/api/v1/inventory/cycle-counts/{count_id}/decision": [
+      "post"
+    ],
+    "/api/v1/inventory/cycle-counts/{count_id}/lines": [
+      "post"
+    ],
+    "/api/v1/inventory/cycle-counts/{count_id}/submit": [
+      "post"
+    ],
+    "/api/v1/inventory/items": [
+      "get"
+    ],
+    "/api/v1/inventory/items/{item_id}": [
+      "get"
+    ],
+    "/api/v1/inventory/items/{item_id}/consumptions": [
+      "get",
+      "post"
+    ],
+    "/api/v1/inventory/items/{item_id}/movements": [
+      "get"
+    ],
+    "/api/v1/inventory/items/{item_id}/receipts": [
+      "post"
+    ],
+    "/api/v1/inventory/mrp": [
+      "get"
+    ]
+  },
+  "schemas": [
+    "ConsumeInventoryItemRequest",
+    "CycleCount",
+    "CycleCountDetail",
+    "CycleCountLine",
+    "CycleCountPage",
+    "CycleCountVersionRequest",
+    "DecideCycleCountRequest",
+    "InventoryConsumptionEvent",
+    "InventoryConsumptionResult",
+    "InventoryConsumptionSource",
+    "InventoryItem",
+    "InventoryItemPage",
+    "InventoryMovement",
+    "InventoryMovementSource",
+    "InventoryMovementSourceCycleCount",
+    "InventoryMovementSourceExternalRef",
+    "InventoryMovementSourceP1Dispatch",
+    "InventoryMovementSourceWorkOrder",
+    "InventoryMrpLine",
+    "InventoryReceiptResult",
+    "InventoryStockLocationSummary",
+    "OpenCycleCountRequest",
+    "RecordInventoryReceiptRequest",
+    "UpsertCycleCountLineRequest"
+  ],
+  "external_schemas": [
+    "Uuid"
+  ]
+}

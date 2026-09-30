@@ -1,0 +1,35 @@
+tags:
+- maintenance
+operationId: reviewSettlement
+summary: Four-eyes review of a SUBMITTED settlement; the reviewer must differ from the submitter
+security:
+- bearerAuth: []
+parameters:
+- name: settlementId
+  in: path
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/ReviewSettlementRequest'
+responses:
+  '200':
+    description: The reviewed settlement, APPROVED or RETURNED back to DRAFT.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/SettlementSummary'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '409':
+    $ref: '#/components/responses/Conflict'
+  '422':
+    $ref: '#/components/responses/ValidationError'

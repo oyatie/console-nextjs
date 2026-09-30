@@ -1,0 +1,14 @@
+type: object
+required:
+- platform
+- app_version
+properties:
+  platform:
+    $ref: '#/components/schemas/DevicePlatform'
+  push_token:
+    type:
+    - string
+    - 'null'
+  app_version:
+    type: string
+    minLength: 1

@@ -1,0 +1,32 @@
+type: object
+description: 'Policy assignment/account-scope preview and custom-role assignment replacement. The preview endpoint
+  accepts `role_ids` plus optional `system_roles` and `branch_ids` for account/person mutation previews. The mutating
+  custom-role replacement endpoint also requires `preview_acknowledged: true`, the server-issued `preview_receipt_id`
+  from a current impact preview for the same actor/user/role set, plus a fresh passkey `step_up` assertion server-side
+  so the audit trail binds the sensitive policy write to the human actor. ACTIVE custom-role assignments become runtime-effective
+  on the next request when their grants and conditions pass the fail-closed runtime evaluator.'
+properties:
+  role_ids:
+    type: array
+    description: Custom-role replacement set. For account/person role-or-scope previews, omit this field to preserve
+      the target's current custom-role assignments; send an explicit empty array to preview removing all custom roles.
+    items:
+      $ref: '#/components/schemas/Uuid'
+  system_roles:
+    type: array
+    description: Optional replacement system-role set for account/person mutation previews. Ignored by the custom-role assignment save endpoint.
+    items:
+      type: string
+  branch_ids:
+    type: array
+    description: Optional replacement branch membership set for account/person mutation previews. Ignored by the custom-role assignment save endpoint.
+    items:
+      $ref: '#/components/schemas/Uuid'
+  preview_acknowledged:
+    type: boolean
+    description: Must be true for the mutating replacement endpoint after the caller reviewed the assignment impact
+      preview. The preview endpoint ignores this field. Omitted values are treated as false by the server.
+  preview_receipt_id:
+    $ref: '#/components/schemas/Uuid'
+  step_up:
+    $ref: '#/components/schemas/PasskeyStepUpAssertion'

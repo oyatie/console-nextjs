@@ -1,0 +1,5 @@
+tags: [consulting]
+operationId: getConsultingEngagement
+security: [{ bearerAuth: [] }]
+parameters: [{ name: engagement_id, in: path, required: true, schema: { $ref: '#/components/schemas/Uuid' } }]
+responses: { '200': { description: Evidence and KPI-lineage detail, content: { application/json: { schema: { $ref: '#/components/schemas/ConsultingEngagementDetail' } } } }, '401': { $ref: '#/components/responses/Unauthorized' }, '403': { $ref: '#/components/responses/Forbidden' }, '404': { $ref: '#/components/responses/NotFound' } }

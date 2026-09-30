@@ -1,0 +1,25 @@
+type: object
+required:
+- version
+- status
+- content
+- createdAt
+properties:
+  version:
+    type: integer
+    format: int32
+  status:
+    type: string
+    enum: [CAPTURED, ROLLBACK]
+  sourceVersion:
+    type: integer
+    format: int32
+  content:
+    type: object
+    additionalProperties: true
+  createdBy:
+    type: string
+    format: uuid
+  createdAt:
+    type: string
+    format: date-time

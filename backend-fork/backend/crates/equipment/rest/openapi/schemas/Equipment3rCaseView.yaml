@@ -1,0 +1,13 @@
+type: object
+required: [id, unitId, status, customerName, siteReference, monthlyRateMinor, durationMonths, currencyCode, branchId]
+properties:
+  id: { $ref: '#/components/schemas/Uuid' }
+  unitId: { $ref: '#/components/schemas/Uuid' }
+  status: { type: string, enum: [QUOTED, APPROVED, DECLINED, DISPATCHED, HANDED_OVER, RETURNED, CLOSED] }
+  customerName: { type: string }
+  siteReference: { type: string }
+  monthlyRateMinor: { type: integer, format: int64 }
+  durationMonths: { type: integer }
+  currencyCode: { type: string, enum: [KRW] }
+  branchId: { $ref: '#/components/schemas/Uuid' }
+  replayed: { type: boolean, description: Present and true only on an idempotent replay }

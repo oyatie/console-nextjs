@@ -1,0 +1,35 @@
+tags:
+- notices
+operationId: updateNoticeDraft
+summary: Edit a DRAFT notice (NoticeManage only); every field optional, audience replaced whole, 409 once published
+security:
+- bearerAuth: []
+parameters:
+- name: id
+  in: path
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/UpdateNoticeDraftRequest'
+responses:
+  '200':
+    description: The updated draft.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/NoticeSummary'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '409':
+    $ref: '#/components/responses/Conflict'
+  '422':
+    $ref: '#/components/responses/ValidationError'

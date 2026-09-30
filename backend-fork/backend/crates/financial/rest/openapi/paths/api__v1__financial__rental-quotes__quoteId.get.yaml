@@ -1,0 +1,21 @@
+tags:
+  - financial
+operationId: getRentalQuote
+summary: Fetch a persisted rental quote
+security:
+- bearerAuth: []
+parameters:
+- $ref: '#/components/parameters/QuoteId'
+responses:
+  '200':
+    description: Rental quote summary.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/RentalQuoteSummary'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'

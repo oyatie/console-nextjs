@@ -1,0 +1,27 @@
+type: object
+required:
+- branch_id
+- equipment_id
+- mechanic_id
+- cycle
+- interval_days
+- due_date
+properties:
+  branch_id:
+    $ref: '#/components/schemas/Uuid'
+  equipment_id:
+    $ref: '#/components/schemas/Uuid'
+  mechanic_id:
+    $ref: '#/components/schemas/Uuid'
+  cycle:
+    $ref: '#/components/schemas/InspectionCycle'
+  interval_days:
+    type: integer
+    format: int32
+    minimum: 1
+  due_date:
+    $ref: '#/components/schemas/Date'
+  note:
+    type:
+    - string
+    - 'null'

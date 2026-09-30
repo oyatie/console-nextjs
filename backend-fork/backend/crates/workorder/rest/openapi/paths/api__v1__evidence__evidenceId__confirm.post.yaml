@@ -1,0 +1,27 @@
+tags:
+  - evidence
+operationId: confirmEvidenceUpload
+summary: Confirm direct evidence upload completion and trigger replica verification
+security:
+- bearerAuth: []
+parameters:
+- $ref: '#/components/parameters/EvidenceId'
+responses:
+  '200':
+    description: Evidence confirmation and replica status.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/EvidenceConfirmResponse'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '503':
+    description: Evidence storage is not configured.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ErrorBody'

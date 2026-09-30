@@ -1,0 +1,23 @@
+type: object
+required:
+- received
+- assigned
+- in_progress
+- completed
+properties:
+  received:
+    type: integer
+    format: int32
+    minimum: 0
+  assigned:
+    type: integer
+    format: int32
+    minimum: 0
+  in_progress:
+    type: integer
+    format: int32
+    minimum: 0
+  completed:
+    type: integer
+    format: int32
+    minimum: 0

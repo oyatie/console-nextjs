@@ -1,0 +1,78 @@
+tags:
+  - Ontology
+operationId: transitionObjectTypeLifecycle
+summary: Drive the object-type schema lifecycle
+description: >
+  Transitions one object-type version through the schema FSM. The legal
+  edges are draft->review_pending, review_pending->draft,
+  review_pending->published, published->superseded, published->retired and
+  superseded->retired; every other edge — including draft->published — is
+  409. review_pending->published additionally consumes an approved,
+  unconsumed ontology.schema.publish approval requested by this same actor
+  and decided by a different one, so publishing without four-eyes is 403.
+  {key} resolves to the published-preferred head, so a revision staged
+  behind a published version must be addressed with ?version=.
+security:
+  - bearerAuth: []
+parameters:
+  - name: key
+    in: path
+    required: true
+    schema:
+      type: string
+  - name: version
+    in: query
+    required: false
+    description: Schema version to transition. Defaults to the published-preferred head.
+    schema:
+      type: integer
+      format: int64
+      minimum: 1
+  - name: If-Match
+    in: header
+    required: true
+    description: Exactly one strong ontology tenant/key write validator.
+    schema:
+      type: string
+      pattern: '^"ont-object-type-key:[0-9a-f]{32}:r[1-9][0-9]*"$'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        required:
+          - to_state
+        properties:
+          to_state:
+            type: string
+            enum: [draft, review_pending, published, superseded, retired]
+responses:
+  '200':
+    description: Transition committed.
+    headers:
+      ETag:
+        description: Strong successor tenant/key write validator.
+        schema: { type: string }
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ObjectTypeSummary'
+  '400':
+    $ref: '#/components/responses/BadRequest'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '409':
+    $ref: '#/components/responses/Conflict'
+  '412':
+    $ref: '#/components/responses/PreconditionFailed'
+  '422':
+    $ref: '#/components/responses/ValidationError'
+  '428':
+    $ref: '#/components/responses/PreconditionRequired'
+  '503':
+    $ref: '#/components/responses/ServiceUnavailable'

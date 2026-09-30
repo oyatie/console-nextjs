@@ -1,0 +1,16 @@
+type: object
+required:
+- task_id
+- run_id
+- status
+- decision_payload
+properties:
+  task_id:
+    $ref: '#/components/schemas/Uuid'
+  run_id:
+    $ref: '#/components/schemas/Uuid'
+  status:
+    type: string
+  decision_payload:
+    type: object
+    additionalProperties: true

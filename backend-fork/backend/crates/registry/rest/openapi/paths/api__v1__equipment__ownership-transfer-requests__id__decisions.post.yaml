@@ -1,0 +1,38 @@
+tags:
+  - equipment
+operationId: decideEquipmentOwnershipTransfer
+summary: Approve or reject the current ownership-transfer signoff step
+description: Advances the ordered transfer signoff line one step at a time. The final accounting approval writes the
+  new `asset_owner` and records an audited workflow event; rejection makes the request terminal without mutating the
+  asset owner.
+security:
+- bearerAuth: []
+parameters:
+- name: id
+  in: path
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/DecideOwnershipTransferRequest'
+responses:
+  '200':
+    description: Transfer request after the decision.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/OwnershipTransfer'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '409':
+    $ref: '#/components/responses/Conflict'
+  '422':
+    $ref: '#/components/responses/ValidationError'

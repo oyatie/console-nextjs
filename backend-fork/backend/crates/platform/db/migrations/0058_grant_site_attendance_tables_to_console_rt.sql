@@ -1,0 +1,29 @@
+-- Issue #19.7 — explicit runtime-role DML grants on the geofence attendance
+-- tables created in 0042 (site_attendance_events, site_geofence_presence).
+--
+-- WHY THIS EXISTS: the GPS location-consent flow's WITHDRAW transition
+-- (compliance transition_consent) erases location-derived state with
+--   DELETE FROM site_geofence_presence WHERE user_id = $1
+-- and the on-duty ping path INSERTs into both tables. As the genuine non-owner
+-- runtime role `console_rt`, those statements need explicit DML privileges.
+--
+-- Migration 0042 created both tables WITHOUT an explicit `GRANT ... TO console_rt`,
+-- relying solely on the `ALTER DEFAULT PRIVILEGES FOR ROLE console_app` from 0031 —
+-- which only auto-grants when the CREATING owner is exactly `console_app`. In prod
+-- migrations DO run as `console_app`, so the default fired and the grant exists; but
+-- the privilege then silently depends on the migration runner's identity and is
+-- NOT exercised by the BYPASSRLS-owner test pool. Under a non-`console_app` applier
+-- (the sqlx::test / CI pool) `console_rt` is left with no privilege, and the consent
+-- WITHDRAW fails `permission denied for table site_geofence_presence` (42501) —
+-- the "consent page is non-functional" symptom under FORCE RLS.
+--
+-- This migration makes the grant EXPLICIT and owner-independent, exactly as the
+-- per-table grants in 0035/0050 do, so the privilege no longer hinges on
+-- default-privileges timing. Both tables already carry the org_isolation RLS
+-- policy + FORCE RLS + enforce_org_id_immutable trigger from 0042, so this adds
+-- NO new policy/trigger/column — only the missing DML grants. Re-granting an
+-- already-held privilege is a no-op, so this is safe to apply in prod.
+--
+-- console-gate: audited-table site_attendance_events
+GRANT SELECT, INSERT, UPDATE, DELETE ON site_attendance_events TO console_rt;
+GRANT SELECT, INSERT, UPDATE, DELETE ON site_geofence_presence TO console_rt;

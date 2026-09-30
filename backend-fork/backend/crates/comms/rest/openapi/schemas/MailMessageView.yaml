@@ -1,0 +1,74 @@
+type: object
+required:
+- id
+- thread_id
+- direction
+- from_address
+- to
+- cc
+- subject
+- snippet
+- seen
+- flagged
+- answered
+- has_attachments
+- received_at
+- attachments
+properties:
+  id:
+    $ref: '#/components/schemas/Uuid'
+  thread_id:
+    $ref: '#/components/schemas/Uuid'
+  direction:
+    type: string
+    description: IN (mirrored from IMAP) or OUT (sent by the tenant).
+  message_id:
+    type:
+    - string
+    - 'null'
+  in_reply_to:
+    type:
+    - string
+    - 'null'
+  from_address:
+    type: string
+  from_name:
+    type:
+    - string
+    - 'null'
+  to:
+    type: array
+    items:
+      $ref: '#/components/schemas/MailAddress'
+  cc:
+    type: array
+    items:
+      $ref: '#/components/schemas/MailAddress'
+  subject:
+    type: string
+  snippet:
+    type: string
+  body_text:
+    type:
+    - string
+    - 'null'
+  body_html:
+    type:
+    - string
+    - 'null'
+    description: The stored HTML body, returned verbatim. The client MUST sanitize it (DOMPurify-class) before rendering.
+  seen:
+    type: boolean
+  flagged:
+    type: boolean
+  answered:
+    type: boolean
+  has_attachments:
+    type: boolean
+  received_at:
+    type: string
+    format: date-time
+  attachments:
+    type: array
+    items:
+      $ref: '#/components/schemas/MailAttachmentView'

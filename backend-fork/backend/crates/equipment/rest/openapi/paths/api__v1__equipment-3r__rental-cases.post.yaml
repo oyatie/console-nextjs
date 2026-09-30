@@ -1,0 +1,14 @@
+tags: [equipment-3r]
+operationId: quoteEquipment3rRentalCase
+summary: Idempotently open a rental-case quote against an unsold unit
+security: [{ bearerAuth: [] }]
+parameters: [{ name: Idempotency-Key, in: header, required: true, schema: { type: string, minLength: 16, maxLength: 200 } }]
+requestBody: { required: true, content: { application/json: { schema: { type: object, required: [branchId, unitId, customerName, siteReference, monthlyRateMinor, durationMonths, currencyCode], properties: { branchId: { $ref: '#/components/schemas/Uuid' }, unitId: { $ref: '#/components/schemas/Uuid' }, customerName: { type: string, minLength: 1, maxLength: 160 }, siteReference: { type: string, minLength: 1, maxLength: 200 }, monthlyRateMinor: { type: integer, format: int64, minimum: 1 }, durationMonths: { type: integer, minimum: 1, maximum: 120 }, currencyCode: { type: string, enum: [KRW] } } } } } }
+responses:
+  '200': { description: Idempotent replay of the stored quote (replayed=true), content: { application/json: { schema: { $ref: '#/components/schemas/Equipment3rCaseView' } } } }
+  '201': { description: Quote created, content: { application/json: { schema: { $ref: '#/components/schemas/Equipment3rCaseView' } } } }
+  '401': { $ref: '#/components/responses/Unauthorized' }
+  '403': { $ref: '#/components/responses/Forbidden' }
+  '404': { description: Unit not found in branch }
+  '409': { description: "Key reused with different fingerprint, or unit is SOLD" }
+  '422': { $ref: '#/components/responses/ValidationError' }

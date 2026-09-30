@@ -1,0 +1,37 @@
+tags:
+  - analytics
+operationId: computeAnalyticsProjection
+summary: Project a value series forward with a fat-tail confidence band
+description: >
+  Deterministic, read-only projection. Given a historical value series and
+  a horizon, returns a point estimate, a 95% confidence band, and a CVaR95
+  (expected shortfall) under EWMA volatility + Student-t(ν=4) innovations,
+  computed via a seeded Monte-Carlo (same input → same output) with an EVT
+  (Generalized-Pareto) lower-tail fit. No persistence, no PII.
+security:
+  - bearerAuth: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/ProjectionRequest'
+responses:
+  '200':
+    description: The projection result.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ProjectionResult'
+  '400':
+    $ref: '#/components/responses/ValidationError'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '503':
+    description: JWT verification is not configured.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ErrorBody'

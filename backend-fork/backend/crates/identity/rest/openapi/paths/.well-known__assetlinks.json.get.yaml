@@ -1,0 +1,16 @@
+tags:
+  - system
+operationId: androidAssetLinks
+summary: Android Digital Asset Links (native passkeys)
+description: Public, unauthenticated Digital Asset Links document Android fetches to authorize the native app's passkeys
+  for the RP domain. The package and signing-cert fingerprints come from `CONSOLE_ANDROID_PACKAGE` / `CONSOLE_ANDROID_CERT_SHA256`;
+  an unconfigured deployment serves an empty JSON array. Served as `application/json`.
+responses:
+  '200':
+    description: The Android Digital Asset Links statements.
+    content:
+      application/json:
+        schema:
+          type: array
+          items:
+            $ref: '#/components/schemas/AndroidAssetLinkStatement'

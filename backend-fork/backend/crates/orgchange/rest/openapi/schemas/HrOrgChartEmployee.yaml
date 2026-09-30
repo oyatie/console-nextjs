@@ -1,0 +1,15 @@
+type: object
+required:
+- id
+- name
+- status
+properties:
+  id:
+    $ref: '#/components/schemas/Uuid'
+  name:
+    type: string
+  employee_number:
+    type: string
+    nullable: true
+  status:
+    type: string

@@ -1,0 +1,41 @@
+[package]
+name = "console-sales-rest"
+version = "0.1.0"
+description = "REST API for the sales catalog (storefront + admin)."
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[features]
+frontend-e2e = []
+
+[[test]]
+name = "real_browser_inquiry"
+path = "tests/real_browser_inquiry.rs"
+required-features = ["frontend-e2e"]
+
+[dependencies]
+console-contracts = { path = "../../contracts" }
+axum = { workspace = true }
+console-kernel-core = { workspace = true }
+console-platform-auth = { workspace = true }
+console-platform-authz = { workspace = true }
+console-platform-db = { workspace = true }
+console-platform-request-context = { workspace = true }
+console-platform-storage = { workspace = true }
+console-sales-adapter-postgres = { workspace = true }
+console-sales-application = { workspace = true }
+console-sales-domain = { workspace = true }
+serde = { workspace = true }
+time = { workspace = true }
+uuid = { workspace = true }
+
+[dev-dependencies]
+serde_json = { workspace = true }
+sqlx = { workspace = true }
+tokio = { workspace = true, features = ["io-util", "net", "process", "time"] }
+tower = { workspace = true }
+
+[lints]
+workspace = true

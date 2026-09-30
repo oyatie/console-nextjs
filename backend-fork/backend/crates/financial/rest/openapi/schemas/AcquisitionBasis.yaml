@@ -1,0 +1,6 @@
+type: string
+description: Where the acquisition figure that anchors TCO came from.
+enum:
+- EXPLICIT
+- VEHICLE_VALUE_FALLBACK
+- NONE

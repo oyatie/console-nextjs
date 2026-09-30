@@ -1,0 +1,15 @@
+type: object
+required: [title, description, obligation_type, scope, severity]
+properties:
+  title: { type: string }
+  description: { type: string }
+  obligation_type: { $ref: '#/components/schemas/ObligationType' }
+  scope: { $ref: '#/components/schemas/ComplianceScope' }
+  owner_user_id: { type: [string, 'null'], format: uuid }
+  severity: { $ref: '#/components/schemas/ComplianceRiskLevel' }
+  effective_from: { type: [string, 'null'], format: date }
+  effective_to: { type: [string, 'null'], format: date }
+  review_cadence: { type: [string, 'null'], enum: [MONTHLY, QUARTERLY, SEMI_ANNUAL, ANNUAL, EVENT_DRIVEN, null] }
+  next_review_on: { type: [string, 'null'], format: date }
+  metadata: { type: object, additionalProperties: true }
+  regulation_links: { type: array, items: { $ref: '#/components/schemas/RegulationLinkRequest' }, description: Omit to create no regulation links; the server treats omission as an empty list. }

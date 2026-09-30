@@ -1,0 +1,8 @@
+allOf:
+- $ref: '#/components/schemas/ErrorBody'
+- type: object
+  description: employee_id is present only on an already-hired replay, naming the employee the applicant is linked
+    to; every other conflict carries the error envelope alone.
+  properties:
+    employee_id:
+      $ref: '#/components/schemas/Uuid'

@@ -1,0 +1,12 @@
+tags: [attendance]
+operationId: assignAttendanceSubstitute
+summary: Create an idempotent substitute assignment
+security: [{ bearerAuth: [] }]
+parameters: [{ name: Idempotency-Key, in: header, required: true, schema: { type: string, minLength: 1, maxLength: 200 } }]
+requestBody: { required: true, content: { application/json: { schema: { $ref: '#/components/schemas/AssignAttendanceSubstituteRequest' } } } }
+responses:
+  '201': { description: Created assignment, content: { application/json: { schema: { $ref: '#/components/schemas/AttendanceSubstitution' } } } }
+  '401': { $ref: '#/components/responses/Unauthorized' }
+  '403': { $ref: '#/components/responses/Forbidden' }
+  '409': { $ref: '#/components/responses/Conflict' }
+  '422': { $ref: '#/components/responses/ValidationError' }

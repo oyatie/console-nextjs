@@ -1,0 +1,7 @@
+type: object
+required: [employee, employment]
+properties:
+  employee:
+    $ref: '#/components/schemas/Employee'
+  employment:
+    $ref: '#/components/schemas/EmployeeEmploymentDetail'

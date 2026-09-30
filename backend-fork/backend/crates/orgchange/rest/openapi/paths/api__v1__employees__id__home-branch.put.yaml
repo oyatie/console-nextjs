@@ -1,0 +1,51 @@
+tags:
+  - employees
+operationId: setEmployeeHomeBranch
+summary: Assign an employee's authoritative home branch
+description: >-
+  Audited explicit assignment; the server never infers a branch from user
+  memberships. The target branch must be active and in the same tenant.
+  Reassignment requires EmployeeDirectoryManage for both the prior and new
+  branch. An employee with no prior branch requires org-wide manage
+  authority. `expected_updated_at` prevents silent concurrent overwrite.
+security:
+- bearerAuth: []
+parameters:
+- name: id
+  in: path
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/SetEmployeeHomeBranchRequest'
+responses:
+  '200':
+    description: The explicit authoritative home-branch assignment.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/EmployeeHomeBranch'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '409':
+    description: The employee changed after the supplied precondition; reload before retrying.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ErrorBody'
+  '422':
+    $ref: '#/components/responses/ValidationError'
+  '503':
+    description: The separately credentialed leave command database is not configured or unavailable.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ErrorBody'

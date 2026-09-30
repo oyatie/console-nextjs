@@ -1,0 +1,110 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: console-web
+  namespace: console
+  labels: { app: console-web }
+spec:
+  replicas: 2
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels: { app: console-web }
+  strategy:
+    blueGreen:
+      activeService: console-web
+      previewService: console-web-preview
+      autoPromotionEnabled: true
+      scaleDownDelaySeconds: 30
+      prePromotionAnalysis:
+        templates:
+          - templateName: smoke-http
+        args:
+          - name: health-url
+            value: http://console-web-preview.console.svc:8080/healthz
+  template:
+    metadata:
+      labels: { app: console-web }
+    spec:
+      # console-web serves static assets and never calls the Kubernetes API.
+      automountServiceAccountToken: false
+      terminationGracePeriodSeconds: 30
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 101 # nginx-unprivileged
+        seccompProfile: { type: RuntimeDefault }
+      containers:
+        - name: console-web
+          image: console-web # registry + tag set by the prod overlay
+          ports:
+            - { name: http, containerPort: 8080, protocol: TCP }
+          lifecycle:
+            # Let in-flight requests drain before nginx receives SIGTERM, so the
+            # blue/green rollout terminates the pod gracefully. /bin/sh exists in
+            # nginx-unprivileged and the sleep needs no writable root filesystem.
+            preStop:
+              exec: { command: ["/bin/sh", "-c", "sleep 5"] }
+          startupProbe:
+            httpGet: { path: /healthz, port: http }
+            failureThreshold: 30
+            periodSeconds: 2
+          readinessProbe:
+            httpGet: { path: /healthz, port: http }
+            periodSeconds: 10
+            timeoutSeconds: 2
+          livenessProbe:
+            httpGet: { path: /healthz, port: http }
+            periodSeconds: 15
+            timeoutSeconds: 2
+          resources:
+            requests: { cpu: 10m, memory: 32Mi }
+            limits: { memory: 96Mi }
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities: { drop: [ALL] }
+          # nginx-unprivileged writes its pid + temp paths under /tmp, caches
+          # under /var/cache/nginx, and resolves /var/run; back them with tmpfs
+          # so the container root filesystem can stay read-only.
+          volumeMounts:
+            - { name: tmp, mountPath: /tmp }
+            - { name: nginx-cache, mountPath: /var/cache/nginx }
+            - { name: nginx-run, mountPath: /var/run }
+      volumes:
+        - name: tmp
+          emptyDir: {}
+        - name: nginx-cache
+          emptyDir: {}
+        - name: nginx-run
+          emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: console-web
+  namespace: console
+  labels: { app: console-web }
+spec:
+  selector: { app: console-web }
+  ports:
+    - { name: http, port: 8080, targetPort: http }
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: console-web-preview
+  namespace: console
+  labels: { app: console-web }
+spec:
+  selector: { app: console-web }
+  ports:
+    - { name: http, port: 8080, targetPort: http }
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: console-web
+  namespace: console
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels: { app: console-web }

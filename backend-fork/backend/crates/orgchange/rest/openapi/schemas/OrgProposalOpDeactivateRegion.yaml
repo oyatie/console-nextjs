@@ -1,0 +1,11 @@
+type: object
+additionalProperties: false
+required:
+- op
+- regionId
+properties:
+  op:
+    type: string
+    enum: [DEACTIVATE_REGION]
+  regionId:
+    $ref: '#/components/schemas/Uuid'

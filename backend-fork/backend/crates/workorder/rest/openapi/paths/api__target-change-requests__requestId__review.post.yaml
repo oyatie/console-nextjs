@@ -1,0 +1,21 @@
+tags:
+  - target-change-requests
+operationId: reviewTargetChange
+summary: Review a target due-date change request
+security:
+- bearerAuth: []
+parameters:
+- $ref: '#/components/parameters/RequestId'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/ReviewTargetChangeRequest'
+responses:
+  '200':
+    description: Target change review persisted.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/TargetChangeRequestSummary'

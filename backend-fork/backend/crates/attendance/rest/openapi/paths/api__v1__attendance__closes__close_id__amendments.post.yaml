@@ -1,0 +1,14 @@
+tags: [attendance]
+operationId: amendAttendanceClose
+summary: Append an idempotent post-close amendment
+security: [{ bearerAuth: [] }]
+parameters:
+  - { name: close_id, in: path, required: true, schema: { $ref: '#/components/schemas/Uuid' } }
+  - { name: Idempotency-Key, in: header, required: true, schema: { type: string, minLength: 1, maxLength: 200 } }
+requestBody: { required: true, content: { application/json: { schema: { $ref: '#/components/schemas/AttendanceCloseAmendmentRequest' } } } }
+responses:
+  '200': { description: Recorded amendment, content: { application/json: { schema: { $ref: '#/components/schemas/AttendanceCloseAmendment' } } } }
+  '401': { $ref: '#/components/responses/Unauthorized' }
+  '403': { $ref: '#/components/responses/Forbidden' }
+  '404': { $ref: '#/components/responses/NotFound' }
+  '422': { $ref: '#/components/responses/ValidationError' }

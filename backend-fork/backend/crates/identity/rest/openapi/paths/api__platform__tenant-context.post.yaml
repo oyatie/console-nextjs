@@ -1,0 +1,33 @@
+tags:
+  - platform
+operationId: startPlatformTenantContext
+summary: Start a writable platform-managed tenant context
+description: Mints a short-lived writable tenant token with SUPER_ADMIN for exactly one active tenant. Platform token and
+  TenantManage authority required; the operator identity comes from the verified bearer token and the start is audited.
+security:
+- bearerAuth: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/PlatformTenantContextStartRequest'
+responses:
+  '200':
+    description: The short-lived writable tenant token and banner context.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/PlatformTenantContextStartResponse'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '409':
+    $ref: '#/components/responses/Conflict'
+  '422':
+    $ref: '#/components/responses/ValidationError'
+  '503':
+    $ref: '#/components/responses/ServiceUnavailable'

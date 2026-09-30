@@ -1,0 +1,4 @@
+type: object
+additionalProperties: false
+required: [source, quantityConsumedMilli, idempotencyKey]
+properties: { source: { $ref: '#/components/schemas/InventoryConsumptionSource' }, quantityConsumedMilli: { type: integer, format: int64, minimum: 1 }, occurredAt: { type: string, format: date-time, nullable: true }, memo: { type: string, nullable: true }, idempotencyKey: { type: string, minLength: 16, maxLength: 200 } }

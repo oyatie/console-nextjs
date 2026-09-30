@@ -1,0 +1,75 @@
+{
+  "kind": "lane",
+  "lane": "v-lane-receipt-validator-20260812",
+  "status": "done",
+  "summary": "Tracked lane-receipt schema (scripts/console/lane-receipt.schema.json), dependency-free validator CLI (scripts/console/validate-lane-receipt.mjs), 22-test node:test suite (incl. exact cross-authority parity pins, dual-validation, and --dir examined-zero scans), wired into package.json scripts, ci.yml preflight step, check-ci-preflight proofRun + pins, CI-GATES.md inventory, and regenerated doc manifests.",
+  "filesChanged": [
+    "scripts/console/lane-receipt.schema.json",
+    "scripts/console/validate-lane-receipt.mjs",
+    "scripts/console/validate-lane-receipt.test.mjs",
+    "package.json",
+    ".github/workflows/ci.yml",
+    "scripts/check-ci-preflight.mjs",
+    "scripts/check-ci-preflight.test.mjs",
+    "docs/CI-GATES.md",
+    "docs/documentation-manifest.seed.json",
+    "docs/documentation-index.json",
+    ".cursor/receipts/v-lane-receipt-validator-20260812.json",
+    "scripts/verify.mjs",
+    ".cursor/receipts/v-lane-receipt-validator-20260812-critic.json",
+    ".cursor/receipts/v-lane-receipt-validator-20260812-critic-r3.json"
+  ],
+  "redBaseline": "Planted-red proofs executed and pasted in test suite development: schema-violating receipt (missing required field) exits 1; examined-zero (no-arg invocation) exits 1; foundation-gates docs-drift gate observed RED when test:lane-receipt was undocumented in CI-GATES.md, then GREEN after inventory entry (bisect: clean b2acd80c 6/6 PASS, dbb5443 6/6 PASS, wiring-without-doc FAIL). Post-R2 planted reds: present-but-unrecognised kind ({\"kind\":\"build\"}) in --dir scan observed exit 0 pre-fix, exit 1 post-fix; BUILD_SCHEMA required-list mutation (verification->headSha) observed suite red with drift message, restore green.",
+  "verification": "npm run test:lane-receipt 22/22 pass; npm run check:lane-receipt (--dir scan of .cursor/receipts) exit 0; node scripts/check-ci-preflight.mjs contract passed; node --test scripts/check-ci-preflight.test.mjs 57/57 pass; js-test-reachability 47 suites exact-wired dark 0; check-mjs-dark-suites --strict ok; foundation-gates 6/6 pass; generate-documentation-manifest --check OK (438 markdown files); node --test scripts/verify.test.mjs 13/13 pass; porcelain clean at tip.",
+  "contractBreaches": "none",
+  "headSha": "21fbc60bc3ca5b1e4f21f0d9566bf2c5c0f520a6",
+  "baseSha": "b2acd80c4d7f340199b9147f6df9318d74af5f8d",
+  "worktree": ".worktrees/v-lane-validator",
+  "commands": [
+    "npm run test:lane-receipt",
+    "node scripts/check-ci-preflight.mjs",
+    "node --test scripts/check-ci-preflight.test.mjs",
+    "node scripts/check-js-test-reachability.mjs",
+    "node --test scripts/check-foundation-gates.test.mjs"
+  ],
+  "commandsRun": [
+    "npm run test:lane-receipt",
+    "node --test scripts/console/validate-lane-receipt.test.mjs",
+    "node scripts/check-ci-preflight.mjs",
+    "node --test scripts/check-ci-preflight.test.mjs",
+    "node scripts/check-js-test-reachability.mjs",
+    "node tools/ci/check-mjs-dark-suites.mjs --strict",
+    "node --test scripts/check-foundation-gates.test.mjs",
+    "node scripts/console/generate-documentation-manifest.mjs --write",
+    "node scripts/console/generate-documentation-manifest.mjs --check",
+    "node --test scripts/verify.test.mjs"
+  ],
+  "enforcementPlacement": "WHERE: ci.yml preflight job step 'Console lane-receipt validator regression' runs npm run test:lane-receipt; the suite executes the validator against synthetic fixtures AND scans the real tracked .cursor/receipts directory via --dir, validating every kind-bearing receipt. SUBJECT EXISTS: this lane's receipt is the first kind-bearing tracked receipt; receipts with NO kind property remain under the incumbent validators (a present-but-unrecognised kind FAILS, planted-red proven) (scripts/cursor/validate-lane-receipt.mjs, lane-fanout BUILD_SCHEMA) until the consolidation lane migrates them — the boundary discriminator is the kind field, not a spelling list. FINEST DISTINCTION: per-field JSON Schema 2020-12 validation (required-field union with BUILD_SCHEMA, enum kinds, 40-hex SHA pattern, non-blank strings via minLength+\\S pattern, minItems) plus conditional rules (n/a escape parity, status=done commands, APPROVE-over-blocking-finding conflict). EXAMINED-ZERO FAILS: zero-argument invocation exits 1; --dir scan finding zero kind-bearing receipts exits 1; both proven by planted-red tests; the suite carries an executed floor (after-hook fails under 22 test bodies) and a cross-authority parity test that fails if BUILD_SCHEMA/REVIEW_SCHEMA required fields stop being extractable.",
+  "peripheralsUpdated": "docs/CI-GATES.md: test:lane-receipt added to 'Root package scripts run by CI' inventory (foundation-gates drift parity); docs/documentation-manifest.seed.json + docs/documentation-index.json regenerated via generate-documentation-manifest.mjs --write; scripts/check-ci-preflight.test.mjs pins updated: preflight run-step 28->29, total 121->122, mutation matrix 363->366; scripts/verify.mjs PLAN classifies the new step (local CI mirror contract)",
+  "classification": {
+    "personalData": false,
+    "holdAdjacent": false,
+    "notes": "Validator tooling only; no product, contract, migration, HR, or payroll surface touched. Ordinary R2 review path, no GAAC."
+  },
+  "preMortem": "Risk 1: a third mutually-unsatisfiable spelling of the receipt field list forks authority -> mitigated post-R2: laneReceipt.required is the UNION of CI-pinned BUILD_SCHEMA required fields and the agent-ritual fields, an executed parity test pins BUILD_SCHEMA.required as a subset of laneReceipt.required (and REVIEW_SCHEMA of criticReceipt), and this receipt validates under both the tracked and incumbent validators by an executed test. Risk 2: preflight pin drift causes false red on unrelated PRs -> pins co-edited with mutation inventory in same commit, contract test green. Risk 3: undocumented CI step trips foundation-gates docs-drift parity -> hit during development, fixed by CI-GATES.md inventory entry (designed gate worked). Risk 4: validator certifies doctrine-forbidden receipts -> APPROVE-over-blocking-finding and whitespace false-green rules ported from the incumbent with planted-red tests.",
+  "blastRadius": "Additive: new schema+validator+test under scripts/console/, two package.json scripts, one CI preflight step, one proofRun, doc inventory line, regenerated manifests. No existing gate, workflow, or incumbent validator modified. Post-R2 the successor carries the incumbent's convergence rules (APPROVE-conflict, blank-string guard, n/a escape prefix, status=done commands) with planted-red proofs, so migration to it does not weaken any oracle; the incumbents remain live and untouched until the consolidation lane.",
+  "detection": "CI preflight step fails on validator regression; check-ci-preflight.mjs proofRun fails if step removed or reordered; foundation-gates docs-drift gate fails if CI-GATES.md inventory diverges from ci.yml; js-test-reachability fails if suite goes dark.",
+  "rollback": "Single revert of the squash-merge commit restores prior state; no data, migration, or hosted-state coupling.",
+  "stopConditions": "behind>0 at pre-admission revalidation without clean restack; any required check red on PR; R2 BLOCK with proven finding; foundation-gates or preflight contract red at tip.",
+  "reviewIdentities": [
+    "executor: 29-VLaneValidator (Grok 4.6) authored dbb544347",
+    "leader: GJC sessions 019ff78e/019ff867 (Fable) authored wiring 88dcbc845, this receipt, and the R2 fix round",
+    "R2: architect R2-VLaneValidator (Opus, cross-family, read-only). Round 1: BLOCK at 55331bc27 (1 blocker proven: third field-list spelling; 3 major; 5 minor; 6 challenges). One consolidated fix round (9595fc64a + ac6f2a4de). Round 2 delta re-critique: APPROVE with filed findings (1 unproven major routed to consolidation lane). Verdict receipt: .cursor/receipts/v-lane-receipt-validator-20260812-critic.json",
+    "R3: architect 1-R3-VLaneDelta (Opus, cross-family, read-only) delta re-critique ac6f2a4de..21fbc60bc bound to final product tip 21fbc60bc: APPROVE; 1 unproven major + 4 minors filed, 1 proven minor (stale receipt claims) landed in the candidate commit; per-thread CONCUR on all four Codex dispositions. Verdict receipt: .cursor/receipts/v-lane-receipt-validator-20260812-critic-r3.json"
+  ],
+  "remainingHolds": [],
+  "result": "green",
+  "followUps": [
+    "Pre-existing on origin/main: docs/CI-GATES.md has 1 broken citation (line ~902, migration 0600 .xctestrun) and 2 unverifiable line-number citations; CI-GATES.md is not in wired check:doc-citations scope despite being a declared documentInputs entry of check:foundation-gates; route to W1.1 T1 custody lane",
+    "CONSOLIDATION LANE (third-spelling closure): scripts/cursor/validate-lane-receipt.mjs is TRACKED since a762d1d6c (#738), and .claude/workflows/lane-fanout.js BUILD_SCHEMA/REVIEW_SCHEMA is CI-pinned by lane-fanout.test.mjs (preflight step 28). Three authorities must collapse to ONE survivor: this schema JSON, with the cursor validator and lane-fanout deriving from it. Owned roots .cursor/** and .claude/** are leased — needs its own lane. Includes: migrate 30 legacy kind-less receipts (add kind), update .cursor/PROCESS-SYNTHESIS.md:24 row mapping schema-required fields to BUILD_SCHEMA, update agent-card/hook validation commands, and decide critic-branch tip binding (headSha on critic receipts) — deliberately NOT added here to avoid diverging from all three incumbent authorities (Chesterton)",
+    "Interim parity is pinned by execution: BUILD_SCHEMA.required subset-of laneReceipt.required and REVIEW_SCHEMA.required subset-of criticReceipt.required tests fail on drift in either direction, and this receipt is dual-validated by an executed test",
+    "R2-APPROVE filed findings, updated post-R3: scanDir kind predicate CLOSED in 21fbc60bc (present-but-unrecognised kind fails, planted-red); same-size parity drift CLOSED in 21fbc60bc (exact deepEqual pins; co-edit requirement: a strictly-additive BUILD_SCHEMA/REVIEW_SCHEMA required-field change under the leased .claude/** root reds test:lane-receipt under scripts/console/** — announce co-edits; both pins die with the parity mechanism at consolidation); STILL OPEN for the consolidation lane: converge the commands/commandsRun vocabulary; report the closest oneOf branch failure; give check:lane-receipt a caller or fold it into the suite; reject --schema combined with --dir",
+    "R3 filed findings (see critic-r3 receipt): R3-2 major unproven - schema remainingHolds/followUps nonEmptyString tightening shipped without a planted-red control (relaxing it back leaves the suite green); R3-5 - in --dir mode a non-object JSON top level or a non-.json extension is silently skipped (fold with Codex thread-3 tracked-blob enumeration: drive scanDir from git ls-files); R3-6 - kind token vocabulary diverges between the tracked schema (lane|critic) and the incumbent cursor validator (build|critic) with zero docs naming kind: legacy migration of the 30 kind-less receipts is strictly atomic per receipt",
+    "SSOT elevation (R3-3 residue + C2): any ci.yml edit must run BOTH node scripts/check-ci-preflight.mjs(+test) AND node --test scripts/verify.test.mjs (two gates, one file, disjoint subjects); generate-documentation-manifest --check must be asserted at T never at C (C pre-registers a blob_sha untracked until T, so --check at C fails by design)"
+  ]
+}

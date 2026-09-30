@@ -1,0 +1,24 @@
+tags:
+  - equipment
+operationId: listEquipmentOwnershipTransfers
+summary: List legal ownership transfer workflow requests for one equipment asset
+description: Returns the durable ownership-transfer request ledger for a single asset. A transfer changes only the legal
+  owner fact after ordered sending-org, receiving-org, legal, and accounting signoff; the equipment tenant/org discriminator
+  stays immutable.
+security:
+- bearerAuth: []
+parameters:
+- $ref: '#/components/parameters/EquipmentId'
+responses:
+  '200':
+    description: Transfer requests, newest first.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/OwnershipTransferPage'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'

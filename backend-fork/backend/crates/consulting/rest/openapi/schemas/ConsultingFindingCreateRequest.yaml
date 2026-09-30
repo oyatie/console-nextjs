@@ -1,0 +1,1 @@
+{ type: object, additionalProperties: false, required: [diagnosticId, statement, evidenceId], properties: { diagnosticId: { $ref: '#/components/schemas/Uuid' }, statement: { type: string, minLength: 1 }, evidenceId: { $ref: '#/components/schemas/Uuid' }, documentId: { $ref: '#/components/schemas/Uuid', nullable: true } } }

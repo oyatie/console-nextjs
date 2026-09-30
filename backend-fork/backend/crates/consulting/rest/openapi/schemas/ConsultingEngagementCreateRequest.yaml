@@ -1,0 +1,4 @@
+type: object
+additionalProperties: false
+required: [customerId, title, idempotencyKey]
+properties: { customerId: { $ref: '#/components/schemas/Uuid' }, customerDocumentId: { $ref: '#/components/schemas/Uuid', nullable: true }, ontologyInstanceId: { $ref: '#/components/schemas/Uuid', nullable: true }, title: { type: string, minLength: 1 }, idempotencyKey: { type: string, minLength: 1 } }

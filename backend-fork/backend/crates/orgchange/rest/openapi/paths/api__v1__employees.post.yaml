@@ -1,0 +1,39 @@
+tags:
+  - employees
+operationId: createEmployee
+summary: Create an employee and governed employment profile
+description: >-
+  HR directory managers only. Creates the stable employee identity, employment
+  profile, ONBOARD lifecycle event, and audit record atomically. Reusing an
+  idempotency key replays the same payload; a different payload conflicts.
+security:
+- bearerAuth: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/CreateEmployeeRequest'
+responses:
+  '201':
+    description: Employee created.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/EmployeeDetail'
+  '200':
+    description: Idempotent replay of the original employee create.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/EmployeeDetail'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '409':
+    $ref: '#/components/responses/Conflict'
+  '422':
+    $ref: '#/components/responses/ValidationError'

@@ -1,0 +1,6 @@
+type: string
+description: Triage state of an inbound inquiry in the internal inbox.
+enum:
+- NEW
+- CONTACTED
+- CLOSED

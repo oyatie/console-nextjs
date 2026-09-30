@@ -1,0 +1,14 @@
+      type: object
+      description: A fresh assertion of an EXISTING passkey, proving the caller currently possesses an authenticator (not
+        just a bearer token). The `ceremony_id` comes from a preceding `POST /api/v1/auth/passkey/login/start`; the `credential`
+        is the resulting WebAuthn assertion. Verified with user verification (UV) required and rejected unless the asserted
+        credential belongs to the authenticated caller.
+      required:
+      - ceremony_id
+      - credential
+      properties:
+        ceremony_id:
+          $ref: '#/components/schemas/Uuid'
+        credential:
+          type: object
+          additionalProperties: true

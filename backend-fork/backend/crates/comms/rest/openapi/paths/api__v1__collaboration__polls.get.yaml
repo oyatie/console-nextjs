@@ -1,0 +1,36 @@
+tags:
+  - collaboration
+operationId: listCollaborationPolls
+summary: List collaboration polls
+description: Returns open collaboration polls by default with aggregate option counts, caller vote state, target-scope
+  policy metadata, and source-object links. Anonymous polls expose aggregate results but still keep server audit lineage.
+security:
+- bearerAuth: []
+parameters:
+- name: status
+  in: query
+  required: false
+  schema:
+    $ref: '#/components/schemas/PollStatus'
+- name: limit
+  in: query
+  required: false
+  schema:
+    type: integer
+    format: int64
+    minimum: 1
+    maximum: 100
+    default: 30
+responses:
+  '200':
+    description: Polls visible to the caller.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/PollListResponse'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '422':
+    $ref: '#/components/responses/ValidationError'

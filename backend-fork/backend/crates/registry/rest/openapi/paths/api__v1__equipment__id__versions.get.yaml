@@ -1,0 +1,26 @@
+tags:
+  - equipment
+operationId: listEquipmentVersions
+summary: List the append-only version history of one equipment master row
+description: 'Generalized non-destructive versioning (BE-LC). Every equipment update captures the post-update content
+  as a new version (the pre-update content backfills version 1 on first capture). Read tier mirrors the equipment
+  detail read.'
+security:
+- bearerAuth: []
+parameters:
+- $ref: '#/components/parameters/EquipmentId'
+responses:
+  '200':
+    description: Version history, newest first.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/EquipmentVersionList'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '503':
+    description: JWT verification is not configured.

@@ -1,0 +1,52 @@
+{
+  "source": "console-notifications-rest",
+  "paths": {
+    "/api/v1/me/notification-policies": [
+      "get",
+      "put"
+    ],
+    "/api/v1/me/notification-policies/{id}": [
+      "delete"
+    ],
+    "/api/v1/me/notifications": [
+      "get"
+    ],
+    "/api/v1/me/notifications/by-object": [
+      "get"
+    ],
+    "/api/v1/me/notifications/read-all": [
+      "post"
+    ],
+    "/api/v1/me/notifications/summary": [
+      "get"
+    ],
+    "/api/v1/me/notifications/unread-count": [
+      "get"
+    ],
+    "/api/v1/me/notifications/{id}/read": [
+      "post"
+    ],
+    "/api/v1/me/notifications/{id}/unread": [
+      "post"
+    ]
+  },
+  "schemas": [
+    "NotificationCategoryCount",
+    "NotificationCountsSummary",
+    "NotificationLink",
+    "NotificationObjectGroup",
+    "NotificationObjectGroupPage",
+    "NotificationPage",
+    "NotificationPolicyList",
+    "NotificationPolicySummary",
+    "NotificationReadAllResponse",
+    "NotificationSummary",
+    "UnreadNotificationCountResponse",
+    "UpsertNotificationPolicyRequest"
+  ],
+  "external_schemas": [
+    "ErrorBody",
+    "Timestamp",
+    "Uuid"
+  ]
+}

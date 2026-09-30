@@ -1,0 +1,60 @@
+type: object
+required:
+- id
+- employee_id
+- event_type
+- to_status
+- effective_date
+- comment
+- signoffs
+- created_by
+- created_at
+properties:
+  id:
+    $ref: '#/components/schemas/Uuid'
+  employee_id:
+    $ref: '#/components/schemas/Uuid'
+  event_type:
+    type: string
+    enum:
+    - ONBOARD
+    - OFFBOARD
+    - TERMINATE
+    - TRANSFER
+  from_status:
+    type: string
+    nullable: true
+  to_status:
+    type: string
+    enum:
+    - ACTIVE
+    - EXITED
+    - UNKNOWN
+  from_company:
+    type: string
+    nullable: true
+  to_company:
+    type: string
+    nullable: true
+  from_org_unit:
+    type: string
+    nullable: true
+  to_org_unit:
+    type: string
+    nullable: true
+  from_position:
+    type: string
+    nullable: true
+  to_position:
+    type: string
+    nullable: true
+  effective_date:
+    type: string
+  comment:
+    type: string
+  signoffs:
+    $ref: '#/components/schemas/EmployeeLifecycleSignoffs'
+  created_by:
+    $ref: '#/components/schemas/Uuid'
+  created_at:
+    $ref: '#/components/schemas/Timestamp'

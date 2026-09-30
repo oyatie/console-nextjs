@@ -1,0 +1,33 @@
+# Longhorn values for the DARK ADR-0024 on-prem storage stage.
+# The current OCI guest keeps deploy/infra/local-path as its live default StorageClass.
+# This chart is only synced manually in the on-prem context.
+persistence:
+  # Do not let the Longhorn chart create its vendor-named `longhorn` default class.
+  # The console-owned contract is `console-pg-hot`, defined in manifests/.
+  createStorageClass: false
+  defaultClass: false
+  defaultFsType: ext4
+  defaultClassReplicaCount: 3
+  defaultDataLocality: disabled
+  reclaimPolicy: Retain
+  volumeBindingMode: WaitForFirstConsumer
+
+defaultSettings:
+  # Talos/on-prem activation should label eligible storage nodes and provide a
+  # durable writable disk path before syncing this DARK app.
+  createDefaultDiskLabeledNodes: true
+  defaultDataPath: /var/lib/longhorn
+  defaultDataLocality: disabled
+  # Keep replicas on separate nodes when possible; with three replicas this lane
+  # assumes at least three eligible storage nodes/failure domains.
+  replicaSoftAntiAffinity: false
+  storageMinimalAvailablePercentage: 25
+  storageReservedPercentageForDefaultDisk: 25
+
+csi:
+  # Keep the CSI control-plane HA shape aligned with the three-node storage
+  # assumption instead of relying on chart defaults hidden from review.
+  attacherReplicaCount: 3
+  provisionerReplicaCount: 3
+  resizerReplicaCount: 3
+  snapshotterReplicaCount: 3

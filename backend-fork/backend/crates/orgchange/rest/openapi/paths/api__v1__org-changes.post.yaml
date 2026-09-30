@@ -1,0 +1,48 @@
+tags:
+- org
+operationId: createOrgChange
+summary: Draft an org change (조직 개편 기안)
+description: Creates a DRAFT org-change request. Requires an Idempotency-Key; a replay of the same body under the
+  same key returns the existing request with 200, a different body under the same key conflicts. A revision may
+  supersede an existing request only when that request is REJECTED.
+security:
+- bearerAuth: []
+parameters:
+- name: Idempotency-Key
+  in: header
+  required: true
+  schema:
+    type: string
+    minLength: 16
+    maxLength: 200
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/CreateOrgChangeRequest'
+responses:
+  '200':
+    description: Idempotent replay of the existing request.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/OrgChangeDetail'
+  '201':
+    description: Draft created.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/OrgChangeDetail'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '409':
+    $ref: '#/components/responses/Conflict'
+  '422':
+    $ref: '#/components/responses/ValidationError'
+  '503':
+    $ref: '#/components/responses/ServiceUnavailable'

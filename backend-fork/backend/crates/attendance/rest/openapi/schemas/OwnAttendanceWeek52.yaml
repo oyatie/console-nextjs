@@ -1,0 +1,4 @@
+type: object
+additionalProperties: false
+required: [week_start, current_hours, projected_hours, tone]
+properties: { week_start: { type: string, format: date }, current_hours: { type: number }, projected_hours: { type: number }, tone: { type: string, enum: [OK, WARN, DANGER] }, acknowledged_at: { type: string, format: date-time, nullable: true } }

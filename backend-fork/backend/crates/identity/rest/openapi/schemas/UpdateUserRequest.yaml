@@ -1,0 +1,28 @@
+type: object
+properties:
+  display_name:
+    type: string
+  employee_id:
+    type:
+    - string
+    - 'null'
+    format: uuid
+  phone:
+    type:
+    - string
+    - 'null'
+  team:
+    $ref: '#/components/schemas/Team'
+  roles:
+    type: array
+    items:
+      type: string
+  branch_ids:
+    type: array
+    items:
+      $ref: '#/components/schemas/Uuid'
+  preview_acknowledged:
+    type: boolean
+    description: Required when `roles` or `branch_ids` is present; confirms the caller reviewed the policy assignment/account-scope preview.
+  preview_receipt_id:
+    $ref: '#/components/schemas/Uuid'

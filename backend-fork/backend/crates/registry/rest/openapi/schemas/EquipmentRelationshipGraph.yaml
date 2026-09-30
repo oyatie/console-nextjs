@@ -1,0 +1,13 @@
+type: object
+required:
+- nodes
+- edges
+properties:
+  nodes:
+    type: array
+    items:
+      $ref: '#/components/schemas/EquipmentGraphNode'
+  edges:
+    type: array
+    items:
+      $ref: '#/components/schemas/EquipmentGraphEdge'

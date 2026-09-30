@@ -1,0 +1,48 @@
+type: object
+required:
+- target_scope_type
+- title
+- question
+- options
+properties:
+  target_scope_type:
+    $ref: '#/components/schemas/CollaborationScopeType'
+  target_scope_ref:
+    type:
+    - string
+    - 'null'
+  title:
+    type: string
+    minLength: 1
+    maxLength: 160
+  question:
+    type: string
+    minLength: 1
+    maxLength: 1000
+  status:
+    $ref: '#/components/schemas/PollStatus'
+  anonymity:
+    $ref: '#/components/schemas/PollAnonymity'
+  allow_multiple:
+    type: boolean
+    default: false
+  closes_at:
+    oneOf:
+    - $ref: '#/components/schemas/Timestamp'
+    - type: 'null'
+  options:
+    type: array
+    minItems: 2
+    maxItems: 20
+    items:
+      type: string
+      minLength: 1
+      maxLength: 240
+  object_type:
+    type:
+    - string
+    - 'null'
+  object_id:
+    oneOf:
+    - $ref: '#/components/schemas/Uuid'
+    - type: 'null'

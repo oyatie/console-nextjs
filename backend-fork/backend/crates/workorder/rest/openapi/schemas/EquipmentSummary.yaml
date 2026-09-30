@@ -1,0 +1,28 @@
+type: object
+required:
+- id
+- equipment_no
+- management_no
+- model
+- status
+- specification
+- ton_text
+properties:
+  id:
+    $ref: '#/components/schemas/Uuid'
+  equipment_no:
+    type: string
+  management_no:
+    type:
+    - string
+    - 'null'
+  model:
+    type:
+    - string
+    - 'null'
+  status:
+    type: string
+  specification:
+    type: string
+  ton_text:
+    type: string

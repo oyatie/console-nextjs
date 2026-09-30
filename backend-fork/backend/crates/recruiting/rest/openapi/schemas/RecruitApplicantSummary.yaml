@@ -1,0 +1,53 @@
+type: object
+description: Non-PII pipeline projection for posting detail. Profile lines, source document, reject note, and the assessment
+  signature are served only by the audited applicant detail read.
+required:
+- id
+- posting_id
+- applicant_no
+- name
+- stage
+- hold
+- doc_requested
+- rejected_at
+- reject_reason
+- assessed
+- hired_employee_id
+- created_at
+- updated_at
+properties:
+  id:
+    $ref: '#/components/schemas/Uuid'
+  posting_id:
+    $ref: '#/components/schemas/Uuid'
+  applicant_no:
+    type: string
+    description: Per-organization display code, APL-0001.
+  name:
+    type: string
+  stage:
+    $ref: '#/components/schemas/RecruitApplicantStage'
+  hold:
+    type: boolean
+  doc_requested:
+    type: boolean
+  rejected_at:
+    type:
+    - string
+    - 'null'
+    format: date-time
+  reject_reason:
+    oneOf:
+    - $ref: '#/components/schemas/RecruitRejectReason'
+    - type: 'null'
+  assessed:
+    type: boolean
+    description: Existence flag only; the score stays behind the audited applicant detail read.
+  hired_employee_id:
+    oneOf:
+    - $ref: '#/components/schemas/Uuid'
+    - type: 'null'
+  created_at:
+    $ref: '#/components/schemas/Timestamp'
+  updated_at:
+    $ref: '#/components/schemas/Timestamp'

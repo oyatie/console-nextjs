@@ -1,0 +1,71 @@
+# DARK ApplicationSet federation artifact.
+# Do not apply or reference this from deploy/argocd/root.yaml until an explicit
+# founder/operator-gated activation card replaces the current single-cluster root.
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: console-root-federation
+  namespace: argocd
+  labels:
+    console.io/federation-stage: dark
+    console.nousresearch.com/dark-stage: "true"
+  annotations:
+    console.nousresearch.com/activation-boundary: "DARK: not referenced by deploy/argocd/root.yaml"
+spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
+  generators:
+    # Primary clusters render the same app-of-apps path used by today's
+    # hand-applied root Application, preserving the one-cluster behavior.
+    - clusters:
+        selector:
+          matchLabels:
+            argocd.argoproj.io/secret-type: cluster
+            console.io/federation: enabled
+            console.io/environment: prod
+            console.io/dr-role: primary
+        values:
+          syncClass: primary
+          rootPath: deploy/argocd/apps
+    # Warm-standby clusters render only the DARK standby app group. That path is
+    # intentionally separate from the current write-active production overlay.
+    - clusters:
+        selector:
+          matchLabels:
+            argocd.argoproj.io/secret-type: cluster
+            console.io/federation: enabled
+            console.io/environment: prod
+            console.io/dr-role: warm-standby
+        values:
+          syncClass: warm-standby
+          rootPath: deploy/apps/appset-federation/app-groups/warm-standby
+  template:
+    metadata:
+      name: 'maintenance-root-{{ .nameNormalized }}'
+      namespace: argocd
+      annotations:
+        argocd.argoproj.io/sync-wave: "-10"
+        console.nousresearch.com/dark-stage: "true"
+      labels:
+        console.io/federation-stage: dark
+        console.io/site: '{{index .metadata.labels "console.io/site"}}'
+        console.io/dr-role: '{{index .metadata.labels "console.io/dr-role"}}'
+        console.io/residency: '{{index .metadata.labels "console.io/residency"}}'
+        console.io/sync-class: '{{.values.syncClass}}'
+    spec:
+      project: console
+      source:
+        repoURL: https://github.com/jason931225/console.git
+        targetRevision: main
+        path: '{{.values.rootPath}}'
+        directory:
+          recurse: false
+      destination:
+        server: '{{.server}}'
+        namespace: argocd
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - ApplyOutOfSyncOnly=true

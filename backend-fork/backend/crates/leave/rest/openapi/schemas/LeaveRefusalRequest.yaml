@@ -1,0 +1,19 @@
+type: object
+description: A 노무수령거부 notice served after a round-2 promotion.
+required:
+- branch_id
+- target_user_id
+- target_employee_id
+- target_name
+properties:
+  branch_id:
+    $ref: '#/components/schemas/Uuid'
+  target_user_id:
+    $ref: '#/components/schemas/Uuid'
+  target_employee_id:
+    $ref: '#/components/schemas/Uuid'
+  target_name:
+    type: string
+  unused_days:
+    type: number
+    format: double

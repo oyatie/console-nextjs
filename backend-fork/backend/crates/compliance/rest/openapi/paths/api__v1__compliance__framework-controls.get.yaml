@@ -1,0 +1,17 @@
+tags: [Compliance]
+operationId: listComplianceFrameworkControls
+summary: List controls for one framework
+security: [{ bearerAuth: [] }]
+parameters:
+- { name: framework_id, in: query, required: true, schema: { $ref: '#/components/schemas/Uuid' } }
+- { name: q, in: query, required: false, schema: { type: string } }
+- { name: status, in: query, required: false, schema: { $ref: '#/components/schemas/ControlStatus' } }
+- { name: limit, in: query, required: false, schema: { type: integer, format: int64, minimum: 1, maximum: 1000, default: 100 } }
+- { name: offset, in: query, required: false, schema: { type: integer, format: int64, minimum: 0, default: 0 } }
+responses:
+  '200': { description: Paged controls for the framework., content: { application/json: { schema: { $ref: '#/components/schemas/ComplianceControlPage' } } } }
+  '401': { $ref: '#/components/responses/Unauthorized' }
+  '403': { $ref: '#/components/responses/Forbidden' }
+  '422': { $ref: '#/components/responses/ValidationError' }
+  '500': { $ref: '#/components/responses/InternalServerError' }
+  '503': { $ref: '#/components/responses/ServiceUnavailable' }

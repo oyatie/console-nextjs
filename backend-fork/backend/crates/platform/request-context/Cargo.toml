@@ -1,0 +1,27 @@
+[package]
+name = "console-platform-request-context"
+version = "0.1.0"
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish = false
+
+[dependencies]
+console-kernel-core = { workspace = true }
+console-platform-auth = { path = "../auth" }
+console-platform-authz = { path = "../authz" }
+console-platform-db = { path = "../db" }
+console-platform-group = { path = "../group" }
+axum = { workspace = true }
+http = { workspace = true }
+ipnet = { workspace = true }
+sqlx = { workspace = true }
+thiserror = { workspace = true }
+tokio = { workspace = true }
+uuid = { workspace = true }
+
+[dev-dependencies]
+tower = { workspace = true }
+
+[lints]
+workspace = true

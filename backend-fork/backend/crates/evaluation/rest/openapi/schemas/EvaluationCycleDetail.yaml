@@ -1,0 +1,23 @@
+type: object
+additionalProperties: false
+required: [id, name, kind, period_label, due_date, stage, subjects_total, manager_submitted, self_submitted, calibrated, finalized, created_at, opened_at, calibration_started_at, finalized_at, archived_at, created_by, progress_by_unit, subjects]
+properties:
+  id: { $ref: '#/components/schemas/Uuid' }
+  name: { type: string }
+  kind: { $ref: '#/components/schemas/EvaluationCycleKind' }
+  period_label: { type: string }
+  due_date: { $ref: '#/components/schemas/Date' }
+  stage: { $ref: '#/components/schemas/EvaluationCycleStage' }
+  subjects_total: { type: integer, format: int64 }
+  manager_submitted: { type: integer, format: int64 }
+  self_submitted: { type: integer, format: int64 }
+  calibrated: { type: integer, format: int64 }
+  finalized: { type: integer, format: int64 }
+  created_at: { $ref: '#/components/schemas/Timestamp' }
+  opened_at: { oneOf: [{ $ref: '#/components/schemas/Timestamp' }, { type: 'null' }] }
+  calibration_started_at: { oneOf: [{ $ref: '#/components/schemas/Timestamp' }, { type: 'null' }] }
+  finalized_at: { oneOf: [{ $ref: '#/components/schemas/Timestamp' }, { type: 'null' }] }
+  archived_at: { oneOf: [{ $ref: '#/components/schemas/Timestamp' }, { type: 'null' }] }
+  created_by: { $ref: '#/components/schemas/Uuid' }
+  progress_by_unit: { type: array, items: { $ref: '#/components/schemas/EvaluationUnitProgress' } }
+  subjects: { type: array, items: { $ref: '#/components/schemas/EvaluationSubjectSummary' } }

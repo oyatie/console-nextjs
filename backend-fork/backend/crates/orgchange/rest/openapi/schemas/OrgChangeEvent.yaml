@@ -1,0 +1,20 @@
+type: object
+required:
+- at
+- actor
+- action
+properties:
+  at:
+    $ref: '#/components/schemas/Timestamp'
+  actor:
+    $ref: '#/components/schemas/Uuid'
+  action:
+    type: string
+  fromStatus:
+    type: string
+    description: An OrgChangeStatus wire value.
+  toStatus:
+    type: string
+    description: An OrgChangeStatus wire value.
+  reason:
+    type: string

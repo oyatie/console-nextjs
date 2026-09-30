@@ -1,0 +1,11 @@
+tags: [attendance]
+operationId: getMyAttendanceWeek52
+summary: Get the signed principal's linked employee Week-52 projection
+security: [{ bearerAuth: [] }]
+parameters:
+  - { name: week_start, in: query, required: true, schema: { type: string, format: date }, description: ISO week Monday. }
+responses:
+  '200': { description: "Linked employee Week-52 availability and projection", content: { application/json: { schema: { $ref: '#/components/schemas/OwnAttendanceWeek52Response' } } } }
+  '400': { $ref: '#/components/responses/BadRequest' }
+  '401': { $ref: '#/components/responses/Unauthorized' }
+  '422': { $ref: '#/components/responses/ValidationError' }

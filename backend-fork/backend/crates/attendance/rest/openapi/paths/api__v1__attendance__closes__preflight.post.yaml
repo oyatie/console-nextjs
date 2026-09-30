@@ -1,0 +1,10 @@
+tags: [attendance]
+operationId: preflightAttendanceClose
+summary: Calculate close gates without writing a close
+security: [{ bearerAuth: [] }]
+requestBody: { required: true, content: { application/json: { schema: { $ref: '#/components/schemas/AttendanceCloseRequest' } } } }
+responses:
+  '200': { description: Server-derived close readiness, content: { application/json: { schema: { $ref: '#/components/schemas/AttendanceClosePreflight' } } } }
+  '401': { $ref: '#/components/responses/Unauthorized' }
+  '403': { $ref: '#/components/responses/Forbidden' }
+  '422': { $ref: '#/components/responses/ValidationError' }

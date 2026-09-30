@@ -1,0 +1,124 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n            SELECT id, user_id, branch_id, status,\n                   granted_at, suspended_at, resumed_at, withdrawn_at, updated_at\n            FROM location_consents\n            WHERE user_id = $1\n            ",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid",
+        "origin": {
+          "Table": {
+            "table": "location_consents",
+            "name": "id"
+          }
+        }
+      },
+      {
+        "ordinal": 1,
+        "name": "user_id",
+        "type_info": "Uuid",
+        "origin": {
+          "Table": {
+            "table": "location_consents",
+            "name": "user_id"
+          }
+        }
+      },
+      {
+        "ordinal": 2,
+        "name": "branch_id",
+        "type_info": "Uuid",
+        "origin": {
+          "Table": {
+            "table": "location_consents",
+            "name": "branch_id"
+          }
+        }
+      },
+      {
+        "ordinal": 3,
+        "name": "status",
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "location_consents",
+            "name": "status"
+          }
+        }
+      },
+      {
+        "ordinal": 4,
+        "name": "granted_at",
+        "type_info": "Timestamptz",
+        "origin": {
+          "Table": {
+            "table": "location_consents",
+            "name": "granted_at"
+          }
+        }
+      },
+      {
+        "ordinal": 5,
+        "name": "suspended_at",
+        "type_info": "Timestamptz",
+        "origin": {
+          "Table": {
+            "table": "location_consents",
+            "name": "suspended_at"
+          }
+        }
+      },
+      {
+        "ordinal": 6,
+        "name": "resumed_at",
+        "type_info": "Timestamptz",
+        "origin": {
+          "Table": {
+            "table": "location_consents",
+            "name": "resumed_at"
+          }
+        }
+      },
+      {
+        "ordinal": 7,
+        "name": "withdrawn_at",
+        "type_info": "Timestamptz",
+        "origin": {
+          "Table": {
+            "table": "location_consents",
+            "name": "withdrawn_at"
+          }
+        }
+      },
+      {
+        "ordinal": 8,
+        "name": "updated_at",
+        "type_info": "Timestamptz",
+        "origin": {
+          "Table": {
+            "table": "location_consents",
+            "name": "updated_at"
+          }
+        }
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      false,
+      true,
+      true,
+      true,
+      true,
+      false
+    ]
+  },
+  "hash": "a1008f06ebf778c9ad52aad320c8e784e60dbc5f5f6c1a42d57338eefb85fb56"
+}

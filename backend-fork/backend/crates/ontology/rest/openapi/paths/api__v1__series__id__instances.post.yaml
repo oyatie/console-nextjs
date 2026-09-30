@@ -1,0 +1,38 @@
+tags:
+  - series
+operationId: attachSeriesInstance
+summary: Attach an instance to an existing series
+description: 'Attaches a (kind, id) instance to the series. The series must exist for the caller and the instance
+  must resolve for the caller (both deny-by-omission -> 404). An object already in a series is rejected with 409
+  (the not-yet-in-a-series promotion invariant). Audited.'
+security:
+- bearerAuth: []
+parameters:
+- name: id
+  in: path
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/AttachInstanceRequest'
+responses:
+  '200':
+    description: The instance was attached.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/AttachInstanceAck'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '409':
+    $ref: '#/components/responses/Conflict'
+  '422':
+    $ref: '#/components/responses/ValidationError'

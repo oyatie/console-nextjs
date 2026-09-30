@@ -1,0 +1,12 @@
+type: object
+required:
+- submitted
+properties:
+  submitted:
+    type: boolean
+  selected_option_ids:
+    type:
+    - array
+    - 'null'
+    items:
+      $ref: '#/components/schemas/Uuid'

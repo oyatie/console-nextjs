@@ -1,0 +1,6 @@
+type: object
+required: [items, stats]
+properties:
+  items: { type: array, items: { $ref: '#/components/schemas/DispatchQueueItem' } }
+  next_after: { type: string }
+  stats: { $ref: '#/components/schemas/DispatchQueueStats' }

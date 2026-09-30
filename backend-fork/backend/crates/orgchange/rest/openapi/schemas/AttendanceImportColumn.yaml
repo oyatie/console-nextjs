@@ -1,0 +1,30 @@
+type: object
+required:
+- source_header
+- normalized_header
+- classification
+- preview_allowed
+properties:
+  source_header:
+    type: string
+  normalized_header:
+    type: string
+  target:
+    type: string
+    nullable: true
+    enum:
+    - employee_number
+    - employee_name
+    - branch_name
+    - work_date
+    - check_in_at
+    - check_out_at
+    - minutes_worked
+  classification:
+    type: string
+    enum:
+    - canonical
+    - retained
+    - restricted
+  preview_allowed:
+    type: boolean

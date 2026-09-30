@@ -1,0 +1,7 @@
+type: object
+required:
+- url
+properties:
+  url:
+    type: string
+    description: A short-lived presigned GET URL for the attachment bytes.

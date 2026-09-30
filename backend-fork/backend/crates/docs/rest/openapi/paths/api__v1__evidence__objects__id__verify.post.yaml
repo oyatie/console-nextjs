@@ -1,0 +1,21 @@
+tags: [Evidence]
+operationId: verifyEvidenceObject
+security:
+  - bearerAuth: []
+summary: Recompute WORM fixity for every copy; audited.
+parameters: [ { name: id, in: path, required: true, schema: { type: string, format: uuid } } ]
+responses:
+  '200': { description: Fixity report (outcome + per-copy verdict)., content: { application/json: { schema: { $ref: '#/components/schemas/EvidenceVerifyReport' } } } }
+  '401': { $ref: '#/components/responses/Unauthorized' }
+  '403': { $ref: '#/components/responses/Forbidden' }
+  '404': { $ref: '#/components/responses/NotFound' }
+  '503':
+    description: >-
+      Fixity storage is unavailable only when ErrorBody.error.code is
+      evidence_store_unavailable (for example, storage is not configured).
+      Generic auth or platform service failures also use HTTP 503 but retain
+      the generic unavailable code and must remain retryable rather than
+      being presented as an evidence-storage condition.
+    content:
+      application/json:
+        schema: { $ref: '#/components/schemas/ErrorBody' }

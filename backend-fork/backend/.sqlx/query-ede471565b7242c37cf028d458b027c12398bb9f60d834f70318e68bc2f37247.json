@@ -1,0 +1,88 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n        SELECT a.work_order_id     AS \"work_order_id!\",\n               w.site_id           AS \"site_id!\",\n               w.branch_id         AS \"wo_branch_id!\",\n               s.latitude          AS \"latitude!\",\n               s.longitude         AS \"longitude!\",\n               s.geofence_radius_m AS \"geofence_radius_m\"\n        FROM work_order_assignments a\n        JOIN work_orders w    ON w.id = a.work_order_id\n        JOIN registry_sites s ON s.id = w.site_id\n        WHERE a.mechanic_id = $1\n          AND w.status NOT IN ('FINAL_COMPLETED', 'CANCELLED', 'ARCHIVED', 'REJECTED')\n          AND s.latitude IS NOT NULL\n          AND s.longitude IS NOT NULL\n        ",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "work_order_id!",
+        "type_info": "Uuid",
+        "origin": {
+          "Table": {
+            "table": "work_order_assignments",
+            "name": "work_order_id"
+          }
+        }
+      },
+      {
+        "ordinal": 1,
+        "name": "site_id!",
+        "type_info": "Uuid",
+        "origin": {
+          "Table": {
+            "table": "work_orders",
+            "name": "site_id"
+          }
+        }
+      },
+      {
+        "ordinal": 2,
+        "name": "wo_branch_id!",
+        "type_info": "Uuid",
+        "origin": {
+          "Table": {
+            "table": "work_orders",
+            "name": "branch_id"
+          }
+        }
+      },
+      {
+        "ordinal": 3,
+        "name": "latitude!",
+        "type_info": "Float8",
+        "origin": {
+          "Table": {
+            "table": "registry_sites",
+            "name": "latitude"
+          }
+        }
+      },
+      {
+        "ordinal": 4,
+        "name": "longitude!",
+        "type_info": "Float8",
+        "origin": {
+          "Table": {
+            "table": "registry_sites",
+            "name": "longitude"
+          }
+        }
+      },
+      {
+        "ordinal": 5,
+        "name": "geofence_radius_m",
+        "type_info": "Float8",
+        "origin": {
+          "Table": {
+            "table": "registry_sites",
+            "name": "geofence_radius_m"
+          }
+        }
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      true,
+      true,
+      true
+    ]
+  },
+  "hash": "ede471565b7242c37cf028d458b027c12398bb9f60d834f70318e68bc2f37247"
+}

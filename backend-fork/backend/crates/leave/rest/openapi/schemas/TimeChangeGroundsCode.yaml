@@ -1,0 +1,6 @@
+type: string
+enum:
+- branch_coverage_shortfall
+description: >-
+  Closed set of system-judged §60⑤ grounds. Free-text manager narrative is
+  never a grounds code.

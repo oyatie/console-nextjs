@@ -1,0 +1,39 @@
+# Talos machine-config patch for the OCI Always Free single-node context.
+# Applied on top of `talosctl gen config` output:
+#   talosctl gen config maintenance https://<NODE_PUBLIC_IP>:6443 \
+#     --config-patch-control-plane @deploy/talos/oci-guest/controlplane.patch.yaml
+#
+# Single OCI free-tier node => workloads must schedule on the control plane.
+cluster:
+  allowSchedulingOnControlPlanes: true
+  # Argo Rollouts/CNPG/cert-manager are plain workloads; nothing cluster-side
+  # to add here. Pod CIDRs left at Talos defaults.
+
+machine:
+  # OCI exposes one paravirtualized boot volume. Confirm the device with
+  # `talosctl -n <ip> disks --insecure` before applying; on A1 it is usually
+  # /dev/sda. A selector avoids hard-coding when the name differs.
+  install:
+    disk: /dev/sda
+    wipe: false
+  # OCI VNICs default to MTU 9000 (jumbo). The public-IP path PMTUD-blackholes
+  # oversized frames (OCI security lists drop ICMP frag-needed), which breaks
+  # ALL external traffic to the node — talosctl, kubectl, and app responses over
+  # Cloudflare. Pin eth0 to 1500 so the node never emits frames the path can't
+  # carry. Without this the cluster bootstraps but is unreachable from outside.
+  network:
+    interfaces:
+      - interface: eth0
+        mtu: 1500
+        dhcp: true
+  # Oracle's link-local NTP — accurate time is required for TLS, JWT (ES256
+  # exp/iat) and CNPG WAL ordering.
+  time:
+    servers:
+      - 169.254.169.254
+  # Talos cluster discovery's public registry is unnecessary for one node and
+  # is a needless external dependency; keep only KubeSpan-less local discovery.
+  features:
+    hostDNS:
+      enabled: true
+      forwardKubeDNSToHost: true

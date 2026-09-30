@@ -1,0 +1,8 @@
+type: object
+required:
+- accepted
+properties:
+  accepted:
+    type: boolean
+    description: Always true. The signup was accepted and a one-time code was sent; the response intentionally carries
+      no account-existence or token information.

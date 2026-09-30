@@ -1,0 +1,11 @@
+type: object
+required:
+- ticket
+- comments
+properties:
+  ticket:
+    $ref: '#/components/schemas/SupportTicketSummary'
+  comments:
+    type: array
+    items:
+      $ref: '#/components/schemas/SupportTicketComment'

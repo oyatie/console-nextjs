@@ -1,0 +1,39 @@
+# Dark Argo CD Application for ADR-0024 on-prem VIP ingress.
+# Do not move this file under deploy/argocd/apps/ until a later cutover lane
+# intentionally wires the on-prem ingress path into the live app-of-apps root.
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: vip-ingress-metallb-onprem
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1" # VIP provider must exist before an on-prem Traefik LoadBalancer sync.
+    console.nousresearch.com/dark-stage: "true"
+    console.nousresearch.com/context: "onprem"
+spec:
+  project: console-onprem-vip-ingress
+  sources:
+    - repoURL: https://metallb.github.io/metallb
+      chart: metallb
+      targetRevision: 0.16.1 # renovate: datasource=helm depName=metallb registryUrl=https://metallb.github.io/metallb
+      helm:
+        releaseName: metallb
+        valueFiles:
+          - $values/deploy/apps/vip-ingress/values.yaml
+    - repoURL: https://github.com/jason931225/console.git
+      targetRevision: main
+      ref: values
+    - repoURL: https://github.com/jason931225/console.git
+      targetRevision: main
+      path: deploy/apps/vip-ingress/manifests
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: metallb-system
+  syncPolicy:
+    # No automated sync by design: applying this Application should stage Argo
+    # visibility only. A later operator-approved cutover must edit the placeholders,
+    # sync manually, and then separately wire the on-prem Traefik app.
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true
+      - SkipDryRunOnMissingResource=true

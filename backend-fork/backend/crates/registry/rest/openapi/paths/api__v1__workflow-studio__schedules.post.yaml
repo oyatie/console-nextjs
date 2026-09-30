@@ -1,0 +1,29 @@
+tags:
+  - workflow-studio
+operationId: createWorkflowSchedule
+summary: Create a workflow cron schedule
+description: cron_expr is evaluated in the schedule's IANA timezone (default Asia/Seoul). The background poller starts
+  one idempotent run per fire and advances next_run_at.
+security:
+- bearerAuth: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/CreateWorkflowScheduleRequest'
+responses:
+  '200':
+    description: Created workflow schedule.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/WorkflowScheduleResponse'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '422':
+    $ref: '#/components/responses/ValidationError'

@@ -1,0 +1,10 @@
+type: object
+additionalProperties: false
+required: [id, title, metric_kind, target_label, weight_pct, sort_order]
+properties:
+  id: { $ref: '#/components/schemas/Uuid' }
+  title: { type: string }
+  metric_kind: { $ref: '#/components/schemas/EvaluationMetricKind' }
+  target_label: { type: string }
+  weight_pct: { type: integer, format: int16 }
+  sort_order: { type: integer, format: int32 }

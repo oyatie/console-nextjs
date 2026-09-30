@@ -1,0 +1,16 @@
+[package]
+name = "console-inspection-application"
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+console-inspection-domain = { path = "../domain" }
+console-kernel-core.workspace = true
+serde.workspace = true
+time.workspace = true
+uuid.workspace = true
+
+[lints]
+workspace = true

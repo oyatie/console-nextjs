@@ -1,0 +1,26 @@
+tags:
+  - workflow-studio
+operationId: listWorkflowRunLog
+summary: List workflow automation run-log entries
+description: Returns the most recent durable runtime rows for this workflow definition, scoped by tenant RLS, for the Workflow Studio timeline.
+security:
+- bearerAuth: []
+parameters:
+- name: id
+  in: path
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+responses:
+  '200':
+    description: Workflow runtime run log.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/WorkflowRunLogResponse'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'

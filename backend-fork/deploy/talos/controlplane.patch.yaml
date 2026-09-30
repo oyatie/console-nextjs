@@ -1,0 +1,10 @@
+# Deprecated guard file.
+#
+# The single-node OCI free-tier patch moved to:
+#   deploy/talos/oci-guest/controlplane.patch.yaml
+#
+# Keep this root path intentionally empty so a generic control-plane render can
+# no longer accidentally enable control-plane scheduling for the on-prem HA
+# context. On-prem machineconfigs are rendered through
+# deploy/talos/on-prem/render-machineconfigs.py and must not set
+# the single-node control-plane scheduling override.

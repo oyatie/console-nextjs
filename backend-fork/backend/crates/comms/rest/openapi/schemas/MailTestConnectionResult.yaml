@@ -1,0 +1,11 @@
+type: object
+required:
+- ok
+properties:
+  ok:
+    type: boolean
+  error_code:
+    type:
+    - string
+    - 'null'
+    description: A stable, non-secret token when the connection failed.

@@ -1,0 +1,25 @@
+[package]
+name = "console-governance-adapter-postgres"
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+console-governance-application = { path = "../application" }
+console-governance-domain = { path = "../domain" }
+console-kernel-core.workspace = true
+console-platform-authz.workspace = true
+console-platform-db.workspace = true
+console-platform-request-context.workspace = true
+serde_json.workspace = true
+sqlx.workspace = true
+thiserror.workspace = true
+time.workspace = true
+uuid.workspace = true
+
+[dev-dependencies]
+tokio.workspace = true
+
+[lints]
+workspace = true

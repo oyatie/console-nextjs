@@ -1,0 +1,14 @@
+type: object
+additionalProperties: false
+required:
+- start_date
+- end_date
+properties:
+  start_date:
+    type: string
+    format: date
+    description: Inclusive alternate 시기 start (YYYY-MM-DD); must differ from the original span.
+  end_date:
+    type: string
+    format: date
+    description: Inclusive alternate 시기 end (YYYY-MM-DD); must differ from the original span.

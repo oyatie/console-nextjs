@@ -1,0 +1,17 @@
+tags:
+  - auth
+summary: Start usernameless passkey login
+description: Starts a discoverable (usernameless) authentication ceremony. No request body is required; the challenge
+  has an empty allowCredentials list and the user is resolved from the asserted credential at finish. Rate-limited per
+  client.
+responses:
+  '200':
+    description: Authentication ceremony challenge.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/PasskeyLoginStartResponse'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '429':
+    $ref: '#/components/responses/TooManyRequests'

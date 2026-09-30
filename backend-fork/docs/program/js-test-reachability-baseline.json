@@ -1,0 +1,6 @@
+{
+  "schema_version": 1,
+  "notes": "Deferred .test.mjs suites not exact-wired from a gating CI run step. Basename-only hits do not count. Growth of unexplained dark suites fails the ratchet. Stale deferred entries that become exact-wired must be removed.",
+  "why_the_list_is_empty": "1de15aba7 (ci(p1)) drove JS dark suites to zero but did not clear this file, so the ratchet was red on the branch from that commit onward: three DECORATIONS (check-compliance-catalog-openapi-contract, check-consulting-conflict-contract, check-evaluation-openapi-contract were deleted with the pivot that removed their subject, so they are no longer candidates at all) and three STALE entries (check-foundation-gates, check-non-oci-mail-imessage-relay and console/run-verification-queue became exact-wired through check:ci-preflight in that same commit). An empty list is the enforcing state: every candidate suite is exact-wired from a gating CI run step, and the next one that is not must either be wired or be named here with a reason.",
+  "deferred_no_npm_script": []
+}

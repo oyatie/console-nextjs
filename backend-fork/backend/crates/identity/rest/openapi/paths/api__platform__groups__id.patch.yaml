@@ -1,0 +1,38 @@
+tags:
+  - platform
+operationId: updatePlatformGroup
+summary: Update a platform group identity or lifecycle status
+description: Updates group slug, name, and/or status. Platform token and GroupManage authority required.
+security:
+- bearerAuth: []
+parameters:
+- name: id
+  in: path
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/UpdatePlatformGroupRequest'
+responses:
+  '200':
+    description: The updated platform group.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/PlatformGroup'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '409':
+    $ref: '#/components/responses/Conflict'
+  '422':
+    $ref: '#/components/responses/ValidationError'
+  '503':
+    $ref: '#/components/responses/ServiceUnavailable'

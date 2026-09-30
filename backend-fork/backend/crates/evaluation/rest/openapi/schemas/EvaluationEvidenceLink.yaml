@@ -1,0 +1,9 @@
+type: object
+additionalProperties: false
+required: [id, object_kind, object_ref, label, sort_order]
+properties:
+  id: { $ref: '#/components/schemas/Uuid' }
+  object_kind: { $ref: '#/components/schemas/EvaluationEvidenceKind' }
+  object_ref: { type: string }
+  label: { type: string }
+  sort_order: { type: integer, format: int32 }

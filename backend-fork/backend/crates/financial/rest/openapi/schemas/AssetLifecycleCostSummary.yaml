@@ -1,0 +1,86 @@
+type: object
+description: Per-asset lifecycle / total-cost-of-ownership rollup. outsource_unlinked_won is read-only and never summed
+  into tco_won.
+required:
+- equipment_id
+- equipment_no
+- status
+- acquisition_source
+- maintenance_total_won
+- manual_total_won
+- purchase_total_won
+- entry_count
+- residual_value_won
+- tco_won
+- timeline
+properties:
+  equipment_id:
+    $ref: '#/components/schemas/Uuid'
+  equipment_no:
+    type: string
+  status:
+    type: string
+  acquisition_cost_won:
+    type:
+    - integer
+    - 'null'
+    format: int64
+  acquisition_date:
+    type:
+    - string
+    - 'null'
+    format: date
+  acquisition_source:
+    $ref: '#/components/schemas/AcquisitionBasis'
+  maintenance_total_won:
+    type: integer
+    format: int64
+  manual_total_won:
+    type: integer
+    format: int64
+  purchase_total_won:
+    type: integer
+    format: int64
+  entry_count:
+    type: integer
+    format: int64
+  outsource_unlinked_won:
+    type:
+    - integer
+    - 'null'
+    format: int64
+  residual_value_won:
+    type: integer
+    format: int64
+  sale_price_won:
+    type:
+    - integer
+    - 'null'
+    format: int64
+  sold_at:
+    type:
+    - string
+    - 'null'
+    format: date
+  gross_margin_won:
+    type:
+    - integer
+    - 'null'
+    format: int64
+  tco_won:
+    type: integer
+    format: int64
+  cost_per_month_won:
+    type:
+    - integer
+    - 'null'
+    format: int64
+  cost_per_hour_won:
+    type:
+    - integer
+    - 'null'
+    format: int64
+  timeline:
+    type: array
+    items:
+      $ref: "#/components/schemas/CostLedgerEntrySummary"

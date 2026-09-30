@@ -1,0 +1,23 @@
+[package]
+name = "console-finance-gl-adapter-postgres"
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+console-finance-gl-application = { path = "../application" }
+console-finance-gl-domain = { path = "../domain" }
+console-kernel-core.workspace = true
+console-platform-db.workspace = true
+console-platform-request-context.workspace = true
+sqlx.workspace = true
+thiserror.workspace = true
+time.workspace = true
+uuid.workspace = true
+
+[dev-dependencies]
+tokio.workspace = true
+
+[lints]
+workspace = true

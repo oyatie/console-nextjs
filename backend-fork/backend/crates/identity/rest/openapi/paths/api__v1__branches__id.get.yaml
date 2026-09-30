@@ -1,0 +1,29 @@
+tags:
+  - branches
+operationId: getBranch
+summary: Fetch one branch's summary for an org-unit pin panel
+description: 'Returns a single branch summary using the same non-sensitive read gate as the branch list; org-RLS scopes
+  it to the caller''s org. No audit — org-structure metadata, not PII. A branch outside the caller''s org returns 404.
+
+  '
+security:
+- bearerAuth: []
+parameters:
+- name: id
+  in: path
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+responses:
+  '200':
+    description: The branch summary.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/BranchSummary'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'

@@ -1,0 +1,24 @@
+tags:
+  - mail
+operationId: getMailAccount
+summary: Get the tenant's configured webmail account (write-only password)
+description: Returns the configured corporate mailbox for the caller's tenant. The response NEVER contains a password;
+  the has_smtp_password / has_imap_password booleans signal whether a credential is on file. Requires the MailAccountManage
+  feature.
+security:
+- bearerAuth: []
+responses:
+  '200':
+    description: The configured mailbox.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/MailAccountView'
+  '204':
+    description: No mailbox is configured for this tenant.
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '503':
+    $ref: '#/components/responses/MailUnavailable'

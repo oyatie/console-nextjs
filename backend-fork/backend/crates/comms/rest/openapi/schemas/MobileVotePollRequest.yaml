@@ -1,0 +1,13 @@
+type: object
+required:
+- selected_option_ids
+- step_up
+properties:
+  selected_option_ids:
+    type: array
+    minItems: 1
+    maxItems: 20
+    items:
+      $ref: '#/components/schemas/Uuid'
+  step_up:
+    $ref: '#/components/schemas/MobilePasskeyStepUpEnvelope'

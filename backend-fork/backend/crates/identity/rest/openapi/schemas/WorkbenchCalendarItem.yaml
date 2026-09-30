@@ -1,0 +1,19 @@
+type: object
+additionalProperties: false
+required:
+- id
+- title
+- starts_at
+- ends_at
+- target
+properties:
+  id:
+    $ref: '#/components/schemas/Uuid'
+  title:
+    type: string
+  starts_at:
+    $ref: '#/components/schemas/Timestamp'
+  ends_at:
+    $ref: '#/components/schemas/Timestamp'
+  target:
+    $ref: '#/components/schemas/WorkbenchTarget'

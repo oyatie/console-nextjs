@@ -1,0 +1,19 @@
+tags: [attendance]
+operationId: listAttendanceSubstitutionCandidates
+summary: List eligible substitute candidates for one covered shift
+security: [{ bearerAuth: [] }]
+parameters:
+  - { name: branch_id, in: query, required: true, schema: { $ref: '#/components/schemas/Uuid' }, description: Required even for organization-wide principals. }
+  - { name: covered_employee_id, in: query, required: true, schema: { $ref: '#/components/schemas/Uuid' } }
+  - { name: cover_date, in: query, required: true, schema: { type: string, format: date } }
+  - { name: from_minutes, in: query, required: true, schema: { type: integer, minimum: 0, maximum: 1439 } }
+  - { name: to_minutes, in: query, required: true, schema: { type: integer, minimum: 1, maximum: 1440 } }
+  - { name: search, in: query, required: false, schema: { type: string, maxLength: 120 } }
+  - { name: limit, in: query, required: false, schema: { type: integer, minimum: 1, maximum: 200 } }
+  - { name: offset, in: query, required: false, schema: { type: integer, minimum: 0, maximum: 1000000 } }
+responses:
+  '200': { description: Eligible substitute candidate page, content: { application/json: { schema: { $ref: '#/components/schemas/AttendanceSubstitutionCandidatePage' } } } }
+  '400': { $ref: '#/components/responses/BadRequest' }
+  '401': { $ref: '#/components/responses/Unauthorized' }
+  '403': { $ref: '#/components/responses/Forbidden' }
+  '422': { $ref: '#/components/responses/ValidationError' }

@@ -1,0 +1,14 @@
+type: object
+required:
+- id
+- subject
+- messages
+properties:
+  id:
+    $ref: '#/components/schemas/Uuid'
+  subject:
+    type: string
+  messages:
+    type: array
+    items:
+      $ref: '#/components/schemas/MailMessageView'

@@ -1,0 +1,15 @@
+# yaml-language-server: $schema=none
+# DARK on-prem HA control-plane role patch.
+# Applied to each generated control-plane machineconfig after cluster.patch.yaml.
+# Per-node inventory label, install disk, interface, and control-plane VIP are
+# generated from nodes.example.json by render-machineconfigs.py. CAPI/Metal3
+# embeds this same role patch in TalosControlPlane and lets Metal3/CABPT provide
+# per-Machine bootstrap data.
+#
+# Do not enable the single-node control-plane scheduling override here. On-prem
+# control-plane nodes keep the Talos/Kubernetes default NoSchedule taint;
+# application workloads belong on dedicated worker nodes.
+machine:
+  nodeLabels:
+    console.nousresearch.com/substrate: on-prem
+    console.nousresearch.com/node-role: control-plane

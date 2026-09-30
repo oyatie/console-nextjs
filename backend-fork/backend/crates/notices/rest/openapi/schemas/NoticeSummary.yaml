@@ -1,0 +1,59 @@
+type: object
+required:
+- id
+- code
+- author_user_id
+- title
+- body
+- status
+- published_at
+- created_at
+- category
+- audience_scope
+- audience_branches
+- my_receipt
+- progress
+properties:
+  id:
+    $ref: '#/components/schemas/Uuid'
+  code:
+    type:
+    - string
+    - 'null'
+    description: NT- code, set only once published.
+  author_user_id:
+    $ref: '#/components/schemas/Uuid'
+  title:
+    type: string
+  body:
+    type: string
+  status:
+    type: string
+    enum: [draft, published]
+  published_at:
+    type:
+    - string
+    - 'null'
+    format: date-time
+  created_at:
+    $ref: '#/components/schemas/Timestamp'
+  category:
+    $ref: '#/components/schemas/NoticeCategory'
+  audience_scope:
+    type: string
+    enum: [org, branches]
+  audience_branches:
+    type: array
+    description: Audience branches with display names; empty for org-wide notices.
+    items:
+      $ref: '#/components/schemas/NamedEntity'
+  my_receipt:
+    oneOf:
+    - $ref: '#/components/schemas/NoticeMyReceipt'
+    - type: 'null'
+    description: The caller's own 수령확인 state; null when the caller is not a snapshotted recipient.
+  progress:
+    oneOf:
+    - $ref: '#/components/schemas/NoticeProgress'
+    - type: 'null'
+    description: Hydrated only for NoticeManage callers; null otherwise.

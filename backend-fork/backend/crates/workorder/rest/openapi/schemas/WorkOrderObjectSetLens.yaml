@@ -1,0 +1,20 @@
+type: object
+required:
+- object_type
+- aggregates
+- facets
+- histograms
+- listograms
+properties:
+  object_type:
+    type: string
+    enum:
+    - work_order
+  aggregates:
+    $ref: '#/components/schemas/WorkOrderLensAggregates'
+  facets:
+    $ref: '#/components/schemas/WorkOrderLensFacets'
+  histograms:
+    $ref: '#/components/schemas/WorkOrderLensHistograms'
+  listograms:
+    $ref: '#/components/schemas/WorkOrderLensListograms'

@@ -1,0 +1,7 @@
+tags: [logistics]
+operationId: packLogisticsFulfillment
+summary: Pack a picked or short-picked fulfillment
+security: [{ bearerAuth: [] }]
+parameters: [{ name: fulfillment_id, in: path, required: true, schema: { $ref: '#/components/schemas/Uuid' } }]
+requestBody: { required: true, content: { application/json: { schema: { type: object, additionalProperties: false, required: [branchId], properties: { branchId: { $ref: '#/components/schemas/Uuid' } } } } } }
+responses: { '200': { description: Fulfillment packed, content: { application/json: { schema: { $ref: '#/components/schemas/LogisticsFulfillmentPacked' } } } }, '409': { description: Illegal state } }

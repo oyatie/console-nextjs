@@ -1,0 +1,35 @@
+tags:
+  - hr
+operationId: getHrReadinessSummary
+summary: Read HR data readiness counters
+description: Returns import, payroll, annual-leave, and attendance readiness counters for org-wide HR operators without
+  exposing raw workbook rows. `payroll.active_close_runs` counts only STAGED, BLOCKED_LEGAL_GATE,
+  READY_FOR_REVIEW, and APPROVED payroll runs; terminal ISSUED and VOID history is excluded.
+security:
+- bearerAuth: []
+responses:
+  '200':
+    description: HR readiness counters.
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+          - payroll
+          properties:
+            payroll:
+              type: object
+              required:
+              - active_close_runs
+              properties:
+                active_close_runs:
+                  type: integer
+                  format: int64
+                  minimum: 0
+                  description: Number of inspectable non-terminal payroll close runs.
+              additionalProperties: true
+          additionalProperties: true
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'

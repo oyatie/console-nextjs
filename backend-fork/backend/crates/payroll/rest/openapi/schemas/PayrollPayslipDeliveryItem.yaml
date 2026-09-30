@@ -1,0 +1,22 @@
+type: object
+required:
+- line_id
+- employee_id
+- inbox_doc_id
+- issued_at
+- acknowledged_at
+properties:
+  line_id:
+    $ref: '#/components/schemas/Uuid'
+  employee_id:
+    $ref: '#/components/schemas/Uuid'
+  inbox_doc_id:
+    $ref: '#/components/schemas/Uuid'
+  issued_at:
+    $ref: '#/components/schemas/Timestamp'
+  acknowledged_at:
+    type:
+    - string
+    - 'null'
+    format: date-time
+    description: Read back from the inbox doc's confirmed_at; the vault does not yet confirm payslip receipts, so this stays null today.

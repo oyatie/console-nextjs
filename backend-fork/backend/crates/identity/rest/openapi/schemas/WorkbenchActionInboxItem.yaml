@@ -1,0 +1,21 @@
+type: object
+additionalProperties: false
+required:
+- id
+- urgency
+- title
+- source
+- target
+properties:
+  id:
+    type: string
+  urgency:
+    $ref: '#/components/schemas/WorkbenchUrgency'
+  title:
+    type: string
+  due_at:
+    $ref: '#/components/schemas/Timestamp'
+  source:
+    $ref: '#/components/schemas/WorkbenchSourceRef'
+  target:
+    $ref: '#/components/schemas/WorkbenchTarget'

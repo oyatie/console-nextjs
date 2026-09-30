@@ -1,0 +1,8 @@
+type: string
+enum:
+- SUPER_ADMIN
+- ADMIN
+- MECHANIC
+- RECEPTIONIST
+- EXECUTIVE
+- MEMBER

@@ -1,0 +1,6 @@
+type: object
+required:
+- score
+properties:
+  score:
+    $ref: '#/components/schemas/RecruitAssessmentScore'

@@ -1,0 +1,12 @@
+tags: [benefit-catalog]
+operationId: replaceBenefitCatalogTiers
+summary: Replace audited tier rows without physical delete
+security: [{ bearerAuth: [] }]
+parameters: [{ name: benefit_id, in: path, required: true, schema: { $ref: '#/components/schemas/Uuid' } }]
+requestBody: { required: true, content: { application/json: { schema: { $ref: '#/components/schemas/BenefitCatalogReplaceTiersRequest' } } } }
+responses:
+  '200': { description: Updated row, content: { application/json: { schema: { $ref: '#/components/schemas/BenefitCatalogItem' } } } }
+  '401': { $ref: '#/components/responses/Unauthorized' }
+  '403': { $ref: '#/components/responses/Forbidden' }
+  '404': { $ref: '#/components/responses/NotFound' }
+  '422': { $ref: '#/components/responses/ValidationError' }

@@ -1,0 +1,11 @@
+type: object
+additionalProperties: false
+required: [rv_code, cycle_id, cycle_name, period_label, final_grade, finalized_at, subject_id]
+properties:
+  rv_code: { type: string }
+  cycle_id: { $ref: '#/components/schemas/Uuid' }
+  cycle_name: { type: string }
+  period_label: { type: string }
+  final_grade: { $ref: '#/components/schemas/EvaluationGrade' }
+  finalized_at: { $ref: '#/components/schemas/Timestamp' }
+  subject_id: { $ref: '#/components/schemas/Uuid' }

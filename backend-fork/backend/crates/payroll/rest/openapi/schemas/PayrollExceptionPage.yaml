@@ -1,0 +1,24 @@
+type: object
+required:
+- items
+- total
+- open
+- limit
+- offset
+properties:
+  items:
+    type: array
+    items:
+      $ref: '#/components/schemas/PayrollException'
+  total:
+    type: integer
+    format: int64
+  open:
+    type: integer
+    format: int64
+  limit:
+    type: integer
+    format: int64
+  offset:
+    type: integer
+    format: int64

@@ -1,0 +1,21 @@
+type: object
+required:
+- assignments
+properties:
+  assignments:
+    type: array
+    minItems: 1
+    items:
+      type: object
+      required:
+      - mechanic_id
+      - role
+      properties:
+        mechanic_id:
+          $ref: '#/components/schemas/Uuid'
+        role:
+          $ref: '#/components/schemas/AssignmentRole'
+  admin_approver_id:
+    $ref: '#/components/schemas/Uuid'
+  executive_approver_id:
+    $ref: '#/components/schemas/Uuid'

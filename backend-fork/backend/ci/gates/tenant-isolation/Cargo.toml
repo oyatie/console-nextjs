@@ -1,0 +1,23 @@
+[package]
+name = "console-gate-tenant-isolation"
+version = "0.1.0"
+description = "CI gate: every tenant table carries org_id + RLS (ENABLED, FORCED, org policy); GUC is never set non-locally; with_audit keeps the app.current_org bind."
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[[bin]]
+name = "console-gate-tenant-isolation"
+path = "src/main.rs"
+
+[lib]
+name = "console_gate_tenant_isolation"
+path = "src/lib.rs"
+
+[dev-dependencies]
+sqlx = { workspace = true }
+tokio = { workspace = true }
+
+[lints]
+workspace = true

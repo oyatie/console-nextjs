@@ -1,0 +1,30 @@
+tags:
+  - object-types
+operationId: getRegistryObjectType
+summary: Fetch one object type with its caller-visible instance count
+description: Returns a single object type by kind slug (404 if unknown), with the same caller-visible active_count
+  as listObjectTypes.
+security:
+- bearerAuth: []
+parameters:
+- name: kind
+  in: path
+  required: true
+  description: Object kind slug.
+  schema:
+    type: string
+responses:
+  '200':
+    description: The object type.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ObjectTypeResponse'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '422':
+    $ref: '#/components/responses/ValidationError'

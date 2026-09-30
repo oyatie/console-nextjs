@@ -1,0 +1,15 @@
+type: object
+required:
+- scope
+properties:
+  scope:
+    type: string
+    enum:
+    - all
+    - category
+    - object
+  category:
+    type: string
+    description: Required when scope is category; must be absent otherwise.
+  link:
+    $ref: '#/components/schemas/NotificationLink'

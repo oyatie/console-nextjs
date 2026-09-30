@@ -1,0 +1,26 @@
+{
+  "source": "console-inbox-rest",
+  "paths": {
+    "/api/v1/me/inbox-docs": [
+      "get"
+    ],
+    "/api/v1/me/inbox-docs/{id}": [
+      "get"
+    ],
+    "/api/v1/me/inbox-docs/{id}/confirm-receipt": [
+      "post"
+    ]
+  },
+  "schemas": [
+    "InboxDocConfirmReceiptRequest",
+    "InboxDocDetail",
+    "InboxDocPage",
+    "InboxDocSummary"
+  ],
+  "external_schemas": [
+    "ErrorBody",
+    "PasskeyStepUpAssertion",
+    "Timestamp",
+    "Uuid"
+  ]
+}

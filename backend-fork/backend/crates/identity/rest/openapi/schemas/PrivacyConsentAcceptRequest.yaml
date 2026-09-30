@@ -1,0 +1,20 @@
+type: object
+description: Required initial-login Korean privacy collection/use and service-terms acknowledgement. These required
+  agreements are explicit booleans so the client cannot bundle them into one generic "agree all" flag. Optional marketing
+  consent and GPS/location consent are not collected by this request.
+required:
+- policy_version
+- privacy_collection
+- terms_of_service
+properties:
+  policy_version:
+    type: string
+    description: Required privacy/terms notice version being accepted.
+  privacy_collection:
+    type: boolean
+    description: Required acknowledgement of collection/use purpose, items, retention period, refusal right, and refusal
+      consequence.
+  terms_of_service:
+    type: boolean
+    description: Required acknowledgement of service terms, security controls, and audit-log processing needed to operate
+      the console.

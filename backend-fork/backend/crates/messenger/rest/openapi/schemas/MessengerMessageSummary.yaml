@@ -1,0 +1,73 @@
+type: object
+required:
+- id
+- thread_id
+- branch_id
+- sender_id
+- sender_name
+- body
+- attachment_evidence_ids
+- read_count
+- read_target_count
+- ack_count
+- acked_by_me
+- quoted_message_id
+- quoted_body
+- quoted_sender_name
+- sent_at
+- created_at
+properties:
+  id:
+    $ref: '#/components/schemas/Uuid'
+  thread_id:
+    $ref: '#/components/schemas/Uuid'
+  branch_id:
+    $ref: '#/components/schemas/Uuid'
+  sender_id:
+    $ref: '#/components/schemas/Uuid'
+  sender_name:
+    type:
+    - string
+    - 'null'
+    description: Sender display name, resolved via a same-org LEFT JOIN on users. Null when the sender account no longer
+      exists.
+  body:
+    type: string
+  attachment_evidence_ids:
+    type: array
+    items:
+      $ref: '#/components/schemas/Uuid'
+  read_count:
+    type: integer
+    format: int64
+    description: Non-sender thread members whose read receipt has reached this message.
+  read_target_count:
+    type: integer
+    format: int64
+    description: Non-sender thread members expected to read this message.
+  ack_count:
+    type: integer
+    format: int64
+    description: Members who have acked ("확인") this message.
+  acked_by_me:
+    type: boolean
+    description: Whether the reading caller has acked this message. Always false on a realtime message-posted event.
+  quoted_message_id:
+    type:
+    - string
+    - 'null'
+    format: uuid
+    description: Reply-quote target, when this message quotes an earlier one in the thread.
+  quoted_body:
+    type:
+    - string
+    - 'null'
+    description: Short preview of the quoted message; null when nothing is quoted or the quote was deleted.
+  quoted_sender_name:
+    type:
+    - string
+    - 'null'
+  sent_at:
+    $ref: '#/components/schemas/Timestamp'
+  created_at:
+    $ref: '#/components/schemas/Timestamp'

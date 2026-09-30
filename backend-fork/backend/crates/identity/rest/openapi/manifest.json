@@ -1,0 +1,408 @@
+{
+  "source": "console-identity-rest",
+  "paths": {
+    "/.well-known/apple-app-site-association": [
+      "get"
+    ],
+    "/.well-known/assetlinks.json": [
+      "get"
+    ],
+    "/api/platform/groups": [
+      "get",
+      "post"
+    ],
+    "/api/platform/groups/{id}": [
+      "patch"
+    ],
+    "/api/platform/groups/{id}/accounts": [
+      "get",
+      "post"
+    ],
+    "/api/platform/groups/{id}/accounts/{user_id}/roles/{group_role}": [
+      "delete"
+    ],
+    "/api/platform/groups/{id}/organizations/{org_id}": [
+      "delete",
+      "put"
+    ],
+    "/api/platform/ops": [
+      "get"
+    ],
+    "/api/platform/orgs": [
+      "get",
+      "post"
+    ],
+    "/api/platform/orgs/{id}": [
+      "delete",
+      "patch"
+    ],
+    "/api/platform/tenant-context": [
+      "post"
+    ],
+    "/api/platform/tenant-context/exit": [
+      "post"
+    ],
+    "/api/platform/view-as": [
+      "post"
+    ],
+    "/api/platform/view-as/exit": [
+      "post"
+    ],
+    "/api/v1/auth/admin/credential-reset": [
+      "post"
+    ],
+    "/api/v1/auth/admin/otp/issue": [
+      "post"
+    ],
+    "/api/v1/auth/device-login/approve": [
+      "post"
+    ],
+    "/api/v1/auth/device-login/approve-session": [
+      "post"
+    ],
+    "/api/v1/auth/device-login/poll": [
+      "post"
+    ],
+    "/api/v1/auth/device-login/start": [
+      "post"
+    ],
+    "/api/v1/auth/logout": [
+      "post"
+    ],
+    "/api/v1/auth/otp/redeem": [
+      "post"
+    ],
+    "/api/v1/auth/passkey/enroll-handoff": [
+      "post"
+    ],
+    "/api/v1/auth/passkey/login/finish": [
+      "post"
+    ],
+    "/api/v1/auth/passkey/login/start": [
+      "post"
+    ],
+    "/api/v1/auth/passkey/register/finish": [
+      "post"
+    ],
+    "/api/v1/auth/passkey/register/start": [
+      "post"
+    ],
+    "/api/v1/auth/passkey/step-up/start": [
+      "post"
+    ],
+    "/api/v1/auth/passkeys": [
+      "get"
+    ],
+    "/api/v1/auth/passkeys/{id}": [
+      "delete"
+    ],
+    "/api/v1/auth/privacy-consent/accept": [
+      "post"
+    ],
+    "/api/v1/auth/privacy-consent/status": [
+      "post"
+    ],
+    "/api/v1/auth/signup": [
+      "post"
+    ],
+    "/api/v1/auth/token/refresh": [
+      "post"
+    ],
+    "/api/v1/branches": [
+      "get",
+      "post"
+    ],
+    "/api/v1/branches/{id}": [
+      "delete",
+      "get",
+      "patch"
+    ],
+    "/api/v1/console/kill-switch": [
+      "post"
+    ],
+    "/api/v1/console/rollout": [
+      "get"
+    ],
+    "/api/v1/console/rollout/opt-in": [
+      "put"
+    ],
+    "/api/v1/console/rollout/org-flag": [
+      "put"
+    ],
+    "/api/v1/console/telemetry/route": [
+      "post"
+    ],
+    "/api/v1/directory/people": [
+      "get"
+    ],
+    "/api/v1/group-admin/groups": [
+      "get"
+    ],
+    "/api/v1/group-admin/tenant-context": [
+      "post"
+    ],
+    "/api/v1/group-admin/tenant-context/exit": [
+      "post"
+    ],
+    "/api/v1/me/action-inbox": [
+      "get"
+    ],
+    "/api/v1/me/authz": [
+      "get"
+    ],
+    "/api/v1/me/workbench": [
+      "get"
+    ],
+    "/api/v1/me/workspace": [
+      "get",
+      "put"
+    ],
+    "/api/v1/passkeys": [
+      "get"
+    ],
+    "/api/v1/passkeys/{id}": [
+      "delete"
+    ],
+    "/api/v1/policy/assignments": [
+      "get"
+    ],
+    "/api/v1/policy/audit-events": [
+      "get"
+    ],
+    "/api/v1/policy/authorize": [
+      "post"
+    ],
+    "/api/v1/policy/authorize/bulk": [
+      "post"
+    ],
+    "/api/v1/policy/catalog": [
+      "get"
+    ],
+    "/api/v1/policy/decisions": [
+      "get"
+    ],
+    "/api/v1/policy/drafts": [
+      "get",
+      "post"
+    ],
+    "/api/v1/policy/drafts/{draft_id}": [
+      "get",
+      "put"
+    ],
+    "/api/v1/policy/drafts/{draft_id}/review": [
+      "post"
+    ],
+    "/api/v1/policy/drafts/{draft_id}/submit": [
+      "post"
+    ],
+    "/api/v1/policy/drafts/{draft_id}/validate": [
+      "post"
+    ],
+    "/api/v1/policy/features": [
+      "get"
+    ],
+    "/api/v1/policy/role-templates": [
+      "get"
+    ],
+    "/api/v1/policy/roles": [
+      "get",
+      "post"
+    ],
+    "/api/v1/policy/roles/{id}": [
+      "patch"
+    ],
+    "/api/v1/policy/roles/{id}/status": [
+      "patch"
+    ],
+    "/api/v1/policy/roles/{id}/status-preview": [
+      "post"
+    ],
+    "/api/v1/policy/simulate": [
+      "post"
+    ],
+    "/api/v1/policy/users/{id}/assignment-preview": [
+      "post"
+    ],
+    "/api/v1/policy/users/{id}/assignments": [
+      "put"
+    ],
+    "/api/v1/regions": [
+      "get",
+      "post"
+    ],
+    "/api/v1/regions/{id}": [
+      "delete",
+      "patch"
+    ],
+    "/api/v1/users": [
+      "get",
+      "post"
+    ],
+    "/api/v1/users/me": [
+      "get",
+      "patch"
+    ],
+    "/api/v1/users/{id}": [
+      "get",
+      "patch"
+    ],
+    "/api/v1/users/{id}/activate": [
+      "post"
+    ],
+    "/api/v1/users/{id}/deactivate": [
+      "post"
+    ],
+    "/healthz": [
+      "get"
+    ],
+    "/readyz": [
+      "get"
+    ]
+  },
+  "schemas": [
+    "AccountStatus",
+    "ActionInboxItem",
+    "ActionInboxLink",
+    "ActionInboxResponse",
+    "AdminCredentialResetRequest",
+    "AdminCredentialResetResponse",
+    "AdminIssueOtpRequest",
+    "AdminIssueOtpResponse",
+    "AndroidAssetLinkStatement",
+    "AppleAppSiteAssociation",
+    "BranchScope",
+    "BranchSummary",
+    "BulkAuthorizeBody",
+    "BulkDecisionResponse",
+    "ConsoleRouteSurface",
+    "ConsoleRouteTelemetryAccepted",
+    "ConsoleRouteTelemetryEventKind",
+    "ConsoleRouteTelemetryRequest",
+    "CreateBranchRequest",
+    "CreatePlatformGroupAccountRequest",
+    "CreatePlatformGroupAccountResponse",
+    "CreatePlatformGroupRequest",
+    "CreatePlatformOrgRequest",
+    "CreatePolicyRoleRequest",
+    "CreateRegionRequest",
+    "CreateUserRequest",
+    "DecisionLogRow",
+    "DeviceLoginApproveRequest",
+    "DeviceLoginApproveSessionRequest",
+    "DeviceLoginPollRequest",
+    "DeviceLoginPollResponse",
+    "DeviceLoginStartResponse",
+    "DirectoryPage",
+    "DirectoryPerson",
+    "EnrollHandoffRequest",
+    "EnrollHandoffResponse",
+    "LogoutRequest",
+    "MeAuthzCapability",
+    "MeAuthzResponse",
+    "MobilePasskeyStepUpStartRequest",
+    "MobilePasskeyStepUpStartResponse",
+    "MyWorkbenchResponse",
+    "OtpRedeemRequest",
+    "OtpRedeemResponse",
+    "PasskeyLoginFinishRequest",
+    "PasskeyLoginStartResponse",
+    "PasskeyRegisterFinishRequest",
+    "PasskeyRegisterFinishResponse",
+    "PasskeyRegisterStartRequest",
+    "PasskeyRegisterStartResponse",
+    "PasskeySummary",
+    "PlatformAccountStatus",
+    "PlatformExitResponse",
+    "PlatformGroup",
+    "PlatformGroupAccount",
+    "PlatformGroupMember",
+    "PlatformGroupRole",
+    "PlatformOpsResponse",
+    "PlatformOrg",
+    "PlatformOrgOnboardingResponse",
+    "PlatformOrgStatus",
+    "PlatformTenantContextStartRequest",
+    "PlatformTenantContextStartResponse",
+    "PlatformTenantHealth",
+    "PlatformTenantRole",
+    "PlatformViewAsStartRequest",
+    "PlatformViewAsStartResponse",
+    "PolicyAssignmentPreviewResponse",
+    "PolicyAuditEventResponse",
+    "PolicyAuthorizeRequest",
+    "PolicyConditionResponse",
+    "PolicyCreateDraftRequest",
+    "PolicyDefaultPermissionResponse",
+    "PolicyFeatureGrantPreviewResponse",
+    "PolicyFeatureResponse",
+    "PolicyNoCodeBlocks",
+    "PolicyNoCodeCondition",
+    "PolicyPermissionResponse",
+    "PolicyReviewRequest",
+    "PolicyRoleAssignmentDeltaResponse",
+    "PolicyRoleAssignmentResponse",
+    "PolicyRoleCatalogResponse",
+    "PolicyRoleImpactResponse",
+    "PolicyRoleResponse",
+    "PolicyRoleStatusPreviewRequest",
+    "PolicyRoleStatusPreviewResponse",
+    "PolicyRoleTemplateResponse",
+    "PolicySimRequest",
+    "PolicySimResource",
+    "PolicySimSubject",
+    "PolicySimulateRequest",
+    "PolicyUpdateDraftRequest",
+    "PolicyVersionResponse",
+    "PrivacyConsentAcceptRequest",
+    "PrivacyConsentStatusResponse",
+    "RefreshTokenRequest",
+    "RegionSummary",
+    "ReplacePolicyRoleAssignmentsRequest",
+    "RouteAdoptionMetric",
+    "SignupRequest",
+    "SignupResponse",
+    "SimulationOutcome",
+    "SystemPolicyRoleResponse",
+    "Team",
+    "TokenPairResponse",
+    "UpdateBranchRequest",
+    "UpdatePlatformGroupRequest",
+    "UpdatePlatformOrgRequest",
+    "UpdatePolicyRoleRequest",
+    "UpdatePolicyRoleStatusRequest",
+    "UpdateRegionRequest",
+    "UpdateSelfProfileRequest",
+    "UpdateUserRequest",
+    "UserPage",
+    "UserSummary",
+    "WorkbenchActionInboxItem",
+    "WorkbenchActionSourceEnvelope",
+    "WorkbenchActionSourceOk",
+    "WorkbenchCalendarItem",
+    "WorkbenchCalendarSourceEnvelope",
+    "WorkbenchCalendarSourceOk",
+    "WorkbenchDeniedSourceEnvelope",
+    "WorkbenchEffectiveScope",
+    "WorkbenchRange",
+    "WorkbenchScopeAll",
+    "WorkbenchScopeBranches",
+    "WorkbenchSourceRef",
+    "WorkbenchTarget",
+    "WorkbenchTodoItem",
+    "WorkbenchTodoSourceEnvelope",
+    "WorkbenchTodoSourceOk",
+    "WorkbenchUnavailableSourceEnvelope",
+    "WorkbenchUrgency",
+    "WorkspaceResponse",
+    "WorkspaceUpsertRequest"
+  ],
+  "external_schemas": [
+    "ErrorBody",
+    "MobilePasskeyStepUpBinding",
+    "MobileStepUpActionKind",
+    "OrgChangeDetail",
+    "PasskeyStepUpAssertion",
+    "Timestamp",
+    "Uuid"
+  ]
+}

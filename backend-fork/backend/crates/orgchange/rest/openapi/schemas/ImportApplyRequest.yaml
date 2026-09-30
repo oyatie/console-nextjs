@@ -1,0 +1,9 @@
+type: object
+description: >-
+  §16 self-checklist evidence for an ingest-commit ("적재") apply. Missing or false ⇒ fail-closed deny,
+  nothing written (85 판정).
+properties:
+  checklist_all_acknowledged:
+    type:
+    - boolean
+    - 'null'

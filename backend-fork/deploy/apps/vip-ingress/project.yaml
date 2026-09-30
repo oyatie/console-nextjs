@@ -1,0 +1,28 @@
+# Dark Argo CD project for the ADR-0024 on-prem VIP ingress stage.
+# This file is intentionally under deploy/apps/vip-ingress/, not deploy/argocd/apps/,
+# so merging it does not add the project to the live app-of-apps root.
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: console-onprem-vip-ingress
+  namespace: argocd
+  annotations:
+    console.nousresearch.com/dark-stage: "true"
+    console.nousresearch.com/context: "onprem"
+spec:
+  description: Dark ADR-0024 on-prem MetalLB L2 VIP ingress stage; manual apply/sync only.
+  sourceRepos:
+    - https://metallb.github.io/metallb
+    - https://github.com/jason931225/console.git
+  destinations:
+    - server: https://kubernetes.default.svc
+      namespace: metallb-system
+  # MetalLB installs CRDs, ClusterRoles, webhook configuration, and namespaced
+  # controller/speaker resources. Keep those permissions scoped to this dark app
+  # instead of broadening the live maintenance project during a no-op merge.
+  clusterResourceWhitelist:
+    - group: "*"
+      kind: "*"
+  namespaceResourceWhitelist:
+    - group: "*"
+      kind: "*"

@@ -1,0 +1,7 @@
+# OpenBao single-node substrate (ADR-0024 roadmap item 2). Thin kustomization so the
+# staged ArgoCD Application (../application-openbao.yaml) can point a repo path at
+# it, matching the deploy/infra/{cnpg-operator,barman-plugin} pattern.
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - openbao.k8s.yaml

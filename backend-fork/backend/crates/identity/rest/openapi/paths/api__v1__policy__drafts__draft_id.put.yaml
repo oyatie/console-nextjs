@@ -1,0 +1,39 @@
+operationId: updatePolicyDraft
+summary: Update a policy draft
+description: Edits a per-user draft (re-normalized and re-compiled to Cedar text). Cannot promote a draft to shadow/enforced.
+tags:
+- Policy
+security:
+- bearerAuth: []
+parameters:
+- name: draft_id
+  in: path
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/PolicyUpdateDraftRequest'
+responses:
+  '200':
+    description: Updated draft.
+    content:
+      application/json:
+        schema:
+          type: object
+          additionalProperties: true
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '409':
+    $ref: '#/components/responses/Conflict'
+  '422':
+    $ref: '#/components/responses/ValidationError'
+  '503':
+    $ref: '#/components/responses/ServiceUnavailable'

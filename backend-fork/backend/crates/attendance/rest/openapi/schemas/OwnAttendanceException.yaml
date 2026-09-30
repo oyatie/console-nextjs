@@ -1,0 +1,4 @@
+type: object
+additionalProperties: false
+required: [id, code, kind, status, work_date, occurred_at, detail, evidence, created_at]
+properties: { id: { $ref: '#/components/schemas/Uuid' }, code: { type: string }, kind: { type: string, enum: [LATE, NO_SHOW, UNAPPROVED_OVERTIME, EARLY_LEAVE] }, status: { type: string, enum: [OPEN, RESOLVED] }, work_date: { type: string, format: date }, occurred_at: { type: string, format: date-time }, detail: { type: string }, evidence: { type: array, items: { $ref: '#/components/schemas/AttendanceExceptionEvidence' } }, resolution: { $ref: '#/components/schemas/OwnAttendanceExceptionResolution', nullable: true }, created_at: { type: string, format: date-time } }

@@ -1,0 +1,7 @@
+type: string
+description: Activity-derived presence — online within the freshness window of the member's last action, else away,
+  else offline (or never seen).
+enum:
+- online
+- away
+- offline

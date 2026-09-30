@@ -1,0 +1,3 @@
+type: object
+required: [id, itemId, ivCode, kind, quantityDeltaMilli, quantityBeforeMilli, quantityAfterMilli, source, actor, occurredAt]
+properties: { id: { $ref: '#/components/schemas/Uuid' }, itemId: { $ref: '#/components/schemas/Uuid' }, ivCode: { type: string }, kind: { type: string, enum: [ISSUE, RECEIPT, ADJUSTMENT] }, quantityDeltaMilli: { type: integer, format: int64 }, quantityBeforeMilli: { type: integer, format: int64 }, quantityAfterMilli: { type: integer, format: int64 }, source: { $ref: '#/components/schemas/InventoryMovementSource' }, actor: { $ref: '#/components/schemas/Uuid' }, occurredAt: { type: string, format: date-time }, memo: { type: string, nullable: true } }

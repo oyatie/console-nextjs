@@ -1,0 +1,98 @@
+type: object
+required:
+- site_id
+- site_name
+- customer_id
+- customer_name
+- branch_id
+- address
+- postal_code
+- province
+- city
+- latitude
+- longitude
+- geofence_radius_m
+- contact_name
+- contact_phone
+- contact_email
+- equipment_count
+- rented_count
+- spare_count
+- substitution_active_count
+properties:
+  site_id:
+    $ref: '#/components/schemas/Uuid'
+  site_name:
+    type: string
+  customer_id:
+    $ref: '#/components/schemas/Uuid'
+  customer_name:
+    type: string
+  branch_id:
+    $ref: '#/components/schemas/Uuid'
+  address:
+    type:
+    - string
+    - 'null'
+  postal_code:
+    type:
+    - string
+    - 'null'
+  province:
+    type:
+    - string
+    - 'null'
+  city:
+    type:
+    - string
+    - 'null'
+  latitude:
+    type:
+    - number
+    - 'null'
+    format: double
+    minimum: -90
+    maximum: 90
+    description: Admin-entered WGS84 latitude in degrees; null means the site is not pinned.
+  longitude:
+    type:
+    - number
+    - 'null'
+    format: double
+    minimum: -180
+    maximum: 180
+    description: Admin-entered WGS84 longitude in degrees; null means the site is not pinned.
+  geofence_radius_m:
+    type:
+    - number
+    - 'null'
+    format: double
+    description: Per-site geofence radius in metres for arrival/departure detection; null uses the system default (300
+      m).
+  contact_name:
+    type:
+    - string
+    - 'null'
+    description: On-site representative contact name (담당자명).
+  contact_phone:
+    type:
+    - string
+    - 'null'
+    description: On-site contact phone (연락처).
+  contact_email:
+    type:
+    - string
+    - 'null'
+    description: Optional contact email (이메일).
+  equipment_count:
+    type: integer
+    format: int64
+  rented_count:
+    type: integer
+    format: int64
+  spare_count:
+    type: integer
+    format: int64
+  substitution_active_count:
+    type: integer
+    format: int64

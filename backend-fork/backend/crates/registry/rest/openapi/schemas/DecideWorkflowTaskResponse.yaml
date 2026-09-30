@@ -1,0 +1,11 @@
+type: object
+required:
+- task
+- run
+properties:
+  task:
+    $ref: '#/components/schemas/DecidedWorkflowTask'
+  run:
+    $ref: '#/components/schemas/FinalizedWorkflowRun'
+  next_task:
+    $ref: '#/components/schemas/WorkflowTaskSummary'

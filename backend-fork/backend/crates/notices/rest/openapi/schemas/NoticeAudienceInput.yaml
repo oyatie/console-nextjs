@@ -1,0 +1,12 @@
+type: object
+required:
+- scope
+properties:
+  scope:
+    type: string
+    enum: [org, branches]
+  branch_ids:
+    type: array
+    description: Non-empty iff scope is branches; must be empty or omitted for org (422 otherwise).
+    items:
+      $ref: '#/components/schemas/Uuid'

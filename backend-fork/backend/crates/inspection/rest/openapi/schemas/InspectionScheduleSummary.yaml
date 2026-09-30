@@ -1,0 +1,66 @@
+type: object
+required:
+- id
+- branch_id
+- equipment_id
+- mechanic_id
+- mechanic_display_name
+- cycle
+- interval_days
+- due_date
+- status
+- completed_at
+- note
+- site_name
+- management_no
+- model
+- created_at
+- updated_at
+properties:
+  id:
+    $ref: '#/components/schemas/Uuid'
+  branch_id:
+    $ref: '#/components/schemas/Uuid'
+  equipment_id:
+    $ref: '#/components/schemas/Uuid'
+  mechanic_id:
+    $ref: '#/components/schemas/Uuid'
+  mechanic_display_name:
+    type:
+    - string
+    - 'null'
+    description: Assigned mechanic's display name, resolved via a same-org LEFT JOIN on users. Null when the mechanic
+      account no longer exists.
+  cycle:
+    $ref: '#/components/schemas/InspectionCycle'
+  interval_days:
+    type: integer
+    format: int32
+    minimum: 1
+  due_date:
+    $ref: '#/components/schemas/Date'
+  status:
+    $ref: '#/components/schemas/InspectionScheduleStatus'
+  completed_at:
+    type:
+    - string
+    - 'null'
+    format: date-time
+  note:
+    type:
+    - string
+    - 'null'
+  site_name:
+    type: string
+  management_no:
+    type:
+    - string
+    - 'null'
+  model:
+    type:
+    - string
+    - 'null'
+  created_at:
+    $ref: '#/components/schemas/Timestamp'
+  updated_at:
+    $ref: '#/components/schemas/Timestamp'

@@ -1,0 +1,33 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n                INSERT INTO site_geofence_presence\n                    (org_id, user_id, work_order_id, site_id, inside, since)\n                VALUES ($1, $2, $3, $4, $5, $6)\n                ON CONFLICT (org_id, user_id, work_order_id, site_id) DO NOTHING\n                RETURNING inside\n                ",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "inside",
+        "type_info": "Bool",
+        "origin": {
+          "Table": {
+            "table": "site_geofence_presence",
+            "name": "inside"
+          }
+        }
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid",
+        "Uuid",
+        "Uuid",
+        "Bool",
+        "Timestamptz"
+      ]
+    },
+    "nullable": [
+      false
+    ]
+  },
+  "hash": "74f16b8d38d0c644a1fdfe58f09d330ce8da3810acf53cb0e99d2aebf884b716"
+}

@@ -1,0 +1,50 @@
+tags:
+  - policy
+operationId: updatePolicyRole
+summary: Update a tenant custom role definition
+description: 'Updates mutable custom-role metadata, permissions, and ABAC/PBAC conditions. The role key and lifecycle
+  status are not changed by this route. This is a sensitive policy-definition action: callers must have RoleManage,
+  pass delegated-scope guardrails, and supply a fresh passkey step-up assertion. ACTIVE assigned custom-role changes
+  become runtime-effective ordinary feature grants on the next request; unsupported ABAC/PBAC conditions and elevated/scope-widening
+  features remain inert.'
+security:
+- bearerAuth: []
+parameters:
+- name: id
+  in: path
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/UpdatePolicyRoleRequest'
+responses:
+  '200':
+    description: Updated custom role definition.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/PolicyRoleResponse'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '422':
+    $ref: '#/components/responses/ValidationError'
+  '428':
+    description: Fresh passkey step-up is required.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ErrorBody'
+  '503':
+    description: JWT or passkey step-up verification is not configured.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ErrorBody'

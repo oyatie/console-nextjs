@@ -1,0 +1,16 @@
+type: object
+required:
+- orgId
+- slug
+- name
+- status
+properties:
+  orgId:
+    $ref: '#/components/schemas/Uuid'
+  slug:
+    type: string
+  name:
+    type: string
+  status:
+    type: string
+    description: Tenant status; ACTIVE, SUSPENDED, or ARCHIVED.

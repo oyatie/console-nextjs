@@ -1,0 +1,27 @@
+tags:
+- payroll
+operationId: calculatePayrollRun
+summary: Per-line draft calculation (ATTENDANCE_CLOSED only); a line without a verified gross + NTS source row stays blocked with truthful blockers, income tax is never estimated
+security:
+- bearerAuth: []
+parameters:
+- name: id
+  in: path
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+responses:
+  '200':
+    description: The run detail after the calculation, including the latest calculation summary.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/PayrollRunDetail'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '409':
+    $ref: '#/components/responses/Conflict'

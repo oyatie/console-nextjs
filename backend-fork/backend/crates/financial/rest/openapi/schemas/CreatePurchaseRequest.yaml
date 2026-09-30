@@ -1,0 +1,52 @@
+type: object
+required:
+  - branch_id
+  - purchase_type
+  - vendor_name
+  - lines
+  - quote_attachment_ids
+  - memo
+  - config
+properties:
+  branch_id:
+    $ref: '#/components/schemas/Uuid'
+  equipment_id:
+    type:
+      - string
+      - "null"
+    format: uuid
+  work_order_id:
+    type:
+    - string
+    - 'null'
+    format: uuid
+  statement_evidence_id:
+    type:
+      - string
+      - "null"
+    format: uuid
+  purchase_type:
+    $ref: "#/components/schemas/PurchaseType"
+  vendor_name:
+    type: string
+    minLength: 1
+  amount_won:
+    type:
+      - integer
+      - "null"
+    format: int64
+    minimum: 1
+  lines:
+    type: array
+    minItems: 1
+    items:
+      $ref: "#/components/schemas/PurchaseRequestLineInput"
+  quote_attachment_ids:
+    type: array
+    items:
+      $ref: "#/components/schemas/Uuid"
+  memo:
+    type: string
+    minLength: 1
+  config:
+    $ref: '#/components/schemas/FinancialConfigSnapshot'

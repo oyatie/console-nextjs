@@ -1,0 +1,15 @@
+operationId: disableProductionSourceSystem
+tags: [Production]
+summary: Disable a production source system at the expected generation
+security: [{bearerAuth: []}]
+parameters: [{name: source_system_id, in: path, required: true, schema: {$ref: '#/components/schemas/Uuid'}}]
+requestBody: {required: true, content: {application/json: {schema: {$ref: '#/components/schemas/ProductionSourceSystemGenerationRequest'}}}}
+responses:
+  '200': {description: Disabled source system receipt, content: {application/json: {schema: {$ref: '#/components/schemas/ProductionSourceSystemReceipt'}}}}
+  '401': {$ref: '#/components/responses/Unauthorized'}
+  '403': {$ref: '#/components/responses/Forbidden'}
+  '404': {$ref: '#/components/responses/NotFound'}
+  '409': {$ref: '#/components/responses/Conflict'}
+  '422': {$ref: '#/components/responses/ValidationError'}
+  '500': {$ref: '#/components/responses/InternalServerError'}
+  '503': {$ref: '#/components/responses/ServiceUnavailable'}

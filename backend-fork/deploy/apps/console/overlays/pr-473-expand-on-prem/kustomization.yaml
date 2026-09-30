@@ -1,0 +1,9 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+# DARK self-host-first rehearsal. It composes the portable governed database
+# seam with the existing unactivated on-prem adapter.
+resources:
+  - ../on-prem
+
+components:
+  - ../../components/governed-command-database

@@ -1,0 +1,25 @@
+type: object
+required:
+- category
+- priority
+- title
+- body
+- requester_name
+- requester_contact
+properties:
+  category:
+    $ref: '#/components/schemas/SupportTicketCategory'
+  priority:
+    $ref: '#/components/schemas/SupportTicketPriority'
+  title:
+    type: string
+    minLength: 1
+  body:
+    type: string
+    minLength: 1
+  requester_name:
+    type: string
+    minLength: 1
+  requester_contact:
+    type: string
+    minLength: 1

@@ -1,0 +1,31 @@
+tags:
+  - financial
+operationId: preparePurchaseExpenditure
+summary: Record expenditure number and route to execution or executive approval
+security:
+- bearerAuth: []
+parameters:
+- $ref: '#/components/parameters/PurchaseRequestId'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/PrepareExpenditureRequest'
+responses:
+  '200':
+    description: Purchase request routed after expenditure preparation.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/PurchaseRequestSummary'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '409':
+    $ref: '#/components/responses/Conflict'
+  '422':
+    $ref: '#/components/responses/ValidationError'
+  '428':
+    $ref: '#/components/responses/PreconditionRequired'

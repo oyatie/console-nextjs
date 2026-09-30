@@ -1,0 +1,76 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: console-config
+  namespace: console
+# Non-secret runtime config shared by the api + worker workloads (consumed via
+# envFrom). Secrets (JWT PEMs, S3 keys, notification creds) live in the
+# console-secrets Secret — see deploy/SECRETS.md. DATABASE_URL is injected from the
+# CNPG-generated console-db-app secret. Host-specific values (RP id/origin) are
+# overridden in overlays/prod.
+data:
+  CONSOLE_HTTP_ADDR: "0.0.0.0:8080"
+  CONSOLE_JWT_ISSUER: "console-platform-auth"
+  CONSOLE_JWT_AUDIENCE: "console-api"
+  CONSOLE_WEBAUTHN_RP_NAME: "Console 정비 콘솔"
+  # RP id is the APEX domain so a passkey enrolled today on console.knllogistic.com
+  # stays valid across every current/future subdomain of the org. The RP ORIGIN
+  # stays the exact served origin (https://console.knllogistic.com): WebAuthn requires
+  # the origin's host to equal the rp id OR be a subdomain of it, which the apex
+  # satisfies. Prod has no enrolled passkeys yet, so this is a clean switch.
+  CONSOLE_WEBAUTHN_RP_ID: "knllogistic.com" # apex; overridden in overlays/prod
+  CONSOLE_WEBAUTHN_RP_ORIGIN: "https://console.knllogistic.com" # overridden in overlays/prod
+  # Absolute refresh-family lifetime cap (NIST 800-63B AAL2). Past this ceiling a
+  # rotation is rejected and the family revoked, forcing a fresh sign-in. 24h.
+  CONSOLE_REFRESH_FAMILY_ABSOLUTE_TTL_SECS: "86400"
+  # Native app-link association (served public + unauthenticated at /.well-known/*
+  # so native passkeys validate). Comma-separated lists; leave empty until the
+  # native apps are provisioned (the endpoints then serve a valid empty document).
+  # See deploy/SECRETS.md "Native app-link association" for how to source these.
+  #   CONSOLE_IOS_APP_IDS: "<TeamID>.<bundle-id>" — Apple Team ID is 98Q89GFZWP;
+  #     awaiting the registered iOS bundle id to form "98Q89GFZWP.<bundle-id>".
+  #   CONSOLE_ANDROID_CERT_SHA256: the release signing-cert SHA-256 (colon-hex);
+  #     awaiting the keystore fingerprint. assetlinks serves once package+cert set.
+  CONSOLE_IOS_APP_IDS: "98Q89GFZWP.com.console.app"
+  CONSOLE_ANDROID_PACKAGE: "com.console.app"
+  CONSOLE_ANDROID_CERT_SHA256: ""
+  # Public storefront + support intake tenant. Both unauthenticated public CX
+  # flows share this configured org so submitted rows land under the same tenant
+  # staff inboxes query through RLS.
+  STOREFRONT_ORG_ID: "00000000-0000-0000-0000-0000000000a1"
+  # Evidence object storage — OCI Object Storage (S3-compatible), Chuncheon.
+  CONSOLE_S3_ENDPOINT_URL: "https://axdotp9iv3ua.compat.objectstorage.ap-chuncheon-1.oraclecloud.com"
+  CONSOLE_S3_REGION: "ap-chuncheon-1"
+  CONSOLE_S3_PRIMARY_BUCKET: "mnt-evidence"
+  # WORM replica bucket: evidence is mirrored here and integrity-verified before
+  # financial operations proceed (data resiliency + tamper-evidence).
+  CONSOLE_S3_REPLICA_BUCKET: "mnt-evidence-replica"
+  CONSOLE_S3_FORCE_PATH_STYLE: "true"
+  # Outbound transactional email (open-signup OTP + admin one-time codes) — OCI
+  # Email Delivery SMTP. Non-secret host/port/sender live here; the SMTP
+  # credentials (CONSOLE_EMAIL_SMTP_USERNAME / CONSOLE_EMAIL_SMTP_PASSWORD) are on the
+  # console-secrets Secret, provisioned from OCI Vault. ACTIVE: the OCI email domain
+  # knllogistic.com (DKIM knl1 + SPF + DMARC in Cloudflare) and the approved
+  # sender are live, so the group is enabled and the app relays OTPs over SMTP.
+  # The workload manifests explicitly require the secret credential keys; local,
+  # dev, and e2e stub-email configs should omit this relay group and set
+  # CONSOLE_EMAIL_STUB_MODE explicitly instead.
+  # Setting any member requires all of them.
+  # CONSOLE_EMAIL_FROM must equal an OCI-approved sender — note the hyphen in no-reply.
+  CONSOLE_EMAIL_SMTP_HOST: "smtp.email.ap-chuncheon-1.oci.oraclecloud.com"
+  CONSOLE_EMAIL_SMTP_PORT: "587"
+  CONSOLE_EMAIL_FROM: "no-reply@knllogistic.com"
+  CONSOLE_EMAIL_FROM_NAME: "Console 정비 콘솔"
+  # Corporate webmail. The API mail endpoints mount regardless, but they return
+  # 503 until CONSOLE_MAIL_MASTER_KEY is present in console-secrets. The worker mirrors
+  # IMAP only when this flag, the KEK, and object storage are all configured.
+  CONSOLE_MAIL_ENABLED: "true"
+  # Dark/internal-first mox webapi endpoint. The webapi is ClusterIP-only and
+  # reachable only from console-app/console-worker by NetworkPolicy. Inbound mox delivery
+  # webhooks use CONSOLE_MAIL_MOX_WEBHOOK_SECRET from console-secrets.
+  CONSOLE_MAIL_MOX_BASE_URL: "http://console-mox.console.svc:1080"
+  # OTLP trace export (opt-in). Leave unset to keep tracing as JSON-to-stdout
+  # only. Uncommenting enables gRPC OTLP export to an in-cluster collector — the
+  # OTel collector MUST be deployed first, otherwise every request will attempt
+  # to export and fail. Point it at the collector's gRPC endpoint, e.g.:
+  # OTEL_EXPORTER_OTLP_ENDPOINT: "http://otel-collector.observability:4317"

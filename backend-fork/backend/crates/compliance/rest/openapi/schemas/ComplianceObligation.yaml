@@ -1,0 +1,21 @@
+type: object
+required: [id, code, title, description, obligation_type, scope, severity, status, metadata, created_by, updated_by, created_at, updated_at]
+properties:
+  id: { $ref: '#/components/schemas/Uuid' }
+  code: { type: string }
+  title: { type: string }
+  description: { type: string }
+  obligation_type: { $ref: '#/components/schemas/ObligationType' }
+  scope: { $ref: '#/components/schemas/ComplianceScope' }
+  owner_user_id: { type: [string, 'null'], format: uuid }
+  severity: { $ref: '#/components/schemas/ComplianceRiskLevel' }
+  status: { $ref: '#/components/schemas/ObligationStatus' }
+  effective_from: { type: [string, 'null'], format: date }
+  effective_to: { type: [string, 'null'], format: date }
+  review_cadence: { type: [string, 'null'], enum: [MONTHLY, QUARTERLY, SEMI_ANNUAL, ANNUAL, EVENT_DRIVEN, null] }
+  next_review_on: { type: [string, 'null'], format: date }
+  metadata: { type: object, additionalProperties: true }
+  created_by: { $ref: '#/components/schemas/Uuid' }
+  updated_by: { $ref: '#/components/schemas/Uuid' }
+  created_at: { $ref: '#/components/schemas/Timestamp' }
+  updated_at: { $ref: '#/components/schemas/Timestamp' }

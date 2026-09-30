@@ -1,0 +1,56 @@
+type: object
+required:
+- run_id
+- period_start
+- period_end
+- run_status
+- calculation_status
+- gross_pay_source_present
+- net_pay_source_present
+properties:
+  run_id:
+    $ref: '#/components/schemas/Uuid'
+  period_start:
+    type: string
+    format: date
+  period_end:
+    type: string
+    format: date
+  run_status:
+    type: string
+    enum: [STAGED, BLOCKED_LEGAL_GATE, READY_FOR_REVIEW, ATTENDANCE_CLOSED, CALCULATING, CALCULATED, SUBMITTED, REJECTED, APPROVED, DISBURSEMENT_SCHEDULED, PAID, ISSUED, VOID]
+  calculation_status:
+    type: string
+    enum: [BLOCKED_LEGAL_GATE, READY_FOR_REVIEW, APPROVED, ISSUED, VOID]
+  work_days:
+    type:
+    - number
+    - 'null'
+  regular_hours:
+    type:
+    - number
+    - 'null'
+  overtime_hours:
+    type:
+    - number
+    - 'null'
+  night_hours:
+    type:
+    - number
+    - 'null'
+  holiday_hours:
+    type:
+    - number
+    - 'null'
+  leave_used:
+    type:
+    - number
+    - 'null'
+  leave_remaining:
+    type:
+    - number
+    - 'null'
+  gross_pay_source_present:
+    type: boolean
+  net_pay_source_present:
+    type: boolean

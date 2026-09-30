@@ -1,0 +1,10 @@
+tags: [benefit-catalog]
+operationId: getBenefitCatalogItem
+summary: Read one tenant-visible benefit catalog item
+security: [{ bearerAuth: [] }]
+parameters: [{ name: benefit_id, in: path, required: true, schema: { $ref: '#/components/schemas/Uuid' } }]
+responses:
+  '200': { description: Benefit row, content: { application/json: { schema: { $ref: '#/components/schemas/BenefitCatalogItem' } } } }
+  '401': { $ref: '#/components/responses/Unauthorized' }
+  '403': { $ref: '#/components/responses/Forbidden' }
+  '404': { $ref: '#/components/responses/NotFound' }

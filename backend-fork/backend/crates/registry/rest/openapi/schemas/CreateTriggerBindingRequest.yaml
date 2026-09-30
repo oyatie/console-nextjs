@@ -1,0 +1,16 @@
+type: object
+required: [definition_id, trigger_type, event_key]
+properties:
+  definition_id:
+    $ref: '#/components/schemas/Uuid'
+  trigger_type:
+    type: string
+    enum: [OBJECT_EVENT, IMPORT_EVENT, MAIL_EVENT, MESSENGER_EVENT, CALENDAR_EVENT, POLL_EVENT]
+  event_key:
+    type: string
+  subject_kind:
+    type: string
+    description: Optional ontology object kind the rule acts on; must be a registered object_types.kind.
+  enabled:
+    type: boolean
+    default: true

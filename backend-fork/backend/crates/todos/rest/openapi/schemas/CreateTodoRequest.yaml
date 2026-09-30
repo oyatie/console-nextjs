@@ -1,0 +1,17 @@
+type: object
+required:
+- text
+properties:
+  text:
+    type: string
+    description: 1..=500 characters after trimming.
+  scopes:
+    type: array
+    description: Scope chips (person/team/site/entity refs); at most 20.
+    items:
+      $ref: '#/components/schemas/TodoRef'
+  links:
+    type: array
+    description: Object links (kind+id pairs); at most 20.
+    items:
+      $ref: '#/components/schemas/TodoRef'

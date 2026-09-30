@@ -1,0 +1,4 @@
+type: object
+required: [expected_generation]
+properties:
+  expected_generation: {type: integer, format: int32, minimum: 1}

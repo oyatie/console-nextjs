@@ -1,0 +1,80 @@
+{
+  "base_backend_candidate": "263d1106dba6185f198b78591d5260fb418444fa06f3d4c91f55955e4b894182",
+  "design_sha256": "1d4d963306e4625404ccb8927e99468afff08aad82904627794937fba51fe2dd",
+  "scope": "Complete proposed coordinated authentication lock tests and actual0227interruption/retry harness; independent exact approval pending",
+  "files": [
+    {
+      "path": "docs/planning/nextjs-v1/authentication-locking.md",
+      "sha256": "d8a1ed5241f5de72a9e0fd69d76aee14da3cb76b4f9f056919d3b8f71779d254"
+    },
+    {
+      "path": "backend-fork/backend/crates/platform/auth/tests/webauthn_contention.rs",
+      "sha256": "1626bab4512763396c45fd0afd2e33ef8b8982f545ce75ce630075b96de76940",
+      "sqlx_test_attributes": 22
+    },
+    {
+      "path": "backend-fork/backend/crates/platform/auth/tests/session_locking.rs",
+      "sha256": "f757b4e8ce9099f7d7802b3e945557b635e091fa0869590e9f1e207e41ca047b",
+      "sqlx_test_attributes": 8
+    },
+    {
+      "path": "backend-fork/backend/crates/platform/provisioning/tests/account_locking.rs",
+      "sha256": "80aae48541009c3ba921532fa83f54201a5c3c14f2b44a2d17f82caaef950681",
+      "sqlx_test_attributes": 18
+    },
+    {
+      "path": "backend-fork/backend/crates/platform/provisioning/tests/company_locking.rs",
+      "sha256": "e5f03c45fd103116e2947c4ee5f5b0b34cd26c4f469d8783984e98c606ff6b62",
+      "sqlx_test_attributes": 8
+    },
+    {
+      "path": "backend-fork/backend/crates/identity/adapter-postgres/tests/account_locking.rs",
+      "sha256": "37c1fa443cd85a4ec46403333de4d307db767fb0f19351035b80759d5a4ccdf6",
+      "sqlx_test_attributes": 3
+    },
+    {
+      "path": "backend-fork/backend/crates/identity/rest/tests/authentication_locking.rs",
+      "sha256": "a1da4c25e01398df4e124eefdf52b44b492cdd6a193cf588e63456e2adb99fd5",
+      "sqlx_test_attributes": 12
+    },
+    {
+      "path": "backend-fork/backend/crates/identity/rest/Cargo.toml",
+      "sha256": "dd6cb1ffe5414d60bdc0a2092dc09a1fdb87c9bcabc05c8ff5e16d45414e6549"
+    },
+    {
+      "path": "backend-fork/backend/Cargo.lock",
+      "sha256": "7b09da32cca3591f0b3e4321b1832e316a8b4d75d2d46304fb6bbd9aba4e7763"
+    },
+    {
+      "path": "tools/check-empty-install.py",
+      "sha256": "68ce187b8344467eafe83f4dd52498d43857e15b866d2224ba3ace72d73afd54"
+    }
+  ],
+  "dependency_delta": "One existing workspace crate auth-rest added as identity-rest dev dependency to test both real routers; no version/source change",
+  "review_status": "pending_exact_review_no_production_implementation",
+  "remaining": [
+    "Independent approval of complete exact tests before implementation",
+    "Actual0227fault execution after implementation; no preimplementation proof claimed"
+  ],
+  "expected_discovered_tests": {
+    "webauthn_contention": 27,
+    "session_locking": 8,
+    "provisioning_account_locking": 18,
+    "company_locking": 8,
+    "identity_account_locking": 3,
+    "authentication_locking": 12
+  },
+  "addressed_findings": [
+    "Removal waits for last Account before touching first child",
+    "Company status changes during Account wait abort both paths",
+    "All three handoff paths check expiry after actual handoff-row lock wait",
+    "Corrected fixture issued_at/expires_at order and bounded Company slug; earlier invalid-fixture failures retained",
+    "Actual0227 CREATE FUNCTION interruption uses preserved accepted0226installer, observed catalog lock and exact before/after schema/ACL/row/ledger custody",
+    "Both0226and0227retry compare exact prior SQLx ledger prefix, including original metadata",
+    "Bootstrap consumption also has last-child-row-wait expiry regression, beyond Account wait"
+  ],
+  "preserved_0226_installer": {
+    "path": ".artifacts/suffix-installers/8e86b652ebb9e8531af3a221f06c47c7d1306d1a380fdb34afe00a7559816e76/console-app",
+    "sha256": "8e86b652ebb9e8531af3a221f06c47c7d1306d1a380fdb34afe00a7559816e76"
+  }
+}

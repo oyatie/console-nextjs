@@ -1,0 +1,21 @@
+type: object
+additionalProperties: false
+required:
+- id
+- text
+- done
+- source_order
+- target
+properties:
+  id:
+    $ref: '#/components/schemas/Uuid'
+  text:
+    type: string
+  done:
+    type: boolean
+  source_order:
+    type: integer
+    format: int64
+    minimum: 0
+  target:
+    $ref: '#/components/schemas/WorkbenchTarget'

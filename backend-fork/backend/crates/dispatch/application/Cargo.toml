@@ -1,0 +1,21 @@
+[package]
+name = "console-dispatch-application"
+version = "0.1.0"
+description = "P1 emergency dispatch commands, DTOs, and audit builders."
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+base64 = { workspace = true }
+console-dispatch-domain = { workspace = true }
+console-kernel-core = { workspace = true }
+console-workorder-domain = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+time = { workspace = true }
+uuid = { workspace = true }
+
+[lints]
+workspace = true

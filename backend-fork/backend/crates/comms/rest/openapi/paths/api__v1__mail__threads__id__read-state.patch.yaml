@@ -1,0 +1,35 @@
+tags:
+  - mail
+operationId: setMailThreadReadState
+summary: Mark a mail thread read or unread
+description: Sets every inbound message in the visible thread to read or unread and recomputes thread/folder unread
+  aggregates. The action is RLS-armed to the caller's org and audited without duplicating message content. Requires
+  the MailUse feature.
+security:
+- bearerAuth: []
+parameters:
+- name: id
+  in: path
+  required: true
+  schema:
+    type: string
+    format: uuid
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/MailThreadReadStateRequest'
+responses:
+  '204':
+    description: Thread read-state updated.
+  '400':
+    $ref: '#/components/responses/ValidationError'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '503':
+    $ref: '#/components/responses/MailUnavailable'

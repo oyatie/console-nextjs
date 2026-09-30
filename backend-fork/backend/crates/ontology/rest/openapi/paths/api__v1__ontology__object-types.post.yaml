@@ -1,0 +1,35 @@
+operationId: createObjectType
+summary: Create a draft object type
+description: Creates a DRAFT object type schema (with its property/link/action/analytic children). Publishing is a governed,
+  separate lifecycle step; this only stages a draft.
+tags:
+- Ontology
+security:
+- bearerAuth: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/CreateObjectTypeDraft'
+responses:
+  '201':
+    description: Draft object type created.
+    headers:
+      ETag:
+        description: Strong tenant/key write validator for the created object type.
+        schema: { type: string }
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ObjectTypeSummary'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '409':
+    $ref: '#/components/responses/Conflict'
+  '422':
+    $ref: '#/components/responses/ValidationError'
+  '503':
+    $ref: '#/components/responses/ServiceUnavailable'

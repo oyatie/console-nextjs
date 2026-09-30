@@ -1,0 +1,5 @@
+type: string
+enum:
+- BROADCASTING
+- AUTO_ASSIGNED
+- MANAGER_FORCE_PENDING

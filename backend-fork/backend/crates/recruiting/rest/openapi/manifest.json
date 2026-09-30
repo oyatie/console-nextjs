@@ -1,0 +1,113 @@
+{
+  "source": "console-recruiting-rest",
+  "paths": {
+    "/api/v1/recruiting/applicants/{applicantId}": [
+      "get"
+    ],
+    "/api/v1/recruiting/applicants/{applicantId}/advance": [
+      "post"
+    ],
+    "/api/v1/recruiting/applicants/{applicantId}/assess": [
+      "post"
+    ],
+    "/api/v1/recruiting/applicants/{applicantId}/hire": [
+      "post"
+    ],
+    "/api/v1/recruiting/applicants/{applicantId}/hold": [
+      "post"
+    ],
+    "/api/v1/recruiting/applicants/{applicantId}/offer": [
+      "post"
+    ],
+    "/api/v1/recruiting/applicants/{applicantId}/reinstate": [
+      "post"
+    ],
+    "/api/v1/recruiting/applicants/{applicantId}/reject": [
+      "post"
+    ],
+    "/api/v1/recruiting/applicants/{applicantId}/request-documents": [
+      "post"
+    ],
+    "/api/v1/recruiting/offers/{offerId}/adjust": [
+      "post"
+    ],
+    "/api/v1/recruiting/offers/{offerId}/record-reply": [
+      "post"
+    ],
+    "/api/v1/recruiting/offers/{offerId}/withdraw": [
+      "post"
+    ],
+    "/api/v1/recruiting/postings": [
+      "get",
+      "post"
+    ],
+    "/api/v1/recruiting/postings/{postingId}": [
+      "get",
+      "put"
+    ],
+    "/api/v1/recruiting/postings/{postingId}/applicants": [
+      "post"
+    ],
+    "/api/v1/recruiting/postings/{postingId}/close": [
+      "post"
+    ],
+    "/api/v1/recruiting/postings/{postingId}/preflight": [
+      "post"
+    ],
+    "/api/v1/recruiting/postings/{postingId}/publish": [
+      "post"
+    ],
+    "/api/v1/recruiting/talent-pool": [
+      "get"
+    ]
+  },
+  "schemas": [
+    "AdjustRecruitOfferRequest",
+    "AdvanceRecruitApplicantRequest",
+    "AssessRecruitApplicantRequest",
+    "CloseRecruitPostingRequest",
+    "CreateRecruitApplicantRequest",
+    "CreateRecruitPostingRequest",
+    "ExtendRecruitOfferRequest",
+    "HireRecruitApplicantRequest",
+    "HireRecruitApplicantResponse",
+    "HoldRecruitApplicantRequest",
+    "PublishRecruitPostingRequest",
+    "RecordRecruitOfferReplyRequest",
+    "RecruitAmountPeriod",
+    "RecruitApplicant",
+    "RecruitApplicantDetailResponse",
+    "RecruitApplicantStage",
+    "RecruitApplicantSummary",
+    "RecruitAssessment",
+    "RecruitAssessmentScore",
+    "RecruitEmploymentType",
+    "RecruitHireConflictResponse",
+    "RecruitOffer",
+    "RecruitOfferStatus",
+    "RecruitPosting",
+    "RecruitPostingDetailResponse",
+    "RecruitPostingListResponse",
+    "RecruitPostingPreflightResponse",
+    "RecruitPostingScope",
+    "RecruitPostingStatus",
+    "RecruitPostingSummary",
+    "RecruitPreflightCheck",
+    "RecruitPublishFailedResponse",
+    "RecruitRejectReason",
+    "RecruitStageCounts",
+    "RecruitStageEvent",
+    "RecruitStageEventAction",
+    "RecruitTalentPoolEntry",
+    "RecruitTalentPoolListResponse",
+    "RejectRecruitApplicantRequest",
+    "UpdateRecruitPostingRequest",
+    "WithdrawRecruitOfferRequest"
+  ],
+  "external_schemas": [
+    "Date",
+    "ErrorBody",
+    "Timestamp",
+    "Uuid"
+  ]
+}

@@ -1,0 +1,8 @@
+type: object
+required:
+- decision
+properties:
+  decision:
+    $ref: '#/components/schemas/DailyPlanStatus'
+  memo:
+    type: string

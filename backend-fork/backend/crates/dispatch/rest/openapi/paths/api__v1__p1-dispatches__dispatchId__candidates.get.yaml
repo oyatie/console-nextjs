@@ -1,0 +1,11 @@
+tags: [p1-dispatches]
+operationId: listP1DispatchCandidates
+summary: List manager-authorized ranked dispatch candidates
+security: [{ bearerAuth: [] }]
+parameters: [{ $ref: '#/components/parameters/DispatchId' }]
+responses:
+  '200': { description: Dispatch candidate page., content: { application/json: { schema: { $ref: '#/components/schemas/DispatchCandidatePage' } } } }
+  '400': { $ref: '#/components/responses/BadRequest' }
+  '401': { $ref: '#/components/responses/Unauthorized' }
+  '403': { $ref: '#/components/responses/Forbidden' }
+  '404': { $ref: '#/components/responses/NotFound' }

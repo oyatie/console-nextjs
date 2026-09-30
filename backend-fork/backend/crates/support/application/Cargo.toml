@@ -1,0 +1,19 @@
+[package]
+name = "console-support-application"
+version = "0.1.0"
+description = "Support-ticket commands, DTOs, audit builders, and notification port."
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+console-support-domain = { workspace = true }
+console-kernel-core = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+time = { workspace = true }
+uuid = { workspace = true }
+
+[lints]
+workspace = true

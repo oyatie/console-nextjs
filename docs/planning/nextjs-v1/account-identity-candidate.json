@@ -1,0 +1,153 @@
+{
+  "scope": "Account UUID allocation/retirement prerequisite only; full authentication and R4 remain incomplete",
+  "base_backend_candidate": "525951582c1fd41b023d593c23c2f328469c876073434e83a547b44b2100f945",
+  "backend_candidate": "2406ee701d5f8c75d9079931e50e209da070169944122077b0d15b398c7a9b38",
+  "design_sha256": "1d4d963306e4625404ccb8927e99468afff08aad82904627794937fba51fe2dd",
+  "mechanics": {
+    "path": "docs/planning/nextjs-v1/account-identity-reservation.md",
+    "sha256": "83d9c9ed9f0eda03f8a86f2d9a269e8a22c360a65bf2530fe31578d09474cc5f",
+    "bytes": 5173
+  },
+  "tests": {
+    "path": "docs/planning/nextjs-v1/account-identity-tests.json",
+    "sha256": "15513c519c07aacaf4cf50c9e95a18fb657867bb3e8a9fd6af6bf97d4585f403",
+    "bytes": 1377
+  },
+  "evidence": [
+    {
+      "path": ".artifacts/empty-install-20260923T224607.322264Z/report.json",
+      "sha256": "9ceab849db61a497e1fef2f0b25992bf1f39d7a57ecdbfe886cc200a4bf2e36f",
+      "bytes": 167689
+    },
+    {
+      "path": ".artifacts/empty-install-20260923T224910.446524Z/report.json",
+      "sha256": "4d7500c98f56d387b4b5b87fb273c16f782965d4e480b8dfe6442d43e4ecc4b4",
+      "bytes": 167689
+    },
+    {
+      "path": ".artifacts/empty-install-20260923T225453.891280Z/report.json",
+      "sha256": "8a2701e1f92759f09f42ab1a7f7e8122de8d8856f86a1a41ab61d0b64a7ca3e1",
+      "bytes": 190971
+    },
+    {
+      "path": ".artifacts/account-identity-verification.json",
+      "sha256": "6d891c6ae83945589500195474ce0d40e81e0e42578e0ea29f2d62198a2fe560",
+      "bytes": 2010
+    },
+    {
+      "path": ".artifacts/account-identity-build.log",
+      "sha256": "7990bedc6a9af425dc127db0121e2ec338a4735fb522b0b1f4a9c4963181dea2",
+      "bytes": 622
+    },
+    {
+      "path": ".artifacts/account-identity-build-embedded.log",
+      "sha256": "bca5a6cfa5064da92cff975e0125a7b98bf21a6a0742774f8b8f46192d23b764",
+      "bytes": 10754
+    },
+    {
+      "path": ".artifacts/acceptance/20260923T225728.771278Z/report.json",
+      "sha256": "34d63c23b33bf8229c5621dc7e2c3422e65b132bf4598490b498142f8625631b",
+      "bytes": 22002
+    }
+  ],
+  "app": {
+    "path": ".artifacts/cargo-target/debug/console-app",
+    "sha256": "6d5fa29258eff89de4397ba9258e93c0c68154f6a5cbbcce489073f735066c95",
+    "bytes": 322977568
+  },
+  "verification": {
+    "integration_suites": [
+      {
+        "name": "cargo-console-platform-provisioning-account_identity",
+        "status": "passed",
+        "discovered": 14,
+        "executed": 14,
+        "passed": 14,
+        "failed": 0,
+        "skipped": 0,
+        "filtered": 0
+      },
+      {
+        "name": "cargo-console-platform-provisioning-company_locking",
+        "status": "passed",
+        "discovered": 9,
+        "executed": 9,
+        "passed": 9,
+        "failed": 0,
+        "skipped": 0,
+        "filtered": 0
+      },
+      {
+        "name": "cargo-console-platform-provisioning-onboard_mints_group_of_one",
+        "status": "passed",
+        "discovered": 3,
+        "executed": 3,
+        "passed": 3,
+        "failed": 0,
+        "skipped": 0,
+        "filtered": 0
+      },
+      {
+        "name": "cargo-console-platform-provisioning-rls_auth_chain_as_runtime_role",
+        "status": "passed",
+        "discovered": 8,
+        "executed": 8,
+        "passed": 8,
+        "failed": 0,
+        "skipped": 0,
+        "filtered": 0
+      },
+      {
+        "name": "cargo-console-platform-provisioning-roster_import",
+        "status": "passed",
+        "discovered": 2,
+        "executed": 2,
+        "passed": 2,
+        "failed": 0,
+        "skipped": 0,
+        "filtered": 0
+      },
+      {
+        "name": "cargo-console-platform-auth-webauthn_ceremony",
+        "status": "passed",
+        "discovered": 2,
+        "executed": 2,
+        "passed": 2,
+        "failed": 0,
+        "skipped": 0,
+        "filtered": 0
+      },
+      {
+        "name": "cargo-console-identity-rest-org_setup",
+        "status": "passed",
+        "discovered": 40,
+        "executed": 40,
+        "passed": 40,
+        "failed": 0,
+        "skipped": 0,
+        "filtered": 0
+      }
+    ],
+    "integration_passed": 78,
+    "migration_checks_passed": 689,
+    "migration_checks_unreached": 0,
+    "skipped": 0,
+    "filtered": 0,
+    "acceptance_tool_unit_tests_passed": 3,
+    "format": "passed",
+    "clippy": "passed",
+    "source_custody": "passed",
+    "clean_business_counts": {
+      "organizations": 0,
+      "accounts": 0,
+      "employees": 0,
+      "applied_migrations": 4
+    }
+  },
+  "limitations": [
+    "Not authentication command custody,protected enrollment/generations,admissions,attended proofing/recovery or signup/SSR completion",
+    "Permanent minimal allocated/retired UUID set retains a disclosed anti-resurrection security purpose; detailed privacy retention/erasure and restore reconciliation remain open",
+    "No live migration,full Company deletion policy correction,2site durability,real browsers,capacity,restore or cutover proof",
+    "45required module/leaf rows and8operational/protocol/browser suites remain unreached; release unaccepted"
+  ]
+}

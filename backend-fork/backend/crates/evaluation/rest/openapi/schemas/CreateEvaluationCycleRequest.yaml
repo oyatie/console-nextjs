@@ -1,0 +1,8 @@
+type: object
+additionalProperties: false
+required: [name, kind, period_label, due_date]
+properties:
+  name: { type: string, minLength: 1, maxLength: 120 }
+  kind: { $ref: '#/components/schemas/EvaluationCycleKind' }
+  period_label: { type: string, minLength: 1, maxLength: 60 }
+  due_date: { $ref: '#/components/schemas/Date' }

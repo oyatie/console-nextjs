@@ -1,0 +1,39 @@
+tags:
+  - support
+operationId: addSupportTicketComment
+summary: Append a comment or internal note to a support ticket
+security:
+- bearerAuth: []
+parameters:
+- name: id
+  in: path
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/AddCommentRequest'
+responses:
+  '201':
+    description: Comment added.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/SupportTicketComment'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '422':
+    $ref: '#/components/responses/ValidationError'
+  '503':
+    description: JWT verification is not configured.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ErrorBody'

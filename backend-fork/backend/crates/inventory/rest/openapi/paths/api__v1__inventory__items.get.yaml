@@ -1,0 +1,17 @@
+tags: [inventory]
+operationId: listInventoryItems
+summary: List tenant-scoped inventory items
+security: [{ bearerAuth: [] }]
+parameters:
+  - { name: branch_id, in: query, required: false, schema: { $ref: '#/components/schemas/Uuid' } }
+  - { name: site_id, in: query, required: false, schema: { $ref: '#/components/schemas/Uuid' } }
+  - { name: stock_location_id, in: query, required: false, schema: { $ref: '#/components/schemas/Uuid' } }
+  - { name: status, in: query, required: false, schema: { type: string } }
+  - { name: low_stock, in: query, required: false, schema: { type: boolean } }
+  - { name: q, in: query, required: false, schema: { type: string } }
+  - { name: limit, in: query, required: false, schema: { type: integer, minimum: 1, maximum: 200 } }
+  - { name: offset, in: query, required: false, schema: { type: integer, minimum: 0 } }
+responses:
+  '200': { description: Inventory page, content: { application/json: { schema: { $ref: '#/components/schemas/InventoryItemPage' } } } }
+  '401': { $ref: '#/components/responses/Unauthorized' }
+  '403': { $ref: '#/components/responses/Forbidden' }

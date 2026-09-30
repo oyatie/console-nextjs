@@ -1,0 +1,23 @@
+type: object
+required:
+- branch_id
+- amount_won
+- memo
+- config
+properties:
+  branch_id:
+    $ref: '#/components/schemas/Uuid'
+  work_order_id:
+    type:
+    - string
+    - 'null'
+    format: uuid
+  amount_won:
+    type: integer
+    format: int64
+    minimum: 1
+  memo:
+    type: string
+    minLength: 1
+  config:
+    $ref: '#/components/schemas/FinancialConfigSnapshot'

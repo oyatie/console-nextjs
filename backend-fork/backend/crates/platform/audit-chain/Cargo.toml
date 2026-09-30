@@ -1,0 +1,44 @@
+[package]
+name = "console-platform-audit-chain"
+version = "0.1.0"
+description = "L20 tamper-evident audit chain: a per-org append-only cryptographically-sealed hash chain over audit_events, a seal worker, and verify_org_chain. Reads audit_events, writes the disjoint audit_chain_seals table as console_rt under RLS (charter §2-§5)."
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+console-kernel-core = { workspace = true }
+console-platform-db = { workspace = true }
+# `catch_unwind` panic-isolation for the per-org seal in the worker tick, mirroring
+# the cedar shadow lane. Already resolved in-tree (workspace dep, Cargo.lock 0.3.32).
+futures = { workspace = true }
+# ChainReport/ChainReportKind derive Serialize so PR-2's attestation REST
+# handler returns them directly with no parallel app-level DTO.
+serde = { workspace = true }
+serde_json = { workspace = true }
+sha2 = { workspace = true }
+hex = { workspace = true }
+sqlx = { workspace = true }
+# The workspace tokio enables only rt-multi-thread + macros; the seal worker also
+# needs the watch channel (sync) and interval timer (time).
+tokio = { workspace = true, features = ["sync", "time"] }
+time = { workspace = true }
+uuid = { workspace = true }
+thiserror = { workspace = true }
+tracing = { workspace = true }
+# Ed25519 seal signing. `ring` 0.17.x is ALREADY resolved in-tree (transitively
+# via lettre/tokio-rustls' rustls `ring` provider — Cargo.lock name = "ring",
+# version 0.17.14), so this pins the existing lockfile entry and adds NO new
+# third-party to reindeer/buck2-vendor. Keep ring's default features (`alloc` for
+# the PKCS#8 Document/Vec APIs, `dev_urandom_fallback` for SystemRandom) — the
+# Ed25519 keygen path needs both. Verified against the committed Cargo.lock:
+# reusing the in-tree version is the workspace's single-stack discipline.
+ring = "0.17"
+
+[dev-dependencies]
+console-platform-request-context = { workspace = true }
+tokio = { workspace = true, features = ["macros", "rt-multi-thread"] }
+
+[lints]
+workspace = true

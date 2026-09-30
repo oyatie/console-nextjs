@@ -1,0 +1,32 @@
+tags:
+  - workflow-runs
+operationId: startWorkflowRun
+summary: Start a workflow run (idempotent)
+description: Starts an ACTIVE definition and advances synchronously until the first WAITING task or terminal node.
+  idempotency_key maps to workflow_runs.idempotency_key — a replay returns the existing run, and the same key with a
+  different definition/object is a 409. Entry-node policy (when declared) is legacy-enforced with an inert Cedar shadow.
+security:
+- bearerAuth: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/StartWorkflowRunRequest'
+responses:
+  '200':
+    description: Run started (or replayed) with its current first WAITING task, if any.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/StartWorkflowRunResponse'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '409':
+    $ref: '#/components/responses/Conflict'
+  '422':
+    $ref: '#/components/responses/ValidationError'

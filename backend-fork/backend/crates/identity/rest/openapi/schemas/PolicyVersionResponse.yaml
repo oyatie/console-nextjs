@@ -1,0 +1,14 @@
+type: object
+description: Monotonic tenant policy revision. Version 0 means no custom policy write has occurred yet; every role or
+  custom-role assignment write bumps the stored version for future effective-policy cache invalidation.
+required:
+- version
+properties:
+  version:
+    type: integer
+    format: int64
+    minimum: 0
+  updated_at:
+    type: string
+    format: date-time
+    nullable: true

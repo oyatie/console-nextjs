@@ -1,0 +1,35 @@
+tags:
+- recruiting
+operationId: advanceRecruitApplicant
+summary: Advance one stage (INTERVIEW→OFFER is offer-only and OFFER→HIRED hire-only — both 422)
+security:
+- bearerAuth: []
+parameters:
+- name: applicantId
+  in: path
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/AdvanceRecruitApplicantRequest'
+responses:
+  '200':
+    description: The advanced applicant.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/RecruitApplicant'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '409':
+    $ref: '#/components/responses/Conflict'
+  '422':
+    $ref: '#/components/responses/ValidationError'

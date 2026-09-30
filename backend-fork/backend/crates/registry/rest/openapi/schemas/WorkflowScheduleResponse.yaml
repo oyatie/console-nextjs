@@ -1,0 +1,33 @@
+type: object
+required: [id, label, cron_expr, timezone, definition_id, enabled, created_at, updated_at]
+properties:
+  id:
+    $ref: '#/components/schemas/Uuid'
+  label:
+    type: string
+  cron_expr:
+    type: string
+  timezone:
+    type: string
+  definition_id:
+    $ref: '#/components/schemas/Uuid'
+  enabled:
+    type: boolean
+  next_run_at:
+    type: string
+    format: date-time
+    nullable: true
+  last_run_at:
+    type: string
+    format: date-time
+    nullable: true
+  last_status:
+    type: string
+    enum: [STARTED, SKIPPED, FAILED]
+    nullable: true
+  created_at:
+    type: string
+    format: date-time
+  updated_at:
+    type: string
+    format: date-time

@@ -1,0 +1,35 @@
+tags:
+  - hr
+operationId: previewAttendanceImport
+summary: Preview a direct attendance workbook or CSV through the governed import ledger
+description: Creates an immutable attendance_direct import run, preserves raw source rows, masks restricted values in
+  the response, and records coordinate-free attendance facts only after dry-run and apply. Imported rows are lineage
+  for payroll readiness, not payable payroll lines.
+security:
+- bearerAuth: []
+requestBody:
+  required: true
+  content:
+    multipart/form-data:
+      schema:
+        type: object
+        required:
+        - file
+        properties:
+          file:
+            type: string
+            format: binary
+            description: Direct attendance .xlsx workbook or UTF-8 .csv file.
+responses:
+  '200':
+    description: Attendance import preview with masked sample rows and mapping profile.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/AttendanceImportPreviewResponse'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '422':
+    $ref: '#/components/responses/ValidationError'

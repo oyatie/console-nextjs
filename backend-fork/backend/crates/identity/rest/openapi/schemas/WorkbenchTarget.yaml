@@ -1,0 +1,11 @@
+type: object
+additionalProperties: false
+description: Server-issued bounded module target; never an arbitrary URL.
+required:
+- module
+- id
+properties:
+  module:
+    type: string
+  id:
+    type: string

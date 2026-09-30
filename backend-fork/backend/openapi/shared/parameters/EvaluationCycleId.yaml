@@ -1,0 +1,4 @@
+      name: cycle_id
+      in: path
+      required: true
+      schema: { $ref: '#/components/schemas/Uuid' }

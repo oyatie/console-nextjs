@@ -1,0 +1,104 @@
+type: object
+required:
+- scope
+- approved_report_count
+- completed_count
+- weighted_completed_points
+- average_response_seconds
+- average_completion_seconds
+- target_due_compliance_bps
+- revisit_rate_bps
+- delay_rate_bps
+- delay_reason_distribution
+- inspection_schedule_due_count
+- inspection_schedule_completed_count
+- inspection_plan_completion_bps
+- p1_dispatch_count
+- p1_accepted_count
+- p1_acceptance_bps
+properties:
+  scope:
+    $ref: '#/components/schemas/KpiRollupScope'
+  scope_display_name:
+    type:
+    - string
+    - 'null'
+    description: Human-readable name for the scope (region/branch/mechanic), resolved via a same-org lookup. Null for
+      the company-wide scope or a deleted region/branch/user. Optional; absent on the pure-domain shape.
+  approved_report_count:
+    type: integer
+    format: int32
+    minimum: 0
+  completed_count:
+    type: integer
+    format: int32
+    minimum: 0
+  weighted_completed_points:
+    type: integer
+    format: int32
+    minimum: 0
+  average_response_seconds:
+    type:
+    - integer
+    - 'null'
+    format: int64
+    minimum: 0
+  average_completion_seconds:
+    type:
+    - integer
+    - 'null'
+    format: int64
+    minimum: 0
+  target_due_compliance_bps:
+    type:
+    - integer
+    - 'null'
+    format: int32
+    minimum: 0
+    maximum: 10000
+  revisit_rate_bps:
+    type: integer
+    format: int32
+    minimum: 0
+    maximum: 10000
+  delay_rate_bps:
+    type: integer
+    format: int32
+    minimum: 0
+    maximum: 10000
+  delay_reason_distribution:
+    type: object
+    additionalProperties:
+      type: integer
+      format: int32
+      minimum: 0
+  inspection_schedule_due_count:
+    type: integer
+    format: int32
+    minimum: 0
+  inspection_schedule_completed_count:
+    type: integer
+    format: int32
+    minimum: 0
+  inspection_plan_completion_bps:
+    type:
+    - integer
+    - 'null'
+    format: int32
+    minimum: 0
+    maximum: 10000
+  p1_dispatch_count:
+    type: integer
+    format: int32
+    minimum: 0
+  p1_accepted_count:
+    type: integer
+    format: int32
+    minimum: 0
+  p1_acceptance_bps:
+    type:
+    - integer
+    - 'null'
+    format: int32
+    minimum: 0
+    maximum: 10000

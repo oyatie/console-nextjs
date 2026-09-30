@@ -1,0 +1,94 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: console-worker
+  namespace: console
+  labels: { app: console-worker }
+spec:
+  replicas: 1
+  selector:
+    matchLabels: { app: console-worker }
+  strategy:
+    type: RollingUpdate
+    rollingUpdate: { maxUnavailable: 0, maxSurge: 1 }
+  template:
+    metadata:
+      labels: { app: console-worker }
+    spec:
+      # The worker talks to Postgres and OCI, never to the Kubernetes API.
+      automountServiceAccountToken: false
+      terminationGracePeriodSeconds: 30 # Rust app handles SIGTERM and drains within CONSOLE_SHUTDOWN_TIMEOUT_SECS (10s)
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 10001
+        fsGroup: 10001
+        seccompProfile: { type: RuntimeDefault }
+      containers:
+        - name: console-worker
+          image: console-app # same binary as the api, CONSOLE_APP_ROLE switches the role
+          ports:
+            - { name: health, containerPort: 8080, protocol: TCP }
+          envFrom:
+            - configMapRef: { name: console-config }
+            - secretRef: { name: console-secrets }
+          env:
+            - name: CONSOLE_APP_ROLE
+              value: "worker"
+            - name: CONSOLE_SERVICE_NAME # metrics/traces service_name (distinct from the api)
+              value: "console-app-worker"
+            # SMTP relay is enabled by non-secret CONSOLE_EMAIL_* fields in console-config.
+            # Require the credential keys explicitly so a missing/partial
+            # console-secrets Secret fails closed during rollout instead of envFrom
+            # silently omitting the variables and degrading to stub email.
+            - name: CONSOLE_EMAIL_SMTP_USERNAME
+              valueFrom:
+                secretKeyRef: { name: console-secrets, key: CONSOLE_EMAIL_SMTP_USERNAME }
+            - name: CONSOLE_EMAIL_SMTP_PASSWORD
+              valueFrom:
+                secretKeyRef: { name: console-secrets, key: CONSOLE_EMAIL_SMTP_PASSWORD }
+            - name: CONSOLE_POD_NAME # unique Apalis worker identity during rolling updates
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            # Runtime connects as the NON-OWNER role console_rt (subject to RLS).
+            # Schema migrations are applied out of band with the owner console-db-app
+            # secret — never from this workload.
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef: { name: console-db-rt, key: uri }
+          startupProbe:
+            httpGet: { path: /healthz, port: health }
+            failureThreshold: 30
+            periodSeconds: 2
+          readinessProbe:
+            httpGet: { path: /healthz, port: health }
+            periodSeconds: 10
+            timeoutSeconds: 2
+          livenessProbe:
+            httpGet: { path: /healthz, port: health }
+            periodSeconds: 15
+            timeoutSeconds: 2
+          resources:
+            requests: { cpu: 100m, memory: 192Mi }
+            limits: { memory: 512Mi }
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities: { drop: [ALL] }
+          volumeMounts:
+            - { name: tmp, mountPath: /tmp }
+      volumes:
+        - name: tmp
+          emptyDir: {}
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: console-worker
+  namespace: console
+spec:
+  # Single-replica async worker: jobs are idempotent and tolerate a brief gap,
+  # so allow the one pod to be evicted (minAvailable: 1 would wedge node drains).
+  maxUnavailable: 1
+  selector:
+    matchLabels: { app: console-worker }

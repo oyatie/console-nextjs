@@ -1,0 +1,105 @@
+{
+  "source": "console-financial-rest",
+  "paths": {
+    "/api/v1/financial/equipment/{equipmentId}/cost-ledger": [
+      "get"
+    ],
+    "/api/v1/financial/equipment/{equipmentId}/cost-ledger/manual": [
+      "post"
+    ],
+    "/api/v1/financial/equipment/{equipmentId}/lifecycle-cost": [
+      "get"
+    ],
+    "/api/v1/financial/purchase-requests": [
+      "get",
+      "post"
+    ],
+    "/api/v1/financial/purchase-requests/attachments/presign": [
+      "post"
+    ],
+    "/api/v1/financial/purchase-requests/attachments/{attachmentId}/confirm": [
+      "post"
+    ],
+    "/api/v1/financial/purchase-requests/preferences": [
+      "get",
+      "put"
+    ],
+    "/api/v1/financial/purchase-requests/{purchaseRequestId}": [
+      "get"
+    ],
+    "/api/v1/financial/purchase-requests/{purchaseRequestId}/approve-admin": [
+      "post"
+    ],
+    "/api/v1/financial/purchase-requests/{purchaseRequestId}/approve-executive": [
+      "post"
+    ],
+    "/api/v1/financial/purchase-requests/{purchaseRequestId}/attachments/{attachmentId}/download": [
+      "get"
+    ],
+    "/api/v1/financial/purchase-requests/{purchaseRequestId}/execute": [
+      "post"
+    ],
+    "/api/v1/financial/purchase-requests/{purchaseRequestId}/prepare-expenditure": [
+      "post"
+    ],
+    "/api/v1/financial/purchase-requests/{purchaseRequestId}/reject": [
+      "post"
+    ],
+    "/api/v1/financial/purchase-requests/{purchaseRequestId}/restart": [
+      "post"
+    ],
+    "/api/v1/financial/purchase-requests/{purchaseRequestId}/submit": [
+      "post"
+    ],
+    "/api/v1/financial/rental-quotes": [
+      "post"
+    ],
+    "/api/v1/financial/rental-quotes/compute": [
+      "post"
+    ],
+    "/api/v1/financial/rental-quotes/{quoteId}": [
+      "get"
+    ]
+  },
+  "schemas": [
+    "AcquisitionBasis",
+    "AppendManualCostLedgerRequest",
+    "AssetLifecycleCostSummary",
+    "ComputeRentalQuoteRequest",
+    "ComputedRentalQuote",
+    "CostLedgerEntrySummary",
+    "CostLedgerSource",
+    "CreatePurchaseRequest",
+    "CreateRentalQuoteRequest",
+    "DepreciationMethod",
+    "FinancialConfigSnapshot",
+    "FinancialStepUpRequest",
+    "PrepareExpenditureRequest",
+    "PurchaseAttachmentDownloadResponse",
+    "PurchaseAttachmentPresignRequest",
+    "PurchaseAttachmentPresignResponse",
+    "PurchaseAttachmentSummary",
+    "PurchaseAttachmentUploadRecord",
+    "PurchaseFeaturePreferences",
+    "PurchasePolicySummary",
+    "PurchaseRequestLineInput",
+    "PurchaseRequestLineSummary",
+    "PurchaseRequestPage",
+    "PurchaseRequestSummary",
+    "PurchaseRequesterSummary",
+    "PurchaseStatus",
+    "PurchaseType",
+    "QuoteLine",
+    "RejectPurchaseRequest",
+    "RentalQuoteSummary",
+    "RestartPurchaseRequest",
+    "SavePurchasePreferencesRequest"
+  ],
+  "external_schemas": [
+    "ErrorBody",
+    "PasskeyStepUpAssertion",
+    "PresignedUpload",
+    "Timestamp",
+    "Uuid"
+  ]
+}

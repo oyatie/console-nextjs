@@ -1,0 +1,5 @@
+      description: State conflict or illegal transition.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorBody'

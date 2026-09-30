@@ -1,0 +1,26 @@
+type: object
+required:
+- id
+- user_id
+- device_hash
+- platform
+- app_version
+- last_registered_at
+properties:
+  id:
+    $ref: '#/components/schemas/Uuid'
+  user_id:
+    $ref: '#/components/schemas/Uuid'
+  device_hash:
+    type: string
+    pattern: ^[a-f0-9]{64}$
+  platform:
+    $ref: '#/components/schemas/DevicePlatform'
+  push_token:
+    type:
+    - string
+    - 'null'
+  app_version:
+    type: string
+  last_registered_at:
+    $ref: '#/components/schemas/Timestamp'

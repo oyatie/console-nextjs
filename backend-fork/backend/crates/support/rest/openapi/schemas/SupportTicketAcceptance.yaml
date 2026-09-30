@@ -1,0 +1,35 @@
+type: object
+required:
+- id
+- ticket_id
+- kind
+- channel
+- accepted_by
+- note
+- recorded_by_user_id
+- recorded_by_name
+- occurred_at
+properties:
+  id:
+    $ref: '#/components/schemas/Uuid'
+  ticket_id:
+    $ref: '#/components/schemas/Uuid'
+  kind:
+    $ref: '#/components/schemas/SupportTicketAcceptanceKind'
+  channel:
+    $ref: '#/components/schemas/SupportTicketAcceptanceChannel'
+  accepted_by:
+    type: string
+  note:
+    type:
+    - string
+    - 'null'
+  recorded_by_user_id:
+    $ref: '#/components/schemas/Uuid'
+  recorded_by_name:
+    type:
+    - string
+    - 'null'
+    description: Recorder display name via a same-org lookup; null when the account no longer exists.
+  occurred_at:
+    $ref: '#/components/schemas/Timestamp'

@@ -1,0 +1,250 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: argocd-cm
+  namespace: argocd
+  labels:
+    app.kubernetes.io/name: argocd-cm
+    app.kubernetes.io/part-of: argocd
+data:
+  resource.customizations.ignoreResourceUpdates.ConfigMap: |
+    jqPathExpressions:
+      # Ignore the cluster-autoscaler status.
+      - '.metadata.annotations."cluster-autoscaler.kubernetes.io/last-updated"'
+      # Ignore the annotation of the legacy Leases election.
+      - '.metadata.annotations."control-plane.alpha.kubernetes.io/leader"'
+  resource.customizations.ignoreResourceUpdates.Endpoints: |
+    jsonPointers:
+      - /metadata
+      - /subsets
+  resource.customizations.ignoreResourceUpdates.all: |
+    jsonPointers:
+      - /status
+  resource.customizations.ignoreResourceUpdates.apps_ReplicaSet: |
+    jqPathExpressions:
+      - '.metadata.annotations."deployment.kubernetes.io/desired-replicas"'
+      - '.metadata.annotations."deployment.kubernetes.io/max-replicas"'
+      - '.metadata.annotations."rollout.argoproj.io/desired-replicas"'
+  resource.customizations.ignoreResourceUpdates.argoproj.io_Application: |
+    jqPathExpressions:
+      - '.metadata.annotations."notified.notifications.argoproj.io"'
+      - '.metadata.annotations."argocd.argoproj.io/refresh"'
+      - '.metadata.annotations."argocd.argoproj.io/hydrate"'
+      - '.operation'
+  resource.customizations.ignoreResourceUpdates.argoproj.io_Rollout: |
+    jqPathExpressions:
+      - '.metadata.annotations."notified.notifications.argoproj.io"'
+  resource.customizations.ignoreResourceUpdates.autoscaling_HorizontalPodAutoscaler: |
+    jqPathExpressions:
+      - '.metadata.annotations."autoscaling.alpha.kubernetes.io/behavior"'
+      - '.metadata.annotations."autoscaling.alpha.kubernetes.io/conditions"'
+      - '.metadata.annotations."autoscaling.alpha.kubernetes.io/metrics"'
+      - '.metadata.annotations."autoscaling.alpha.kubernetes.io/current-metrics"'
+  resource.customizations.ignoreResourceUpdates.discovery.k8s.io_EndpointSlice: |
+    jsonPointers:
+      - /metadata
+      - /endpoints
+      - /ports
+  resource.customizations.health.argoproj.io_Rollout: |
+    hs = {}
+    if obj.status ~= nil then
+      if obj.status.conditions ~= nil then
+        for _, condition in ipairs(obj.status.conditions) do
+          if condition.type == "Degraded" and condition.status == "True" then
+            hs.status = "Degraded"
+            hs.message = condition.message or "Rollout degraded"
+            return hs
+          end
+          if condition.type == "Healthy" and condition.status == "True" then
+            hs.status = "Healthy"
+            hs.message = condition.message or "Rollout is healthy"
+            return hs
+          end
+        end
+      end
+      if obj.status.phase == "Healthy" then
+        hs.status = "Healthy"
+        hs.message = "Rollout is healthy"
+        return hs
+      end
+      if obj.status.phase == "Degraded" then
+        hs.status = "Degraded"
+        hs.message = obj.status.message or "Rollout degraded"
+        return hs
+      end
+    end
+    hs.status = "Progressing"
+    hs.message = "Waiting for rollout to become healthy"
+    return hs
+  resource.customizations.health.argoproj.io_AnalysisTemplate: |
+    hs = {}
+    hs.status = "Healthy"
+    hs.message = "AnalysisTemplate is ready for rollouts"
+    return hs
+  resource.customizations.health.batch_Job: |
+    hs = {}
+    if obj.status ~= nil and obj.status.conditions ~= nil then
+      for _, condition in ipairs(obj.status.conditions) do
+        if condition.type == "Failed" and condition.status == "True" then
+          hs.status = "Degraded"
+          hs.message = condition.message or "Job failed"
+          return hs
+        end
+        if condition.type == "Complete" and condition.status == "True" then
+          hs.status = "Healthy"
+          hs.message = condition.message or "Job completed"
+          return hs
+        end
+      end
+    end
+    hs.status = "Progressing"
+    hs.message = "Waiting for job completion"
+    return hs
+  resource.customizations.health.networking.k8s.io_Ingress: |
+    hs = {}
+    if obj.status ~= nil and obj.status.loadBalancer ~= nil and
+       obj.status.loadBalancer.ingress ~= nil and #obj.status.loadBalancer.ingress > 0 then
+      hs.status = "Healthy"
+      hs.message = "Ingress has load-balancer status"
+      return hs
+    end
+    if obj.spec ~= nil and obj.spec.ingressClassName == "traefik" and
+       obj.spec.rules ~= nil and #obj.spec.rules > 0 then
+      hs.status = "Healthy"
+      hs.message = "Traefik ingress is configured; external reachability is verified separately"
+      return hs
+    end
+    hs.status = "Progressing"
+    hs.message = "Waiting for ingress load-balancer status"
+    return hs
+  resource.customizations.health.postgresql.cnpg.io_Cluster: |
+    hs = {}
+    if obj.status ~= nil then
+      if obj.status.conditions ~= nil then
+        for _, condition in ipairs(obj.status.conditions) do
+          if condition.type == "Ready" and condition.status == "True" then
+            hs.status = "Healthy"
+            hs.message = condition.message or "CNPG cluster is ready"
+            return hs
+          end
+          if condition.type == "Ready" and condition.status == "False" then
+            hs.status = "Degraded"
+            hs.message = condition.message or "CNPG cluster is not ready"
+            return hs
+          end
+        end
+      end
+      if obj.status.phase == "Cluster in healthy state" then
+        hs.status = "Healthy"
+        hs.message = obj.status.phase
+        return hs
+      end
+    end
+    hs.status = "Progressing"
+    hs.message = "Waiting for CNPG cluster readiness"
+    return hs
+  resource.customizations.health.postgresql.cnpg.io_ScheduledBackup: |
+    hs = {}
+    if obj.status ~= nil then
+      if obj.status.conditions ~= nil then
+        for _, condition in ipairs(obj.status.conditions) do
+          if condition.type == "Ready" and condition.status == "False" then
+            hs.status = "Degraded"
+            hs.message = condition.message or "Scheduled backup is not ready"
+            return hs
+          end
+          if condition.type == "Ready" and condition.status == "True" then
+            hs.status = "Healthy"
+            hs.message = condition.message or "Scheduled backup is ready"
+            return hs
+          end
+        end
+      end
+      if obj.status.nextScheduleTime ~= nil or obj.status.lastScheduleTime ~= nil then
+        hs.status = "Healthy"
+        hs.message = "Scheduled backup has a recorded schedule"
+        return hs
+      end
+    end
+    hs.status = "Progressing"
+    hs.message = "Waiting for scheduled backup status"
+    return hs
+  resource.customizations.health.barmancloud.cnpg.io_ObjectStore: |
+    hs = {}
+    if obj.status ~= nil and obj.status.serverRecoveryWindow ~= nil then
+      for _, window in pairs(obj.status.serverRecoveryWindow) do
+        if window.lastSuccessfulBackupTime ~= nil then
+          if window.lastFailedBackupTime ~= nil and window.lastFailedBackupTime > window.lastSuccessfulBackupTime then
+            hs.status = "Degraded"
+            hs.message = "Latest object-store backup failed"
+            return hs
+          end
+          hs.status = "Healthy"
+          hs.message = "Object store has a successful backup window"
+          return hs
+        end
+      end
+    end
+    hs.status = "Progressing"
+    hs.message = "Waiting for object-store backup status"
+    return hs
+  resource.customizations.health.traefik.io_Middleware: |
+    hs = {}
+    hs.status = "Healthy"
+    hs.message = "Middleware is configured"
+    return hs
+  resource.exclusions: |
+    ### Network resources created by the Kubernetes control plane and excluded to reduce UI noise.
+    - apiGroups:
+      - ''
+      - discovery.k8s.io
+      kinds:
+      - Endpoints
+      - EndpointSlice
+    ### Internal Kubernetes resources excluded to reduce UI noise.
+    - apiGroups:
+      - coordination.k8s.io
+      kinds:
+      - Lease
+    ### Internal Kubernetes Authz/Authn resources excluded to reduce UI noise.
+    - apiGroups:
+      - authentication.k8s.io
+      - authorization.k8s.io
+      kinds:
+      - SelfSubjectReview
+      - TokenReview
+      - LocalSubjectAccessReview
+      - SelfSubjectAccessReview
+      - SelfSubjectRulesReview
+      - SubjectAccessReview
+    ### Intermediate CertificateRequest resources excluded to reduce UI noise.
+    - apiGroups:
+      - certificates.k8s.io
+      kinds:
+      - CertificateSigningRequest
+    - apiGroups:
+      - cert-manager.io
+      kinds:
+      - CertificateRequest
+    ### Cilium internal resources excluded to reduce UI noise.
+    - apiGroups:
+      - cilium.io
+      kinds:
+      - CiliumIdentity
+      - CiliumEndpoint
+      - CiliumEndpointSlice
+    ### Kyverno intermediate/reporting resources excluded to reduce UI noise.
+    - apiGroups:
+      - kyverno.io
+      - reports.kyverno.io
+      - wgpolicyk8s.io
+      kinds:
+      - PolicyReport
+      - ClusterPolicyReport
+      - EphemeralReport
+      - ClusterEphemeralReport
+      - AdmissionReport
+      - ClusterAdmissionReport
+      - BackgroundScanReport
+      - ClusterBackgroundScanReport
+      - UpdateRequest

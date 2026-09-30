@@ -1,0 +1,68 @@
+type: object
+required:
+- id
+- work_order_id
+- branch_id
+- status
+- total_amount_krw
+- voucher_ref
+- note
+- lines
+- created_by
+- submitted_by
+- submitted_at
+- approved_by
+- approved_at
+- created_at
+- updated_at
+properties:
+  id:
+    $ref: '#/components/schemas/Uuid'
+  work_order_id:
+    $ref: '#/components/schemas/Uuid'
+  branch_id:
+    $ref: '#/components/schemas/Uuid'
+  status:
+    $ref: '#/components/schemas/SettlementStatus'
+  total_amount_krw:
+    type: integer
+    format: int64
+  voucher_ref:
+    type:
+    - string
+    - 'null'
+    description: Finance journal/voucher code once posted (finance-gl lane).
+  note:
+    type:
+    - string
+    - 'null'
+  lines:
+    type: array
+    items:
+      $ref: '#/components/schemas/SettlementLineSummary'
+  created_by:
+    $ref: '#/components/schemas/Uuid'
+  submitted_by:
+    type:
+    - string
+    - 'null'
+    format: uuid
+  submitted_at:
+    type:
+    - string
+    - 'null'
+    format: date-time
+  approved_by:
+    type:
+    - string
+    - 'null'
+    format: uuid
+  approved_at:
+    type:
+    - string
+    - 'null'
+    format: date-time
+  created_at:
+    $ref: '#/components/schemas/Timestamp'
+  updated_at:
+    $ref: '#/components/schemas/Timestamp'

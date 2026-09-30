@@ -1,0 +1,39 @@
+tags:
+  - platform
+operationId: createPlatformGroupAccount
+summary: Create a tenant-anchored user account with a group role
+description: Creates one tenant account in the target organization, grants a group role, and returns the one-time setup
+  OTP exactly once. Tenant roles default to MEMBER and group_role defaults to GROUP_ADMIN when omitted.
+security:
+- bearerAuth: []
+parameters:
+- name: id
+  in: path
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/CreatePlatformGroupAccountRequest'
+responses:
+  '201':
+    description: The created group account plus one-time setup OTP.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/CreatePlatformGroupAccountResponse'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '409':
+    $ref: '#/components/responses/Conflict'
+  '422':
+    $ref: '#/components/responses/ValidationError'
+  '503':
+    $ref: '#/components/responses/ServiceUnavailable'

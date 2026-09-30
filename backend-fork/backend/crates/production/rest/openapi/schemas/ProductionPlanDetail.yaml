@@ -1,0 +1,8 @@
+allOf:
+- $ref: '#/components/schemas/ProductionPlan'
+- type: object
+  required: [checks, events, operation]
+  properties:
+    checks: {type: object, additionalProperties: true}
+    events: {type: array, items: {type: object, required: [id, event_type, actor_id, payload, occurred_at], properties: {id: {$ref: '#/components/schemas/Uuid'}, event_type: {type: string}, actor_id: {$ref: '#/components/schemas/Uuid'}, payload: {type: object, additionalProperties: true}, occurred_at: {type: string, format: date-time}}}}
+    operation: {$ref: '#/components/schemas/ProductionOperation'}

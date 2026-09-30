@@ -1,0 +1,64 @@
+type: object
+required:
+- id
+- request_no
+- branch_id
+- status
+- priority
+- result_type
+- maintenance_type
+- maintenance_cause
+- target_due_at
+- created_at
+- updated_at
+- equipment
+- customer
+- site
+- site_contact
+- assignments
+properties:
+  id:
+    $ref: '#/components/schemas/Uuid'
+  request_no:
+    type: string
+    pattern: ^[0-9]{8}-[0-9]{3}$
+  branch_id:
+    $ref: '#/components/schemas/Uuid'
+  status:
+    $ref: '#/components/schemas/WorkOrderStatus'
+  priority:
+    $ref: '#/components/schemas/PriorityLevel'
+  result_type:
+    $ref: '#/components/schemas/WorkResultType'
+  maintenance_type:
+    oneOf:
+    - type: 'null'
+    - $ref: '#/components/schemas/MaintenanceType'
+  maintenance_cause:
+    oneOf:
+    - type: 'null'
+    - $ref: '#/components/schemas/MaintenanceCause'
+  target_due_at:
+    type:
+    - string
+    - 'null'
+    format: date-time
+  created_at:
+    $ref: '#/components/schemas/Timestamp'
+  updated_at:
+    $ref: '#/components/schemas/Timestamp'
+  equipment:
+    $ref: '#/components/schemas/EquipmentSummary'
+  customer:
+    $ref: '#/components/schemas/NamedEntity'
+  site:
+    $ref: '#/components/schemas/NamedEntity'
+  site_contact:
+    description: 사업장 대표 담당자 연락처 (#13). 등록된 연락처가 없으면 null.
+    oneOf:
+    - type: 'null'
+    - $ref: '#/components/schemas/SiteContact'
+  assignments:
+    type: array
+    items:
+      $ref: '#/components/schemas/AssignmentSummary'

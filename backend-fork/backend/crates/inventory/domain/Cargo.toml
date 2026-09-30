@@ -1,0 +1,18 @@
+[package]
+name = "console-inventory-domain"
+version = "0.1.0"
+description = "Pure inventory domain: IV item quantities, safety stock, and consumption invariants."
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+console-kernel-core = { workspace = true }
+serde = { workspace = true }
+
+[dev-dependencies]
+serde_json = { workspace = true }
+
+[lints]
+workspace = true

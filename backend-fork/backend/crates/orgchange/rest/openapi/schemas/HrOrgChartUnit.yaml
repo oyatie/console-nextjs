@@ -1,0 +1,16 @@
+type: object
+required:
+- name
+- total
+- positions
+properties:
+  name:
+    type: string
+  total:
+    type: integer
+    format: int64
+    minimum: 0
+  positions:
+    type: array
+    items:
+      $ref: '#/components/schemas/HrOrgChartPosition'

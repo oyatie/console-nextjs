@@ -1,0 +1,33 @@
+[package]
+name = "console-workorder-adapter-postgres"
+version = "0.1.0"
+description = "Postgres adapter for work-order lifecycle, approvals, daily plans, and target changes."
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+console-kernel-core = { workspace = true }
+console-platform-db = { workspace = true }
+console-platform-request-context = { workspace = true }
+console-workorder-application = { workspace = true }
+console-workorder-domain = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+sqlx = { workspace = true }
+thiserror = { workspace = true }
+time = { workspace = true }
+uuid = { workspace = true }
+
+[dev-dependencies]
+tokio = { workspace = true, features = ["macros", "rt-multi-thread"] }
+# Runtime-role RLS read gate (tests/rls_read_surfaces_as_runtime_role.rs) drives a
+# real messenger read alongside the work-order reads, so it needs the messenger
+# store + its query/domain types. Dev-only; no production dependency is added.
+console-messenger-adapter-postgres = { workspace = true }
+console-messenger-application = { workspace = true }
+console-messenger-domain = { workspace = true }
+
+[lints]
+workspace = true

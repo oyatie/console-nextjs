@@ -1,0 +1,13 @@
+type: object
+required:
+- approve_token
+- ceremony_id
+- credential
+properties:
+  approve_token:
+    type: string
+  ceremony_id:
+    $ref: '#/components/schemas/Uuid'
+  credential:
+    type: object
+    additionalProperties: true

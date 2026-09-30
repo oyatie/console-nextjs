@@ -1,0 +1,24 @@
+description: One typed sandbox-diff operation, replayed in order at apply time. Internally tagged by `op`; unknown
+  properties are rejected.
+oneOf:
+- $ref: '#/components/schemas/OrgProposalOpCreateRegion'
+- $ref: '#/components/schemas/OrgProposalOpRenameRegion'
+- $ref: '#/components/schemas/OrgProposalOpDeactivateRegion'
+- $ref: '#/components/schemas/OrgProposalOpCreateBranch'
+- $ref: '#/components/schemas/OrgProposalOpRenameBranch'
+- $ref: '#/components/schemas/OrgProposalOpDeactivateBranch'
+- $ref: '#/components/schemas/OrgProposalOpCreateSite'
+- $ref: '#/components/schemas/OrgProposalOpUpdateSite'
+- $ref: '#/components/schemas/OrgProposalOpReassignOrgUnit'
+discriminator:
+  propertyName: op
+  mapping:
+    CREATE_REGION: '#/components/schemas/OrgProposalOpCreateRegion'
+    RENAME_REGION: '#/components/schemas/OrgProposalOpRenameRegion'
+    DEACTIVATE_REGION: '#/components/schemas/OrgProposalOpDeactivateRegion'
+    CREATE_BRANCH: '#/components/schemas/OrgProposalOpCreateBranch'
+    RENAME_BRANCH: '#/components/schemas/OrgProposalOpRenameBranch'
+    DEACTIVATE_BRANCH: '#/components/schemas/OrgProposalOpDeactivateBranch'
+    CREATE_SITE: '#/components/schemas/OrgProposalOpCreateSite'
+    UPDATE_SITE: '#/components/schemas/OrgProposalOpUpdateSite'
+    REASSIGN_ORG_UNIT: '#/components/schemas/OrgProposalOpReassignOrgUnit'

@@ -1,0 +1,17 @@
+tags:
+  - auth
+summary: Read required first-login privacy consent status
+description: Returns whether the authenticated user has accepted the current required Korean privacy collection/use
+  notice and service terms version. This status is checked before initial passkey enrollment. Optional marketing consent
+  and GPS/location consent are not bundled here and remain separate flows.
+security:
+- bearerAuth: []
+responses:
+  '200':
+    description: Current required privacy consent status.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/PrivacyConsentStatusResponse'
+  '401':
+    $ref: '#/components/responses/Unauthorized'

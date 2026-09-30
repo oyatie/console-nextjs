@@ -1,0 +1,33 @@
+tags:
+  - work-orders
+operationId: approveMobileWorkOrder
+summary: Approve the next pending approval step from a native mobile client
+description: Mobile-scoped approval route. It requires a fresh passkey step-up envelope bound to this work order before
+  the approval mutation or audit side effect runs.
+security:
+- bearerAuth: []
+parameters:
+- $ref: '#/components/parameters/WorkOrderId'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/MobileApproveWorkOrderRequest'
+responses:
+  '200':
+    description: Updated work-order approval state.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/WorkOrderSummary'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '409':
+    $ref: '#/components/responses/Conflict'
+  '428':
+    $ref: '#/components/responses/PreconditionRequired'
+  '422':
+    $ref: '#/components/responses/ValidationError'

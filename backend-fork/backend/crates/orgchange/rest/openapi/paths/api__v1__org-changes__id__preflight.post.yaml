@@ -1,0 +1,37 @@
+tags:
+- org
+operationId: preflightOrgChange
+summary: Run the impact preflight (read-only; persists nothing)
+description: DRAFT or PRECHECKED only. Computes the blocker/warning receipt in-transaction and RETURNS it, and
+  persists NOTHING — no status change, no stored receipt, no event, no audit row. A clean run does NOT promote
+  the request, so a client must never wait for PRECHECKED before calling submit; submit is reachable straight
+  from DRAFT and recomputes the same receipt inside its own transaction, which is the only writer.
+security:
+- bearerAuth: []
+parameters:
+- name: id
+  in: path
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+responses:
+  '200':
+    description: Receipt computed and returned inside the request detail. Nothing was written; `summary.status`
+      is whatever the last write left, and re-reading the request afterwards returns the receipt stored by an
+      earlier submit — or none at all — not this one.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/OrgChangeDetail'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '409':
+    $ref: '#/components/responses/Conflict'
+  '422':
+    $ref: '#/components/responses/ValidationError'
+  '503':
+    $ref: '#/components/responses/ServiceUnavailable'

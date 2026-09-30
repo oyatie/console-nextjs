@@ -1,0 +1,37 @@
+tags:
+  - employees
+operationId: applyEmployeeImport
+summary: Apply a dry-run employee import run
+description: Applies only candidate rows from a DRY_RUN import run; preserved rows remain raw-ledger evidence and are
+  not promoted into employee records.
+security:
+- bearerAuth: []
+parameters:
+- name: run_id
+  in: path
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+requestBody:
+  required: false
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/ImportApplyRequest'
+responses:
+  '200':
+    description: Applied import counts by company.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/EmployeeImportReport'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '409':
+    $ref: '#/components/responses/Conflict'
+  '422':
+    $ref: '#/components/responses/ValidationError'

@@ -1,0 +1,15 @@
+tags: [facilities]
+operationId: triageFacilitiesCase
+summary: Schedule a due facilities case for service
+security: [{ bearerAuth: [] }]
+parameters: [{ name: case_id, in: path, required: true, schema: { $ref: '#/components/schemas/Uuid' } }]
+requestBody: { required: true, content: { application/json: { schema: { $ref: '#/components/schemas/FacilitiesTriageRequest' } } } }
+responses:
+  '200': { description: Scheduled case, content: { application/json: { schema: { $ref: '#/components/schemas/FacilitiesCase' } } } }
+  '401': { $ref: '#/components/responses/Unauthorized' }
+  '403': { $ref: '#/components/responses/Forbidden' }
+  '404': { $ref: '#/components/responses/NotFound' }
+  '409': { $ref: '#/components/responses/Conflict' }
+  '422': { $ref: '#/components/responses/ValidationError' }
+  '500': { $ref: '#/components/responses/InternalServerError' }
+  '503': { $ref: '#/components/responses/ServiceUnavailable' }

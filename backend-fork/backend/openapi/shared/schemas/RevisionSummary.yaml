@@ -1,0 +1,14 @@
+      type: object
+      required: [id, instance_id, version, attributes, valid_from, prev_hash, row_hash]
+      properties:
+        id: { type: string, format: uuid }
+        instance_id: { type: string, format: uuid }
+        version: { type: integer, format: int64 }
+        attributes: { type: object, additionalProperties: true }
+        valid_from: { type: string, format: date-time }
+        valid_to: { type: string, format: date-time, nullable: true }
+        action_type_id: { type: string, format: uuid, nullable: true }
+        actor: { type: string, format: uuid, nullable: true }
+        reason: { type: string, nullable: true }
+        prev_hash: { type: string }
+        row_hash: { type: string }

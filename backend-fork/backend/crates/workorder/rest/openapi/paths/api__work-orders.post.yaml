@@ -1,0 +1,27 @@
+tags:
+  - work-orders
+operationId: createWorkOrder
+summary: Create a work order from branch-scoped equipment management number
+security:
+- bearerAuth: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/CreateWorkOrderRequest'
+responses:
+  '201':
+    description: Work order created.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/WorkOrderSummary'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '422':
+    $ref: '#/components/responses/ValidationError'

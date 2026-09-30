@@ -1,0 +1,22 @@
+type: object
+properties:
+  trigger_type:
+    type: string
+    enum:
+    - MANUAL
+    - SCHEDULE
+    - WEBHOOK
+    - SYSTEM
+    default: MANUAL
+  idempotency_key:
+    type:
+    - string
+    - 'null'
+    maxLength: 160
+  four_eyes_request_ref:
+    type:
+    - string
+    - 'null'
+    format: uuid
+    description: >-
+      §16 org-scope automation gate (85 판정); ignored for a personal-scope (§3.9.0-①) definition.

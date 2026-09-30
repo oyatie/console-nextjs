@@ -1,0 +1,6 @@
+type: object
+required:
+- work_order_id
+properties:
+  work_order_id:
+    $ref: '#/components/schemas/Uuid'

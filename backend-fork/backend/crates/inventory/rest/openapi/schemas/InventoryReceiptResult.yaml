@@ -1,0 +1,3 @@
+type: object
+required: [movement, item]
+properties: { movement: { $ref: '#/components/schemas/InventoryMovement' }, item: { $ref: '#/components/schemas/InventoryItem' } }

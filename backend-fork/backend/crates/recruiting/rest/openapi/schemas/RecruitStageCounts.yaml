@@ -1,0 +1,20 @@
+type: object
+description: Non-rejected applicant counts per pipeline stage; HIRED is not counted.
+required:
+- applied
+- screening
+- interview
+- offer
+properties:
+  applied:
+    type: integer
+    format: int64
+  screening:
+    type: integer
+    format: int64
+  interview:
+    type: integer
+    format: int64
+  offer:
+    type: integer
+    format: int64

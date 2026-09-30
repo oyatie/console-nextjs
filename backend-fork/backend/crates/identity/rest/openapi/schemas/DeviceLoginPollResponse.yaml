@@ -1,0 +1,30 @@
+type: object
+required:
+- status
+properties:
+  status:
+    type: string
+    enum:
+    - pending
+    - approved
+    - expired
+  access_token:
+    type: string
+    nullable: true
+  refresh_token:
+    type: string
+    nullable: true
+    description: Null in web cookie transport; present in body transport.
+  token_type:
+    type: string
+    nullable: true
+    enum:
+    - Bearer
+  refresh_expires_at:
+    type: string
+    format: date-time
+    nullable: true
+  requires_passkey_setup:
+    type: boolean
+    nullable: true
+    description: Approved desktop QR sessions are passkey-authenticated and return false.

@@ -1,0 +1,20 @@
+type: object
+required:
+- branch_id
+- category
+- priority
+- title
+- body
+properties:
+  branch_id:
+    $ref: '#/components/schemas/Uuid'
+  category:
+    $ref: '#/components/schemas/SupportTicketCategory'
+  priority:
+    $ref: '#/components/schemas/SupportTicketPriority'
+  title:
+    type: string
+    minLength: 1
+  body:
+    type: string
+    minLength: 1

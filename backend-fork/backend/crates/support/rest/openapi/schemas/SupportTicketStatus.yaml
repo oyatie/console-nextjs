@@ -1,0 +1,7 @@
+type: string
+enum:
+- OPEN
+- IN_PROGRESS
+- ON_HOLD
+- RESOLVED
+- CLOSED

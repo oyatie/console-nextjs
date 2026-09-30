@@ -1,0 +1,21 @@
+tags:
+  - p1-dispatches
+operationId: getP1Dispatch
+summary: Fetch P1 dispatch status
+security:
+- bearerAuth: []
+parameters:
+- $ref: '#/components/parameters/DispatchId'
+responses:
+  '200':
+    description: P1 dispatch status.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/P1DispatchSummary'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'

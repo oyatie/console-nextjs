@@ -1,0 +1,17 @@
+type: object
+additionalProperties: false
+description: Every field is optional; an omitted field is left unchanged.
+properties:
+  kind:
+    $ref: '#/components/schemas/OrgChangeKind'
+  effectiveDate:
+    $ref: '#/components/schemas/Date'
+  reason:
+    type: string
+    minLength: 1
+    maxLength: 4000
+  proposal:
+    type: array
+    maxItems: 100
+    items:
+      $ref: '#/components/schemas/OrgProposalOp'

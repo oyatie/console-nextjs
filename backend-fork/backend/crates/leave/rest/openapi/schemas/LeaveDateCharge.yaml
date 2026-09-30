@@ -1,0 +1,23 @@
+type: object
+additionalProperties: false
+required: [date, obligation, charge_units]
+properties:
+  date: {type: string, format: date}
+  obligation:
+    oneOf:
+    - type: object
+      additionalProperties: false
+      required: [kind, minutes]
+      properties:
+        kind: {type: string, enum: [scheduled]}
+        minutes: {type: integer, format: int32, minimum: 1}
+    - type: object
+      additionalProperties: false
+      required: [kind, basis]
+      properties:
+        kind: {type: string, enum: [not_scheduled]}
+        basis:
+          type: string
+          enum: [rest_day, public_holiday, substitute_holiday, contractual_day_off, other]
+  charge_units:
+    $ref: '#/components/schemas/LeaveUnits'

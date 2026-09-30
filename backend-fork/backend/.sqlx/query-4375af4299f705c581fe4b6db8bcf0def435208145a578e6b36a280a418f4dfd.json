@@ -1,0 +1,21 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT COUNT(*) AS \"count!\"\n                       FROM support_tickets\n                       WHERE status IN ('OPEN', 'IN_PROGRESS', 'ON_HOLD')",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "count!",
+        "type_info": "Int8",
+        "origin": "Expression"
+      }
+    ],
+    "parameters": {
+      "Left": []
+    },
+    "nullable": [
+      null
+    ]
+  },
+  "hash": "4375af4299f705c581fe4b6db8bcf0def435208145a578e6b36a280a418f4dfd"
+}

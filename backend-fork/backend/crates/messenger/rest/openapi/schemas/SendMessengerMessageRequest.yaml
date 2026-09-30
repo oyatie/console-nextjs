@@ -1,0 +1,18 @@
+type: object
+required:
+- body
+properties:
+  body:
+    type: string
+    minLength: 1
+    maxLength: 4000
+  attachment_evidence_ids:
+    type: array
+    items:
+      $ref: '#/components/schemas/Uuid'
+  quoted_message_id:
+    description: Optional reply-quote target; must be a message in the same thread.
+    type:
+    - string
+    - 'null'
+    format: uuid

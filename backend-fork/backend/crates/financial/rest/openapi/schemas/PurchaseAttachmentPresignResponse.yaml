@@ -1,0 +1,25 @@
+type: object
+required:
+- attachment_id
+- upload
+- file_name
+- content_type
+- size_bytes
+- role
+- upload_state
+properties:
+  attachment_id:
+    $ref: '#/components/schemas/Uuid'
+  upload:
+    $ref: '#/components/schemas/PresignedUpload'
+  file_name:
+    type: string
+  content_type:
+    type: string
+  size_bytes:
+    type: integer
+    format: int64
+  role:
+    type: string
+  upload_state:
+    type: string

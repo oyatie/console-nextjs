@@ -1,0 +1,8 @@
+type: object
+required:
+- unread
+properties:
+  unread:
+    type: integer
+    format: int64
+    description: The number of the caller's unread notifications.

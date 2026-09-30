@@ -1,0 +1,30 @@
+type: object
+required:
+- id
+- company
+- name
+properties:
+  id:
+    $ref: '#/components/schemas/Uuid'
+  company:
+    type: string
+  name:
+    type: string
+  employee_number:
+    type: string
+    nullable: true
+  org_unit:
+    type: string
+    nullable: true
+  position:
+    type: string
+    nullable: true
+  leave_accrued:
+    type: string
+    nullable: true
+  leave_used:
+    type: string
+    nullable: true
+  leave_remaining:
+    type: string
+    nullable: true

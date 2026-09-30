@@ -1,0 +1,23 @@
+type: object
+required: [ewma_volatility, student_t_nu, drift, simulations, seed]
+properties:
+  ewma_volatility:
+    type: number
+    format: double
+    description: Final EWMA volatility σ.
+  student_t_nu:
+    type: number
+    format: double
+    description: Student-t degrees of freedom (4).
+  drift:
+    type: number
+    format: double
+    description: Estimated per-step drift μ.
+  simulations:
+    type: integer
+    format: int32
+    description: Monte-Carlo path count.
+  seed:
+    type: integer
+    format: int64
+    description: RNG seed (echoed to prove determinism).

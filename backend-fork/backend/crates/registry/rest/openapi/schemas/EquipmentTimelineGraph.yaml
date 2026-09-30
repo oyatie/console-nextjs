@@ -1,0 +1,22 @@
+type: object
+required:
+- equipment
+- lifecycle_events
+- graph
+- work_order_count
+- cost_ledger_total_won
+properties:
+  equipment:
+    $ref: '#/components/schemas/EquipmentTimelineEquipment'
+  lifecycle_events:
+    type: array
+    items:
+      $ref: '#/components/schemas/EquipmentLifecycleEvent'
+  graph:
+    $ref: '#/components/schemas/EquipmentRelationshipGraph'
+  work_order_count:
+    type: integer
+    format: int64
+  cost_ledger_total_won:
+    type: integer
+    format: int64

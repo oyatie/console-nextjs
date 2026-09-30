@@ -1,0 +1,44 @@
+type: object
+required:
+- id
+- employee_id
+- employee_display_name
+- kind
+- occurred_at
+- work_date
+- state_after
+- payroll_material_ref_id
+- payroll_link_status
+- duplicate
+properties:
+  id:
+    $ref: '#/components/schemas/Uuid'
+  employee_id:
+    $ref: '#/components/schemas/Uuid'
+  employee_display_name:
+    type: string
+  kind:
+    $ref: '#/components/schemas/AttendanceRecordKind'
+  occurred_at:
+    $ref: '#/components/schemas/Timestamp'
+  work_date:
+    type: string
+    format: date
+  state_after:
+    type: string
+    enum:
+    - CLOCKED_IN
+    - OUT_FOR_WORK
+    - BUSINESS_TRIP
+    - OFF_DUTY
+  note:
+    type: string
+    nullable: true
+  payroll_material_ref_id:
+    $ref: '#/components/schemas/Uuid'
+  payroll_link_status:
+    type: string
+    enum:
+    - LINKED
+  duplicate:
+    type: boolean

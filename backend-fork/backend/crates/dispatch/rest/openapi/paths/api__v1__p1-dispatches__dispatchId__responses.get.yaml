@@ -1,0 +1,11 @@
+tags: [p1-dispatches]
+operationId: listP1DispatchResponses
+summary: List authorized P1 dispatch responses
+security: [{ bearerAuth: [] }]
+parameters: [{ $ref: '#/components/parameters/DispatchId' }]
+responses:
+  '200': { description: Dispatch response page., content: { application/json: { schema: { $ref: '#/components/schemas/P1DispatchResponsePage' } } } }
+  '400': { $ref: '#/components/responses/BadRequest' }
+  '401': { $ref: '#/components/responses/Unauthorized' }
+  '403': { $ref: '#/components/responses/Forbidden' }
+  '404': { $ref: '#/components/responses/NotFound' }

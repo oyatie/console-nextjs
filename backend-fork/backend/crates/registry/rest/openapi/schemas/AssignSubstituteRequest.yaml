@@ -1,0 +1,20 @@
+type: object
+required:
+- source_equipment_id
+- substitute_equipment_id
+- assignment_location
+properties:
+  source_equipment_id:
+    type: string
+    format: uuid
+  substitute_equipment_id:
+    type: string
+    format: uuid
+  assigned_to:
+    type:
+    - string
+    - 'null'
+    format: uuid
+  assignment_location:
+    type: string
+    minLength: 1

@@ -1,0 +1,13 @@
+type: object
+required:
+- connectors
+- templates
+properties:
+  connectors:
+    type: array
+    items:
+      $ref: '#/components/schemas/WorkflowConnectorDescriptor'
+  templates:
+    type: array
+    items:
+      $ref: '#/components/schemas/WorkflowTemplateDescriptor'

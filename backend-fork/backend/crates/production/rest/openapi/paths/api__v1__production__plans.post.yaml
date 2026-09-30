@@ -1,0 +1,9 @@
+operationId: createProductionPlan
+tags: [Production]
+security: [{bearerAuth: []}]
+requestBody: {required: true, content: {application/json: {schema: {$ref: '#/components/schemas/CreateProductionPlan'}}}}
+responses:
+  '201': {description: Draft plan and first operation created, content: {application/json: {schema: {$ref: '#/components/schemas/ProductionPlan'}}}}
+  '200': {description: Idempotent replay returns the existing plan, content: {application/json: {schema: {$ref: '#/components/schemas/ProductionPlan'}}}}
+  '409': {$ref: '#/components/responses/Conflict'}
+  '422': {$ref: '#/components/responses/ValidationError'}

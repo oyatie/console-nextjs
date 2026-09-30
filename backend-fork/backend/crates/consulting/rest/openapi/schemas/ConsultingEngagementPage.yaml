@@ -1,0 +1,3 @@
+type: object
+required: [items, limit, offset, total]
+properties: { items: { type: array, items: { $ref: '#/components/schemas/ConsultingEngagement' } }, limit: { type: integer }, offset: { type: integer }, total: { type: integer } }

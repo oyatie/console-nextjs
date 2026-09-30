@@ -1,0 +1,54 @@
+{
+  "source": "console-production-rest",
+  "paths": {
+    "/api/v1/production/capacity-slots": [
+      "get"
+    ],
+    "/api/v1/production/plans": [
+      "get",
+      "post"
+    ],
+    "/api/v1/production/plans/{plan_id}": [
+      "get"
+    ],
+    "/api/v1/production/plans/{plan_id}/operations/{operation_id}/records": [
+      "post"
+    ],
+    "/api/v1/production/plans/{plan_id}/release": [
+      "post"
+    ],
+    "/api/v1/production/source-ingress": [
+      "post"
+    ],
+    "/api/v1/production/source-systems": [
+      "post"
+    ],
+    "/api/v1/production/source-systems/{source_system_id}/disable": [
+      "post"
+    ],
+    "/api/v1/production/source-systems/{source_system_id}/rotate": [
+      "post"
+    ]
+  },
+  "schemas": [
+    "CreateProductionPlan",
+    "ProductionCapacityIngress",
+    "ProductionCapacitySlot",
+    "ProductionDemandIngress",
+    "ProductionMaterialIngress",
+    "ProductionOperation",
+    "ProductionPlan",
+    "ProductionPlanDetail",
+    "ProductionSourceIngress",
+    "ProductionSourceIngressReceipt",
+    "ProductionSourceSystemCredential",
+    "ProductionSourceSystemGenerationRequest",
+    "ProductionSourceSystemReceipt",
+    "RecordProductionOperation",
+    "RegisterProductionSourceSystem",
+    "ReleaseProductionPlan"
+  ],
+  "external_schemas": [
+    "Uuid"
+  ]
+}

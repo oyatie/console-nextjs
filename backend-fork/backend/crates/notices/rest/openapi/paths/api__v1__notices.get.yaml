@@ -1,0 +1,24 @@
+tags:
+- notices
+operationId: listNotices
+summary: List notices (published-only for most callers; NoticeManage sees drafts too)
+security:
+- bearerAuth: []
+parameters:
+- name: limit
+  in: query
+  required: false
+  schema:
+    type: integer
+    format: int64
+responses:
+  '200':
+    description: Notices visible to the caller, newest first.
+    content:
+      application/json:
+        schema:
+          type: array
+          items:
+            $ref: '#/components/schemas/NoticeSummary'
+  '401':
+    $ref: '#/components/responses/Unauthorized'

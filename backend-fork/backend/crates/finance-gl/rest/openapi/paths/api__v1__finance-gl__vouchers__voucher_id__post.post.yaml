@@ -1,0 +1,27 @@
+tags:
+- finance-gl
+operationId: postVoucher
+summary: 승인 → 전기(posted); lines become immutable
+security:
+- bearerAuth: []
+parameters:
+- name: voucher_id
+  in: path
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+responses:
+  '200':
+    description: Voucher posted.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/VoucherSummary'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '409':
+    $ref: '#/components/responses/Conflict'

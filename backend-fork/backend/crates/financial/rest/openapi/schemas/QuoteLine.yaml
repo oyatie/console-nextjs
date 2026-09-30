@@ -1,0 +1,14 @@
+type: object
+required:
+- code
+- label
+- amount
+properties:
+  code:
+    type: string
+  label:
+    type: string
+  amount:
+    type: integer
+    format: int64
+    minimum: 0

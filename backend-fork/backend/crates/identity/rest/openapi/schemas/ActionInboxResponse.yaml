@@ -1,0 +1,23 @@
+type: object
+required:
+- items
+- total
+- total_is_exact
+- next_cursor
+properties:
+  items:
+    type: array
+    items:
+      $ref: '#/components/schemas/ActionInboxItem'
+  total:
+    type: integer
+    minimum: 0
+    description: Live visible item count across sources admitted by as_of; inspect total_is_exact before treating it as authoritative.
+  total_is_exact:
+    type: boolean
+    description: False only when a bounded authorization-filtered count reached its scan budget.
+  next_cursor:
+    type:
+    - string
+    - 'null'
+    description: Opaque cursor for the next immutable-keyset page, or null when exhausted.

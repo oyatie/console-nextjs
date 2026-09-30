@@ -1,0 +1,23 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT location_pings_ensure_partition($1)",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "location_pings_ensure_partition",
+        "type_info": "Text",
+        "origin": "Expression"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Timestamptz"
+      ]
+    },
+    "nullable": [
+      null
+    ]
+  },
+  "hash": "25f4b24429fb09333c5c874f261be760aa0e4490e2bc88d559ba95d3b089807f"
+}

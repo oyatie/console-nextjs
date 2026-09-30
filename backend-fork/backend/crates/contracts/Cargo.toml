@@ -1,0 +1,15 @@
+[package]
+name = "console-contracts"
+version = "0.1.0"
+description = "Deterministic OpenAPI fragment composition for REST faces. Duplicate path, operation and schema keys are errors, never last-writer-wins."
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[lints]
+workspace = true
+
+[[bin]]
+name = "console-openapi-gen"
+path = "src/bin/console_openapi_gen.rs"

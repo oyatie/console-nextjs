@@ -1,0 +1,23 @@
+type: object
+required:
+- id
+- region_id
+- name
+- deactivated_at
+- created_at
+properties:
+  id:
+    $ref: '#/components/schemas/Uuid'
+  region_id:
+    $ref: '#/components/schemas/Uuid'
+  name:
+    type: string
+  deactivated_at:
+    type:
+    - string
+    - 'null'
+    format: date-time
+    description: Set when the branch has been soft-deleted (deactivated); null for an active branch. Active-only listings
+      omit deactivated rows.
+  created_at:
+    $ref: '#/components/schemas/Timestamp'

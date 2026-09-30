@@ -1,0 +1,31 @@
+[package]
+name = "console-gate-writer-ownership"
+version = "0.1.0"
+description = "CI gate: exactly one production crate may hold DML against each canonical-object table. Static half of writer ownership; the database-capability half is the load-bearing one."
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[[bin]]
+name = "console-gate-writer-ownership"
+path = "src/main.rs"
+
+[lib]
+name = "console_gate_writer_ownership"
+path = "src/lib.rs"
+
+[dependencies]
+# Path dep, not `workspace = true`: adding the `[workspace.dependencies]` entry
+# needs backend/Cargo.toml, which this lane may not write. See followUps.
+console-ontology-canonical-domain = { path = "../../../crates/ontology/canonical-domain" }
+sqlparser = { version = "0.62.0", default-features = false }
+# Landed by the integration owner so this gate can stop hand-lexing Rust; see the
+# rationale on the `[workspace.dependencies]` entry in backend/Cargo.toml.
+syn = { workspace = true }
+# Cargo-authoritative dependency rename resolve (console-ugg). Already in
+# `[workspace.dependencies]`; no backend/Cargo.toml edit required.
+serde_json = { workspace = true }
+
+[lints]
+workspace = true

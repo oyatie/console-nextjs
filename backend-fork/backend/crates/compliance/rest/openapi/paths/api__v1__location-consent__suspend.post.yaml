@@ -1,0 +1,27 @@
+tags:
+  - location-consent
+operationId: suspendLocationConsent
+summary: Suspend GPS collection with the always-visible off switch
+security:
+- bearerAuth: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/LocationConsentTransitionRequest'
+responses:
+  '200':
+    description: Updated location consent status.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/LocationConsentStatus'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '409':
+    $ref: '#/components/responses/Conflict'
+  '422':
+    $ref: '#/components/responses/ValidationError'

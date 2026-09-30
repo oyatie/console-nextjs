@@ -1,0 +1,9 @@
+type: object
+required:
+- source_domain
+- reason
+properties:
+  source_domain:
+    type: string
+  reason:
+    type: string

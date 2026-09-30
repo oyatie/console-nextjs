@@ -1,0 +1,18 @@
+type: object
+description: A passkey credential summary for the self-service management surface. It deliberately carries no secret
+  material (no passkey blob, public key, or raw credential id) — only the opaque row id and the registration / last-use
+  timestamps.
+required:
+- id
+- created_at
+- last_used_at
+properties:
+  id:
+    $ref: '#/components/schemas/Uuid'
+  created_at:
+    $ref: '#/components/schemas/Timestamp'
+  last_used_at:
+    type:
+    - string
+    - 'null'
+    format: date-time

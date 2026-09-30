@@ -1,0 +1,6 @@
+tags: [inventory]
+operationId: getInventoryCycleCount
+summary: Read one authorized cycle count with count lines and applied adjustment movement ids
+security: [{ bearerAuth: [] }]
+parameters: [{ name: count_id, in: path, required: true, schema: { $ref: '#/components/schemas/Uuid' } }]
+responses: { '200': { description: Cycle count detail, content: { application/json: { schema: { $ref: '#/components/schemas/CycleCountDetail' } } } }, '401': { $ref: '#/components/responses/Unauthorized' }, '403': { $ref: '#/components/responses/Forbidden' }, '404': { $ref: '#/components/responses/NotFound' } }

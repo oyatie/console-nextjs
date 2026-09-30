@@ -1,0 +1,4 @@
+type: object
+additionalProperties: false
+required: [expectedVersion, itemId, countedQuantityMilli]
+properties: { expectedVersion: { type: integer, minimum: 1 }, itemId: { $ref: '#/components/schemas/Uuid' }, countedQuantityMilli: { type: integer, format: int64, minimum: 0 }, reason: { type: string, nullable: true, enum: [DAMAGE, LOSS, MISCOUNT, FOUND, OTHER] }, note: { type: string, nullable: true } }

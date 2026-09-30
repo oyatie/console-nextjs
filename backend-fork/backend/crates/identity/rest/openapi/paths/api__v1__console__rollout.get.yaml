@@ -1,0 +1,61 @@
+tags:
+  - console
+operationId: getConsoleRollout
+summary: Read the current user's new-console rollout state
+security:
+- bearerAuth: []
+responses:
+  '200':
+    description: Console rollout status.
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+          - flag_key
+          - org_enabled
+          - org_rollout_enabled
+          - user_opted_in
+          - legacy_kill_switch_enabled
+          - kill_switch_active
+          - effective_new_console
+          - effective_route
+          - effective_route_for_opted_in_user
+          - effective_route_for_opted_out_user
+          - overrides_individual_toggles
+          properties:
+            flag_key:
+              type: string
+            org_enabled:
+              type: boolean
+            org_rollout_enabled:
+              type: boolean
+            user_opted_in:
+              type: boolean
+            legacy_kill_switch_enabled:
+              type: boolean
+            kill_switch_active:
+              type: boolean
+            effective_new_console:
+              type: boolean
+            effective_route:
+              type: string
+              enum: [legacy, new_console]
+            effective_route_for_opted_in_user:
+              type: string
+              enum: [legacy, new_console]
+            effective_route_for_opted_out_user:
+              type: string
+              enum: [legacy]
+            overrides_individual_toggles:
+              type: boolean
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '503':
+    description: JWT verification is not configured.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ErrorBody'

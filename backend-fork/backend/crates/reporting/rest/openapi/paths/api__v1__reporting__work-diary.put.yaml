@@ -1,0 +1,31 @@
+tags:
+  - reporting
+operationId: updateWorkDiaryDraft
+summary: Update an editable work-diary draft body
+security:
+- bearerAuth: []
+parameters:
+- $ref: '#/components/parameters/ReportDate'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/WorkDiaryUpdateRequest'
+responses:
+  '200':
+    description: Updated work diary draft.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/WorkDiaryDraft'
+  '400':
+    $ref: '#/components/responses/ValidationError'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '409':
+    $ref: '#/components/responses/Conflict'
+  '422':
+    $ref: '#/components/responses/ValidationError'

@@ -1,0 +1,12 @@
+type: object
+required:
+- employee_id
+- applicant
+- posting
+properties:
+  employee_id:
+    $ref: '#/components/schemas/Uuid'
+  applicant:
+    $ref: '#/components/schemas/RecruitApplicant'
+  posting:
+    $ref: '#/components/schemas/RecruitPosting'

@@ -1,0 +1,10 @@
+type: object
+additionalProperties: false
+required:
+- branch_id
+- expected_updated_at
+properties:
+  branch_id:
+    $ref: '#/components/schemas/Uuid'
+  expected_updated_at:
+    $ref: '#/components/schemas/Timestamp'

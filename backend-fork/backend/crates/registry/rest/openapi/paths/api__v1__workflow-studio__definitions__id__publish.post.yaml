@@ -1,0 +1,47 @@
+tags:
+  - workflow-studio
+operationId: publishWorkflowDefinition
+summary: Publish a workflow definition version (direct for new, staged for active)
+description: Sensitive no-code workflow publication. Requires RoleManage, tenant RLS, a fresh passkey step-up assertion,
+  required approval/payment line validation, connector/action allowlist validation, append-only workflow_definition_versions,
+  workflow_definition_events, and audit log. A definition that has never been activated is published directly; publishing
+  a revision to an ALREADY-ACTIVE definition instead STAGES a pending revision (the active version keeps serving) that a
+  second, distinct actor must approve via the revisions/{rev}/approve endpoint. The response's pending_version signals a
+  staged (not-yet-applied) revision.
+security:
+- bearerAuth: []
+parameters:
+- name: id
+  in: path
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/WorkflowStepUpRequest'
+responses:
+  '200':
+    description: Published workflow definition.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/WorkflowDefinitionResponse'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '409':
+    $ref: '#/components/responses/Conflict'
+  '428':
+    description: Fresh passkey step-up is required.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ErrorBody'
+  '422':
+    $ref: '#/components/responses/ValidationError'

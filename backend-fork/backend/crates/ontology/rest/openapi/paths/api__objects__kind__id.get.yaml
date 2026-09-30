@@ -1,0 +1,37 @@
+tags:
+  - objects
+operationId: resolveObject
+summary: Resolve any object to a compact head (code, title, status)
+description: 'Dereferences a (kind, id) pair to an ObjectHead so any object chip/code can be rendered and navigated.
+  Reuses each domain''s tenant + branch scoping: an object outside the caller''s org/branch scope resolves identically
+  to a missing id (exists=false), the deny-by-omission guarantee. A well-formed but unregistered kind returns 404.
+  Routing is the frontend objectRegistry''s responsibility; this endpoint never returns a route/URL.'
+security:
+- bearerAuth: []
+parameters:
+- name: kind
+  in: path
+  required: true
+  description: Object kind slug (e.g. work_order, equipment, support_ticket, org_unit, person, approval_run).
+  schema:
+    type: string
+- name: id
+  in: path
+  required: true
+  schema:
+    type: string
+responses:
+  '200':
+    description: The resolved object head (exists=false when not visible/absent).
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ObjectHead'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '422':
+    $ref: '#/components/responses/ValidationError'

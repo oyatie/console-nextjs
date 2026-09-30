@@ -1,0 +1,10 @@
+type: object
+required: [id, caseId, outcome, findings, inspectedBy, inspectedAt]
+properties:
+  id: { $ref: '#/components/schemas/Uuid' }
+  caseId: { $ref: '#/components/schemas/Uuid' }
+  outcome: { type: string, enum: [PASS, MAINTENANCE_PERFORMED] }
+  findings: { type: string }
+  maintenanceNote: { type: string, nullable: true }
+  inspectedBy: { $ref: '#/components/schemas/Uuid' }
+  inspectedAt: { type: string, format: date-time }

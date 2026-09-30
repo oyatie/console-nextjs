@@ -1,0 +1,12 @@
+type: object
+required: [id, branch_id, site_id, capacity_date, available_quantity, reserved_quantity, version, source_ref, evaluated_at]
+properties:
+  id: {$ref: '#/components/schemas/Uuid'}
+  branch_id: {$ref: '#/components/schemas/Uuid'}
+  site_id: {$ref: '#/components/schemas/Uuid'}
+  capacity_date: {type: string, format: date}
+  available_quantity: {type: integer, format: int64}
+  reserved_quantity: {type: integer, format: int64}
+  version: {type: integer}
+  source_ref: {type: string}
+  evaluated_at: {type: string, format: date-time}

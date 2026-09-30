@@ -1,0 +1,8 @@
+type: object
+required:
+- scheduled_at
+properties:
+  scheduled_at:
+    type: string
+    format: date-time
+    description: RFC 3339; must be in the future.

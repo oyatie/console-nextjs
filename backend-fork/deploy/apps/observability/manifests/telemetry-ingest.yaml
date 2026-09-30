@@ -1,0 +1,143 @@
+# OTel Collector fan-in for the DARK observability stage.
+# OTLP from Maintenance is exported to VictoriaMetrics (metrics), Tempo (traces),
+# and Loki (logs). The Prometheus receiver mirrors the existing
+# deploy/apps/console/components/monitoring ServiceMonitor target without
+# replacing that opt-in Prometheus Operator contract.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: otel-collector-config
+  namespace: console-observability
+  labels:
+    app.kubernetes.io/name: otel-collector
+    app.kubernetes.io/part-of: console-observability
+data:
+  config.yaml: |
+    extensions:
+      health_check:
+        endpoint: 0.0.0.0:13133
+
+    receivers:
+      otlp:
+        protocols:
+          grpc:
+            endpoint: 0.0.0.0:4317
+          http:
+            endpoint: 0.0.0.0:4318
+      prometheus:
+        config:
+          scrape_configs:
+            - job_name: console-app-servicemonitor-mirror
+              scrape_interval: 30s
+              metrics_path: /metrics
+              static_configs:
+                - targets:
+                    - console-app.console.svc.cluster.local:8080
+
+    processors:
+      memory_limiter:
+        check_interval: 5s
+        limit_percentage: 80
+        spike_limit_percentage: 25
+      batch: {}
+
+    exporters:
+      prometheusremotewrite:
+        endpoint: http://victoriametrics.console-observability.svc.cluster.local:8428/api/v1/write
+      otlp/tempo:
+        endpoint: tempo.console-observability.svc.cluster.local:4317
+        tls:
+          insecure: true
+      otlphttp/loki:
+        endpoint: http://loki.console-observability.svc.cluster.local:3100/otlp
+
+    service:
+      telemetry:
+        logs:
+          level: info
+      extensions: [health_check]
+      pipelines:
+        metrics:
+          receivers: [otlp, prometheus]
+          processors: [memory_limiter, batch]
+          exporters: [prometheusremotewrite]
+        traces:
+          receivers: [otlp]
+          processors: [memory_limiter, batch]
+          exporters: [otlp/tempo]
+        logs:
+          receivers: [otlp]
+          processors: [memory_limiter, batch]
+          exporters: [otlphttp/loki]
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: otel-collector
+  namespace: console-observability
+  labels:
+    app.kubernetes.io/name: otel-collector
+    app.kubernetes.io/part-of: console-observability
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: otel-collector
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: otel-collector
+        app.kubernetes.io/part-of: console-observability
+    spec:
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 10001
+        runAsGroup: 10001
+        fsGroup: 10001
+        seccompProfile: { type: RuntimeDefault }
+      containers:
+        - name: otel-collector
+          image: otel/opentelemetry-collector-contrib:0.119.0
+          args:
+            - --config=/etc/otelcol/config.yaml
+          ports:
+            - { name: otlp-grpc, containerPort: 4317, protocol: TCP }
+            - { name: otlp-http, containerPort: 4318, protocol: TCP }
+            - { name: health, containerPort: 13133, protocol: TCP }
+          readinessProbe:
+            httpGet: { path: /, port: health }
+            periodSeconds: 10
+          livenessProbe:
+            httpGet: { path: /, port: health }
+            periodSeconds: 30
+          resources:
+            requests: { cpu: 50m, memory: 128Mi }
+            limits: { cpu: 500m, memory: 512Mi }
+          securityContext:
+            allowPrivilegeEscalation: false
+            # No disk persistence (no file_storage extension); root filesystem
+            # can be fully read-only with only the config ConfigMap mounted.
+            readOnlyRootFilesystem: true
+            capabilities: { drop: [ALL] }
+          volumeMounts:
+            - { name: config, mountPath: /etc/otelcol }
+      volumes:
+        - name: config
+          configMap:
+            name: otel-collector-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: otel-collector
+  namespace: console-observability
+  labels:
+    app.kubernetes.io/name: otel-collector
+    app.kubernetes.io/part-of: console-observability
+spec:
+  selector:
+    app.kubernetes.io/name: otel-collector
+  ports:
+    - { name: otlp-grpc, port: 4317, targetPort: otlp-grpc, protocol: TCP }
+    - { name: otlp-http, port: 4318, targetPort: otlp-http, protocol: TCP }

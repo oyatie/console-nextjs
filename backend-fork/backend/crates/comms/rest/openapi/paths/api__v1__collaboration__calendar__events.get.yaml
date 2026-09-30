@@ -1,0 +1,41 @@
+tags:
+  - collaboration
+operationId: listCollaborationCalendarEvents
+summary: List tenant-scoped collaboration calendar events
+description: Returns server-filtered collaboration calendar events for the caller's tenant. Personal events are visible
+  only to the creator, while org/team/department scopes carry explicit server policy metadata for future PBAC/ABAC expansion.
+security:
+- bearerAuth: []
+parameters:
+- name: from
+  in: query
+  required: false
+  schema:
+    $ref: '#/components/schemas/Timestamp'
+- name: to
+  in: query
+  required: false
+  schema:
+    $ref: '#/components/schemas/Timestamp'
+- name: limit
+  in: query
+  required: false
+  schema:
+    type: integer
+    format: int64
+    minimum: 1
+    maximum: 100
+    default: 30
+responses:
+  '200':
+    description: Calendar events visible to the caller.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/CalendarEventListResponse'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '422':
+    $ref: '#/components/responses/ValidationError'

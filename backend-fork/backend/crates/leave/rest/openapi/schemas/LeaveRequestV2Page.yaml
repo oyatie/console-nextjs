@@ -1,0 +1,15 @@
+type: object
+required:
+- items
+- next_cursor
+properties:
+  items:
+    type: array
+    items:
+      $ref: '#/components/schemas/LeaveRequestV2View'
+  next_cursor:
+    type:
+    - string
+    - 'null'
+    format: uuid
+    description: Last request id for the next stable keyset page, or null when exhausted.

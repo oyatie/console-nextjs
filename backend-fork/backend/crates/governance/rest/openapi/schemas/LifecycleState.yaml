@@ -1,0 +1,8 @@
+type: string
+description: Instance lifecycle state. Dispose is terminal; there is no hard delete.
+enum:
+- DRAFT
+- ACTIVE
+- LOCKED
+- ARCHIVED
+- DISPOSED

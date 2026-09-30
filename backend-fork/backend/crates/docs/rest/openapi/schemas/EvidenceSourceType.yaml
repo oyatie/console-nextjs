@@ -1,0 +1,1 @@
+{ type: string, enum: [record_archive, inbox_doc, mail_attachment, ingest_job, work_order_evidence_media, external_document] }

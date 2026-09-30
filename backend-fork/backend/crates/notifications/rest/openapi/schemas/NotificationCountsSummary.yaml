@@ -1,0 +1,19 @@
+type: object
+required:
+- total_unread
+- by_category
+- muted_unread
+properties:
+  total_unread:
+    type: integer
+    format: int64
+    description: Unread rows that want attention; rows suppressed by the caller's mute policies are excluded.
+  by_category:
+    type: array
+    description: Per-category unread breakdown, mute-suppressed rows excluded; a category whose unread is entirely muted is omitted rather than shown as zero.
+    items:
+      $ref: '#/components/schemas/NotificationCategoryCount'
+  muted_unread:
+    type: integer
+    format: int64
+    description: Unread rows suppressed by the caller's mute policies, across all categories.

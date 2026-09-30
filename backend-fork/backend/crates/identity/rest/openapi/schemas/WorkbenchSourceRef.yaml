@@ -1,0 +1,10 @@
+type: object
+additionalProperties: false
+required:
+- kind
+- id
+properties:
+  kind:
+    type: string
+  id:
+    $ref: '#/components/schemas/Uuid'

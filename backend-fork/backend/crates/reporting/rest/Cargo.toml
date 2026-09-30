@@ -1,0 +1,28 @@
+[package]
+name = "console-reporting-rest"
+version = "0.1.0"
+description = "REST API for KPI reporting."
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+console-contracts = { path = "../../contracts" }
+axum = { workspace = true }
+http = { workspace = true }
+console-kernel-core = { workspace = true }
+console-platform-auth = { path = "../../platform/auth" }
+console-platform-authz = { path = "../../platform/authz" }
+console-platform-db = { workspace = true }
+console-platform-request-context = { workspace = true }
+console-reporting-adapter-postgres = { workspace = true }
+console-reporting-application = { workspace = true }
+console-reporting-domain = { workspace = true }
+serde = { workspace = true }
+sqlx = { workspace = true }
+time = { workspace = true }
+uuid = { workspace = true }
+
+[lints]
+workspace = true

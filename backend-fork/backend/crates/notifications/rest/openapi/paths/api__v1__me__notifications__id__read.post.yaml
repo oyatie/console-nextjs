@@ -1,0 +1,29 @@
+tags:
+  - me
+operationId: markMyNotificationRead
+summary: Mark one of the authenticated user's notifications read
+security:
+- bearerAuth: []
+parameters:
+- name: id
+  in: path
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+responses:
+  '200':
+    description: The updated notification.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/NotificationSummary'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '503':
+    description: JWT verification is not configured.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ErrorBody'

@@ -1,0 +1,86 @@
+{
+  "source": "console-payroll-rest",
+  "paths": {
+    "/api/v1/payroll/employees/{employeeId}/contract-wages": [
+      "post"
+    ],
+    "/api/v1/payroll/employees/{employeeId}/payslip-draft": [
+      "get"
+    ],
+    "/api/v1/payroll/payslips/me": [
+      "get"
+    ],
+    "/api/v1/payroll/runs": [
+      "get"
+    ],
+    "/api/v1/payroll/runs/{id}": [
+      "get"
+    ],
+    "/api/v1/payroll/runs/{id}/calculate": [
+      "post"
+    ],
+    "/api/v1/payroll/runs/{id}/close-attendance": [
+      "post"
+    ],
+    "/api/v1/payroll/runs/{id}/close-preflight": [
+      "get"
+    ],
+    "/api/v1/payroll/runs/{id}/decision": [
+      "post"
+    ],
+    "/api/v1/payroll/runs/{id}/disbursement/attest": [
+      "post"
+    ],
+    "/api/v1/payroll/runs/{id}/exceptions": [
+      "get"
+    ],
+    "/api/v1/payroll/runs/{id}/exceptions/{exceptionId}/resolve": [
+      "post"
+    ],
+    "/api/v1/payroll/runs/{id}/issue-payslips": [
+      "post"
+    ],
+    "/api/v1/payroll/runs/{id}/payslip-delivery": [
+      "get"
+    ],
+    "/api/v1/payroll/runs/{id}/schedule-disbursement": [
+      "post"
+    ],
+    "/api/v1/payroll/runs/{id}/submit": [
+      "post"
+    ],
+    "/api/v1/payroll/runs/{id}/withdraw": [
+      "post"
+    ]
+  },
+  "schemas": [
+    "AttestPayrollDisbursementRequest",
+    "ClosePayrollAttendanceRequest",
+    "DecidePayrollRunRequest",
+    "MyPayrollLine",
+    "MyPayrollLinePage",
+    "PayrollClosePreflight",
+    "PayrollDisbursement",
+    "PayrollException",
+    "PayrollExceptionPage",
+    "PayrollLineSummary",
+    "PayrollLinkedRef",
+    "PayrollPayslipDeliveryItem",
+    "PayrollPayslipDeliverySummary",
+    "PayrollPayslipDraft",
+    "PayrollPayslipDraftDeduction",
+    "PayrollPreflightCheck",
+    "PayrollRunCalcSummary",
+    "PayrollRunDetail",
+    "PayrollRunPage",
+    "PayrollRunSummary",
+    "PayrollStatutoryCitation",
+    "PayrollStatutoryInstrument",
+    "ResolvePayrollExceptionRequest",
+    "SchedulePayrollDisbursementRequest"
+  ],
+  "external_schemas": [
+    "Timestamp",
+    "Uuid"
+  ]
+}

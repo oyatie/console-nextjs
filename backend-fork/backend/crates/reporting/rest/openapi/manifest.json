@@ -1,0 +1,52 @@
+{
+  "source": "console-reporting-rest",
+  "paths": {
+    "/api/v1/exports/daily-status": [
+      "get"
+    ],
+    "/api/v1/exports/kpi": [
+      "get"
+    ],
+    "/api/v1/exports/work-diary": [
+      "get"
+    ],
+    "/api/v1/kpi": [
+      "get"
+    ],
+    "/api/v1/ops/summary": [
+      "get"
+    ],
+    "/api/v1/reporting/work-diary": [
+      "get",
+      "put"
+    ],
+    "/api/v1/reporting/work-diary/confirm": [
+      "post"
+    ]
+  },
+  "schemas": [
+    "ExportSourceNote",
+    "KpiMetric",
+    "KpiReport",
+    "KpiRollup",
+    "KpiRollupScope",
+    "KpiScope",
+    "OpsEquipmentStatus",
+    "OpsFunnel",
+    "OpsMechanicLoad",
+    "OpsSummary",
+    "Period",
+    "UnavailableMetric",
+    "WorkDiaryActionEntry",
+    "WorkDiaryBody",
+    "WorkDiaryDraft",
+    "WorkDiaryStatus",
+    "WorkDiaryUpdateRequest"
+  ],
+  "external_schemas": [
+    "Date",
+    "ErrorBody",
+    "Timestamp",
+    "Uuid"
+  ]
+}

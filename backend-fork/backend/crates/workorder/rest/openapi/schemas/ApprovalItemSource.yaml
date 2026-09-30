@@ -1,0 +1,22 @@
+type: object
+required:
+- key
+- label
+- status
+- count
+properties:
+  key:
+    type: string
+    enum:
+    - workOrders
+    - dailyPlans
+    - targetChanges
+  label:
+    type: string
+  status:
+    type: string
+    enum:
+    - ok
+  count:
+    type: integer
+    format: int64

@@ -1,0 +1,16 @@
+type: object
+required:
+- recipient_user_id
+- display_name
+- acknowledged_at
+properties:
+  recipient_user_id:
+    $ref: '#/components/schemas/Uuid'
+  display_name:
+    type: string
+  acknowledged_at:
+    type:
+    - string
+    - 'null'
+    format: date-time
+    description: 수령확인 timestamp; null while the recipient is outstanding.

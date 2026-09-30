@@ -1,0 +1,28 @@
+type: object
+required:
+- link
+- total
+- unread
+- categories
+- latest
+- muted
+properties:
+  link:
+    $ref: '#/components/schemas/NotificationLink'
+  total:
+    type: integer
+    format: int64
+  unread:
+    type: integer
+    format: int64
+    description: Unread rows in the group; annotated, never mute-filtered.
+  categories:
+    type: array
+    description: Per-category unread breakdown within the group; zero-unread categories are omitted.
+    items:
+      $ref: '#/components/schemas/NotificationCategoryCount'
+  latest:
+    $ref: '#/components/schemas/NotificationSummary'
+  muted:
+    type: boolean
+    description: True when an all-scope or matching object-scope mute policy covers this object for the caller; category-scope policies never flip the group bell.

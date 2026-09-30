@@ -1,0 +1,47 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n                    SELECT\n                        a.mechanic_id AS \"mechanic_id!\",\n                        u.display_name AS \"display_name!\",\n                        COUNT(*) AS \"active_assignments!\"\n                    FROM work_order_assignments a\n                    JOIN work_orders w ON w.id = a.work_order_id\n                    JOIN users u ON u.id = a.mechanic_id\n                    WHERE w.status NOT IN (\n                        'FINAL_COMPLETED', 'REJECTED', 'ARCHIVED', 'CANCELLED'\n                    )\n                    GROUP BY a.mechanic_id, u.display_name\n                    ORDER BY COUNT(*) DESC, u.display_name ASC\n                    LIMIT $1\n                    ",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "mechanic_id!",
+        "type_info": "Uuid",
+        "origin": {
+          "Table": {
+            "table": "work_order_assignments",
+            "name": "mechanic_id"
+          }
+        }
+      },
+      {
+        "ordinal": 1,
+        "name": "display_name!",
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "users",
+            "name": "display_name"
+          }
+        }
+      },
+      {
+        "ordinal": 2,
+        "name": "active_assignments!",
+        "type_info": "Int8",
+        "origin": "Expression"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Int8"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      null
+    ]
+  },
+  "hash": "5b97820e4c5cf4dcc5846a426154c72ce1bd717e4b8d708def27067ee04706ec"
+}

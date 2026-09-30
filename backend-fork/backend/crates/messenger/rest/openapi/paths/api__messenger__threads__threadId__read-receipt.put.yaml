@@ -1,0 +1,27 @@
+tags:
+  - messenger
+operationId: markMessengerThreadRead
+summary: Mark the authenticated member's thread read cursor
+security:
+- bearerAuth: []
+parameters:
+- $ref: '#/components/parameters/ThreadId'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/MarkMessengerThreadReadRequest'
+responses:
+  '200':
+    description: Read receipt upserted.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/MessengerReadReceiptSummary'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'

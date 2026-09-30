@@ -1,0 +1,12 @@
+type: object
+required: [mechanic_id, score_milli, gps_ranked, workload, score_reason]
+properties:
+  mechanic_id: { $ref: '#/components/schemas/Uuid' }
+  score_milli: { type: integer, format: int64 }
+  gps_ranked: { type: boolean }
+  distance_meters: { type: integer, format: int64 }
+  location_recorded_at: { $ref: '#/components/schemas/Timestamp' }
+  workload: { type: object, additionalProperties: true }
+  score_reason: { type: string }
+  response: { $ref: '#/components/schemas/DispatchResponseKind' }
+  responded_at: { $ref: '#/components/schemas/Timestamp' }

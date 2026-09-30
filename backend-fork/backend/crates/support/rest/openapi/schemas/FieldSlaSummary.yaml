@@ -1,0 +1,28 @@
+type: object
+required:
+- state
+- open
+- breached
+- next_due_at
+- resolved_within_sla_90d
+- resolved_breached_90d
+properties:
+  state:
+    $ref: '#/components/schemas/FieldSlaState'
+  open:
+    type: integer
+    format: int64
+  breached:
+    type: integer
+    format: int64
+  next_due_at:
+    type:
+    - string
+    - 'null'
+    format: date-time
+  resolved_within_sla_90d:
+    type: integer
+    format: int64
+  resolved_breached_90d:
+    type: integer
+    format: int64

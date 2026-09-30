@@ -1,0 +1,32 @@
+type: object
+description: Partial update for a DRAFT workflow definition. Workflow key and object type are immutable.
+minProperties: 1
+properties:
+  display_name:
+    type: string
+  definition:
+    type: object
+    additionalProperties: true
+  approval_line:
+    type: array
+    items:
+      type: object
+      additionalProperties: true
+  payment_line:
+    type: array
+    items:
+      type: object
+      additionalProperties: true
+  notification_rules:
+    type: array
+    items:
+      type: object
+      additionalProperties: true
+  action_allowlist:
+    type: array
+    items:
+      $ref: '#/components/schemas/WorkflowActionAllowlistEntry'
+  required_approval_line:
+    type: boolean
+  required_payment_line:
+    type: boolean

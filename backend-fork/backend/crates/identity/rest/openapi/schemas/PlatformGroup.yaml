@@ -1,0 +1,30 @@
+type: object
+required:
+- id
+- slug
+- name
+- status
+- member_count
+- members
+- created_at
+- updated_at
+properties:
+  id:
+    $ref: '#/components/schemas/Uuid'
+  slug:
+    type: string
+  name:
+    type: string
+  status:
+    $ref: '#/components/schemas/PlatformOrgStatus'
+  member_count:
+    type: integer
+    format: int64
+  members:
+    type: array
+    items:
+      $ref: '#/components/schemas/PlatformGroupMember'
+  created_at:
+    $ref: '#/components/schemas/Timestamp'
+  updated_at:
+    $ref: '#/components/schemas/Timestamp'

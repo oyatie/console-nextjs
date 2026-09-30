@@ -1,0 +1,94 @@
+tags:
+  - Ontology
+operationId: attachObjectTypePolicy
+summary: Attach an object policy to an object type
+description: >
+  Authors one enforced Cedar catalog policy and attaches it to the object
+  type identified by stable key, in one audited transaction. The attached
+  policy is what makes that type's instances visible: with none attached
+  the list and every single-instance read serve nothing (deny-by-default).
+  The body carries only the rule — `resource_type` is derived from {key}
+  and the action is fixed to `view`, so a policy that could never match its
+  own object type is unrepresentable. A rule the authoring validator cannot
+  strict-validate (for example a condition over a Date property, which is
+  not representable as a Cedar attribute) is 422 and nothing is written.
+  An attachment cannot be revoked — both tables are append-only and no role
+  holds UPDATE on the policy catalog — so `conditions` is capped at 32:
+  every condition is re-validated and lowered into SQL on every later read
+  of the type, permanently.
+security:
+  - bearerAuth: []
+parameters:
+  - name: key
+    in: path
+    required: true
+    schema:
+      type: string
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        required:
+          - effect
+        properties:
+          effect:
+            type: string
+            enum: [permit, forbid]
+          conditions:
+            type: array
+            default: []
+            maxItems: 32
+            items:
+              type: object
+              required:
+                - attr
+                - op
+                - value
+              properties:
+                attr:
+                  type: string
+                op:
+                  type: string
+                  enum: [eq, ne, contains]
+                value:
+                  type: object
+                  required:
+                    - kind
+                    - value
+                  properties:
+                    kind:
+                      type: string
+                      enum: [literal, subject_attr, bool]
+                    value:
+                      oneOf:
+                        - type: string
+                        - type: boolean
+responses:
+  '201':
+    description: The policy was authored, attached and audited.
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - id
+          properties:
+            id:
+              type: string
+              format: uuid
+  '400':
+    $ref: '#/components/responses/BadRequest'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '409':
+    $ref: '#/components/responses/Conflict'
+  '422':
+    $ref: '#/components/responses/ValidationError'
+  '503':
+    $ref: '#/components/responses/ServiceUnavailable'

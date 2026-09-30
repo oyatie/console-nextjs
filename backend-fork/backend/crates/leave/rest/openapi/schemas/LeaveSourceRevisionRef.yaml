@@ -1,0 +1,7 @@
+type: object
+additionalProperties: false
+required: [kind, reference, revision]
+properties:
+  kind: {type: string, minLength: 1, maxLength: 64}
+  reference: {type: string, minLength: 1, maxLength: 256}
+  revision: {type: string, minLength: 1, maxLength: 128}

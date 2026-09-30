@@ -1,0 +1,28 @@
+tags:
+  - financial
+operationId: downloadPurchaseRequestAttachment
+summary: Return a short-lived download URL for a confirmed purchase attachment
+security:
+- bearerAuth: []
+parameters:
+- $ref: '#/components/parameters/PurchaseRequestId'
+- name: attachmentId
+  in: path
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+responses:
+  '200':
+    description: Purchase attachment download URL.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/PurchaseAttachmentDownloadResponse'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '503':
+    $ref: '#/components/responses/ServiceUnavailable'

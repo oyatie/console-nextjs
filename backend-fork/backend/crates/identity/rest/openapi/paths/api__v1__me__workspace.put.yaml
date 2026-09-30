@@ -1,0 +1,32 @@
+tags:
+  - me
+operationId: putCurrentUserWorkspace
+summary: Upsert the authenticated user's console workspace layout
+description: >-
+  Stores the caller's Oyatie Console layout verbatim. The `layout` must be
+  a JSON object and is bounded in size by the server.
+security:
+- bearerAuth: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/WorkspaceUpsertRequest'
+responses:
+  '200':
+    description: The stored workspace layout.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/WorkspaceResponse'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '422':
+    $ref: '#/components/responses/ValidationError'
+  '503':
+    description: JWT verification is not configured.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ErrorBody'

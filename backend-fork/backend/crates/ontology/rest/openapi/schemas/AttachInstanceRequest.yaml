@@ -1,0 +1,13 @@
+type: object
+description: Attach an instance (kind, id) to a series.
+required:
+- kind
+- id
+properties:
+  kind:
+    type: string
+    description: Instance object kind slug.
+  id:
+    type: string
+    maxLength: 200
+    description: Instance object id/reference (≤200 chars).

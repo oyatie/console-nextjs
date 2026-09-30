@@ -1,0 +1,27 @@
+description: Deep-link target — an object reference (kind + id) or a bare app screen.
+oneOf:
+- type: object
+  required:
+  - type
+  - kind
+  - id
+  properties:
+    type:
+      type: string
+      enum:
+      - object
+    kind:
+      type: string
+    id:
+      type: string
+- type: object
+  required:
+  - type
+  - screen
+  properties:
+    type:
+      type: string
+      enum:
+      - screen
+    screen:
+      type: string

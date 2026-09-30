@@ -1,0 +1,41 @@
+tags:
+  - approval-items
+operationId: listApprovalItems
+summary: List federated approval workflow items
+description: Returns a server-owned, paginated approval queue across typed workflow objects. Each item carries ontology,
+  workflow, and policy context so clients can render RBAC/PBAC/ABAC-aware approval tasks without composing source queues
+  in the browser. The backend enforces authentication, tenant RLS, feature authorization, and branch scope before returning
+  any item; source-specific mutation endpoints re-check authorization.
+security:
+- bearerAuth: []
+parameters:
+- name: limit
+  in: query
+  required: false
+  schema:
+    type: integer
+    format: int64
+    minimum: 1
+    maximum: 200
+    default: 100
+- name: offset
+  in: query
+  required: false
+  schema:
+    type: integer
+    format: int64
+    minimum: 0
+    default: 0
+responses:
+  '200':
+    description: Federated approval items for the caller's policy scope.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ApprovalItemsPage'
+  '400':
+    $ref: '#/components/responses/ValidationError'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'

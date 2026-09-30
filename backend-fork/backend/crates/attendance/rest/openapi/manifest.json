@@ -1,0 +1,81 @@
+{
+  "source": "console-attendance-rest",
+  "paths": {
+    "/api/v1/attendance/closes": [
+      "get",
+      "post"
+    ],
+    "/api/v1/attendance/closes/preflight": [
+      "post"
+    ],
+    "/api/v1/attendance/closes/{close_id}/amendments": [
+      "post"
+    ],
+    "/api/v1/attendance/exceptions": [
+      "get",
+      "post"
+    ],
+    "/api/v1/attendance/exceptions/{exception_id}": [
+      "get"
+    ],
+    "/api/v1/attendance/exceptions/{exception_id}/resolve": [
+      "post"
+    ],
+    "/api/v1/attendance/me/exceptions": [
+      "get"
+    ],
+    "/api/v1/attendance/me/week52": [
+      "get"
+    ],
+    "/api/v1/attendance/substitution-candidates": [
+      "get"
+    ],
+    "/api/v1/attendance/substitutions": [
+      "get",
+      "post"
+    ],
+    "/api/v1/attendance/substitutions/{substitution_id}/cancel": [
+      "post"
+    ],
+    "/api/v1/attendance/week52": [
+      "get"
+    ],
+    "/api/v1/attendance/week52/acks": [
+      "post"
+    ]
+  },
+  "schemas": [
+    "AssignAttendanceSubstituteRequest",
+    "AttendanceCloseAmendment",
+    "AttendanceCloseAmendmentRequest",
+    "AttendanceCloseBoard",
+    "AttendanceCloseCheck",
+    "AttendanceClosePreflight",
+    "AttendanceCloseRequest",
+    "AttendanceException",
+    "AttendanceExceptionEvidence",
+    "AttendanceExceptionLink",
+    "AttendanceExceptionPage",
+    "AttendanceExceptionResolution",
+    "AttendanceMonthClose",
+    "AttendanceMonthCloseItem",
+    "AttendanceSubstitution",
+    "AttendanceSubstitutionCandidate",
+    "AttendanceSubstitutionCandidatePage",
+    "AttendanceSubstitutionPage",
+    "AttendanceWeek52AckRequest",
+    "AttendanceWeek52Board",
+    "AttendanceWeek52Row",
+    "CancelAttendanceSubstitutionRequest",
+    "OwnAttendanceException",
+    "OwnAttendanceExceptionPage",
+    "OwnAttendanceExceptionResolution",
+    "OwnAttendanceWeek52",
+    "OwnAttendanceWeek52Response",
+    "RaiseAttendanceExceptionRequest",
+    "ResolveAttendanceExceptionRequest"
+  ],
+  "external_schemas": [
+    "Uuid"
+  ]
+}

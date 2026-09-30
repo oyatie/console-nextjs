@@ -1,0 +1,12 @@
+type: object
+additionalProperties: false
+required: [subject_id, cycle_id, cycle_name, due_date, employee_id, employee_name, kind, review_status]
+properties:
+  subject_id: { $ref: '#/components/schemas/Uuid' }
+  cycle_id: { $ref: '#/components/schemas/Uuid' }
+  cycle_name: { type: string }
+  due_date: { $ref: '#/components/schemas/Date' }
+  employee_id: { $ref: '#/components/schemas/Uuid' }
+  employee_name: { type: string }
+  kind: { $ref: '#/components/schemas/EvaluationReviewKind' }
+  review_status: { oneOf: [{ $ref: '#/components/schemas/EvaluationReviewStatus' }, { type: 'null' }] }

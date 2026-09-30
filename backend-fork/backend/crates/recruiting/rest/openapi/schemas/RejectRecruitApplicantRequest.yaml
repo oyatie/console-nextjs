@@ -1,0 +1,11 @@
+type: object
+required:
+- reason
+properties:
+  reason:
+    $ref: '#/components/schemas/RecruitRejectReason'
+  note:
+    type:
+    - string
+    - 'null'
+    maxLength: 500

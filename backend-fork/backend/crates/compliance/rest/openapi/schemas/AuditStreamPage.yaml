@@ -1,0 +1,31 @@
+type: object
+required:
+- items
+- limit
+- offset
+- total
+- stream_key
+- read_kind
+- access_audit_id
+properties:
+  items:
+    type: array
+    items:
+      $ref: '#/components/schemas/AuditStreamRecord'
+  limit:
+    type: integer
+    format: int64
+  offset:
+    type: integer
+    format: int64
+  total:
+    type: integer
+    format: int64
+  stream_key:
+    type: string
+    enum:
+    - ceo_covert_audit
+  read_kind:
+    $ref: '#/components/schemas/AuditStreamReadKind'
+  access_audit_id:
+    type: string

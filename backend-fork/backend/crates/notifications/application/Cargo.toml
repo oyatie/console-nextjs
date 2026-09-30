@@ -1,0 +1,18 @@
+[package]
+name = "console-notifications-application"
+version = "0.1.0"
+description = "Notifications use-case commands, summaries, and ports (write sink + realtime notifier)."
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+console-kernel-core = { workspace = true }
+console-notifications-domain = { workspace = true }
+serde = { workspace = true }
+time = { workspace = true }
+uuid = { workspace = true }
+
+[lints]
+workspace = true

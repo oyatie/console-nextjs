@@ -1,0 +1,25 @@
+type: object
+required:
+- id
+- kind
+- label
+- amount_krw
+- source_ref
+- sort_order
+properties:
+  id:
+    $ref: '#/components/schemas/Uuid'
+  kind:
+    $ref: '#/components/schemas/SettlementLineKind'
+  label:
+    type: string
+  amount_krw:
+    type: integer
+    format: int64
+  source_ref:
+    type:
+    - string
+    - 'null'
+  sort_order:
+    type: integer
+    format: int32

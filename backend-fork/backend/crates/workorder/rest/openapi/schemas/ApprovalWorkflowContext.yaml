@@ -1,0 +1,18 @@
+type: object
+description: Workflow/action identity for a typed approval task.
+required:
+- workflow_key
+- action_key
+properties:
+  workflow_key:
+    type: string
+    examples:
+    - work_order.report_completion_review
+    - daily_plan.review
+    - work_order.target_change_review
+  action_key:
+    type: string
+    examples:
+    - approve_work_order
+    - review_daily_plan
+    - review_target_change

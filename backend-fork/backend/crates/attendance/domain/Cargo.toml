@@ -1,0 +1,17 @@
+[package]
+name = "console-attendance-domain"
+version = "0.1.0"
+description = "Pure attendance close, exception, and substitution invariants."
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+serde = { workspace = true }
+time = { workspace = true }
+thiserror = { workspace = true }
+uuid = { workspace = true }
+
+[lints]
+workspace = true

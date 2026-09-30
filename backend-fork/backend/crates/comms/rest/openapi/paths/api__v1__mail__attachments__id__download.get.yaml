@@ -1,0 +1,30 @@
+tags:
+  - mail
+operationId: downloadMailAttachment
+summary: Get a presigned download URL for an attachment
+description: Resolves the attachment under the caller's org (cross-tenant invisible) and returns a short-lived presigned
+  GET URL — the raw object key is never exposed. RLS-armed to the caller's org. Requires the MailUse feature.
+security:
+- bearerAuth: []
+parameters:
+- name: id
+  in: path
+  required: true
+  schema:
+    type: string
+    format: uuid
+responses:
+  '200':
+    description: A short-lived presigned download URL.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/MailAttachmentDownload'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '503':
+    $ref: '#/components/responses/MailUnavailable'

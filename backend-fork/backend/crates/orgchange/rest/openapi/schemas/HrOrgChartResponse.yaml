@@ -1,0 +1,8 @@
+type: object
+required:
+- companies
+properties:
+  companies:
+    type: array
+    items:
+      $ref: '#/components/schemas/HrOrgChartCompany'

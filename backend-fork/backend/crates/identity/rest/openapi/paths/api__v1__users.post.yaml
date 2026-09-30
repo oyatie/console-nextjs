@@ -1,0 +1,31 @@
+tags:
+  - users
+operationId: createUser
+summary: Create a user with roles and branch memberships
+security:
+- bearerAuth: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/CreateUserRequest'
+responses:
+  '201':
+    description: User created.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/UserSummary'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '422':
+    $ref: '#/components/responses/ValidationError'
+  '503':
+    description: JWT verification is not configured.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ErrorBody'

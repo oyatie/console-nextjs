@@ -1,0 +1,9 @@
+allOf:
+- { $ref: '#/components/schemas/ConsultingEngagement' }
+- type: object
+  required: [diagnostics, findings, initiatives, observations]
+  properties:
+    diagnostics: { type: array, items: { $ref: '#/components/schemas/ConsultingDiagnostic' } }
+    findings: { type: array, items: { $ref: '#/components/schemas/ConsultingFinding' } }
+    initiatives: { type: array, items: { $ref: '#/components/schemas/ConsultingInitiative' } }
+    observations: { type: array, items: { $ref: '#/components/schemas/ConsultingBenefitObservation' } }

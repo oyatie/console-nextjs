@@ -1,0 +1,13 @@
+type: object
+description: Optional overrides for the authenticated session user's passkey registration (username/display_name default
+  to the user's stored profile when omitted), plus the step-up assertion required to ADD a passkey when the user already
+  has one. A user with zero passkeys (initial enrollment) omits `step_up`; an already-enrolled user MUST supply a fresh
+  `step_up` assertion of an existing passkey (user verification required), or register/start returns 401 — so a stolen
+  session cannot silently add a credential.
+properties:
+  username:
+    type: string
+  display_name:
+    type: string
+  step_up:
+    $ref: '#/components/schemas/PasskeyStepUpAssertion'

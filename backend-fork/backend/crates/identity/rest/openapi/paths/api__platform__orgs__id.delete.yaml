@@ -1,0 +1,60 @@
+tags:
+  - platform
+operationId: removePlatformOrg
+summary: Remove a tenant — guarded shell removal, or opt-in force-delete with data (platform vendor tier)
+description: 'Remove a tenant organization. Platform-super-admin (vendor tier) ONLY: the route sits behind the platform
+  extractor, so a tenant token is rejected with 403 before the handler runs and a tenant''s own admin can never reach
+  it.
+
+
+  Two paths, selected by the opt-in `delete_data` query parameter (default false):
+
+
+  - `delete_data=false` (default) — GUARDED removal, audited as `platform.tenant.remove`. Deletes only an empty/test
+  tenant''s onboarding shell (the seeded admin user, its auth credentials, branch memberships, branches, and regions).
+  REFUSED with 409 (`code` = `tenant_has_data`) when the tenant owns real operational data (equipment, work orders,
+  sites, customers, inspections, sales, financial, messenger, consents, attendance, or governance findings) — archive
+  the tenant instead.
+
+
+  - `delete_data=true` — FORCE removal, audited as `platform.tenant.force_remove`. The DESTRUCTIVE path: erases the
+  org AND all of its data. Fail-closed by a status rail — REFUSED with 409 (`code` = `tenant_active`) unless the tenant
+  is ARCHIVED, so an active tenant can never be force-wiped by a single call; archive it (reversible) first.
+
+
+  Both paths delete in one transaction and preserve the tenant''s immutable audit trail (re-homed to the platform sentinel).'
+security:
+- bearerAuth: []
+parameters:
+- name: id
+  in: path
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+- name: delete_data
+  in: query
+  required: false
+  description: Opt-in FORCE removal. When true, erase the tenant AND all of its data (requires the tenant to be ARCHIVED
+    first). Defaults to false — the guarded path that removes only an empty onboarding shell.
+  schema:
+    type: boolean
+    default: false
+responses:
+  '204':
+    description: The tenant (and, when forced, all of its data) was removed.
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '409':
+    description: The removal was refused. On the guarded path (`delete_data` false), the tenant has operational data
+      and cannot be removed (error body `code` is `tenant_has_data`) — archive it instead. On the force path (`delete_data`
+      true), the tenant is not ARCHIVED (error body `code` is `tenant_active`) — archive the tenant before force-removing.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ErrorBody'
+  '503':
+    $ref: '#/components/responses/ServiceUnavailable'

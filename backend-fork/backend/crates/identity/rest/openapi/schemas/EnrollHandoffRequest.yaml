@@ -1,0 +1,7 @@
+type: object
+description: Cross-device passkey-enrollment handoff request. Carries NO user/org — those come from the verified access
+  token, so a caller can only mint a handoff for itself. `step_up` is REQUIRED only when the caller already has a passkey
+  (adding a device); a mid-onboarding caller (zero passkeys) omits it.
+properties:
+  step_up:
+    $ref: '#/components/schemas/PasskeyStepUpAssertion'

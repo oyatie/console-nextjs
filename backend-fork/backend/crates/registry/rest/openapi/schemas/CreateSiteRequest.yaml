@@ -1,0 +1,76 @@
+type: object
+required:
+- customer_id
+- name
+description: Create a site under an existing customer. Optional location/contact fields follow the same WGS84 ranges
+  and length bounds as UpdateSiteRequest; latitude and longitude must be supplied together.
+properties:
+  customer_id:
+    $ref: '#/components/schemas/Uuid'
+  name:
+    type: string
+    minLength: 1
+    maxLength: 200
+    description: Site name (현장명). Required, trimmed, ≤ 200 characters.
+  address:
+    type:
+    - string
+    - 'null'
+    maxLength: 500
+  province:
+    type:
+    - string
+    - 'null'
+    maxLength: 100
+  city:
+    type:
+    - string
+    - 'null'
+    maxLength: 100
+  postal_code:
+    type:
+    - string
+    - 'null'
+    maxLength: 20
+  latitude:
+    type:
+    - number
+    - 'null'
+    format: double
+    minimum: -90
+    maximum: 90
+    description: Optional admin-authored WGS84 latitude in degrees. Must be supplied together with longitude.
+  longitude:
+    type:
+    - number
+    - 'null'
+    format: double
+    minimum: -180
+    maximum: 180
+    description: Optional admin-authored WGS84 longitude in degrees. Must be supplied together with latitude.
+  geofence_radius_m:
+    type:
+    - number
+    - 'null'
+    format: double
+    minimum: 0
+    maximum: 100000
+    description: Per-site geofence radius in metres (> 0, ≤ 100000). Null uses the system default (300 m).
+  contact_name:
+    type:
+    - string
+    - 'null'
+    maxLength: 100
+    description: On-site representative contact name (담당자명).
+  contact_phone:
+    type:
+    - string
+    - 'null'
+    maxLength: 40
+    description: On-site contact phone (연락처).
+  contact_email:
+    type:
+    - string
+    - 'null'
+    maxLength: 320
+    description: Optional contact email (이메일).

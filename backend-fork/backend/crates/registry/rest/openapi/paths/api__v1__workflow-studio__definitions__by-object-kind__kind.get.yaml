@@ -1,0 +1,27 @@
+tags:
+  - workflow-studio
+operationId: listWorkflowDefinitionsByObjectKind
+summary: Automation rules acting on an object kind (dynamics↔ontology)
+description: The explore screen's "작용 자동화" panel source. Returns definitions whose primary object_type is the kind or
+  whose declared object_kinds chain touches it, plus the trigger bindings scoped to that kind.
+security:
+- bearerAuth: []
+parameters:
+- name: kind
+  in: path
+  required: true
+  schema:
+    type: string
+responses:
+  '200':
+    description: Definitions and trigger bindings touching the object kind.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/DefinitionsByObjectKindResponse'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '422':
+    $ref: '#/components/responses/ValidationError'

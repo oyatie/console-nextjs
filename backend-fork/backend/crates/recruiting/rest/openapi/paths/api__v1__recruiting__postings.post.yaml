@@ -1,0 +1,25 @@
+tags:
+- recruiting
+operationId: createRecruitPosting
+summary: Create a draft job posting (JP- code); recruiting_manage only
+security:
+- bearerAuth: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/CreateRecruitPostingRequest'
+responses:
+  '201':
+    description: The draft posting.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/RecruitPosting'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '422':
+    $ref: '#/components/responses/ValidationError'

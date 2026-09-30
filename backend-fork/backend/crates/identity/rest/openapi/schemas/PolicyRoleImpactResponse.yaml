@@ -1,0 +1,45 @@
+type: object
+description: 'Per-custom-role impact row for assignment preview. Runtime fields are computed by the same fail-closed
+  evaluator used for the top-level preview: only ACTIVE roles whose supported conditions (branch and team) match the
+  target user''s live attributes/scope and whose permissions are supported can expose runtime grants.'
+required:
+- role_id
+- role_key
+- display_name
+- status
+- runtime_effective
+- runtime_warnings
+- conditions
+properties:
+  role_id:
+    $ref: '#/components/schemas/Uuid'
+  role_key:
+    type: string
+  display_name:
+    type: string
+  status:
+    type: string
+    enum:
+    - DRAFT
+    - ACTIVE
+    - RETIRED
+  runtime_effective:
+    type: boolean
+    description: True only when this custom role will produce supported runtime feature grants for the target user after
+      the assignment is saved.
+  runtime_warnings:
+    type: array
+    description: Deterministic fail-closed reasons explaining why this role is planning/audit-only for the target user.
+    items:
+      type: string
+      enum:
+      - custom_role_status_not_active
+      - custom_role_condition_unsupported_by_runtime_evaluator
+      - custom_role_condition_invalid_branch_value
+      - custom_role_condition_outside_target_branch_scope
+      - custom_role_condition_outside_target_attributes
+      - custom_role_no_runtime_allowed_permissions
+  conditions:
+    type: array
+    items:
+      $ref: '#/components/schemas/PolicyConditionResponse'

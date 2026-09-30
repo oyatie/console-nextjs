@@ -1,0 +1,39 @@
+tags:
+- org
+operationId: updateOrgChangeDraft
+summary: Edit an org-change draft
+description: DRAFT or PRECHECKED only; every edit returns the request to DRAFT, so a stored preflight receipt must
+  be re-run before submit. Omitted fields are left unchanged.
+security:
+- bearerAuth: []
+parameters:
+- name: id
+  in: path
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/UpdateOrgChangeDraftRequest'
+responses:
+  '200':
+    description: Draft updated.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/OrgChangeDetail'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '409':
+    $ref: '#/components/responses/Conflict'
+  '422':
+    $ref: '#/components/responses/ValidationError'
+  '503':
+    $ref: '#/components/responses/ServiceUnavailable'

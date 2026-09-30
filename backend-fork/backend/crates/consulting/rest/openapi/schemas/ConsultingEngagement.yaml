@@ -1,0 +1,14 @@
+type: object
+required: [id, customer_id, title, status, version, created_at, updated_at]
+properties:
+  id: { $ref: '#/components/schemas/Uuid' }
+  customer_id: { $ref: '#/components/schemas/Uuid' }
+  customer_document_id: { $ref: '#/components/schemas/Uuid', nullable: true }
+  ontology_instance_id: { $ref: '#/components/schemas/Uuid', nullable: true }
+  title: { type: string }
+  status: { type: string, enum: [DRAFT, PROPOSED, APPROVED, IMPLEMENTED, MEASURED, SUSTAINED, CORRECTIVE] }
+  approval_id: { $ref: '#/components/schemas/Uuid', nullable: true }
+  workflow_execution_id: { $ref: '#/components/schemas/Uuid', nullable: true }
+  version: { type: integer, format: int64 }
+  created_at: { type: string, format: date-time }
+  updated_at: { type: string, format: date-time }

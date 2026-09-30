@@ -1,0 +1,27 @@
+type: object
+required:
+- id
+- work_order_id
+- stage
+- processing_status
+- content_type
+properties:
+  id:
+    $ref: '#/components/schemas/Uuid'
+  work_order_id:
+    $ref: '#/components/schemas/Uuid'
+  stage:
+    $ref: '#/components/schemas/AttachmentStage'
+  processing_status:
+    $ref: '#/components/schemas/ProcessingStatus'
+  content_type:
+    type: string
+  thumbnail_url:
+    type: string
+    format: uri
+    description: Short-lived presigned GET URL for the generated thumbnail (absent until the row is READY). Replaces
+      the previous thumbnail_s3_key, which exposed the internal object key; clients render this URL directly.
+  processing_error:
+    type: string
+  processed_at:
+    $ref: '#/components/schemas/Timestamp'

@@ -1,0 +1,7 @@
+type: string
+description: Fuel / drive class of a listed forklift.
+enum:
+- ELECTRIC
+- DIESEL
+- LPG
+- REACH

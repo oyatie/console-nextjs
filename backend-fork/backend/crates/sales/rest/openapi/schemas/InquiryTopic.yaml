@@ -1,0 +1,7 @@
+type: string
+description: Subject of a customer inquiry.
+enum:
+- RENTAL
+- USED_SALES
+- MAINTENANCE
+- OTHER

@@ -1,0 +1,31 @@
+tags:
+  - workflow-tasks
+operationId: listBulkApprovalInbox
+summary: List canonical bulk-approval tasks
+description: A keyset-paginated, authorization-filtered personal inbox. Only explicit approval_decide workflow tasks are exposed; omitted rows do not affect page cardinality.
+security:
+- bearerAuth: []
+parameters:
+- name: cursor
+  in: query
+  required: false
+  schema:
+    type: string
+- name: limit
+  in: query
+  required: false
+  schema:
+    type: integer
+    minimum: 1
+    maximum: 200
+responses:
+  '200':
+    description: A page of authorization-filtered canonical approval tasks.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/BulkApprovalInboxResponse'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '422':
+    $ref: '#/components/responses/ValidationError'

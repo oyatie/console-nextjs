@@ -1,0 +1,6 @@
+type: string
+enum:
+- work_order
+- team
+- dm
+- group

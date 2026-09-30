@@ -1,0 +1,11 @@
+tags: [equipment-3r]
+operationId: registerEquipment3rUnit
+summary: Register a serialized rental unit (org-unique serial)
+security: [{ bearerAuth: [] }]
+requestBody: { required: true, content: { application/json: { schema: { type: object, required: [branchId, serialNo, modelName, capacityClass, acquisitionCostMinor], properties: { branchId: { $ref: '#/components/schemas/Uuid' }, serialNo: { type: string, minLength: 1, maxLength: 80 }, modelName: { type: string, minLength: 1, maxLength: 120 }, capacityClass: { type: string, minLength: 1, maxLength: 40 }, acquisitionCostMinor: { type: integer, format: int64, minimum: 0 } } } } } }
+responses:
+  '201': { description: Unit registered, content: { application/json: { schema: { $ref: '#/components/schemas/Equipment3rUnitView' } } } }
+  '401': { $ref: '#/components/responses/Unauthorized' }
+  '403': { $ref: '#/components/responses/Forbidden' }
+  '409': { description: Duplicate serial in organization }
+  '422': { $ref: '#/components/responses/ValidationError' }

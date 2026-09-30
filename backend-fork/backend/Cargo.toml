@@ -1,0 +1,379 @@
+[workspace]
+resolver = "3"
+# Member globs are added as their first crate lands (an unmatched glob fails the build):
+#   "crates/<domain>/*"  console-<domain>-{domain,application,adapter-postgres,rest,worker}
+#   "crates/platform/*"  console-platform-{auth,authz,storage,push,email,realtime,excel}
+#   "ci/gates/*"         CI gate binaries (layer-boundary, audit-coverage, ...)
+#   "app"                console-app composition root
+members = [
+  "app",
+  "crates/action-inbox/*",
+  "crates/attendance/*",
+  "crates/kernel/*",
+  "crates/benefit/*",
+  "crates/consulting/*",
+  "crates/compliance/*",
+  "crates/contracts",
+  "crates/docs/*",
+  "crates/evaluation/*",
+  "crates/financial/*",
+  "crates/finance-gl/*",
+  "crates/governance/*",
+  "crates/identity/*",
+  "crates/inspection/*",
+  "crates/intelligence/*",
+  "crates/inventory/*",
+  "crates/logistics/*",
+  "crates/equipment/*",
+  "crates/ontology/*",
+  "crates/orgchange/*",
+  "crates/registry/*",
+  "crates/reporting/*",
+  "crates/sales/*",
+  "crates/support/*",
+  "crates/workorder/*",
+  "crates/workflow/*",
+  "crates/messenger/*",
+  "crates/notifications/*",
+  "crates/notices/*",
+  "crates/inbox/*",
+  "crates/leave/*",
+  "crates/todos/*",
+  "crates/comms/*",
+  "crates/payroll/*",
+  "crates/production/*",
+  "crates/recruiting/*",
+  "crates/policy/*",
+  "crates/erp/*",
+  "crates/platform/*",
+  "crates/analytics-quant/*",
+  "ci/gates/*",
+]
+
+[workspace.package]
+edition = "2024"
+rust-version = "1.96"
+license = "LicenseRef-Proprietary"
+publish = false
+
+[workspace.dependencies]
+# Versions verified live against crates.io at add time (project mandate:
+# never from training data). Re-verify on every new `cargo add`.
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+thiserror = "2"
+uuid = { version = "1", features = ["v4", "serde"] }
+time = { version = "0.3", features = ["serde", "serde-well-known", "formatting", "parsing", "macros"] }
+# Versions verified live against crates.io 2026-06-12: sqlx 0.9.0, tokio 1.52.3
+sqlx = { version = "0.9.0", default-features = false, features = [
+    "runtime-tokio",
+    "postgres",
+    "uuid",
+    "time",
+    "json",
+    "migrate",
+    "macros",
+] }
+tokio = { version = "1.52.3", default-features = false, features = ["rt-multi-thread", "macros"] }
+# Versions verified live against crates.io 2026-06-12:
+# reqwest 0.13.4, hmac 0.13.0, sha2 0.11.0, hex 0.4.3,
+# url 2.5.8, bytes 1.11.1.
+reqwest = { version = "0.13.4", default-features = false }
+hmac = "0.13.0"
+sha2 = "0.11.0"
+hex = "0.4.3"
+url = "2.5.8"
+bytes = "1.11.1"
+# Version verified live against crates.io 2026-06-12: jsonwebtoken 10.4.0.
+jsonwebtoken = { version = "10.4.0", default-features = false, features = ["rust_crypto", "use_pem"] }
+# apalis 1.0.0-rc.9, apalis-postgres 1.0.0-rc.8, apalis-sql 1.0.0-rc.9.
+# No stable apalis 1.0.0 release was available at verification time.
+apalis = { version = "=1.0.0-rc.9" }
+apalis-postgres = { version = "=1.0.0-rc.8" }
+apalis-sql = { version = "=1.0.0-rc.9" }
+# Version verified live against crates.io 2026-06-12: calamine 0.35.0
+calamine = { version = "0.35.0", features = ["dates"] }
+# Magic-number file-type sniffing for evidence content re-validation (the
+# downloaded staging bytes are authoritative; the declared content_type is
+# advisory). Pure-Rust, no extra runtime binary. Version verified live against
+# crates.io 2026-06-23: infer 0.19.0.
+infer = { version = "0.19.0", default-features = false, features = ["std"] }
+# Cron parsing/evaluation for workflow_schedules (BE-AUTO). Versions verified
+# live against crates.io 2026-07-08: croner 3.0.1, chrono 0.4.45,
+# chrono-tz 0.10.4 (croner evaluates over chrono types; chrono-tz supplies the
+# IANA timezone the schedule's cron pattern is interpreted in — 매일 아침 9시
+# must mean 09:00 KST, not UTC). chrono was already in the lockfile
+# transitively; `time` stays the workspace-wide datetime type and chrono is
+# confined to the cron boundary.
+croner = "3.0.1"
+chrono = { version = "0.4.45", default-features = false, features = ["std"] }
+chrono-tz = "0.10.4"
+# Versions verified live against crates.io 2026-06-12:
+# axum 0.8.9, tower-http 0.7.0, tower 0.5.3, http 1.4.2,
+# tracing 0.1.44, tracing-subscriber 0.3.23,
+# tracing-opentelemetry 0.33.0, opentelemetry 0.32.0,
+# opentelemetry_sdk 0.32.1, opentelemetry-otlp 0.32.0.
+axum = "0.8.9"
+tower-http = "0.7.0"
+tower = "0.5.3"
+http = "1.4.2"
+tracing = "0.1.44"
+tracing-subscriber = "0.3.23"
+tracing-opentelemetry = "0.33.0"
+opentelemetry = "0.32.0"
+opentelemetry_sdk = "0.32.1"
+opentelemetry-otlp = "0.32.0"
+# Prometheus metrics: the `metrics` facade records into a process-global
+# recorder; metrics-exporter-prometheus renders the /metrics exposition. Versions
+# verified live against the crates.io index. default-features off: we only render
+# (no built-in HTTP listener / push-gateway, which would pull extra hyper deps).
+metrics = "0.24.6"
+metrics-exporter-prometheus = { version = "0.18.3", default-features = false }
+# Outbound SMTP for transactional email (OCI Email Delivery relay). Version
+# verified live against crates.io 2026-06-22: lettre 0.11.22 (latest stable).
+# SMTP uses its own bundled rustls stack via `tokio1-rustls-tls`; the S3 adapter
+# independently enables reqwest rustls for its HTTPS endpoint.
+lettre = { version = "0.11.22", default-features = false, features = [
+    "tokio1-rustls-tls",
+    "builder",
+    "smtp-transport",
+] }
+# Webmail credential cipher (envelope AEAD for SMTP/IMAP passwords at rest).
+# Versions verified live against the crates.io index 2026-06-23:
+#   chacha20poly1305 0.10.1, secrecy 0.10.3, zeroize 1.9.0, base64 0.22.1.
+# `chacha20poly1305` 0.10.1 builds on `aead` 0.5, whose `OsRng` (the bundled
+# `getrandom` feature, on by default) is the version-matched CSPRNG — we use it
+# for per-row DEK + nonce generation rather than adding the standalone `rand`
+# crate (rand 0.10 would pull a SECOND, incompatible `rand_core` major). No
+# async-imap / tokio-rustls is added in this batch (those land in B-mail-3).
+chacha20poly1305 = "0.10.1"
+secrecy = "0.10.3"
+zeroize = "1.9.0"
+base64 = "0.22.1"
+subtle = "2.6.1"
+# SSRF guard for outbound webmail connections (B-mail-2). Versions verified live
+# against the crates.io index 2026-06-23: hickory-resolver 0.26.1 (latest
+# stable), ipnet 2.12.0 (latest stable). The resolver gives us a resolve-once,
+# validate-the-IP, then dial-the-pinned-IP path (DNS-rebinding safe); ipnet
+# matches the resolved IP against the RFC1918 / loopback / link-local / ULA /
+# CGNAT denylist. hickory-resolver brings its own tokio runtime integration and
+# does NOT add a second rustls stack (it speaks plain UDP/TCP DNS by default).
+hickory-resolver = "0.26.1"
+ipnet = "2.12.0"
+# Inbound IMAP sync (B-mail-3). Versions verified live against the crates.io
+# index 2026-06-23: async-imap 0.11.2, mail-parser 0.11.4, tokio-rustls 0.26.4,
+# rustls 0.23 (workspace already resolves 0.23.x via lettre's tokio1-rustls-tls),
+# webpki-roots 1.0.8, futures 0.3.32.
+#
+# R1 SINGLE-STACK GATE: `async-imap` is TLS-AGNOSTIC — it speaks IMAP over any
+# `tokio::io::AsyncRead + AsyncWrite` (feature `runtime-tokio`, default off so
+# `async-std` is never pulled). We supply the TLS layer ourselves with
+# `tokio-rustls` 0.26 on `rustls` 0.23 + the `ring` provider — the EXACT rustls
+# major/minor + ring that `lettre 0.11.22`'s `tokio1-rustls-tls` already pulls,
+# so `cargo tree -d` stays single-stack (one rustls, one ring, no native-tls /
+# openssl). `mail-parser` is the inbound MIME parser; both appear ONLY in
+# `console-comms-adapter-imap`.
+async-imap = { version = "0.11.2", default-features = false, features = ["runtime-tokio"] }
+mail-parser = "0.11.4"
+tokio-rustls = { version = "0.26.4", default-features = false, features = ["ring", "tls12"] }
+rustls = { version = "0.23", default-features = false, features = ["ring", "std", "tls12"] }
+webpki-roots = "1.0.8"
+futures = { version = "0.3.32", default-features = false, features = ["std"] }
+
+console-kernel-core = { path = "crates/kernel/core" }
+console-action-inbox-application = { path = "crates/action-inbox/application" }
+console-benefit-domain = { path = "crates/benefit/domain" }
+console-benefit-application = { path = "crates/benefit/application" }
+console-benefit-adapter-postgres = { path = "crates/benefit/adapter-postgres" }
+console-benefit-rest = { path = "crates/benefit/rest" }
+console-consulting-rest = { path = "crates/consulting/rest" }
+console-compliance-domain = { path = "crates/compliance/domain" }
+console-compliance-application = { path = "crates/compliance/application" }
+console-compliance-adapter-postgres = { path = "crates/compliance/adapter-postgres" }
+console-compliance-rest = { path = "crates/compliance/rest" }
+console-integrity = { path = "crates/compliance/integrity" }
+console-attendance-domain = { path = "crates/attendance/domain" }
+console-attendance-application = { path = "crates/attendance/application" }
+console-attendance-adapter-postgres = { path = "crates/attendance/adapter-postgres" }
+console-attendance-rest = { path = "crates/attendance/rest" }
+console-docs-domain = { path = "crates/docs/domain" }
+console-docs-application = { path = "crates/docs/application" }
+console-docs-adapter-postgres = { path = "crates/docs/adapter-postgres" }
+console-docs-rest = { path = "crates/docs/rest" }
+console-evaluation-domain = { path = "crates/evaluation/domain" }
+console-evaluation-application = { path = "crates/evaluation/application" }
+console-evaluation-adapter-postgres = { path = "crates/evaluation/adapter-postgres" }
+console-evaluation-rest = { path = "crates/evaluation/rest" }
+console-financial-domain = { path = "crates/financial/domain" }
+console-financial-application = { path = "crates/financial/application" }
+console-financial-adapter-postgres = { path = "crates/financial/adapter-postgres" }
+console-financial-rest = { path = "crates/financial/rest" }
+console-finance-gl-domain = { path = "crates/finance-gl/domain" }
+console-finance-gl-application = { path = "crates/finance-gl/application" }
+console-finance-gl-adapter-postgres = { path = "crates/finance-gl/adapter-postgres" }
+console-finance-gl-rest = { path = "crates/finance-gl/rest" }
+console-identity-domain = { path = "crates/identity/domain" }
+console-identity-application = { path = "crates/identity/application" }
+console-identity-adapter-postgres = { path = "crates/identity/adapter-postgres" }
+console-identity-rest = { path = "crates/identity/rest" }
+console-inspection-domain = { path = "crates/inspection/domain" }
+console-inspection-application = { path = "crates/inspection/application" }
+console-inspection-adapter-postgres = { path = "crates/inspection/adapter-postgres" }
+console-inspection-rest = { path = "crates/inspection/rest" }
+console-inventory-domain = { path = "crates/inventory/domain" }
+console-inventory-application = { path = "crates/inventory/application" }
+console-inventory-adapter-postgres = { path = "crates/inventory/adapter-postgres" }
+console-inventory-rest = { path = "crates/inventory/rest" }
+console-logistics-domain = { path = "crates/logistics/domain" }
+console-logistics-application = { path = "crates/logistics/application" }
+console-logistics-adapter-postgres = { path = "crates/logistics/adapter-postgres" }
+console-logistics-rest = { path = "crates/logistics/rest" }
+console-equipment-domain = { path = "crates/equipment/domain" }
+console-equipment-application = { path = "crates/equipment/application" }
+console-equipment-adapter-postgres = { path = "crates/equipment/adapter-postgres" }
+console-equipment-rest = { path = "crates/equipment/rest" }
+console-recruiting-domain = { path = "crates/recruiting/domain" }
+console-recruiting-application = { path = "crates/recruiting/application" }
+console-recruiting-adapter-postgres = { path = "crates/recruiting/adapter-postgres" }
+console-recruiting-rest = { path = "crates/recruiting/rest" }
+console-support-domain = { path = "crates/support/domain" }
+console-support-application = { path = "crates/support/application" }
+console-support-adapter-postgres = { path = "crates/support/adapter-postgres" }
+console-support-rest = { path = "crates/support/rest" }
+console-sales-domain = { path = "crates/sales/domain" }
+console-sales-application = { path = "crates/sales/application" }
+console-sales-adapter-postgres = { path = "crates/sales/adapter-postgres" }
+console-sales-rest = { path = "crates/sales/rest" }
+console-registry-domain = { path = "crates/registry/domain" }
+console-registry-application = { path = "crates/registry/application" }
+console-reporting-domain = { path = "crates/reporting/domain" }
+console-reporting-application = { path = "crates/reporting/application" }
+console-reporting-adapter-postgres = { path = "crates/reporting/adapter-postgres" }
+console-reporting-rest = { path = "crates/reporting/rest" }
+console-analytics-quant-service = { path = "crates/analytics-quant/service" }
+console-analytics-quant-rest = { path = "crates/analytics-quant/rest" }
+console-registry-adapter-postgres = { path = "crates/registry/adapter-postgres" }
+console-registry-rest = { path = "crates/registry/rest" }
+console-workorder-domain = { path = "crates/workorder/domain" }
+console-workorder-application = { path = "crates/workorder/application" }
+console-workorder-adapter-postgres = { path = "crates/workorder/adapter-postgres" }
+console-workorder-rest = { path = "crates/workorder/rest" }
+console-production-rest = { path = "crates/production/rest" }
+console-workflow-domain = { path = "crates/workflow/domain" }
+console-workflow-runtime = { path = "crates/workflow/runtime" }
+console-workflow-runtime-adapter-postgres = { path = "crates/workflow/adapter-postgres" }
+console-messenger-domain = { path = "crates/messenger/domain" }
+console-messenger-application = { path = "crates/messenger/application" }
+console-messenger-adapter-postgres = { path = "crates/messenger/adapter-postgres" }
+console-messenger-rest = { path = "crates/messenger/rest" }
+console-notifications-domain = { path = "crates/notifications/domain" }
+console-notifications-application = { path = "crates/notifications/application" }
+console-notifications-adapter-postgres = { path = "crates/notifications/adapter-postgres" }
+console-notifications-rest = { path = "crates/notifications/rest" }
+console-notices-domain = { path = "crates/notices/domain" }
+console-notices-application = { path = "crates/notices/application" }
+console-notices-adapter-postgres = { path = "crates/notices/adapter-postgres" }
+console-notices-rest = { path = "crates/notices/rest" }
+console-inbox-domain = { path = "crates/inbox/domain" }
+console-inbox-application = { path = "crates/inbox/application" }
+console-inbox-adapter-postgres = { path = "crates/inbox/adapter-postgres" }
+console-inbox-rest = { path = "crates/inbox/rest" }
+console-leave-domain = { path = "crates/leave/domain" }
+console-leave-application = { path = "crates/leave/application" }
+console-leave-adapter-postgres = { path = "crates/leave/adapter-postgres" }
+console-leave-rest = { path = "crates/leave/rest" }
+console-todos-domain = { path = "crates/todos/domain" }
+console-todos-application = { path = "crates/todos/application" }
+console-todos-adapter-postgres = { path = "crates/todos/adapter-postgres" }
+console-todos-rest = { path = "crates/todos/rest" }
+console-comms-domain = { path = "crates/comms/domain" }
+console-comms-credential-cipher = { path = "crates/comms/credential-cipher" }
+console-comms-application = { path = "crates/comms/application" }
+console-comms-adapter-postgres = { path = "crates/comms/adapter-postgres" }
+console-comms-adapter-smtp = { path = "crates/comms/adapter-smtp" }
+console-comms-adapter-imap = { path = "crates/comms/adapter-imap" }
+console-comms-adapter-mox = { path = "crates/comms/adapter-mox" }
+console-comms-mailbox = { path = "crates/comms/mailbox" }
+console-comms-rest = { path = "crates/comms/rest" }
+console-payroll-domain = { path = "crates/payroll/domain" }
+console-payroll-adapter-postgres = { path = "crates/payroll/adapter-postgres" }
+console-payroll-rest = { path = "crates/payroll/rest" }
+console-policy-domain = { path = "crates/policy/domain" }
+console-policy-application = { path = "crates/policy/application" }
+console-policy-adapter-postgres = { path = "crates/policy/adapter-postgres" }
+console-erp-domain = { path = "crates/erp/domain" }
+console-dispatch-domain = { path = "crates/dispatch/domain" }
+console-dispatch-application = { path = "crates/dispatch/application" }
+console-dispatch-adapter-postgres = { path = "crates/dispatch/adapter-postgres" }
+console-dispatch-rest = { path = "crates/dispatch/rest" }
+console-dispatch-worker = { path = "crates/dispatch/worker" }
+console-platform-db = { path = "crates/platform/db" }
+console-platform-auth = { path = "crates/platform/auth" }
+console-platform-auth-rest = { path = "crates/platform/auth-rest" }
+console-platform-authz = { path = "crates/platform/authz" }
+console-platform-authz-rest = { path = "crates/platform/authz-rest" }
+console-ontology-domain = { path = "crates/ontology/domain" }
+console-ontology-application = { path = "crates/ontology/application" }
+console-ontology-adapter-postgres = { path = "crates/ontology/adapter-postgres" }
+console-ontology-rest = { path = "crates/ontology/rest" }
+console-governance-domain = { path = "crates/governance/domain" }
+console-governance-application = { path = "crates/governance/application" }
+console-governance-adapter-postgres = { path = "crates/governance/adapter-postgres" }
+console-governance-rest = { path = "crates/governance/rest" }
+console-orgchange-domain = { path = "crates/orgchange/domain" }
+console-orgchange-adapter-postgres = { path = "crates/orgchange/adapter-postgres" }
+console-orgchange-rest = { path = "crates/orgchange/rest" }
+console-platform-request-context = { path = "crates/platform/request-context" }
+console-platform-realtime = { path = "crates/platform/realtime" }
+console-platform-excel = { path = "crates/platform/excel" }
+console-platform-storage = { path = "crates/platform/storage" }
+console-platform-jobs = { path = "crates/platform/jobs" }
+console-platform-push = { path = "crates/platform/push" }
+console-platform-email = { path = "crates/platform/email" }
+console-platform-test-support = { path = "crates/platform/test-support" }
+
+# Version taken from the already-resolved backend/Cargo.lock (syn 2.0.117), not
+# from training data: syn is long-standing transitive graph via the derive
+# macros, so the resolver has already verified this version against the registry
+# for this lockfile. Reindeer already builds it as the private target `syn-2`.
+#
+# Direct dependency for backend/ci/gates/writer-ownership ONLY. That gate must
+# decide which Rust items are compiled into production builds, and four
+# consecutive review rounds proved a hand-written answer cannot: a brace counter
+# was defeated by `} // end tests`, then by `use path::{A, B}`, then by a char
+# literal `'{'`, a block comment and a raw string; a hand-written cfg predicate
+# was defeated by `not(all(test))` and then by `any(test, feature = "x")`, which
+# is TRUE in production builds. Each fix was correct and each left a sibling
+# spelling live. Parsing Rust with the parser rustc's own ecosystem uses ends
+# the enumeration instead of extending it.
+syn = { version = "2.0.117", default-features = false, features = ["full", "parsing", "printing", "clone-impls", "visit"] }
+
+[workspace.lints.rust]
+unsafe_code = "forbid"
+
+[workspace.lints.clippy]
+unwrap_used = "deny"
+expect_used = "deny"
+panic = "deny"
+
+[patch.crates-io]
+# Temporary RUSTSEC-2026-0194/RUSTSEC-2026-0195 unblock: upstream calamine
+# 0.35.0 and umya-spreadsheet 3.0.0 still constrain quick-xml below the fixed
+# 0.41 line. The audited source lives under the repository's Rust third-party
+# boundary so Cargo, Reindeer, Buck2, and the image build consume one copy.
+# Remove these patches once crates.io can resolve quick-xml >=0.41 without
+# local compatibility shims.
+calamine = { path = "../third-party/rust/vendor/calamine-0.35.0-quickxml41" }
+quick-xml = { path = "../third-party/rust/vendor/quick-xml-0.41.0-compat" }
+umya-spreadsheet = { path = "../third-party/rust/vendor/umya-spreadsheet-3.0.0-quickxml41" }
+
+# Inner-loop build tuning (added 2026-07-28). Full debuginfo is the single
+# largest cost in a workspace this size and is not needed for `cargo check`,
+# clippy, or test runs; line tables keep backtraces useful. Measured context:
+# a lane rehearsal recorded `Cache hits: 0%` over 4,084 commands, so every
+# parallel lane currently recompiles the whole graph from scratch.
+[profile.dev]
+debug = "line-tables-only"
+
+[profile.test]
+debug = "line-tables-only"

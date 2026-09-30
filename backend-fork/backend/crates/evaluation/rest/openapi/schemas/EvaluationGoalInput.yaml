@@ -1,0 +1,8 @@
+type: object
+additionalProperties: false
+required: [title, metric_kind, target_label, weight_pct]
+properties:
+  title: { type: string, minLength: 1, maxLength: 200 }
+  metric_kind: { $ref: '#/components/schemas/EvaluationMetricKind' }
+  target_label: { type: string, minLength: 1, maxLength: 200 }
+  weight_pct: { type: integer, format: int16, minimum: 0, maximum: 100 }

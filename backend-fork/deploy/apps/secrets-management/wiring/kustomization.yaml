@@ -1,0 +1,13 @@
+# ESO <-> OpenBao wiring (ADR-0024 roadmap item 2): the ClusterSecretStore, the
+# auth-delegator ClusterRoleBinding invariant, and the ExternalSecrets that
+# project maintenance's existing k8s Secrets from OpenBao KV. Thin kustomization
+# so the staged ArgoCD Application (../application-secrets-wiring.yaml) points a
+# repo path at it. DARK until the founder-gated activation (see README.md).
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - clustersecretstore-openbao.yaml
+  - clusterrolebinding-external-secrets-auth-delegator.yaml
+  - externalsecret-console-secrets.yaml
+  - externalsecret-console-db-rt.yaml
+  - externalsecret-oci-objectstore-creds.yaml

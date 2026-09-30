@@ -1,0 +1,25 @@
+type: object
+required: [id, definition_id, trigger_type, event_key, subject_kind, enabled, created_at, updated_at]
+properties:
+  id:
+    $ref: '#/components/schemas/Uuid'
+  definition_id:
+    $ref: '#/components/schemas/Uuid'
+  trigger_type:
+    type: string
+    enum: [OBJECT_EVENT, IMPORT_EVENT, MAIL_EVENT, MESSENGER_EVENT, CALENDAR_EVENT, POLL_EVENT]
+  event_key:
+    type: string
+  subject_kind:
+    type:
+    - string
+    - 'null'
+    description: The ontology object kind this rule acts on (dynamics↔ontology); null when unscoped.
+  enabled:
+    type: boolean
+  created_at:
+    type: string
+    format: date-time
+  updated_at:
+    type: string
+    format: date-time

@@ -1,0 +1,20 @@
+type: object
+required: [id, code, title, source, classification, current_custody_stage, legal_hold_state, admissibility_status, admissibility_reasons, admissibility_inputs, created_by, updated_by, created_at, updated_at]
+properties:
+  id: { type: string, format: uuid }
+  code: { type: string }
+  title: { type: string }
+  description: { type: string, nullable: true }
+  source: { $ref: '#/components/schemas/EvidenceSourceRef' }
+  classification: { $ref: '#/components/schemas/EvidenceClassification' }
+  record_owner_user_id: { type: string, format: uuid, nullable: true }
+  current_custody_stage: { $ref: '#/components/schemas/CustodyStage' }
+  legal_hold_state: { $ref: '#/components/schemas/LegalHoldState' }
+  admissibility_status: { $ref: '#/components/schemas/AdmissibilityStatus' }
+  admissibility_reasons: { type: array, items: { type: string } }
+  admissibility_inputs: { type: object, additionalProperties: true }
+  created_by: { type: string, format: uuid }
+  updated_by: { type: string, format: uuid }
+  created_at: { type: string, format: date-time }
+  updated_at: { type: string, format: date-time }
+  disposed_at: { type: string, format: date-time, nullable: true }

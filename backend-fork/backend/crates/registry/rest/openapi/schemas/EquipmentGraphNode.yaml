@@ -1,0 +1,23 @@
+type: object
+required:
+- id
+- node_type
+- label
+- current
+properties:
+  id:
+    type: string
+  node_type:
+    type: string
+  label:
+    type: string
+  subtitle:
+    type:
+    - string
+    - 'null'
+  href:
+    type:
+    - string
+    - 'null'
+  current:
+    type: boolean

@@ -1,0 +1,25 @@
+# STAGED / DARK ArgoCD Application — OpenBao (single-node secrets substrate).
+#
+# DARK: under deploy/apps/secrets-management/, not deploy/argocd/apps/, so the
+# root app-of-apps does NOT auto-sync it. Merging deploys nothing. Points at the
+# lifted k8s manifest via a repo path (same pattern as the cnpg-operator /
+# barman-plugin Applications). Activation is founder-gated — see README.md.
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: openbao
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
+spec:
+  project: console
+  source:
+    repoURL: https://github.com/jason931225/console.git # replace OWNER
+    targetRevision: main
+    path: deploy/apps/secrets-management/openbao
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: console-kms
+  syncPolicy:
+    automated: { prune: true, selfHeal: true }
+    syncOptions: [CreateNamespace=true, ServerSideApply=true]

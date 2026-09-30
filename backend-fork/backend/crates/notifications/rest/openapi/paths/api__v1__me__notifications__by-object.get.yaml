@@ -1,0 +1,41 @@
+tags:
+  - me
+operationId: listMyNotificationObjectGroups
+summary: Aggregate the authenticated user's notifications by source object, newest activity first
+security:
+- bearerAuth: []
+parameters:
+- name: unread
+  in: query
+  required: false
+  description: When true, return only groups that still hold at least one unread notification.
+  schema:
+    type: boolean
+- name: before
+  in: query
+  required: false
+  description: Opaque keyset cursor from a previous page's next_cursor; an undecodable or foreign cursor yields an empty page.
+  schema:
+    type: string
+- name: limit
+  in: query
+  required: false
+  description: Page size (clamped server-side to 1..=200; default 50).
+  schema:
+    type: integer
+    format: int64
+responses:
+  '200':
+    description: A page of the caller's notifications grouped by source object.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/NotificationObjectGroupPage'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '503':
+    description: JWT verification is not configured.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ErrorBody'

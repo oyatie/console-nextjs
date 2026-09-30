@@ -1,0 +1,2 @@
+type: string
+enum: [hr, finance, legal, executive]

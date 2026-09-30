@@ -1,0 +1,7 @@
+# DARK warm-standby app group.
+# Generated standby roots point here after the ApplicationSet is explicitly
+# activated. Keep this group standby-safe: do not add the write-active
+# maintenance production overlay until the failover/storage runbook approves it.
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources: []

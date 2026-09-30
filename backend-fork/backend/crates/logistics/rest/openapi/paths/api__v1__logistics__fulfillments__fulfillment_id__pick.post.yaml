@@ -1,0 +1,7 @@
+tags: [logistics]
+operationId: pickLogisticsFulfillment
+summary: Pick reserved stock, recording explicit short-pick when applicable
+security: [{ bearerAuth: [] }]
+parameters: [{ name: fulfillment_id, in: path, required: true, schema: { $ref: '#/components/schemas/Uuid' } }]
+requestBody: { required: true, content: { application/json: { schema: { type: object, additionalProperties: false, required: [branchId, pickedQuantity], properties: { branchId: { $ref: '#/components/schemas/Uuid' }, pickedQuantity: { type: integer, format: int64, minimum: 0 } } } } } }
+responses: { '200': { description: Pick outcome, content: { application/json: { schema: { $ref: '#/components/schemas/LogisticsFulfillmentPicked' } } } }, '409': { description: Illegal state } }

@@ -1,0 +1,8 @@
+type: object
+description: Refresh/logout request body. `refresh_token` is OPTIONAL because the web transport carries the token in
+  the HttpOnly `console_refresh` cookie (sent automatically by the browser) and the body is empty; mobile clients send the
+  token here.
+properties:
+  refresh_token:
+    type: string
+    nullable: true

@@ -1,0 +1,19 @@
+[package]
+name = "console-inventory-application"
+version = "0.1.0"
+description = "Inventory application contracts: commands, read models, source refs, and audit builders."
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+console-kernel-core = { workspace = true }
+console-inventory-domain = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+time = { workspace = true }
+uuid = { workspace = true }
+
+[lints]
+workspace = true

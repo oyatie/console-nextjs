@@ -1,0 +1,14 @@
+type: object
+description: The amount_period is inherited from the offer being adjusted and cannot be changed.
+required:
+- amount
+properties:
+  amount:
+    type: string
+    description: Canonical NUMERIC(14,2) decimal string.
+  reply_deadline:
+    type:
+    - string
+    - 'null'
+    format: date
+    description: Omit or null to keep the prior offer's reply deadline.

@@ -1,0 +1,16 @@
+tags: [Ontology]
+operationId: commitInstanceLifecycle
+security:
+  - bearerAuth: []
+parameters:
+  - { name: id, in: path, required: true, schema: { type: string, format: uuid } }
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema: { $ref: '#/components/schemas/LifecycleRequest' }
+responses:
+  '200': { description: committed, content: { application/json: { schema: { $ref: '#/components/schemas/LifecycleOutcome' } } } }
+  '403': { description: gate denied / unconfigured edge }
+  '409': { description: illegal FSM edge or concurrent state change }
+  '404': { description: instance not found (RLS-scoped) }

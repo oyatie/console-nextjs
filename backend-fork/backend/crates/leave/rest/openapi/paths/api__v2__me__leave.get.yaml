@@ -1,0 +1,42 @@
+tags:
+  - leave
+operationId: getMyLeaveV2
+summary: Read the authenticated employee's own leave balance and history
+description: >-
+  Base employee self-service. The server binds both user and linked
+  employee identity; no employee-directory feature is required and no
+  employee or branch identifier is accepted from the client. The balance
+  includes a closed filing state so a missing or inactive home branch is
+  visible before submission rather than discovered only after a 409.
+security:
+- bearerAuth: []
+parameters:
+- name: limit
+  in: query
+  required: false
+  schema:
+    type: integer
+    format: int64
+    minimum: 1
+    maximum: 200
+    default: 100
+- name: cursor
+  in: query
+  required: false
+  description: Last request id from the preceding stable self-service page.
+  schema:
+    type: string
+    format: uuid
+responses:
+  '200':
+    description: Exact self balance plus self-only request history.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/MyLeaveV2Overview'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '503':
+    $ref: '#/components/responses/ServiceUnavailable'

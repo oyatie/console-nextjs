@@ -1,0 +1,11 @@
+      description: The submitted ontology key write validator is stale.
+      headers:
+        ETag:
+          description: Current strong tenant/key write validator.
+          schema: { type: string }
+        Cache-Control:
+          schema: { type: string, enum: [no-store] }
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorBody'

@@ -1,0 +1,36 @@
+tags:
+  - platform
+operationId: revokePlatformGroupRole
+summary: Revoke one group role from a tenant-anchored account
+description: Removes one group-level role grant from the selected account. Platform token and GroupManage authority required.
+security:
+- bearerAuth: []
+parameters:
+- name: id
+  in: path
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+- name: user_id
+  in: path
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+- name: group_role
+  in: path
+  required: true
+  schema:
+    $ref: '#/components/schemas/PlatformGroupRole'
+responses:
+  '204':
+    description: The group role grant was revoked.
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '422':
+    $ref: '#/components/responses/ValidationError'
+  '503':
+    $ref: '#/components/responses/ServiceUnavailable'

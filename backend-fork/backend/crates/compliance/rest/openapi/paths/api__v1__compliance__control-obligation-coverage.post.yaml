@@ -1,0 +1,13 @@
+tags: [Compliance]
+operationId: linkComplianceControlObligation
+summary: Create an audited control-to-obligation coverage link
+description: Relation links are write-only in this catalog API; no coverage-list route is implemented.
+security: [{ bearerAuth: [] }]
+requestBody: { required: true, content: { application/json: { schema: { $ref: '#/components/schemas/LinkControlObligationRequest' } } } }
+responses:
+  '200': { description: Created control-obligation coverage link., content: { application/json: { schema: { $ref: '#/components/schemas/ControlObligationCoverage' } } } }
+  '401': { $ref: '#/components/responses/Unauthorized' }
+  '403': { $ref: '#/components/responses/Forbidden' }
+  '422': { $ref: '#/components/responses/ValidationError' }
+  '500': { $ref: '#/components/responses/InternalServerError' }
+  '503': { $ref: '#/components/responses/ServiceUnavailable' }

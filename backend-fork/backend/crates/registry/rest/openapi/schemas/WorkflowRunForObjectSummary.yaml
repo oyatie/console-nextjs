@@ -1,0 +1,37 @@
+type: object
+additionalProperties: false
+required:
+- run_id
+- definition_id
+- definition_version
+- status
+- trigger_type
+- object_type
+- object_id
+- started_at
+- updated_at
+- detail_target
+properties:
+  run_id:
+    $ref: '#/components/schemas/Uuid'
+  definition_id:
+    $ref: '#/components/schemas/Uuid'
+  definition_version:
+    type: integer
+    format: int32
+  status:
+    type: string
+  trigger_type:
+    type: string
+  object_type:
+    $ref: '#/components/schemas/WorkflowObjectKind'
+  object_id:
+    $ref: '#/components/schemas/Uuid'
+  started_at:
+    $ref: '#/components/schemas/Timestamp'
+  updated_at:
+    $ref: '#/components/schemas/Timestamp'
+  completed_at:
+    $ref: '#/components/schemas/Timestamp'
+  detail_target:
+    $ref: '#/components/schemas/WorkflowRunDetailTarget'

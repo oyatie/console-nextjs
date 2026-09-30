@@ -1,0 +1,6 @@
+type: object
+required:
+- to_status
+properties:
+  to_status:
+    $ref: '#/components/schemas/SupportTicketStatus'

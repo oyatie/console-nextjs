@@ -1,0 +1,32 @@
+tags:
+  - equipment-substitutions
+operationId: assignEquipmentSubstitute
+summary: Assign a substitute (대차) unit to a down/under-repair equipment
+description: Audited equipment-lifecycle write. Requires EquipmentManage (ADMIN/EXECUTIVE/SUPER_ADMIN).
+security:
+- bearerAuth: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/AssignSubstituteRequest'
+responses:
+  '201':
+    description: Substitute assignment recorded.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/SubstituteAssignment'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '409':
+    $ref: '#/components/responses/Conflict'
+  '422':
+    $ref: '#/components/responses/ValidationError'
+  '503':
+    description: JWT verification is not configured.

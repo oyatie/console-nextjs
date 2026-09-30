@@ -1,0 +1,9 @@
+type: array
+minItems: 9
+maxItems: 9
+items: { type: integer }
+description: 'Wire form of the logistics pilot datetime fields (dueAt, confirmedAt, settledAt): the time-crate
+  default serde tuple [year, ordinal-day, hour, minute, second, nanosecond, offsetHours, offsetMinutes, offsetSeconds].
+  The deployed rest crate deserializes these as plain OffsetDateTime without rfc3339 serde, so an RFC3339 string is
+  rejected with 422. Encode in UTC (offsets 0). Divergence recorded in
+  docs/evidence/console/CAP-LOGISTICS-PILOT/manifests/openapi-applied-notes.md.'

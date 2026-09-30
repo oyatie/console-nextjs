@@ -1,0 +1,29 @@
+tags:
+  - workflow-studio
+operationId: createWorkflowDefinition
+summary: Create a draft workflow definition
+description: Creates a DRAFT workflow definition and version 1. Publishing, pausing, rollback, and clone operations
+  are sensitive actions that require a fresh passkey step-up assertion and append immutable history.
+security:
+- bearerAuth: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/CreateWorkflowDefinitionRequest'
+responses:
+  '200':
+    description: Draft workflow definition created.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/WorkflowDefinitionResponse'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '409':
+    $ref: '#/components/responses/Conflict'
+  '422':
+    $ref: '#/components/responses/ValidationError'

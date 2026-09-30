@@ -1,0 +1,22 @@
+type: object
+required:
+- role_key
+- display_name
+- permissions
+- status
+- is_system
+- permissions
+properties:
+  role_key:
+    type: string
+  display_name:
+    type: string
+  status:
+    type: string
+  is_system:
+    type: boolean
+  permissions:
+    type: array
+    minItems: 1
+    items:
+      $ref: '#/components/schemas/PolicyPermissionResponse'

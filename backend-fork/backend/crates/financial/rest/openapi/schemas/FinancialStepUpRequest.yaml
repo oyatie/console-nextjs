@@ -1,0 +1,7 @@
+type: object
+description: Fresh passkey step-up evidence required before sensitive financial state transitions.
+required:
+- step_up
+properties:
+  step_up:
+    $ref: '#/components/schemas/PasskeyStepUpAssertion'

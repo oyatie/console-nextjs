@@ -1,0 +1,2 @@
+type: string
+enum: [ATTENDANCE, WORK_ORDER, APPROVAL, KPI, OTHER]

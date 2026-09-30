@@ -1,0 +1,34 @@
+{
+  "scope": "WebAuthn portion of the coordinated lock transition; incomplete test set, no production implementation approval",
+  "base_backend_candidate": "263d1106dba6185f198b78591d5260fb418444fa06f3d4c91f55955e4b894182",
+  "accepted_design_sha256": "1d4d963306e4625404ccb8927e99468afff08aad82904627794937fba51fe2dd",
+  "prior_test_prefix_sha256": "dd5db3170e27e8ad9266821cb10c8016346a17f702c77299e17c32c76c8d793c",
+  "prior_tests_byte_identical": true,
+  "files": [
+    {
+      "path": "docs/planning/nextjs-v1/authentication-locking.md",
+      "sha256": "fe17d798e6f149e5b012955f7854a8fe75c5109064411166900a639253daa8b9"
+    },
+    {
+      "path": "backend-fork/backend/crates/platform/auth/tests/webauthn_contention.rs",
+      "sha256": "1626bab4512763396c45fd0afd2e33ef8b8982f545ce75ce630075b96de76940"
+    }
+  ],
+  "new_tests": 11,
+  "existing_target_tests": 16,
+  "remaining_test_surfaces": [
+    "reset/bootstrap/deactivation",
+    "self-key deletion both aliases",
+    "refresh issue/rotate/logout",
+    "bound device/enrollment handoffs",
+    "ordinary/forced removal",
+    "overlapping roster/mapping races",
+    "added suffix custody/interruption"
+  ],
+  "review_status": "pending_revised_partial_test_review",
+  "addressed_findings": [
+    "New cases hold NO KEY UPDATE to reject KEY SHARE as false mutex",
+    "Two real assertions on distinct keys serialize per Account while another Account proceeds",
+    "Delete/reinsert credential locator cannot switch Account for any assertion path"
+  ]
+}

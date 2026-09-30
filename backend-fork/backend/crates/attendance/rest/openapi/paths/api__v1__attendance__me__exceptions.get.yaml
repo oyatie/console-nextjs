@@ -1,0 +1,17 @@
+tags: [attendance]
+operationId: listMyAttendanceExceptions
+summary: List only the signed principal's linked employee exceptions
+security: [{ bearerAuth: [] }]
+parameters:
+  - { name: month, in: query, required: false, schema: { type: string, pattern: '^\\d{4}-\\d{2}$' } }
+  - { name: work_date, in: query, required: false, schema: { type: string, format: date } }
+  - { name: from_date, in: query, required: false, schema: { type: string, format: date } }
+  - { name: to_date, in: query, required: false, schema: { type: string, format: date } }
+  - { name: status, in: query, required: false, schema: { type: string, enum: [OPEN, RESOLVED] } }
+  - { name: limit, in: query, required: false, schema: { type: integer, minimum: 1, maximum: 200 } }
+  - { name: offset, in: query, required: false, schema: { type: integer, minimum: 0, maximum: 1000000 } }
+responses:
+  '200': { description: "Linked employee exception page, or an empty page when the principal is unlinked", content: { application/json: { schema: { $ref: '#/components/schemas/OwnAttendanceExceptionPage' } } } }
+  '400': { $ref: '#/components/responses/BadRequest' }
+  '401': { $ref: '#/components/responses/Unauthorized' }
+  '422': { $ref: '#/components/responses/ValidationError' }

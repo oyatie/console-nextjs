@@ -1,0 +1,21 @@
+type: object
+required:
+- kind
+- channel
+- accepted_by
+properties:
+  kind:
+    $ref: '#/components/schemas/SupportTicketAcceptanceKind'
+  channel:
+    $ref: '#/components/schemas/SupportTicketAcceptanceChannel'
+  accepted_by:
+    type: string
+    minLength: 1
+    maxLength: 200
+    description: Customer-side acknowledger name (business fact, never logged).
+  note:
+    type:
+    - string
+    - 'null'
+    maxLength: 2000
+    description: Required when kind is CUSTOMER_DECLINED; it becomes the customer-visible comment on the reopen.

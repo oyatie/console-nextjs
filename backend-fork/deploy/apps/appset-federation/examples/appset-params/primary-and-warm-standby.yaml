@@ -1,0 +1,28 @@
+# Non-secret ApplicationSet cluster-generator fixture for manual template review.
+# This is not an Argo CD cluster Secret and contains no credentials.
+clusters:
+  - name: console-oci-iad-primary
+    nameNormalized: console-oci-iad-primary
+    server: https://kubernetes.default.svc
+    labels:
+      argocd.argoproj.io/secret-type: cluster
+      console.io/federation: enabled
+      console.io/environment: prod
+      console.io/site: oci-iad
+      console.io/dr-role: primary
+      console.io/residency: us
+    expectedRootPath: deploy/argocd/apps
+    expectedSyncClass: primary
+  - name: console-oci-iad-standby
+    nameNormalized: console-oci-iad-standby
+    server: https://standby.example.invalid
+    labels:
+      argocd.argoproj.io/secret-type: cluster
+      console.io/federation: enabled
+      console.io/environment: prod
+      console.io/site: oci-iad
+      console.io/dr-role: warm-standby
+      console.io/residency: us
+    expectedRootPath: deploy/apps/appset-federation/app-groups/warm-standby
+    expectedSyncClass: warm-standby
+expectedTargetRevision: main

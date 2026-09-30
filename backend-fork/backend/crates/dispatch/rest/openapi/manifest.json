@@ -1,0 +1,54 @@
+{
+  "source": "console-dispatch-rest",
+  "paths": {
+    "/api/v1/console/dispatch/queue": [
+      "get"
+    ],
+    "/api/v1/me/dispatch-offers": [
+      "get"
+    ],
+    "/api/v1/p1-dispatches/{dispatchId}": [
+      "get"
+    ],
+    "/api/v1/p1-dispatches/{dispatchId}/candidates": [
+      "get"
+    ],
+    "/api/v1/p1-dispatches/{dispatchId}/force-assign": [
+      "post"
+    ],
+    "/api/v1/p1-dispatches/{dispatchId}/responses": [
+      "get",
+      "post"
+    ],
+    "/api/v1/work-orders/{workOrderId}/p1-dispatch": [
+      "post"
+    ]
+  },
+  "schemas": [
+    "DispatchCandidatePage",
+    "DispatchCandidateSummary",
+    "DispatchQueueDispatch",
+    "DispatchQueueItem",
+    "DispatchQueuePage",
+    "DispatchQueueStats",
+    "DispatchQueueStatus",
+    "DispatchResponseKind",
+    "DispatchStatus",
+    "ForceAssignP1DispatchRequest",
+    "IncidentLocation",
+    "MyDispatchOffer",
+    "MyDispatchOfferPage",
+    "P1DispatchResponsePage",
+    "P1DispatchResponseSummary",
+    "P1DispatchSummary",
+    "RespondP1DispatchRequest",
+    "StartP1DispatchRequest"
+  ],
+  "external_schemas": [
+    "ErrorBody",
+    "PriorityLevel",
+    "Timestamp",
+    "Uuid",
+    "WorkOrderStatus"
+  ]
+}

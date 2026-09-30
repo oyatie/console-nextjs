@@ -1,0 +1,25 @@
+type: object
+required:
+- id
+- file_name
+- content_type
+- size_bytes
+- role
+- download_url
+- created_at
+properties:
+  id:
+    $ref: '#/components/schemas/Uuid'
+  file_name:
+    type: string
+  content_type:
+    type: string
+  size_bytes:
+    type: integer
+    format: int64
+  role:
+    type: string
+  download_url:
+    type: string
+  created_at:
+    $ref: '#/components/schemas/Timestamp'

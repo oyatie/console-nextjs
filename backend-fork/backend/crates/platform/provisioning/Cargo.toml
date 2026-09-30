@@ -1,0 +1,28 @@
+[package]
+name = "console-platform-provisioning"
+version = "0.1.0"
+description = "Bulk roster provisioning and passkey cold-start bootstrap credentials."
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+console-kernel-core = { workspace = true }
+console-platform-auth = { path = "../auth" }
+console-platform-db = { path = "../db" }
+serde = { workspace = true }
+serde_json = { workspace = true }
+sha2 = "0.11.0"
+sqlx = { workspace = true }
+thiserror = { workspace = true }
+time = { workspace = true }
+uuid = { workspace = true }
+
+[dev-dependencies]
+tokio = { workspace = true, features = ["macros", "sync", "time"] }
+url = "2.5.8"
+webauthn-authenticator-rs = { version = "0.5.5", features = ["softpasskey"] }
+
+[lints]
+workspace = true

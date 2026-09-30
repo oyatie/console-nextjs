@@ -1,0 +1,57 @@
+{
+  "version": 1,
+  "scope": "Additive migration evidence tooling; auth owner implementation remains pending",
+  "source_candidate_sha256": "f1b2c5f269cfe8648290e2ca033d9283d48c2365cf50322e2e97395caedd7c70",
+  "design_sha256": "af0c97ed29734510b144e0200cbff7268145f0be8192b3f80cb9c8e41d1d28d8",
+  "test_manifest_sha256": "4d5ea2ff997bdc4af09bc0c0a5e0cc7a51f14b6ffdb0aa5b296466988df94515",
+  "files": [
+    {
+      "path": "tools/acceptance.py",
+      "before_sha256": "b2729cf60688e40502da177acfd92c7d692125640183ffbb8686aab3d9635111",
+      "after_sha256": "8a5b13d136999a871677861451fc9223fb0bbb8cf6eb5f46795bc5d25cef81e6"
+    },
+    {
+      "path": "tools/check-empty-install.py",
+      "before_sha256": "1b70fc1439250f43da8fb7f64fb837475ad32257dd220e5649902669bb55f458",
+      "after_sha256": "b92867facd652119bffbe89fcac2afc5b7832e9a3a3657cf5f78ab5a52edbb88"
+    },
+    {
+      "path": "tools/test_migration_suffix.py",
+      "before_sha256": null,
+      "after_sha256": "f7369eb6e9b0f10b5be19e80a1d9fdc6f2fc566c46efd894b2670e85d6c28e95"
+    }
+  ],
+  "evidence": {
+    ".artifacts/migration-suffix-red.json": "7d0e8bda8c32817da5d57b807c7852d83b8f5d12b3d6b37251bd615b3125f5a5",
+    ".artifacts/migration-suffix-green.json": "f00765ead821d2f547e5b42c8e5976153e9169e3d9baf111176c81f975fefda1",
+    ".artifacts/empty-install-20260923T110605.732670Z/report.json": "b1de19185c9e9d07d9d92b8abe34d75947028e7b29cef381d4e7e00557c5fd88",
+    ".artifacts/acceptance/20260923T110733.950709Z/report.json": "c413745c73b8b5372e671b5564bdc84718c28dd00345410bdd75fdbba6249765",
+    ".artifacts/migration-suffix-baseline-red.json": "dbd313f6ac2e4eabc9eece63ddba6bacfb6a13f93577c9715193a74976c8205d",
+    ".artifacts/migration-suffix-baseline-green.json": "5b37c381f1d4db73ffc21def8f866a62bba27d47ef9e7ac1a393d876b4df55b2",
+    ".artifacts/acceptance/20260923T202855.374580Z/report.json": "0c44f21e37c0e3a39d731cfa4f1550f15f4ea44cd245d41a316f955bbca71b22"
+  },
+  "verification": {
+    "unit_discovered": 13,
+    "unit_executed": 13,
+    "unit_passed": 13,
+    "skipped": 0,
+    "migration_checks": 654,
+    "preserved_previous_checks": 343,
+    "new_installed_baseline_checks": 304,
+    "other_new_custody_lineage_checks": 7,
+    "unreached_checks": 0
+  },
+  "limits": [
+    "No real additive migration exists yet; nonempty suffix uses metadata/filesystem fixtures only.",
+    "Actual0226 interruption and new auth behavior remain unverified.",
+    "Full45module acceptance and release remain false."
+  ],
+  "preimages": "Reconstructed by inverse edits and verified byte-exact against accepted .artifacts/acceptance/20260923T101859.164830Z/report.json input hashes.",
+  "supersedes": "f7b68e73c8ed43734189041834efc631a4df3a39e3711435afae2eb3136e1f7b",
+  "retained_postgres_evidence": {
+    "report": ".artifacts/empty-install-20260923T110605.732670Z/report.json",
+    "reason": "Only required-baseline presence predicate and approved regression changed after run; check-empty-install.py and actual migration binary/SQL remain byte-identical. Not a repeated PostgreSQL run.",
+    "harness_sha256": "b92867facd652119bffbe89fcac2afc5b7832e9a3a3657cf5f78ab5a52edbb88",
+    "app_sha256": "bc91c46ff6a7eb3c0f6b57ed75f87334f397210a7901ac64e337c6eb85ef10bd"
+  }
+}

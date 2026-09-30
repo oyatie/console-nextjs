@@ -1,0 +1,48 @@
+type: object
+required:
+- id
+- code
+- kind
+- status
+- target
+- effectiveDate
+- reason
+- headcount
+- siteCount
+- teamCount
+- draftedBy
+- createdAt
+- updatedAt
+properties:
+  id:
+    $ref: '#/components/schemas/Uuid'
+  code:
+    type: string
+    description: Server-issued display code `OC-YYYY-NNNN`.
+  kind:
+    $ref: '#/components/schemas/OrgChangeKind'
+  status:
+    $ref: '#/components/schemas/OrgChangeStatus'
+  target:
+    $ref: '#/components/schemas/OrgChangeTarget'
+  effectiveDate:
+    $ref: '#/components/schemas/Date'
+  reason:
+    type: string
+  headcount:
+    type: integer
+    format: int64
+  siteCount:
+    type: integer
+    format: int64
+  teamCount:
+    type: integer
+    format: int64
+  draftedBy:
+    $ref: '#/components/schemas/Uuid'
+  createdAt:
+    $ref: '#/components/schemas/Timestamp'
+  updatedAt:
+    $ref: '#/components/schemas/Timestamp'
+  supersedesId:
+    $ref: '#/components/schemas/Uuid'

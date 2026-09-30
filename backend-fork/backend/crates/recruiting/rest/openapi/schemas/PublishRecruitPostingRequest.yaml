@@ -1,0 +1,10 @@
+type: object
+required:
+- attest_exposure_scope
+- expected_updated_at
+properties:
+  attest_exposure_scope:
+    type: boolean
+    description: The publisher's exposure-scope attestation; false fails the preflight gate.
+  expected_updated_at:
+    $ref: '#/components/schemas/Timestamp'

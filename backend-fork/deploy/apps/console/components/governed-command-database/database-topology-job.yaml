@@ -1,0 +1,367 @@
+# Ordered readback gate between CNPG reconciliation (wave 0) and migrations
+# (wave 2). It is intentionally a Sync hook: PreSync runs before the Cluster can
+# exist/reconcile and deadlocks a fresh installation.
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: console-db-topology
+  namespace: console
+  labels: { app: console-db-topology }
+  annotations:
+    argocd.argoproj.io/hook: Sync
+    argocd.argoproj.io/sync-wave: "1"
+    argocd.argoproj.io/hook-delete-policy: BeforeHookCreation,HookSucceeded
+spec:
+  backoffLimit: 6
+  activeDeadlineSeconds: 300
+  ttlSecondsAfterFinished: 600
+  template:
+    metadata:
+      labels: { app: console-db-topology }
+    spec:
+      restartPolicy: Never
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 999
+        runAsGroup: 999
+        seccompProfile: { type: RuntimeDefault }
+      containers:
+        - name: topology-readback
+          image: postgres:18.4@sha256:65f70a152846cf504dff86e807007e9aeac98c3aeb7b62541b2c55ab9d264e56
+          env:
+            - name: PGHOST
+              value: console-db-rw.console.svc
+            - name: PGPORT
+              value: "5432"
+            - name: PGDATABASE
+              value: console
+            - name: PGUSER
+              valueFrom:
+                secretKeyRef: { name: console-db-app, key: username }
+            - name: PGPASSWORD
+              valueFrom:
+                secretKeyRef: { name: console-db-app, key: password }
+            - name: CONSOLE_RT_USERNAME
+              valueFrom:
+                secretKeyRef: { name: console-db-rt, key: username }
+            - name: CONSOLE_RT_PASSWORD
+              valueFrom:
+                secretKeyRef: { name: console-db-rt, key: password }
+            - name: CONSOLE_LEAVE_COMMAND_USERNAME
+              valueFrom:
+                secretKeyRef: { name: console-db-leave-command, key: username }
+            - name: CONSOLE_LEAVE_COMMAND_PASSWORD
+              valueFrom:
+                secretKeyRef: { name: console-db-leave-command, key: password }
+            - name: CONSOLE_ONTOLOGY_COMMAND_USERNAME
+              valueFrom:
+                secretKeyRef: { name: console-db-ontology-command, key: username }
+            - name: CONSOLE_ONTOLOGY_COMMAND_PASSWORD
+              valueFrom:
+                secretKeyRef: { name: console-db-ontology-command, key: password }
+            - name: CONSOLE_PLATFORM_FORCE_COMMAND_USERNAME
+              valueFrom:
+                secretKeyRef: { name: console-db-platform-force-command, key: username }
+            - name: CONSOLE_PLATFORM_FORCE_COMMAND_PASSWORD
+              valueFrom:
+                secretKeyRef: { name: console-db-platform-force-command, key: password }
+          command: [bash, -ceu]
+          args:
+            - |
+              # Secret values arrive here already decoded by Kubernetes. Reject
+              # role aliases and pairwise credential reuse before touching the
+              # database; a URL-string comparison in the application cannot
+              # protect the migration-only credential it never receives.
+              test "${PGUSER}" = console_app
+              test "${CONSOLE_RT_USERNAME}" = console_rt
+              test "${CONSOLE_LEAVE_COMMAND_USERNAME}" = console_leave_cmd
+              test "${CONSOLE_ONTOLOGY_COMMAND_USERNAME}" = console_ontology_cmd
+              test "${CONSOLE_PLATFORM_FORCE_COMMAND_USERNAME}" = console_platform_force_cmd
+              passwords=(
+                "${PGPASSWORD}"
+                "${CONSOLE_RT_PASSWORD}"
+                "${CONSOLE_LEAVE_COMMAND_PASSWORD}"
+                "${CONSOLE_ONTOLOGY_COMMAND_PASSWORD}"
+                "${CONSOLE_PLATFORM_FORCE_COMMAND_PASSWORD}"
+              )
+              for ((i = 0; i < ${#passwords[@]}; i++)); do
+                test -n "${passwords[i]}"
+                for ((j = i + 1; j < ${#passwords[@]}; j++)); do
+                  test "${passwords[i]}" != "${passwords[j]}"
+                done
+              done
+
+              test "$(psql -v ON_ERROR_STOP=1 -Atqc \
+                "SELECT session_user::text || '|' || current_user::text")" = 'console_app|console_app'
+
+              repair_pgoptions='-c statement_timeout=0 -c idle_in_transaction_session_timeout=0 -c transaction_timeout=0'
+              PGOPTIONS="${repair_pgoptions}" psql -v ON_ERROR_STOP=1 <<'SQL'
+              DO $block$
+              BEGIN
+                IF current_setting('server_version_num')::integer < 170000
+                   OR current_setting('max_prepared_transactions')::integer <> 0
+                   OR EXISTS (SELECT 1 FROM pg_prepared_xacts) THEN
+                  RAISE EXCEPTION 'topology.transaction_timeout_prerequisite_failed';
+                END IF;
+              END
+              $block$;
+              SQL
+
+              preflight_serving_login() {
+                local role="$1"
+                local password="$2"
+                local identity
+                identity="$(PGOPTIONS="${repair_pgoptions}" PGUSER="${role}" PGPASSWORD="${password}" psql \
+                  -v ON_ERROR_STOP=1 -Atqc "SELECT session_user::text || '|' || current_user::text")"
+                test "${identity}" = "${role}|${role}"
+              }
+              preflight_serving_login console_rt "${CONSOLE_RT_PASSWORD}"
+              preflight_serving_login console_leave_cmd "${CONSOLE_LEAVE_COMMAND_PASSWORD}"
+              preflight_serving_login console_ontology_cmd "${CONSOLE_ONTOLOGY_COMMAND_PASSWORD}"
+              preflight_serving_login console_platform_force_cmd "${CONSOLE_PLATFORM_FORCE_COMMAND_PASSWORD}"
+
+              serving_defaults_need_repair() {
+                local role="$1"
+                local password="$2"
+                PGOPTIONS="${repair_pgoptions}" PGUSER="${role}" PGPASSWORD="${password}" psql \
+                  -v ON_ERROR_STOP=1 -Atqc \
+                  "SELECT (NOT EXISTS (
+                     SELECT 1 FROM pg_db_role_setting settings
+                     WHERE settings.setrole = (SELECT oid FROM pg_roles WHERE rolname=current_user)
+                       AND settings.setdatabase = 0
+                       AND settings.setconfig @> ARRAY[
+                         'statement_timeout=30s',
+                         'idle_in_transaction_session_timeout=30s',
+                         'transaction_timeout=45s'
+                       ]
+                   ) OR EXISTS (
+                     SELECT 1
+                     FROM pg_db_role_setting settings
+                     CROSS JOIN LATERAL unnest(settings.setconfig) setting
+                     WHERE settings.setrole = (SELECT oid FROM pg_roles WHERE rolname=current_user)
+                       AND settings.setdatabase <> 0
+                       AND split_part(setting, '=', 1) IN (
+                         'statement_timeout', 'idle_in_transaction_session_timeout', 'transaction_timeout'
+                       )
+                   ))::text"
+              }
+              repair_console_rt="$(serving_defaults_need_repair console_rt "${CONSOLE_RT_PASSWORD}")"
+              repair_console_leave_cmd="$(serving_defaults_need_repair console_leave_cmd "${CONSOLE_LEAVE_COMMAND_PASSWORD}")"
+              repair_console_ontology_cmd="$(serving_defaults_need_repair console_ontology_cmd "${CONSOLE_ONTOLOGY_COMMAND_PASSWORD}")"
+              repair_console_platform_force_cmd="$(serving_defaults_need_repair console_platform_force_cmd "${CONSOLE_PLATFORM_FORCE_COMMAND_PASSWORD}")"
+              test "${repair_console_rt}" = true || test "${repair_console_rt}" = false
+              test "${repair_console_leave_cmd}" = true || test "${repair_console_leave_cmd}" = false
+              test "${repair_console_ontology_cmd}" = true || test "${repair_console_ontology_cmd}" = false
+              test "${repair_console_platform_force_cmd}" = true || test "${repair_console_platform_force_cmd}" = false
+
+              # CNPG managed roles do not expose role-default GUC fields. Each
+              # serving identity therefore reconciles its own USERSET defaults;
+              # no superuser or CREATEROLE credential is exposed to this Job.
+              reconcile_serving_defaults() {
+                local role="$1"
+                local password="$2"
+                PGOPTIONS="${repair_pgoptions}" PGUSER="${role}" PGPASSWORD="${password}" psql \
+                  -v ON_ERROR_STOP=1 --set=expected_role="${role}" <<'SQL'
+              BEGIN;
+              SELECT CASE
+                WHEN session_user::text = :'expected_role'
+                 AND current_user::text = :'expected_role'
+                THEN 'true' ELSE 'false'
+              END AS direct_identity \gset
+              \if :direct_identity
+              \else
+                SELECT 'topology.direct_identity_failed'::integer;
+              \endif
+              SELECT format('ALTER ROLE %I SET statement_timeout = ''30s''', current_user) \gexec
+              SELECT format('ALTER ROLE %I SET idle_in_transaction_session_timeout = ''30s''', current_user) \gexec
+              SELECT format('ALTER ROLE %I SET transaction_timeout = ''45s''', current_user) \gexec
+              SELECT format('ALTER ROLE %I IN DATABASE %I RESET statement_timeout', current_user, database.datname)
+              FROM pg_db_role_setting settings
+              JOIN pg_database database ON database.oid = settings.setdatabase
+              WHERE settings.setrole = (SELECT oid FROM pg_roles WHERE rolname=current_user)
+                AND EXISTS (SELECT 1 FROM unnest(settings.setconfig) setting WHERE setting LIKE 'statement_timeout=%')
+              \gexec
+              SELECT format('ALTER ROLE %I IN DATABASE %I RESET idle_in_transaction_session_timeout', current_user, database.datname)
+              FROM pg_db_role_setting settings
+              JOIN pg_database database ON database.oid = settings.setdatabase
+              WHERE settings.setrole = (SELECT oid FROM pg_roles WHERE rolname=current_user)
+                AND EXISTS (SELECT 1 FROM unnest(settings.setconfig) setting WHERE setting LIKE 'idle_in_transaction_session_timeout=%')
+              \gexec
+              SELECT format('ALTER ROLE %I IN DATABASE %I RESET transaction_timeout', current_user, database.datname)
+              FROM pg_db_role_setting settings
+              JOIN pg_database database ON database.oid = settings.setdatabase
+              WHERE settings.setrole = (SELECT oid FROM pg_roles WHERE rolname=current_user)
+                AND EXISTS (SELECT 1 FROM unnest(settings.setconfig) setting WHERE setting LIKE 'transaction_timeout=%')
+              \gexec
+              DO $block$
+              BEGIN
+                IF NOT EXISTS (
+                  SELECT 1 FROM pg_db_role_setting settings
+                  WHERE settings.setrole = (SELECT oid FROM pg_roles WHERE rolname=current_user)
+                    AND settings.setdatabase = 0
+                    AND settings.setconfig @> ARRAY[
+                      'statement_timeout=30s',
+                      'idle_in_transaction_session_timeout=30s',
+                      'transaction_timeout=45s'
+                    ]
+                ) OR EXISTS (
+                  SELECT 1
+                  FROM pg_db_role_setting settings
+                  CROSS JOIN LATERAL unnest(settings.setconfig) setting
+                  WHERE settings.setrole = (SELECT oid FROM pg_roles WHERE rolname=current_user)
+                    AND settings.setdatabase <> 0
+                    AND split_part(setting, '=', 1) IN (
+                      'statement_timeout', 'idle_in_transaction_session_timeout', 'transaction_timeout'
+                    )
+                ) THEN
+                  RAISE EXCEPTION 'topology.runtime_default_readback_failed';
+                END IF;
+              END
+              $block$;
+              COMMIT;
+              SQL
+              }
+              if [[ "${repair_console_rt}" == true ]]; then
+                reconcile_serving_defaults console_rt "${CONSOLE_RT_PASSWORD}"
+              fi
+              if [[ "${repair_console_leave_cmd}" == true ]]; then
+                reconcile_serving_defaults console_leave_cmd "${CONSOLE_LEAVE_COMMAND_PASSWORD}"
+              fi
+              if [[ "${repair_console_ontology_cmd}" == true ]]; then
+                reconcile_serving_defaults console_ontology_cmd "${CONSOLE_ONTOLOGY_COMMAND_PASSWORD}"
+              fi
+              if [[ "${repair_console_platform_force_cmd}" == true ]]; then
+                reconcile_serving_defaults console_platform_force_cmd "${CONSOLE_PLATFORM_FORCE_COMMAND_PASSWORD}"
+              fi
+
+              drain_serving_backends() {
+                local role="$1"
+                local password="$2"
+                local pid terminated remaining captured_pid_csv captured_pid_output
+                local -a captured_pids=()
+                captured_pid_output="$(PGOPTIONS="${repair_pgoptions}" PGUSER="${role}" PGPASSWORD="${password}" psql \
+                  -v ON_ERROR_STOP=1 -Atqc \
+                  "SELECT pid FROM pg_stat_activity WHERE usename = current_user AND pid <> pg_backend_pid() ORDER BY pid")"
+                if [[ -n "${captured_pid_output}" ]]; then
+                  mapfile -t captured_pids <<<"${captured_pid_output}"
+                fi
+                for pid in "${captured_pids[@]}"; do
+                  terminated="$(PGOPTIONS="${repair_pgoptions}" PGUSER="${role}" PGPASSWORD="${password}" psql \
+                    -v ON_ERROR_STOP=1 -Atqc "SELECT pg_terminate_backend(${pid}, 5000)")"
+                  test "${terminated}" = t
+                done
+                if ((${#captured_pids[@]} > 0)); then
+                  captured_pid_csv="$(IFS=,; echo "${captured_pids[*]}")"
+                  remaining="$(PGOPTIONS="${repair_pgoptions}" PGUSER="${role}" PGPASSWORD="${password}" psql \
+                    -v ON_ERROR_STOP=1 -Atqc \
+                    "SELECT count(*) FROM pg_stat_activity WHERE pid = ANY (ARRAY[${captured_pid_csv}]::integer[])")"
+                  test "${remaining}" = 0
+                fi
+              }
+              if [[ "${repair_console_rt}" == true ]]; then
+                drain_serving_backends console_rt "${CONSOLE_RT_PASSWORD}"
+              fi
+              if [[ "${repair_console_leave_cmd}" == true ]]; then
+                drain_serving_backends console_leave_cmd "${CONSOLE_LEAVE_COMMAND_PASSWORD}"
+              fi
+              if [[ "${repair_console_ontology_cmd}" == true ]]; then
+                drain_serving_backends console_ontology_cmd "${CONSOLE_ONTOLOGY_COMMAND_PASSWORD}"
+              fi
+              if [[ "${repair_console_platform_force_cmd}" == true ]]; then
+                drain_serving_backends console_platform_force_cmd "${CONSOLE_PLATFORM_FORCE_COMMAND_PASSWORD}"
+              fi
+
+              expected_roles='console_app|t|f|t|t|f|f|f
+              console_leave_cmd|t|f|f|f|f|f|f
+              console_leave_definer|f|f|f|f|f|f|f
+              console_ontology_cmd|t|f|f|f|f|f|f
+              console_ontology_writer|f|f|f|f|f|f|f
+              console_platform_force_cmd|t|f|f|f|f|f|f
+              console_rt|t|f|f|f|f|f|f'
+              actual_roles="$(psql -v ON_ERROR_STOP=1 -At -F '|' <<'SQL'
+              SELECT rolname, rolcanlogin, rolsuper, rolbypassrls, rolinherit,
+                     rolcreatedb, rolcreaterole, rolreplication
+              FROM pg_roles
+              WHERE rolname IN (
+                'console_app', 'console_rt', 'console_leave_cmd', 'console_ontology_cmd', 'console_platform_force_cmd',
+                'console_leave_definer', 'console_ontology_writer'
+              )
+              ORDER BY rolname;
+              SQL
+              )"
+              test "${actual_roles}" = "${expected_roles}"
+
+              expected_memberships='console_app|console_leave_definer|f|t|t
+              console_app|console_ontology_writer|f|t|t'
+              actual_memberships="$(psql -v ON_ERROR_STOP=1 -At -F '|' <<'SQL'
+              SELECT member.rolname, granted.rolname, membership.admin_option,
+                     membership.inherit_option, membership.set_option
+              FROM pg_auth_members membership
+              JOIN pg_roles member ON member.oid = membership.member
+              JOIN pg_roles granted ON granted.oid = membership.roleid
+              WHERE member.rolname IN (
+                      'console_app', 'console_rt', 'console_leave_cmd', 'console_ontology_cmd', 'console_platform_force_cmd',
+                      'console_leave_definer', 'console_ontology_writer'
+                    )
+                 OR granted.rolname IN (
+                      'console_app', 'console_rt', 'console_leave_cmd', 'console_ontology_cmd', 'console_platform_force_cmd',
+                      'console_leave_definer', 'console_ontology_writer'
+                    )
+              ORDER BY member.rolname, granted.rolname;
+              SQL
+              )"
+              test "${actual_memberships}" = "${expected_memberships}"
+              test "$(psql -v ON_ERROR_STOP=1 -Atqc "SELECT pg_get_userbyid(datdba) FROM pg_database WHERE datname=current_database()")" = console_app
+
+              # Prove the four serving credentials are real direct logins,
+              # not admin/owner sessions that arrive through SET ROLE. No
+              # serving identity may be on either side of a membership edge.
+              assert_direct_serving_login() {
+                local role="$1"
+                local password="$2"
+                local expected_defaults="$3"
+                local actual
+                actual="$(PGUSER="${role}" PGPASSWORD="${password}" psql \
+                  -v ON_ERROR_STOP=1 -At -F '|' <<'SQL'
+              SELECT session_user,
+                     current_user,
+                     authenticated.rolcanlogin,
+                     authenticated.rolsuper,
+                     authenticated.rolbypassrls,
+                     authenticated.rolinherit,
+                     authenticated.rolcreatedb,
+                     authenticated.rolcreaterole,
+                     authenticated.rolreplication,
+                     EXISTS (
+                       SELECT 1
+                       FROM pg_auth_members membership
+                       WHERE membership.member = authenticated.oid
+                          OR membership.roleid = authenticated.oid
+                     ),
+                     current_setting('statement_timeout'),
+                     current_setting('idle_in_transaction_session_timeout'),
+                     current_setting('transaction_timeout')
+              FROM pg_roles authenticated
+              WHERE authenticated.rolname = session_user;
+              SQL
+                )"
+                test "${actual}" = "${role}|${role}|t|f|f|f|f|f|f|f|${expected_defaults}"
+              }
+              assert_direct_serving_login console_rt "${CONSOLE_RT_PASSWORD}" '30s|30s|45s'
+              assert_direct_serving_login console_leave_cmd "${CONSOLE_LEAVE_COMMAND_PASSWORD}" '30s|30s|45s'
+              assert_direct_serving_login console_ontology_cmd "${CONSOLE_ONTOLOGY_COMMAND_PASSWORD}" '30s|30s|45s'
+              assert_direct_serving_login console_platform_force_cmd "${CONSOLE_PLATFORM_FORCE_COMMAND_PASSWORD}" '30s|30s|45s'
+              echo 'database topology readback passed'
+          resources:
+            requests: { cpu: 25m, memory: 32Mi }
+            limits: { memory: 64Mi }
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities: { drop: [ALL] }
+          volumeMounts:
+            - { name: tmp, mountPath: /tmp }
+      volumes:
+        - name: tmp
+          emptyDir: {}

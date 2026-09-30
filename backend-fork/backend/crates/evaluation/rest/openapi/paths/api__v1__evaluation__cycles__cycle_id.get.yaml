@@ -1,0 +1,12 @@
+tags: [evaluation]
+operationId: getEvaluationCycle
+summary: Get an evaluation cycle with enrolled subjects
+security: [{ bearerAuth: [] }]
+parameters: [{ $ref: '#/components/parameters/EvaluationCycleId' }]
+responses:
+  '200': { description: Evaluation cycle., content: { application/json: { schema: { $ref: '#/components/schemas/EvaluationCycleDetail' } } } }
+  '401': { $ref: '#/components/responses/Unauthorized' }
+  '403': { $ref: '#/components/responses/Forbidden' }
+  '404': { $ref: '#/components/responses/NotFound' }
+  '500': { $ref: '#/components/responses/InternalServerError' }
+  '503': { $ref: '#/components/responses/ServiceUnavailable' }

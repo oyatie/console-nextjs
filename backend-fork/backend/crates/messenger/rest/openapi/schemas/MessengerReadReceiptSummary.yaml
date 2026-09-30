@@ -1,0 +1,18 @@
+type: object
+required:
+- thread_id
+- user_id
+- last_read_message_id
+- read_at
+- updated_at
+properties:
+  thread_id:
+    $ref: '#/components/schemas/Uuid'
+  user_id:
+    $ref: '#/components/schemas/Uuid'
+  last_read_message_id:
+    $ref: '#/components/schemas/Uuid'
+  read_at:
+    $ref: '#/components/schemas/Timestamp'
+  updated_at:
+    $ref: '#/components/schemas/Timestamp'

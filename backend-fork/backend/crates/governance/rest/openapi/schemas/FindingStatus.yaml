@@ -1,0 +1,7 @@
+type: string
+description: Lifecycle of a governance finding. OPEN findings are triaged to one of REVIEWED, DISMISSED, or ESCALATED.
+enum:
+- OPEN
+- REVIEWED
+- DISMISSED
+- ESCALATED

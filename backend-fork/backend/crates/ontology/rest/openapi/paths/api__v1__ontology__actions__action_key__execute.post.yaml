@@ -1,0 +1,51 @@
+operationId: executeOntologyAction
+summary: Execute an object action (single mutation path)
+description: Re-evaluates the §16 gate chain inside the writeback transaction (TOCTOU-safe), then dispatches an instance-revision
+  (append fixity-chained revision) or a projected use-case. Humans and automation use this same path.
+tags:
+- Ontology
+security:
+- bearerAuth: []
+parameters:
+- name: action_key
+  in: path
+  required: true
+  schema:
+    type: string
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/OntologyActionRequest'
+responses:
+  '200':
+    description: Action executed; the mutation and its audit row committed atomically.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/OntologyActionExecuteOutcome'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '409':
+    $ref: '#/components/responses/Conflict'
+  '412':
+    description: The supplied expected_revision is stale.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ErrorBody'
+  '422':
+    $ref: '#/components/responses/ValidationError'
+  '501':
+    description: A projected-use-case dispatch is not wired yet.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ErrorBody'
+  '503':
+    $ref: '#/components/responses/ServiceUnavailable'

@@ -1,0 +1,37 @@
+tags:
+  - evidence
+operationId: presignEvidenceStagingUpload
+summary: Issue a presigned STAGING upload ticket for mechanic evidence and begin server-side media processing (transcode/optimize
+  before storage)
+security:
+- bearerAuth: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/EvidenceStagingPresignRequest'
+responses:
+  '200':
+    description: Presigned staging upload ticket; the evidence row is created in PROCESSING and an async transcode job
+      is enqueued.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/EvidenceStagingPresignResponse'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '409':
+    $ref: '#/components/responses/Conflict'
+  '422':
+    $ref: '#/components/responses/ValidationError'
+  '503':
+    description: Evidence storage or processing is not configured.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ErrorBody'

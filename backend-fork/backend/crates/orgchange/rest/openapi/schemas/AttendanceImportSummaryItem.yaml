@@ -1,0 +1,57 @@
+type: object
+required:
+- run_id
+- status
+- source_filename
+- source_format
+- source_sha256
+- input_rows
+- candidate_rows
+- preserved_rows
+- dry_run_summary
+- apply_summary
+- created_at
+properties:
+  run_id:
+    $ref: '#/components/schemas/Uuid'
+  status:
+    type: string
+    enum:
+    - PREVIEWED
+    - DRY_RUN
+    - APPLIED
+    - FAILED
+  source_filename:
+    type: string
+  source_format:
+    type: string
+    enum:
+    - xlsx
+    - csv
+  source_sha256:
+    type: string
+    pattern: ^[a-f0-9]{64}$
+  input_rows:
+    type: integer
+    format: int32
+    minimum: 0
+  candidate_rows:
+    type: integer
+    format: int32
+    minimum: 0
+  preserved_rows:
+    type: integer
+    format: int32
+    minimum: 0
+  dry_run_summary:
+    type: object
+    additionalProperties: true
+  apply_summary:
+    type: object
+    additionalProperties: true
+  created_at:
+    $ref: '#/components/schemas/Timestamp'
+  applied_at:
+    allOf:
+    - $ref: '#/components/schemas/Timestamp'
+    nullable: true

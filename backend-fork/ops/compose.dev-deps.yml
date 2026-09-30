@@ -1,0 +1,146 @@
+services:
+  # DEV-ONLY: publish the OTEL collector's OTLP/gRPC port so a host-launched
+  # (bacon) console-app can export traces without joining the compose network.
+  # ops/compose.yml only `expose`s this internally; not for production.
+  otel-collector:
+    ports:
+      - "127.0.0.1:${CONSOLE_OTEL_PORT:-54317}:4317"
+
+  # DEV-ONLY: fake SMTP catcher so transactional email (open-signup OTP, etc.)
+  # can be sent and inspected locally instead of hitting a real relay. Never
+  # part of ops/compose.yml itself — this is the dev deps profile's addition.
+  mailpit:
+    image: axllent/mailpit:v1.27.5
+    ports:
+      - "127.0.0.1:${CONSOLE_MAILPIT_SMTP_PORT:-1025}:1025"
+      - "127.0.0.1:${CONSOLE_MAILPIT_UI_PORT:-8025}:8025"
+    volumes:
+      - mailpit-data:/data
+    environment:
+      MP_DATABASE: /data/mailpit.db
+    healthcheck:
+      test: ["CMD", "/mailpit", "readyz"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+      start_period: 5s
+    mem_limit: 128m
+    cpus: 0.25
+    restart: unless-stopped
+
+  # DEV-ONLY: keep the local Postgres WAL archive volume bounded across repeated
+  # `npm run dev:up`/`dev:down` cycles. This intentionally lives outside
+  # ops/compose.yml and outside archive_command so a pruning failure cannot make
+  # Postgres WAL archiving fail, and production-like PITR/off-VM retention stays
+  # owned by ops/backup + ops/dr policy instead.
+  postgres-wal-archive-pruner:
+    image: postgres:18.4@sha256:65f70a152846cf504dff86e807007e9aeac98c3aeb7b62541b2c55ab9d264e56
+    user: postgres
+    depends_on:
+      postgres:
+        condition: service_healthy
+    entrypoint:
+      - bash
+      - /usr/local/bin/console-dev-wal-archive-prune
+    volumes:
+      - postgres-wal-archive:/wal-archive
+      - ./dev/wal-archive-prune.sh:/usr/local/bin/console-dev-wal-archive-prune:ro
+    environment:
+      # Default policy: prune dev archived WAL older than 72h and cap retained
+      # matching archive files at 1 GiB, while preserving the newest 8 files as a
+      # local PITR safety margin. Set either bound to `off`/`0` only for a local
+      # PITR drill where older WAL must be retained temporarily.
+      CONSOLE_DEV_WAL_ARCHIVE_RETENTION_HOURS: ${CONSOLE_DEV_WAL_ARCHIVE_RETENTION_HOURS:-72}
+      CONSOLE_DEV_WAL_ARCHIVE_MAX_BYTES: ${CONSOLE_DEV_WAL_ARCHIVE_MAX_BYTES:-1073741824}
+      CONSOLE_DEV_WAL_ARCHIVE_MIN_SEGMENTS: ${CONSOLE_DEV_WAL_ARCHIVE_MIN_SEGMENTS:-8}
+      CONSOLE_DEV_WAL_ARCHIVE_PRUNE_INTERVAL_SECONDS: ${CONSOLE_DEV_WAL_ARCHIVE_PRUNE_INTERVAL_SECONDS:-300}
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "test -d /wal-archive && test -r /usr/local/bin/console-dev-wal-archive-prune",
+        ]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
+    mem_limit: 64m
+    cpus: 0.1
+    restart: unless-stopped
+
+  # DEV-ONLY: our own mox mail server (github.com/mjl-/mox, MIT) run in its
+  # purpose-built `localserve` mode — a full IMAP4rev2/SMTP/submission + webapi
+  # stack with a self-generated config, no DNS/TLS/DKIM setup, that accepts any
+  # local recipient. The console's mox transport (webapi send) + delivery webhook
+  # ride this. localserve binds the regular ports + 1000, so we publish:
+  #   webapi/HTTP 1080  — POST /webapi/v0/Send + the admin/webmail UI
+  #   submission  1587  — SMTP submission (unused by slice 1; webapi is the send path)
+  #   IMAP        1143 / IMAPS 1993 — mailbox reads (deferred: outside the app's
+  #                       IMAP port allowlist; the webhook is the slice-1 read path)
+  # Default account: mox@localhost / moxmoxmox (admin moxadmin). See §14 HANDOFF.
+  mox:
+    image: r.xmox.nl/mox:v0.0.15
+    command:
+      - /bin/sh
+      - -ceu
+      - |
+        if [ -f /mox-data/localserve/mox.conf ]; then
+          exec /bin/mox localserve -dir /mox-data/localserve
+        fi
+        exec /bin/mox localserve -ip 0.0.0.0 -dir /mox-data/localserve
+    ports:
+      - "127.0.0.1:${CONSOLE_MOX_WEBAPI_PORT:-1080}:1080"
+      - "127.0.0.1:${CONSOLE_MOX_SUBMISSION_PORT:-1587}:1587"
+      - "127.0.0.1:${CONSOLE_MOX_IMAP_PORT:-1143}:1143"
+      - "127.0.0.1:${CONSOLE_MOX_IMAPS_PORT:-1993}:1993"
+    volumes:
+      # localserve requires -ip only when creating its config; the Docker volume
+      # mount pre-creates /mox-data, so let mox create a child dir and omit -ip
+      # on restarts after mox.conf exists.
+      - mox-data:/mox-data
+    healthcheck:
+      # The mox image is alpine (busybox); it has `wget` but no bash/curl. Hitting
+      # the webapi index on 1080 proves the HTTP listener is serving.
+      test: ["CMD-SHELL", "wget -q -T 3 -O /dev/null http://127.0.0.1:1080/webapi/v0/ || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+      start_period: 10s
+    mem_limit: 256m
+    cpus: 0.5
+    restart: unless-stopped
+
+  # DEV-ONLY: ONLYOFFICE DocumentServer for the in-console office editor
+  # (HANDOFF §12). OPT-IN: dev-up.mjs only lists this service in the `up -d`
+  # call (and only injects the CONSOLE_OFFICE_* backend env) when CONSOLE_DEV_OFFICE=1
+  # is set — the image is ~2GB and most dev-up sessions never touch the office
+  # editor. The OFFICIAL, UNMODIFIED community image, consumed purely
+  # through its editor + callback API — no fork, so no AGPL source-publication
+  # obligation is triggered yet (the heavy-fork epic will; flagged for
+  # compliance review). JWT is enabled with the same shared secret the host
+  # signs/verifies with (CONSOLE_OFFICE_JWT_SECRET). The host runs on the bacon HOST,
+  # so DocumentServer reaches its callback via host.docker.internal.
+  onlyoffice:
+    image: onlyoffice/documentserver:9.4.0.1
+    ports:
+      - "127.0.0.1:${CONSOLE_OFFICE_DOCSERVER_PORT:-8888}:80"
+    environment:
+      JWT_ENABLED: "true"
+      JWT_SECRET: ${CONSOLE_OFFICE_JWT_SECRET:-office-dev-shared-secret}
+      JWT_HEADER: Authorization
+      JWT_IN_BODY: "true"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://127.0.0.1:80/healthcheck | grep -q true"]
+      interval: 15s
+      timeout: 5s
+      retries: 20
+      start_period: 60s
+    mem_limit: 2g
+    cpus: 1.0
+    restart: unless-stopped
+
+volumes:
+  mailpit-data:
+  mox-data:

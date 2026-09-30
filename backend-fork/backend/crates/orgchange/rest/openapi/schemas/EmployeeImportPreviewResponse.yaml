@@ -1,0 +1,44 @@
+type: object
+required:
+- run_id
+- entity_type
+- source_filename
+- source_sha256
+- input_rows
+- candidate_rows
+- preserved_rows
+- columns
+- sample_rows
+- mapping_profile
+properties:
+  run_id:
+    $ref: '#/components/schemas/Uuid'
+  entity_type:
+    type: string
+    enum:
+    - employee_hr
+  source_filename:
+    type: string
+  source_sha256:
+    type: string
+    pattern: ^[a-f0-9]{64}$
+  input_rows:
+    type: integer
+    minimum: 0
+  candidate_rows:
+    type: integer
+    minimum: 0
+  preserved_rows:
+    type: integer
+    minimum: 0
+  columns:
+    type: array
+    items:
+      $ref: '#/components/schemas/EmployeeImportColumn'
+  sample_rows:
+    type: array
+    items:
+      $ref: '#/components/schemas/EmployeeImportPreviewRow'
+  mapping_profile:
+    type: object
+    additionalProperties: true

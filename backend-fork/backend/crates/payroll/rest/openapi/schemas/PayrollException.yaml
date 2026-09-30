@@ -1,0 +1,83 @@
+type: object
+required:
+- id
+- run_id
+- line_id
+- employee_id
+- employee_display_name
+- kind
+- severity
+- amount_delta_won
+- summary_ko
+- detail
+- linked_refs
+- status
+- resolved_by
+- resolved_at
+- resolved_reason
+- carried_from_run_id
+- created_at
+properties:
+  id:
+    $ref: '#/components/schemas/Uuid'
+  run_id:
+    $ref: '#/components/schemas/Uuid'
+  line_id:
+    type:
+    - string
+    - 'null'
+    format: uuid
+  employee_id:
+    type:
+    - string
+    - 'null'
+    format: uuid
+  employee_display_name:
+    type: string
+  kind:
+    type: string
+    enum: [OVERTIME_ALLOWANCE, RETRO_ADJUSTMENT, ABSENCE_DEDUCTION, PRORATION, ACCOUNT_VERIFICATION]
+  severity:
+    type: string
+    enum: [info, warn, danger]
+  amount_delta_won:
+    type:
+    - integer
+    - 'null'
+    format: int64
+    description: Whole KRW won. null when the delta is not derivable from a verified source.
+  summary_ko:
+    type: string
+  detail:
+    type: object
+  linked_refs:
+    type: array
+    description: Traversal handles to the objects this exception is about. The column is untyped JSON server-side; the
+      only writer emits payroll_line and employee refs in this shape.
+    items:
+      $ref: '#/components/schemas/PayrollLinkedRef'
+  status:
+    type: string
+    enum: [OPEN, CONFIRMED, HELD]
+  resolved_by:
+    type:
+    - string
+    - 'null'
+    format: uuid
+  resolved_at:
+    type:
+    - string
+    - 'null'
+    format: date-time
+  resolved_reason:
+    type:
+    - string
+    - 'null'
+  carried_from_run_id:
+    type:
+    - string
+    - 'null'
+    format: uuid
+    description: The run this HELD exception was carried forward from.
+  created_at:
+    $ref: '#/components/schemas/Timestamp'

@@ -1,0 +1,67 @@
+type: object
+required:
+- id
+- posting_id
+- applicant_no
+- name
+- profile_lines
+- source_document
+- stage
+- hold
+- doc_requested
+- rejected_at
+- reject_reason
+- reject_note
+- assessment
+- hired_employee_id
+- created_at
+- updated_at
+properties:
+  id:
+    $ref: '#/components/schemas/Uuid'
+  posting_id:
+    $ref: '#/components/schemas/Uuid'
+  applicant_no:
+    type: string
+  name:
+    type: string
+  profile_lines:
+    type: array
+    items:
+      type: string
+  source_document:
+    type:
+    - string
+    - 'null'
+    description: Provenance filename only.
+  stage:
+    $ref: '#/components/schemas/RecruitApplicantStage'
+  hold:
+    type: boolean
+  doc_requested:
+    type: boolean
+  rejected_at:
+    type:
+    - string
+    - 'null'
+    format: date-time
+  reject_reason:
+    oneOf:
+    - $ref: '#/components/schemas/RecruitRejectReason'
+    - type: 'null'
+  reject_note:
+    type:
+    - string
+    - 'null'
+  assessment:
+    oneOf:
+    - $ref: '#/components/schemas/RecruitAssessment'
+    - type: 'null'
+  hired_employee_id:
+    oneOf:
+    - $ref: '#/components/schemas/Uuid'
+    - type: 'null'
+  created_at:
+    $ref: '#/components/schemas/Timestamp'
+  updated_at:
+    $ref: '#/components/schemas/Timestamp'

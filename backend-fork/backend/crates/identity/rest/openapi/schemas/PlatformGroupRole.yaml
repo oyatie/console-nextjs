@@ -1,0 +1,5 @@
+type: string
+enum:
+- GROUP_ADMIN
+- GROUP_VIEWER
+- GROUP_FINANCE

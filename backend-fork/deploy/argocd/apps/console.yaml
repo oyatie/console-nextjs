@@ -1,0 +1,102 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: console
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "1" # after platform operators + issuer
+spec:
+  project: console
+  source:
+    repoURL: https://github.com/jason931225/console.git # replace OWNER
+    targetRevision: main
+    path: deploy/apps/console/overlays/prod
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: console
+  ignoreDifferences:
+    # Argo Rollouts blue/green owns the active/preview Service selectors and
+    # swaps in the current `rollouts-pod-template-hash`. Git keeps the stable
+    # app selector only; if Argo server-side-applies that selector back, it
+    # conflicts with rollouts-controller and the app flaps OutOfSync while
+    # traffic is otherwise healthy.
+    - kind: Service
+      name: console-app
+      namespace: console
+      jqPathExpressions: [.spec.selector]
+    - kind: Service
+      name: console-app-preview
+      namespace: console
+      jqPathExpressions: [.spec.selector]
+    - kind: Service
+      name: console-web
+      namespace: console
+      jqPathExpressions: [.spec.selector]
+    - kind: Service
+      name: console-web-preview
+      namespace: console
+      jqPathExpressions: [.spec.selector]
+    # CNPG's admission/controller layer materializes CRD defaults into the
+    # Cluster spec. Keep Git focused on intentional app/DB settings and ignore
+    # only those defaulted fields so Argo can stay clean without copying the
+    # operator's full default surface into this repo.
+    - group: postgresql.cnpg.io
+      kind: Cluster
+      name: console-db
+      namespace: console
+      jqPathExpressions:
+        - .spec.affinity
+        - .spec.bootstrap.initdb.encoding
+        - .spec.bootstrap.initdb.localeCType
+        - .spec.bootstrap.initdb.localeCollate
+        - .spec.enablePDB
+        - .spec.enableSuperuserAccess
+        - .spec.failoverDelay
+        - .spec.logLevel
+        - .spec.managed.roles[]?.connectionLimit
+        - .spec.maxSyncReplicas
+        - .spec.minSyncReplicas
+        - .spec.monitoring
+        - .spec.plugins[]?.enabled
+        - .spec.postgresGID
+        - .spec.postgresUID
+        - .spec.postgresql.parameters.archive_mode
+        - .spec.postgresql.parameters.archive_timeout
+        - .spec.postgresql.parameters.dynamic_shared_memory_type
+        - .spec.postgresql.parameters.full_page_writes
+        - .spec.postgresql.parameters.log_destination
+        - .spec.postgresql.parameters.log_directory
+        - .spec.postgresql.parameters.log_filename
+        - .spec.postgresql.parameters.log_rotation_age
+        - .spec.postgresql.parameters.log_rotation_size
+        - .spec.postgresql.parameters.log_truncate_on_rotation
+        - .spec.postgresql.parameters.logging_collector
+        - .spec.postgresql.parameters.max_parallel_workers
+        - .spec.postgresql.parameters.max_replication_slots
+        - .spec.postgresql.parameters.max_worker_processes
+        - .spec.postgresql.parameters.shared_memory_type
+        - .spec.postgresql.parameters.shared_preload_libraries
+        - .spec.postgresql.parameters.ssl_max_protocol_version
+        - .spec.postgresql.parameters.ssl_min_protocol_version
+        - .spec.postgresql.parameters.wal_keep_size
+        - .spec.postgresql.parameters.wal_level
+        - .spec.postgresql.parameters.wal_log_hints
+        - .spec.postgresql.parameters.wal_receiver_timeout
+        - .spec.postgresql.parameters.wal_sender_timeout
+        - .spec.postgresql.syncReplicaElectionConstraint
+        - .spec.primaryUpdateMethod
+        - .spec.probes
+        - .spec.replicationSlots
+        - .spec.smartShutdownTimeout
+        - .spec.startDelay
+        - .spec.stopDelay
+        - .spec.storage.resizeInUseVolumes
+        - .spec.switchoverDelay
+  syncPolicy:
+    automated: { prune: true, selfHeal: true }
+    syncOptions: [CreateNamespace=true, ServerSideApply=true, RespectIgnoreDifferences=true]
+    # The CNPG Cluster spins up Postgres asynchronously; give dependent objects
+    # room before Argo reports degraded.
+    retry:
+      limit: 5
+      backoff: { duration: 15s, factor: 2, maxDuration: 5m }

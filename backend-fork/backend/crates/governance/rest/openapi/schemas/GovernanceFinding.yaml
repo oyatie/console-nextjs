@@ -1,0 +1,79 @@
+type: object
+description: A governance finding raised by the integrity engine (#34). Findings are "검토 필요" (review needed) — e.g.
+  a self-approval record (detector_id `anomaly.self_approval`) or a price anomaly (`anomaly.price_outlier`) — and are
+  NOT accusations of wrongdoing.
+required:
+- id
+- org_id
+- detector_id
+- entity_type
+- entity_id
+- score
+- severity
+- evidence
+- status
+- detected_at
+- created_at
+- updated_at
+properties:
+  id:
+    $ref: '#/components/schemas/Uuid'
+  org_id:
+    $ref: '#/components/schemas/Uuid'
+  detector_id:
+    type: string
+    description: Dot-namespaced detector identity, e.g. `anomaly.self_approval` or `anomaly.price_outlier`.
+  entity_type:
+    type: string
+    description: The domain entity the finding concerns, e.g. `financial_purchase_request`.
+  entity_id:
+    type: string
+    description: Identifier of the entity the finding concerns.
+  source_audit_event_id:
+    type:
+    - string
+    - 'null'
+    format: uuid
+    description: Audit event that triggered the finding (OnWrite detectors); may be null.
+  subject_user_id:
+    type:
+    - string
+    - 'null'
+    format: uuid
+    description: The user whose action was flagged (e.g. the self-approver). Null for non-person findings. A raw id;
+      resolve to a display name in the UI.
+  score:
+    type: number
+    format: double
+    minimum: 0
+    description: Non-negative detector score; the severity enum is the primary triage signal.
+  severity:
+    $ref: '#/components/schemas/FindingSeverity'
+  evidence:
+    type: object
+    additionalProperties: true
+    description: Detector-specific evidence bag. For `anomaly.self_approval` this includes action, requested_by, submitted_by,
+      approver, and exemption_reason (org_lead_exempt or super_admin_exempt).
+  status:
+    $ref: '#/components/schemas/FindingStatus'
+  detected_at:
+    $ref: '#/components/schemas/Timestamp'
+  created_at:
+    $ref: '#/components/schemas/Timestamp'
+  updated_at:
+    $ref: '#/components/schemas/Timestamp'
+  reviewed_by:
+    type:
+    - string
+    - 'null'
+    format: uuid
+    description: The reviewer who triaged the finding; null until triaged.
+  reviewed_at:
+    oneOf:
+    - $ref: '#/components/schemas/Timestamp'
+    - type: 'null'
+  review_memo:
+    type:
+    - string
+    - 'null'
+    description: Reviewer memo recorded at triage; required when dismissing or escalating.

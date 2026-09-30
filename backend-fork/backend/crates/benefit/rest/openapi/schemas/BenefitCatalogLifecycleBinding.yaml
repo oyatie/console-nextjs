@@ -1,0 +1,9 @@
+type: object
+additionalProperties: false
+required: [object_type, object_id]
+properties:
+  object_type: { type: string, enum: [benefit_catalog_item] }
+  object_id: { $ref: '#/components/schemas/Uuid' }
+  current_state: { type: string, nullable: true }
+  legal_hold: { type: boolean, nullable: true }
+  retention_until: { type: string, format: date-time, nullable: true }

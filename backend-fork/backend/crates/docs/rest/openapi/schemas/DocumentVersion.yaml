@@ -1,0 +1,35 @@
+type: object
+description: One immutable version of an in-console office document. The storage key is internal and never returned.
+required: [id, documentRef, versionNo, contentHash, fileType, byteSize, createdAt]
+properties:
+  id:
+    type: string
+    format: uuid
+  documentRef:
+    type: string
+    minLength: 1
+    maxLength: 200
+  versionNo:
+    type: integer
+    minimum: 1
+  contentHash:
+    type: string
+    pattern: ^[a-f0-9]{64}$
+  fileType:
+    type: string
+    enum: [docx, xlsx, pptx]
+  byteSize:
+    type: integer
+    format: int64
+    minimum: 0
+  restoredFrom:
+    type: integer
+    minimum: 1
+    description: The version_no this version non-destructively restored, when it is a rollback.
+  createdBy:
+    type: string
+    format: uuid
+    description: Actor who produced the version; omitted for system-initiated (force-save callback) versions.
+  createdAt:
+    type: string
+    format: date-time

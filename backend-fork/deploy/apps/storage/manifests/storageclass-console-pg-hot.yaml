@@ -1,0 +1,36 @@
+# Canonical maintenance StorageClass for on-prem PostgreSQL hot block storage.
+# Lifted from oyatie's ADR-0161 canonical-name pattern, but bound here to
+# Longhorn for the first DARK maintenance on-prem storage lane.
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: console-pg-hot
+  labels:
+    app.kubernetes.io/name: console-pg-hot
+    app.kubernetes.io/component: replicated-block-storage
+    app.kubernetes.io/part-of: console
+    console.nousresearch.com/canonical-storage-class: "true"
+    console.nousresearch.com/context: onprem
+    console.nousresearch.com/dark-stage: "true"
+    console.nousresearch.com/tier: hot
+    console.nousresearch.com/kind: pg
+  annotations:
+    storageclass.kubernetes.io/is-default-class: "true"
+    console.nousresearch.com/description: |
+      Canonical on-prem PostgreSQL hot block StorageClass. It is staged only by
+      the DARK Longhorn app and must not be synced into the current OCI guest.
+    console.nousresearch.com/reclaim-policy-rationale: "Retain protects PostgreSQL data from accidental PVC deletion."
+provisioner: driver.longhorn.io
+parameters:
+  numberOfReplicas: "3"
+  staleReplicaTimeout: "30"
+  fromBackup: ""
+  fsType: ext4
+  dataLocality: disabled
+  unmapMarkSnapChainRemoved: ignored
+  disableRevisionCounter: "true"
+  dataEngine: v1
+  backupTargetName: default
+reclaimPolicy: Retain
+allowVolumeExpansion: true
+volumeBindingMode: WaitForFirstConsumer

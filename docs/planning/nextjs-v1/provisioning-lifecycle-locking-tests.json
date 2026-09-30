@@ -1,0 +1,19 @@
+{
+  "scope": "Partial coordinated authentication lock tests; no production implementation approval",
+  "base_backend_candidate": "263d1106dba6185f198b78591d5260fb418444fa06f3d4c91f55955e4b894182",
+  "accepted_design_sha256": "1d4d963306e4625404ccb8927e99468afff08aad82904627794937fba51fe2dd",
+  "files": [
+    {
+      "path": "backend-fork/backend/crates/platform/provisioning/tests/account_locking.rs",
+      "sha256": "34f34c94ab68357eb0a1a51ee32e3295ee1a0d0fbd00d1761e2b971eaee95256",
+      "tests": 11
+    },
+    {
+      "path": "backend-fork/backend/crates/identity/adapter-postgres/tests/account_locking.rs",
+      "sha256": "37c1fa443cd85a4ec46403333de4d307db767fb0f19351035b80759d5a4ccdf6",
+      "tests": 3
+    }
+  ],
+  "review_status": "pending_exact_partial_test_review",
+  "limitations": "All coordinated writers require approved tests before implementation"
+}

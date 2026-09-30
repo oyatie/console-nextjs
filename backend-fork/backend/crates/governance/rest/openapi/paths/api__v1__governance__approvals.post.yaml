@@ -1,0 +1,43 @@
+tags: [Governance]
+operationId: createGovernanceApproval
+security:
+  - bearerAuth: []
+summary: Open a pending four-eyes approval request
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        required: [request_ref, kind]
+        properties:
+          request_ref: { type: string, format: uuid }
+          kind: { type: string, maxLength: 80 }
+          target_ref:
+            type: string
+            format: uuid
+            nullable: true
+            description: >-
+              The object this approval is FOR (a hold id, a workflow definition id, an
+              ontology instance id). A four-eyes gate binds the approval to the action's
+              target, so an approval decided for one object can never satisfy a gate for
+              another. Omit for create-style actions with no pre-existing target.
+          payload_summary: { type: object, additionalProperties: true }
+responses:
+  '201':
+    description: Pending approval request created
+    content:
+      application/json:
+        schema:
+          type: object
+          required: [id, request_ref, kind, requested_by, payload_summary, created_at]
+          properties:
+            id: { type: string, format: uuid }
+            request_ref: { type: string, format: uuid }
+            kind: { type: string }
+            requested_by: { type: string, format: uuid }
+            payload_summary: { type: object, additionalProperties: true }
+            created_at: { type: string, format: date-time }
+  '403': { description: Forbidden }
+  '409': { description: A request already exists for this ref }
+  '422': { description: Validation error }

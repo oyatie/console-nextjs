@@ -1,0 +1,30 @@
+tags:
+  - mail
+operationId: getMailThread
+summary: Get one thread with its messages
+description: Returns the thread and its messages (oldest first). body_html is returned verbatim and MUST be sanitized
+  by the client before render. RLS-armed to the caller's org. Requires the MailUse feature.
+security:
+- bearerAuth: []
+parameters:
+- name: id
+  in: path
+  required: true
+  schema:
+    type: string
+    format: uuid
+responses:
+  '200':
+    description: The thread and its ordered messages.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/MailThreadDetail'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '503':
+    $ref: '#/components/responses/MailUnavailable'

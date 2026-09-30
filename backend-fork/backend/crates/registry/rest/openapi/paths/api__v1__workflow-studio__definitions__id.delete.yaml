@@ -1,0 +1,41 @@
+tags:
+  - workflow-studio
+operationId: archiveWorkflowDefinition
+summary: Delete a draft workflow definition
+description: Soft-deletes a DRAFT workflow definition by moving the mutable pointer to RETIRED while preserving
+  append-only versions, change events, and audit evidence. Requires a fresh passkey step-up assertion.
+security:
+- bearerAuth: []
+parameters:
+- name: id
+  in: path
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/WorkflowStepUpRequest'
+responses:
+  '200':
+    description: Archived workflow definition draft.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/WorkflowDefinitionResponse'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '409':
+    $ref: '#/components/responses/Conflict'
+  '428':
+    description: Fresh passkey step-up is required.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ErrorBody'

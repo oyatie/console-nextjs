@@ -1,0 +1,18 @@
+type: object
+required:
+- attr
+- op
+- value
+properties:
+  attr:
+    type: string
+  op:
+    type: string
+    enum:
+    - eq
+    - ne
+    - contains
+  value:
+    type: object
+    description: 'Tagged right-hand side: {kind: literal|subject_attr|bool, value: ...}.'
+    additionalProperties: true

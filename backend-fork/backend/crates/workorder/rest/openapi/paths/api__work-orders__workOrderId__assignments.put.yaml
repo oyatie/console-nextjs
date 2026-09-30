@@ -1,0 +1,21 @@
+tags:
+  - work-orders
+operationId: assignWorkOrder
+summary: Assign mechanics and approval-line approvers
+security:
+- bearerAuth: []
+parameters:
+- $ref: '#/components/parameters/WorkOrderId'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/AssignWorkOrderRequest'
+responses:
+  '200':
+    description: Assigned work order.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/WorkOrderSummary'

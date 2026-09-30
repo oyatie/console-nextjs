@@ -1,0 +1,12 @@
+operationId: releaseProductionPlan
+tags: [Production]
+security: [{bearerAuth: []}]
+parameters:
+- name: plan_id
+  in: path
+  required: true
+  schema: {$ref: '#/components/schemas/Uuid'}
+requestBody: {required: true, content: {application/json: {schema: {$ref: '#/components/schemas/ReleaseProductionPlan'}}}}
+responses:
+  '200': {description: Plan and first operation released exactly once, content: {application/json: {schema: {$ref: '#/components/schemas/ProductionPlan'}}}}
+  '409': {$ref: '#/components/responses/Conflict'}

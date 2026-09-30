@@ -1,0 +1,25 @@
+tags:
+- notices
+operationId: getNoticeProgress
+summary: 수령확인 progress (done/total) for one notice (NoticeManage only)
+security:
+- bearerAuth: []
+parameters:
+- name: id
+  in: path
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+responses:
+  '200':
+    description: Acknowledgment progress.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/NoticeProgress'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'

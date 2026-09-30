@@ -1,0 +1,3 @@
+type: string
+description: Server-derived classification; verified replicas of derivative copies never become evidence-equivalent originals.
+enum: [VERIFIED_ORIGINAL, ORIGINAL_UNVERIFIED, NON_EVIDENTIARY_DERIVATIVE]

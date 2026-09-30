@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: console-object-store
+  labels:
+    app.kubernetes.io/name: console-object-store
+    app.kubernetes.io/part-of: console
+    console.nousresearch.com/dark-stage: "true"
+    console.nousresearch.com/context: "onprem"
+    pod-security.kubernetes.io/enforce: restricted
+    pod-security.kubernetes.io/enforce-version: latest

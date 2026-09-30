@@ -1,0 +1,49 @@
+type: object
+required:
+- funnel
+- aging_hours
+- aging_work_orders
+- sla_breached
+- sla_at_risk
+- mechanic_load
+- equipment_status
+- active_substitutions
+- pending_approvals
+- open_support_tickets
+properties:
+  funnel:
+    $ref: '#/components/schemas/OpsFunnel'
+  aging_hours:
+    type: integer
+    format: int32
+    minimum: 0
+  aging_work_orders:
+    type: integer
+    format: int32
+    minimum: 0
+  sla_breached:
+    type: integer
+    format: int32
+    minimum: 0
+  sla_at_risk:
+    type: integer
+    format: int32
+    minimum: 0
+  mechanic_load:
+    type: array
+    items:
+      $ref: '#/components/schemas/OpsMechanicLoad'
+  equipment_status:
+    $ref: '#/components/schemas/OpsEquipmentStatus'
+  active_substitutions:
+    type: integer
+    format: int32
+    minimum: 0
+  pending_approvals:
+    type: integer
+    format: int32
+    minimum: 0
+  open_support_tickets:
+    type: integer
+    format: int32
+    minimum: 0

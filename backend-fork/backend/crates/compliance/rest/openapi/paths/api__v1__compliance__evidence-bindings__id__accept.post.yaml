@@ -1,0 +1,18 @@
+tags: [Compliance]
+operationId: acceptComplianceEvidenceBinding
+summary: Accept a proposed compliance evidence binding
+description: >-
+  Applies the immutable PROPOSED-to-ACCEPTED lifecycle action. The server
+  preserves evidence identity and provenance and records an audit snapshot.
+security: [{ bearerAuth: [] }]
+parameters:
+- { name: id, in: path, required: true, schema: { $ref: '#/components/schemas/Uuid' } }
+responses:
+  '200': { description: Accepted evidence binding., content: { application/json: { schema: { $ref: '#/components/schemas/EvidenceBinding' } } } }
+  '401': { $ref: '#/components/responses/Unauthorized' }
+  '403': { $ref: '#/components/responses/Forbidden' }
+  '404': { $ref: '#/components/responses/NotFound' }
+  '409': { $ref: '#/components/responses/Conflict' }
+  '422': { $ref: '#/components/responses/ValidationError' }
+  '500': { $ref: '#/components/responses/InternalServerError' }
+  '503': { $ref: '#/components/responses/ServiceUnavailable' }

@@ -1,0 +1,25 @@
+type: object
+description: A §61 연차 사용 촉진 push to a target employee.
+required:
+- branch_id
+- target_user_id
+- target_employee_id
+- target_name
+- round
+properties:
+  branch_id:
+    $ref: '#/components/schemas/Uuid'
+  target_user_id:
+    $ref: '#/components/schemas/Uuid'
+  target_employee_id:
+    $ref: '#/components/schemas/Uuid'
+  target_name:
+    type: string
+  round:
+    type: integer
+    format: int32
+    description: §61 round — 1 (사용 촉구) or 2 (시기 지정).
+  unused_days:
+    type: number
+    format: double
+    description: Unused annual-leave days motivating the push.

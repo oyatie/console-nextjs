@@ -1,0 +1,5 @@
+      description: Rate limit exceeded for this client; retry later.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorBody'

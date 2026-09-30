@@ -1,0 +1,30 @@
+apiVersion: openslo/v1
+kind: SLO
+metadata:
+  name: console-api-latency
+  displayName: Console API p99 latency
+  labels:
+    service: console-app-api
+    tier: platform
+spec:
+  description: Console API p99 HTTP latency remains below 500ms over a rolling 30 day window.
+  service: console-app-api
+  indicator:
+    metadata:
+      name: console-api-http-p99-latency
+      displayName: Console API HTTP p99 latency
+    spec:
+      thresholdMetric:
+        metricSource:
+          type: Prometheus
+          spec:
+            query: histogram_quantile(0.99, sum(rate(http_server_request_duration_seconds_bucket{service_name="console-app-api"}[5m])) by (le))
+  timeWindow:
+    - duration: 30d
+      isRolling: true
+  budgetingMethod: Occurrences
+  objectives:
+    - displayName: p99 latency below 500ms
+      op: lte
+      value: 0.5
+      target: 0.99

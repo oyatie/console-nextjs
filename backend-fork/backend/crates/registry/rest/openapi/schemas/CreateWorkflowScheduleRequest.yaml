@@ -1,0 +1,16 @@
+type: object
+required: [label, cron_expr, definition_id]
+properties:
+  label:
+    type: string
+    maxLength: 120
+  cron_expr:
+    type: string
+  timezone:
+    type: string
+    description: IANA timezone the cron pattern is evaluated in (default Asia/Seoul).
+  definition_id:
+    $ref: '#/components/schemas/Uuid'
+  enabled:
+    type: boolean
+    default: true

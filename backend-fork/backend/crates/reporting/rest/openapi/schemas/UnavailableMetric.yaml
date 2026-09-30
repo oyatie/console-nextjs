@@ -1,0 +1,12 @@
+type: object
+required:
+- metric
+- source_domain
+- reason
+properties:
+  metric:
+    $ref: '#/components/schemas/KpiMetric'
+  source_domain:
+    type: string
+  reason:
+    type: string

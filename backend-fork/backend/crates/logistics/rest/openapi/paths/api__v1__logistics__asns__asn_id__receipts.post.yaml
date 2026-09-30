@@ -1,0 +1,7 @@
+tags: [logistics]
+operationId: receiveLogisticsAsn
+summary: Record an idempotent full or partial receipt; over-receipt is rejected
+security: [{ bearerAuth: [] }]
+parameters: [{ name: asn_id, in: path, required: true, schema: { $ref: '#/components/schemas/Uuid' } }, { name: Idempotency-Key, in: header, required: true, schema: { type: string, minLength: 16, maxLength: 200 } }]
+requestBody: { required: true, content: { application/json: { schema: { type: object, required: [branchId, receivedQuantity], properties: { branchId: { $ref: '#/components/schemas/Uuid' }, receivedQuantity: { type: integer, minimum: 1 } } } } } }
+responses: { '200': { description: Receipt recorded or replayed, content: { application/json: { schema: { $ref: '#/components/schemas/LogisticsAsnReceipt' } } } }, '409': { description: "Conflicting replay, over-receipt, or illegal state" }, '422': { $ref: '#/components/responses/ValidationError' } }

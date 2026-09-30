@@ -1,0 +1,87 @@
+# VictoriaMetrics single-node metrics store for the DARK observability stage.
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: victoriametrics-data
+  namespace: console-observability
+  labels:
+    app.kubernetes.io/name: victoriametrics
+    app.kubernetes.io/part-of: console-observability
+spec:
+  accessModes: ["ReadWriteOnce"]
+  resources:
+    requests:
+      storage: 20Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: victoriametrics
+  namespace: console-observability
+  labels:
+    app.kubernetes.io/name: victoriametrics
+    app.kubernetes.io/part-of: console-observability
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: victoriametrics
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: victoriametrics
+        app.kubernetes.io/part-of: console-observability
+    spec:
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        seccompProfile: { type: RuntimeDefault }
+      containers:
+        - name: vmsingle
+          image: victoriametrics/victoria-metrics:v1.111.0
+          args:
+            - -storageDataPath=/vmdata
+            - -retentionPeriod=30d
+            - -httpListenAddr=:8428
+          ports:
+            - { name: http, containerPort: 8428, protocol: TCP }
+          readinessProbe:
+            httpGet: { path: /health, port: http }
+            periodSeconds: 10
+          livenessProbe:
+            httpGet: { path: /health, port: http }
+            periodSeconds: 30
+          resources:
+            requests: { cpu: 50m, memory: 128Mi }
+            limits: { cpu: "1", memory: 512Mi }
+          securityContext:
+            allowPrivilegeEscalation: false
+            # VictoriaMetrics writes only to -storageDataPath (/vmdata, PVC), so
+            # the root filesystem can stay read-only with no extra tmpfs mounts.
+            readOnlyRootFilesystem: true
+            capabilities: { drop: [ALL] }
+          volumeMounts:
+            - { name: data, mountPath: /vmdata }
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: victoriametrics-data
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: victoriametrics
+  namespace: console-observability
+  labels:
+    app.kubernetes.io/name: victoriametrics
+    app.kubernetes.io/part-of: console-observability
+spec:
+  selector:
+    app.kubernetes.io/name: victoriametrics
+  ports:
+    - { name: http, port: 8428, targetPort: http, protocol: TCP }

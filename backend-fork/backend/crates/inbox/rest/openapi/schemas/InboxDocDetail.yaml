@@ -1,0 +1,13 @@
+type: object
+description: >-
+  A single inbox document. Extends InboxDocSummary with the body
+  `payload`, present only when readable (a payslip, or an already-confirmed
+  legal notice) and omitted while a legal notice is locked.
+allOf:
+- $ref: '#/components/schemas/InboxDocSummary'
+- type: object
+  properties:
+    payload:
+      type: object
+      additionalProperties: true
+      description: Rendered document payload (legal prose paragraphs, or payslip figures).

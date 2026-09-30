@@ -1,0 +1,62 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: default-deny-imessage-relay-egress
+  namespace: console
+spec:
+  podSelector:
+    matchLabels: { app: imessage-relay }
+  policyTypes: [Egress]
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-imessage-relay-ingress-private-callers
+  namespace: console
+  annotations:
+    console.knllogistic.com/caller-boundary: "patch TEST-NET placeholder to the exact private caller CIDR before enabling."
+spec:
+  podSelector:
+    matchLabels: { app: imessage-relay }
+  policyTypes: [Ingress]
+  ingress:
+    - from:
+        - ipBlock:
+            cidr: 192.0.2.0/24
+      ports:
+        - { protocol: TCP, port: 8080 }
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-imessage-relay-egress-dns
+  namespace: console
+spec:
+  podSelector:
+    matchLabels: { app: imessage-relay }
+  policyTypes: [Egress]
+  egress:
+    - to:
+        - namespaceSelector:
+            matchLabels: { kubernetes.io/metadata.name: kube-system }
+      ports:
+        - { protocol: UDP, port: 53 }
+        - { protocol: TCP, port: 53 }
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-imessage-relay-egress-private-bridge
+  namespace: console
+  annotations:
+    console.knllogistic.com/bridge-private-auth: "macOS Messages bridge over mTLS, VPN, or private endpoint; patch TEST-NET placeholder to the exact private bridge CIDR before enabling."
+spec:
+  podSelector:
+    matchLabels: { app: imessage-relay }
+  policyTypes: [Egress]
+  egress:
+    - to:
+        - ipBlock:
+            cidr: 192.0.2.0/24
+      ports:
+        - { protocol: TCP, port: 443 }

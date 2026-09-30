@@ -1,0 +1,13 @@
+tags: [evaluation]
+operationId: getEvaluationSubject
+summary: Get an evaluation subject
+description: Submit-only callers receive 404 for subjects not assigned to them; read-capable callers can read visible subjects.
+security: [{ bearerAuth: [] }]
+parameters: [{ $ref: '#/components/parameters/EvaluationSubjectId' }]
+responses:
+  '200': { description: Evaluation subject., content: { application/json: { schema: { $ref: '#/components/schemas/EvaluationSubjectDetail' } } } }
+  '401': { $ref: '#/components/responses/Unauthorized' }
+  '403': { $ref: '#/components/responses/Forbidden' }
+  '404': { $ref: '#/components/responses/NotFound' }
+  '500': { $ref: '#/components/responses/InternalServerError' }
+  '503': { $ref: '#/components/responses/ServiceUnavailable' }

@@ -1,0 +1,21 @@
+tags:
+  - daily-work-plans
+operationId: reviewDailyWorkPlan
+summary: Review a daily work plan
+security:
+- bearerAuth: []
+parameters:
+- $ref: '#/components/parameters/PlanId'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/ReviewDailyPlanRequest'
+responses:
+  '200':
+    description: Daily plan reviewed.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/DailyPlanSummary'

@@ -1,0 +1,35 @@
+tags:
+- recruiting
+operationId: assessRecruitApplicant
+summary: Record the interview assessment at the INTERVIEW stage (offer prerequisite)
+security:
+- bearerAuth: []
+parameters:
+- name: applicantId
+  in: path
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/AssessRecruitApplicantRequest'
+responses:
+  '200':
+    description: The assessed applicant.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/RecruitApplicant'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '409':
+    $ref: '#/components/responses/Conflict'
+  '422':
+    $ref: '#/components/responses/ValidationError'

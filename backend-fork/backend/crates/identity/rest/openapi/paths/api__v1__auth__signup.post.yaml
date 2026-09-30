@@ -1,0 +1,27 @@
+tags:
+  - auth
+summary: Open self-service signup
+description: Public, unauthenticated open signup. Creates a new lowest-privilege MEMBER account in the default organization
+  and emails it a single-use one-time sign-in code; the caller then redeems that code via `POST /api/v1/auth/otp/redeem`
+  and enrolls a passkey. The response reveals nothing about whether the email was newly registered (no account-existence
+  oracle) and never mints a token. The new account sees the minimal role-gated surface until an admin elevates it. Rate-limited
+  per client (IP and optional device).
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/SignupRequest'
+responses:
+  '202':
+    description: The signup was accepted and a one-time code was sent.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/SignupResponse'
+  '400':
+    $ref: '#/components/responses/ValidationError'
+  '429':
+    $ref: '#/components/responses/TooManyRequests'
+  '502':
+    $ref: '#/components/responses/BadGateway'

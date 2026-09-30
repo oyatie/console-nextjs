@@ -1,0 +1,19 @@
+[package]
+name = "console-gate-fabricated-branch"
+version = "0.1.0"
+description = "CI gate: an authorization branch must come from the RESOURCE, never from principal.branch_scope. `BranchScope::All => BranchId::new()` and `Branches(b) => b.iter().next()/.any()` make authorize()'s branch check a tautology on both arms; use authorize_capability (no branch) or authorize_org_wide (all branches) instead."
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[[bin]]
+name = "console-gate-fabricated-branch"
+path = "src/main.rs"
+
+[lib]
+name = "console_gate_fabricated_branch"
+path = "src/lib.rs"
+
+[lints]
+workspace = true

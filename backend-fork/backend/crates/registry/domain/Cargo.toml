@@ -1,0 +1,15 @@
+[package]
+name = "console-registry-domain"
+version = "0.1.0"
+description = "Registry domain entities for equipment, customers, and sites."
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+console-kernel-core = { workspace = true }
+serde = { workspace = true }
+
+[lints]
+workspace = true

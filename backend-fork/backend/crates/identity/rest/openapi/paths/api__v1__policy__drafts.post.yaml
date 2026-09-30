@@ -1,0 +1,32 @@
+operationId: createPolicyDraft
+summary: Create a no-code policy draft
+description: Creates a no-code policy draft; the blocks are normalized and compiled to Cedar text. A draft can never create a
+  live or shadow enforcement row.
+tags:
+- Policy
+security:
+- bearerAuth: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/PolicyCreateDraftRequest'
+responses:
+  '201':
+    description: Draft created.
+    content:
+      application/json:
+        schema:
+          type: object
+          additionalProperties: true
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '409':
+    $ref: '#/components/responses/Conflict'
+  '422':
+    $ref: '#/components/responses/ValidationError'
+  '503':
+    $ref: '#/components/responses/ServiceUnavailable'

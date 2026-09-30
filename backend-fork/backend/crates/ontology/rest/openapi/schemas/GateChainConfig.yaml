@@ -1,0 +1,7 @@
+type: object
+required: [authority, self_checklist, four_eyes, egress_dlp]
+properties:
+  authority: { type: boolean }
+  self_checklist: { type: boolean }
+  four_eyes: { type: boolean }
+  egress_dlp: { type: boolean }

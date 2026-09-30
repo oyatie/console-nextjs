@@ -1,0 +1,56 @@
+operationId: stageObjectTypeRevision
+summary: Stage an object type schema revision
+description: Stages a version+1 revision of an object type schema (draft-staged, governed publish). Immutable published versions
+  are preserved for rollback and as-of schema reads.
+tags:
+- Ontology
+security:
+- bearerAuth: []
+parameters:
+- name: key
+  in: path
+  required: true
+  schema:
+    type: string
+- name: If-Match
+  in: header
+  required: true
+  description: Exactly one strong ontology tenant/key write validator.
+  schema:
+    type: string
+    pattern: '^"ont-object-type-key:[0-9a-f]{32}:r[1-9][0-9]*"$'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/CreateObjectTypeDraft'
+responses:
+  '201':
+    description: Staged schema revision.
+    headers:
+      ETag:
+        description: Strong successor tenant/key write validator.
+        schema: { type: string }
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ObjectTypeSummary'
+  '400':
+    $ref: '#/components/responses/BadRequest'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '409':
+    $ref: '#/components/responses/Conflict'
+  '412':
+    $ref: '#/components/responses/PreconditionFailed'
+  '422':
+    $ref: '#/components/responses/ValidationError'
+  '428':
+    $ref: '#/components/responses/PreconditionRequired'
+  '503':
+    $ref: '#/components/responses/ServiceUnavailable'

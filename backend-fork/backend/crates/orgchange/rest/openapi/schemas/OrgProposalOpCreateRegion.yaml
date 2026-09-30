@@ -1,0 +1,13 @@
+type: object
+additionalProperties: false
+required:
+- op
+- name
+properties:
+  op:
+    type: string
+    enum: [CREATE_REGION]
+  name:
+    type: string
+    minLength: 1
+    maxLength: 120

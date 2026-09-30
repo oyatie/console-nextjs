@@ -1,0 +1,7 @@
+type: object
+required: [obligation_id, regulation_impact_id, relationship]
+properties:
+  obligation_id: { $ref: '#/components/schemas/Uuid' }
+  regulation_impact_id: { $ref: '#/components/schemas/Uuid' }
+  relationship: { $ref: '#/components/schemas/ObligationRegulationRelationship' }
+  rationale: { type: [string, 'null'] }

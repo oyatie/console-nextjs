@@ -1,0 +1,6 @@
+tags: [logistics]
+operationId: releaseLogisticsFulfillment
+summary: Atomically reserve available pilot stock; never oversells
+security: [{ bearerAuth: [] }]
+requestBody: { required: true, content: { application/json: { schema: { type: object, required: [branchId, warehouseCode, sku, requestedQuantity, dueAt], properties: { branchId: { $ref: '#/components/schemas/Uuid' }, warehouseCode: { type: string }, sku: { type: string }, requestedQuantity: { type: integer, minimum: 1 }, dueAt: { $ref: '#/components/schemas/LogisticsTimeTuple' } } } } } }
+responses: { '201': { description: Fulfillment released, content: { application/json: { schema: { $ref: '#/components/schemas/LogisticsFulfillmentReleased' } } } }, '409': { description: Insufficient available stock } }

@@ -1,0 +1,29 @@
+[package]
+name = "console-notices-adapter-postgres"
+version = "0.1.0"
+description = "Postgres adapter for the notice board: draft/publish lifecycle, receipt tracking, and notifications fan-out."
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+console-kernel-core = { workspace = true }
+console-notices-application = { workspace = true }
+console-notices-domain = { workspace = true }
+console-notifications-application = { workspace = true }
+console-notifications-domain = { workspace = true }
+console-platform-db = { workspace = true }
+console-platform-request-context = { workspace = true }
+serde_json = { workspace = true }
+sqlx = { workspace = true }
+thiserror = { workspace = true }
+time = { workspace = true }
+uuid = { workspace = true }
+
+[dev-dependencies]
+console-notifications-adapter-postgres = { workspace = true }
+tokio = { workspace = true, features = ["macros", "rt-multi-thread"] }
+
+[lints]
+workspace = true

@@ -1,0 +1,16 @@
+[package]
+name = "console-inbox-domain"
+version = "0.1.0"
+description = "Pure InboxDoc domain types and validation (statutory-notice vault)."
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+console-kernel-core = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+
+[lints]
+workspace = true

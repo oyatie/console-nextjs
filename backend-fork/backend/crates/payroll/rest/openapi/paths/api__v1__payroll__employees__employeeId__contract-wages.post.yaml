@@ -1,0 +1,65 @@
+tags:
+- payroll
+operationId: createEmployeeContractWage
+summary: Record an effective-dated 근로계약 wage for an employee
+description: >
+  Append-only. A raise is a NEW row with a later `effectiveFrom`; the wage
+  in force on a pay date is the greatest `effectiveFrom <= payDate`. This
+  is payroll's only wage source — `employee_employment_profiles.base_pay`
+  is HR-directory display data with no period label and no effective
+  dating, and payroll never reads it. Amounts are integer won.
+security:
+- bearerAuth: []
+parameters:
+- name: employeeId
+  in: path
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        required: [effective_from, wage_kind, amount_won, monthly_standard_hours]
+        properties:
+          effective_from:
+            type: string
+            format: date
+          wage_kind:
+            type: string
+            enum: [MONTHLY, HOURLY]
+          amount_won:
+            type: integer
+            format: int64
+            minimum: 1
+            description: Integer won. Never a decimal or floating-point amount.
+          monthly_standard_hours:
+            type: integer
+            minimum: 1
+            maximum: 400
+            description: >
+              월 소정근로시간 (209 for a 주40시간 worker, 유급주휴 8시간 포함).
+              The minimum-wage comparator's denominator; mandatory so that a
+              comparison which cannot be made never reads as a pass.
+          source_note:
+            type: string
+            maxLength: 500
+responses:
+  '201':
+    description: The created contract-wage row id.
+    content:
+      application/json:
+        schema:
+          type: object
+          required: [id]
+          properties:
+            id:
+              $ref: '#/components/schemas/Uuid'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '422':
+    $ref: '#/components/responses/ValidationError'

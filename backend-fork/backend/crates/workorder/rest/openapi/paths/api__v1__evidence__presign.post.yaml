@@ -1,0 +1,31 @@
+tags:
+  - evidence
+operationId: presignEvidenceUpload
+summary: Issue a presigned upload ticket for work-order evidence
+security:
+- bearerAuth: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/EvidencePresignRequest'
+responses:
+  '200':
+    description: Presigned evidence upload ticket.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/EvidencePresignResponse'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '503':
+    description: Evidence storage is not configured.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ErrorBody'

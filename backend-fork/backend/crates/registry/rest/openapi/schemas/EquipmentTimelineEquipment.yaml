@@ -1,0 +1,39 @@
+type: object
+required:
+- equipment_id
+- branch_id
+- equipment_no
+- status
+- customer_id
+- customer_name
+- site_id
+- site_name
+properties:
+  equipment_id:
+    $ref: '#/components/schemas/Uuid'
+  branch_id:
+    $ref: '#/components/schemas/Uuid'
+  equipment_no:
+    type: string
+  management_no:
+    type:
+    - string
+    - 'null'
+  status:
+    $ref: '#/components/schemas/EquipmentStatus'
+  model:
+    type:
+    - string
+    - 'null'
+  maker:
+    type:
+    - string
+    - 'null'
+  customer_id:
+    $ref: '#/components/schemas/Uuid'
+  customer_name:
+    type: string
+  site_id:
+    $ref: '#/components/schemas/Uuid'
+  site_name:
+    type: string

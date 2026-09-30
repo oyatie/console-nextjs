@@ -1,0 +1,58 @@
+tags:
+  - exports
+operationId: getKpiExport
+summary: Export the KPI rollup workbook
+description: Exports the same branch-scoped KPI rollups served by GET /api/v1/kpi as a downloadable Excel workbook.
+security:
+- bearerAuth: []
+parameters:
+- name: period
+  in: query
+  required: true
+  schema:
+    type: string
+    pattern: ^[0-9]{4}-[0-9]{2}-[0-9]{2}\.\.[0-9]{4}-[0-9]{2}-[0-9]{2}$
+  example: 2026-06-01..2026-07-01
+  description: Inclusive start date and exclusive end date in UTC day boundaries.
+- name: scope
+  in: query
+  required: false
+  schema:
+    type: string
+    default: company
+  examples:
+    company:
+      value: company
+    region:
+      value: region:00000000-0000-0000-0000-000000000000
+    branch:
+      value: branch:00000000-0000-0000-0000-000000000000
+    technician:
+      value: technician:00000000-0000-0000-0000-000000000000
+responses:
+  '200':
+    description: KPI rollup workbook.
+    headers:
+      Content-Disposition:
+        schema:
+          type: string
+        description: Attachment filename for the generated workbook.
+    content:
+      application/vnd.openxmlformats-officedocument.spreadsheetml.sheet:
+        schema:
+          type: string
+          format: binary
+  '400':
+    $ref: '#/components/responses/ValidationError'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '422':
+    $ref: '#/components/responses/ValidationError'
+  '503':
+    description: JWT verification is not configured.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ErrorBody'

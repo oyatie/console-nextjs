@@ -1,0 +1,48 @@
+tags:
+  - office
+operationId: createOfficeSession
+summary: Issue a signed DocumentServer editor config for a document
+description: Returns the ONLYOFFICE editor configuration (with its signed JWT) for the LATEST version of a document.
+  The host owns storage/versions/PBAC; document.key is a per-version hash so the editor never serves a stale cache;
+  permissions map from the caller's authz (slice 0 gates on LifecycleManage). Slice 0 opens an EXISTING document
+  (initial-version creation is a records-module concern).
+security:
+- bearerAuth: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        required: [documentRef]
+        properties:
+          documentRef:
+            type: string
+            minLength: 1
+            maxLength: 200
+            description: Trimmed logical document reference; control characters are rejected.
+responses:
+  '200':
+    description: The editor config to hand to DocumentServer.
+    content:
+      application/json:
+        schema:
+          type: object
+          required: [documentServerUrl, config]
+          properties:
+            documentServerUrl:
+              type: string
+            config:
+              type: object
+              description: The ONLYOFFICE DocEditor config object, carrying its signed `token`.
+              additionalProperties: true
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '422':
+    $ref: '#/components/responses/ValidationError'
+  '503':
+    description: Office editor or document storage is not configured.

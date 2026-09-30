@@ -1,0 +1,49 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n                    SELECT\n                        COUNT(*) FILTER (WHERE status = '임대') AS \"rented!\",\n                        COUNT(*) FILTER (WHERE status = '예비') AS \"spare!\",\n                        COUNT(*) FILTER (WHERE status = '폐기') AS \"scrapped!\",\n                        COUNT(*) FILTER (WHERE status = '대체') AS \"replacement!\",\n                        COUNT(*) FILTER (WHERE status = '매각') AS \"sold!\"\n                    FROM registry_equipment\n                    ",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "rented!",
+        "type_info": "Int8",
+        "origin": "Expression"
+      },
+      {
+        "ordinal": 1,
+        "name": "spare!",
+        "type_info": "Int8",
+        "origin": "Expression"
+      },
+      {
+        "ordinal": 2,
+        "name": "scrapped!",
+        "type_info": "Int8",
+        "origin": "Expression"
+      },
+      {
+        "ordinal": 3,
+        "name": "replacement!",
+        "type_info": "Int8",
+        "origin": "Expression"
+      },
+      {
+        "ordinal": 4,
+        "name": "sold!",
+        "type_info": "Int8",
+        "origin": "Expression"
+      }
+    ],
+    "parameters": {
+      "Left": []
+    },
+    "nullable": [
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  "hash": "0e7459bd54fdc604c27fd9e5b2dd649f646867080deac6dd3088194cbe20298c"
+}

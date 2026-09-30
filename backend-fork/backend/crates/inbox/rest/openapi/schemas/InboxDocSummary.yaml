@@ -1,0 +1,53 @@
+type: object
+description: >-
+  A list-row / confirmation view of one inbox document. Never carries the
+  body `payload` — that is only ever on InboxDocDetail, and only once
+  readable.
+required:
+- id
+- recipient_user_id
+- kind
+- title
+- locked
+- created_at
+properties:
+  id:
+    $ref: '#/components/schemas/Uuid'
+  recipient_user_id:
+    $ref: '#/components/schemas/Uuid'
+  kind:
+    type: string
+    enum: [payslip, legal_notice]
+  notice_type:
+    type: string
+    description: Statutory subtype for a legal notice (근로계약/취업규칙/연차촉진/노무수령거부).
+  title:
+    type: string
+  legal_basis:
+    type: string
+    description: Statutory basis surfaced in the passkey gate (e.g. 근로기준법 §61).
+  source_kind:
+    type: string
+    description: Producing-object kind (e.g. workflow_run, payroll_run).
+  source_id:
+    type: string
+    description: Producing-object id (e.g. the AP- run code).
+  locked:
+    type: boolean
+    description: >-
+      True while a legal notice awaits receipt confirmation — its body is
+      withheld until confirmed. Always false for payslips.
+  confirmed_by:
+    type:
+    - string
+    - 'null'
+    format: uuid
+    description: The recipient who confirmed receipt; null until confirmed.
+  confirmed_at:
+    type:
+    - string
+    - 'null'
+    format: date-time
+    description: When receipt was confirmed (the legal receipt timestamp); null until then.
+  created_at:
+    $ref: '#/components/schemas/Timestamp'

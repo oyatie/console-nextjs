@@ -1,0 +1,18 @@
+type: object
+required:
+- name
+- phone
+- email
+properties:
+  name:
+    type:
+    - string
+    - 'null'
+  phone:
+    type:
+    - string
+    - 'null'
+  email:
+    type:
+    - string
+    - 'null'

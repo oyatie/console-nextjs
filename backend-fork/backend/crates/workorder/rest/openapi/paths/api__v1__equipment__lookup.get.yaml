@@ -1,0 +1,29 @@
+tags:
+  - equipment
+operationId: lookupEquipment
+summary: Resolve branch-scoped equipment by management number
+security:
+- bearerAuth: []
+parameters:
+- name: management_no
+  in: query
+  required: true
+  schema:
+    type: string
+    minLength: 1
+  description: Equipment management number. A leading `#` is accepted and ignored.
+responses:
+  '200':
+    description: Matching equipment, model, customer, and site.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/EquipmentLookupResponse'
+  '400':
+    $ref: '#/components/responses/ValidationError'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'

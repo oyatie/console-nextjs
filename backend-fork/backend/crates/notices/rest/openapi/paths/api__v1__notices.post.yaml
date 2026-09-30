@@ -1,0 +1,25 @@
+tags:
+- notices
+operationId: createNoticeDraft
+summary: Create a draft notice (NoticeManage only)
+security:
+- bearerAuth: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/CreateNoticeDraftRequest'
+responses:
+  '201':
+    description: Draft notice created.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/NoticeSummary'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '422':
+    $ref: '#/components/responses/ValidationError'

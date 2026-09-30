@@ -1,0 +1,10 @@
+tags: [benefit-catalog]
+operationId: createBenefitCatalogItem
+summary: Create an audited benefit catalog item
+security: [{ bearerAuth: [] }]
+requestBody: { required: true, content: { application/json: { schema: { $ref: '#/components/schemas/BenefitCatalogCreateRequest' } } } }
+responses:
+  '201': { description: Created audited row, content: { application/json: { schema: { $ref: '#/components/schemas/BenefitCatalogItem' } } } }
+  '401': { $ref: '#/components/responses/Unauthorized' }
+  '403': { $ref: '#/components/responses/Forbidden' }
+  '422': { $ref: '#/components/responses/ValidationError' }

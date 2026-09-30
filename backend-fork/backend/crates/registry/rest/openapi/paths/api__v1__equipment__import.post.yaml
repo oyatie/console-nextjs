@@ -1,0 +1,37 @@
+tags:
+  - equipment
+operationId: importEquipmentMasterList
+summary: Import the 지게차 master-list workbook into a fresh registry
+description: Org-wide-authority-gated (SUPER_ADMIN for built-in roles; MasterListImport) multipart upload of the K&L
+  master-list .xlsx. The importer writes the tenant HQ master and therefore denies branch-scoped ADMIN principals. Upserts
+  equipment by equipment number and returns a created/updated/error summary.
+security:
+- bearerAuth: []
+requestBody:
+  required: true
+  content:
+    multipart/form-data:
+      schema:
+        type: object
+        required:
+        - file
+        properties:
+          file:
+            type: string
+            format: binary
+            description: The master-list .xlsx workbook.
+responses:
+  '200':
+    description: Per-row import summary.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/RegistryImportReport'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '422':
+    $ref: '#/components/responses/ValidationError'
+  '503':
+    description: JWT verification is not configured.

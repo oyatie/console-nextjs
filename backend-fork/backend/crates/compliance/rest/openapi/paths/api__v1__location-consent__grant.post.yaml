@@ -1,0 +1,27 @@
+tags:
+  - location-consent
+operationId: grantLocationConsent
+summary: Grant GPS location collection consent
+security:
+- bearerAuth: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/LocationConsentTransitionRequest'
+responses:
+  '200':
+    description: Updated location consent status.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/LocationConsentStatus'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '409':
+    $ref: '#/components/responses/Conflict'
+  '422':
+    $ref: '#/components/responses/ValidationError'

@@ -1,0 +1,28 @@
+type: object
+required:
+- release_cycle
+- console_route_events
+- legacy_route_events
+- rum_error_events
+- rum_perf_p95_ms
+- last_event_at
+properties:
+  release_cycle:
+    type: string
+  console_route_events:
+    type: integer
+    format: int64
+  legacy_route_events:
+    type: integer
+    format: int64
+  rum_error_events:
+    type: integer
+    format: int64
+  rum_perf_p95_ms:
+    type:
+    - integer
+    - 'null'
+    format: int64
+  last_event_at:
+    type: string
+    format: date-time

@@ -1,0 +1,69 @@
+type: object
+description: One leave request in the approval queue (결재함 leave variant).
+required:
+- id
+- branch_id
+- requester_user_id
+- subject_employee_id
+- leave_type
+- days
+- start_date
+- end_date
+- reason
+- status
+- decided_by
+- decided_at
+- created_at
+properties:
+  id:
+    $ref: '#/components/schemas/Uuid'
+  branch_id:
+    $ref: '#/components/schemas/Uuid'
+  requester_user_id:
+    $ref: '#/components/schemas/Uuid'
+  subject_employee_id:
+    $ref: '#/components/schemas/Uuid'
+  leave_type:
+    type: string
+    enum: [annual, half_day]
+  days:
+    type: number
+    format: double
+  start_date:
+    type: string
+    format: date
+  end_date:
+    type: string
+    format: date
+  reason:
+    type: string
+    description: >-
+      Frozen v1 key. Requests filed since the 근로기준법 §60 guardrail carry
+      no 사유 and serialize as an empty string; only historical rows still
+      hold text.
+  status:
+    type: string
+    enum: [pending, approved, time_change_consult, returned, rejected]
+    description: >-
+      `returned`/`rejected` are historical rows only — no decision can
+      produce them since the §60 guardrail. `time_change_consult` is the
+      lawful non-approve outcome.
+  decided_by:
+    type:
+    - string
+    - 'null'
+    format: uuid
+  decided_at:
+    type:
+    - string
+    - 'null'
+    format: date-time
+  decision_comment:
+    type: string
+    description: Mandatory on time_change; present only when set.
+  ap_run_id:
+    type: string
+    format: uuid
+    description: The engine AP- run, when the submittable definition exists.
+  created_at:
+    $ref: '#/components/schemas/Timestamp'

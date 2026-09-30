@@ -1,0 +1,31 @@
+tags:
+  - series
+operationId: createSeries
+summary: Create an SR- series and attach its first instance
+description: 'Creates an org-scoped series with a canonical SR- code and attaches the first instance. The instance
+  must resolve for the caller (deny-by-omission): you cannot found a series on an object you cannot see. Audited.'
+security:
+- bearerAuth: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/CreateSeriesRequest'
+responses:
+  '200':
+    description: The created series with its first resolved instance.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/SeriesDetailResponse'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '409':
+    $ref: '#/components/responses/Conflict'
+  '422':
+    $ref: '#/components/responses/ValidationError'

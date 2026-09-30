@@ -1,0 +1,5 @@
+type: object
+required: [branch_id, source_system]
+properties:
+  branch_id: {$ref: '#/components/schemas/Uuid'}
+  source_system: {type: string, minLength: 1, maxLength: 80}

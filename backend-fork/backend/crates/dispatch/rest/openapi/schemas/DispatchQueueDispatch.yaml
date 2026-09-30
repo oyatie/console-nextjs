@@ -1,0 +1,10 @@
+type: object
+required: [id, status, accept_window_ends_at, target_count, accepted_count, declined_count, manual_call_required]
+properties:
+  id: { $ref: '#/components/schemas/Uuid' }
+  status: { $ref: '#/components/schemas/DispatchStatus' }
+  accept_window_ends_at: { $ref: '#/components/schemas/Timestamp' }
+  target_count: { type: integer, format: int64 }
+  accepted_count: { type: integer, format: int64 }
+  declined_count: { type: integer, format: int64 }
+  manual_call_required: { type: boolean }

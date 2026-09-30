@@ -1,0 +1,53 @@
+tags:
+  - me
+operationId: listMyInboxDocs
+summary: List the authenticated user's statutory-notice vault (개인 수신함)
+description: >-
+  Metadata only — a locked legal notice's body never appears in the list.
+  The recipient is bound from the JWT; a non-recipient sees nothing.
+security:
+- bearerAuth: []
+parameters:
+- name: filter
+  in: query
+  required: false
+  description: >-
+    확인 필요 (`action`) = legal notices awaiting receipt; 급여명세 (`pay`) =
+    payslips; 완료 (`done`) = confirmed; 전체 (`all`, default).
+  schema:
+    type: string
+    enum: [action, pay, done, all]
+- name: before
+  in: query
+  required: false
+  description: Keyset cursor; return documents strictly older than this id.
+  schema:
+    $ref: '#/components/schemas/Uuid'
+- name: limit
+  in: query
+  required: false
+  description: Page size (clamped server-side to 1..=200; default 50).
+  schema:
+    type: integer
+    format: int64
+responses:
+  '200':
+    description: A page of the caller's inbox documents.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/InboxDocPage'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '422':
+    description: Unknown filter value.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ErrorBody'
+  '503':
+    description: JWT verification is not configured.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ErrorBody'

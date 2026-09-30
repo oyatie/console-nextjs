@@ -1,0 +1,68 @@
+[package]
+name = "console-ontology-rest"
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+console-contracts = { path = "../../contracts" }
+axum.workspace = true
+console-ontology-adapter-postgres = { path = "../adapter-postgres" }
+console-ontology-application = { path = "../application" }
+# The CONTRACT crate (domain layer, no sqlx/axum/tokio): `DispatchTarget`,
+# `ObjectKey` and `CanonicalPort`. This is what makes projected dispatch a
+# DERIVATION over the roster instead of a hand-maintained target table — the
+# registry keys on `DispatchTarget::object()`, so a new target needs no code
+# here. It is NOT a domain-adapter edge: no port implementation is reachable
+# from this crate, only the trait its App-tier wiring is generic over.
+console-ontology-canonical-domain = { path = "../canonical-domain" }
+console-ontology-domain = { path = "../domain" }
+console-governance-adapter-postgres = { path = "../../governance/adapter-postgres" }
+console-governance-domain = { path = "../../governance/domain" }
+console-kernel-core.workspace = true
+console-platform-auth = { path = "../../platform/auth" }
+console-platform-authz.workspace = true
+console-platform-authz-rest.workspace = true
+console-platform-db.workspace = true
+console-platform-request-context = { workspace = true }
+serde.workspace = true
+serde_json.workspace = true
+sha2.workspace = true
+sqlx.workspace = true
+time.workspace = true
+# `CanonicalPort::execute` is SYNCHRONOUS (the contract crate is tokio-free by
+# the layer rule), so the async dispatcher reaches it through `spawn_blocking`.
+tokio.workspace = true
+tracing.workspace = true
+uuid.workspace = true
+
+[dev-dependencies]
+console-governance-application = { path = "../../governance/application" }
+# Dev-only: publishing an object type is four ordered HTTP calls, two of which
+# are governance approvals. Driving that ladder over HTTP ONLY — which is the
+# whole point of `object_type_lifecycle_over_http` — needs the governance router
+# merged alongside this one, exactly as `build_router` merges them. A rest -> rest
+# NORMAL dep would trip the layer-boundary gate; it exempts dev-deps (kind = "dev").
+console-governance-rest = { path = "../../governance/rest" }
+console-platform-test-support = { workspace = true }
+p256 = { version = "0.13.2", features = ["ecdsa", "pkcs8", "pem"] }
+tokio.workspace = true
+tower = { workspace = true, features = ["util"] }
+# Dev-only: the projected-dispatch wiring test installs a registry-backed handler
+# to prove a projected_usecase action routes into the OWNING domain use-case
+# (registry.update_equipment) with the domain's own RLS + audit. The production
+# handlers are wired in the App tier (console-app); the ontology REST tier itself must
+# NOT depend on a domain ADAPTER (layer boundary), so these are dev-only. The
+# layer-boundary gate exempts dev-deps (kind = "dev").
+console-ontology-canonical-adapter-postgres = { path = "../canonical-adapter-postgres" }
+# Dev-only: Foundry `payroll.create_run` is a projected_usecase into the
+# existing PayRun writer. The REST crate must not take a production adapter
+# edge on payroll (layer boundary); the gate exempts kind = "dev".
+console-payroll-adapter-postgres = { path = "../../payroll/adapter-postgres" }
+console-registry-adapter-postgres = { workspace = true }
+console-registry-application = { workspace = true }
+console-registry-domain = { workspace = true }
+
+[lints]
+workspace = true

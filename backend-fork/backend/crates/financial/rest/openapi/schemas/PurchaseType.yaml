@@ -1,0 +1,6 @@
+type: string
+enum:
+- REGULAR
+- ONE_OFF
+- OTHER
+- LEGACY_MANUAL

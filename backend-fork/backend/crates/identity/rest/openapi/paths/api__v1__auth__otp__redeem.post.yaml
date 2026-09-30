@@ -1,0 +1,24 @@
+tags:
+  - auth
+summary: First sign-in by redeeming a one-time code
+description: First sign-in for a pre-provisioned user. Redeems a single-use, expiring one-time code (admin-issued, or
+  the cold-start secret) and mints a normal session token pair. The code is consumed atomically on success only; a wrong
+  or expired code returns a single generic 401. Rate-limited per client (IP and optional device). `requires_passkey_setup`
+  is true when the user has no passkey yet, so the client should force passkey enrollment in initial settings.
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/OtpRedeemRequest'
+responses:
+  '200':
+    description: Session token pair plus passkey-setup flag.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/OtpRedeemResponse'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '429':
+    $ref: '#/components/responses/TooManyRequests'

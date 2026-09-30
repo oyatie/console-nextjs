@@ -1,0 +1,26 @@
+apiVersion: policy.sigstore.dev/v1alpha1
+kind: ClusterImagePolicy
+metadata:
+  name: console-ghcr-keyless-signature-audit
+  labels:
+    app.kubernetes.io/name: console
+    app.kubernetes.io/part-of: console-platform
+  annotations:
+    console.knllogistic.com/admission-mode: audit-only
+    console.knllogistic.com/hard-fail-upgrade: "change spec.mode from warn after warning burn-in"
+spec:
+  # Audit/warn first: unsigned or mismatched images are admitted but the API
+  # server returns an admission warning. This is safe for the single-node free
+  # tier while proving the exact policy before hard-fail enforcement.
+  mode: warn
+  images:
+    - glob: ghcr.io/jason931225/console-app
+  authorities:
+    - name: github-actions-keyless-image-release
+      keyless:
+        url: https://fulcio.sigstore.dev
+        identities:
+          - issuer: https://token.actions.githubusercontent.com
+            subjectRegExp: '^https://github\.com/jason931225/console/\.github/workflows/image-release\.yml@refs/(heads/dev|tags/v[0-9].*)$'
+      ctlog:
+        url: https://rekor.sigstore.dev

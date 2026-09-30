@@ -1,0 +1,31 @@
+tags:
+  - financial
+operationId: executePurchaseRequest
+summary: Execute an approved purchase request and feed the amount into the equipment cost ledger
+security:
+- bearerAuth: []
+parameters:
+- $ref: '#/components/parameters/PurchaseRequestId'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/FinancialStepUpRequest'
+responses:
+  '200':
+    description: Executed purchase request.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/PurchaseRequestSummary'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '409':
+    $ref: '#/components/responses/Conflict'
+  '422':
+    $ref: '#/components/responses/ValidationError'
+  '428':
+    $ref: '#/components/responses/PreconditionRequired'

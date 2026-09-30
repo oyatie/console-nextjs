@@ -1,0 +1,7 @@
+type: string
+description: Derived account-setup state for the console roster. ACTIVE only once the user has enrolled a passkey (can
+  sign in); PENDING_SETUP when created / OTP-issued but not yet enrolled; ARCHIVED when soft-disabled.
+enum:
+- ACTIVE
+- PENDING_SETUP
+- ARCHIVED

@@ -1,0 +1,6 @@
+type: object
+additionalProperties: false
+required: [status]
+properties:
+  status: { type: string, enum: [available, not_available] }
+  projection: { $ref: '#/components/schemas/OwnAttendanceWeek52' }

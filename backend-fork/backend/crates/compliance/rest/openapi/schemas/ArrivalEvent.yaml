@@ -1,0 +1,45 @@
+type: object
+required:
+- id
+- work_order_id
+- site_id
+- work_order_no
+- site_name
+- customer_name
+- mechanic_name
+- latitude
+- longitude
+- kind
+- occurred_at
+properties:
+  id:
+    type: string
+  work_order_id:
+    $ref: '#/components/schemas/Uuid'
+  site_id:
+    $ref: '#/components/schemas/Uuid'
+  work_order_no:
+    type: string
+  site_name:
+    type: string
+  customer_name:
+    type: string
+  mechanic_name:
+    type: string
+  latitude:
+    type:
+    - number
+    - 'null'
+    format: double
+  longitude:
+    type:
+    - number
+    - 'null'
+    format: double
+  kind:
+    type: string
+    enum:
+    - ARRIVAL
+    - DEPARTURE
+  occurred_at:
+    $ref: '#/components/schemas/Timestamp'

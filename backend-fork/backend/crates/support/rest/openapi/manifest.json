@@ -1,0 +1,70 @@
+{
+  "source": "console-support-rest",
+  "paths": {
+    "/api/v1/field/sites": [
+      "get"
+    ],
+    "/api/v1/field/sites/{id}": [
+      "get"
+    ],
+    "/api/v1/support/intake": [
+      "post"
+    ],
+    "/api/v1/support/tickets": [
+      "get",
+      "post"
+    ],
+    "/api/v1/support/tickets/{id}": [
+      "get"
+    ],
+    "/api/v1/support/tickets/{id}/acceptance": [
+      "post"
+    ],
+    "/api/v1/support/tickets/{id}/assign": [
+      "post"
+    ],
+    "/api/v1/support/tickets/{id}/comments": [
+      "post"
+    ],
+    "/api/v1/support/tickets/{id}/link": [
+      "post"
+    ],
+    "/api/v1/support/tickets/{id}/transition": [
+      "post"
+    ]
+  },
+  "schemas": [
+    "AddCommentRequest",
+    "AssignTicketRequest",
+    "CreateInternalTicketRequest",
+    "CustomerIntakeRequest",
+    "FieldAttendanceEvent",
+    "FieldSiteDetail",
+    "FieldSitePage",
+    "FieldSiteRow",
+    "FieldSiteSummary",
+    "FieldSlaState",
+    "FieldSlaSummary",
+    "FieldWorkOrderRef",
+    "LinkSupportTicketRequest",
+    "RecordSupportTicketAcceptanceRequest",
+    "SupportIntakeAck",
+    "SupportTicketAcceptance",
+    "SupportTicketAcceptanceChannel",
+    "SupportTicketAcceptanceKind",
+    "SupportTicketCategory",
+    "SupportTicketComment",
+    "SupportTicketDetail",
+    "SupportTicketOrigin",
+    "SupportTicketPage",
+    "SupportTicketPriority",
+    "SupportTicketStatus",
+    "SupportTicketSummary",
+    "TransitionTicketRequest"
+  ],
+  "external_schemas": [
+    "ErrorBody",
+    "Timestamp",
+    "Uuid"
+  ]
+}

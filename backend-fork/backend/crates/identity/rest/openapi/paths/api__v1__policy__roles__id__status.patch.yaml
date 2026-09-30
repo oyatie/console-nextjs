@@ -1,0 +1,47 @@
+tags:
+  - policy
+operationId: updatePolicyRoleStatus
+summary: Publish, roll back, or retire a tenant custom role
+description: 'Changes a custom role lifecycle state. This is a sensitive policy action: callers must have RoleManage
+  and supply a fresh passkey step-up assertion proving the actor, not just the bearer token, performed the change.'
+security:
+- bearerAuth: []
+parameters:
+- name: id
+  in: path
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/UpdatePolicyRoleStatusRequest'
+responses:
+  '200':
+    description: Updated custom role.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/PolicyRoleResponse'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '422':
+    $ref: '#/components/responses/ValidationError'
+  '428':
+    description: Fresh passkey step-up is required.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ErrorBody'
+  '503':
+    description: JWT or passkey step-up verification is not configured.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ErrorBody'

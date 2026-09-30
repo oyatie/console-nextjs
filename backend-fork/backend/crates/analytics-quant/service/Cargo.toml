@@ -1,0 +1,15 @@
+[package]
+name = "console-analytics-quant-service"
+version = "0.1.0"
+description = "Deterministic statistical projection service (point estimate, CI95, CVaR95) with seeded Monte-Carlo and EVT tail-fit."
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+serde = { workspace = true }
+thiserror = { workspace = true }
+
+[lints]
+workspace = true

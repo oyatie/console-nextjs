@@ -1,0 +1,4 @@
+type: string
+enum:
+- STRAIGHT_LINE
+- DECLINING_BALANCE

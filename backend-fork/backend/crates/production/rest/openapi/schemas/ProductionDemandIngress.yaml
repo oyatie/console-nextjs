@@ -1,0 +1,11 @@
+type: object
+required: [kind, id, inquiry_id, product_code, quantity, due_at, source_id, source_version]
+properties:
+  kind: {type: string, enum: [demand]}
+  id: {$ref: '#/components/schemas/Uuid'}
+  inquiry_id: {$ref: '#/components/schemas/Uuid'}
+  product_code: {type: string, minLength: 1}
+  quantity: {type: integer, format: int64, minimum: 1}
+  due_at: {type: string, format: date-time}
+  source_id: {type: string, minLength: 1, maxLength: 160}
+  source_version: {type: string, minLength: 1, maxLength: 160}

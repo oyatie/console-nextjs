@@ -1,0 +1,15 @@
+tags:
+  - daily-work-plans
+operationId: getDailyWorkPlan
+summary: Read a daily work plan by id
+security:
+- bearerAuth: []
+parameters:
+- $ref: '#/components/parameters/PlanId'
+responses:
+  '200':
+    description: Daily plan found.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/DailyPlanSummary'

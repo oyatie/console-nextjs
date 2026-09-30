@@ -1,0 +1,235 @@
+name: console-prod
+
+x-app-image: &app-image
+  build:
+    context: ..
+    dockerfile: backend/Dockerfile
+  image: console-app:local
+
+x-app-env: &app-env
+  DATABASE_URL: postgresql://console_rt:${CONSOLE_RT_POSTGRES_PASSWORD:?set the runtime database password}@postgres:5432/${CONSOLE_POSTGRES_DB:-console_prod}
+  CONSOLE_SHUTDOWN_TIMEOUT_SECS: "10"
+  OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4317
+  RUST_LOG: ${RUST_LOG:-info,tower_http=info}
+
+services:
+  traefik:
+    image: traefik:v3.7.5
+    command:
+      - --api.dashboard=false
+      - --entrypoints.web.address=:80
+      - --entrypoints.web.http.redirections.entrypoint.to=websecure
+      - --entrypoints.web.http.redirections.entrypoint.scheme=https
+      - --entrypoints.websecure.address=:443
+      - --ping=true
+      - --providers.docker=true
+      - --providers.docker.exposedbydefault=false
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    healthcheck:
+      test: ["CMD", "traefik", "healthcheck", "--ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+      start_period: 10s
+    mem_limit: 256m
+    cpus: 0.5
+    restart: unless-stopped
+
+  postgres:
+    image: postgres:18.4@sha256:65f70a152846cf504dff86e807007e9aeac98c3aeb7b62541b2c55ab9d264e56
+    entrypoint:
+      - bash
+      - -ceu
+      - |
+        mkdir -p /var/lib/postgresql/wal-archive
+        chown -R postgres:postgres /var/lib/postgresql/wal-archive
+        exec docker-entrypoint.sh "$@"
+      - docker-entrypoint-wrapper
+    command:
+      - postgres
+      - -c
+      - wal_level=replica
+      - -c
+      - archive_mode=on
+      - -c
+      - archive_timeout=300s
+      - -c
+      - archive_command=test ! -f /var/lib/postgresql/wal-archive/%f && cp %p /var/lib/postgresql/wal-archive/%f
+      - -c
+      - shared_buffers=512MB
+      - -c
+      - effective_cache_size=1536MB
+      - -c
+      - work_mem=16MB
+      - -c
+      - max_connections=60
+    environment:
+      POSTGRES_DB: ${CONSOLE_POSTGRES_DB:-console_prod}
+      POSTGRES_USER: ${CONSOLE_POSTGRES_ADMIN_USER:-console_cluster_admin}
+      POSTGRES_PASSWORD: ${CONSOLE_POSTGRES_ADMIN_PASSWORD:?set the cluster-admin database password}
+    volumes:
+      - postgres-data:/var/lib/postgresql
+      - postgres-wal-archive:/var/lib/postgresql/wal-archive
+      # Shared only with the one-shot topology reconciler. This local socket is
+      # the guarded recovery path for legacy volumes whose sole superuser is
+      # console_app and therefore cannot yet accept the new admin over TCP.
+      - postgres-socket:/var/run/postgresql
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB} -h 127.0.0.1",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 20s
+    mem_limit: 3g
+    cpus: 2.0
+    restart: unless-stopped
+
+  postgres-topology:
+    image: postgres:18.4@sha256:65f70a152846cf504dff86e807007e9aeac98c3aeb7b62541b2c55ab9d264e56
+    depends_on:
+      postgres:
+        condition: service_healthy
+    entrypoint: ["bash", "/usr/local/bin/postgres-reconcile-topology"]
+    environment:
+      POSTGRES_HOST: postgres
+      POSTGRES_LOCAL_SOCKET_DIR: /var/run/postgresql
+      POSTGRES_DB: ${CONSOLE_POSTGRES_DB:-console_prod}
+      POSTGRES_ADMIN_USER: ${CONSOLE_POSTGRES_ADMIN_USER:-console_cluster_admin}
+      POSTGRES_ADMIN_PASSWORD: ${CONSOLE_POSTGRES_ADMIN_PASSWORD:?set the cluster-admin database password}
+      CONSOLE_APP_POSTGRES_PASSWORD: ${CONSOLE_APP_POSTGRES_PASSWORD:?set the migration-owner database password}
+      CONSOLE_RT_POSTGRES_PASSWORD: ${CONSOLE_RT_POSTGRES_PASSWORD:?set the runtime database password}
+      CONSOLE_LEAVE_COMMAND_POSTGRES_PASSWORD: ${CONSOLE_LEAVE_COMMAND_POSTGRES_PASSWORD:?set a distinct leave command database password}
+      CONSOLE_ONTOLOGY_COMMAND_POSTGRES_PASSWORD: ${CONSOLE_ONTOLOGY_COMMAND_POSTGRES_PASSWORD:?set a distinct ontology command database password}
+      CONSOLE_PLATFORM_FORCE_COMMAND_POSTGRES_PASSWORD: ${CONSOLE_PLATFORM_FORCE_COMMAND_POSTGRES_PASSWORD:?set a distinct platform-force command database password}
+      CONSOLE_ALLOW_LEGACY_CONSOLE_APP_SUPERUSER_CONVERSION: ${CONSOLE_ALLOW_LEGACY_CONSOLE_APP_SUPERUSER_CONVERSION:-0}
+    volumes:
+      - ./postgres-reconcile-topology.sh:/usr/local/bin/postgres-reconcile-topology:ro
+      - postgres-socket:/var/run/postgresql
+    restart: "no"
+
+  migrate:
+    <<: *app-image
+    environment:
+      CONSOLE_APP_ROLE: migrate
+      DATABASE_URL: postgresql://console_app:${CONSOLE_APP_POSTGRES_PASSWORD:?set the migration-owner database password}@postgres:5432/${CONSOLE_POSTGRES_DB:-console_prod}
+    depends_on:
+      postgres-topology:
+        condition: service_completed_successfully
+    restart: "no"
+
+  seaweedfs:
+    image: chrislusf/seaweedfs:4.32
+    command:
+      - server
+      - -s3
+      - -ip=seaweedfs
+      - -ip.bind=0.0.0.0
+      - -dir=/data
+      - -s3.port=8333
+    expose:
+      - "8333"
+    volumes:
+      - seaweedfs-data:/data
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://127.0.0.1:8333/"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 20s
+    mem_limit: 2g
+    cpus: 1.0
+    restart: unless-stopped
+
+  otel-collector:
+    image: otel/opentelemetry-collector:0.154.0
+    command: ["--config=/etc/otelcol/config.yaml"]
+    volumes:
+      - ./otel-collector-config.yml:/etc/otelcol/config.yaml:ro
+    expose:
+      - "4317"
+      - "4318"
+      - "13133"
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "/otelcol",
+          "validate",
+          "--config=/etc/otelcol/config.yaml",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+      start_period: 10s
+    mem_limit: 512m
+    cpus: 0.5
+    restart: unless-stopped
+
+  app:
+    <<: *app-image
+    environment:
+      <<: *app-env
+      CONSOLE_APP_ROLE: api
+      LEAVE_COMMAND_DATABASE_URL: postgresql://console_leave_cmd:${CONSOLE_LEAVE_COMMAND_POSTGRES_PASSWORD:?set a distinct leave command database password}@postgres:5432/${CONSOLE_POSTGRES_DB:-console_prod}
+      ONTOLOGY_COMMAND_DATABASE_URL: postgresql://console_ontology_cmd:${CONSOLE_ONTOLOGY_COMMAND_POSTGRES_PASSWORD:?set a distinct ontology command database password}@postgres:5432/${CONSOLE_POSTGRES_DB:-console_prod}
+      PLATFORM_FORCE_COMMAND_DATABASE_URL: postgresql://console_platform_force_cmd:${CONSOLE_PLATFORM_FORCE_COMMAND_POSTGRES_PASSWORD:?set a distinct platform-force command database password}@postgres:5432/${CONSOLE_POSTGRES_DB:-console_prod}
+      CONSOLE_HTTP_ADDR: 0.0.0.0:8080
+      OTEL_SERVICE_NAME: console-app-api
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+      otel-collector:
+        condition: service_healthy
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.console-app.rule: Host(`${CONSOLE_APP_HOST:-mnt.localhost}`)
+      traefik.http.routers.console-app.entrypoints: websecure
+      traefik.http.routers.console-app.tls: "true"
+      traefik.http.routers.console-app.middlewares: gzip@docker
+      traefik.http.services.console-app.loadbalancer.server.port: "8080"
+      traefik.http.middlewares.gzip.compress: "true"
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://127.0.0.1:8080/readyz"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 10s
+    mem_limit: 2g
+    cpus: 2.0
+    restart: unless-stopped
+
+  worker:
+    <<: *app-image
+    environment:
+      <<: *app-env
+      CONSOLE_APP_ROLE: worker
+      CONSOLE_HTTP_ADDR: 0.0.0.0:8080
+      OTEL_SERVICE_NAME: console-app-worker
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+      otel-collector:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://127.0.0.1:8080/readyz"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 10s
+    mem_limit: 2g
+    cpus: 2.0
+    restart: unless-stopped
+
+volumes:
+  postgres-data:
+  postgres-wal-archive:
+  postgres-socket:
+  seaweedfs-data:

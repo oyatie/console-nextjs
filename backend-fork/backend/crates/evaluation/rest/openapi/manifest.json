@@ -1,0 +1,89 @@
+{
+  "source": "console-evaluation-rest",
+  "paths": {
+    "/api/v1/evaluation/cycles": [
+      "get",
+      "post"
+    ],
+    "/api/v1/evaluation/cycles/{cycle_id}": [
+      "get"
+    ],
+    "/api/v1/evaluation/cycles/{cycle_id}/archive": [
+      "post"
+    ],
+    "/api/v1/evaluation/cycles/{cycle_id}/finalize": [
+      "post"
+    ],
+    "/api/v1/evaluation/cycles/{cycle_id}/open": [
+      "post"
+    ],
+    "/api/v1/evaluation/cycles/{cycle_id}/preflight": [
+      "get"
+    ],
+    "/api/v1/evaluation/cycles/{cycle_id}/start-calibration": [
+      "post"
+    ],
+    "/api/v1/evaluation/employees/{employee_id}/reviews": [
+      "get"
+    ],
+    "/api/v1/evaluation/my-tasks": [
+      "get"
+    ],
+    "/api/v1/evaluation/subjects": [
+      "post"
+    ],
+    "/api/v1/evaluation/subjects/{subject_id}": [
+      "get"
+    ],
+    "/api/v1/evaluation/subjects/{subject_id}/calibrate": [
+      "post"
+    ],
+    "/api/v1/evaluation/subjects/{subject_id}/goals": [
+      "put"
+    ],
+    "/api/v1/evaluation/subjects/{subject_id}/reviews/{kind}": [
+      "put"
+    ],
+    "/api/v1/evaluation/subjects/{subject_id}/reviews/{kind}/submit": [
+      "post"
+    ]
+  },
+  "schemas": [
+    "AddEvaluationSubjectRequest",
+    "CalibrateEvaluationSubjectRequest",
+    "CreateEvaluationCycleRequest",
+    "EvaluationCycleDetail",
+    "EvaluationCycleKind",
+    "EvaluationCyclePage",
+    "EvaluationCycleStage",
+    "EvaluationCycleSummary",
+    "EvaluationCycleTransition",
+    "EvaluationEvidenceKind",
+    "EvaluationEvidenceLink",
+    "EvaluationEvidenceLinkInput",
+    "EvaluationGoal",
+    "EvaluationGoalInput",
+    "EvaluationGrade",
+    "EvaluationLedgerEntry",
+    "EvaluationLedgerPage",
+    "EvaluationMetricKind",
+    "EvaluationPreflightItem",
+    "EvaluationPreflightReport",
+    "EvaluationReview",
+    "EvaluationReviewKind",
+    "EvaluationReviewStatus",
+    "EvaluationSubjectDetail",
+    "EvaluationSubjectState",
+    "EvaluationSubjectSummary",
+    "EvaluationTaskItem",
+    "EvaluationTaskPage",
+    "EvaluationUnitProgress",
+    "ReplaceEvaluationGoalsRequest",
+    "SaveEvaluationReviewRequest"
+  ],
+  "external_schemas": [
+    "Date",
+    "Timestamp",
+    "Uuid"
+  ]
+}

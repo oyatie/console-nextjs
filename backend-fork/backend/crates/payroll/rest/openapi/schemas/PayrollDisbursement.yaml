@@ -1,0 +1,41 @@
+type: object
+required:
+- id
+- run_id
+- scheduled_at
+- status
+- attested_by
+- attested_at
+- reason
+- created_at
+- updated_at
+properties:
+  id:
+    $ref: '#/components/schemas/Uuid'
+  run_id:
+    $ref: '#/components/schemas/Uuid'
+  scheduled_at:
+    $ref: '#/components/schemas/Timestamp'
+  status:
+    type: string
+    enum: [SCHEDULED, SUBMITTED_TO_BANK, PAID, FAILED]
+    description: Operator attestation, never a bank result — no bank API exists.
+  attested_by:
+    type:
+    - string
+    - 'null'
+    format: uuid
+  attested_at:
+    type:
+    - string
+    - 'null'
+    format: date-time
+  reason:
+    type:
+    - string
+    - 'null'
+    description: Retained only while the status is FAILED; cleared on any other attestation.
+  created_at:
+    $ref: '#/components/schemas/Timestamp'
+  updated_at:
+    $ref: '#/components/schemas/Timestamp'

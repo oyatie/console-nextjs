@@ -1,0 +1,8 @@
+type: object
+additionalProperties: false
+required: [scope_type]
+properties:
+  scope_type: { type: string, enum: [ORG, BRANCH, SITE, TEAM, ROLE, EMPLOYEE_SEGMENT] }
+  scope_ref: { $ref: '#/components/schemas/Uuid', nullable: true }
+  branch_id: { $ref: '#/components/schemas/Uuid', nullable: true }
+  site_id: { $ref: '#/components/schemas/Uuid', nullable: true }

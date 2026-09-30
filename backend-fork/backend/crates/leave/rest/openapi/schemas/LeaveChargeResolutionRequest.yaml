@@ -1,0 +1,23 @@
+type: object
+additionalProperties: false
+required:
+- expected_version
+- date_charges
+- calendar_revision_ref
+- policy_revision_ref
+properties:
+  expected_version:
+    type: integer
+    format: int64
+    minimum: 1
+    description: Expected mutable request_version; charge_version is evidence-only.
+  date_charges:
+    type: array
+    minItems: 1
+    items: {$ref: '#/components/schemas/LeaveDateCharge'}
+  calendar_revision_ref: {$ref: '#/components/schemas/LeaveSourceRevisionRef'}
+  policy_revision_ref: {$ref: '#/components/schemas/LeaveSourceRevisionRef'}
+  supporting_source_refs:
+    type: array
+    items: {$ref: '#/components/schemas/LeaveSourceRevisionRef'}
+    default: []

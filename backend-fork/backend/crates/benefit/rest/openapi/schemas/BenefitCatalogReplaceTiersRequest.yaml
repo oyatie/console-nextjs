@@ -1,0 +1,5 @@
+type: object
+additionalProperties: false
+required: [tiers]
+properties:
+  tiers: { type: array, items: { $ref: '#/components/schemas/BenefitCatalogTier' } }

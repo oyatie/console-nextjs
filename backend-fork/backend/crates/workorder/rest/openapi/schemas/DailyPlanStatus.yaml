@@ -1,0 +1,7 @@
+type: string
+enum:
+- DRAFT
+- REQUESTED
+- APPROVED
+- REJECTED
+- FINAL_CONFIRMED

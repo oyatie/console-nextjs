@@ -1,0 +1,26 @@
+type: object
+required:
+- branch_id
+- mechanic_id
+- plan_date
+- items
+properties:
+  branch_id:
+    $ref: '#/components/schemas/Uuid'
+  mechanic_id:
+    $ref: '#/components/schemas/Uuid'
+  plan_date:
+    $ref: '#/components/schemas/Date'
+  items:
+    type: array
+    minItems: 1
+    items:
+      type: object
+      required:
+      - work_order_id
+      - description
+      properties:
+        work_order_id:
+          $ref: '#/components/schemas/Uuid'
+        description:
+          type: string

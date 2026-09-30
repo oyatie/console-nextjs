@@ -1,0 +1,7 @@
+type: object
+required: [control_id, obligation_id, coverage_level]
+properties:
+  control_id: { $ref: '#/components/schemas/Uuid' }
+  obligation_id: { $ref: '#/components/schemas/Uuid' }
+  coverage_level: { $ref: '#/components/schemas/CoverageLevel' }
+  coverage_rationale: { type: [string, 'null'] }

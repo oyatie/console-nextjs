@@ -1,0 +1,14 @@
+# DARK on-prem Talos cluster patch for ADR-0024 roadmap item #6.
+# This patch is consumed by the local machineconfig renderer and embedded as a
+# strategic patch in the CAPI/Metal3 template. It is not referenced by any live
+# Argo/OpenTofu path and does not apply on merge.
+#
+# Pair with deploy/apps/cilium/values.yaml before any operator-approved cutover:
+# Talos does not install a default CNI here, and kube-proxy is disabled so Cilium
+# owns service load-balancing/eBPF replacement for the on-prem substrate.
+cluster:
+  network:
+    cni:
+      name: none
+  proxy:
+    disabled: true

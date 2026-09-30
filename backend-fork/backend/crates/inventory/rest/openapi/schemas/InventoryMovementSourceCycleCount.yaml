@@ -1,0 +1,4 @@
+type: object
+additionalProperties: false
+required: [kind, cycleCountId, ccCode]
+properties: { kind: { type: string, enum: [cycle_count] }, cycleCountId: { $ref: '#/components/schemas/Uuid' }, ccCode: { type: string } }

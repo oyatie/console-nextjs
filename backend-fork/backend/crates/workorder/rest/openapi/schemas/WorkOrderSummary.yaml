@@ -1,0 +1,44 @@
+type: object
+required:
+- id
+- request_no
+- branch_id
+- equipment_id
+- customer_id
+- site_id
+- status
+- priority
+- result_type
+- maintenance_type
+- maintenance_cause
+- evidence_verified
+properties:
+  id:
+    $ref: '#/components/schemas/Uuid'
+  request_no:
+    type: string
+    pattern: ^[0-9]{8}-[0-9]{3}$
+  branch_id:
+    $ref: '#/components/schemas/Uuid'
+  equipment_id:
+    $ref: '#/components/schemas/Uuid'
+  customer_id:
+    $ref: '#/components/schemas/Uuid'
+  site_id:
+    $ref: '#/components/schemas/Uuid'
+  status:
+    $ref: '#/components/schemas/WorkOrderStatus'
+  priority:
+    $ref: '#/components/schemas/PriorityLevel'
+  result_type:
+    $ref: '#/components/schemas/WorkResultType'
+  maintenance_type:
+    oneOf:
+    - type: 'null'
+    - $ref: '#/components/schemas/MaintenanceType'
+  maintenance_cause:
+    oneOf:
+    - type: 'null'
+    - $ref: '#/components/schemas/MaintenanceCause'
+  evidence_verified:
+    type: boolean

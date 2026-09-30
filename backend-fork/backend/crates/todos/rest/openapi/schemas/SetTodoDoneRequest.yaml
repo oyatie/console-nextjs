@@ -1,0 +1,7 @@
+type: object
+required:
+- done
+properties:
+  done:
+    type: boolean
+    description: Explicit target state (true = done, false = undo).

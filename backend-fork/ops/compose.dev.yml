@@ -1,0 +1,40 @@
+services:
+  app:
+    ports:
+      - "127.0.0.1:${CONSOLE_APP_PORT:-8080}:8080"
+    # DEV-ONLY auth wiring so the local stack can actually sign in. The JWT keys
+    # are interpolated from the shell (never committed; see ops/.dev-secrets/,
+    # gitignored). WebAuthn RP is localhost:5173 to match the vite dev server
+    # origin, so passkey enrollment/login work in the browser. NOT for production
+    # — prod injects real secrets per docs/release/SECRETS.md.
+    environment:
+      CONSOLE_JWT_PRIVATE_KEY_PEM: ${CONSOLE_JWT_PRIVATE_KEY_PEM:-}
+      CONSOLE_JWT_PUBLIC_KEY_PEM: ${CONSOLE_JWT_PUBLIC_KEY_PEM:-}
+      CONSOLE_JWT_ISSUER: console-dev
+      CONSOLE_JWT_AUDIENCE: console
+      CONSOLE_WEBAUTHN_RP_ID: localhost
+      CONSOLE_WEBAUTHN_RP_ORIGIN: http://localhost:5173
+      CONSOLE_WEBAUTHN_RP_NAME: "정비 콘솔 (dev)"
+      # DEV-ONLY: the web refresh-token cookie omits the `Secure` attribute so the
+      # browser keeps it over plain http://localhost (a Secure cookie is dropped on
+      # non-HTTPS origins). Production leaves CONSOLE_COOKIE_SECURE at its default (true)
+      # so the cookie is only ever transmitted over HTTPS.
+      CONSOLE_COOKIE_SECURE: "false"
+      # DEV-ONLY cold-start OTP. The fixed "coss0000" secret was removed from
+      # migration 0021 (a committed SUPER_ADMIN OTP); cold-start is now seeded at
+      # app boot from this env var so local dev keeps the coss0000 first-sign-in UX
+      # without baking the secret into version control. NEVER set this in prod —
+      # prod injects a per-deploy secret per docs/release/SECRETS.md.
+      CONSOLE_COLDSTART_OTP: coss0000
+
+  worker:
+    ports:
+      - "127.0.0.1:${CONSOLE_WORKER_PORT:-8081}:8080"
+
+  postgres:
+    ports:
+      - "127.0.0.1:${CONSOLE_POSTGRES_PORT:-5432}:5432"
+
+  seaweedfs:
+    ports:
+      - "127.0.0.1:${CONSOLE_S3_PORT:-8333}:8333"

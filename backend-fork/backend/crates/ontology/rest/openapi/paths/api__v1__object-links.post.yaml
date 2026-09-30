@@ -1,0 +1,29 @@
+tags:
+  - object-links
+operationId: createObjectLink
+summary: Create a generic, audited link between two objects
+description: Creates one directed edge (src -> dst) of a given link_type between two known object kinds. Both kinds
+  must exist in the object-type registry. An identical link is rejected with 409. Audited via with_audit.
+security:
+- bearerAuth: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/CreateObjectLinkRequest'
+responses:
+  '200':
+    description: The created link.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ObjectLinkResponse'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '409':
+    $ref: '#/components/responses/Conflict'
+  '422':
+    $ref: '#/components/responses/ValidationError'

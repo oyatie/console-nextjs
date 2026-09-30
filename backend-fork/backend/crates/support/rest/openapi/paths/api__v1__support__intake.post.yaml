@@ -1,0 +1,27 @@
+tags:
+  - support
+operationId: submitSupportIntake
+summary: Submit a support request from the unauthenticated customer channel
+description: 'Unauthenticated, rate-limited customer intake. Generic validation errors are returned; the customer contact
+  is treated as PII and never echoed or logged.
+
+  '
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/CustomerIntakeRequest'
+responses:
+  '202':
+    description: Support request received.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/SupportIntakeAck'
+  '400':
+    $ref: '#/components/responses/ValidationError'
+  '422':
+    $ref: '#/components/responses/ValidationError'
+  '429':
+    $ref: '#/components/responses/TooManyRequests'

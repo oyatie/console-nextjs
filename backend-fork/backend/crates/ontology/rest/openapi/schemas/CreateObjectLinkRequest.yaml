@@ -1,0 +1,24 @@
+type: object
+description: Request to create a directed link between two known objects.
+required:
+- src_kind
+- src_id
+- dst_kind
+- dst_id
+- link_type
+properties:
+  src_kind:
+    type: string
+    description: Source object kind slug (must be a known object type).
+  src_id:
+    type: string
+    description: Source object id/reference (≤200 chars).
+  dst_kind:
+    type: string
+    description: Destination object kind slug (must be a known object type).
+  dst_id:
+    type: string
+    description: Destination object id/reference (≤200 chars).
+  link_type:
+    type: string
+    description: Relationship label slug (e.g. authorized_by, relates_to, blocks).

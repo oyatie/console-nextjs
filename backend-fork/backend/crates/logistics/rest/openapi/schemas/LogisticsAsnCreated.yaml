@@ -1,0 +1,6 @@
+type: object
+required: [id, status, branchId]
+properties:
+  id: { $ref: '#/components/schemas/Uuid' }
+  status: { type: string, enum: [EXPECTED] }
+  branchId: { $ref: '#/components/schemas/Uuid' }

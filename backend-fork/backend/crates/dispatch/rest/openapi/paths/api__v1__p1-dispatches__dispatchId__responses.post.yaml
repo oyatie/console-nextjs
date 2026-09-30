@@ -1,0 +1,29 @@
+tags:
+  - p1-dispatches
+operationId: respondP1Dispatch
+summary: Accept or decline a P1 dispatch broadcast
+security:
+- bearerAuth: []
+parameters:
+- $ref: '#/components/parameters/DispatchId'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/RespondP1DispatchRequest'
+responses:
+  '200':
+    description: Updated P1 dispatch state.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/P1DispatchSummary'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '409':
+    $ref: '#/components/responses/Conflict'

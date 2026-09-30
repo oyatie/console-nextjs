@@ -1,0 +1,23 @@
+tags:
+  - equipment-by-location
+operationId: listEquipmentByLocation
+summary: Aggregate equipment by site for the dispatch map
+description: Every site visible to the principal with its equipment counts and admin-entered coordinates. Read access
+  (WorkOrderReadAll, all roles); branch-scoped like the substitute search, so a non-SUPER_ADMIN sees only their own
+  branches. Sites with no entered coordinates come back with null latitude/longitude and are listed as ungeocoded rather
+  than pinned.
+security:
+- bearerAuth: []
+responses:
+  '200':
+    description: Sites grouped with equipment counts and coordinates.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/EquipmentByLocationPage'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '503':
+    description: JWT verification is not configured.

@@ -1,0 +1,24 @@
+type: object
+description: The minted single-use, short-lived passkey-enrollment code (returned once, only its hash is stored) plus
+  the ready-to-encode enrollment URL the frontend renders as a QR. The phone opens `enroll_url`, redeems `otp` via the
+  first-sign-in path, enrolls a platform passkey, then approves the paired desktop poll token when `desktop_approve`
+  is present in the URL fragment.
+required:
+- otp
+- expires_at
+- enroll_url
+- poll_token
+properties:
+  otp:
+    type: string
+    description: The single-use enrollment handoff code.
+  expires_at:
+    $ref: '#/components/schemas/Timestamp'
+  enroll_url:
+    type: string
+    description: The console enrollment URL carrying the handoff code in the fragment (`{origin}/login#otp=<code>&desktop_approve=<approve-token>`),
+      to be rendered as a QR and scanned on a phone.
+  poll_token:
+    type: string
+    description: Desktop-only poll token paired to the phone enrollment QR. The desktop polls the device-login endpoint
+      with this token and receives its own session once the phone enrollment approves the handoff.

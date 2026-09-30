@@ -1,0 +1,133 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: console-object-store
+  namespace: console-object-store
+  labels:
+    app.kubernetes.io/name: seaweedfs-s3
+    app.kubernetes.io/instance: console-object-store
+    app.kubernetes.io/part-of: console-object-store
+    console.nousresearch.com/dark-stage: "true"
+    console.nousresearch.com/context: "onprem"
+spec:
+  replicas: 1
+  serviceName: console-object-store-headless
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: seaweedfs-s3
+      app.kubernetes.io/instance: console-object-store
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: seaweedfs-s3
+        app.kubernetes.io/instance: console-object-store
+        app.kubernetes.io/part-of: console-object-store
+        console.nousresearch.com/dark-stage: "true"
+        console.nousresearch.com/context: "onprem"
+    spec:
+      terminationGracePeriodSeconds: 60
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 65532
+        runAsGroup: 65532
+        fsGroup: 65532
+        fsGroupChangePolicy: OnRootMismatch
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: seaweedfs
+          image: chrislusf/seaweedfs:4.32 # renovate: datasource=docker depName=chrislusf/seaweedfs
+          imagePullPolicy: IfNotPresent
+          args:
+            - server
+            - -s3
+            - -ip=$(POD_NAME).console-object-store-headless.$(POD_NAMESPACE).svc.cluster.local
+            - -ip.bind=0.0.0.0
+            - -dir=/data
+            - -s3.port=8333
+            - -s3.ip.bind=0.0.0.0
+            - -s3.externalUrl=http://console-object-store-s3.console-object-store.svc.cluster.local:8333
+          env:
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            # SeaweedFS uses these fallback credentials when no S3 config file is
+            # present. The secret is created out of band; no credentials live in git.
+            - name: AWS_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  name: console-object-store-credentials
+                  key: AWS_ACCESS_KEY_ID
+            - name: AWS_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: console-object-store-credentials
+                  key: AWS_SECRET_ACCESS_KEY
+          ports:
+            - name: s3
+              containerPort: 8333
+              protocol: TCP
+          volumeMounts:
+            - name: data
+              mountPath: /data
+            # glog writes its log files under /tmp (no -logtostderr), so back
+            # /tmp with tmpfs to keep the container root filesystem read-only.
+            - name: tmp
+              mountPath: /tmp
+          resources:
+            requests:
+              cpu: 250m
+              memory: 512Mi
+            limits:
+              cpu: "1"
+              memory: 2Gi
+          # Auth-enabled SeaweedFS returns 403 to unsigned S3 root requests, so
+          # probes deliberately check socket readiness. Activation smoke tests must
+          # use signed S3 requests with the mounted credentials.
+          startupProbe:
+            tcpSocket:
+              port: s3
+            periodSeconds: 3
+            failureThreshold: 40
+          readinessProbe:
+            tcpSocket:
+              port: s3
+            periodSeconds: 10
+            timeoutSeconds: 2
+            failureThreshold: 3
+          livenessProbe:
+            tcpSocket:
+              port: s3
+            periodSeconds: 30
+            timeoutSeconds: 2
+            failureThreshold: 3
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: ["ALL"]
+            readOnlyRootFilesystem: true
+      volumes:
+        - name: tmp
+          emptyDir: {}
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+        labels:
+          app.kubernetes.io/name: seaweedfs-s3
+          app.kubernetes.io/instance: console-object-store
+          app.kubernetes.io/part-of: console-object-store
+          console.nousresearch.com/dark-stage: "true"
+          console.nousresearch.com/context: "onprem"
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        # Deliberately omit storageClassName so the operator-approved on-prem
+        # default replicated StorageClass is selected. Patch this in a future
+        # activation overlay if object storage gets its own canonical class.
+        resources:
+          requests:
+            storage: 50Gi

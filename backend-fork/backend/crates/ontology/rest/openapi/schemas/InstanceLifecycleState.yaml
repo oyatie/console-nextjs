@@ -1,0 +1,2 @@
+type: string
+enum: [draft, active, locked, archived, disposed]

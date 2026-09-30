@@ -1,0 +1,16 @@
+type: object
+required:
+- kind
+- code
+properties:
+  kind:
+    type: string
+    description: Object family the ref points at — payroll_line or employee today; extensible.
+  code:
+    type: string
+    description: Human-facing display code for the referenced object.
+  id:
+    type:
+    - string
+    - 'null'
+    format: uuid

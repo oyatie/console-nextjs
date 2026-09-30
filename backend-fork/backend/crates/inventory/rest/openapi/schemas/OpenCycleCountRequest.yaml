@@ -1,0 +1,4 @@
+type: object
+additionalProperties: false
+required: [branchId, stockLocationId]
+properties: { branchId: { $ref: '#/components/schemas/Uuid' }, stockLocationId: { $ref: '#/components/schemas/Uuid' } }

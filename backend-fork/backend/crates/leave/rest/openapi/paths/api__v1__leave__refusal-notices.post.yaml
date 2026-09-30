@@ -1,0 +1,28 @@
+tags:
+  - leave
+operationId: pushLeaveRefusalNotice
+summary: Serve a 노무수령거부 notice (after a round-2 promotion)
+description: >-
+  Requires `employee_directory_manage` in the target `branch_id`. Delivers
+  a receipt-gated 노무수령거부 notice into the target's 개인 수신함 and records
+  the push. Same engine-binding semantics as promotions. Idempotent per
+  target.
+security:
+- bearerAuth: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/LeaveRefusalRequest'
+responses:
+  '200':
+    description: The recorded refusal push, including the delivered notice id.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/LeaveStatutoryPushView'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'

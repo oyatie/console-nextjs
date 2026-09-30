@@ -1,0 +1,18 @@
+[package]
+name = "console-platform-test-support"
+version = "0.1.0"
+description = "Shared integration-test helpers (console_rt-role Postgres pool) for REST-crate test suites."
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+console-platform-auth = { path = "../auth" }
+time = { workspace = true }
+console-kernel-core = { workspace = true }
+sqlx = { workspace = true }
+uuid = { workspace = true }
+
+[lints]
+workspace = true

@@ -1,0 +1,74 @@
+type: object
+required:
+- id
+- customer_id
+- branch_id
+- name
+- address
+- province
+- city
+- postal_code
+- latitude
+- longitude
+- geofence_radius_m
+- contact_name
+- contact_phone
+- contact_email
+properties:
+  id:
+    $ref: '#/components/schemas/Uuid'
+  customer_id:
+    $ref: '#/components/schemas/Uuid'
+  branch_id:
+    $ref: '#/components/schemas/Uuid'
+  name:
+    type: string
+  address:
+    type:
+    - string
+    - 'null'
+  province:
+    type:
+    - string
+    - 'null'
+  city:
+    type:
+    - string
+    - 'null'
+  postal_code:
+    type:
+    - string
+    - 'null'
+  latitude:
+    type:
+    - number
+    - 'null'
+    format: double
+    minimum: -90
+    maximum: 90
+    description: Admin-authored WGS84 latitude in degrees, or null when unpinned.
+  longitude:
+    type:
+    - number
+    - 'null'
+    format: double
+    minimum: -180
+    maximum: 180
+    description: Admin-authored WGS84 longitude in degrees, or null when unpinned.
+  geofence_radius_m:
+    type:
+    - number
+    - 'null'
+    format: double
+  contact_name:
+    type:
+    - string
+    - 'null'
+  contact_phone:
+    type:
+    - string
+    - 'null'
+  contact_email:
+    type:
+    - string
+    - 'null'

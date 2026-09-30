@@ -1,0 +1,65 @@
+type: object
+description: Partial update. Absent keys are left unchanged; nullable keys explicitly set to null clear the column.
+  At least one field must be supplied.
+properties:
+  kind:
+    $ref: '#/components/schemas/ListingKind'
+  condition:
+    $ref: '#/components/schemas/ListingCondition'
+  model_name:
+    type: string
+  capacity_milli:
+    type:
+    - integer
+    - 'null'
+    format: int64
+  model_year:
+    type:
+    - integer
+    - 'null'
+    format: int32
+  usage_hours:
+    type:
+    - integer
+    - 'null'
+    format: int32
+  price_won:
+    type:
+    - integer
+    - 'null'
+    format: int64
+  badge:
+    type:
+    - string
+    - 'null'
+  usage_label:
+    type:
+    - string
+    - 'null'
+  condition_label:
+    type:
+    - string
+    - 'null'
+  availability:
+    type:
+    - string
+    - 'null'
+  location:
+    type:
+    - string
+    - 'null'
+  description:
+    type:
+    - string
+    - 'null'
+  listing_type:
+    $ref: '#/components/schemas/ListingType'
+  status:
+    $ref: '#/components/schemas/ListingStatus'
+  sort_weight:
+    type: integer
+    format: int32
+  equipment_id:
+    oneOf:
+    - $ref: '#/components/schemas/Uuid'
+    - type: 'null'

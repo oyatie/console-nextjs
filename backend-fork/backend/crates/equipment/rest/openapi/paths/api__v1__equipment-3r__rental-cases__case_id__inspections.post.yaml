@@ -1,0 +1,13 @@
+tags: [equipment-3r]
+operationId: inspectEquipment3rCase
+summary: Append an on-rent inspection or maintenance record
+security: [{ bearerAuth: [] }]
+parameters: [{ name: case_id, in: path, required: true, schema: { $ref: '#/components/schemas/Uuid' } }]
+requestBody: { required: true, content: { application/json: { schema: { type: object, required: [outcome, findings], properties: { outcome: { type: string, enum: [PASS, MAINTENANCE_PERFORMED] }, findings: { type: string, minLength: 1, maxLength: 2000 }, maintenanceNote: { type: string, minLength: 1, maxLength: 2000 } } } } } }
+responses:
+  '201': { description: Inspection recorded, content: { application/json: { schema: { $ref: '#/components/schemas/Equipment3rInspectionView' } } } }
+  '401': { $ref: '#/components/responses/Unauthorized' }
+  '403': { $ref: '#/components/responses/Forbidden' }
+  '404': { description: Unknown or cross-org case }
+  '409': { description: Case not HANDED_OVER }
+  '422': { $ref: '#/components/responses/ValidationError' }

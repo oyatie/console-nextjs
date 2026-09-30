@@ -1,0 +1,17 @@
+[package]
+name = "console-dispatch-domain"
+version = "0.1.0"
+description = "Pure P1 emergency dispatch FSM and scoring rules."
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+console-kernel-core = { workspace = true }
+serde = { workspace = true }
+time = { workspace = true }
+thiserror = { workspace = true }
+
+[lints]
+workspace = true

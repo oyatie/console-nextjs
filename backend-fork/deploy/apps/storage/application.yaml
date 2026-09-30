@@ -1,0 +1,38 @@
+# Dark Argo CD Application for ADR-0024 on-prem replicated block storage.
+# Do not move this file under deploy/argocd/apps/ until a later founder/operator
+# cutover intentionally wires the on-prem storage path into the live app-of-apps root.
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: longhorn-storage-onprem
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "-2" # replicated storage must exist before on-prem CNPG creates PVCs.
+    console.nousresearch.com/dark-stage: "true"
+    console.nousresearch.com/context: "onprem"
+spec:
+  project: console-onprem-storage
+  sources:
+    - repoURL: https://charts.longhorn.io
+      chart: longhorn
+      targetRevision: 1.12.0 # renovate: datasource=helm depName=longhorn registryUrl=https://charts.longhorn.io
+      helm:
+        releaseName: longhorn
+        valueFiles:
+          - $values/deploy/apps/storage/values.yaml
+    - repoURL: https://github.com/jason931225/console.git
+      targetRevision: main
+      ref: values
+    - repoURL: https://github.com/jason931225/console.git
+      targetRevision: main
+      path: deploy/apps/storage/manifests
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: longhorn-system
+  syncPolicy:
+    # No automated sync by design: applying this Application should stage Argo
+    # visibility only. A later operator-approved on-prem cutover must sync manually.
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true
+      - SkipDryRunOnMissingResource=true

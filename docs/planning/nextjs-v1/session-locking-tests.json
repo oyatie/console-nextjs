@@ -1,0 +1,18 @@
+{
+  "scope": "Partial coordinated authentication lock tests; no production implementation approval",
+  "base_backend_candidate": "263d1106dba6185f198b78591d5260fb418444fa06f3d4c91f55955e4b894182",
+  "accepted_design_sha256": "1d4d963306e4625404ccb8927e99468afff08aad82904627794937fba51fe2dd",
+  "files": [
+    {
+      "path": "backend-fork/backend/crates/platform/auth/tests/session_locking.rs",
+      "sha256": "f757b4e8ce9099f7d7802b3e945557b635e091fa0869590e9f1e207e41ca047b",
+      "tests": 8
+    }
+  ],
+  "review_status": "pending_exact_partial_test_review",
+  "limitations": "All coordinated writers require approved tests before implementation",
+  "addressed_findings": [
+    "rotate inactive after Account wait must not issue replacement",
+    "logout rebind must not revoke replacement Account family/token"
+  ]
+}

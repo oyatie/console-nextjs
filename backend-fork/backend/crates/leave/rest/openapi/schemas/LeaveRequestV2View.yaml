@@ -1,0 +1,137 @@
+type: object
+description: One leave request in the approval queue (결재함 leave variant).
+required:
+- id
+- branch_id
+- requester_user_id
+- subject_employee_id
+- leave_type
+- days
+- charge_units
+- charge_state
+- charge_review_reasons
+- request_version
+- charge_version
+- start_date
+- end_date
+- status
+- decided_by
+- decided_at
+- created_at
+properties:
+  id:
+    $ref: '#/components/schemas/Uuid'
+  branch_id:
+    $ref: '#/components/schemas/Uuid'
+  requester_user_id:
+    $ref: '#/components/schemas/Uuid'
+  subject_employee_id:
+    $ref: '#/components/schemas/Uuid'
+  leave_type:
+    type: string
+    enum: [annual, half_day]
+  days:
+    type: number
+    format: double
+    deprecated: true
+    description: Non-null legacy compatibility projection; never authoritative for new approvals.
+  charge_units:
+    anyOf:
+    - $ref: '#/components/schemas/LeaveUnits'
+    - type: 'null'
+    description: Exact resolved charge; null while review is required or no charge applies.
+  charge_state:
+    type: string
+    enum: [review_required, resolved, not_required, legacy_unverified]
+  charge_review_reasons:
+    type: array
+    items:
+      $ref: '#/components/schemas/LeaveChargeReviewReason'
+  request_version:
+    type: integer
+    format: int64
+    minimum: 1
+    description: Mutable request/workflow CAS token; submit as expected_version for resolve or decide.
+  charge_version:
+    type: integer
+    format: int64
+    minimum: 0
+    description: Monotonic immutable charge-evidence revision counter; decisions do not advance it and it is never a request mutation precondition.
+  charge_digest:
+    type: string
+    pattern: '^[0-9a-f]{64}$'
+    description: Server digest of the immutable resolution snapshot, when resolved.
+  charge_resolved_by:
+    $ref: '#/components/schemas/Uuid'
+  charge_resolution_origin:
+    type: string
+    enum: [automated, manual]
+    description: Provenance of the current immutable charge snapshot, when one exists.
+  partial_day_period:
+    type: string
+    enum: [am, pm]
+  start_date:
+    type: string
+    format: date
+  end_date:
+    type: string
+    format: date
+  reason:
+    type: string
+    description: >-
+      Historical rows only (filed before the 근로기준법 §60 guardrail);
+      omitted for requests that carry no 사유.
+  status:
+    type: string
+    enum: [pending, approved, time_change_consult, returned, rejected]
+    description: >-
+      `returned`/`rejected` are historical rows only — no decision can
+      produce them since the §60 guardrail. `time_change_consult` is the
+      lawful non-approve outcome.
+  decided_by:
+    type:
+    - string
+    - 'null'
+    format: uuid
+  decided_at:
+    type:
+    - string
+    - 'null'
+    format: date-time
+  decision_comment:
+    type: string
+    description: Mandatory on time_change; present only when set.
+  time_change_grounds:
+    $ref: '#/components/schemas/TimeChangeGroundsCode'
+    description: >-
+      System-judged §60⑤ grounds code when status is `time_change_consult`.
+      Omitted until a consult opens; never a free-text manager narrative.
+  time_change_evidence:
+    $ref: '#/components/schemas/TimeChangeCoverageEvidence'
+    description: >-
+      Coverage evidence snapshot that justified the grounds. Omitted until
+      a consult opens.
+  alternate_start_date:
+    type: string
+    format: date
+    description: Worker-chosen alternate 시기 start; omitted until proposed.
+  alternate_end_date:
+    type: string
+    format: date
+    description: Worker-chosen alternate 시기 end; omitted until proposed.
+  alternate_partial_day_period:
+    type: string
+    enum: [am, pm]
+    description: >-
+      Preserved partial-day period from the consult row when the original
+      leave_type is half_day; omitted otherwise / until proposed.
+  alternate_proposed_at:
+    type: string
+    format: date-time
+    description: When the requester proposed alternate dates; omitted until then.
+  ap_run_id:
+    type: string
+    format: uuid
+    description: The engine AP- run, when the submittable definition exists.
+  created_at:
+    $ref: '#/components/schemas/Timestamp'

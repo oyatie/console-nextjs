@@ -1,0 +1,25 @@
+tags:
+  - me
+operationId: deleteMyNotificationPolicy
+summary: Delete (= unmute) one of the authenticated user's notification policies
+security:
+- bearerAuth: []
+parameters:
+- name: id
+  in: path
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+responses:
+  '204':
+    description: The policy is removed and its rows regain attention.
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '503':
+    description: JWT verification is not configured.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ErrorBody'

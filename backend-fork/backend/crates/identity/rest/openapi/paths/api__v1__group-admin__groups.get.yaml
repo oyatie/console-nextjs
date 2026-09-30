@@ -1,0 +1,22 @@
+tags:
+  - group-admin
+operationId: listGroupAdminGroups
+summary: List group-admin managed tenant organizations
+description: Returns only group memberships for which the authenticated actor has GROUP_ADMIN authority. Used before
+  minting a bounded tenant context for a member organization.
+security:
+- bearerAuth: []
+responses:
+  '200':
+    description: Group-admin visible groups and member organizations.
+    content:
+      application/json:
+        schema:
+          type: object
+          additionalProperties: true
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '503':
+    $ref: '#/components/responses/ServiceUnavailable'

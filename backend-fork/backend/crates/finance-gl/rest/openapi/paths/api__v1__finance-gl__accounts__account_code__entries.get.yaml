@@ -1,0 +1,25 @@
+tags:
+- finance-gl
+operationId: accountDrill
+summary: Account drill — voucher lines for an account with voucher/source links
+security:
+- bearerAuth: []
+parameters:
+- name: account_code
+  in: path
+  required: true
+  schema:
+    type: string
+responses:
+  '200':
+    description: Account entries.
+    content:
+      application/json:
+        schema:
+          type: array
+          items:
+            $ref: '#/components/schemas/AccountDrillEntry'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'

@@ -1,0 +1,14 @@
+type: object
+required:
+- draft_key
+- title
+- blocks
+properties:
+  draft_key:
+    type: string
+  title:
+    type: string
+  author_note:
+    type: string
+  blocks:
+    $ref: '#/components/schemas/PolicyNoCodeBlocks'

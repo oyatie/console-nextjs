@@ -1,0 +1,13 @@
+tags: [equipment-3r]
+operationId: completeEquipment3rDisposition
+summary: Complete a repair/refurbish/resale disposition; no GL posting occurs
+security: [{ bearerAuth: [] }]
+parameters: [{ name: disposition_id, in: path, required: true, schema: { $ref: '#/components/schemas/Uuid' } }]
+requestBody: { required: true, content: { application/json: { schema: { type: object, properties: { costMinor: { type: integer, format: int64, minimum: 0 }, saleAmountMinor: { type: integer, format: int64, minimum: 0 }, buyerName: { type: string, minLength: 1, maxLength: 160 } } } } } }
+responses:
+  '200': { description: Disposition completed (financeGlPosting is always null), content: { application/json: { schema: { $ref: '#/components/schemas/Equipment3rDispositionView' } } } }
+  '401': { $ref: '#/components/responses/Unauthorized' }
+  '403': { $ref: '#/components/responses/Forbidden' }
+  '404': { description: Unknown or cross-org disposition }
+  '409': { description: Disposition not OPEN }
+  '422': { $ref: '#/components/responses/ValidationError' }

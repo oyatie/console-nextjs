@@ -1,0 +1,7 @@
+type: object
+additionalProperties: false
+required: [next_transition, blockers, advisories]
+properties:
+  next_transition: { oneOf: [{ $ref: '#/components/schemas/EvaluationCycleTransition' }, { type: 'null' }] }
+  blockers: { type: array, items: { $ref: '#/components/schemas/EvaluationPreflightItem' } }
+  advisories: { type: array, items: { $ref: '#/components/schemas/EvaluationPreflightItem' } }

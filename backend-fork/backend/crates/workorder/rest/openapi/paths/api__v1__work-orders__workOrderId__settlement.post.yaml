@@ -1,0 +1,39 @@
+tags:
+- maintenance
+operationId: createWorkOrderSettlement
+summary: Open a DRAFT cost settlement on a report-submitted, admin-review, or final-completed order
+security:
+- bearerAuth: []
+parameters:
+- $ref: '#/components/parameters/WorkOrderId'
+- name: Idempotency-Key
+  in: header
+  required: true
+  schema:
+    type: string
+    minLength: 16
+  description: Replaying the same key with an identical body returns the existing settlement without a second audit
+    event; the same key with a different body is a 409.
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/CreateSettlementRequest'
+responses:
+  '201':
+    description: The draft settlement, also returned on an idempotent replay.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/SettlementSummary'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '409':
+    $ref: '#/components/responses/Conflict'
+  '422':
+    $ref: '#/components/responses/ValidationError'

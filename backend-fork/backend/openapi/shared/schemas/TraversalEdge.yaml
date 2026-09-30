@@ -1,0 +1,7 @@
+      type: object
+      required: [id, link_type_id, from_instance_id, to_instance_id]
+      properties:
+        id: { type: string, format: uuid }
+        link_type_id: { type: string, format: uuid }
+        from_instance_id: { type: string, format: uuid }
+        to_instance_id: { type: string, format: uuid }

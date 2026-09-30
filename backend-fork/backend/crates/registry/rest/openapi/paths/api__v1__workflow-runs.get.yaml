@@ -1,0 +1,41 @@
+tags:
+  - workflow-runs
+operationId: listWorkflowRunsAdmin
+summary: Org-wide admin run list, incl. dead-letter (workflow-manage)
+description: Lists workflow runs across the org, filterable by status (including FAILED/DEAD_LETTERED for dead-letter
+  visibility) and keyset-paginated over (updated_at, id). Requires workflow-manage authority.
+security:
+- bearerAuth: []
+parameters:
+- name: status
+  in: query
+  required: false
+  description: Comma-separated run statuses (e.g. FAILED,DEAD_LETTERED). Omitted returns all statuses.
+  schema:
+    type: string
+- name: before
+  in: query
+  required: false
+  description: Keyset cursor — the run_id of the last row of the previous page.
+  schema:
+    $ref: '#/components/schemas/Uuid'
+- name: limit
+  in: query
+  required: false
+  description: Page size, clamped to [1, 200]. Defaults to 50.
+  schema:
+    type: integer
+    format: int32
+responses:
+  '200':
+    description: A page of org-wide runs, newest first.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/AdminWorkflowRunListResponse'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '422':
+    $ref: '#/components/responses/ValidationError'

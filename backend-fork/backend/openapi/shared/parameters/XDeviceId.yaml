@@ -1,0 +1,7 @@
+      name: X-Device-Id
+      in: header
+      required: true
+      schema:
+        type: string
+        minLength: 1
+      description: Client-stable device identifier. The server stores only a SHA-256 hash.

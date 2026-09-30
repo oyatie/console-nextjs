@@ -1,0 +1,40 @@
+tags:
+- recruiting
+operationId: publishRecruitPosting
+summary: Publish a draft (atomic preflight re-evaluation plus exposure attest; fail-closed)
+security:
+- bearerAuth: []
+parameters:
+- name: postingId
+  in: path
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/PublishRecruitPostingRequest'
+responses:
+  '200':
+    description: The published posting.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/RecruitPosting'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '409':
+    $ref: '#/components/responses/Conflict'
+  '422':
+    description: Request validation failed, or the preflight gate is unmet (code PREFLIGHT_FAILED, which adds the full
+      check vector).
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/RecruitPublishFailedResponse'

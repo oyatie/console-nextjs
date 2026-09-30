@@ -1,0 +1,46 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AnalysisTemplate
+metadata:
+  name: smoke-http
+  namespace: console
+# prePromotion smoke gate for blue/green: probes the preview service's health
+# endpoint before the active Service is flipped to it. A non-2xx (or no
+# response within the retry budget) fails the job → the rollout is NOT promoted
+# and the old version keeps serving (automatic rollback). Body-format-agnostic.
+spec:
+  args:
+    - name: health-url
+  metrics:
+    - name: smoke
+      provider:
+        job:
+          spec:
+            backoffLimit: 1
+            activeDeadlineSeconds: 90
+            template:
+              spec:
+                restartPolicy: Never
+                securityContext:
+                  runAsNonRoot: true
+                  runAsUser: 65534
+                  seccompProfile: { type: RuntimeDefault }
+                containers:
+                  - name: probe
+                    # Pinned to the multi-arch index digest so the smoke gate is
+                    # reproducible and immutable; tag kept for readability.
+                    # renovate: datasource=docker depName=busybox
+                    image: busybox:1.37@sha256:9532d8c39891ca2ecde4d30d7710e01fb739c87a8b9299685c63704296b16028
+                    securityContext:
+                      allowPrivilegeEscalation: false
+                      readOnlyRootFilesystem: true
+                      capabilities: { drop: [ALL] }
+                    command: ["sh", "-c"]
+                    args:
+                      - |
+                        for i in $(seq 1 20); do
+                          if wget -q -T 3 -O /dev/null "{{args.health-url}}"; then
+                            echo "preview healthy"; exit 0
+                          fi
+                          sleep 3
+                        done
+                        echo "preview never became healthy"; exit 1

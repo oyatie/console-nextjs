@@ -1,0 +1,19 @@
+type: object
+required:
+- period
+- requested_scope
+- rollups
+- unavailable_metrics
+properties:
+  period:
+    $ref: '#/components/schemas/Period'
+  requested_scope:
+    $ref: '#/components/schemas/KpiScope'
+  rollups:
+    type: array
+    items:
+      $ref: '#/components/schemas/KpiRollup'
+  unavailable_metrics:
+    type: array
+    items:
+      $ref: '#/components/schemas/UnavailableMetric'

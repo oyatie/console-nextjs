@@ -1,0 +1,16 @@
+type: object
+required:
+- bucket
+- count
+- filters
+properties:
+  bucket:
+    type: string
+    format: date
+  count:
+    type: integer
+    format: int64
+  filters:
+    type: object
+    additionalProperties:
+      type: string

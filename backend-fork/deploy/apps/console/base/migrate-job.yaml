@@ -1,0 +1,65 @@
+# Schema-migration Job. Runs the SAME signed console-app image in its one-shot
+# `migrate` run-mode (CONSOLE_APP_ROLE=migrate): it connects as the table OWNER
+# (console_app, via the console-db-app secret) to run DDL, applies the embedded
+# migrations idempotently, then exits 0 — it never serves HTTP.
+#
+# Argo CD runs this as a PreSync hook, so it completes BEFORE the api/worker
+# Deployments roll. That is what lets the runtime console_rt role stay de-owned
+# (NOSUPERUSER, NOBYPASSRLS, owns nothing, no DDL): migrations no longer need
+# the serving workloads. hook-delete-policy BeforeHookCreation deletes the prior
+# Job at the start of each sync, so the immutable Job is recreated cleanly every
+# time (a fresh Job per sync, cleaned up before the next). HookSucceeded also
+# removes successful hook Jobs immediately so Argo does not keep reporting a
+# completed PreSync hook as a resource that requires pruning.
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: console-migrate
+  namespace: console
+  labels: { app: console-migrate }
+  annotations:
+    argocd.argoproj.io/hook: PreSync
+    argocd.argoproj.io/hook-delete-policy: BeforeHookCreation,HookSucceeded
+spec:
+  # Bounded retries; each migration run is idempotent so a retry is safe.
+  backoffLimit: 2
+  # Hard ceiling so a hung/blocked migration cannot wedge the sync forever.
+  activeDeadlineSeconds: 600
+  ttlSecondsAfterFinished: 600
+  template:
+    metadata:
+      labels: { app: console-migrate }
+    spec:
+      restartPolicy: Never
+      # The migrate job talks only to Postgres, never to the Kubernetes API.
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 10001
+        fsGroup: 10001
+        seccompProfile: { type: RuntimeDefault }
+      containers:
+        - name: console-migrate
+          image: console-app # same image as the Rollout; kustomize images: sets the digest
+          env:
+            - name: CONSOLE_APP_ROLE
+              value: "migrate"
+            - name: CONSOLE_SERVICE_NAME
+              value: "console-app-migrate"
+            # OWNER connection (console_app) — migrations need DDL. NOT console-db-rt:
+            # the runtime role is de-owned and cannot run DDL.
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef: { name: console-db-app, key: uri }
+          resources:
+            requests: { cpu: 100m, memory: 128Mi }
+            limits: { memory: 256Mi }
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities: { drop: [ALL] }
+          volumeMounts:
+            - { name: tmp, mountPath: /tmp }
+      volumes:
+        - name: tmp
+          emptyDir: {}

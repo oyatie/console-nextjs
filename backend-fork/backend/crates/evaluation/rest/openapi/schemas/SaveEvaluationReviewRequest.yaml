@@ -1,0 +1,10 @@
+type: object
+additionalProperties: false
+properties:
+  grade: { oneOf: [{ $ref: '#/components/schemas/EvaluationGrade' }, { type: 'null' }] }
+  note: { type: [string, 'null'], maxLength: 2000 }
+  evidence_links:
+    type: array
+    maxItems: 10
+    default: []
+    items: { $ref: '#/components/schemas/EvaluationEvidenceLinkInput' }

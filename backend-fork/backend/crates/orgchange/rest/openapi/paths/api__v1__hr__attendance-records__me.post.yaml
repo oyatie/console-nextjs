@@ -1,0 +1,28 @@
+tags:
+  - hr
+operationId: createMyEmployeeAttendanceRecord
+summary: Record the signed-in employee's attendance transition
+description: Appends a mobile/PC attendance fact and an immutable payroll material reference. Payroll calculation remains blocked by the legal gate.
+security:
+- bearerAuth: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/CreateEmployeeAttendanceRecordRequest'
+responses:
+  '200':
+    description: Created or idempotently replayed attendance record.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/EmployeeAttendanceRecord'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '409':
+    $ref: '#/components/responses/Conflict'
+  '422':
+    $ref: '#/components/responses/ValidationError'

@@ -1,0 +1,24 @@
+type: object
+required:
+- applicant_id
+- applicant_no
+- name
+- role_title
+- reason
+- rejected_at
+properties:
+  applicant_id:
+    $ref: '#/components/schemas/Uuid'
+  applicant_no:
+    type: string
+  name:
+    type: string
+  role_title:
+    type: string
+    description: Role title of the posting the applicant was rejected from.
+  reason:
+    oneOf:
+    - $ref: '#/components/schemas/RecruitRejectReason'
+    - type: 'null'
+  rejected_at:
+    $ref: '#/components/schemas/Timestamp'

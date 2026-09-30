@@ -1,0 +1,6 @@
+type: object
+required: [expected_version, approval_ref, idempotency_key]
+properties:
+  expected_version: {type: integer, minimum: 1}
+  approval_ref: {$ref: '#/components/schemas/Uuid', description: 'Approved production_plan_release:v{expected_version} decision bound to this persisted plan. It is consumed exactly once by the current approver.'}
+  idempotency_key: {type: string, minLength: 1, maxLength: 128}

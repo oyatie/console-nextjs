@@ -1,0 +1,4 @@
+type: object
+additionalProperties: false
+required: [expectedVersion]
+properties: { expectedVersion: { type: integer, minimum: 1 } }

@@ -1,0 +1,27 @@
+type: object
+required:
+- id
+- date
+- status
+- body
+- confirmed_by
+- confirmed_at
+properties:
+  id:
+    $ref: '#/components/schemas/Uuid'
+  date:
+    $ref: '#/components/schemas/Date'
+  status:
+    $ref: '#/components/schemas/WorkDiaryStatus'
+  body:
+    $ref: '#/components/schemas/WorkDiaryBody'
+  confirmed_by:
+    type:
+    - string
+    - 'null'
+    format: uuid
+  confirmed_at:
+    type:
+    - string
+    - 'null'
+    format: date-time

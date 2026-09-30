@@ -1,0 +1,22 @@
+type: object
+required:
+- id
+- itemKey
+- label
+- done
+properties:
+  id:
+    $ref: '#/components/schemas/Uuid'
+  itemKey:
+    $ref: '#/components/schemas/OrgChangeSettlementKey'
+  label:
+    type: string
+    description: Server-issued display label.
+  done:
+    type: boolean
+  doneBy:
+    $ref: '#/components/schemas/Uuid'
+  doneAt:
+    $ref: '#/components/schemas/Timestamp'
+  memo:
+    type: string

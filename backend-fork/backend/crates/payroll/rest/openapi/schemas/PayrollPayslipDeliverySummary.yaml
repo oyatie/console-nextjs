@@ -1,0 +1,31 @@
+type: object
+required:
+- run_id
+- issued
+- acknowledged
+- items
+- total
+- limit
+- offset
+properties:
+  run_id:
+    $ref: '#/components/schemas/Uuid'
+  issued:
+    type: integer
+    format: int64
+  acknowledged:
+    type: integer
+    format: int64
+  items:
+    type: array
+    items:
+      $ref: '#/components/schemas/PayrollPayslipDeliveryItem'
+  total:
+    type: integer
+    format: int64
+  limit:
+    type: integer
+    format: int64
+  offset:
+    type: integer
+    format: int64

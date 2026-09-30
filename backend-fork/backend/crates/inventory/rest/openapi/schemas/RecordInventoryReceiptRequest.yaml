@@ -1,0 +1,4 @@
+type: object
+additionalProperties: false
+required: [quantityReceivedMilli, idempotencyKey]
+properties: { quantityReceivedMilli: { type: integer, format: int64, minimum: 1 }, sourceRef: { type: string, nullable: true }, memo: { type: string, nullable: true }, idempotencyKey: { type: string, minLength: 16, maxLength: 200 } }

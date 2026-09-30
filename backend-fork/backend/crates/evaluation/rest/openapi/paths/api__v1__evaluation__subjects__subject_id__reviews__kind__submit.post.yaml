@@ -1,0 +1,16 @@
+tags: [evaluation]
+operationId: submitEvaluationReview
+summary: Submit a saved self or manager review
+description: Submission is terminal; the backend enforces grade/evidence gates and returns conflicts for unmet gates or replays.
+security: [{ bearerAuth: [] }]
+parameters:
+- $ref: '#/components/parameters/EvaluationSubjectId'
+- $ref: '#/components/parameters/EvaluationReviewKindPath'
+responses:
+  '200': { description: Submitted review., content: { application/json: { schema: { $ref: '#/components/schemas/EvaluationReview' } } } }
+  '401': { $ref: '#/components/responses/Unauthorized' }
+  '403': { $ref: '#/components/responses/Forbidden' }
+  '404': { $ref: '#/components/responses/NotFound' }
+  '409': { $ref: '#/components/responses/Conflict' }
+  '500': { $ref: '#/components/responses/InternalServerError' }
+  '503': { $ref: '#/components/responses/ServiceUnavailable' }

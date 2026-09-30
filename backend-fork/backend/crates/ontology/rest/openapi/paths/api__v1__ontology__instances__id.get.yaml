@@ -1,0 +1,35 @@
+operationId: getOntologyInstance
+summary: Get an object instance card
+description: Returns one instance's current (or as-of) state. Property policies null forbidden fields (deny-by-omission).
+tags:
+- Ontology
+security:
+- bearerAuth: []
+parameters:
+- name: id
+  in: path
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+- name: as_of
+  in: query
+  required: false
+  description: RFC3339 instant for a bi-temporal as-of read; absent = current head.
+  schema:
+    $ref: '#/components/schemas/Timestamp'
+responses:
+  '200':
+    description: Instance state.
+    content:
+      application/json:
+        schema:
+          type: object
+          additionalProperties: true
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '503':
+    $ref: '#/components/responses/ServiceUnavailable'

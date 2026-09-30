@@ -1,0 +1,45 @@
+type: object
+required:
+- id
+- role_key
+- display_name
+- description
+- status
+- is_system
+- permissions
+- conditions
+- created_at
+- updated_at
+properties:
+  id:
+    $ref: '#/components/schemas/Uuid'
+  role_key:
+    type: string
+  display_name:
+    type: string
+  description:
+    type:
+    - string
+    - 'null'
+  status:
+    type: string
+    description: Requested lifecycle status. Allowed transitions are DRAFT→ACTIVE, ACTIVE→DRAFT, and ACTIVE→RETIRED;
+      RETIRED is terminal.
+    enum:
+    - DRAFT
+    - ACTIVE
+    - RETIRED
+  is_system:
+    type: boolean
+  permissions:
+    type: array
+    items:
+      $ref: '#/components/schemas/PolicyPermissionResponse'
+  conditions:
+    type: array
+    items:
+      $ref: '#/components/schemas/PolicyConditionResponse'
+  created_at:
+    $ref: '#/components/schemas/Timestamp'
+  updated_at:
+    $ref: '#/components/schemas/Timestamp'

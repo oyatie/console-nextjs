@@ -1,0 +1,41 @@
+tags:
+  - me
+operationId: listMyNotifications
+summary: List the authenticated user's notifications, newest first
+security:
+- bearerAuth: []
+parameters:
+- name: unread
+  in: query
+  required: false
+  description: When true, return only unread notifications.
+  schema:
+    type: boolean
+- name: before
+  in: query
+  required: false
+  description: Keyset cursor; return notifications strictly older than this id.
+  schema:
+    $ref: '#/components/schemas/Uuid'
+- name: limit
+  in: query
+  required: false
+  description: Page size (clamped server-side to 1..=200; default 50).
+  schema:
+    type: integer
+    format: int64
+responses:
+  '200':
+    description: A page of the caller's notifications.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/NotificationPage'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '503':
+    description: JWT verification is not configured.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ErrorBody'

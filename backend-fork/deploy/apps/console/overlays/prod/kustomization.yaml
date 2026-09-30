@@ -1,0 +1,69 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+# Production overlay. The operator sets three things here: the GHCR owner, the
+# released image tag (release-please bumps it), and the public host + OCI
+# object-storage namespace.
+resources:
+  - ../../base
+
+images:
+  # Deploy by immutable, cosign-signed @sha256 digest (not a mutable tag): the
+  # exact scanned+signed artifact from image-release. Renovate / release-please
+  # bump these. console-worker shares the console-app image.
+  - name: console-app
+    newName: ghcr.io/jason931225/console-app
+    digest: sha256:7caac408d388ce6125b605b15ba3e2f86e53e8185c62eae5e332fd80702383b8
+  - name: console-web
+    newName: ghcr.io/jason931225/console-web
+    digest: sha256:59229387b20c9e7105ab83c9964620e3c361e2e6bf39a2b87a394b892ad3b138
+
+patches:
+  # Public host (WebAuthn rp id/origin must equal the served origin) + the OCI
+  # object-storage namespace for evidence + DB backups.
+  - target: { kind: ConfigMap, name: console-config }
+    patch: |-
+      - op: replace
+        path: /data/CONSOLE_WEBAUTHN_RP_ID
+        value: knllogistic.com
+      - op: replace
+        path: /data/CONSOLE_WEBAUTHN_RP_ORIGIN
+        value: https://console.knllogistic.com
+      - op: replace
+        path: /data/CONSOLE_S3_ENDPOINT_URL
+        value: https://axdotp9iv3ua.compat.objectstorage.ap-chuncheon-1.oraclecloud.com
+  - target: { kind: Ingress, name: console }
+    patch: |-
+      # Attach the fsm→console 301 redirect Middleware ingress-wide. Its
+      # redirectRegex is anchored to the fsm host, so it is a no-op for the
+      # apex/www storefront routers (their URLs don't match the regex).
+      - op: add
+        path: /metadata/annotations/traefik.ingress.kubernetes.io~1router.middlewares
+        value: console-fsm-console-redirect@kubernetescrd
+      - op: replace
+        path: /spec/tls/0/hosts
+        value: [console.knllogistic.com, fsm.knllogistic.com, knllogistic.com, www.knllogistic.com]
+      - op: replace
+        path: /spec/rules/0/host
+        value: console.knllogistic.com
+      - op: replace
+        path: /spec/rules/1/host
+        value: knllogistic.com
+      - op: replace
+        path: /spec/rules/2/host
+        value: www.knllogistic.com
+      - op: replace
+        path: /spec/rules/3/host
+        value: fsm.knllogistic.com
+  - target: { kind: Middleware, name: fsm-console-redirect }
+    patch: |-
+      - op: replace
+        path: /spec/redirectRegex/regex
+        value: ^https?://fsm\.knllogistic\.com/(.*)
+      - op: replace
+        path: /spec/redirectRegex/replacement
+        value: https://console.knllogistic.com/${1}
+  - target: { kind: ObjectStore, name: console-backups }
+    patch: |-
+      - op: replace
+        path: /spec/configuration/endpointURL
+        value: https://axdotp9iv3ua.compat.objectstorage.ap-chuncheon-1.oraclecloud.com

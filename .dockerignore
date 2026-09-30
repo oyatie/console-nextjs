@@ -1,0 +1,11 @@
+node_modules
+.next
+out
+.artifacts
+.git
+backend-fork
+docs
+playwright-report
+test-results
+**/__pycache__
+.env*

@@ -1,0 +1,7 @@
+type: string
+enum:
+- OK
+- AT_RISK
+- BREACHED
+description: Deterministic per-site SLA state over OPEN/IN_PROGRESS/ON_HOLD tickets — BREACHED when any due_at is
+  past, else AT_RISK when any due_at falls within 24 hours, else OK.

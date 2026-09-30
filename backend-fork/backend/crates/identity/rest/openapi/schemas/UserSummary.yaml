@@ -1,0 +1,88 @@
+type: object
+required:
+- id
+- display_name
+- employee_id
+- employee_name
+- employee_number
+- employee_company
+- employee_org_unit
+- employee_position
+- employee_identity_review_required
+- employee_identity_resolution_confidence
+- employee_link_status
+- phone
+- team
+- roles
+- branch_ids
+- is_active
+- has_passkey
+- account_status
+- created_at
+properties:
+  id:
+    $ref: '#/components/schemas/Uuid'
+  display_name:
+    type: string
+  employee_id:
+    type:
+    - string
+    - 'null'
+    format: uuid
+  employee_name:
+    type:
+    - string
+    - 'null'
+  employee_number:
+    type:
+    - string
+    - 'null'
+  employee_company:
+    type:
+    - string
+    - 'null'
+  employee_org_unit:
+    type:
+    - string
+    - 'null'
+  employee_position:
+    type:
+    - string
+    - 'null'
+  employee_identity_review_required:
+    type:
+    - boolean
+    - 'null'
+  employee_identity_resolution_confidence:
+    type:
+    - string
+    - 'null'
+  employee_link_status:
+    type: string
+    enum:
+    - LINKED
+    - UNLINKED
+  phone:
+    type:
+    - string
+    - 'null'
+  team:
+    $ref: '#/components/schemas/Team'
+  roles:
+    type: array
+    items:
+      type: string
+  branch_ids:
+    type: array
+    items:
+      $ref: '#/components/schemas/Uuid'
+  is_active:
+    type: boolean
+  has_passkey:
+    type: boolean
+    description: Whether the user has at least one enrolled passkey. A user can only sign in once this is true; until
+      then the account is pending setup.
+  account_status:
+    $ref: '#/components/schemas/AccountStatus'
+  created_at:
+    $ref: '#/components/schemas/Timestamp'

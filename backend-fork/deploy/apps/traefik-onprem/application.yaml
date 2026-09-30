@@ -1,0 +1,42 @@
+# Dark Argo CD Application for the ADR-0024 on-prem Traefik LoadBalancer variant.
+# Do not move this file under deploy/argocd/apps/ until an operator-approved
+# cutover lane replaces the current OCI hostPort app intentionally.
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: traefik-onprem
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "0" # VIP provider wave -1 must be synced first.
+    console.nousresearch.com/dark-stage: "true"
+    console.nousresearch.com/context: "onprem"
+spec:
+  project: console-onprem-traefik-ingress
+  sources:
+    - repoURL: https://traefik.github.io/charts
+      chart: traefik
+      targetRevision: 40.3.0 # renovate: datasource=helm depName=traefik
+      helm:
+        # Keep the rendered resource names aligned with the current ingress class
+        # for the eventual replacement path. Do not sync this side-by-side with
+        # deploy/argocd/apps/traefik.yaml in the same cluster.
+        releaseName: traefik
+        valueFiles:
+          - $values/deploy/apps/traefik-onprem/values.yaml
+    - repoURL: https://github.com/jason931225/console.git
+      targetRevision: main
+      ref: values
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: traefik
+  syncPolicy:
+    # Manual sync only: this dark Application must not change the live OCI
+    # hostPort path until a later cutover lane wires it into the app-of-apps root.
+    managedNamespaceMetadata:
+      labels:
+        pod-security.kubernetes.io/enforce: baseline
+        pod-security.kubernetes.io/audit: baseline
+        pod-security.kubernetes.io/warn: baseline
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true

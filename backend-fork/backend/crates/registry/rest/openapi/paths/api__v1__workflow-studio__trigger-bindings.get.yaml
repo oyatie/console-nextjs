@@ -1,0 +1,17 @@
+tags:
+  - workflow-studio
+operationId: listWorkflowTriggerBindings
+summary: List workflow trigger bindings (domain event → workflow start rules)
+security:
+- bearerAuth: []
+responses:
+  '200':
+    description: Trigger bindings plus the registered event-key vocabulary.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/TriggerBindingListResponse'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'

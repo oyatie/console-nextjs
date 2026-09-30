@@ -1,0 +1,21 @@
+tags:
+  - work-orders
+operationId: requestTargetChange
+summary: Request a target due-date change
+security:
+- bearerAuth: []
+parameters:
+- $ref: '#/components/parameters/WorkOrderId'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/TargetChangeRequest'
+responses:
+  '201':
+    description: Target change request created.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/TargetChangeRequestSummary'

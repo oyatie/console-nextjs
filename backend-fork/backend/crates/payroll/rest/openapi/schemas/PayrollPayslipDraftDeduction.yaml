@@ -1,0 +1,70 @@
+type: object
+description: >
+  One 공제 component, carrying its own basis, rate and instrument so the
+  payslip is recomputable under 근로기준법 제42조. An amount this engine did
+  not compute is null, never 0.
+required:
+- code
+- label_ko
+- basis_kind
+- basis_won
+- rate_num
+- rate_den
+- total_won
+- employee_won
+- employer_only
+- blocked_by
+- total_rounding
+- employee_rounding
+- instrument
+- share_instrument
+- provenance_ko
+properties:
+  code:
+    type: string
+    enum: [NationalPension, HealthInsurance, LongTermCare, EmploymentUnemployment, IndustrialAccident]
+  label_ko: { type: string }
+  basis_kind:
+    type: string
+    enum: [MonthlyStandardIncome, MonthlyRemuneration, HealthInsurancePremium, IndustryTariff]
+    description: >
+      장기요양's basis is HealthInsurancePremium — the COMPUTED 건강보험료액
+      under 노인장기요양보험법 제9조제1항, not 보수월액.
+  basis_won:
+    type: [integer, 'null']
+    format: int64
+    description: >
+      Null for 산재 only: its 사업종류별 요율 and the basis that rate applies
+      to are per-employer figures from an un-ingested 별지.
+  rate_num:
+    type: [integer, 'null']
+    format: int64
+    description: Integer numerator, never a decimal. Null for 산재, with `rate_den`.
+  rate_den: { type: [integer, 'null'], format: int64 }
+  total_won:
+    type: [integer, 'null']
+    format: int64
+    description: >
+      Null for 산재 (the employer premium is unknown, not zero) and null for
+      any component whose rounding unit is unsettled — see `blocked_by`.
+  employee_won:
+    type: [integer, 'null']
+    format: int64
+    description: Always null when `employer_only` is true — 산재 has no employee line.
+  employer_only:
+    type: boolean
+    description: >
+      True for 산재 alone (징수법 제13조제5항). The absence of an employee
+      line is STATED here rather than left silent.
+  blocked_by:
+    type: [string, 'null']
+    description: The unresolved question id that withheld this amount, if any.
+  total_rounding: { type: string }
+  employee_rounding: { type: string }
+  instrument: { $ref: '#/components/schemas/PayrollStatutoryInstrument' }
+  share_instrument:
+    oneOf: [{ $ref: '#/components/schemas/PayrollStatutoryInstrument' }, { type: 'null' }]
+    description: The instrument setting the bearer split, when it is a different one.
+  provenance_ko:
+    type: string
+    description: What is actually established about this row, so a reviewer is never told more than was verified.

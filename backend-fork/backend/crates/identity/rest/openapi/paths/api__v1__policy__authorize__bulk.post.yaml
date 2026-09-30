@@ -1,0 +1,11 @@
+tags: [Policy]
+operationId: authorizeBulk
+security:
+  - bearerAuth: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema: { $ref: '#/components/schemas/BulkAuthorizeBody' }
+responses:
+  '200': { description: per-check decisions (index-aligned with checks), content: { application/json: { schema: { $ref: '#/components/schemas/BulkDecisionResponse' } } } }

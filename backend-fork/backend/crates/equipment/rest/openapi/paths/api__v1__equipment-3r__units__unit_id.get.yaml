@@ -1,0 +1,10 @@
+tags: [equipment-3r]
+operationId: getEquipment3rUnit
+summary: Unit detail with active case and open disposition links
+security: [{ bearerAuth: [] }]
+parameters: [{ name: unit_id, in: path, required: true, schema: { $ref: '#/components/schemas/Uuid' } }]
+responses:
+  '200': { description: Unit detail, content: { application/json: { schema: { $ref: '#/components/schemas/Equipment3rUnitDetailView' } } } }
+  '401': { $ref: '#/components/responses/Unauthorized' }
+  '403': { $ref: '#/components/responses/Forbidden' }
+  '404': { description: Unknown or cross-org unit }

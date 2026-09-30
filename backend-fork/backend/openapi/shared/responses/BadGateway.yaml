@@ -1,0 +1,5 @@
+      description: An upstream dependency (e.g. the email relay) failed.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorBody"

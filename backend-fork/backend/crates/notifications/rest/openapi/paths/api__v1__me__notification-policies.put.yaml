@@ -1,0 +1,29 @@
+tags:
+  - me
+operationId: upsertMyNotificationPolicy
+summary: Upsert a mute policy for the authenticated user (idempotent per target)
+security:
+- bearerAuth: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/UpsertNotificationPolicyRequest'
+responses:
+  '200':
+    description: The stored policy; a repeat upsert of the same target returns the same row.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/NotificationPolicySummary'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '422':
+    $ref: '#/components/responses/ValidationError'
+  '503':
+    description: JWT verification is not configured.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ErrorBody'

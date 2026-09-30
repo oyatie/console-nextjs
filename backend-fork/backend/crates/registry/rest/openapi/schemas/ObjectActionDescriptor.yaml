@@ -1,0 +1,35 @@
+type: object
+required:
+- action_id
+- object_type
+- object_id
+- label
+- description
+- submit_label
+- requires_passkey_step_up
+- risk_level
+- fields
+properties:
+  action_id:
+    type: string
+    example: equipment.update_profile
+  object_type:
+    type: string
+  object_id:
+    $ref: '#/components/schemas/Uuid'
+  label:
+    type: string
+  description:
+    type: string
+  submit_label:
+    type: string
+  requires_passkey_step_up:
+    type: boolean
+  risk_level:
+    type: string
+    enum:
+    - sensitive_write
+  fields:
+    type: array
+    items:
+      $ref: '#/components/schemas/ObjectActionFieldDescriptor'

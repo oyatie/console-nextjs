@@ -1,0 +1,27 @@
+tags:
+  - collaboration
+operationId: createCollaborationCalendarEvent
+summary: Create an audited collaboration calendar event
+description: Creates a tenant-scoped calendar event with explicit audience scope and optional source object link. The
+  server records an audit event and an append-only lifecycle event under forced RLS.
+security:
+- bearerAuth: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/CreateCalendarEventRequest'
+responses:
+  '200':
+    description: Created calendar event.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/CalendarEventResponse'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '422':
+    $ref: '#/components/responses/ValidationError'

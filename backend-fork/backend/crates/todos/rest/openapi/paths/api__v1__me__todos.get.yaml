@@ -1,0 +1,35 @@
+tags:
+  - me
+operationId: listMyTodos
+summary: List the authenticated user's todos, open first then newest first
+security:
+- bearerAuth: []
+parameters:
+- name: include_done
+  in: query
+  required: false
+  description: When true, also return completed todos (default false).
+  schema:
+    type: boolean
+- name: limit
+  in: query
+  required: false
+  description: Page size (clamped server-side to 1..=200; default 100).
+  schema:
+    type: integer
+    format: int64
+responses:
+  '200':
+    description: The caller's todos.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/TodoPage'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '503':
+    description: JWT verification is not configured.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ErrorBody'

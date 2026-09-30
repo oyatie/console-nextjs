@@ -1,0 +1,44 @@
+allOf:
+  - $ref: '#/components/schemas/Equipment3rCaseView'
+  - type: object
+    required: [inspections, createdBy, createdAt, updatedAt]
+    properties:
+      approval:
+        type: object
+        nullable: true
+        properties:
+          decision: { type: string, enum: [APPROVED, DECLINED] }
+          reason: { type: string, nullable: true }
+          decidedBy: { $ref: '#/components/schemas/Uuid' }
+          decidedAt: { type: string, format: date-time }
+      dispatch:
+        type: object
+        nullable: true
+        properties:
+          carrierName: { type: string }
+          vehicleReference: { type: string }
+          dispatchedAt: { type: string, format: date-time }
+      handover:
+        type: object
+        nullable: true
+        properties:
+          recipientName: { type: string }
+          evidenceObjectId: { $ref: '#/components/schemas/Uuid' }
+          handedOverAt: { type: string, format: date-time }
+      returnedAt: { type: string, format: date-time, nullable: true }
+      assessment:
+        type: object
+        nullable: true
+        properties:
+          conditionGrade: { type: string, enum: [A, B, C, D] }
+          findings: { type: string }
+          disposition: { type: string, enum: [REPAIR, REFURBISH, RESALE, REDEPLOY] }
+          assessedBy: { $ref: '#/components/schemas/Uuid' }
+          assessedAt: { type: string, format: date-time }
+      dispositionId: { $ref: '#/components/schemas/Uuid', nullable: true }
+      inspections:
+        type: array
+        items: { $ref: '#/components/schemas/Equipment3rInspectionView' }
+      createdBy: { $ref: '#/components/schemas/Uuid' }
+      createdAt: { type: string, format: date-time }
+      updatedAt: { type: string, format: date-time }

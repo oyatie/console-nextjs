@@ -1,0 +1,12 @@
+type: object
+required: [id, status, operationalCost, financeGlPosting]
+properties:
+  id: { $ref: '#/components/schemas/Uuid' }
+  status: { type: string, enum: [SETTLED] }
+  operationalCost:
+    type: object
+    required: [currency, amountMinor]
+    properties:
+      currency: { type: string, enum: [KRW] }
+      amountMinor: { type: integer, format: int64 }
+  financeGlPosting: { nullable: true, description: 'Always null by design — no GL/finance edge in the pilot' }

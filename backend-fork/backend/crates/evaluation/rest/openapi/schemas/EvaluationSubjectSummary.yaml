@@ -1,0 +1,13 @@
+type: object
+additionalProperties: false
+required: [id, cycle_id, employee_id, employee_name, org_unit, manager_user_id, state, final_grade, rv_code]
+properties:
+  id: { $ref: '#/components/schemas/Uuid' }
+  cycle_id: { $ref: '#/components/schemas/Uuid' }
+  employee_id: { $ref: '#/components/schemas/Uuid' }
+  employee_name: { type: string }
+  org_unit: { type: [string, 'null'] }
+  manager_user_id: { $ref: '#/components/schemas/Uuid' }
+  state: { $ref: '#/components/schemas/EvaluationSubjectState' }
+  final_grade: { oneOf: [{ $ref: '#/components/schemas/EvaluationGrade' }, { type: 'null' }] }
+  rv_code: { type: [string, 'null'] }

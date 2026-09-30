@@ -1,0 +1,19 @@
+[package]
+name = "console-gate-personal-data-classification"
+version = "0.1.0"
+description = "CI gate: every column of a classified table carries a personal-data classification marker."
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[[bin]]
+name = "console-gate-personal-data-classification"
+path = "src/main.rs"
+
+[lib]
+name = "console_gate_personal_data_classification"
+path = "src/lib.rs"
+
+[lints]
+workspace = true

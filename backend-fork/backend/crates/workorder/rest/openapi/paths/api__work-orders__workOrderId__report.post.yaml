@@ -1,0 +1,21 @@
+tags:
+  - work-orders
+operationId: submitWorkOrderReport
+summary: Submit a mechanic work report
+security:
+- bearerAuth: []
+parameters:
+- $ref: '#/components/parameters/WorkOrderId'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/SubmitReportRequest'
+responses:
+  '200':
+    description: Report-submitted work order.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/WorkOrderSummary'

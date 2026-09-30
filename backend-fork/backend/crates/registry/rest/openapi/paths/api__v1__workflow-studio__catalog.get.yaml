@@ -1,0 +1,20 @@
+tags:
+  - workflow-studio
+operationId: getWorkflowStudioCatalog
+summary: List Workflow Studio connector allowlist and templates
+description: 'Returns the server-owned connector/action allowlist and starter workflow templates. This is the safe no-code
+  boundary: workflow authors can only compose allowed internal actions, and every request still requires tenant RLS
+  plus RoleManage authorization.'
+security:
+- bearerAuth: []
+responses:
+  '200':
+    description: Workflow Studio catalog.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/WorkflowStudioCatalogResponse'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'

@@ -1,0 +1,9 @@
+type: object
+required:
+- thread_id
+- muted
+properties:
+  thread_id:
+    $ref: '#/components/schemas/Uuid'
+  muted:
+    type: boolean

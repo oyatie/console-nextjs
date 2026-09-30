@@ -1,0 +1,6 @@
+type: object
+required: [id, enabled, credential_generation]
+properties:
+  id: {$ref: '#/components/schemas/Uuid'}
+  enabled: {type: boolean, description: Always false after a source system is disabled.}
+  credential_generation: {type: integer, format: int32, minimum: 1}

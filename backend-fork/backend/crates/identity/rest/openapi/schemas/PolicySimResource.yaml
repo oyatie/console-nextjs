@@ -1,0 +1,17 @@
+type: object
+required:
+- org
+- resource_type
+properties:
+  org:
+    $ref: '#/components/schemas/Uuid'
+  resource_type:
+    type: string
+  resource_id:
+    type: string
+  owner:
+    type: string
+  branch:
+    type: string
+  legal_hold:
+    type: boolean

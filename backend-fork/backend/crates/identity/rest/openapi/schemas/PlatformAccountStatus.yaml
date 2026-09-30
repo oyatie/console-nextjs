@@ -1,0 +1,5 @@
+type: string
+enum:
+- ACTIVE
+- PENDING_SETUP
+- DEACTIVATED

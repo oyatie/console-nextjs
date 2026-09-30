@@ -1,0 +1,25 @@
+tags:
+  - workflow-studio
+operationId: disableWorkflowTriggerBinding
+summary: Disable a workflow trigger binding
+security:
+- bearerAuth: []
+parameters:
+- name: id
+  in: path
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+responses:
+  '200':
+    description: Updated trigger binding.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/TriggerBindingResponse'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'

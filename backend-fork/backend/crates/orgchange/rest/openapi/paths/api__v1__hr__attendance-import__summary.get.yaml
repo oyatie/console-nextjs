@@ -1,0 +1,37 @@
+tags:
+  - hr
+operationId: listAttendanceImportSummary
+summary: List governed direct attendance import runs
+description: Lists attendance_direct import runs and summaries for authorized HR readers without exposing raw source
+  rows.
+security:
+- bearerAuth: []
+parameters:
+- name: limit
+  in: query
+  required: false
+  schema:
+    type: integer
+    format: int64
+    minimum: 1
+    maximum: 1000
+    default: 500
+- name: offset
+  in: query
+  required: false
+  schema:
+    type: integer
+    format: int64
+    minimum: 0
+    default: 0
+responses:
+  '200':
+    description: Direct attendance import run summaries.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/AttendanceImportSummaryPage'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'

@@ -1,0 +1,14 @@
+tags:
+  - auth
+summary: Logout and revoke refresh-token family
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/LogoutRequest'
+responses:
+  '204':
+    description: Refresh-token family revoked.
+  '401':
+    $ref: '#/components/responses/Unauthorized'

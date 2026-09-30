@@ -1,0 +1,14 @@
+type: object
+required:
+- feature_key
+- schema_version
+- preferences
+properties:
+  feature_key:
+    type: string
+  schema_version:
+    type: integer
+    format: int32
+  preferences:
+    type: object
+    additionalProperties: true

@@ -1,0 +1,11 @@
+type: object
+required: [id, evidence_object_id, manifest_digest_sha256, signature_algorithm, export_reason, exported_by, exported_at]
+properties:
+  id: { type: string, format: uuid }
+  evidence_object_id: { type: string, format: uuid }
+  manifest_digest_sha256: { type: string }
+  signature_algorithm: { type: string }
+  signature_ref: { type: string, nullable: true }
+  export_reason: { type: string }
+  exported_by: { type: string, format: uuid }
+  exported_at: { type: string, format: date-time }

@@ -1,0 +1,27 @@
+tags:
+  - evidence
+operationId: getEvidenceProcessingStatus
+summary: Poll the server-side processing status of an evidence row
+security:
+- bearerAuth: []
+parameters:
+- $ref: '#/components/parameters/EvidenceId'
+responses:
+  '200':
+    description: Evidence processing status.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/EvidenceStatusResponse'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '503':
+    description: Evidence storage is not configured.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ErrorBody'

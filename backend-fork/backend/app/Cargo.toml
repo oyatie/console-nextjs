@@ -1,0 +1,189 @@
+[package]
+name = "console-app"
+version = "0.1.0"
+description = "Composition root binary for the maintenance FSM backend."
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+default-run = "console-app"
+
+[[bin]]
+name = "console-app"
+path = "src/main.rs"
+
+# Cedar/PBAC parity evidence: read-only aggregation of recorded shadow parity
+# observations (`authz.cedar_pbac_parity` audit rows) into per-site agree/disagree
+# totals + concrete divergent cases. Promotion gate reads this; no REST surface.
+[[bin]]
+name = "console-cedar-parity-report"
+path = "src/bin/console_cedar_parity_report.rs"
+
+[lib]
+name = "console_app"
+path = "src/lib.rs"
+
+[features]
+# Enables the inline PostgreSQL integration suite. This is intentionally inert
+# by default so normal unit tests need no database topology.
+test-postgres = []
+# Local role-switch dev-auth endpoint. NOT in `default` (there is no `default`
+# key here, so cargo's implicit default feature set is empty) and MUST NEVER be
+# added to one — `console-gate-dev-auth-absence` asserts this via `cargo metadata`
+# and is wired into CI as a blocking gate.
+dev-auth = ["console-platform-auth-rest/dev-auth"]
+
+[dependencies]
+axum = { workspace = true }
+base64 = { workspace = true }
+calamine = { workspace = true }
+chrono = { workspace = true }
+chrono-tz = { workspace = true }
+croner = { workspace = true }
+futures = { workspace = true }
+http = { workspace = true }
+hex = { workspace = true }
+ipnet = { workspace = true }
+jsonwebtoken = { workspace = true }
+reqwest = { workspace = true }
+console-comms-adapter-imap = { workspace = true }
+console-comms-adapter-postgres = { workspace = true }
+console-comms-application = { workspace = true }
+console-comms-credential-cipher = { workspace = true }
+console-comms-rest = { workspace = true }
+console-action-inbox-application = { workspace = true }
+console-benefit-adapter-postgres = { workspace = true }
+console-benefit-rest = { workspace = true }
+console-consulting-rest = { workspace = true }
+console-compliance-adapter-postgres = { workspace = true }
+console-compliance-rest = { workspace = true }
+console-erp-domain = { workspace = true }
+console-integrity = { workspace = true }
+console-financial-adapter-postgres = { workspace = true }
+console-financial-rest = { workspace = true }
+console-facilities-rest = { path = "../crates/facilities/rest" }
+console-identity-adapter-postgres = { workspace = true }
+console-identity-rest = { workspace = true }
+console-inspection-adapter-postgres = { workspace = true }
+console-inspection-rest = { workspace = true }
+console-inventory-adapter-postgres = { workspace = true }
+console-inventory-rest = { workspace = true }
+console-support-adapter-postgres = { workspace = true }
+console-support-application = { workspace = true }
+console-support-domain = { workspace = true }
+console-support-rest = { workspace = true }
+console-sales-adapter-postgres = { workspace = true }
+console-sales-rest = { workspace = true }
+console-kernel-core = { workspace = true }
+console-messenger-adapter-postgres = { workspace = true }
+console-messenger-rest = { workspace = true }
+console-notifications-adapter-postgres = { workspace = true }
+console-notifications-rest = { workspace = true }
+console-inbox-adapter-postgres = { workspace = true }
+console-inbox-rest = { workspace = true }
+console-leave-adapter-postgres = { workspace = true }
+console-leave-domain = { workspace = true }
+console-equipment-adapter-postgres = { workspace = true }
+console-equipment-rest = { workspace = true }
+console-evaluation-adapter-postgres = { workspace = true }
+console-evaluation-rest = { workspace = true }
+console-logistics-adapter-postgres = { workspace = true }
+console-logistics-rest = { workspace = true }
+console-recruiting-adapter-postgres = { workspace = true }
+console-recruiting-application = { workspace = true }
+console-recruiting-domain = { workspace = true }
+console-recruiting-rest = { workspace = true }
+console-leave-rest = { workspace = true }
+console-todos-adapter-postgres = { workspace = true }
+console-todos-rest = { workspace = true }
+console-payroll-domain = { workspace = true }
+console-payroll-adapter-postgres = { workspace = true }
+console-payroll-rest = { workspace = true }
+console-payroll-ui = { path = "../crates/payroll/ui" }
+console-notices-adapter-postgres = { workspace = true }
+console-notices-rest = { workspace = true }
+console-finance-gl-adapter-postgres = { workspace = true }
+console-finance-gl-rest = { workspace = true }
+console-analytics-quant-rest = { workspace = true }
+console-attendance-adapter-postgres = { workspace = true }
+console-attendance-rest = { workspace = true }
+console-platform-audit-chain = { path = "../crates/platform/audit-chain" }
+console-platform-auth = { path = "../crates/platform/auth" }
+console-platform-auth-rest = { workspace = true }
+console-platform-authz = { path = "../crates/platform/authz" }
+console-platform-authz-rest = { workspace = true }
+console-ontology-adapter-postgres = { workspace = true }
+# The four canonical ports this crate is the composition root for. No
+# [workspace.dependencies] entry exists for it (same as its two sibling owners),
+# so it is depended on by path. App is the only tier allowed to know a port
+# IMPLEMENTATION: the ontology REST tier stays free of a domain-adapter edge.
+console-ontology-canonical-adapter-postgres = { path = "../crates/ontology/canonical-adapter-postgres" }
+console-ontology-rest = { workspace = true }
+console-governance-adapter-postgres = { workspace = true }
+console-governance-domain = { workspace = true }
+console-governance-rest = { workspace = true }
+console-orgchange-adapter-postgres = { workspace = true }
+console-orgchange-rest = { workspace = true }
+console-docs-adapter-postgres = { workspace = true }
+console-docs-rest = { workspace = true }
+console-platform-request-context = { workspace = true }
+console-platform-db = { workspace = true }
+console-platform-email = { workspace = true }
+console-platform-jobs = { workspace = true }
+console-platform-provisioning = { path = "../crates/platform/provisioning" }
+console-platform-rest = { path = "../crates/platform/platform-rest" }
+console-platform-push = { workspace = true }
+console-platform-realtime = { workspace = true }
+console-platform-storage = { workspace = true }
+console-reporting-adapter-postgres = { workspace = true }
+console-reporting-rest = { workspace = true }
+console-registry-adapter-postgres = { workspace = true }
+console-registry-application = { workspace = true }
+console-registry-domain = { workspace = true }
+console-registry-rest = { workspace = true }
+console-dispatch-adapter-postgres = { workspace = true }
+console-dispatch-domain = { workspace = true }
+console-dispatch-rest = { workspace = true }
+console-dispatch-worker = { workspace = true }
+console-workflow-domain = { workspace = true }
+console-workflow-runtime = { workspace = true }
+console-workflow-runtime-adapter-postgres = { workspace = true }
+console-workorder-adapter-postgres = { workspace = true }
+console-workorder-application = { workspace = true }
+console-workorder-rest = { workspace = true }
+console-production-rest = { workspace = true }
+opentelemetry = { workspace = true }
+opentelemetry-otlp = { workspace = true, features = ["grpc-tonic"] }
+opentelemetry_sdk = { workspace = true }
+metrics = { workspace = true }
+metrics-exporter-prometheus = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+sha2 = { workspace = true }
+sqlx = { workspace = true }
+thiserror = { workspace = true }
+time = { workspace = true }
+tokio = { workspace = true, features = ["net", "signal", "sync", "time"] }
+tower-http = { workspace = true, features = ["timeout", "trace"] }
+tracing = { workspace = true }
+tracing-opentelemetry = { workspace = true }
+tracing-subscriber = { workspace = true, features = ["env-filter", "fmt", "json"] }
+url = { workspace = true }
+uuid = { workspace = true }
+
+[dev-dependencies]
+console-platform-test-support = { path = "../crates/platform/test-support" }
+console-financial-application = { workspace = true }
+console-financial-domain = { workspace = true }
+console-governance-application = { workspace = true }
+console-notifications-domain = { workspace = true }
+# Dev-only: the coverage test asks `DispatchTarget::ALL` what the roster holds.
+console-ontology-canonical-domain = { path = "../crates/ontology/canonical-domain" }
+p256 = { version = "0.13.2", features = ["ecdsa", "pkcs8", "pem"] }
+tokio = { workspace = true, features = ["io-util", "net", "macros", "rt-multi-thread"] }
+tower = { workspace = true, features = ["util"] }
+webauthn-authenticator-rs = { version = "0.5.5", features = ["softpasskey"] }
+webauthn-rs = { version = "0.5.5", features = ["danger-allow-state-serialisation"] }
+
+[lints]
+workspace = true

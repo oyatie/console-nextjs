@@ -1,0 +1,21 @@
+tags:
+  - work-orders
+operationId: getWorkOrderDetail
+summary: Fetch branch-scoped work-order detail
+security:
+- bearerAuth: []
+parameters:
+- $ref: '#/components/parameters/WorkOrderId'
+responses:
+  '200':
+    description: Full work-order detail.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/WorkOrderDetail'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'

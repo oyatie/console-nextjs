@@ -1,0 +1,36 @@
+tags:
+- org
+operationId: submitOrgChange
+summary: Submit for SoD approval
+description: DRAFT or PRECHECKED only — running preflight first is optional and is never a prerequisite, because
+  submit recomputes the receipt inside its own transaction (blockers found there are a 409) and is what stores
+  it, before seeding the ordered hr → finance → legal → executive approval chain. PRECHECKED is still accepted
+  only so requests written before preflight became read-only keep working; their stored receipt is replaced,
+  never trusted.
+security:
+- bearerAuth: []
+parameters:
+- name: id
+  in: path
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+responses:
+  '200':
+    description: Now IN_APPROVAL with the pending approval chain.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/OrgChangeDetail'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '409':
+    $ref: '#/components/responses/Conflict'
+  '422':
+    $ref: '#/components/responses/ValidationError'
+  '503':
+    $ref: '#/components/responses/ServiceUnavailable'

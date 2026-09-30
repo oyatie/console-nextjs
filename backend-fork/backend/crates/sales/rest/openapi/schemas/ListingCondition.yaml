@@ -1,0 +1,5 @@
+type: string
+description: Whether a listed unit is used (중고) or brand-new (신차).
+enum:
+- USED
+- NEW

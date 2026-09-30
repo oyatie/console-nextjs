@@ -1,0 +1,14 @@
+type: object
+required:
+- object_type
+- object_id
+- actions
+properties:
+  object_type:
+    type: string
+  object_id:
+    $ref: '#/components/schemas/Uuid'
+  actions:
+    type: array
+    items:
+      $ref: '#/components/schemas/ObjectActionDescriptor'

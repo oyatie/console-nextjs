@@ -1,0 +1,66 @@
+type: object
+required:
+- id
+- name
+- branch_id
+- customer_id
+- customer_name
+- address
+- province
+- city
+- postal_code
+- latitude
+- longitude
+- geofence_radius_m
+- contact_name
+- contact_phone
+properties:
+  id:
+    $ref: '#/components/schemas/Uuid'
+  name:
+    type: string
+  branch_id:
+    $ref: '#/components/schemas/Uuid'
+  customer_id:
+    $ref: '#/components/schemas/Uuid'
+  customer_name:
+    type: string
+  address:
+    type:
+    - string
+    - 'null'
+  province:
+    type:
+    - string
+    - 'null'
+  city:
+    type:
+    - string
+    - 'null'
+  postal_code:
+    type:
+    - string
+    - 'null'
+  latitude:
+    type:
+    - number
+    - 'null'
+    format: double
+  longitude:
+    type:
+    - number
+    - 'null'
+    format: double
+  geofence_radius_m:
+    type:
+    - number
+    - 'null'
+    format: double
+  contact_name:
+    type:
+    - string
+    - 'null'
+  contact_phone:
+    type:
+    - string
+    - 'null'

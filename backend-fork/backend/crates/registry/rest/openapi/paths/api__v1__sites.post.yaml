@@ -1,0 +1,37 @@
+tags:
+  - sites
+operationId: createSite
+summary: Create a site (현장) under an existing customer
+description: Admin-gated (EquipmentManage). Creates a site under a customer in the caller's authorized branch scope;
+  organization-wide callers may use any customer in their organization. A customer outside that scope is a 404, including
+  another tenant's customer hidden by RLS. The name is required and bounded;
+  optional address / WGS84 coordinates / contact fields follow the same ranges and length bounds as PATCH /api/v1/sites/{id}
+  (a one-sided coordinate or an over-long value is a 422). A duplicate site name under the same customer is a 409. The
+  created site is returned so it appears in the 고객·현장 list immediately.
+security:
+- bearerAuth: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/CreateSiteRequest'
+responses:
+  '201':
+    description: Site created.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/CreatedSite'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '409':
+    $ref: '#/components/responses/Conflict'
+  '422':
+    $ref: '#/components/responses/ValidationError'
+  '503':
+    description: JWT verification is not configured.

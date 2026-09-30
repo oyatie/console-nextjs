@@ -1,0 +1,19 @@
+tags:
+  - auth
+operationId: approveDeviceLogin
+summary: Approve a desktop QR login with an existing phone passkey
+description: Phone-side approval for an existing passkey user. The phone submits the approve token plus a usernameless
+  passkey assertion; the approved user is resolved from that assertion. This endpoint does not mint a phone token.
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/DeviceLoginApproveRequest'
+responses:
+  '204':
+    description: The desktop handoff was approved.
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '429':
+    $ref: '#/components/responses/TooManyRequests'

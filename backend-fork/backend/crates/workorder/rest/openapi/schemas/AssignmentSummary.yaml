@@ -1,0 +1,18 @@
+type: object
+required:
+- id
+- mechanic_id
+- mechanic_name
+- role
+- assigned_at
+properties:
+  id:
+    $ref: '#/components/schemas/Uuid'
+  mechanic_id:
+    $ref: '#/components/schemas/Uuid'
+  mechanic_name:
+    type: string
+  role:
+    $ref: '#/components/schemas/AssignmentRole'
+  assigned_at:
+    $ref: '#/components/schemas/Timestamp'

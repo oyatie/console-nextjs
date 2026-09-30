@@ -1,0 +1,1030 @@
+{
+  "schema_version": "console-jurisdiction-register-v2",
+  "last_refreshed": "2026-08-14T20:55:00-04:00",
+  "target_jurisdiction_set": [
+    "KR"
+  ],
+  "governing_lifecycle": {
+    "status": "HOLD_UNAVAILABLE",
+    "path": null,
+    "last_known_sha256": "7ce8d90f953ab2f90e7053dea2965e87f6bfb1f928507f5ff979c37923dd400c",
+    "mutation_policy": "not_an_active_dependency",
+    "reason": "The absolute-path source was absent from the workstation and every tracked object during disk-wipe consolidation. Its last-known digest is retained only as provenance; no lifecycle rule may be derived from an unavailable source."
+  },
+  "jurisdictions": [
+    {
+      "id": "JUR-KR-001",
+      "country_code": "KR",
+      "label": "Republic of Korea",
+      "product_scope": "B2B SaaS console",
+      "data_scope": [
+        "organization_and_site",
+        "identity_and_workforce",
+        "customer_and_contract",
+        "operations_and_assets",
+        "financial_and_tax",
+        "safety_quality_and_environment",
+        "communications_documents_and_evidence",
+        "location_and_device_context",
+        "analytics_and_automation"
+      ],
+      "eligibility_status": "hold_pending_qualified_review",
+      "qualified_source_owner": null,
+      "last_qualified_review": null,
+      "next_review_due": null,
+      "release_rule": "Every applicable control must have a current authoritative source, effective date, applicability result, candidate-bound evidence, and qualified I2/I3 receipt before production exposure.",
+      "freshness": {
+        "status": "HOLD_UNQUALIFIED",
+        "review_interval": "No interval starts until a qualified source owner records an authoritative source and review expiry.",
+        "last_verified_at": null
+      },
+      "unhold_authority": "Only a qualified Korea legal/compliance authority may unhold a control after source, applicability, effective-date, candidate evidence, and I2/I3 receipt review."
+    }
+  ],
+  "controls": [
+    {
+      "id": "CTRL-KR-PRIVACY-001",
+      "jurisdiction_id": "JUR-KR-001",
+      "category": "privacy_and_personal_information",
+      "scope": "Identity, workforce, customer, communication, document, analytics, and audit data.",
+      "authoritative_sources": [],
+      "effective_date": null,
+      "applicability": "research_required",
+      "evidence_paths": [],
+      "qualified_reviewer": null,
+      "release_disposition": "HOLD",
+      "freshness": {
+        "status": "HOLD_UNQUALIFIED",
+        "last_verified_at": null,
+        "review_expiry": null
+      },
+      "unhold_authority": "Qualified Korea legal/compliance authority with attributable I2/I3 candidate-bound receipt.",
+      "capability_traceability": [
+        {
+          "capability_id": "CAP-CONSOLE-SHELL",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-OVERVIEW-WORKSPACE",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-BENEFITS-CATALOG",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-COMPLIANCE-CATALOG",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-SHARED-ONTOLOGY-WORKFLOW",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-PRODUCTION-PILOT",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-LOGISTICS-PILOT",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-IFM-PILOT",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-EQUIPMENT-3R-PILOT",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-CONSULTING-PILOT",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-OWNED-PLANTS-PILOT",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-PAYROLL-CONSOLE",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-ATTENDANCE-CONSOLE",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-RECRUITING",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-ORG-CONSOLE",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-EVALUATION-CONSOLE",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-INVENTORY-CONSOLE",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-DISPATCH-CONSOLE",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-MAINTENANCE-CONSOLE",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-FIELD-CONSOLE",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-DOCS-EVIDENCE-CONSOLE",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-NOTIF-CONSOLE",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-BOARD-CONSOLE",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-DIRECTORY-CONSOLE",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-ASSET-MASTER-ACTION",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-ONTOLOGY-ENGINE",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-SALES-CRM",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        }
+      ],
+      "candidate_evidence": {
+        "status": "HOLD",
+        "reason": "No qualified source, applicability finding, or candidate-bound evidence is admitted."
+      }
+    },
+    {
+      "id": "CTRL-KR-WORKFORCE-001",
+      "jurisdiction_id": "JUR-KR-001",
+      "category": "employment_payroll_benefits_and_working_time",
+      "scope": "Employment, vendor workers, rosters, attendance, leave, payroll, benefits, training, and labor cost.",
+      "authoritative_sources": [],
+      "effective_date": null,
+      "applicability": "research_required",
+      "evidence_paths": [],
+      "qualified_reviewer": null,
+      "release_disposition": "HOLD",
+      "freshness": {
+        "status": "HOLD_UNQUALIFIED",
+        "last_verified_at": null,
+        "review_expiry": null
+      },
+      "unhold_authority": "Qualified Korea legal/compliance authority with attributable I2/I3 candidate-bound receipt.",
+      "capability_traceability": [
+        {
+          "capability_id": "CAP-CONSOLE-SHELL",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-OVERVIEW-WORKSPACE",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-BENEFITS-CATALOG",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-COMPLIANCE-CATALOG",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-SHARED-ONTOLOGY-WORKFLOW",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-PRODUCTION-PILOT",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-LOGISTICS-PILOT",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-IFM-PILOT",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-EQUIPMENT-3R-PILOT",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-CONSULTING-PILOT",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-OWNED-PLANTS-PILOT",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-PAYROLL-CONSOLE",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-ATTENDANCE-CONSOLE",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-RECRUITING",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-ORG-CONSOLE",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-EVALUATION-CONSOLE",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-INVENTORY-CONSOLE",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-DISPATCH-CONSOLE",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-MAINTENANCE-CONSOLE",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-FIELD-CONSOLE",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-DOCS-EVIDENCE-CONSOLE",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-NOTIF-CONSOLE",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-BOARD-CONSOLE",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-DIRECTORY-CONSOLE",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-ASSET-MASTER-ACTION",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-ONTOLOGY-ENGINE",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-SALES-CRM",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        }
+      ],
+      "candidate_evidence": {
+        "status": "HOLD",
+        "reason": "No qualified source, applicability finding, or candidate-bound evidence is admitted."
+      }
+    },
+    {
+      "id": "CTRL-KR-SAFETY-001",
+      "jurisdiction_id": "JUR-KR-001",
+      "category": "occupational_safety_environment_and_incident_control",
+      "scope": "Production, logistics, facilities, equipment, incidents, hazards, training, permits, and corrective actions.",
+      "authoritative_sources": [],
+      "effective_date": null,
+      "applicability": "research_required",
+      "evidence_paths": [],
+      "qualified_reviewer": null,
+      "release_disposition": "HOLD",
+      "freshness": {
+        "status": "HOLD_UNQUALIFIED",
+        "last_verified_at": null,
+        "review_expiry": null
+      },
+      "unhold_authority": "Qualified Korea legal/compliance authority with attributable I2/I3 candidate-bound receipt.",
+      "capability_traceability": [
+        {
+          "capability_id": "CAP-CONSOLE-SHELL",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-OVERVIEW-WORKSPACE",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-BENEFITS-CATALOG",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-COMPLIANCE-CATALOG",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-SHARED-ONTOLOGY-WORKFLOW",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-PRODUCTION-PILOT",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-LOGISTICS-PILOT",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-IFM-PILOT",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-EQUIPMENT-3R-PILOT",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-CONSULTING-PILOT",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-OWNED-PLANTS-PILOT",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-PAYROLL-CONSOLE",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-ATTENDANCE-CONSOLE",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-RECRUITING",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-ORG-CONSOLE",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-EVALUATION-CONSOLE",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-INVENTORY-CONSOLE",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-DISPATCH-CONSOLE",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-MAINTENANCE-CONSOLE",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-FIELD-CONSOLE",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-DOCS-EVIDENCE-CONSOLE",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-NOTIF-CONSOLE",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-BOARD-CONSOLE",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-DIRECTORY-CONSOLE",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-ASSET-MASTER-ACTION",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-ONTOLOGY-ENGINE",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-SALES-CRM",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        }
+      ],
+      "candidate_evidence": {
+        "status": "HOLD",
+        "reason": "No qualified source, applicability finding, or candidate-bound evidence is admitted."
+      }
+    },
+    {
+      "id": "CTRL-KR-FINANCE-001",
+      "jurisdiction_id": "JUR-KR-001",
+      "category": "tax_accounting_invoicing_and_financial_records",
+      "scope": "Contracts, prices, purchase-to-pay, invoices, settlement, ledger, payroll cost, margin, and retained evidence.",
+      "authoritative_sources": [],
+      "effective_date": null,
+      "applicability": "research_required",
+      "evidence_paths": [],
+      "qualified_reviewer": null,
+      "release_disposition": "HOLD",
+      "freshness": {
+        "status": "HOLD_UNQUALIFIED",
+        "last_verified_at": null,
+        "review_expiry": null
+      },
+      "unhold_authority": "Qualified Korea legal/compliance authority with attributable I2/I3 candidate-bound receipt.",
+      "capability_traceability": [
+        {
+          "capability_id": "CAP-CONSOLE-SHELL",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-OVERVIEW-WORKSPACE",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-BENEFITS-CATALOG",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-COMPLIANCE-CATALOG",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-SHARED-ONTOLOGY-WORKFLOW",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-PRODUCTION-PILOT",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-LOGISTICS-PILOT",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-IFM-PILOT",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-EQUIPMENT-3R-PILOT",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-CONSULTING-PILOT",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-OWNED-PLANTS-PILOT",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-PAYROLL-CONSOLE",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-ATTENDANCE-CONSOLE",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-RECRUITING",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-ORG-CONSOLE",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-EVALUATION-CONSOLE",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-INVENTORY-CONSOLE",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-DISPATCH-CONSOLE",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-MAINTENANCE-CONSOLE",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-FIELD-CONSOLE",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-DOCS-EVIDENCE-CONSOLE",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-NOTIF-CONSOLE",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-BOARD-CONSOLE",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-DIRECTORY-CONSOLE",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-ASSET-MASTER-ACTION",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-ONTOLOGY-ENGINE",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-SALES-CRM",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        }
+      ],
+      "candidate_evidence": {
+        "status": "HOLD",
+        "reason": "No qualified source, applicability finding, or candidate-bound evidence is admitted."
+      }
+    },
+    {
+      "id": "CTRL-KR-LOCATION-001",
+      "jurisdiction_id": "JUR-KR-001",
+      "category": "location_information_and_device_context",
+      "scope": "Location consent, pings, arrival events, dispatch, field work, and device-linked audit.",
+      "authoritative_sources": [],
+      "effective_date": null,
+      "applicability": "research_required",
+      "evidence_paths": [],
+      "qualified_reviewer": null,
+      "release_disposition": "HOLD",
+      "freshness": {
+        "status": "HOLD_UNQUALIFIED",
+        "last_verified_at": null,
+        "review_expiry": null
+      },
+      "unhold_authority": "Qualified Korea legal/compliance authority with attributable I2/I3 candidate-bound receipt.",
+      "capability_traceability": [
+        {
+          "capability_id": "CAP-CONSOLE-SHELL",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-OVERVIEW-WORKSPACE",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-BENEFITS-CATALOG",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-COMPLIANCE-CATALOG",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-SHARED-ONTOLOGY-WORKFLOW",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-PRODUCTION-PILOT",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-LOGISTICS-PILOT",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-IFM-PILOT",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-EQUIPMENT-3R-PILOT",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-CONSULTING-PILOT",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-OWNED-PLANTS-PILOT",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-PAYROLL-CONSOLE",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-ATTENDANCE-CONSOLE",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-RECRUITING",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-ORG-CONSOLE",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-EVALUATION-CONSOLE",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-INVENTORY-CONSOLE",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-DISPATCH-CONSOLE",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-MAINTENANCE-CONSOLE",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-FIELD-CONSOLE",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-DOCS-EVIDENCE-CONSOLE",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-NOTIF-CONSOLE",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-BOARD-CONSOLE",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-DIRECTORY-CONSOLE",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-ASSET-MASTER-ACTION",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-ONTOLOGY-ENGINE",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-SALES-CRM",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        }
+      ],
+      "candidate_evidence": {
+        "status": "HOLD",
+        "reason": "No qualified source, applicability finding, or candidate-bound evidence is admitted."
+      }
+    },
+    {
+      "id": "CTRL-KR-RECORDS-001",
+      "jurisdiction_id": "JUR-KR-001",
+      "category": "electronic_transactions_documents_signatures_and_retention",
+      "scope": "Approvals, contracts, notices, mail, documents, evidence, audit, retention, legal hold, and electronic acknowledgment.",
+      "authoritative_sources": [],
+      "effective_date": null,
+      "applicability": "research_required",
+      "evidence_paths": [],
+      "qualified_reviewer": null,
+      "release_disposition": "HOLD",
+      "freshness": {
+        "status": "HOLD_UNQUALIFIED",
+        "last_verified_at": null,
+        "review_expiry": null
+      },
+      "unhold_authority": "Qualified Korea legal/compliance authority with attributable I2/I3 candidate-bound receipt.",
+      "capability_traceability": [
+        {
+          "capability_id": "CAP-CONSOLE-SHELL",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-OVERVIEW-WORKSPACE",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-BENEFITS-CATALOG",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-COMPLIANCE-CATALOG",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-SHARED-ONTOLOGY-WORKFLOW",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-PRODUCTION-PILOT",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-LOGISTICS-PILOT",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-IFM-PILOT",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-EQUIPMENT-3R-PILOT",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-CONSULTING-PILOT",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-OWNED-PLANTS-PILOT",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-PAYROLL-CONSOLE",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-ATTENDANCE-CONSOLE",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-RECRUITING",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-ORG-CONSOLE",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-EVALUATION-CONSOLE",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-INVENTORY-CONSOLE",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-DISPATCH-CONSOLE",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-MAINTENANCE-CONSOLE",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-FIELD-CONSOLE",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-DOCS-EVIDENCE-CONSOLE",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-NOTIF-CONSOLE",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-BOARD-CONSOLE",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-DIRECTORY-CONSOLE",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-ASSET-MASTER-ACTION",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-ONTOLOGY-ENGINE",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        },
+        {
+          "capability_id": "CAP-SALES-CRM",
+          "status": "HOLD",
+          "test_or_evidence": "No exact candidate-bound control test/evidence receipt admitted."
+        }
+      ],
+      "candidate_evidence": {
+        "status": "HOLD",
+        "reason": "No qualified source, applicability finding, or candidate-bound evidence is admitted."
+      }
+    }
+  ],
+  "source_process": {
+    "allowed_sources": [
+      "official_legislation_portal",
+      "official_regulator",
+      "court_or_authorized_interpretation",
+      "qualified_legal_opinion"
+    ],
+    "required_fields": [
+      "source_uri",
+      "retrieved_at",
+      "effective_date",
+      "applicability_reason",
+      "product_scope",
+      "data_scope",
+      "control_mapping",
+      "evidence_path",
+      "qualified_reviewer",
+      "review_expiry"
+    ],
+    "change_rule": "A source, effective-date, scope, or interpretation change invalidates dependent release evidence and requires a new candidate-bound review.",
+    "uncertainty_rule": "Missing, stale, conflicting, or unqualified authority is HOLD; agents may not invent certainty."
+  },
+  "provenance": {
+    "authority_base_sha": "d138ed28b65fa6dbec01bd8022be5a4e1db57687",
+    "authority_base_ref": "refs/tags/archive/pivot-authority-base-2026-07-28",
+    "historical_implementation_freeze_sha": "78cb5197927a031ead30c6dc0426c23455d3cb16",
+    "historical_implementation_freeze_ref": "refs/tags/archive/pre-pivot-implementation-freeze-2026-07-24",
+    "candidate_evidence_status": "HOLD"
+  },
+  "authority_train_note": "Refreshed with the ledger close for console-5yn / console-qjb open-bead prose (#768) \u2014 authority tip T (ledger close entry) on candidate C (register + documentation manifests + ci-preflight comment), restacked onto main 97a45cfc7f937154eeed27f457e6ee50851c4229. Records CLOSED via #767 / 4417bb377 (5yn) and already-on-tip #703 (qjb). No jurisdiction, control, or coverage claim changed in this commit."
+}

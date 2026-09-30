@@ -1,0 +1,34 @@
+{
+  "source": "console-benefit-rest",
+  "paths": {
+    "/api/v1/benefit-catalog/items": [
+      "get",
+      "post"
+    ],
+    "/api/v1/benefit-catalog/items/{benefit_id}": [
+      "get",
+      "patch"
+    ],
+    "/api/v1/benefit-catalog/items/{benefit_id}/conditions": [
+      "put"
+    ],
+    "/api/v1/benefit-catalog/items/{benefit_id}/tiers": [
+      "put"
+    ]
+  },
+  "schemas": [
+    "BenefitCatalogCondition",
+    "BenefitCatalogCreateRequest",
+    "BenefitCatalogItem",
+    "BenefitCatalogItemPage",
+    "BenefitCatalogLifecycleBinding",
+    "BenefitCatalogReplaceConditionsRequest",
+    "BenefitCatalogReplaceTiersRequest",
+    "BenefitCatalogScope",
+    "BenefitCatalogTier",
+    "BenefitCatalogUpdateRequest"
+  ],
+  "external_schemas": [
+    "Uuid"
+  ]
+}

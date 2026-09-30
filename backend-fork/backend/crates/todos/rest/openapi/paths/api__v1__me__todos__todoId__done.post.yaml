@@ -1,0 +1,39 @@
+tags:
+  - me
+operationId: setMyTodoDone
+summary: Mark one of the authenticated user's todos done or undone
+description: >-
+  Explicit target state so the same endpoint supports done AND undo.
+  A cross-user id is a 404, never another user's row. Audited as
+  todo.done / todo.undone.
+security:
+- bearerAuth: []
+parameters:
+- name: todoId
+  in: path
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/SetTodoDoneRequest'
+responses:
+  '200':
+    description: The updated todo.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/TodoSummary'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '503':
+    description: JWT verification is not configured.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ErrorBody'

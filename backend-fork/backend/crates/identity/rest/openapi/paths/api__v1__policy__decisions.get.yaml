@@ -1,0 +1,12 @@
+tags: [Policy]
+operationId: listPolicyDecisions
+security:
+  - bearerAuth: []
+parameters:
+  - { name: since, in: query, required: false, schema: { type: string, format: date-time } }
+responses:
+  '200':
+    description: recent decisions, newest first, capped at 200
+    content:
+      application/json:
+        schema: { type: array, items: { $ref: '#/components/schemas/DecisionLogRow' } }

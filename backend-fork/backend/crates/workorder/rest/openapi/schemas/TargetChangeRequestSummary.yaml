@@ -1,0 +1,16 @@
+type: object
+properties:
+  id:
+    $ref: '#/components/schemas/Uuid'
+  work_order_id:
+    $ref: '#/components/schemas/Uuid'
+  branch_id:
+    $ref: '#/components/schemas/Uuid'
+  requested_target_due_at:
+    $ref: '#/components/schemas/Timestamp'
+  status:
+    type: string
+    enum:
+    - REQUESTED
+    - APPROVED
+    - REJECTED

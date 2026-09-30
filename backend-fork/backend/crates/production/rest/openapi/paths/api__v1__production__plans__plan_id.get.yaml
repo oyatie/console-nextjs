@@ -1,0 +1,11 @@
+operationId: getProductionPlan
+tags: [Production]
+security: [{bearerAuth: []}]
+parameters:
+- name: plan_id
+  in: path
+  required: true
+  schema: {$ref: '#/components/schemas/Uuid'}
+responses:
+  '200': {description: "Plan, first operation, checks, and durable lifecycle lineage", content: {application/json: {schema: {$ref: '#/components/schemas/ProductionPlanDetail'}}}}
+  '404': {$ref: '#/components/responses/NotFound'}

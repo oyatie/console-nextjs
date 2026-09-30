@@ -1,0 +1,20 @@
+[package]
+name = "console-leave-domain"
+version = "0.1.0"
+description = "Pure leave-request domain types and validation (연차/반차 requests, decisions, §61 statutory push)."
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+console-kernel-core = { workspace = true }
+serde = { workspace = true }
+time = { workspace = true }
+uuid = { workspace = true }
+
+[dev-dependencies]
+serde_json = { workspace = true }
+
+[lints]
+workspace = true

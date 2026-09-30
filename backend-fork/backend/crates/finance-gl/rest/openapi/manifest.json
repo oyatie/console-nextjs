@@ -1,0 +1,52 @@
+{
+  "source": "console-finance-gl-rest",
+  "paths": {
+    "/api/v1/finance-gl/accounts/{account_code}/entries": [
+      "get"
+    ],
+    "/api/v1/finance-gl/vouchers": [
+      "get",
+      "post"
+    ],
+    "/api/v1/finance-gl/vouchers/{voucher_id}": [
+      "get"
+    ],
+    "/api/v1/finance-gl/vouchers/{voucher_id}/approve": [
+      "post"
+    ],
+    "/api/v1/finance-gl/vouchers/{voucher_id}/post": [
+      "post"
+    ],
+    "/api/v1/finance-gl/vouchers/{voucher_id}/reverse": [
+      "post"
+    ],
+    "/api/v1/finance-gl/vouchers/{voucher_id}/submit": [
+      "post"
+    ],
+    "/api/v1/period-locks": [
+      "get",
+      "post"
+    ],
+    "/api/v1/period-locks/{lockId}/unlock": [
+      "post"
+    ]
+  },
+  "schemas": [
+    "AccountDrillEntry",
+    "CreatePeriodLockRequest",
+    "CreateVoucherRequest",
+    "DebitCredit",
+    "PeriodLock",
+    "PeriodLockList",
+    "ReverseVoucherRequest",
+    "UnlockPeriodLockRequest",
+    "VoucherLineInput",
+    "VoucherLineSummary",
+    "VoucherStatus",
+    "VoucherSummary"
+  ],
+  "external_schemas": [
+    "Timestamp",
+    "Uuid"
+  ]
+}

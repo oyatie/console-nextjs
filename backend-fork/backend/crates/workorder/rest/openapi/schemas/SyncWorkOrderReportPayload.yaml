@@ -1,0 +1,15 @@
+type: object
+required:
+- work_order_id
+- result_type
+- diagnosis
+- action_taken
+properties:
+  work_order_id:
+    $ref: '#/components/schemas/Uuid'
+  result_type:
+    $ref: '#/components/schemas/WorkResultType'
+  diagnosis:
+    type: string
+  action_taken:
+    type: string

@@ -1,0 +1,191 @@
+{
+  "schema_version": "console-visual-baseline-v1",
+  "captured_at": "2026-07-23",
+  "status": "provisional_baseline_not_release_evidence",
+  "reference": {
+    "project_url": "https://claude.ai/design/p/9c7c313a-2187-4cf1-bb35-7c07ad0a4d9d",
+    "project_id": "9c7c313a-2187-4cf1-bb35-7c07ad0a4d9d",
+    "html_etag": "1784835511327971",
+    "documentation_etag": "1784835569492493",
+    "html_bytes": 2110720,
+    "html_sha256": "7af45931d383bc64f1fa80079ece34e07914f0392d738024c63993e07673894b",
+    "image_path": "docs/evidence/console/visual/mywork-claude-reference-2026-07-23.png",
+    "image_sha256": "64a3fcfb81a645862af31dcd2ba2bb00ecc7b56f33c36250030109e2425f8d22",
+    "image_dimensions": {
+      "width": 1280,
+      "height": 720
+    }
+  },
+  "reference_sync_policy": {
+    "cadence": [
+      "before_each_module_wave",
+      "before_candidate_visual_capture",
+      "after_user_reported_design_change",
+      "before_release_acceptance"
+    ],
+    "procedure": [
+      "verify_live_mcp_access",
+      "export_to_new_empty_directory",
+      "record_project_file_etags_bytes_and_sha256",
+      "classify_delta_by_module_and_interaction_contract",
+      "preserve_unaffected_candidate_evidence",
+      "rerun_only_impacted_visual_and_user_story_gates"
+    ],
+    "prototype_completion_is_product_evidence": false
+  },
+  "latest_reference_sync": {
+    "synced_at": "2026-07-23T22:34:11Z",
+    "project_id": "9c7c313a-2187-4cf1-bb35-7c07ad0a4d9d",
+    "html_etag": "1784843022706269",
+    "roadmap_etag": "1784843101958537",
+    "todo_etag": "1784843101958537",
+    "agents_etag": "1784843101958537",
+    "design_etag": "1784842661951827",
+    "html_bytes": 2138303,
+    "html_sha256": "afe30db771e99444dc69698942e602cf1db33acbd44955e33f9d7ce78ecbbc07",
+    "baseline_changed": true,
+    "impact_classification": {
+      "material_additions": [
+        "employee creation captures employment type, normalized phone, and base pay and exposes persisted values on the people card",
+        "legal-entity creation captures representative, registration number, and address and exposes persisted values on the entity card",
+        "extensible enum controls add a direct-entry path while object and person selectors move toward bounded typeahead instead of exhaustive chips",
+        "structured inputs normalize phone, currency, and business-registration values before submission",
+        "ontology creation coverage adds maintenance, site, position, and workforce-pool types"
+      ],
+      "affected_future_lanes": [
+        "people_and_workforce_admin",
+        "organization_and_legal_entity_admin",
+        "ontology_object_composer",
+        "policy_and_object_typeahead",
+        "shared_form_input_invariants",
+        "large_directory_virtualization_and_audit_partitioning"
+      ],
+      "unaffected_active_contracts": [
+        "responsive_console_shell",
+        "compliance_catalog",
+        "procurement_purchase_requests",
+        "sales_crm",
+        "inspection_ehs",
+        "approvals_bulk",
+        "ontology_analytics_read_model"
+      ],
+      "product_interpretation": [
+        "employee and entity fields require durable tenant-scoped backend persistence, authorization, audit, and generated API contracts; prototype-local arrays are not evidence",
+        "normalization is a client usability contract backed by server-side canonical validation and may not replace authorization or domain validation",
+        "direct-entry enum values must flow through governed domain-value creation rather than becoming untracked display strings",
+        "typeahead must use authorized paginated search with stable selection identity and truthful totals",
+        "new ontology types require real schemas, lifecycle policy, relationship semantics, and creation workflows rather than registry labels alone"
+      ],
+      "requires_new_reference_capture_before_release": true
+    }
+  },
+  "candidate": {
+    "branch": "codex/console-integration-20260723",
+    "commit_at_capture": "a729afcf",
+    "route": "/console/mywork",
+    "viewport": {
+      "width": 937,
+      "height": 912
+    },
+    "theme": "light",
+    "image_path": "docs/evidence/console/visual/mywork-live-baseline-2026-07-23.png",
+    "image_sha256": "7c6f513267584801dc95efe1b3a7f4e1fd61957219961ba37eb3a1a1d312f772",
+    "image_dimensions": {
+      "width": 937,
+      "height": 912
+    }
+  },
+  "evaluation": {
+    "method": "native_vision_review",
+    "tool_version": null,
+    "score": 46,
+    "score_scale": 100,
+    "comparison_note": "The reference and candidate captures have different native dimensions; the score is an orientation baseline, not a pixel-perfect or Visual Ralph gate.",
+    "material_gaps": [
+      "Information architecture differs: todo and timeline versus the reference task table and selected-detail workspace.",
+      "The expanded communication rail dominates the available workspace.",
+      "Summary, view, create, and workflow tools required by the reference are missing.",
+      "Density and scan hierarchy are materially weaker than the reference.",
+      "Generic heavy cards replace the reference's compact operational composition."
+    ]
+  },
+  "latest_candidate": {
+    "branch": "codex/console-integration-20260723",
+    "commit_at_capture": "397e1e59",
+    "route": "/console/mywork",
+    "viewport": {
+      "width": 937,
+      "height": 912
+    },
+    "theme": "light",
+    "image_path": "docs/evidence/console/visual/mywork-live-after-shell-2026-07-23.png",
+    "image_sha256": "366ed61c7a5fd51bc21f4516a59bdb2fe5f68e5f3caf9c576029a68cb4f6a15d",
+    "image_dimensions": {
+      "width": 937,
+      "height": 912
+    }
+  },
+  "latest_evaluation": {
+    "method": "native_vision_review",
+    "tool_version": null,
+    "score": 42,
+    "score_scale": 100,
+    "comparison_note": "The responsive shell is materially safer and more usable, but this medium-width capture keeps the communications rail compact and the todo-only My Work body remains far from the 1280x720 reference. Unequal viewports prevent desktop-parity proof.",
+    "shell_improvements": [
+      "Stable top bar and global search.",
+      "Compact persistent left navigation with active state.",
+      "Usable central region at medium width."
+    ],
+    "highest_leverage_gaps": [
+      "Replace the todo-only body with a real queue, selected-task detail, and today/calendar/timeline workspace.",
+      "Complete the real Messenger, Mail, notification, and activity rail with an accessible medium-width drawer trigger.",
+      "Render real task type, status, priority/SLA, assignee, due time, linked object, workflow, and audit fields.",
+      "Add real-filter operational summary counts that drill into evidence.",
+      "Move typography, metadata density, card chrome, and desktop grid toward the pinned Claude reference."
+    ]
+  },
+  "latest_live_replay": {
+    "captured_at": "2026-07-23T20:58:00Z",
+    "branch": "codex/console-integration-20260723",
+    "commit_at_capture": "0fbc3fb8",
+    "route": "/console/mywork",
+    "viewport": {
+      "width": 1280,
+      "height": 720
+    },
+    "theme": "light",
+    "image_path": "docs/evidence/console/visual/mywork-live-detail-2026-07-23.png",
+    "image_sha256": "279c604ea1a30fc61e14d2b9f41a5c62f3b4c2bb3e8775e8a1ff85b95ca70c36",
+    "backend_readiness": {
+      "url": "http://127.0.0.1:8090/readyz",
+      "status": "ready",
+      "database": "ready"
+    },
+    "observed_state": [
+      "authenticated dev-only console preview",
+      "nine real action-inbox items",
+      "selected work-order approval detail",
+      "exact reference key and due-time fields",
+      "expanded disclosure semantics",
+      "real Messenger, Mail, notification, and notice rail data"
+    ],
+    "claim_boundary": "local dev-auth runtime evidence only; not visual parity, independent review, release, deployment, or production evidence"
+  },
+  "candidate_gate_requirements": [
+    "exact_candidate_commit",
+    "reference_etag_and_sha256",
+    "tool_and_model_version",
+    "scoring_rubric",
+    "viewport_theme_and_state_matrix",
+    "candidate_and_reference_images",
+    "accessibility_deltas",
+    "findings_and_dispositions",
+    "approved_waivers",
+    "visual_ralph_score_at_least_90"
+  ],
+  "invalidation_rules": [
+    "A Claude Design ETag or export digest change requires impact classification and re-evaluation of affected states.",
+    "A candidate source change after capture invalidates candidate visual approval.",
+    "A missing tool version, state matrix, image, or rubric prevents release use."
+  ]
+}

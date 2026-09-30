@@ -1,0 +1,7 @@
+tags:
+  - system
+operationId: healthz
+summary: Health check
+responses:
+  '200':
+    description: Service is alive.

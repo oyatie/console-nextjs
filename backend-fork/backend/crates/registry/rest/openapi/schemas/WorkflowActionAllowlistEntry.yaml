@@ -1,0 +1,9 @@
+type: object
+required:
+- connector_key
+- action_key
+properties:
+  connector_key:
+    type: string
+  action_key:
+    type: string

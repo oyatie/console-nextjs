@@ -1,0 +1,13 @@
+      type: object
+      required: [id, round_no, reference_year, threshold_days, status, created_by, target_count, confirmed_count]
+      properties:
+        id: { type: string, format: uuid }
+        round_no: { type: integer }
+        reference_year: { type: integer }
+        threshold_days: { type: string }
+        status: { type: string, enum: [DRAFT, SENT, COMPLETED] }
+        note: { type: string, nullable: true }
+        created_by: { type: string, format: uuid }
+        sent_at: { type: string, format: date-time, nullable: true }
+        target_count: { type: integer }
+        confirmed_count: { type: integer }

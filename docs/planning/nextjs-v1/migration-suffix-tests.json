@@ -1,0 +1,31 @@
+{
+  "version": 1,
+  "scope": "Migration suffix integrity tooling only; not auth transition or release",
+  "design_sha256": "af0c97ed29734510b144e0200cbff7268145f0be8192b3f80cb9c8e41d1d28d8",
+  "auth_design_sha256": "1d4d963306e4625404ccb8927e99468afff08aad82904627794937fba51fe2dd",
+  "command": [
+    "python3",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tools",
+    "-p",
+    "test_*.py"
+  ],
+  "expected_tests": 13,
+  "new_tests": 6,
+  "unchanged_tests": 7,
+  "files": {
+    "tools/test_migration_suffix.py": "f7369eb6e9b0f10b5be19e80a1d9fdc6f2fc566c46efd894b2670e85d6c28e95",
+    "tools/test_acceptance.py": "0682a38510451ff56f74c09747b9a35183ffc6d61425c73d1ea329addc98a269",
+    "tools/test_schema_baseline.py": "c15337ba288d00f73f970618de626593986a70e9357863966a1b1aa299a90ea4",
+    "tools/test_freeze_console.py": "5a19ccdd4dfd99011dddbbbb1bd6915f80b1bee2ecf30fc89c93f2354a6e608b"
+  },
+  "required_postimplementation": [
+    "Actual no-suffix disposable PostgreSQL regression with preserved baseline-aware executable upgrade",
+    "Exact preexisting row/ledger comparison, no skipped existing migration checks",
+    "Actual additive SQL interruption remains future test of real0226; no synthetic production migration"
+  ],
+  "review_revision": "Requires pinned baseline present despite deletion of both fork-added file and delta; retains every prior assertion."
+}

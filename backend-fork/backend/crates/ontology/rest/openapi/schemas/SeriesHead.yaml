@@ -1,0 +1,16 @@
+type: object
+required:
+- id
+- code
+- label
+- created_at
+properties:
+  id:
+    $ref: '#/components/schemas/Uuid'
+  code:
+    type: string
+    description: Canonical SR- code.
+  label:
+    type: string
+  created_at:
+    $ref: '#/components/schemas/Timestamp'

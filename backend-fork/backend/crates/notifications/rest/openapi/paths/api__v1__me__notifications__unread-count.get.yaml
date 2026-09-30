@@ -1,0 +1,21 @@
+tags:
+  - me
+operationId: getMyUnreadNotificationCount
+summary: Count the authenticated user's unread notifications
+security:
+- bearerAuth: []
+responses:
+  '200':
+    description: The number of the caller's unread notifications that want attention; rows suppressed by the caller's mute policies are excluded.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/UnreadNotificationCountResponse'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '503':
+    description: JWT verification is not configured.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ErrorBody'

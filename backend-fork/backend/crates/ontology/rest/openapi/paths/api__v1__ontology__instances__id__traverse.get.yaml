@@ -1,0 +1,41 @@
+operationId: traverseOntologyInstance
+summary: Traverse the object graph around an instance
+description: Search-around graph traversal from one instance over ontology links, depth-bounded, returning a node/edge payload.
+tags:
+- Ontology
+security:
+- bearerAuth: []
+parameters:
+- name: id
+  in: path
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+- name: link_type
+  in: query
+  required: false
+  schema:
+    $ref: '#/components/schemas/Uuid'
+- name: depth
+  in: query
+  required: false
+  schema:
+    type: integer
+    format: int64
+    minimum: 1
+responses:
+  '200':
+    description: Traversal node/edge graph.
+    content:
+      application/json:
+        schema:
+          type: object
+          additionalProperties: true
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '503':
+    $ref: '#/components/responses/ServiceUnavailable'

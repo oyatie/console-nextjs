@@ -1,0 +1,1 @@
+{ type: string, enum: [MISSING, PENDING, VERIFIED, FAILED, REVOKED, EXPIRED_CA] }

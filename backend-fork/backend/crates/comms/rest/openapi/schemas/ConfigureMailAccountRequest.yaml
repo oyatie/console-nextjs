@@ -1,0 +1,51 @@
+type: object
+description: Configure (create or replace) the mailbox. A password field that is absent or null leaves the stored secret
+  unchanged; a present value is re-sealed. A first-time configure requires both passwords.
+required:
+- display_name
+- email_address
+- imap_host
+- imap_port
+- imap_security
+- imap_username
+- smtp_host
+- smtp_port
+- smtp_security
+- smtp_username
+properties:
+  display_name:
+    type: string
+  email_address:
+    type: string
+  from_name:
+    type:
+    - string
+    - 'null'
+  imap_host:
+    type: string
+  imap_port:
+    type: integer
+    format: int32
+  imap_security:
+    $ref: '#/components/schemas/MailSecurity'
+  imap_username:
+    type: string
+  imap_password:
+    type:
+    - string
+    - 'null'
+    description: Write-only. Present = (re)seal; absent/null = keep the stored secret.
+  smtp_host:
+    type: string
+  smtp_port:
+    type: integer
+    format: int32
+  smtp_security:
+    $ref: '#/components/schemas/MailSecurity'
+  smtp_username:
+    type: string
+  smtp_password:
+    type:
+    - string
+    - 'null'
+    description: Write-only. Present = (re)seal; absent/null = keep the stored secret.

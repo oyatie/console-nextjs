@@ -1,0 +1,19 @@
+[package]
+name = "console-gate-audit-coverage"
+version = "0.1.0"
+description = "CI gate: verifies state-changing handlers use with_audit, with bound carve-outs for LocationPing writers and console route telemetry."
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[[bin]]
+name = "console-gate-audit-coverage"
+path = "src/main.rs"
+
+[lib]
+name = "console_gate_audit_coverage"
+path = "src/lib.rs"
+
+[lints]
+workspace = true

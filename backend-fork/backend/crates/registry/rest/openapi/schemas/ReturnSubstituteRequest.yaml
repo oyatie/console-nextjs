@@ -1,0 +1,6 @@
+type: object
+properties:
+  return_note:
+    type:
+    - string
+    - 'null'

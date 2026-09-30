@@ -1,0 +1,21 @@
+tags:
+  - financial
+operationId: getPurchaseRequest
+summary: Fetch one purchase request
+security:
+- bearerAuth: []
+parameters:
+- $ref: '#/components/parameters/PurchaseRequestId'
+responses:
+  '200':
+    description: Purchase request summary.
+    content:
+      application/json:
+        schema:
+          $ref: "#/components/schemas/PurchaseRequestSummary"
+  "401":
+    $ref: "#/components/responses/Unauthorized"
+  "403":
+    $ref: "#/components/responses/Forbidden"
+  "404":
+    $ref: "#/components/responses/NotFound"

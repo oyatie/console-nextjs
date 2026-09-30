@@ -1,0 +1,7 @@
+type: object
+additionalProperties: false
+required: [object_kind, object_ref, label]
+properties:
+  object_kind: { $ref: '#/components/schemas/EvaluationEvidenceKind' }
+  object_ref: { type: string, minLength: 1, maxLength: 120 }
+  label: { type: string, minLength: 1, maxLength: 200 }

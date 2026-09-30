@@ -1,0 +1,12 @@
+type: object
+additionalProperties: false
+required:
+- kind
+- run_id
+properties:
+  kind:
+    type: string
+    enum:
+    - workflow_run_detail
+  run_id:
+    $ref: '#/components/schemas/Uuid'

@@ -1,0 +1,21 @@
+type: object
+required: [id, control_id, evidence_target_type, evidence_target_id, status, confidence, metadata, created_by, updated_by, created_at, updated_at]
+properties:
+  id: { $ref: '#/components/schemas/Uuid' }
+  control_id: { $ref: '#/components/schemas/Uuid' }
+  obligation_id: { type: [string, 'null'], format: uuid }
+  evidence_target_type: { $ref: '#/components/schemas/EvidenceTargetType' }
+  evidence_target_id: { type: string }
+  source_audit_event_id: { type: [string, 'null'], format: uuid }
+  status: { $ref: '#/components/schemas/EvidenceBindingStatus' }
+  confidence: { $ref: '#/components/schemas/EvidenceConfidence' }
+  collected_at: { type: [string, 'null'], format: date-time }
+  collected_by: { type: [string, 'null'], format: uuid }
+  valid_from: { type: [string, 'null'], format: date }
+  valid_to: { type: [string, 'null'], format: date }
+  hash_sha256: { type: [string, 'null'] }
+  metadata: { type: object, additionalProperties: true }
+  created_by: { $ref: '#/components/schemas/Uuid' }
+  updated_by: { $ref: '#/components/schemas/Uuid' }
+  created_at: { $ref: '#/components/schemas/Timestamp' }
+  updated_at: { $ref: '#/components/schemas/Timestamp' }

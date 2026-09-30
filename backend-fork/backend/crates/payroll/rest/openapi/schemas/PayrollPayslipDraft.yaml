@@ -1,0 +1,124 @@
+type: object
+description: >
+  The payslip draft. The first nine properties are always present; the
+  computed half is absent when a blocker stopped the draft before the
+  arithmetic (no contract wage in force, or an hourly contract).
+required:
+- employee_id
+- employee_name
+- period
+- pay_date
+- contract
+- attendance
+- issuable
+- blockers
+- statutory_citations
+properties:
+  employee_id: { $ref: '#/components/schemas/Uuid' }
+  employee_name: { type: string }
+  period:
+    type: object
+    required: [start, end]
+    properties:
+      start: { type: string, format: date }
+      end: { type: string, format: date }
+  pay_date: { type: string, format: date }
+  contract:
+    description: The contract wage in force on `pay_date`. Null when none is.
+    oneOf:
+    - type: object
+      required: [id, effective_from, wage_kind, amount_won, monthly_standard_hours, source_note]
+      properties:
+        id: { $ref: '#/components/schemas/Uuid' }
+        effective_from: { type: string, format: date }
+        wage_kind: { type: string, enum: [MONTHLY, HOURLY] }
+        amount_won: { type: integer, format: int64 }
+        monthly_standard_hours: { type: integer }
+        source_note: { type: string }
+    - type: 'null'
+  attendance:
+    type: object
+    description: >
+      The period's real 근태기록 counts. They GATE the draft and drive no
+      figure — nothing here is prorated by attendance.
+    required: [period_start, period_end, worked_days, clock_in_events, clock_out_events]
+    properties:
+      period_start: { type: string, format: date }
+      period_end: { type: string, format: date }
+      worked_days:
+        type: integer
+        format: int64
+        description: Distinct `work_date`s carrying at least one CLOCK_IN.
+      clock_in_events: { type: integer, format: int64 }
+      clock_out_events: { type: integer, format: int64 }
+  issuable:
+    type: boolean
+    description: >
+      False for every employee in this slice, because 원천징수 is not
+      computed. A draft that cannot state 차인지급액 is not a 급여명세서.
+  blockers:
+    type: array
+    items: { type: string }
+    description: >
+      Always carries `WITHHOLDING_NOT_COMPUTED`. Adds
+      `ATTENDANCE_INCOMPLETE` (with the counts) when the recorded working
+      days fall short of the period's working days or the CLOCK_IN and
+      CLOCK_OUT counts differ, `CONTRACT_WAGE_NOT_IN_FORCE`,
+      `HOURLY_WAGE_NOT_SUPPORTED_IN_THIS_SLICE`, the 최저임금 findings, and
+      the id of any unresolved rounding question.
+  statutory_citations:
+    type: array
+    items: { $ref: '#/components/schemas/PayrollStatutoryCitation' }
+  earnings:
+    type: array
+    items:
+      type: object
+      required: [code, label_ko, amount_won, note_ko]
+      properties:
+        code: { type: string }
+        label_ko: { type: string }
+        amount_won: { type: integer, format: int64 }
+        note_ko: { type: string }
+  gross_won: { type: integer, format: int64 }
+  deductions:
+    type: array
+    items: { $ref: '#/components/schemas/PayrollPayslipDraftDeduction' }
+  not_computed:
+    type: array
+    description: >
+      Deductions the engine REFUSES to compute, each naming the instrument
+      that would supply it. Never emitted as a zero line.
+    items:
+      type: object
+      required: [code, label_ko, reason_ko, instrument]
+      properties:
+        code: { type: string }
+        label_ko: { type: string }
+        reason_ko: { type: string }
+        instrument: { $ref: '#/components/schemas/PayrollStatutoryInstrument' }
+  minimum_wage_check:
+    type: object
+    required: [hourly_floor_won, monthly_209h_floor_won, monthly_standard_hours, effective_hourly_won, passes, instrument]
+    properties:
+      hourly_floor_won: { type: integer, format: int64 }
+      monthly_209h_floor_won: { type: integer, format: int64 }
+      monthly_standard_hours: { type: [integer, 'null'] }
+      effective_hourly_won: { type: [integer, 'null'], format: int64 }
+      passes:
+        type: [boolean, 'null']
+        description: Null means NOT COMPARABLE — which is not a pass.
+      instrument: { $ref: '#/components/schemas/PayrollStatutoryInstrument' }
+  total_employee_insurance_won:
+    type: [integer, 'null']
+    format: int64
+    description: Null when any employee component is blocked.
+  remainder_after_insurance_won: { type: [integer, 'null'], format: int64 }
+  net_pay_won:
+    type: 'null'
+    description: >
+      차인지급액. Always null in this slice: 원천징수 is not computed, and a
+      net figure that ignored it would be wrong rather than approximate.
+  net_pay_unavailable_reason_ko: { type: string }
+  compliance_notice_ko:
+    type: string
+    description: States that the draft asserts no legal compliance.

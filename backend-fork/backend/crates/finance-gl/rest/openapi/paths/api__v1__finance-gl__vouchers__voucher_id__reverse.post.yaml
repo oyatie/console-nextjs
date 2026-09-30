@@ -1,0 +1,33 @@
+tags:
+- finance-gl
+operationId: reverseVoucher
+summary: 전기 → 역분개; creates a linked contra voucher (returns the contra)
+security:
+- bearerAuth: []
+parameters:
+- name: voucher_id
+  in: path
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+requestBody:
+  required: false
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/ReverseVoucherRequest'
+responses:
+  '201':
+    description: Contra voucher created; original marked REVERSED.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/VoucherSummary'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '409':
+    $ref: '#/components/responses/Conflict'

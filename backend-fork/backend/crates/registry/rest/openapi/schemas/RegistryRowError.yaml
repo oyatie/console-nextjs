@@ -1,0 +1,14 @@
+type: object
+required:
+- sheet
+- row
+- message
+properties:
+  sheet:
+    type: string
+  row:
+    type: integer
+    format: int64
+    minimum: 0
+  message:
+    type: string

@@ -1,0 +1,54 @@
+type: object
+required:
+- run
+- legal_basis
+- source_summary
+- lines
+- lines_total
+- lines_limit
+- lines_offset
+- exceptions_open
+- exceptions_total
+- calculation
+- disbursement
+- payslip_delivery
+properties:
+  run:
+    $ref: '#/components/schemas/PayrollRunSummary'
+  legal_basis:
+    type: object
+  source_summary:
+    type: object
+  lines:
+    type: array
+    items:
+      $ref: '#/components/schemas/PayrollLineSummary'
+  lines_total:
+    type: integer
+    format: int64
+  lines_limit:
+    type: integer
+    format: int64
+  lines_offset:
+    type: integer
+    format: int64
+  exceptions_open:
+    type: integer
+    format: int64
+  exceptions_total:
+    type: integer
+    format: int64
+  calculation:
+    anyOf:
+    - $ref: '#/components/schemas/PayrollRunCalcSummary'
+    - type: 'null'
+    description: Latest stored calculation version; null until the run has been calculated.
+  disbursement:
+    anyOf:
+    - $ref: '#/components/schemas/PayrollDisbursement'
+    - type: 'null'
+  payslip_delivery:
+    anyOf:
+    - $ref: '#/components/schemas/PayrollPayslipDeliverySummary'
+    - type: 'null'
+    description: Unpaginated delivery summary; null until at least one payslip has been issued.

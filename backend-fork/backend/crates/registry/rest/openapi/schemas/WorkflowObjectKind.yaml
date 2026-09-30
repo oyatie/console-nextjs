@@ -1,0 +1,4 @@
+type: string
+enum:
+- work_order
+- support_ticket

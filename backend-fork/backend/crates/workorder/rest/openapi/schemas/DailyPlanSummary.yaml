@@ -1,0 +1,16 @@
+type: object
+properties:
+  id:
+    $ref: '#/components/schemas/Uuid'
+  branch_id:
+    $ref: '#/components/schemas/Uuid'
+  mechanic_id:
+    $ref: '#/components/schemas/Uuid'
+  plan_date:
+    $ref: '#/components/schemas/Date'
+  status:
+    $ref: '#/components/schemas/DailyPlanStatus'
+  items:
+    type: array
+    items:
+      $ref: '#/components/schemas/DailyPlanItemSummary'

@@ -1,0 +1,3 @@
+type: object
+required: [observedAt]
+properties: { preKwh: { type: string, pattern: '^[0-9]+(\\.[0-9]{1,3})?$' }, postKwh: { type: string, pattern: '^[0-9]+(\\.[0-9]{1,3})?$' }, observedAt: { type: string, format: date-time }, costKrw: { type: integer, format: int64, minimum: 0 } }

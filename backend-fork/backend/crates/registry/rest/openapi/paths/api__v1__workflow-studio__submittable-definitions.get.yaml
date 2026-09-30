@@ -1,0 +1,23 @@
+tags:
+  - workflow-studio
+operationId: listSubmittableWorkflowDefinitions
+summary: List workflow definitions the caller may start (기안 template gallery)
+description: 'All-employee (member-gated, not workflow-manage admin) catalog of ACTIVE workflow definitions the
+  caller could actually START. Deny-by-omission: a definition is listed only when its start authority admits the
+  caller — the identical check the start endpoint (POST /api/v1/workflow-runs) enforces (top-level start_policy,
+  else the entry node''s required_policy; absent = self-service all-employee). The catalog never advertises a
+  definition the caller would get a 403 starting. Carries only the metadata definitions actually hold (no invented
+  icon/desc/tone — those are frontend presentation).'
+security:
+- bearerAuth: []
+responses:
+  '200':
+    description: Startable ACTIVE definitions for the caller.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/SubmittableDefinitionListResponse'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'

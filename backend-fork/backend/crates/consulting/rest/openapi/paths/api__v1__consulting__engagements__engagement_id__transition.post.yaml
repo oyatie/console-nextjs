@@ -1,0 +1,6 @@
+tags: [consulting]
+operationId: transitionConsultingEngagement
+security: [{ bearerAuth: [] }]
+parameters: [{ name: engagement_id, in: path, required: true, schema: { $ref: '#/components/schemas/Uuid' } }]
+requestBody: { required: true, content: { application/json: { schema: { $ref: '#/components/schemas/ConsultingTransitionRequest' } } } }
+responses: { '200': { description: Transitioned engagement, content: { application/json: { schema: { $ref: '#/components/schemas/ConsultingEngagement' } } } }, '409': { $ref: '#/components/responses/Conflict' } }

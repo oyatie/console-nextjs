@@ -1,0 +1,32 @@
+type: object
+required:
+- objectType
+- objectId
+- currentState
+- legalHold
+- createdAt
+- updatedAt
+- transitions
+properties:
+  objectType:
+    type: string
+  objectId:
+    type: string
+    format: uuid
+  currentState:
+    type: string
+  legalHold:
+    type: boolean
+  retentionUntil:
+    type: string
+    format: date
+  createdAt:
+    type: string
+    format: date-time
+  updatedAt:
+    type: string
+    format: date-time
+  transitions:
+    type: array
+    items:
+      $ref: '#/components/schemas/ObjectLifecycleTransition'

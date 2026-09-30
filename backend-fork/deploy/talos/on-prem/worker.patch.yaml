@@ -1,0 +1,10 @@
+# yaml-language-server: $schema=none
+# DARK on-prem worker role patch.
+# Applied to every generated worker machineconfig after cluster.patch.yaml.
+# Per-node inventory label, install disk, and interface are generated from
+# nodes.example.json by render-machineconfigs.py. CAPI/Metal3 embeds this same
+# role patch in TalosConfigTemplate for generated worker bootstrap data.
+machine:
+  nodeLabels:
+    console.nousresearch.com/substrate: on-prem
+    console.nousresearch.com/node-role: worker

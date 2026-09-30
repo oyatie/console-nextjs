@@ -1,0 +1,33 @@
+tags:
+- field
+operationId: getFieldSite
+summary: Get a field site with its SLA rollup and traversable ticket, work-order, attendance, and acceptance history
+description: Scope resolution runs before the feature check, so an out-of-scope site is a 404 and never a 403. Each
+  history list is capped at 50, most relevant first.
+security:
+- bearerAuth: []
+parameters:
+- name: id
+  in: path
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+responses:
+  '200':
+    description: Field site detail with its object chain.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/FieldSiteDetail'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '503':
+    description: JWT verification is not configured.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ErrorBody'

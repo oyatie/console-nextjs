@@ -1,0 +1,34 @@
+tags:
+  - object-links
+operationId: listObjectLinks
+summary: List the generic links touching one object, in both directions
+description: Returns every object_link where the given (kind, id) is the source (outgoing) or the destination
+  (incoming). Tenant-scoped by forced RLS; only links in the caller's org are visible.
+security:
+- bearerAuth: []
+parameters:
+- name: kind
+  in: query
+  required: true
+  description: Object kind slug (must be a known object type).
+  schema:
+    type: string
+- name: id
+  in: query
+  required: true
+  description: Object id/reference (a UUID or issued code, ≤200 chars).
+  schema:
+    type: string
+responses:
+  '200':
+    description: Links touching the object, split into outgoing and incoming.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ObjectLinksListResponse'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '422':
+    $ref: '#/components/responses/ValidationError'

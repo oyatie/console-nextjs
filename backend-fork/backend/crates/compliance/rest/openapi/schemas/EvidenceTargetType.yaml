@@ -1,0 +1,2 @@
+type: string
+enum: [audit_event, evidence_media, workflow_run, workflow_task, object_link, governance_finding, external_document, future_ev_object]

@@ -1,0 +1,24 @@
+tags:
+  - financial
+operationId: getEquipmentLifecycleCost
+summary: Per-asset lifecycle cost, TCO, and gross margin
+description: Read-gated (EquipmentCostLedgerRead). Returns the asset's acquisition cost (with a source tag), maintenance
+  total split by source, read-only outsource cost, current residual, latest realized sale price, total cost of ownership,
+  gross margin, and per-month/per-hour maintenance intensity.
+security:
+- bearerAuth: []
+parameters:
+- $ref: '#/components/parameters/EquipmentIdV2'
+responses:
+  '200':
+    description: Asset lifecycle cost summary.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/AssetLifecycleCostSummary'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'

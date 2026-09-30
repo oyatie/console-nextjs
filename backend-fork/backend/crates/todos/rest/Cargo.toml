@@ -1,0 +1,25 @@
+[package]
+name = "console-todos-rest"
+version = "0.1.0"
+description = "Person-scoped REST API for personal todos."
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+axum = { workspace = true }
+console-contracts = { path = "../../contracts" }
+console-kernel-core = { workspace = true }
+console-todos-adapter-postgres = { workspace = true }
+console-todos-application = { workspace = true }
+console-todos-domain = { workspace = true }
+console-platform-auth = { path = "../../platform/auth" }
+console-platform-authz = { path = "../../platform/authz" }
+console-platform-request-context = { workspace = true }
+serde = { workspace = true }
+time = { workspace = true }
+tracing = { workspace = true }
+
+[lints]
+workspace = true

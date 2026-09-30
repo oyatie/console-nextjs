@@ -1,0 +1,52 @@
+tags:
+  - leave
+operationId: decideLeaveRequest
+summary: Approve a pending leave request or open a 시기변경 협의
+description: >-
+  Requires `employee_directory_manage` in the request's branch. An
+  APPROVE writes the leave ledger (used += days, remaining -= days) in the
+  same audited transaction. Separation of duties — a request cannot be
+  decided by its own requester (403). 근로기준법 §60 forbids refusing 연차:
+  `return`/`reject` are retired (422) and the only non-approve decision is
+  `time_change` (§60⑤ 시기변경 협의), which requires a comment stating the
+  사업 운영에 막대한 지장 grounds and never touches the ledger.
+  A non-pending request is 409; an out-of-branch / unknown request is 404.
+security:
+- bearerAuth: []
+parameters:
+- name: id
+  in: path
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/LeaveDecideRequest'
+responses:
+  '200':
+    description: The decided leave request.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/LeaveRequestView'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '409':
+    description: The request is not pending and cannot be decided again.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ErrorBody'
+  '422':
+    description: Missing mandatory comment or unknown decision.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ErrorBody'

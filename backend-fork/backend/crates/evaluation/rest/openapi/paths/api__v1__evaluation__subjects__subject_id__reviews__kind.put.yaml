@@ -1,0 +1,18 @@
+tags: [evaluation]
+operationId: saveEvaluationReview
+summary: Save a draft self or manager review
+description: Review kind is lowercase `self` or `manager`; unassigned submitters receive 404.
+security: [{ bearerAuth: [] }]
+parameters:
+- $ref: '#/components/parameters/EvaluationSubjectId'
+- $ref: '#/components/parameters/EvaluationReviewKindPath'
+requestBody: { required: true, content: { application/json: { schema: { $ref: '#/components/schemas/SaveEvaluationReviewRequest' } } } }
+responses:
+  '200': { description: Saved review draft., content: { application/json: { schema: { $ref: '#/components/schemas/EvaluationReview' } } } }
+  '401': { $ref: '#/components/responses/Unauthorized' }
+  '403': { $ref: '#/components/responses/Forbidden' }
+  '404': { $ref: '#/components/responses/NotFound' }
+  '409': { $ref: '#/components/responses/Conflict' }
+  '422': { $ref: '#/components/responses/ValidationError' }
+  '500': { $ref: '#/components/responses/InternalServerError' }
+  '503': { $ref: '#/components/responses/ServiceUnavailable' }

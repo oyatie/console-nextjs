@@ -1,0 +1,16 @@
+type: object
+additionalProperties: false
+required:
+- op
+- regionId
+- name
+properties:
+  op:
+    type: string
+    enum: [CREATE_BRANCH]
+  regionId:
+    $ref: '#/components/schemas/Uuid'
+  name:
+    type: string
+    minLength: 1
+    maxLength: 120

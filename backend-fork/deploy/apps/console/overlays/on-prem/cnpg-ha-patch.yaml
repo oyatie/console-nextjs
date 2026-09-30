@@ -1,0 +1,61 @@
+# On-prem CNPG HA patch for issue #379.
+# The base database.yaml intentionally stays single-instance/local-path-compatible
+# for the current oci-guest deployment; this overlay opts in to the replicated
+# on-prem StorageClass selected by the validation task.
+- op: remove
+  # The base Cluster carries an OCI Object Storage / boto3 flexible-checksum
+  # compatibility workaround. Self-hosted S3 validation for this on-prem context
+  # uses SeaweedFS with default boto3/Barman checksum behavior, so do not inherit
+  # the OCI-only AWS_REQUEST_CHECKSUM_CALCULATION/AWS_RESPONSE_CHECKSUM_VALIDATION
+  # env overrides here.
+  path: /spec/env
+- op: replace
+  path: /spec/instances
+  value: 3
+- op: add
+  path: /spec/storage/storageClass
+  value: console-pg-hot
+- op: add
+  path: /spec/minSyncReplicas
+  value: 1
+- op: add
+  path: /spec/maxSyncReplicas
+  value: 1
+- op: add
+  path: /spec/failoverDelay
+  value: 0
+- op: add
+  path: /spec/switchoverDelay
+  value: 600
+- op: add
+  path: /spec/primaryUpdateMethod
+  value: switchover
+- op: add
+  path: /spec/postgresql/synchronous
+  value:
+    method: any
+    number: 1
+    dataDurability: required
+    failoverQuorum: true
+    maxStandbyNamesFromCluster: 2
+- op: add
+  path: /spec/postgresql/syncReplicaElectionConstraint
+  value:
+    enabled: true
+    nodeLabelsAntiAffinity:
+      - kubernetes.io/hostname
+- op: add
+  path: /spec/affinity
+  value:
+    enablePodAntiAffinity: true
+    podAntiAffinityType: preferred
+    topologyKey: kubernetes.io/hostname
+- op: add
+  path: /spec/topologySpreadConstraints
+  value:
+    - maxSkew: 1
+      topologyKey: kubernetes.io/hostname
+      whenUnsatisfiable: ScheduleAnyway
+      labelSelector:
+        matchLabels:
+          cnpg.io/cluster: console-db

@@ -1,0 +1,27 @@
+allOf:
+- $ref: '#/components/schemas/OrgChangeSummary'
+- type: object
+  required:
+  - proposal
+  - approvalSteps
+  - settlementItems
+  - events
+  properties:
+    proposal:
+      type: array
+      items:
+        $ref: '#/components/schemas/OrgProposalOp'
+    preflight:
+      $ref: '#/components/schemas/OrgChangePreflightReport'
+    approvalSteps:
+      type: array
+      items:
+        $ref: '#/components/schemas/OrgChangeApprovalStep'
+    settlementItems:
+      type: array
+      items:
+        $ref: '#/components/schemas/OrgChangeSettlementItem'
+    events:
+      type: array
+      items:
+        $ref: '#/components/schemas/OrgChangeEvent'

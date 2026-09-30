@@ -1,0 +1,27 @@
+type: object
+properties:
+  feature:
+    type: string
+    description: Feature key, matching `/api/v1/policy/features`.
+  permission:
+    type: string
+    description: Effective permission level (`deny` is never emitted).
+    enum:
+    - request_only
+    - limited
+    - allow
+  branch_scope:
+    allOf:
+    - $ref: '#/components/schemas/BranchScope'
+    description: >-
+      The branch subset this `permission` level actually holds over —
+      not necessarily the caller's full `branch_scope`. A
+      branch-narrowed custom grant only elevates the capability within
+      its own branches; the caller must intersect this with the target
+      branch before offering the affordance (otherwise the UI can offer
+      an action the server's `authorize` call would then reject outside
+      this scope).
+required:
+- feature
+- permission
+- branch_scope

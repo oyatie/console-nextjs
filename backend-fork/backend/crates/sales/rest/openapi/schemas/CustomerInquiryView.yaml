@@ -1,0 +1,39 @@
+type: object
+required:
+- id
+- name
+- phone
+- topic
+- location
+- message
+- listing_id
+- status
+- created_at
+- updated_at
+properties:
+  id:
+    $ref: '#/components/schemas/Uuid'
+  name:
+    type: string
+  phone:
+    type: string
+  topic:
+    $ref: '#/components/schemas/InquiryTopic'
+  location:
+    type:
+    - string
+    - 'null'
+  message:
+    type:
+    - string
+    - 'null'
+  listing_id:
+    oneOf:
+    - $ref: '#/components/schemas/Uuid'
+    - type: 'null'
+  status:
+    $ref: '#/components/schemas/InquiryStatus'
+  created_at:
+    $ref: '#/components/schemas/Timestamp'
+  updated_at:
+    $ref: '#/components/schemas/Timestamp'

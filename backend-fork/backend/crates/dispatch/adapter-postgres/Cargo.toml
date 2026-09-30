@@ -1,0 +1,30 @@
+[package]
+name = "console-dispatch-adapter-postgres"
+version = "0.1.0"
+description = "Postgres adapter for P1 emergency dispatch."
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+console-dispatch-application = { workspace = true }
+console-dispatch-domain = { workspace = true }
+console-kernel-core = { workspace = true }
+console-platform-db = { workspace = true }
+console-platform-request-context = { workspace = true }
+console-workorder-application = { workspace = true }
+console-workorder-domain = { workspace = true }
+serde_json = { workspace = true }
+sqlx = { workspace = true }
+thiserror = { workspace = true }
+time = { workspace = true }
+uuid = { workspace = true }
+
+[dev-dependencies]
+console-platform-test-support = { workspace = true }
+# Integration tests exercise concurrent command replay with `tokio::join!`.
+tokio = { workspace = true }
+
+[lints]
+workspace = true

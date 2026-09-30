@@ -1,0 +1,35 @@
+type: object
+required:
+- scope_type
+- title
+- starts_at
+- ends_at
+properties:
+  scope_type:
+    $ref: '#/components/schemas/CollaborationScopeType'
+  scope_ref:
+    type:
+    - string
+    - 'null'
+  title:
+    type: string
+    minLength: 1
+    maxLength: 160
+  description:
+    type: string
+    maxLength: 2000
+  starts_at:
+    $ref: '#/components/schemas/Timestamp'
+  ends_at:
+    $ref: '#/components/schemas/Timestamp'
+  all_day:
+    type: boolean
+    default: false
+  object_type:
+    type:
+    - string
+    - 'null'
+  object_id:
+    oneOf:
+    - $ref: '#/components/schemas/Uuid'
+    - type: 'null'

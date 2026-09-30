@@ -1,0 +1,31 @@
+tags:
+  - office
+operationId: listOfficeDocumentVersions
+summary: List a document's immutable version history (newest first)
+security:
+- bearerAuth: []
+parameters:
+- name: documentRef
+  in: path
+  required: true
+  schema:
+    type: string
+    minLength: 1
+    maxLength: 200
+responses:
+  '200':
+    description: The append-only version list.
+    content:
+      application/json:
+        schema:
+          type: object
+          required: [items]
+          properties:
+            items:
+              type: array
+              items:
+                $ref: '#/components/schemas/DocumentVersion'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'

@@ -1,0 +1,33 @@
+tags:
+  - equipment
+operationId: createEquipmentOwnershipTransfer
+summary: Request a cross-org legal ownership transfer
+description: Creates a pending transfer request and approval line. This endpoint does not immediately mutate `asset_owner`;
+  final mutation happens only after sending-org, receiving-org, legal, and accounting approval decisions.
+security:
+- bearerAuth: []
+parameters:
+- $ref: '#/components/parameters/EquipmentId'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/CreateOwnershipTransferRequest'
+responses:
+  '201':
+    description: Transfer request created.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/OwnershipTransfer'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '409':
+    $ref: '#/components/responses/Conflict'
+  '422':
+    $ref: '#/components/responses/ValidationError'

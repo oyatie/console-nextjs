@@ -1,0 +1,12 @@
+type: object
+additionalProperties: false
+required:
+- decision
+properties:
+  decision:
+    type: string
+    enum: [APPROVED, REJECTED]
+  memo:
+    type: string
+    minLength: 1
+    maxLength: 2000

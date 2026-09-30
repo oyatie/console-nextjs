@@ -1,0 +1,39 @@
+tags:
+  - object-actions
+operationId: getObjectActionCatalog
+summary: Read governed object-action descriptors for one object
+description: Returns typed, UI-renderable action descriptors for a console object. The initial CAP-5 vertical slice
+  supports equipment actions and requires EquipmentManage. Missing or foreign equipment returns 404 through the same
+  branch-scoped object read used by the equipment detail page.
+security:
+- bearerAuth: []
+parameters:
+- name: object_type
+  in: query
+  required: true
+  schema:
+    type: string
+    enum:
+    - equipment
+- name: object_id
+  in: query
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+responses:
+  '200':
+    description: Governed action descriptors for the object.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ObjectActionCatalogResponse'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '422':
+    $ref: '#/components/responses/ValidationError'
+  '503':
+    description: JWT verification is not configured.

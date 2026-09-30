@@ -1,0 +1,7 @@
+tags: [logistics]
+operationId: verifyLogisticsPod
+summary: Verify recipient-confirmed immutable evidence and derive calendar-time SLA
+security: [{ bearerAuth: [] }]
+parameters: [{ name: shipment_id, in: path, required: true, schema: { $ref: '#/components/schemas/Uuid' } }]
+requestBody: { required: true, content: { application/json: { schema: { type: object, additionalProperties: false, required: [branchId, recipientName, evidenceReference, confirmedAt], properties: { branchId: { $ref: '#/components/schemas/Uuid' }, recipientName: { type: string, maxLength: 160 }, evidenceReference: { type: string, minLength: 19, maxLength: 411, pattern: '^evidence://[A-Za-z0-9._/-]+$' }, confirmedAt: { $ref: '#/components/schemas/LogisticsTimeTuple' } } } } } }
+responses: { '200': { description: POD verified with MET or BREACHED SLA, content: { application/json: { schema: { $ref: '#/components/schemas/LogisticsPodVerified' } } } }, '409': { description: Illegal transition or reused evidence } }

@@ -1,0 +1,38 @@
+type: object
+required:
+- id
+- owner_user_id
+- text
+- scopes
+- links
+- done
+- created_at
+- updated_at
+- done_at
+properties:
+  id:
+    $ref: '#/components/schemas/Uuid'
+  owner_user_id:
+    $ref: '#/components/schemas/Uuid'
+  text:
+    type: string
+  scopes:
+    type: array
+    items:
+      $ref: '#/components/schemas/TodoRef'
+  links:
+    type: array
+    items:
+      $ref: '#/components/schemas/TodoRef'
+  done:
+    type: boolean
+  created_at:
+    $ref: '#/components/schemas/Timestamp'
+  updated_at:
+    $ref: '#/components/schemas/Timestamp'
+  done_at:
+    type:
+    - string
+    - 'null'
+    format: date-time
+    description: When the todo was first marked done; null while open.

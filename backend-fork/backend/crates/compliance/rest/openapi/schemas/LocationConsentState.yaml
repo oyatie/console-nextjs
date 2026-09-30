@@ -1,0 +1,6 @@
+type: string
+enum:
+- NO_RECORD
+- GRANTED
+- SUSPENDED
+- WITHDRAWN

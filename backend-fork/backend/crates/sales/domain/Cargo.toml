@@ -1,0 +1,19 @@
+[package]
+name = "console-sales-domain"
+version = "0.1.0"
+description = "Pure sales-catalog domain: listing/inquiry classification enums and rules."
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+console-kernel-core = { workspace = true }
+serde = { workspace = true }
+time = { workspace = true }
+
+[dev-dependencies]
+serde_json = { workspace = true }
+
+[lints]
+workspace = true

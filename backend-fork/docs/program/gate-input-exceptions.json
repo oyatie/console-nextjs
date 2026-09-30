@@ -1,0 +1,111 @@
+{
+  "schema_version": 1,
+  "baseline_count": 13,
+  "notes": "S2 exception register. Growth beyond baseline_count fails. Expired remove_by fails. Decoration (unobserved pairs) fail.",
+  "exceptions": [
+    {
+      "gate": "check:doc-citations",
+      "input_path": "docs/ideas/ecosystem-plan-DRAFT.md",
+      "owner": "executable-contract-lane",
+      "reason": "citation verifier consumes whole documents; conversion is a later tranche",
+      "first_seen": "2026-08-05",
+      "remove_by": "2026-11-05"
+    },
+    {
+      "gate": "check:doc-citations",
+      "input_path": "docs/program/false-green-gate-holes.md",
+      "owner": "executable-contract-lane",
+      "reason": "citation verifier consumes whole documents; conversion is a later tranche",
+      "first_seen": "2026-08-05",
+      "remove_by": "2026-11-05"
+    },
+    {
+      "gate": "check:foundation-gates",
+      "input_path": "docs/benchmarks/enterprise-parity-matrix.md",
+      "owner": "executable-contract-lane",
+      "reason": "tranche-1 residual \u2014 prose-dependent assertion retained pending later conversion",
+      "first_seen": "2026-08-05",
+      "remove_by": "2026-11-05"
+    },
+    {
+      "gate": "check:foundation-gates",
+      "input_path": "docs/program/console-buck2-scale-playbook.md",
+      "owner": "executable-contract-lane",
+      "reason": "tranche-1 residual \u2014 prose-dependent assertion retained pending later conversion",
+      "first_seen": "2026-08-05",
+      "remove_by": "2026-11-05"
+    },
+    {
+      "gate": "check:foundation-gates",
+      "input_path": "docs/program/console-fanout-epoch-contract.md",
+      "owner": "executable-contract-lane",
+      "reason": "tranche-1 residual \u2014 prose-dependent assertion retained pending later conversion",
+      "first_seen": "2026-08-05",
+      "remove_by": "2026-11-05"
+    },
+    {
+      "gate": "check:foundation-gates",
+      "input_path": "docs/specs/backlog-clearance-ledger.md",
+      "owner": "executable-contract-lane",
+      "reason": "tranche-1 residual \u2014 prose-dependent assertion retained pending later conversion",
+      "first_seen": "2026-08-05",
+      "remove_by": "2026-11-05"
+    },
+    {
+      "gate": "check:foundation-gates",
+      "input_path": "docs/specs/foundation-gates.md",
+      "owner": "executable-contract-lane",
+      "reason": "tranche-1 residual \u2014 prose-dependent assertion retained pending later conversion",
+      "first_seen": "2026-08-05",
+      "remove_by": "2026-11-05"
+    },
+    {
+      "gate": "check:foundation-gates",
+      "input_path": "docs/specs/review-fix-merge-governance.md",
+      "owner": "executable-contract-lane",
+      "reason": "tranche-1 residual \u2014 prose-dependent assertion retained pending later conversion",
+      "first_seen": "2026-08-05",
+      "remove_by": "2026-11-05"
+    },
+    {
+      "gate": "check:g006-asset-dispatch-lifecycle",
+      "input_path": "docs/specs/foundation-gates.md",
+      "owner": "executable-contract-lane",
+      "reason": "tranche-1 residual \u2014 prose-dependent assertion retained pending later conversion",
+      "first_seen": "2026-08-05",
+      "remove_by": "2026-11-05"
+    },
+    {
+      "gate": "check:g007-collaboration-mobile-lifecycle",
+      "input_path": "docs/specs/foundation-gates.md",
+      "owner": "executable-contract-lane",
+      "reason": "tranche-1 residual \u2014 prose-dependent assertion retained pending later conversion",
+      "first_seen": "2026-08-05",
+      "remove_by": "2026-11-05"
+    },
+    {
+      "gate": "check:g008-payroll-readiness",
+      "input_path": "docs/specs/hr-payroll-readiness.md",
+      "owner": "executable-contract-lane",
+      "reason": "tranche-1 residual \u2014 prose-dependent assertion retained pending later conversion",
+      "first_seen": "2026-08-05",
+      "remove_by": "2026-11-05"
+    },
+    {
+      "gate": "check:payroll-release-gate",
+      "input_path": "docs/specs/payroll.md",
+      "owner": "executable-contract-lane",
+      "reason": "T1-b residual/HOLD \u2014 describes absent regulated controls; must not convert by implementing controls",
+      "first_seen": "2026-08-05",
+      "remove_by": "2026-11-05"
+    },
+    {
+      "gate": "check:people-hr-maturity",
+      "input_path": "docs/specs/data-exchange-import-export.md",
+      "owner": "executable-contract-lane",
+      "reason": "tranche-1 residual \u2014 prose-dependent assertion retained pending later conversion",
+      "first_seen": "2026-08-05",
+      "remove_by": "2026-11-05"
+    }
+  ]
+}

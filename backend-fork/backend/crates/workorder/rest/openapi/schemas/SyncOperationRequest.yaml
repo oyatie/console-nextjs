@@ -1,0 +1,18 @@
+type: object
+required:
+- request_id
+- operation
+- created_at
+- payload
+properties:
+  request_id:
+    type: string
+    minLength: 1
+  operation:
+    $ref: '#/components/schemas/SyncOperationKind'
+  created_at:
+    $ref: '#/components/schemas/Timestamp'
+  payload:
+    oneOf:
+    - $ref: '#/components/schemas/SyncWorkOrderStartPayload'
+    - $ref: '#/components/schemas/SyncWorkOrderReportPayload'

@@ -1,0 +1,103 @@
+{
+  "scope": "Native Cargo embedded migration invalidation only; full R4 remains incomplete",
+  "base_backend_candidate": "2406ee701d5f8c75d9079931e50e209da070169944122077b0d15b398c7a9b38",
+  "backend_candidate": "db2ad6a01941d43cbca8c891a49de4be503614f056b51a4e793e31dd23a6f9c0",
+  "mechanics": {
+    "path": "docs/planning/nextjs-v1/migration-build-dependencies.md",
+    "sha256": "10bed6f7125c9fedfcbf39aec76bdc9a9a5ffa7d3ea9336a255da5914c89fbdd",
+    "bytes": 3758
+  },
+  "tests": {
+    "path": "docs/planning/nextjs-v1/migration-build-tests.json",
+    "sha256": "5eafd97796af78c0a2d9f1e2d7fff8389e9b7b6b0daca248b0f3adc0ebcd2408",
+    "bytes": 1125
+  },
+  "evidence": [
+    {
+      "path": ".artifacts/empty-install-20260923T231342.048951Z/report.json",
+      "sha256": "5b6d7427e8eadcdca252e57509b69bedd7eabfbba0fd4cfbd99449d67a7de892",
+      "bytes": 181067
+    },
+    {
+      "path": ".artifacts/empty-install-20260923T231706.430347Z/report.json",
+      "sha256": "d147f6213ac10164aa3f7da079e7e6c151914295d70eb6d099087578000dc236",
+      "bytes": 188602
+    },
+    {
+      "path": ".artifacts/migration-build-20260923T231810.134097Z/report.json",
+      "sha256": "37e8eb2ef7209013915b2c74a87ab670f43339ef2004e4bdfab9eff1796ac703",
+      "bytes": 341192
+    },
+    {
+      "path": ".artifacts/empty-install-20260923T232348.360828Z/report.json",
+      "sha256": "9fd726070634b1eae621249c6afde283675d01c40c9fcee797e22dcf7c36d738",
+      "bytes": 203985
+    },
+    {
+      "path": ".artifacts/migration-build-20260923T232453.794070Z/report.json",
+      "sha256": "045f2072d9b707cd7c73524371ec069ba2a6298265a693152063a7c9db2bb479",
+      "bytes": 425090
+    },
+    {
+      "path": ".artifacts/migration-build-verification.json",
+      "sha256": "19bf0177921834fcfe9d9fc8719c52b16a4cb99d4e59a4831af4148818f32b03",
+      "bytes": 1200
+    },
+    {
+      "path": ".artifacts/migration-build-format.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": ".artifacts/migration-build-clippy.log",
+      "sha256": "a3164c2f1ce3e150848813b7a124099df6058cad2d74f28968b5179a1beefbff",
+      "bytes": 1696
+    },
+    {
+      "path": ".artifacts/migration-build-app-build.log",
+      "sha256": "e912fff7c3645496d719d380d77f09e70bfd602de924ade14a7f2f7db29e1419",
+      "bytes": 11466
+    },
+    {
+      "path": ".artifacts/acceptance/20260923T232357.508546Z/report.json",
+      "sha256": "a6f9b87f397c1d2d89722460c7e093cc7f7270e7a832ed6a96e1596f689911b7",
+      "bytes": 22108
+    }
+  ],
+  "app": {
+    "path": ".artifacts/cargo-target/debug/console-app",
+    "sha256": "291dde4b70d69e0de48d8ea830cbaf0128d46daa23fa541f1fe7344bfcc6be16",
+    "bytes": 323001024
+  },
+  "preserved_app": ".artifacts/suffix-installers/291dde4b70d69e0de48d8ea830cbaf0128d46daa23fa541f1fe7344bfcc6be16/console-app",
+  "verification": {
+    "distinct_fixture_tests": 10,
+    "phases": 10,
+    "test_executions": 100,
+    "passed": 100,
+    "skipped": 0,
+    "filtered": 0,
+    "unreached": 0,
+    "migration_checks": 689,
+    "consumer_packages": 58,
+    "packages_inspected": 175,
+    "uncovered_consumers": [],
+    "production_sql_and_lock_preserved": true,
+    "clean_business_counts": {
+      "organizations": 0,
+      "accounts": 0,
+      "employees": 0,
+      "applied_migrations": 4
+    },
+    "format": "passed",
+    "clippy": "passed",
+    "app_build": "passed",
+    "source_custody": "passed",
+    "acceptance_tool_tests": 3
+  },
+  "limitations": [
+    "SQLx behavior is proven with real pinned dependencies in an isolated five-package graph plus full source census, not every inherited test suite executed",
+    "Full authentication ownership, business workflows, browser/protocol, two-site durability, capacity, restore and cutover remain open",
+    "Four failed release preflights,45 unreached module/leaf rows and8 unreached operational suites remain"
+  ]
+}

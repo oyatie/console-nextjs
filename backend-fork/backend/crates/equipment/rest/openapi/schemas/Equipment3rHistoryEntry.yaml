@@ -1,0 +1,8 @@
+type: object
+required: [aggregateKind, aggregateId, transition, actorId, occurredAt]
+properties:
+  aggregateKind: { type: string, enum: [unit, case, disposition] }
+  aggregateId: { $ref: '#/components/schemas/Uuid' }
+  transition: { type: string }
+  actorId: { $ref: '#/components/schemas/Uuid' }
+  occurredAt: { type: string, format: date-time }

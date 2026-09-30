@@ -1,0 +1,24 @@
+tags:
+  - auth
+operationId: pollDeviceLogin
+summary: Poll a desktop QR login handoff
+description: Desktop-only polling endpoint. Pending/expired responses carry no tokens. Once a phone has approved the
+  paired approve token, this endpoint consumes the poll token exactly once and returns a normal token pair; in web cookie
+  transport the refresh token is set as `console_refresh` and is omitted from the JSON body.
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/DeviceLoginPollRequest'
+responses:
+  '200':
+    description: Pending, expired, or approved desktop-login status.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/DeviceLoginPollResponse'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '429':
+    $ref: '#/components/responses/TooManyRequests'

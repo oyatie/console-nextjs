@@ -1,0 +1,22 @@
+type: object
+required:
+- source_sheet
+- source_row
+- row_status
+- values
+properties:
+  source_sheet:
+    type: string
+  source_row:
+    type: integer
+    format: int32
+    minimum: 1
+  row_status:
+    type: string
+    enum:
+    - CANDIDATE
+    - PRESERVED
+    - ERROR
+  values:
+    type: object
+    additionalProperties: true

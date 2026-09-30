@@ -1,0 +1,38 @@
+tags:
+  - integrity
+operationId: triageIntegrityFinding
+summary: Triage (review) a governance finding
+description: Transitions an OPEN finding to REVIEWED, DISMISSED, or ESCALATED with an optional reviewer memo. A memo
+  is required when dismissing or escalating. Only OPEN findings can be triaged. The triage itself is audited. Gated
+  to EXECUTIVE and SUPER_ADMIN only (IntegrityFindingTriage).
+security:
+- bearerAuth: []
+parameters:
+- name: id
+  in: path
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/TriageFindingRequest'
+responses:
+  '200':
+    description: The updated governance finding after triage.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/GovernanceFinding'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '409':
+    $ref: '#/components/responses/Conflict'
+  '422':
+    $ref: '#/components/responses/ValidationError'

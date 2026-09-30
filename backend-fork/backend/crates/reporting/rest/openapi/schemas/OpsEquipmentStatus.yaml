@@ -1,0 +1,28 @@
+type: object
+required:
+- rented
+- spare
+- scrapped
+- replacement
+- sold
+properties:
+  rented:
+    type: integer
+    format: int32
+    minimum: 0
+  spare:
+    type: integer
+    format: int32
+    minimum: 0
+  scrapped:
+    type: integer
+    format: int32
+    minimum: 0
+  replacement:
+    type: integer
+    format: int32
+    minimum: 0
+  sold:
+    type: integer
+    format: int32
+    minimum: 0

@@ -1,0 +1,6 @@
+type: object
+required:
+- binding
+properties:
+  binding:
+    $ref: '#/components/schemas/MobilePasskeyStepUpBinding'

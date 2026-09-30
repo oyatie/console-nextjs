@@ -1,0 +1,7 @@
+type: object
+required: [evidence_object_id, verified_at, outcome, copies]
+properties:
+  evidence_object_id: { type: string, format: uuid }
+  verified_at: { type: string, format: date-time }
+  outcome: { $ref: '#/components/schemas/VerifyOutcome' }
+  copies: { type: array, items: { $ref: '#/components/schemas/CopyVerification' } }

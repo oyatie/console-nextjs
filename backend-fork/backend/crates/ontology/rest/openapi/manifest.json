@@ -1,0 +1,124 @@
+{
+  "source": "console-ontology-rest",
+  "paths": {
+    "/api/objects/{kind}/{id}": [
+      "get"
+    ],
+    "/api/objects/{kind}/{id}/graph": [
+      "get"
+    ],
+    "/api/v1/link-types": [
+      "get"
+    ],
+    "/api/v1/object-links": [
+      "get",
+      "post"
+    ],
+    "/api/v1/object-links/{id}": [
+      "delete"
+    ],
+    "/api/v1/object-types": [
+      "get"
+    ],
+    "/api/v1/object-types/{kind}": [
+      "get"
+    ],
+    "/api/v1/ontology/actions/{action_key}/execute": [
+      "post"
+    ],
+    "/api/v1/ontology/actions/{action_key}/preflight": [
+      "post"
+    ],
+    "/api/v1/ontology/instances": [
+      "get"
+    ],
+    "/api/v1/ontology/instances/aggregate": [
+      "get"
+    ],
+    "/api/v1/ontology/instances/{id}": [
+      "get"
+    ],
+    "/api/v1/ontology/instances/{id}/acting": [
+      "get"
+    ],
+    "/api/v1/ontology/instances/{id}/history": [
+      "get"
+    ],
+    "/api/v1/ontology/instances/{id}/lifecycle": [
+      "post"
+    ],
+    "/api/v1/ontology/instances/{id}/traverse": [
+      "get"
+    ],
+    "/api/v1/ontology/object-types": [
+      "get",
+      "post"
+    ],
+    "/api/v1/ontology/object-types/{key}": [
+      "get",
+      "put"
+    ],
+    "/api/v1/ontology/object-types/{key}/acting": [
+      "get"
+    ],
+    "/api/v1/ontology/object-types/{key}/lifecycle": [
+      "post"
+    ],
+    "/api/v1/ontology/object-types/{key}/policies": [
+      "post"
+    ],
+    "/api/v1/ontology/resolve": [
+      "get"
+    ],
+    "/api/v1/search": [
+      "get"
+    ],
+    "/api/v1/series": [
+      "post"
+    ],
+    "/api/v1/series/by-instance": [
+      "get"
+    ],
+    "/api/v1/series/{id}": [
+      "get"
+    ],
+    "/api/v1/series/{id}/instances": [
+      "post"
+    ]
+  },
+  "schemas": [
+    "ActingRule",
+    "AttachInstanceAck",
+    "AttachInstanceRequest",
+    "CreateObjectLinkRequest",
+    "CreateObjectTypeDraft",
+    "CreateSeriesRequest",
+    "GateChainConfig",
+    "GateChainOutcome",
+    "InstanceHead",
+    "InstanceLifecycleState",
+    "LifecycleOutcome",
+    "LifecycleRequest",
+    "LinkTypeResponse",
+    "ObjectGraphResponse",
+    "ObjectHead",
+    "ObjectLinkResponse",
+    "ObjectLinksListResponse",
+    "ObjectTypeResponse",
+    "ObjectTypeSummary",
+    "OntologyActionCommandReceipt",
+    "OntologyActionExecuteOutcome",
+    "OntologyActionRequest",
+    "OntologyInstanceAggregateBucket",
+    "ResolvedInstance",
+    "SearchResponse",
+    "SeriesByInstanceResponse",
+    "SeriesDetailResponse",
+    "SeriesHead"
+  ],
+  "external_schemas": [
+    "ErrorBody",
+    "Timestamp",
+    "Uuid"
+  ]
+}

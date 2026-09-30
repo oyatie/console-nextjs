@@ -1,0 +1,7 @@
+type: object
+description: Minimal acknowledgement of a submitted inquiry (no identifiers, no PII echo).
+required:
+- status
+properties:
+  status:
+    type: string

@@ -1,0 +1,54 @@
+{
+  "source": "console-sales-rest",
+  "paths": {
+    "/api/v1/sales/inquiries": [
+      "get"
+    ],
+    "/api/v1/sales/inquiries/{id}": [
+      "patch"
+    ],
+    "/api/v1/sales/listings": [
+      "get",
+      "post"
+    ],
+    "/api/v1/sales/listings/{id}": [
+      "delete",
+      "patch"
+    ],
+    "/api/v1/storefront/inquiries": [
+      "post"
+    ],
+    "/api/v1/storefront/listings": [
+      "get"
+    ],
+    "/api/v1/storefront/listings/{id}": [
+      "get"
+    ],
+    "/api/v1/storefront/listings/{id}/media/{media_id}": [
+      "get"
+    ]
+  },
+  "schemas": [
+    "CreateListingRequest",
+    "CreateListingResponse",
+    "CustomerInquiryPage",
+    "CustomerInquiryView",
+    "InquiryAck",
+    "InquiryStatus",
+    "InquiryTopic",
+    "ListingCondition",
+    "ListingKind",
+    "ListingMediaView",
+    "ListingStatus",
+    "ListingType",
+    "SalesListingPage",
+    "SalesListingView",
+    "SubmitInquiryRequest",
+    "UpdateInquiryStatusRequest",
+    "UpdateListingRequest"
+  ],
+  "external_schemas": [
+    "Timestamp",
+    "Uuid"
+  ]
+}

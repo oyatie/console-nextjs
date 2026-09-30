@@ -1,0 +1,23 @@
+tags:
+  - reporting
+operationId: getWorkDiaryDraft
+summary: Get or generate the editable work-diary draft for a date
+security:
+- bearerAuth: []
+parameters:
+- $ref: '#/components/parameters/ReportDate'
+responses:
+  '200':
+    description: Work diary draft.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/WorkDiaryDraft'
+  '400':
+    $ref: '#/components/responses/ValidationError'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '422':
+    $ref: '#/components/responses/ValidationError'

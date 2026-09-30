@@ -1,0 +1,21 @@
+tags:
+  - platform
+operationId: getPlatformOps
+summary: Read cross-tenant platform operations health (platform vendor tier)
+description: Returns per-tenant health and usage counts from the sanctioned SECURITY DEFINER platform rollup. Authorized
+  with TenantHealthRead and audited as a platform read; no row-level tenant data is returned.
+security:
+- bearerAuth: []
+responses:
+  '200':
+    description: Platform operations dashboard rollup.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/PlatformOpsResponse'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '503':
+    $ref: '#/components/responses/ServiceUnavailable'

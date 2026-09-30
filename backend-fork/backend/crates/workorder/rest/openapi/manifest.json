@@ -1,0 +1,195 @@
+{
+  "source": "console-workorder-rest",
+  "paths": {
+    "/api/approval-items": [
+      "get"
+    ],
+    "/api/daily-work-plans": [
+      "get",
+      "post"
+    ],
+    "/api/daily-work-plans/{planId}": [
+      "get"
+    ],
+    "/api/daily-work-plans/{planId}/confirm": [
+      "post"
+    ],
+    "/api/daily-work-plans/{planId}/request-review": [
+      "post"
+    ],
+    "/api/daily-work-plans/{planId}/review": [
+      "post"
+    ],
+    "/api/target-change-requests/{requestId}/review": [
+      "post"
+    ],
+    "/api/v1/devices": [
+      "post"
+    ],
+    "/api/v1/equipment/lookup": [
+      "get"
+    ],
+    "/api/v1/evidence/presign": [
+      "post"
+    ],
+    "/api/v1/evidence/staging-presign": [
+      "post"
+    ],
+    "/api/v1/evidence/{evidenceId}/confirm": [
+      "post"
+    ],
+    "/api/v1/evidence/{evidenceId}/status": [
+      "get"
+    ],
+    "/api/v1/mobile/work-orders/{workOrderId}/approve": [
+      "post"
+    ],
+    "/api/v1/settlements/{settlementId}/review": [
+      "post"
+    ],
+    "/api/v1/settlements/{settlementId}/submit": [
+      "post"
+    ],
+    "/api/v1/settlements/{settlementId}/void": [
+      "post"
+    ],
+    "/api/v1/sync": [
+      "post"
+    ],
+    "/api/v1/work-orders": [
+      "get"
+    ],
+    "/api/v1/work-orders/{workOrderId}": [
+      "get"
+    ],
+    "/api/v1/work-orders/{workOrderId}/reject": [
+      "post"
+    ],
+    "/api/v1/work-orders/{workOrderId}/settlement": [
+      "get",
+      "post"
+    ],
+    "/api/work-orders": [
+      "post"
+    ],
+    "/api/work-orders/{workOrderId}": [
+      "get",
+      "patch"
+    ],
+    "/api/work-orders/{workOrderId}/approve": [
+      "post"
+    ],
+    "/api/work-orders/{workOrderId}/assignments": [
+      "put"
+    ],
+    "/api/work-orders/{workOrderId}/outsource-works": [
+      "post"
+    ],
+    "/api/work-orders/{workOrderId}/priority": [
+      "patch"
+    ],
+    "/api/work-orders/{workOrderId}/report": [
+      "post"
+    ],
+    "/api/work-orders/{workOrderId}/start": [
+      "post"
+    ],
+    "/api/work-orders/{workOrderId}/target-change-requests": [
+      "post"
+    ]
+  },
+  "schemas": [
+    "ApprovalItem",
+    "ApprovalItemSource",
+    "ApprovalItemsPage",
+    "ApprovalOntologyContext",
+    "ApprovalPolicyContext",
+    "ApprovalStepSummary",
+    "ApprovalWorkflowContext",
+    "ApproveWorkOrderRequest",
+    "AssignWorkOrderRequest",
+    "AssignmentRole",
+    "AssignmentSummary",
+    "AttachmentStage",
+    "CreateDailyPlanRequest",
+    "CreateOutsourceWorkRequest",
+    "CreateSettlementRequest",
+    "CreateWorkOrderRequest",
+    "DailyPlanItemSummary",
+    "DailyPlanListPage",
+    "DailyPlanStatus",
+    "DailyPlanSummary",
+    "DevicePlatform",
+    "DeviceRegistrationRequest",
+    "DeviceRegistrationResponse",
+    "EquipmentSummary",
+    "EvidenceConfirmResponse",
+    "EvidencePresignRequest",
+    "EvidencePresignResponse",
+    "EvidenceStagingPresignRequest",
+    "EvidenceStagingPresignResponse",
+    "EvidenceStatusResponse",
+    "EvidenceSummary",
+    "MaintenanceCause",
+    "MaintenanceType",
+    "MediaKind",
+    "MobileApproveWorkOrderRequest",
+    "OutsourceWorkSummary",
+    "ProcessingStatus",
+    "RejectWorkOrderRequest",
+    "ReviewDailyPlanRequest",
+    "ReviewSettlementRequest",
+    "ReviewTargetChangeRequest",
+    "SettlementLineKind",
+    "SettlementLineRequest",
+    "SettlementLineSummary",
+    "SettlementStatus",
+    "SettlementSummary",
+    "SiteContact",
+    "StatusHistorySummary",
+    "SubmitReportRequest",
+    "SyncBatchRequest",
+    "SyncBatchResponse",
+    "SyncError",
+    "SyncOperationKind",
+    "SyncOperationRequest",
+    "SyncOperationResult",
+    "SyncOperationStatus",
+    "SyncWorkOrderReportPayload",
+    "SyncWorkOrderStartPayload",
+    "TargetChangeDecision",
+    "TargetChangeRequest",
+    "TargetChangeRequestSummary",
+    "UpdateWorkOrderIntakeRequest",
+    "VoidSettlementRequest",
+    "WorkOrderDetail",
+    "WorkOrderFacetBucket",
+    "WorkOrderHistogramBucket",
+    "WorkOrderLensAggregates",
+    "WorkOrderLensFacets",
+    "WorkOrderLensHistograms",
+    "WorkOrderLensListograms",
+    "WorkOrderListItem",
+    "WorkOrderListPage",
+    "WorkOrderNamedBucket",
+    "WorkOrderObjectSetLens",
+    "WorkOrderSummary",
+    "WorkResultType",
+    "WormReplicaStatus"
+  ],
+  "external_schemas": [
+    "Date",
+    "EquipmentLookupResponse",
+    "ErrorBody",
+    "MobilePasskeyStepUpBinding",
+    "MobilePasskeyStepUpEnvelope",
+    "MobileStepUpActionKind",
+    "NamedEntity",
+    "PasskeyStepUpAssertion",
+    "PresignedUpload",
+    "PriorityLevel",
+    "Timestamp",
+    "Uuid",
+    "WorkOrderStatus"
+  ]
+}

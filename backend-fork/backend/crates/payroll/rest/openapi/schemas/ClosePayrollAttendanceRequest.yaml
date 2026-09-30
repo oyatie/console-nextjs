@@ -1,0 +1,7 @@
+type: object
+required:
+- attest
+properties:
+  attest:
+    type: boolean
+    description: Must be true; the close is an attestation, and false is rejected with 422.

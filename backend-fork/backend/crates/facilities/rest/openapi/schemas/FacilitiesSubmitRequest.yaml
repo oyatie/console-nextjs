@@ -1,0 +1,3 @@
+type: object
+required: [safetyChecklistEvidenceId, serviceReportEvidenceId]
+properties: { safetyChecklistEvidenceId: { $ref: '#/components/schemas/Uuid' }, serviceReportEvidenceId: { $ref: '#/components/schemas/Uuid' }, photoEvidenceId: { $ref: '#/components/schemas/Uuid' } }

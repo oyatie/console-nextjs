@@ -1,0 +1,33 @@
+tags:
+  - platform
+operationId: startPlatformViewAs
+summary: Start a read-only platform view-as session for one tenant
+description: Mints a short-lived tenant token pinned to the requested organization and role with view_as/read_only flags.
+  Platform token and TenantHealthRead authority required; the operator identity comes from the verified bearer token.
+security:
+- bearerAuth: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/PlatformViewAsStartRequest'
+responses:
+  '200':
+    description: The short-lived read-only tenant token and banner context.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/PlatformViewAsStartResponse'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '409':
+    $ref: '#/components/responses/Conflict'
+  '422':
+    $ref: '#/components/responses/ValidationError'
+  '503':
+    $ref: '#/components/responses/ServiceUnavailable'
