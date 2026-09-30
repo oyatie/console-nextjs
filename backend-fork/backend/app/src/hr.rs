@@ -9487,6 +9487,49 @@ E-001,홍길동,본사,2026-07-01,abc
 
     #[cfg(not(feature = "test-postgres"))]
     #[test]
+    fn attendance_import_retains_source_records_and_header_search_budget() {
+        for newline in ["\n", "\r\n", "\r"] {
+            let csv = format!(
+                "{newline}사번,지점,근무일,근무분{newline}E-001,본사,2026-07-01,540{newline}{newline}E-001,본사,2026-07-02,540{newline}"
+            );
+            let parsed = parse_attendance_import_upload("attendance.csv", csv.as_bytes())
+                .expect("all admitted CSV record separators remain supported");
+            assert_eq!(
+                parsed
+                    .rows
+                    .iter()
+                    .map(|row| row.source_row)
+                    .collect::<Vec<_>>(),
+                [3, 5]
+            );
+        }
+        let csv = format!(
+            "{}사번,지점,근무일,근무분\nE-001,본사,2026-07-01,540\n",
+            "\n".repeat(MAX_IMPORT_HEADER_SCAN_ROWS)
+        );
+        let parsed = parse_attendance_import_upload("attendance.csv", csv.as_bytes())
+            .expect("blank records must not consume the previous nonempty header budget");
+        assert_eq!(parsed.rows.len(), 1);
+        assert_eq!(
+            parsed.rows[0].source_row,
+            (MAX_IMPORT_HEADER_SCAN_ROWS + 2) as i32
+        );
+    }
+
+    #[cfg(not(feature = "test-postgres"))]
+    #[test]
+    fn attendance_import_quoted_newline_is_one_source_record() {
+        let csv = "성명,지점,근무일,근무분\n\"홍\n길동\",본사,2026-07-01,540\n김직원,본사,2026-07-02,540\n";
+        let parsed = parse_attendance_import_upload("attendance.csv", csv.as_bytes())
+            .expect("quoted newline remains within its CSV record");
+        assert_eq!(parsed.rows.len(), 2);
+        assert_eq!(parsed.rows[0].employee_name.as_deref(), Some("홍\n길동"));
+        assert_eq!(parsed.rows[0].source_row, 2);
+        assert_eq!(parsed.rows[1].source_row, 3);
+    }
+
+    #[cfg(not(feature = "test-postgres"))]
+    #[test]
     fn governed_import_detects_schema_header_below_title_rows() -> Result<(), String> {
         let mut range = Range::new((0, 0), (2, 2));
         range.set_value((0, 0), Data::String("2026년 임직원 명부".to_owned()));
