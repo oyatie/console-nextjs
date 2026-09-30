@@ -1,0 +1,66 @@
+{
+  "version": 1,
+  "design_path": "docs/planning/nextjs-v1/attendance-retained-history-design.md",
+  "approved_design_sha256": "3d4735f29c909c4de162c3f92d5171ba709b7a5686eb580166b1adf0a8142fa9",
+  "base": "a9a5dd86c6f40be2c2d694d76a381db7733fdc77",
+  "owner": "root; sole repository writer",
+  "status": "design_accepted_tests_pending",
+  "rounds": [
+    {
+      "round": 1,
+      "sha256": "933d434f47f59c1dd92ff82bf07adfd09a6fc2db23889a20dae1044af2a0b599",
+      "reviews": [
+        {
+          "reviewer": "/root/employment_consumer_trace",
+          "verdict": "ACCEPT"
+        },
+        {
+          "reviewer": "/root/source_fidelity_adversary",
+          "verdict": "REVISE",
+          "finding": "Qualify exited-worker write safety: exception resolution is permission-based; HR self-punch has separate unresolved eligibility.",
+          "disposition": "H2 explicitly retains wider exit-write eligibility HOLD and limits tests to unchanged refusals; adds authorized active-subject ACK control."
+        }
+      ]
+    },
+    {
+      "round": 2,
+      "sha256": "3d4735f29c909c4de162c3f92d5171ba709b7a5686eb580166b1adf0a8142fa9",
+      "reviews": [
+        {
+          "reviewer": "/root/source_fidelity_adversary",
+          "verdict": "ACCEPT"
+        },
+        {
+          "reviewer": "/root/employment_consumer_trace",
+          "verdict": "ACCEPT"
+        }
+      ]
+    },
+    {
+      "round": 3,
+      "sha256": "3d4735f29c909c4de162c3f92d5171ba709b7a5686eb580166b1adf0a8142fa9",
+      "reviews": [
+        {
+          "reviewer": "/root/employment_consumer_trace",
+          "verdict": "ACCEPT",
+          "scope": "Independent alternate-case challenge: UNKNOWN, unlink/relink, foreign user/Company, revocation, site closure, malformed timelines, mutation reachability."
+        }
+      ]
+    },
+    {
+      "round": 4,
+      "sha256": "3d4735f29c909c4de162c3f92d5171ba709b7a5686eb580166b1adf0a8142fa9",
+      "reviews": [
+        {
+          "reviewer": "/root/source_fidelity_adversary",
+          "verdict": "ACCEPT",
+          "scope": "Independent scope, architecture, isolation, fixture validity and compatible rollback challenge."
+        }
+      ]
+    }
+  ],
+  "limits": [
+    "Design approval only; tests, implementation, browser, full HR/Org/Payroll/Foundry, two-site confirmation, persisted cross-build rollback and production remain unaccepted."
+  ],
+  "review_evidence": "Observed independent current-session messages, exact H2 file rehash; no historical approval inferred."
+}
