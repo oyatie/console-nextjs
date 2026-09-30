@@ -69,7 +69,7 @@
     "reviewer": "/root/source_fidelity_adversary",
     "verdict": "ACCEPT",
     "source_commit": "b0a017a7eb1ca64bca420bc9167712345bb9f5e8",
-    "admission_command": "python3 backend-fork/tools/lanes/fanout.py admit --spec .artifacts/acceptance/payroll-roster-freeze/lane-spec.json",
+    "admission_command": "python3 backend-fork/tools/lanes/fanout.py admit --spec /Users/jasonlee/Developer/frontend/.artifacts/acceptance/payroll-roster-freeze/lane-spec.json",
     "native_counts": {
       "discovered": 32,
       "executed": 32,
@@ -86,7 +86,8 @@
       "skipped": 0,
       "filtered": 0
     },
-    "receipt_sha256": "8d6f5e6e7f259955d244681a5679ffaeed5d79b1464b8379f9bd2dbadeab1e2f"
+    "receipt_sha256": "8d6f5e6e7f259955d244681a5679ffaeed5d79b1464b8379f9bd2dbadeab1e2f",
+    "admission_cwd": "/Users/jasonlee/Developer/frontend/.worktrees/payroll-roster-freeze"
   },
   "native_green": {
     "path": ".artifacts/acceptance/payroll-roster-freeze/run-20260930T170020.794610Z/report.json",
