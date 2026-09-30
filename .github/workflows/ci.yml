@@ -39,6 +39,7 @@ jobs:
       - name: Attendance source parser regressions
         env:
           SQLX_OFFLINE: "true"
+          RUSTUP_TOOLCHAIN: "1.98.1"
         run: cargo test --manifest-path backend-fork/backend/Cargo.toml --locked -p console-app --lib hr::tests::attendance_import -- --test-threads=1
       - name: PostgreSQL HR attendance source fidelity and import gates
         env:
