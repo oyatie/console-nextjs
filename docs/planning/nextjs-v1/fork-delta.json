@@ -181,8 +181,8 @@
         "mode": 420
       },
       "after": {
-        "sha256": "5c4c2f34ad7b0e22c95229e63741305a2f1298599c40a4a1bc7b30f2c6747ff4",
-        "bytes": 25561,
+        "sha256": "f4ad36152d4a1de47cd15ca018a07a61c71bd89c0c6056351655fb9fc70ce4c7",
+        "bytes": 25560,
         "mode": 420
       },
       "reason": "Preserve attendance source coordinates and reject ambiguous headers before persistence; distinguish historical source-coordinate conflicts from duplicate facts, with real session-bound PostgreSQL tests. Fixture remains test-only."

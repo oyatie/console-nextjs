@@ -27,6 +27,7 @@ jobs:
       - run: npm run test:production-routes
       - run: npx playwright install --with-deps chromium
       - run: rustup toolchain install 1.98.1 --profile minimal
+      - run: rustup component add clippy --toolchain 1.98.1
       - name: PostgreSQL and real-browser inquiry
         env:
           SQLX_OFFLINE: "true"
@@ -45,3 +46,8 @@ jobs:
         env:
           SQLX_OFFLINE: "true"
         run: backend-fork/tools/lanes/pgtest.sh "$GITHUB_WORKSPACE/backend-fork" cargo test --locked -p console-app --test hr_ingest_checklist_gate -- --test-threads=1
+      - name: HR owner and regression Clippy
+        env:
+          SQLX_OFFLINE: "true"
+          RUSTUP_TOOLCHAIN: "1.98.1"
+        run: cargo clippy --manifest-path backend-fork/backend/Cargo.toml --locked -p console-app --lib --test hr_ingest_checklist_gate -- -D warnings

@@ -211,7 +211,7 @@ async fn assert_source_coordinates(
             .unwrap();
     assert!(!bypass);
     let service = build_router(app_state(runtime, keys.public_pem.clone()).unwrap());
-    let token = bearer(&pool, &keys, admin).await;
+    let token = bearer(pool, &keys, admin).await;
     let initial = preview(service.clone(), &token, filename, bytes).await;
     assert_eq!(initial.status, StatusCode::OK, "{:?}", initial.json);
     assert_eq!(initial.json["input_rows"], 2);
