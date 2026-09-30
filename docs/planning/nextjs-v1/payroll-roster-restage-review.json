@@ -3,7 +3,7 @@
   "design_path": "docs/planning/nextjs-v1/payroll-roster-restage-integrity.md",
   "design_commit": "604c1ef",
   "approved_design_sha256": "ad0d51109718404108f1c38d02315b60326762e325613201bf946dd904f71758",
-  "status": "design_approved_tests_and_implementation_unstarted",
+  "status": "implemented_pending_green_and_final_review",
   "history": [
     {
       "sha256": "53e29695b587bc130f975ec9e44a7bf89c4b0d63a4e2c040936e63ff35319e72",
@@ -52,7 +52,40 @@
     "Controlled both-order close versus refresh tests under actual console_rt PostgreSQL."
   ],
   "limits": [
-    "No product source edits, tests, red lane admission, final implementation review or merge evidence yet.",
-    "Full HR/Org/Payroll/Foundry acceptance, legal conclusions, payment, deployment and two-site durability remain unverified."
-  ]
+    "Green probe, strict Clippy, final independent candidate approval and merge-group proof pending.",
+    "Seeded statuses/calculations prove preservation only; no legal, payroll approval or payment acceptance.",
+    "Compatible persisted cross-build deployment rollback is unverified; original base is unsafe rollback.",
+    "Full HR/Org/Payroll/Foundry, authenticated UI, effective Employment serving, full-population publication, natural-person approval and two-site durability remain unaccepted."
+  ],
+  "test_source": {
+    "approved_test_commit": "ed7ad6bc2272ccad7c82142330dfaee35089fc20",
+    "CI_test_candidate": "603782a4fc4e12a78819a84975705f1195b1ae2b",
+    "reviewer": "/root/source_fidelity_adversary",
+    "verdict": "ACCEPT",
+    "scope": "Source/test/CI validity; not product or release acceptance"
+  },
+  "implementation_admission": {
+    "source_base": "ed7ad6bc2272ccad7c82142330dfaee35089fc20",
+    "reviewer": "/root/source_fidelity_adversary",
+    "verdict": "ACCEPT",
+    "source_commit": "b0a017a7eb1ca64bca420bc9167712345bb9f5e8",
+    "admission_command": "python3 backend-fork/tools/lanes/fanout.py admit --spec .artifacts/acceptance/payroll-roster-freeze/lane-spec.json",
+    "native_counts": {
+      "discovered": 32,
+      "executed": 32,
+      "passed": 21,
+      "failed": 11,
+      "skipped": 0,
+      "filtered": 0
+    },
+    "CI_run": 36745972591,
+    "CI_counts": {
+      "executed": 43,
+      "passed": 32,
+      "failed": 11,
+      "skipped": 0,
+      "filtered": 0
+    },
+    "receipt_sha256": "8d6f5e6e7f259955d244681a5679ffaeed5d79b1464b8379f9bd2dbadeab1e2f"
+  }
 }
