@@ -158,11 +158,13 @@ async fn linked_employee_id(
     tx: &mut Transaction<'_, Postgres>,
     user_id: Uuid,
 ) -> Result<Option<Uuid>, AttendanceStoreError> {
+    // Retained own history follows the active Account's current Company link.
+    // Employment status alone does not revoke that read; writes use separate owners.
     sqlx::query_scalar(
         "SELECT u.employee_id FROM users u \
          JOIN employees e ON e.id=u.employee_id AND e.org_id=u.org_id \
          WHERE u.id=$1 AND u.employee_id IS NOT NULL \
-           AND u.is_active AND e.employment_status='ACTIVE'",
+           AND u.is_active",
     )
     .bind(user_id)
     .fetch_optional(tx.as_mut())

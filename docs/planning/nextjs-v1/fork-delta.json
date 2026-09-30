@@ -390,6 +390,20 @@
       "reason": "Run ordinary canonical-census probe migrations in a single PostgreSQL transaction while preserving explicit SQLx no-transaction migrations; repair native pgtest and CI preflights without changing migration bytes."
     },
     {
+      "path": "backend/crates/attendance/adapter-postgres/src/self_service.rs",
+      "before": {
+        "sha256": "68321de8a658e70fe5e1d41d9e5be3d53171e18756d9e6a8075acc5e7a0399c2",
+        "bytes": 8416,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "1b4e99bf9913ad4cba0d81e1770a3812810ce70a29e68ccf5134f1ad645537e7",
+        "bytes": 8548,
+        "mode": 420
+      },
+      "reason": "Read retained own attendance history independently of current Employment activity through the existing two-caller private read selector. Preserve active Account/current linkage/Company equality/RLS and all separate write owners; actual independently reviewed9-case behavioral RED admission."
+    },
+    {
       "path": "backend/crates/attendance/adapter-postgres/tests/self_service.rs",
       "before": {
         "sha256": "ed7a37a5b8d68d41f59810e56f4ac6162d87697e7ebd97854cbe25f74ff65e4e",

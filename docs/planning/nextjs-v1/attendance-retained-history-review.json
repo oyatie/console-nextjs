@@ -4,7 +4,7 @@
   "approved_design_sha256": "3d4735f29c909c4de162c3f92d5171ba709b7a5686eb580166b1adf0a8142fa9",
   "base": "a9a5dd86c6f40be2c2d694d76a381db7733fdc77",
   "owner": "root; sole repository writer",
-  "status": "test_source_accepted_native_RED_pending",
+  "status": "behavioral_RED_admitted_implementation_GREEN_pending",
   "rounds": [
     {
       "round": 1,
@@ -92,6 +92,38 @@
       "inherited": 4
     },
     "expected_behavioral_RED": 3,
-    "limits": "Source review only. Later UNKNOWN/site assertions remain unreached when EXITED equality fails on RED."
+    "limits": "Source review only. Later UNKNOWN/site assertions remain unreached when EXITED equality fails on RED.",
+    "approved_test_commit": "2b739d8fc7f30576890882c91dad3bed6f3a27c5"
+  },
+  "implementation_admission": {
+    "source_base": "2b739d8fc7f30576890882c91dad3bed6f3a27c5",
+    "command": [
+      "python3",
+      "backend-fork/tools/lanes/fanout.py",
+      "admit",
+      "--spec",
+      "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/attendance-retained-history/lane-spec.json"
+    ],
+    "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/employment-eligibility",
+    "report_sha256": "fae92c0ad13cedb420284c5699a49495383287aab3a1a52ba9c5c17efbae2373",
+    "reviewer": "/root/source_fidelity_adversary",
+    "verdict": "ACCEPT",
+    "counts": {
+      "discovered": 9,
+      "executed": 9,
+      "passed": 6,
+      "failed": 3,
+      "ignored": 0,
+      "filtered": 0
+    },
+    "receipt_sha256": "b3125739829517c3a291b90c08016b6edddd43f0b0f241afc45d849d1c4ec1b2",
+    "runner_sha256": "44da2b294b114761270fd41093bcd5bd08ad269b08fd0a4c42d19db4565dab87",
+    "incomplete_run": {
+      "report_sha256": "464c3f90197d02af4dc0622a42b22328e26814d1578bbb07de18bd780dd76039",
+      "verdict": "REJECT",
+      "reason": "HTTP discovery compilation900s timeout;0HTTPtests. Only timeout allowance changed900->3600; all tests/checks preserved.",
+      "reviewer": "/root/source_fidelity_adversary"
+    },
+    "limits": "UNKNOWN/site and later privacy/filter assertions behind first failed equality were unreached on RED; full GREEN required. No source/schema/API/write owner change beyond private selector."
   }
 }
