@@ -4,7 +4,7 @@
   "approved_design_sha256": "3d4735f29c909c4de162c3f92d5171ba709b7a5686eb580166b1adf0a8142fa9",
   "base": "a9a5dd86c6f40be2c2d694d76a381db7733fdc77",
   "owner": "root; sole repository writer",
-  "status": "design_accepted_tests_pending",
+  "status": "test_source_accepted_native_RED_pending",
   "rounds": [
     {
       "round": 1,
@@ -62,5 +62,36 @@
   "limits": [
     "Design approval only; tests, implementation, browser, full HR/Org/Payroll/Foundry, two-site confirmation, persisted cross-build rollback and production remain unaccepted."
   ],
-  "review_evidence": "Observed independent current-session messages, exact H2 file rehash; no historical approval inferred."
+  "review_evidence": "Observed independent current-session messages, exact H2 file rehash; no historical approval inferred.",
+  "test_source": {
+    "paths_and_sha256": {
+      "backend-fork/backend/crates/attendance/adapter-postgres/tests/self_service.rs": "6f633644f9d4117fbdbdfcb72782efc5136baaf681d38ab4be7d783f810f63df",
+      "backend-fork/backend/app/tests/hr_attendance_self_read.rs": "90b47ca04c3b6d16a5b588a28656894719302d87a3846f5c59709397c6078b9c"
+    },
+    "reviews": [
+      {
+        "reviewer": "/root/employment_consumer_trace",
+        "verdict": "ACCEPT"
+      },
+      {
+        "reviewer": "/root/source_fidelity_adversary",
+        "verdict": "ACCEPT"
+      }
+    ],
+    "rejected_source": {
+      "app_sha256": "b373ae80938b668e34c9cfae300d8c15f13cd52955178dc0a50d5874fe69e8cc",
+      "findings": [
+        "Fixture attempted forbidden OPEN-to-OPEN exception branch update.",
+        "Fixture queried resolution columns on the wrong table."
+      ],
+      "disposition": "Insert branch initially; read real resolution LEFT JOIN and assert zero resolution rows. Production untouched; original assertions retained."
+    },
+    "expected_discovery": {
+      "adapter": 3,
+      "HTTP": 6,
+      "inherited": 4
+    },
+    "expected_behavioral_RED": 3,
+    "limits": "Source review only. Later UNKNOWN/site assertions remain unreached when EXITED equality fails on RED."
+  }
 }

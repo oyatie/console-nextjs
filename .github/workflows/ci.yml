@@ -76,15 +76,24 @@ jobs:
           SQLX_OFFLINE: "true"
           RUSTUP_TOOLCHAIN: "1.98.1"
         run: cargo test --manifest-path backend-fork/backend/Cargo.toml --locked -p console-app --lib hr::tests::attendance_import -- --test-threads=1
-      - name: PostgreSQL HR attendance source fidelity and import gates
+      - name: PostgreSQL attendance retained history and Company isolation
         env:
           SQLX_OFFLINE: "true"
-        run: backend-fork/tools/lanes/pgtest.sh "$GITHUB_WORKSPACE/backend-fork" cargo test --locked -p console-app --test hr_ingest_checklist_gate -- --test-threads=1
+        run: backend-fork/tools/lanes/pgtest.sh "$GITHUB_WORKSPACE/backend-fork" cargo test --locked -p console-attendance-adapter-postgres --test self_service -- --test-threads=1
+      - name: Attendance read owner and regression Clippy
+        env:
+          SQLX_OFFLINE: "true"
+          RUSTUP_TOOLCHAIN: "1.98.1"
+        run: cargo clippy --manifest-path backend-fork/backend/Cargo.toml --locked -p console-attendance-adapter-postgres --lib --test self_service -- -D warnings
+      - name: PostgreSQL HR attendance source fidelity, import gates and self history
+        env:
+          SQLX_OFFLINE: "true"
+        run: backend-fork/tools/lanes/pgtest.sh "$GITHUB_WORKSPACE/backend-fork" cargo test --locked -p console-app --test hr_ingest_checklist_gate --test hr_attendance_self_read -- --test-threads=1
       - name: HR owner and regression Clippy
         env:
           SQLX_OFFLINE: "true"
           RUSTUP_TOOLCHAIN: "1.98.1"
-        run: cargo clippy --manifest-path backend-fork/backend/Cargo.toml --locked -p console-app --lib --test hr_ingest_checklist_gate -- -D warnings
+        run: cargo clippy --manifest-path backend-fork/backend/Cargo.toml --locked -p console-app --lib --test hr_ingest_checklist_gate --test hr_attendance_self_read -- -D warnings
       - name: Rust build disk readback
         if: always()
         run: df -h .

@@ -9,7 +9,9 @@ use console_attendance_application::{
 use console_attendance_domain::AttendanceDateRange;
 use console_kernel_core::{OrgId, UserId};
 use console_platform_request_context::scope_org;
-use console_platform_test_support::{runtime_role_pool, seed_branch, seed_user};
+use console_platform_test_support::{
+    runtime_role_pool, seed_branch, seed_org_and_super_admin, seed_user,
+};
 use sqlx::PgPool;
 use time::{Date, Month, UtcOffset};
 use uuid::Uuid;
@@ -47,6 +49,7 @@ async fn self_service_reads_only_the_linked_employee_and_ignores_other_malformed
             .assume_offset(UtcOffset::from_hms(9, 0, 0).unwrap());
         seed_attendance_record(
             &owner_pool,
+            OrgId::knl(),
             linked_employee,
             *linked_user.as_uuid(),
             "CLOCK_IN",
@@ -56,6 +59,7 @@ async fn self_service_reads_only_the_linked_employee_and_ignores_other_malformed
         .await;
         seed_attendance_record(
             &owner_pool,
+            OrgId::knl(),
             linked_employee,
             *linked_user.as_uuid(),
             "CLOCK_OUT",
@@ -67,6 +71,7 @@ async fn self_service_reads_only_the_linked_employee_and_ignores_other_malformed
         // aggregation fail. The self-service query must never observe it.
         seed_attendance_record(
             &owner_pool,
+            OrgId::knl(),
             other_employee,
             *linked_user.as_uuid(),
             "CLOCK_IN",
@@ -76,6 +81,7 @@ async fn self_service_reads_only_the_linked_employee_and_ignores_other_malformed
         .await;
         seed_exception(
             &owner_pool,
+            OrgId::knl(),
             linked_employee,
             *linked_user.as_uuid(),
             monday,
@@ -84,6 +90,7 @@ async fn self_service_reads_only_the_linked_employee_and_ignores_other_malformed
         .await;
         seed_exception(
             &owner_pool,
+            OrgId::knl(),
             other_employee,
             *linked_user.as_uuid(),
             monday,
@@ -152,6 +159,249 @@ async fn self_service_reads_only_the_linked_employee_and_ignores_other_malformed
     .await;
 }
 
+#[sqlx::test(migrations = "../../platform/db/migrations")]
+async fn retained_own_history_survives_exit_unknown_status_and_site_deactivation(pool: PgPool) {
+    let branch = seed_branch(&pool, "retained-history", "operations").await;
+    let actor = seed_user(&pool, "Provisioner", "SUPER_ADMIN", branch).await;
+    let user = seed_user(&pool, "Former worker", "MEMBER", branch).await;
+    let employee = seed_employee(&pool, branch, actor, "Former worker").await;
+    sqlx::query("UPDATE users SET employee_id=$1 WHERE id=$2")
+        .bind(employee)
+        .bind(*user.as_uuid())
+        .execute(&pool)
+        .await
+        .unwrap();
+    let monday = Date::from_calendar_date(2026, Month::July, 20).unwrap();
+    let start = monday
+        .with_hms(9, 0, 0)
+        .unwrap()
+        .assume_offset(UtcOffset::from_hms(9, 0, 0).unwrap());
+    seed_attendance_record(
+        &pool,
+        OrgId::knl(),
+        employee,
+        *user.as_uuid(),
+        "CLOCK_IN",
+        start,
+        "CLOCKED_IN",
+    )
+    .await;
+    seed_attendance_record(
+        &pool,
+        OrgId::knl(),
+        employee,
+        *user.as_uuid(),
+        "CLOCK_OUT",
+        start + time::Duration::hours(8),
+        "OFF_DUTY",
+    )
+    .await;
+    seed_exception(
+        &pool,
+        OrgId::knl(),
+        employee,
+        *user.as_uuid(),
+        monday,
+        "AT-RETAINED",
+    )
+    .await;
+    let store = PgAttendanceStore::new(runtime_role_pool(&pool).await);
+    let scope = SelfAttendanceScope {
+        org_id: *OrgId::knl().as_uuid(),
+        user_id: *user.as_uuid(),
+    };
+    let before = own_history(&store, scope, monday).await;
+    assert_eq!(before.0["total"], 1);
+    assert_eq!(before.1["current_hours"], 8.0);
+    assert_eq!(before.1["projected_hours"], 8.0);
+
+    for status in ["EXITED", "UNKNOWN"] {
+        sqlx::query("UPDATE employees SET employment_status=$1 WHERE id=$2")
+            .bind(status)
+            .bind(employee)
+            .execute(&pool)
+            .await
+            .unwrap();
+        assert_eq!(
+            own_history(&store, scope, monday).await,
+            before,
+            "{status} must preserve the same owned retained facts"
+        );
+    }
+    sqlx::query("UPDATE branches SET deactivated_at=now() WHERE id=$1")
+        .bind(*branch.as_uuid())
+        .execute(&pool)
+        .await
+        .unwrap();
+    assert_eq!(own_history(&store, scope, monday).await, before);
+
+    sqlx::query("UPDATE users SET is_active=false WHERE id=$1")
+        .bind(*user.as_uuid())
+        .execute(&pool)
+        .await
+        .unwrap();
+    assert_no_own_history(&store, scope, monday).await;
+    sqlx::query("UPDATE users SET is_active=true,employee_id=NULL WHERE id=$1")
+        .bind(*user.as_uuid())
+        .execute(&pool)
+        .await
+        .unwrap();
+    assert_no_own_history(&store, scope, monday).await;
+    let retained: i64 =
+        sqlx::query_scalar("SELECT count(*) FROM employee_attendance_records WHERE employee_id=$1")
+            .bind(employee)
+            .fetch_one(&pool)
+            .await
+            .unwrap();
+    assert_eq!(retained, 2, "revocation/unlinking does not delete history");
+}
+
+#[sqlx::test(migrations = "../../platform/db/migrations")]
+async fn retained_history_stays_company_scoped_and_cross_company_links_are_refused(pool: PgPool) {
+    let branch = seed_branch(&pool, "history-isolation", "operations").await;
+    let local_user = seed_user(&pool, "Local user", "SUPER_ADMIN", branch).await;
+    let local_employee = seed_employee(&pool, branch, local_user, "Local worker").await;
+    sqlx::query("UPDATE users SET employee_id=$1 WHERE id=$2")
+        .bind(local_employee)
+        .bind(*local_user.as_uuid())
+        .execute(&pool)
+        .await
+        .unwrap();
+    let foreign_org = OrgId::from_uuid(Uuid::new_v4());
+    let foreign_user =
+        seed_org_and_super_admin(&pool, *foreign_org.as_uuid(), "history-foreign").await;
+    let foreign_employee = Uuid::new_v4();
+    sqlx::query("INSERT INTO employees (id,org_id,company,name,source_filename,source_sheet,source_row,source_key,raw_row,source_metadata) VALUES ($1,$2,'fixture','Foreign worker','history.xlsx','employees',1,$3,'{}','{}')")
+        .bind(foreign_employee).bind(*foreign_org.as_uuid()).bind(foreign_employee.to_string())
+        .execute(&pool).await.unwrap();
+    sqlx::query("UPDATE users SET employee_id=$1 WHERE id=$2")
+        .bind(foreign_employee)
+        .bind(*foreign_user.as_uuid())
+        .execute(&pool)
+        .await
+        .unwrap();
+    let refused = sqlx::query("UPDATE users SET employee_id=$1 WHERE id=$2")
+        .bind(foreign_employee)
+        .bind(*local_user.as_uuid())
+        .execute(&pool)
+        .await
+        .unwrap_err();
+    assert_eq!(
+        refused.as_database_error().unwrap().code().as_deref(),
+        Some("23503")
+    );
+
+    let monday = Date::from_calendar_date(2026, Month::July, 20).unwrap();
+    let start = monday
+        .with_hms(9, 0, 0)
+        .unwrap()
+        .assume_offset(UtcOffset::from_hms(9, 0, 0).unwrap());
+    for (org, employee, user, code) in [
+        (OrgId::knl(), local_employee, local_user, "AT-LOCAL"),
+        (foreign_org, foreign_employee, foreign_user, "AT-FOREIGN"),
+    ] {
+        seed_attendance_record(
+            &pool,
+            org,
+            employee,
+            *user.as_uuid(),
+            "CLOCK_IN",
+            start,
+            "CLOCKED_IN",
+        )
+        .await;
+        seed_attendance_record(
+            &pool,
+            org,
+            employee,
+            *user.as_uuid(),
+            "CLOCK_OUT",
+            start + time::Duration::hours(8),
+            "OFF_DUTY",
+        )
+        .await;
+        seed_exception(&pool, org, employee, *user.as_uuid(), monday, code).await;
+    }
+    let runtime = runtime_role_pool(&pool).await;
+    let role: (String, bool, bool) = sqlx::query_as(
+        "SELECT rolname,rolsuper,rolbypassrls FROM pg_roles WHERE rolname=current_user",
+    )
+    .fetch_one(&runtime)
+    .await
+    .unwrap();
+    assert_eq!(role, ("console_rt".to_owned(), false, false));
+    let store = PgAttendanceStore::new(runtime);
+    for (org, user, code) in [
+        (OrgId::knl(), local_user, "AT-LOCAL"),
+        (foreign_org, foreign_user, "AT-FOREIGN"),
+    ] {
+        let history = own_history(
+            &store,
+            SelfAttendanceScope {
+                org_id: *org.as_uuid(),
+                user_id: *user.as_uuid(),
+            },
+            monday,
+        )
+        .await;
+        assert_eq!(history.0["total"], 1);
+        assert_eq!(history.0["items"][0]["code"], code);
+        assert_eq!(history.1["current_hours"], 8.0);
+    }
+    // These execute real read owners under the wrong RLS cell, independently
+    // of the rejected FK fixture above.
+    for (org, user) in [(OrgId::knl(), foreign_user), (foreign_org, local_user)] {
+        assert_no_own_history(
+            &store,
+            SelfAttendanceScope {
+                org_id: *org.as_uuid(),
+                user_id: *user.as_uuid(),
+            },
+            monday,
+        )
+        .await;
+    }
+}
+
+async fn own_history(
+    store: &PgAttendanceStore,
+    scope: SelfAttendanceScope,
+    monday: Date,
+) -> (serde_json::Value, serde_json::Value) {
+    let page = store
+        .list_own_exceptions(
+            scope,
+            ListOwnExceptions::new(
+                AttendanceDateRange::new(monday, monday + time::Duration::days(7)).unwrap(),
+                None,
+                None,
+                None,
+            )
+            .unwrap(),
+        )
+        .await
+        .unwrap();
+    let week = store
+        .read_own_week52(scope, ReadOwnWeek52::new(monday).unwrap())
+        .await
+        .unwrap();
+    (
+        serde_json::to_value(page).unwrap(),
+        serde_json::to_value(week).unwrap(),
+    )
+}
+
+async fn assert_no_own_history(
+    store: &PgAttendanceStore,
+    scope: SelfAttendanceScope,
+    monday: Date,
+) {
+    let history = own_history(store, scope, monday).await;
+    assert_eq!(history.0["total"], 0);
+    assert_eq!(history.0["items"], serde_json::json!([]));
+    assert!(history.1.is_null());
+}
+
 fn assert_self_service_json_omits_directory_fields(value: &serde_json::Value) {
     let object = value
         .as_object()
@@ -212,6 +462,7 @@ async fn seed_employee(
 
 async fn seed_attendance_record(
     pool: &PgPool,
+    org: OrgId,
     employee_id: Uuid,
     actor_user_id: Uuid,
     kind: &str,
@@ -223,7 +474,7 @@ async fn seed_attendance_record(
          (org_id,employee_id,actor_user_id,kind,occurred_at,work_date,state_after,idempotency_key) \
          VALUES ($1,$2,$3,$4,$5,$6,$7,$8)",
     )
-    .bind(*OrgId::knl().as_uuid())
+    .bind(*org.as_uuid())
     .bind(employee_id)
     .bind(actor_user_id)
     .bind(kind)
@@ -238,6 +489,7 @@ async fn seed_attendance_record(
 
 async fn seed_exception(
     pool: &PgPool,
+    org: OrgId,
     employee_id: Uuid,
     actor_user_id: Uuid,
     work_date: Date,
@@ -248,7 +500,7 @@ async fn seed_exception(
          (org_id,code,kind,employee_id,work_date,detail,idempotency_key,request_fingerprint,created_by) \
          VALUES ($1,$2,'LATE',$3,$4,'fixture',$5,$6,$7)",
     )
-    .bind(*OrgId::knl().as_uuid())
+    .bind(*org.as_uuid())
     .bind(code)
     .bind(employee_id)
     .bind(work_date)

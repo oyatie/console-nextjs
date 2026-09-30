@@ -63,7 +63,7 @@ async fn admin_without_employee_link_reads_empty_self_attendance(pool: PgPool) {
     let created = post(
         service.clone(),
         ME_PATH,
-        &bearer(&keys, member, "MEMBER"),
+        &bearer(&pool, &keys, member, "MEMBER").await,
         json!({ "kind": "CLOCK_IN", "idempotency_key": "member-clock-in-1" }),
     )
     .await;
@@ -71,7 +71,12 @@ async fn admin_without_employee_link_reads_empty_self_attendance(pool: PgPool) {
     let _ = member_employee;
 
     // ADMIN self-read: 200 with an empty page, NOT 403, and NOT the member's row.
-    let admin_read = get(service, ME_PATH, &bearer(&keys, admin, "ADMIN")).await;
+    let admin_read = get(
+        service,
+        ME_PATH,
+        &bearer(&pool, &keys, admin, "ADMIN").await,
+    )
+    .await;
     assert_eq!(
         admin_read.status,
         StatusCode::OK,
@@ -107,7 +112,7 @@ async fn linked_member_reads_only_own_attendance(pool: PgPool) {
         let created = post(
             service.clone(),
             ME_PATH,
-            &bearer(&keys, user, "MEMBER"),
+            &bearer(&pool, &keys, user, "MEMBER").await,
             json!({ "kind": "CLOCK_IN", "idempotency_key": key }),
         )
         .await;
@@ -115,7 +120,12 @@ async fn linked_member_reads_only_own_attendance(pool: PgPool) {
     }
 
     // Alice sees exactly one record — her own, never bob's.
-    let alice_read = get(service, ME_PATH, &bearer(&keys, alice, "MEMBER")).await;
+    let alice_read = get(
+        service,
+        ME_PATH,
+        &bearer(&pool, &keys, alice, "MEMBER").await,
+    )
+    .await;
     assert_eq!(alice_read.status, StatusCode::OK, "{:?}", alice_read.json);
     assert_eq!(alice_read.json["total"], 1);
     let items = alice_read.json["items"].as_array().unwrap();
@@ -134,13 +144,20 @@ async fn linked_member_reads_only_own_attendance_console_data(pool: PgPool) {
     let bob_employee = seed_linked_employee(&pool, bob, "MEMBER", "bob-console").await;
     let unlinked = UserId::new();
     seed_user(&pool, unlinked, "MEMBER").await;
-    seed_exception(&pool, alice, alice_employee, "alice-console-exception").await;
-    seed_exception(&pool, bob, bob_employee, "bob-console-exception").await;
+    seed_exception(
+        &pool,
+        alice,
+        alice_employee,
+        "alice-console-exception",
+        None,
+    )
+    .await;
+    seed_exception(&pool, bob, bob_employee, "bob-console-exception", None).await;
 
     let service =
         build_router(app_state(runtime_role_pool(&pool).await, keys.public_pem.clone()).unwrap());
-    let alice_token = bearer(&keys, alice, "MEMBER");
-    let unlinked_token = bearer(&keys, unlinked, "MEMBER");
+    let alice_token = bearer(&pool, &keys, alice, "MEMBER").await;
+    let unlinked_token = bearer(&pool, &keys, unlinked, "MEMBER").await;
 
     let own = get(
         service.clone(),
@@ -233,6 +250,386 @@ async fn linked_member_reads_only_own_attendance_console_data(pool: PgPool) {
     assert_eq!(method_not_allowed.status, StatusCode::METHOD_NOT_ALLOWED);
 }
 
+// These are real HTTP owner reads; no frontend/browser acceptance is implied.
+#[sqlx::test(migrations = "../crates/platform/db/migrations")]
+async fn former_member_retains_exact_own_history_after_exit_unknown_and_site_closure(pool: PgPool) {
+    let fixture = history_fixture(&pool).await;
+    let keys = keys();
+    let token = bearer(&pool, &keys, fixture.worker, "MEMBER").await;
+    let service = build_router(app_state(runtime_role_pool(&pool).await, keys.public_pem).unwrap());
+    let before = read_history(service.clone(), &token).await;
+    assert_eq!(before[0]["total"], 1);
+    assert_eq!(
+        before[0]["items"][0]["id"],
+        fixture.exception_id.to_string()
+    );
+    assert_eq!(before[1]["projection"]["current_hours"], 8.0);
+    assert_eq!(before[2]["total"], 2);
+    assert_eq!(before[2]["items"].as_array().unwrap().len(), 2);
+    for record in before[2]["items"].as_array().unwrap() {
+        assert_eq!(record["employee_id"], fixture.employee.to_string());
+    }
+    for status in ["EXITED", "UNKNOWN"] {
+        sqlx::query("UPDATE employees SET employment_status=$1 WHERE id=$2")
+            .bind(status)
+            .bind(fixture.employee)
+            .execute(&pool)
+            .await
+            .unwrap();
+        assert_eq!(
+            read_history(service.clone(), &token).await,
+            before,
+            "{status} must preserve the same owned retained history"
+        );
+    }
+    sqlx::query("UPDATE branches SET deactivated_at=now() WHERE id=$1")
+        .bind(fixture.branch)
+        .execute(&pool)
+        .await
+        .unwrap();
+    assert_eq!(read_history(service.clone(), &token).await, before);
+    for path in [MY_EXCEPTIONS_PATH, MY_WEEK52_PATH] {
+        let date = if path == MY_EXCEPTIONS_PATH {
+            "work_date"
+        } else {
+            "week_start"
+        };
+        for selector in ["employee_id", "branch_id"] {
+            let response = get(
+                service.clone(),
+                &format!("{path}?{date}=2026-07-20&{selector}={}", fixture.employee),
+                &token,
+            )
+            .await;
+            assert_eq!(
+                response.status,
+                StatusCode::BAD_REQUEST,
+                "{:?}",
+                response.json
+            );
+            assert_eq!(response.json["error"]["code"], "invalid_query");
+        }
+        let response = send(
+            service.clone(),
+            "POST",
+            &format!("{path}?{date}=2026-07-20"),
+            &token,
+            None,
+        )
+        .await;
+        assert_eq!(response.status, StatusCode::METHOD_NOT_ALLOWED);
+    }
+    let past_page = get(
+        service.clone(),
+        &format!("{MY_EXCEPTIONS_PATH}?work_date=2026-07-20&limit=1&offset=1"),
+        &token,
+    )
+    .await;
+    assert_eq!(past_page.status, StatusCode::OK);
+    assert_eq!(past_page.json["total"], 1);
+    assert_eq!(past_page.json["items"], json!([]));
+    let filtered = get(
+        service,
+        &format!("{MY_EXCEPTIONS_PATH}?work_date=2026-07-20&status=RESOLVED"),
+        &token,
+    )
+    .await;
+    assert_eq!(filtered.status, StatusCode::OK);
+    assert_eq!(filtered.json["total"], 0);
+    assert_eq!(filtered.json["items"], json!([]));
+    for object in [&before[0]["items"][0], &before[1]["projection"]] {
+        for field in [
+            "employee_id",
+            "employee_name",
+            "name",
+            "team",
+            "branch_id",
+            "links",
+        ] {
+            assert!(
+                object.get(field).is_none(),
+                "self projection exposed {field}"
+            );
+        }
+    }
+}
+
+#[sqlx::test(migrations = "../crates/platform/db/migrations")]
+async fn retained_self_reads_respect_unlink_account_and_session_family_revocation(pool: PgPool) {
+    let fixture = history_fixture(&pool).await;
+    let keys = keys();
+    let token = bearer(&pool, &keys, fixture.worker, "MEMBER").await;
+    let service =
+        build_router(app_state(runtime_role_pool(&pool).await, keys.public_pem.clone()).unwrap());
+    let before = read_history(service.clone(), &token).await;
+    sqlx::query("UPDATE users SET employee_id=NULL WHERE id=$1")
+        .bind(*fixture.worker.as_uuid())
+        .execute(&pool)
+        .await
+        .unwrap();
+    let empty = read_history(service.clone(), &token).await;
+    assert_eq!(empty[0]["total"], 0);
+    assert_eq!(empty[0]["items"], json!([]));
+    assert_eq!(empty[1], json!({"status":"not_available"}));
+    assert_eq!(empty[2]["total"], 0);
+    assert_eq!(empty[2]["items"], json!([]));
+    let records: i64 =
+        sqlx::query_scalar("SELECT count(*) FROM employee_attendance_records WHERE employee_id=$1")
+            .bind(fixture.employee)
+            .fetch_one(&pool)
+            .await
+            .unwrap();
+    assert_eq!(records, 2);
+    let exceptions: i64 =
+        sqlx::query_scalar("SELECT count(*) FROM attendance_exceptions WHERE employee_id=$1")
+            .bind(fixture.employee)
+            .fetch_one(&pool)
+            .await
+            .unwrap();
+    assert_eq!(exceptions, 1);
+    sqlx::query("UPDATE users SET employee_id=$1 WHERE id=$2")
+        .bind(fixture.employee)
+        .bind(*fixture.worker.as_uuid())
+        .execute(&pool)
+        .await
+        .unwrap();
+    assert_eq!(read_history(service.clone(), &token).await, before);
+    let revoked = sqlx::query("UPDATE auth_refresh_token_families SET revoked_at=now() WHERE user_id=$1 AND revoked_at IS NULL")
+        .bind(*fixture.worker.as_uuid()).execute(&pool).await.unwrap();
+    assert_eq!(revoked.rows_affected(), 1);
+    assert_history_unauthorized(service.clone(), &token).await;
+    let fresh = bearer(&pool, &keys, fixture.worker, "MEMBER").await;
+    assert_eq!(read_history(service.clone(), &fresh).await, before);
+    // Current Account revocation also rejects a newly minted, unrevoked family.
+    sqlx::query("UPDATE users SET is_active=false WHERE id=$1")
+        .bind(*fixture.worker.as_uuid())
+        .execute(&pool)
+        .await
+        .unwrap();
+    assert_history_unauthorized(service, &fresh).await;
+}
+
+#[sqlx::test(migrations = "../crates/platform/db/migrations")]
+async fn history_reads_preserve_existing_ack_subject_and_member_resolution_controls(pool: PgPool) {
+    let fixture = history_fixture(&pool).await;
+    let keys = keys();
+    let member = bearer(&pool, &keys, fixture.worker, "MEMBER").await;
+    let manager = bearer(&pool, &keys, fixture.manager, "SUPER_ADMIN").await;
+    let service = build_router(app_state(runtime_role_pool(&pool).await, keys.public_pem).unwrap());
+    let ack_path = "/api/v1/attendance/week52/acks";
+    let ack_body = json!({"employee_id":fixture.employee,"week_start":"2026-07-20"});
+    let resolve_path = format!(
+        "/api/v1/attendance/exceptions/{}/resolve",
+        fixture.exception_id
+    );
+    let resolve_body = json!({"action":"CONFIRM","reason":"worker cannot manage an exception"});
+    let member_active = post(
+        service.clone(),
+        &resolve_path,
+        &member,
+        resolve_body.clone(),
+    )
+    .await;
+    assert_eq!(
+        member_active.status,
+        StatusCode::FORBIDDEN,
+        "{:?}",
+        member_active.json
+    );
+    let active_ack = post(service.clone(), ack_path, &manager, ack_body.clone()).await;
+    assert_eq!(active_ack.status, StatusCode::OK, "{:?}", active_ack.json);
+    assert_eq!(active_ack.json["acked"], true);
+    assert_eq!(active_ack.json["current_hours"], 8.0);
+    let before = read_history(service.clone(), &member).await;
+    assert!(before[1]["projection"]["acknowledged_at"].is_string());
+    let ack_before = acknowledgment_and_audit_counts(&pool).await;
+    assert_eq!(ack_before.0, 1);
+    assert_eq!(ack_before.1, 1);
+    let resolution_before: (String, Option<String>, Option<OffsetDateTime>) = sqlx::query_as(
+        "SELECT e.status,r.action,r.resolved_at FROM attendance_exceptions e LEFT JOIN attendance_exception_resolutions r ON r.org_id=e.org_id AND r.exception_id=e.id WHERE e.id=$1",
+    )
+    .bind(fixture.exception_id)
+    .fetch_one(&pool)
+    .await
+    .unwrap();
+    let audits_before: i64 = sqlx::query_scalar("SELECT count(*) FROM audit_events")
+        .fetch_one(&pool)
+        .await
+        .unwrap();
+    sqlx::query("UPDATE employees SET employment_status='EXITED' WHERE id=$1")
+        .bind(fixture.employee)
+        .execute(&pool)
+        .await
+        .unwrap();
+    // ACK refusal is subject eligibility, including for an authorized manager.
+    for token in [&member, &manager] {
+        let denied = post(service.clone(), ack_path, token, ack_body.clone()).await;
+        assert_eq!(denied.status, StatusCode::NOT_FOUND, "{:?}", denied.json);
+    }
+    let member_exited = post(service.clone(), &resolve_path, &member, resolve_body).await;
+    assert_eq!(
+        member_exited.status,
+        StatusCode::FORBIDDEN,
+        "{:?}",
+        member_exited.json
+    );
+    assert_eq!(acknowledgment_and_audit_counts(&pool).await, ack_before);
+    let resolution_after: (String, Option<String>, Option<OffsetDateTime>) = sqlx::query_as(
+        "SELECT e.status,r.action,r.resolved_at FROM attendance_exceptions e LEFT JOIN attendance_exception_resolutions r ON r.org_id=e.org_id AND r.exception_id=e.id WHERE e.id=$1",
+    )
+    .bind(fixture.exception_id)
+    .fetch_one(&pool)
+    .await
+    .unwrap();
+    assert_eq!(resolution_after, resolution_before);
+    let resolutions: i64 = sqlx::query_scalar(
+        "SELECT count(*) FROM attendance_exception_resolutions WHERE exception_id=$1",
+    )
+    .bind(fixture.exception_id)
+    .fetch_one(&pool)
+    .await
+    .unwrap();
+    assert_eq!(resolutions, 0);
+    let audits_after: i64 = sqlx::query_scalar("SELECT count(*) FROM audit_events")
+        .fetch_one(&pool)
+        .await
+        .unwrap();
+    assert_eq!(audits_after, audits_before);
+    // Capture after the valid ACK, so its retained evidence is also preserved.
+    assert_eq!(read_history(service, &member).await, before);
+}
+
+struct HistoryFixture {
+    worker: UserId,
+    employee: Uuid,
+    manager: UserId,
+    branch: Uuid,
+    exception_id: Uuid,
+}
+
+async fn history_fixture(pool: &PgPool) -> HistoryFixture {
+    let branch = *console_platform_test_support::seed_branch(pool, "history-http", "operations")
+        .await
+        .as_uuid();
+    let manager = UserId::new();
+    seed_user(pool, manager, "SUPER_ADMIN").await;
+    let worker = UserId::new();
+    let employee = seed_linked_employee(pool, worker, "MEMBER", "history-worker").await;
+    let other = UserId::new();
+    let other_employee = seed_linked_employee(pool, other, "MEMBER", "other-history-worker").await;
+    sqlx::query("INSERT INTO user_branches (user_id,branch_id,org_id) VALUES ($1,$2,$3)")
+        .bind(*worker.as_uuid())
+        .bind(branch)
+        .bind(*OrgId::knl().as_uuid())
+        .execute(pool)
+        .await
+        .unwrap();
+    let updated: OffsetDateTime =
+        sqlx::query_scalar("SELECT updated_at FROM employees WHERE id=$1")
+            .bind(employee)
+            .fetch_one(pool)
+            .await
+            .unwrap();
+    let mut command = pool.begin().await.unwrap();
+    sqlx::query("SET LOCAL ROLE console_leave_cmd")
+        .execute(&mut *command)
+        .await
+        .unwrap();
+    sqlx::query("SELECT * FROM leave_api.set_employee_home_branch($1,$2,$3,$4,$5,$6,$7)")
+        .bind(*OrgId::knl().as_uuid())
+        .bind(employee)
+        .bind(branch)
+        .bind(updated)
+        .bind(*manager.as_uuid())
+        .bind("0123456789abcdef0123456789abcdef")
+        .bind("0123456789abcdef")
+        .fetch_one(&mut *command)
+        .await
+        .unwrap();
+    command.commit().await.unwrap();
+    for (actor, employee_id, code) in [
+        (worker, employee, "history-own"),
+        (other, other_employee, "history-other"),
+    ] {
+        for (kind, at, state) in [
+            ("CLOCK_IN", "2026-07-20 09:00:00+09", "CLOCKED_IN"),
+            ("CLOCK_OUT", "2026-07-20 17:00:00+09", "OFF_DUTY"),
+        ] {
+            let record: Uuid = sqlx::query_scalar("INSERT INTO employee_attendance_records (org_id,employee_id,actor_user_id,kind,occurred_at,work_date,state_after,idempotency_key) VALUES ($1,$2,$3,$4,$5::text::timestamptz,DATE '2026-07-20',$6,$7) RETURNING id")
+                .bind(*OrgId::knl().as_uuid()).bind(employee_id).bind(*actor.as_uuid()).bind(kind)
+                .bind(at).bind(state).bind(Uuid::new_v4().to_string()).fetch_one(pool).await.unwrap();
+            // The real HR projection joins this per-event material reference.
+            sqlx::query("INSERT INTO payroll_attendance_material_refs (org_id,attendance_record_id,employee_id,work_date,source_digest) VALUES ($1,$2,$3,DATE '2026-07-20',$4)")
+                .bind(*OrgId::knl().as_uuid()).bind(record).bind(employee_id).bind("a".repeat(64))
+                .execute(pool).await.unwrap();
+        }
+        seed_exception(pool, actor, employee_id, code, Some(branch)).await;
+    }
+    let exception_id: Uuid =
+        sqlx::query_scalar("SELECT id FROM attendance_exceptions WHERE employee_id=$1")
+            .bind(employee)
+            .fetch_one(pool)
+            .await
+            .unwrap();
+    HistoryFixture {
+        worker,
+        employee,
+        manager,
+        branch,
+        exception_id,
+    }
+}
+
+fn history_paths() -> [String; 3] {
+    [
+        format!("{MY_EXCEPTIONS_PATH}?work_date=2026-07-20"),
+        format!("{MY_WEEK52_PATH}?week_start=2026-07-20"),
+        ME_PATH.to_owned(),
+    ]
+}
+
+async fn read_history(service: axum::Router, token: &str) -> [Value; 3] {
+    let mut values = Vec::new();
+    for path in history_paths() {
+        let response = get(service.clone(), &path, token).await;
+        assert_eq!(
+            response.status,
+            StatusCode::OK,
+            "{path}: {:?}",
+            response.json
+        );
+        values.push(response.json);
+    }
+    values.try_into().unwrap()
+}
+
+async fn assert_history_unauthorized(service: axum::Router, token: &str) {
+    for path in history_paths() {
+        let response = get(service.clone(), &path, token).await;
+        assert_eq!(
+            response.status,
+            StatusCode::UNAUTHORIZED,
+            "{path}: {:?}",
+            response.json
+        );
+    }
+}
+
+async fn acknowledgment_and_audit_counts(pool: &PgPool) -> (i64, i64) {
+    let acknowledgments =
+        sqlx::query_scalar("SELECT count(*) FROM attendance_week52_acknowledgements")
+            .fetch_one(pool)
+            .await
+            .unwrap();
+    let audits = sqlx::query_scalar(
+        "SELECT count(*) FROM audit_events WHERE action='attendance.week52.acknowledge'",
+    )
+    .fetch_one(pool)
+    .await
+    .unwrap();
+    (acknowledgments, audits)
+}
+
 // ===========================================================================
 // Helpers (mirror workflow_runtime_instance_api.rs).
 // ===========================================================================
@@ -281,9 +678,15 @@ async fn seed_linked_employee(pool: &PgPool, user_id: UserId, role: &str, name: 
     employee_id
 }
 
-async fn seed_exception(pool: &PgPool, actor: UserId, employee_id: Uuid, code: &str) {
-    sqlx::query(
-        "INSERT INTO attendance_exceptions (org_id, code, kind, employee_id, work_date, occurred_at, detail, idempotency_key, request_fingerprint, created_by) VALUES ($1, $2, 'LATE', $3, DATE '2026-07-20', TIMESTAMPTZ '2026-07-20 09:00:00+00', 'late', $4, $5, $6)",
+async fn seed_exception(
+    pool: &PgPool,
+    actor: UserId,
+    employee_id: Uuid,
+    code: &str,
+    branch: Option<Uuid>,
+) -> Uuid {
+    sqlx::query_scalar(
+        "INSERT INTO attendance_exceptions (org_id, code, kind, employee_id, work_date, occurred_at, detail, idempotency_key, request_fingerprint, created_by, branch_id) VALUES ($1, $2, 'LATE', $3, DATE '2026-07-20', TIMESTAMPTZ '2026-07-20 09:00:00+00', 'late', $4, $5, $6, $7) RETURNING id",
     )
     .bind(*OrgId::knl().as_uuid())
     .bind(code)
@@ -291,9 +694,10 @@ async fn seed_exception(pool: &PgPool, actor: UserId, employee_id: Uuid, code: &
     .bind(format!("{code}-idempotency-key"))
     .bind("a".repeat(64))
     .bind(*actor.as_uuid())
-    .execute(pool)
+    .bind(branch)
+    .fetch_one(pool)
     .await
-    .unwrap();
+    .unwrap()
 }
 
 async fn post(service: axum::Router, uri: &str, token: &str, body: Value) -> JsonResponse {
@@ -342,7 +746,7 @@ fn keys() -> Keys {
     }
 }
 
-fn bearer(keys: &Keys, user_id: UserId, role: &str) -> String {
+async fn bearer(pool: &PgPool, keys: &Keys, user_id: UserId, role: &str) -> String {
     let issuer = JwtIssuer::from_es256_pem(
         JwtSettings {
             issuer: TEST_ISSUER.to_owned(),
@@ -353,8 +757,13 @@ fn bearer(keys: &Keys, user_id: UserId, role: &str) -> String {
         keys.public_pem.as_bytes(),
     )
     .unwrap();
-    issuer
-        .issue_access_token(AccessTokenInput {
+    let versions: (i64, i64) = sqlx::query_as(
+        "SELECT COALESCE(v.version,0),COALESCE(v.session_generation,0) FROM users u LEFT JOIN subject_authz_versions v ON v.user_id=u.id AND v.org_id=u.org_id WHERE u.id=$1",
+    ).bind(*user_id.as_uuid()).fetch_one(pool).await.unwrap();
+    console_platform_test_support::issue_session_token(
+        pool,
+        &issuer,
+        AccessTokenInput {
             subject: user_id,
             org_id: OrgId::knl(),
             roles: vec![role.to_owned()],
@@ -364,12 +773,15 @@ fn bearer(keys: &Keys, user_id: UserId, role: &str) -> String {
             read_only: false,
             display_name: None,
             feature_grants: Vec::new(),
-            authz_subject_version: 0,
+            authz_subject_version: versions.0.try_into().unwrap(),
             authz_policy_version: 0,
-            session_generation: 0,
+            session_generation: versions.1.try_into().unwrap(),
             issued_at: OffsetDateTime::now_utc(),
-        })
-        .unwrap()
+        },
+        None,
+        Vec::new(),
+    )
+    .await
 }
 
 async fn runtime_role_pool(owner_pool: &PgPool) -> PgPool {
