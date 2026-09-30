@@ -1,0 +1,157 @@
+{
+  "version": 1,
+  "scope": "B04/P02 attendance source fidelity; full HR/Org/Payroll/Foundry and release acceptance remain unverified",
+  "base_commit": "87212b127503e4f7164a009d6c38e138f075af48",
+  "tested_code_commit": "ca1282285413099a0baf4f9bff9940200f42bad6",
+  "design": {
+    "path": "docs/planning/nextjs-v1/attendance-source-fidelity.md",
+    "sha256": "5652735674e1678386e160d1f5a636ee5035c47efa4d21b1f1103bb0081444b4",
+    "status": "approved_design_bytes_frozen_historical_status_line"
+  },
+  "test_first": {
+    "approved_test_commit": "0fe2113e930ab23db1b4ebf11509b3b495305ae0",
+    "status": "admitted_red_then_green",
+    "red": {
+      "path": ".artifacts/acceptance/attendance-source-fidelity/run-20260930T143704.573592Z/report.json",
+      "sha256": "bb3ef6d46a23331ea647f5232c3751a94b76da122a07e691ebb41edb0b90fb81",
+      "discovered": 6,
+      "executed": 6,
+      "passed": 2,
+      "failed": 4,
+      "ignored": 0,
+      "filtered": 0
+    },
+    "intended_failures": [
+      "ambiguous headers admitted",
+      "CSV record positions compacted",
+      "XLSX range origin lost",
+      "historical coordinate collision treated as duplicate"
+    ],
+    "excluded_attempts": [
+      "sandbox initdb shmget denial",
+      "stale JWT fixtures returning 401",
+      "fixture pool compile error"
+    ]
+  },
+  "postgres": {
+    "path": ".artifacts/acceptance/attendance-source-fidelity/run-20260930T150529.995355Z/report.json",
+    "sha256": "9edcf947c0e4ab71b187d21d4a41bf71988a269ecff499298b2ecdaba10e3612",
+    "postgres_version": "PostgreSQL 18.6 (Homebrew)",
+    "command": "python3 .artifacts/acceptance/attendance-source-fidelity/run_disposable_hr_pg.py --candidate .worktrees/hr-payroll-foundry/backend-fork --postgres-bin /opt/homebrew/opt/postgresql@18/bin --target-dir .artifacts/cargo-target",
+    "discovered": 6,
+    "executed": 6,
+    "passed": 6,
+    "failed": 0,
+    "ignored": 0,
+    "filtered": 0,
+    "scope": "real family-bound signed HTTP router, multipart upload, genuine console_rt PostgreSQL; not browser or passkey ceremony"
+  },
+  "parser": {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "backend/Cargo.toml",
+      "--locked",
+      "--offline",
+      "-p",
+      "console-app",
+      "--lib",
+      "hr::tests::attendance_import",
+      "--",
+      "--test-threads=1"
+    ],
+    "environment": {
+      "RUSTUP_TOOLCHAIN": "1.98.1",
+      "SQLX_OFFLINE": "true"
+    },
+    "log": {
+      "path": ".artifacts/acceptance/attendance-source-fidelity/unit-final.log",
+      "sha256": "de19bbbe1301ae8703c54b8337eb8506969c2b41426a70987b9eb55aee1a5a88"
+    },
+    "executed": 8,
+    "passed": 8,
+    "failed": 0,
+    "ignored": 0,
+    "filtered_unrelated": 158
+  },
+  "checks": {
+    "tooling": "python3 -m unittest discover -s tools -p test_*.py: 18/18 passed",
+    "format": "rustfmt --check --edition 2024 hr.rs hr_ingest_checklist_gate.rs: passed",
+    "diff_check": "passed",
+    "source_custody": {
+      "status": "passed",
+      "discovered_files": 4068,
+      "delta_sha256": "7f9da4f4000c8d1b4eb554a3bcc5484e7c3ee6ff96b0196a64248576cb0f76d2",
+      "suffix_versions": [
+        226,
+        227,
+        228,
+        229,
+        230,
+        231,
+        232,
+        233,
+        234,
+        235,
+        236,
+        237,
+        238,
+        239,
+        240
+      ]
+    },
+    "strict_clippy": {
+      "command": [
+        "cargo",
+        "clippy",
+        "--manifest-path",
+        "backend/Cargo.toml",
+        "--locked",
+        "--offline",
+        "-p",
+        "console-app",
+        "--lib",
+        "--test",
+        "hr_ingest_checklist_gate",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "status": "local_stalled_and_stopped_not_passed_CI_required_before_merge",
+      "latest_local_attempt": {
+        "path": ".artifacts/acceptance/attendance-source-fidelity/clippy-curated-report.json",
+        "sha256": "596593eafd95fc0e6cdc312ed08acf1578af12c34b40d87c54836b8ff3618310"
+      },
+      "exit_code": -15,
+      "CI_producer": ".github/workflows/ci.yml: HR owner and regression Clippy"
+    }
+  },
+  "source_sha256": {
+    "backend-fork/backend/app/src/hr.rs": "abf60b986fd751638d2eaa3ba65c86f4de60b192c2604a7a3a32fbc8e4c5109c",
+    "backend-fork/backend/app/tests/hr_ingest_checklist_gate.rs": "f4ad36152d4a1de47cd15ca018a07a61c71bd89c0c6056351655fb9fc70ce4c7",
+    "backend-fork/backend/app/tests/fixtures/attendance-offset.xlsx": "e25635b03c286dfa6c73d287d03b347fdc45806474876de8a2880a8f88170e4a"
+  },
+  "review": {
+    "design_summary": "Four independent design reviewers accepted exact design SHA; initial CSV header budget and historical-coordinate findings incorporated. Verdicts carried forward from prior session summary.",
+    "test_summary": "Independent adversary approved exact test-only commit and intended 2-pass/4-fail baseline.",
+    "source_summary": "Employment boundary and source-fidelity reviewers approved 0fd2c934; ca128228 adds strict CI and one nonsemantic test borrow cleanup.",
+    "final_status": "pending_strict_CI_and_exact_metadata_candidate_review"
+  },
+  "pre_mortem": "Lost coordinates in applied events, ambiguity writes, duplicate facts or fake payable/durability claims. Detect by exact preview/stored/event hashes, zero-write refusals and recorded test counts.",
+  "rollback": "Revert source/test change before deployment. After any deployment preserve accepted coordinates/hashes and historical events; never rewrite evidence to compact rows.",
+  "stop_conditions": [
+    "changed historical evidence",
+    "duplicate applied attendance fact",
+    "cross-Company disclosure",
+    "payable or two-site success claim",
+    "failed required checks or review"
+  ],
+  "limitations": [
+    "Import remains lineage_only_not_payable.",
+    "Cross-Company tests cover foreign run denial and independent preview custody, not post-apply duplicate-resolver isolation.",
+    "Original immutable file custody, unnamed columns/unrecognized XLSX sheets and repair UI remain incomplete.",
+    "Effective Employment serving and full payroll population/publication/natural-person independence are not repaired by this slice.",
+    "Authenticated Next HR/Org/Payroll/Foundry UI, two-site barrier/fencing and full module acceptance remain incomplete."
+  ]
+}
