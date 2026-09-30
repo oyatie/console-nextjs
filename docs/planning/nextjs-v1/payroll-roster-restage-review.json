@@ -1,0 +1,58 @@
+{
+  "version": 1,
+  "design_path": "docs/planning/nextjs-v1/payroll-roster-restage-integrity.md",
+  "design_commit": "604c1ef",
+  "approved_design_sha256": "ad0d51109718404108f1c38d02315b60326762e325613201bf946dd904f71758",
+  "status": "design_approved_tests_and_implementation_unstarted",
+  "history": [
+    {
+      "sha256": "53e29695b587bc130f975ec9e44a7bf89c4b0d63a4e2c040936e63ff35319e72",
+      "finding": "Whole-drain phase-1 filter strands committed staging after interrupted acknowledgment and a later period lock.",
+      "disposition": "Remove redundant early filter; delegate locked new versus existing/provenance decisions to actual staging owner."
+    },
+    {
+      "sha256": "2d6a85ef40cff80db29ab27c579c7c17756ba21a6e42bb89a125bcf89fae8716",
+      "findings": [
+        "Owner existing-run branch could refresh pre-close source basis under a locked period after filter removal.",
+        "Rollback restoring the early filter strands accepted pending work."
+      ],
+      "disposition": "Locked matching existing runs accept without refreshing, including pre-close; errors/unknown state refuse. Compatible rollback retains owner-directed acknowledgment and source guards."
+    }
+  ],
+  "reviews": [
+    {
+      "reviewer": "/root/payroll_publication_trace",
+      "verdict": "ACCEPT",
+      "sha256": "ad0d51109718404108f1c38d02315b60326762e325613201bf946dd904f71758",
+      "evidence_status": "observed_current_session_design_review_only"
+    },
+    {
+      "reviewer": "/root/employment_boundary_trace",
+      "verdict": "ACCEPT",
+      "sha256": "ad0d51109718404108f1c38d02315b60326762e325613201bf946dd904f71758",
+      "evidence_status": "observed_current_session_design_review_only"
+    },
+    {
+      "reviewer": "/root/roster_owner_review",
+      "verdict": "ACCEPT",
+      "sha256": "ad0d51109718404108f1c38d02315b60326762e325613201bf946dd904f71758",
+      "evidence_status": "observed_current_session_design_review_only"
+    },
+    {
+      "reviewer": "/root/roster_restaging_adversary",
+      "verdict": "ACCEPT",
+      "sha256": "ad0d51109718404108f1c38d02315b60326762e325613201bf946dd904f71758",
+      "evidence_status": "observed_current_session_design_review_only"
+    }
+  ],
+  "implementation_checks": [
+    "Known-state validation must precede locked existing-run no-op.",
+    "Real whole-drain repeated retry: one draft, one acknowledgment increment and one audit; locked new/provenance mismatch remain pending.",
+    "Changed pre-close source under period lock cannot refresh roster.",
+    "Controlled both-order close versus refresh tests under actual console_rt PostgreSQL."
+  ],
+  "limits": [
+    "No product source edits, tests, red lane admission, final implementation review or merge evidence yet.",
+    "Full HR/Org/Payroll/Foundry acceptance, legal conclusions, payment, deployment and two-site durability remain unverified."
+  ]
+}
