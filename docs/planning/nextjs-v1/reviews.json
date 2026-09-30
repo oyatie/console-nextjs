@@ -1506,6 +1506,22 @@
       "verdict": "source_review_no_blockers_final_merge_pending_strict_CI",
       "evidence_status": "observed_current_review",
       "confirmed": "Exact candidate PostgreSQL 6/6 and every report log/source hash independently verified; final metadata and strict Clippy still required."
+    },
+    {
+      "reviewer": "/root/source_fidelity_adversary",
+      "verdict": "CODE_APPROVE",
+      "scope": "Bounded B06/P07 payroll source-basis preservation and workflow acknowledgment recovery; full modules and release remain unaccepted",
+      "candidate": "b0a017a7eb1ca64bca420bc9167712345bb9f5e8",
+      "native_receipt_sha256": "20a8b9162859fd2e4c5c22695aa063c789506195625bb75081183f78d9d228b7",
+      "evidence_status": "observed_current_session; final candidate CI/merge approval pending"
+    },
+    {
+      "reviewer": "/root/roster_owner_review",
+      "verdict": "CODE_APPROVE",
+      "scope": "Bounded B06/P07 payroll source-basis preservation and workflow acknowledgment recovery; full modules and release remain unaccepted",
+      "candidate": "b0a017a7eb1ca64bca420bc9167712345bb9f5e8",
+      "native_receipt_sha256": "20a8b9162859fd2e4c5c22695aa063c789506195625bb75081183f78d9d228b7",
+      "evidence_status": "observed_current_session; final candidate CI/merge approval pending"
     }
   ],
   "findings": [

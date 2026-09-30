@@ -1,0 +1,167 @@
+{
+  "version": 1,
+  "scope": "Bounded B06/P07 payroll source-basis preservation and workflow acknowledgment recovery; full modules and release remain unaccepted",
+  "design": {
+    "path": "docs/planning/nextjs-v1/payroll-roster-restage-integrity.md",
+    "sha256": "ad0d51109718404108f1c38d02315b60326762e325613201bf946dd904f71758",
+    "status": "Four independent source-bound design ACCEPTs recorded separately; frozen historical proposed line superseded by review record"
+  },
+  "test_first": {
+    "approved_test_commit": "ed7ad6bc2272ccad7c82142330dfaee35089fc20",
+    "CI_test_candidate": "603782a4fc4e12a78819a84975705f1195b1ae2b",
+    "admission_command": "python3 backend-fork/tools/lanes/fanout.py admit --spec .artifacts/acceptance/payroll-roster-freeze/lane-spec.json",
+    "red_runs": [
+      {
+        "path": ".artifacts/acceptance/payroll-roster-freeze/run-20260930T163318.739583Z/report.json",
+        "sha256": "3fdd29ec700ff5e36c782daffd1d34f7b515fa848013610b39394b4dd70d188f",
+        "executed": 32,
+        "passed": 21,
+        "failed": 11,
+        "skipped": 0,
+        "filtered": 0
+      },
+      {
+        "path": ".artifacts/acceptance/payroll-roster-freeze/run-20260930T165325.280642Z/report.json",
+        "sha256": "ea150020a6d33e84aa8d3dfe7337608151e102064aeab1082fe6d043e8c91f70",
+        "executed": 32,
+        "passed": 21,
+        "failed": 11,
+        "skipped": 0,
+        "filtered": 0
+      }
+    ],
+    "admission_exit": 0,
+    "admission_receipt_sha256": "8d6f5e6e7f259955d244681a5679ffaeed5d79b1464b8379f9bd2dbadeab1e2f",
+    "reviewer": "/root/source_fidelity_adversary",
+    "verdict": "ACCEPT exact clean test source and executed red admission"
+  },
+  "source_commit": "b0a017a7eb1ca64bca420bc9167712345bb9f5e8",
+  "source_sha256": {
+    "backend-fork/backend/crates/payroll/adapter-postgres/src/roster.rs": "14445064cb64e26f279e87fc7ce23dc06f683982b207e5be69c71abffc8b3382",
+    "backend-fork/backend/crates/payroll/adapter-postgres/src/lifecycle.rs": "8e9a114d50e97bb8d93e76e7da45c387ac0e4eb7d55b4222f9989ae3d557e20a",
+    "backend-fork/backend/crates/payroll/adapter-postgres/src/pay_run.rs": "d921ee4a8687e152375455780e90ad4b609fd31abc6b6cd3da0ee0099244fca5",
+    "backend-fork/backend/crates/workflow/adapter-postgres/src/lib.rs": "e25cac41784d4ccd535bc86f192a9eb7b70025dd0254a7eda172387479ade06a",
+    "backend-fork/backend/crates/payroll/adapter-postgres/tests/pay_run_port_as_runtime_role.rs": "bfcd0446f48b2c54ee376986b24f35ba70af2dd1239a5eeacf7d345afad88a1c",
+    "backend-fork/backend/crates/workflow/adapter-postgres/tests/payroll_drain_period_lock.rs": "76b0ba1e98982543b73cd37d35e09c03530da3ed0c9f59c3ac3e8293a72674d6"
+  },
+  "native_green": {
+    "path": ".artifacts/acceptance/payroll-roster-freeze/run-20260930T170020.794610Z/report.json",
+    "sha256": "20a8b9162859fd2e4c5c22695aa063c789506195625bb75081183f78d9d228b7",
+    "runner_sha256": "27ec72c032674a94eda65863937689adc9d81e7ec833940961fb04a08c5bd390",
+    "suites": [
+      {
+        "name": "pay_run_port_as_runtime_role",
+        "discovered": 25,
+        "executed": 25,
+        "passed": 25,
+        "failed": 0,
+        "ignored": 0,
+        "measured": 0,
+        "filtered": 0,
+        "exit_code": 0
+      },
+      {
+        "name": "payroll_drain_period_lock",
+        "discovered": 7,
+        "executed": 7,
+        "passed": 7,
+        "failed": 0,
+        "ignored": 0,
+        "measured": 0,
+        "filtered": 0,
+        "exit_code": 0
+      }
+    ],
+    "same_named_probe": "lane-spec.json probe executed on new clean source HEAD; exact commands/environment in hashed report",
+    "postgres_version": "PostgreSQL 18.6 (Homebrew)",
+    "scope": "Real console_rt, scoped owner transactions/canonical commands/workflow outbox; not browser or two-site proof"
+  },
+  "CI_red": {
+    "candidate": "603782a4fc4e12a78819a84975705f1195b1ae2b",
+    "run": 36745972591,
+    "status": "intentional_test_first_failure",
+    "counts": [
+      [
+        17,
+        8,
+        0,
+        0,
+        0
+      ],
+      [
+        4,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        7,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        4,
+        3,
+        0,
+        0,
+        0
+      ]
+    ],
+    "executed": 43,
+    "passed": 32,
+    "failed": 11,
+    "log_sha256": "18eb188455f472f0d3b79b997f2d60b637fcd1e5d6e2699357adf1cbac0f5fd0",
+    "metadata_sha256": "f6124d99b47ac7a5dd508c80d0346aa148b98abdf7da16754c997cb6b0c73df2",
+    "unreached": [
+      "payroll/workflow strict Clippy",
+      "later inquiry and HR owner steps"
+    ],
+    "scope": "Bounded red baseline; no product implementation or release acceptance."
+  },
+  "CI_green": {
+    "status": "pending_exact_final_metadata_candidate",
+    "producer": ".github/workflows/ci.yml",
+    "required_checks": [
+      "npm ci/lint/test/build/production routes",
+      "32 owner regressions and 11 legacy payroll/roster tests",
+      "strict payroll and workflow lib/regression Clippy with -D warnings",
+      "inquiry/browser/RLS/store and HR parser/HTTP tests"
+    ],
+    "final_receipt": "Separate immutable receipt after exact final candidate CI success; required before queue admission"
+  },
+  "code_reviews": [
+    {
+      "reviewer": "/root/source_fidelity_adversary",
+      "verdict": "CODE_APPROVE",
+      "candidate": "b0a017a7eb1ca64bca420bc9167712345bb9f5e8",
+      "scope": "Bounded source with all 32 tests green; final metadata/CI/merge verdict required separately"
+    },
+    {
+      "reviewer": "/root/roster_owner_review",
+      "verdict": "CODE_APPROVE",
+      "candidate": "b0a017a7eb1ca64bca420bc9167712345bb9f5e8",
+      "scope": "Bounded source with all 32 tests green; final metadata/CI/merge verdict required separately"
+    }
+  ],
+  "audit": "Independent 16-lens audit completed: source truth, bounded owner fix, Company isolation, lock ordering, fail-closed states/errors, durable workflow evidence preservation and recovery; no required source fixes.",
+  "pre_mortem": "Frozen reviewed source overwritten, recovery stranded, unknown/DB failure acknowledged, scope leakage or lock deadlock.",
+  "detection": "Complete run/roster/calculation snapshots, canonical receipts, real waiter PIDs and both owner lock orders, outbox attempt and audit evidence.",
+  "rollback": "Predeployment revert is possible. Deployed rollback must retain scoped run guard, locked-existing no-refresh and owner-directed drain recovery. Base 87212b1 is unsafe rollback. Compatible persisted cross-build rollback remains unverified; no deployment authorized.",
+  "failed_attempts": [
+    "Two sandbox no-run builds stopped exit143; no pass claim.",
+    "First native discovery stopped exit-15, no tests executed.",
+    "v1 evidence runner could accept a nonzero test process after all-pass summary; v2 fixed it; v3 adds one compiler job. v1 evidence preserved.",
+    "fs_usage requires root and did not execute the diagnostic. Compiler child turnover was observed; no stall cause or measured performance conclusion."
+  ],
+  "limitations": [
+    "Seeded statuses/calculations prove preservation only; no legal/tax calculation, natural-person approval, payable amount or payment acceptance.",
+    "PostgreSQL stage commit/ack interruption is injected after actual owner commit; no process-crash or two-site durability proof.",
+    "Raw SQL writers and mutable source records are separate unverified boundaries.",
+    "No authenticated Next HR/Org/Payroll/Foundry UI, effective Employment serving, full payroll population/publication, institution integration or deployment.",
+    "Two-site barriers/fencing/safe reads and full module/release acceptance remain HOLD."
+  ],
+  "release_accepted": false
+}
