@@ -46,6 +46,20 @@
       "reason": "Bind ordinary and delegated access to exact live refresh families; enforce strict source and absolute deadlines after lock waits. Preserve authentication assertions using real-family test fixtures."
     },
     {
+      "path": "backend/app/src/hr.rs",
+      "before": {
+        "sha256": "ec4a83eabb08833d5d5611237df86738d2262ec9abd67fb18fdc48e6b4ee910c",
+        "bytes": 467032,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "abf60b986fd751638d2eaa3ba65c86f4de60b192c2604a7a3a32fbc8e4c5109c",
+        "bytes": 470574,
+        "mode": 420
+      },
+      "reason": "Preserve attendance source coordinates and reject ambiguous headers before persistence; distinguish historical source-coordinate conflicts from duplicate facts, with real session-bound PostgreSQL tests. Fixture remains test-only."
+    },
+    {
       "path": "backend/app/src/lib.rs",
       "before": {
         "sha256": "73fef04629d297f07d7b01e1cd86880692df86bad019fb34136fab7693baad35",
@@ -148,6 +162,30 @@
         "mode": 420
       },
       "reason": "Preserve explicit hierarchy scope in family-bound access and use real family/account fixtures under runtime RLS. Strengthen reviewed foreign-Company denial and actual upload-limit/error assertions; retain existing branch and same-Company isolation proof."
+    },
+    {
+      "path": "backend/app/tests/fixtures/attendance-offset.xlsx",
+      "before": null,
+      "after": {
+        "sha256": "e25635b03c286dfa6c73d287d03b347fdc45806474876de8a2880a8f88170e4a",
+        "bytes": 3060,
+        "mode": 420
+      },
+      "reason": "Preserve attendance source coordinates and reject ambiguous headers before persistence; distinguish historical source-coordinate conflicts from duplicate facts, with real session-bound PostgreSQL tests. Fixture remains test-only."
+    },
+    {
+      "path": "backend/app/tests/hr_ingest_checklist_gate.rs",
+      "before": {
+        "sha256": "44db2fe236e4529c671868087834e6ab80fc75bd3ea597f14fc80c3511c943f4",
+        "bytes": 10437,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "f4ad36152d4a1de47cd15ca018a07a61c71bd89c0c6056351655fb9fc70ce4c7",
+        "bytes": 25560,
+        "mode": 420
+      },
+      "reason": "Preserve attendance source coordinates and reject ambiguous headers before persistence; distinguish historical source-coordinate conflicts from duplicate facts, with real session-bound PostgreSQL tests. Fixture remains test-only."
     },
     {
       "path": "backend/app/tests/intelligence_bind.rs",
