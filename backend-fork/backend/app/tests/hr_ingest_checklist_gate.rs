@@ -60,7 +60,7 @@ async fn apply_without_checklist_denies_and_writes_nothing(owner_pool: PgPool) {
         )
         .unwrap(),
     );
-    let token = bearer(&keys, admin);
+    let token = bearer(&pool, &keys, admin).await;
 
     // No body at all (no Content-Type ⇒ `checklist_all_acknowledged: None`).
     let denied = send(
@@ -129,7 +129,7 @@ async fn apply_with_checklist_admits_and_applies(owner_pool: PgPool) {
         )
         .unwrap(),
     );
-    let token = bearer(&keys, admin);
+    let token = bearer(&pool, &keys, admin).await;
 
     let applied = send(
         service,
@@ -211,7 +211,7 @@ async fn assert_source_coordinates(
             .unwrap();
     assert!(!bypass);
     let service = build_router(app_state(runtime, keys.public_pem.clone()).unwrap());
-    let token = bearer(&keys, admin);
+    let token = bearer(&pool, &keys, admin).await;
     let initial = preview(service.clone(), &token, filename, bytes).await;
     assert_eq!(initial.status, StatusCode::OK, "{:?}", initial.json);
     assert_eq!(initial.json["input_rows"], 2);
@@ -249,7 +249,7 @@ async fn assert_source_coordinates(
         "Foreign import",
     )
     .await;
-    let foreign_token = bearer_in_org(&keys, foreign_admin, foreign_org);
+    let foreign_token = bearer_in_org(pool, &keys, foreign_admin, foreign_org).await;
     for action in ["dry-run", "apply"] {
         let denied = send(
             service.clone(),
@@ -350,7 +350,7 @@ async fn attendance_ambiguous_headers_reject_without_writes(pool: PgPool) {
     seed_admin(&pool, admin).await;
     let service =
         build_router(app_state(runtime_role_pool(&pool).await, keys.public_pem.clone()).unwrap());
-    let token = bearer(&keys, admin);
+    let token = bearer(&pool, &keys, admin).await;
     for (headers, expected_error) in [
         (
             "사번,사 번,지점,근무일,출근시간",
@@ -417,7 +417,7 @@ async fn attendance_legacy_coordinate_collision_preserves_evidence(pool: PgPool)
     let before = historical_events(&pool, old_run).await;
     let service =
         build_router(app_state(runtime_role_pool(&pool).await, keys.public_pem.clone()).unwrap());
-    let token = bearer(&keys, admin);
+    let token = bearer(&pool, &keys, admin).await;
     let new = preview(
         service.clone(),
         &token,
@@ -605,11 +605,11 @@ fn keys() -> Keys {
     }
 }
 
-fn bearer(keys: &Keys, user_id: UserId) -> String {
-    bearer_in_org(keys, user_id, OrgId::knl())
+async fn bearer(pool: &PgPool, keys: &Keys, user_id: UserId) -> String {
+    bearer_in_org(pool, keys, user_id, OrgId::knl()).await
 }
 
-fn bearer_in_org(keys: &Keys, user_id: UserId, org: OrgId) -> String {
+async fn bearer_in_org(pool: &PgPool, keys: &Keys, user_id: UserId, org: OrgId) -> String {
     let issuer = JwtIssuer::from_es256_pem(
         JwtSettings {
             issuer: TEST_ISSUER.to_owned(),
@@ -620,8 +620,10 @@ fn bearer_in_org(keys: &Keys, user_id: UserId, org: OrgId) -> String {
         keys.public_pem.as_bytes(),
     )
     .unwrap();
-    issuer
-        .issue_access_token(AccessTokenInput {
+    console_platform_test_support::issue_session_token(
+        pool,
+        &issuer,
+        AccessTokenInput {
             subject: user_id,
             org_id: org,
             roles: vec!["SUPER_ADMIN".to_owned()],
@@ -635,8 +637,11 @@ fn bearer_in_org(keys: &Keys, user_id: UserId, org: OrgId) -> String {
             authz_policy_version: 0,
             session_generation: 0,
             issued_at: OffsetDateTime::now_utc(),
-        })
-        .unwrap()
+        },
+        None,
+        Vec::new(),
+    )
+    .await
 }
 
 async fn runtime_role_pool(owner_pool: &PgPool) -> PgPool {
