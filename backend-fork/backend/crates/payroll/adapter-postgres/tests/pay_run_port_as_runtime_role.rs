@@ -49,17 +49,24 @@ use console_ontology_canonical_adapter_postgres::person::{
 use console_ontology_canonical_domain::{
     CanonicalPort, CommandId, CommandReceipt, DispatchTarget, ObjectKey, PayRunPort, ReceiptOwner,
 };
-use console_payroll_adapter_postgres::lifecycle::LifecycleError;
+use console_payroll_adapter_postgres::lifecycle::{LifecycleError, close_attendance_in_tx};
 use console_payroll_adapter_postgres::pay_run::{
     PayRunCommand, PayRunError, PayRunQuery, PgPayRunPort, StageDraftError, stage_draft_run_in_tx,
 };
+use console_payroll_adapter_postgres::roster::materialise_roster_in_tx;
 use console_platform_test_support::{runtime_role_pool, seed_org_and_super_admin};
 use console_workflow_domain::{PayrollDraftStaging, StagePayrollDraft};
 use serde_json::json;
-use sqlx::{PgPool, Row};
+use sqlx::{PgPool, Postgres, Row, Transaction};
 use time::macros::date;
 use time::{OffsetDateTime, Time};
 use uuid::Uuid;
+
+// Share test-only import fixtures; the original target also uses the helpers
+// not needed by this target.
+#[allow(dead_code)]
+#[path = "roster_materialisation/seed.rs"]
+mod roster_seed;
 
 const ORG: Uuid = Uuid::from_u128(0xe3b0_0000_0000_0000_0000_0000_0000_0011);
 const FOREIGN_ORG: Uuid = Uuid::from_u128(0xe3b0_0000_0000_0000_0000_0000_0000_0012);
@@ -1444,4 +1451,648 @@ where
     tokio::task::spawn_blocking(move || port.execute(&command))
         .await
         .unwrap()
+}
+
+// Restage integrity is preservation proof, not a payroll calculation or legal
+// approval proof. Only the concurrency tests exercise the actual close owner;
+// the full state matrix deliberately seeds states as isolated test fixtures.
+const ROSTER_EMPLOYEE: &str = "restage-employee";
+const ROSTER_SNAPSHOT: &str = "SELECT to_jsonb(l)::text FROM payroll_draft_lines l \
+                              WHERE run_id = $1 ORDER BY employee_source_key, id";
+const LOCK_WAIT: std::time::Duration = std::time::Duration::from_secs(5);
+
+async fn seed_roster_source(
+    owner: &PgPool,
+    org: Uuid,
+    hours: &str,
+    period: (time::Date, time::Date),
+) {
+    roster_seed::seed_import(
+        owner,
+        org,
+        "APPLIED",
+        "CANDIDATE",
+        period,
+        ROSTER_EMPLOYEE,
+        json!({ "출근": "09:00", "근무시간": hours, "근무일수": "1" }),
+    )
+    .await;
+}
+
+async fn source_roster_fixture(
+    owner: &PgPool,
+) -> (PgPayRunPort, PayRunCommand, CommandReceipt, Uuid) {
+    let (org, actor, _, port) = fixture(owner).await;
+    roster_seed::seed_employee(owner, ORG, ROSTER_EMPLOYEE, "김직원").await;
+    seed_roster_source(
+        owner,
+        ORG,
+        "8",
+        (roster_seed::PERIOD_START, roster_seed::PERIOD_END),
+    )
+    .await;
+    let first = command(org, actor, create(Uuid::new_v4()));
+    let receipt = execute(&port, first.clone()).await.unwrap();
+    let run: Uuid = receipt.result()["draft_run_id"]
+        .as_str()
+        .unwrap()
+        .parse()
+        .unwrap();
+    assert_eq!(roster_snapshot(owner, run).await.len(), 1);
+    (port, first, receipt, run)
+}
+
+async fn roster_snapshot(owner: &PgPool, run: Uuid) -> Vec<String> {
+    sqlx::query_scalar(ROSTER_SNAPSHOT)
+        .bind(run)
+        .fetch_all(owner)
+        .await
+        .unwrap()
+}
+
+async fn run_snapshot(owner: &PgPool, run: Uuid) -> String {
+    sqlx::query_scalar("SELECT to_jsonb(r)::text FROM payroll_draft_runs r WHERE id = $1")
+        .bind(run)
+        .fetch_one(owner)
+        .await
+        .unwrap()
+}
+
+async fn calculation_snapshot(owner: &PgPool, run: Uuid) -> Vec<String> {
+    sqlx::query_scalar("SELECT to_jsonb(c)::text FROM payroll_line_calculations c WHERE run_id = $1 ORDER BY line_id, version, id")
+        .bind(run).fetch_all(owner).await.unwrap()
+}
+
+async fn review_roster_fixture(owner: &PgPool, run: Uuid) {
+    sqlx::query("UPDATE payroll_draft_lines SET nts_tax_row_status = 'VERIFIED_SOURCE_ROW', \
+                 calculation_status = 'READY_FOR_REVIEW', blockers = '[\"reviewed-source\"]'::jsonb, \
+                 attendance_event_count = 2 WHERE run_id = $1")
+        .bind(run).execute(owner).await.unwrap();
+    // This append-only row detects collateral changes; its money is a fixture,
+    // not a claim that calculation, tax verification or approval occurred.
+    sqlx::query("INSERT INTO payroll_line_calculations \
+                 (org_id, run_id, line_id, version, gross_won, deductions, total_deductions_won, net_won, tax_table_version) \
+                 SELECT org_id, run_id, id, 1, 100, '[]'::jsonb, 0, 100, 'test-only' \
+                 FROM payroll_draft_lines WHERE run_id = $1")
+        .bind(run).execute(owner).await.unwrap();
+}
+
+async fn roster_runtime_tx(pool: &PgPool, org: Uuid) -> Transaction<'static, Postgres> {
+    let mut tx = pool.begin().await.unwrap();
+    let identity: (String, bool, bool) = sqlx::query_as(
+        "SELECT current_user::text, rolsuper, rolbypassrls FROM pg_roles WHERE rolname = current_user",
+    ).fetch_one(&mut *tx).await.unwrap();
+    assert_eq!(identity, ("console_rt".to_owned(), false, false));
+    sqlx::query("SELECT set_config('app.current_org', $1, true)")
+        .bind(org.to_string())
+        .execute(&mut *tx)
+        .await
+        .unwrap();
+    tx
+}
+
+async fn refresh_roster(
+    runtime: &PgPool,
+    org: Uuid,
+    run: Uuid,
+    period: (time::Date, time::Date),
+) -> Result<u64, sqlx::Error> {
+    let mut tx = roster_runtime_tx(runtime, org).await;
+    let result = materialise_roster_in_tx(&mut tx, org, run, period.0, period.1).await;
+    if result.is_ok() {
+        tx.commit().await?;
+    } else {
+        tx.rollback().await?;
+    }
+    result
+}
+
+async fn seed_roster_period_lock(owner: &PgPool, org: Uuid) {
+    sqlx::query(
+        "INSERT INTO period_locks (org_id, domain, period_start, period_end, reason) \
+                 VALUES ($1, 'payroll', $2, $3, 'test-only freeze')",
+    )
+    .bind(org)
+    .bind(roster_seed::PERIOD_START)
+    .bind(roster_seed::PERIOD_END)
+    .execute(owner)
+    .await
+    .unwrap();
+}
+
+async fn close_roster_fixture(runtime: &PgPool, run: Uuid, actor: UserId) {
+    let mut tx = roster_runtime_tx(runtime, ORG).await;
+    close_attendance_in_tx(&mut tx, run, *actor.as_uuid(), OffsetDateTime::now_utc())
+        .await
+        .unwrap();
+    tx.commit().await.unwrap();
+}
+
+async fn unknown_roster_state_fixture(owner: &PgPool, run: Uuid) {
+    // Isolated SQLx database only: simulate a status introduced by schema/version
+    // drift without changing any production/applied migration bytes.
+    sqlx::query("ALTER TABLE payroll_draft_runs DROP CONSTRAINT payroll_draft_runs_status_check")
+        .execute(owner)
+        .await
+        .unwrap();
+    sqlx::query("UPDATE payroll_draft_runs SET status = 'FUTURE_UNKNOWN' WHERE id = $1")
+        .bind(run)
+        .execute(owner)
+        .await
+        .unwrap();
+}
+
+async fn wait_for_roster_blocker(owner: &PgPool, waiter: i32, blocker: i32) -> bool {
+    tokio::time::timeout(LOCK_WAIT, async {
+        loop {
+            let blocked: bool = sqlx::query_scalar(
+                "SELECT EXISTS (SELECT 1 FROM pg_stat_activity WHERE datname = current_database() \
+                 AND pid = $1 AND wait_event_type = 'Lock' AND $2 = ANY(pg_blocking_pids(pid)))",
+            )
+            .bind(waiter)
+            .bind(blocker)
+            .fetch_one(owner)
+            .await
+            .unwrap();
+            if blocked {
+                break;
+            }
+            tokio::task::yield_now().await;
+        }
+    })
+    .await
+    .is_ok()
+}
+
+#[sqlx::test(migrations = "../../platform/db/migrations")]
+async fn roster_restage_repairs_empty_and_refreshes_all_preclose_states(owner: PgPool) {
+    let (org, actor, _, port) = fixture(&owner).await;
+    let receipt = execute(&port, command(org, actor, create(Uuid::new_v4())))
+        .await
+        .unwrap();
+    let run: Uuid = receipt.result()["draft_run_id"]
+        .as_str()
+        .unwrap()
+        .parse()
+        .unwrap();
+    assert!(roster_snapshot(&owner, run).await.is_empty());
+    roster_seed::seed_employee(&owner, ORG, ROSTER_EMPLOYEE, "김직원").await;
+    seed_roster_source(
+        &owner,
+        ORG,
+        "8",
+        (roster_seed::PERIOD_START, roster_seed::PERIOD_END),
+    )
+    .await;
+    let runtime = runtime_role_pool(&owner).await;
+    assert_eq!(
+        refresh_roster(
+            &runtime,
+            ORG,
+            run,
+            (roster_seed::PERIOD_START, roster_seed::PERIOD_END)
+        )
+        .await
+        .unwrap(),
+        1
+    );
+    let mut expected_hours = 8;
+    let mut expected_sources = 1;
+    for state in ["STAGED", "BLOCKED_LEGAL_GATE", "READY_FOR_REVIEW"] {
+        sqlx::query("UPDATE payroll_draft_runs SET status = $2 WHERE id = $1")
+            .bind(run)
+            .bind(state)
+            .execute(&owner)
+            .await
+            .unwrap();
+        seed_roster_source(
+            &owner,
+            ORG,
+            "12",
+            (roster_seed::PERIOD_START, roster_seed::PERIOD_END),
+        )
+        .await;
+        let before = roster_snapshot(&owner, run).await;
+        assert_eq!(
+            refresh_roster(
+                &runtime,
+                ORG,
+                run,
+                (roster_seed::PERIOD_START, roster_seed::PERIOD_END)
+            )
+            .await
+            .unwrap(),
+            1,
+            "state={state}"
+        );
+        expected_hours += 12;
+        expected_sources += 1;
+        let (hours, sources): (String, i32) = sqlx::query_as("SELECT regular_hours::text, cardinality(source_data_import_row_ids) FROM payroll_draft_lines WHERE run_id = $1")
+            .bind(run).fetch_one(&owner).await.unwrap();
+        assert_eq!(hours, format!("{expected_hours}.00"), "state={state}");
+        assert_eq!(sources, expected_sources, "state={state}");
+        assert_ne!(
+            before,
+            roster_snapshot(&owner, run).await,
+            "refresh must change actual material, state={state}"
+        );
+    }
+}
+
+#[sqlx::test(migrations = "../../platform/db/migrations")]
+async fn roster_restage_preserves_every_known_frozen_state(owner: PgPool) {
+    let (_, _, _, run) = source_roster_fixture(&owner).await;
+    review_roster_fixture(&owner, run).await;
+    let roster = roster_snapshot(&owner, run).await;
+    let calculations = calculation_snapshot(&owner, run).await;
+    seed_roster_source(
+        &owner,
+        ORG,
+        "12",
+        (roster_seed::PERIOD_START, roster_seed::PERIOD_END),
+    )
+    .await;
+    let runtime = runtime_role_pool(&owner).await;
+    for state in [
+        "ATTENDANCE_CLOSED",
+        "CALCULATING",
+        "CALCULATED",
+        "SUBMITTED",
+        "REJECTED",
+        "APPROVED",
+        "DISBURSEMENT_SCHEDULED",
+        "PAID",
+        "ISSUED",
+        "VOID",
+    ] {
+        sqlx::query("UPDATE payroll_draft_runs SET status = $2 WHERE id = $1")
+            .bind(run)
+            .bind(state)
+            .execute(&owner)
+            .await
+            .unwrap();
+        let head = run_snapshot(&owner, run).await;
+        assert_eq!(
+            refresh_roster(
+                &runtime,
+                ORG,
+                run,
+                (roster_seed::PERIOD_START, roster_seed::PERIOD_END)
+            )
+            .await
+            .unwrap(),
+            0,
+            "state={state}"
+        );
+        assert_eq!(roster_snapshot(&owner, run).await, roster, "state={state}");
+        assert_eq!(
+            calculation_snapshot(&owner, run).await,
+            calculations,
+            "state={state}"
+        );
+        assert_eq!(run_snapshot(&owner, run).await, head, "state={state}");
+    }
+}
+
+#[sqlx::test(migrations = "../../platform/db/migrations")]
+async fn roster_restage_canonical_fresh_command_and_exact_replay_preserve_closed_basis(
+    owner: PgPool,
+) {
+    let (port, first, receipt, run) = source_roster_fixture(&owner).await;
+    review_roster_fixture(&owner, run).await;
+    seed_roster_period_lock(&owner, ORG).await;
+    let runtime = runtime_role_pool(&owner).await;
+    close_roster_fixture(&runtime, run, first.actor_id).await;
+    seed_roster_source(
+        &owner,
+        ORG,
+        "12",
+        (roster_seed::PERIOD_START, roster_seed::PERIOD_END),
+    )
+    .await;
+    let roster = roster_snapshot(&owner, run).await;
+    let head = run_snapshot(&owner, run).await;
+    let calculations = calculation_snapshot(&owner, run).await;
+    assert_eq!(execute(&port, first.clone()).await.unwrap(), receipt);
+    let mut fresh = first;
+    fresh.command_id = CommandId::from_uuid(Uuid::new_v4());
+    let result = execute(&port, fresh).await.unwrap();
+    assert_eq!(result.result()["created"], false);
+    assert_eq!(result.result()["draft_run_id"], run.to_string());
+    assert_eq!(roster_snapshot(&owner, run).await, roster);
+    assert_eq!(run_snapshot(&owner, run).await, head);
+    assert_eq!(calculation_snapshot(&owner, run).await, calculations);
+    assert_eq!(count(&owner, COUNT_RUNS, ORG).await, 1);
+    assert_eq!(
+        count(
+            &owner,
+            "SELECT count(*)::bigint FROM ont_action_command_receipts WHERE org_id = $1",
+            ORG
+        )
+        .await,
+        2
+    );
+}
+
+#[sqlx::test(migrations = "../../platform/db/migrations")]
+async fn roster_restage_missing_foreign_and_wrong_period_refuse_without_writes(owner: PgPool) {
+    let (_, _, _, run) = source_roster_fixture(&owner).await;
+    let foreign_actor = seed_org_and_user(&owner, FOREIGN_ORG, "restage-foreign").await;
+    roster_seed::seed_employee(&owner, FOREIGN_ORG, ROSTER_EMPLOYEE, "외부직원").await;
+    seed_roster_source(
+        &owner,
+        FOREIGN_ORG,
+        "8",
+        (roster_seed::PERIOD_START, roster_seed::PERIOD_END),
+    )
+    .await;
+    let runtime = runtime_role_pool(&owner).await;
+    let foreign_port = PgPayRunPort::new(runtime.clone(), tokio::runtime::Handle::current());
+    let foreign_receipt = execute(
+        &foreign_port,
+        command(
+            OrgId::from_uuid(FOREIGN_ORG),
+            foreign_actor,
+            create(Uuid::new_v4()),
+        ),
+    )
+    .await
+    .unwrap();
+    let foreign: Uuid = foreign_receipt.result()["draft_run_id"]
+        .as_str()
+        .unwrap()
+        .parse()
+        .unwrap();
+    let july = (date!(2026 - 07 - 01), date!(2026 - 07 - 31));
+    seed_roster_source(&owner, ORG, "12", july).await;
+    let before = roster_snapshot(&owner, run).await;
+    let before_foreign = roster_snapshot(&owner, foreign).await;
+    let head = run_snapshot(&owner, run).await;
+    let missing = refresh_roster(
+        &runtime,
+        ORG,
+        Uuid::new_v4(),
+        (roster_seed::PERIOD_START, roster_seed::PERIOD_END),
+    )
+    .await
+    .unwrap_err();
+    let foreign_error = refresh_roster(
+        &runtime,
+        ORG,
+        foreign,
+        (roster_seed::PERIOD_START, roster_seed::PERIOD_END),
+    )
+    .await
+    .unwrap_err();
+    assert!(matches!(missing, sqlx::Error::RowNotFound));
+    assert!(matches!(foreign_error, sqlx::Error::RowNotFound));
+    assert_eq!(missing.to_string(), foreign_error.to_string());
+    let period_error = refresh_roster(&runtime, ORG, run, july).await.unwrap_err();
+    assert!(matches!(period_error, sqlx::Error::RowNotFound));
+    // Also test a forged Company argument under this Company's actual RLS context.
+    let mut tx = roster_runtime_tx(&runtime, ORG).await;
+    let forged = materialise_roster_in_tx(
+        &mut tx,
+        FOREIGN_ORG,
+        foreign,
+        roster_seed::PERIOD_START,
+        roster_seed::PERIOD_END,
+    )
+    .await;
+    assert!(matches!(forged, Err(sqlx::Error::RowNotFound)));
+    tx.rollback().await.unwrap();
+    assert_eq!(roster_snapshot(&owner, run).await, before);
+    assert_eq!(roster_snapshot(&owner, foreign).await, before_foreign);
+    assert_eq!(run_snapshot(&owner, run).await, head);
+}
+
+#[sqlx::test(migrations = "../../platform/db/migrations")]
+async fn roster_restage_unknown_state_refuses_without_writes(owner: PgPool) {
+    let (_, _, _, run) = source_roster_fixture(&owner).await;
+    unknown_roster_state_fixture(&owner, run).await;
+    let before = roster_snapshot(&owner, run).await;
+    let head = run_snapshot(&owner, run).await;
+    seed_roster_source(
+        &owner,
+        ORG,
+        "12",
+        (roster_seed::PERIOD_START, roster_seed::PERIOD_END),
+    )
+    .await;
+    let runtime = runtime_role_pool(&owner).await;
+    assert!(
+        refresh_roster(
+            &runtime,
+            ORG,
+            run,
+            (roster_seed::PERIOD_START, roster_seed::PERIOD_END)
+        )
+        .await
+        .is_err()
+    );
+    assert_eq!(roster_snapshot(&owner, run).await, before);
+    assert_eq!(run_snapshot(&owner, run).await, head);
+}
+
+#[sqlx::test(migrations = "../../platform/db/migrations")]
+async fn roster_restage_unknown_state_is_not_accepted_by_locked_staging(owner: PgPool) {
+    let (port, first, _, run) = source_roster_fixture(&owner).await;
+    unknown_roster_state_fixture(&owner, run).await;
+    seed_roster_period_lock(&owner, ORG).await;
+    let before = roster_snapshot(&owner, run).await;
+    let head = run_snapshot(&owner, run).await;
+    seed_roster_source(
+        &owner,
+        ORG,
+        "12",
+        (roster_seed::PERIOD_START, roster_seed::PERIOD_END),
+    )
+    .await;
+    let draft = StagePayrollDraft {
+        org: first.org_id,
+        outbox_event_id: Uuid::new_v4(),
+        run_id: first.query.run_id(),
+        period_start: Some(roster_seed::PERIOD_START),
+        period_end: Some(roster_seed::PERIOD_END),
+        connector: Some("m2".to_owned()),
+        job: Some("payroll_draft".to_owned()),
+    };
+    assert!(
+        port.stage(draft).await.is_err(),
+        "an active lock must not turn an unknown state into success"
+    );
+    assert_eq!(roster_snapshot(&owner, run).await, before);
+    assert_eq!(run_snapshot(&owner, run).await, head);
+}
+
+#[sqlx::test(migrations = "../../platform/db/migrations")]
+async fn roster_restage_database_failure_is_not_a_successful_noop(owner: PgPool) {
+    let (_, _, _, run) = source_roster_fixture(&owner).await;
+    let before = roster_snapshot(&owner, run).await;
+    sqlx::query("REVOKE SELECT ON payroll_draft_runs FROM console_rt")
+        .execute(&owner)
+        .await
+        .unwrap();
+    let runtime = runtime_role_pool(&owner).await;
+    let error = refresh_roster(
+        &runtime,
+        ORG,
+        run,
+        (roster_seed::PERIOD_START, roster_seed::PERIOD_END),
+    )
+    .await
+    .unwrap_err();
+    assert!(
+        matches!(error, sqlx::Error::Database(ref e) if e.code().as_deref() == Some("42501")),
+        "{error:?}"
+    );
+    assert_eq!(roster_snapshot(&owner, run).await, before);
+}
+
+#[sqlx::test(migrations = "../../platform/db/migrations")]
+async fn roster_restage_refresh_before_close_commits_the_refreshed_basis(owner: PgPool) {
+    let (_, first, _, run) = source_roster_fixture(&owner).await;
+    seed_roster_source(
+        &owner,
+        ORG,
+        "12",
+        (roster_seed::PERIOD_START, roster_seed::PERIOD_END),
+    )
+    .await;
+    seed_roster_period_lock(&owner, ORG).await;
+    let runtime = runtime_role_pool(&owner).await;
+    let mut refresh = roster_runtime_tx(&runtime, ORG).await;
+    assert_eq!(
+        materialise_roster_in_tx(
+            &mut refresh,
+            ORG,
+            run,
+            roster_seed::PERIOD_START,
+            roster_seed::PERIOD_END
+        )
+        .await
+        .unwrap(),
+        1
+    );
+    let expected: Vec<String> = sqlx::query_scalar(ROSTER_SNAPSHOT)
+        .bind(run)
+        .fetch_all(&mut *refresh)
+        .await
+        .unwrap();
+    let blocker: i32 = sqlx::query_scalar("SELECT pg_backend_pid()")
+        .fetch_one(&mut *refresh)
+        .await
+        .unwrap();
+    let mut close = roster_runtime_tx(&runtime, ORG).await;
+    let waiter: i32 = sqlx::query_scalar("SELECT pg_backend_pid()")
+        .fetch_one(&mut *close)
+        .await
+        .unwrap();
+    let task = tokio::spawn(async move {
+        let outcome = close_attendance_in_tx(
+            &mut close,
+            run,
+            *first.actor_id.as_uuid(),
+            OffsetDateTime::now_utc(),
+        )
+        .await;
+        if outcome.is_ok() {
+            close.commit().await.unwrap();
+        } else {
+            close.rollback().await.unwrap();
+        }
+        outcome
+    });
+    let observed = wait_for_roster_blocker(&owner, waiter, blocker).await;
+    // Always release the holder before asserting, including on a red baseline.
+    refresh.commit().await.unwrap();
+    tokio::time::timeout(LOCK_WAIT, task)
+        .await
+        .unwrap()
+        .unwrap()
+        .unwrap();
+    assert!(
+        observed,
+        "actual close PID {waiter} must wait for refresh PID {blocker}"
+    );
+    assert_eq!(roster_snapshot(&owner, run).await, expected);
+    let status: String = sqlx::query_scalar("SELECT status FROM payroll_draft_runs WHERE id = $1")
+        .bind(run)
+        .fetch_one(&owner)
+        .await
+        .unwrap();
+    assert_eq!(status, "ATTENDANCE_CLOSED");
+}
+
+#[sqlx::test(migrations = "../../platform/db/migrations")]
+async fn roster_restage_close_before_refresh_preserves_the_closed_basis(owner: PgPool) {
+    let (_, first, _, run) = source_roster_fixture(&owner).await;
+    review_roster_fixture(&owner, run).await;
+    let before = roster_snapshot(&owner, run).await;
+    let calculations = calculation_snapshot(&owner, run).await;
+    seed_roster_source(
+        &owner,
+        ORG,
+        "12",
+        (roster_seed::PERIOD_START, roster_seed::PERIOD_END),
+    )
+    .await;
+    seed_roster_period_lock(&owner, ORG).await;
+    let runtime = runtime_role_pool(&owner).await;
+    let mut close = roster_runtime_tx(&runtime, ORG).await;
+    let receipt = close_attendance_in_tx(
+        &mut close,
+        run,
+        *first.actor_id.as_uuid(),
+        OffsetDateTime::now_utc(),
+    )
+    .await
+    .unwrap();
+    let blocker: i32 = sqlx::query_scalar("SELECT pg_backend_pid()")
+        .fetch_one(&mut *close)
+        .await
+        .unwrap();
+    let mut refresh = roster_runtime_tx(&runtime, ORG).await;
+    let waiter: i32 = sqlx::query_scalar("SELECT pg_backend_pid()")
+        .fetch_one(&mut *refresh)
+        .await
+        .unwrap();
+    let task = tokio::spawn(async move {
+        let outcome = materialise_roster_in_tx(
+            &mut refresh,
+            ORG,
+            run,
+            roster_seed::PERIOD_START,
+            roster_seed::PERIOD_END,
+        )
+        .await;
+        if outcome.is_ok() {
+            refresh.commit().await.unwrap();
+        } else {
+            refresh.rollback().await.unwrap();
+        }
+        outcome
+    });
+    let observed = wait_for_roster_blocker(&owner, waiter, blocker).await;
+    close.commit().await.unwrap();
+    let changed = tokio::time::timeout(LOCK_WAIT, task)
+        .await
+        .unwrap()
+        .unwrap()
+        .unwrap();
+    assert!(
+        observed,
+        "actual refresh PID {waiter} must wait for close PID {blocker}"
+    );
+    assert_eq!(changed, 0);
+    assert_eq!(roster_snapshot(&owner, run).await, before);
+    assert_eq!(calculation_snapshot(&owner, run).await, calculations);
+    let (status, saved): (String, serde_json::Value) =
+        sqlx::query_as("SELECT status, close_receipt FROM payroll_draft_runs WHERE id = $1")
+            .bind(run)
+            .fetch_one(&owner)
+            .await
+            .unwrap();
+    assert_eq!(status, "ATTENDANCE_CLOSED");
+    assert_eq!(saved, receipt);
 }

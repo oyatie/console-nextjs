@@ -1914,6 +1914,34 @@
         "mode": 420
       },
       "reason": "Regress the porcelain leading-space path truncation in the lane checker."
+    },
+    {
+      "path": "backend/crates/payroll/adapter-postgres/tests/pay_run_port_as_runtime_role.rs",
+      "before": {
+        "sha256": "af85e2962e5b6e45bf01aa14dd382497f7ee2fc0b7f7d1416174dae0f3869799",
+        "bytes": 53552,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "bfcd0446f48b2c54ee376986b24f35ba70af2dd1239a5eeacf7d345afad88a1c",
+        "bytes": 75932,
+        "mode": 420
+      },
+      "reason": "Test-first payroll roster restage integrity R3: actual runtime-role owner preservation, canonical and workflow retry/recovery, refusal and concurrent close ordering. Test fixtures are isolated; no product source change."
+    },
+    {
+      "path": "backend/crates/workflow/adapter-postgres/tests/payroll_drain_period_lock.rs",
+      "before": {
+        "sha256": "32cd4cef612f5444428f0da22d4952dfd680ec900469ec62d03ec38335f78685",
+        "bytes": 9935,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "76b0ba1e98982543b73cd37d35e09c03530da3ed0c9f59c3ac3e8293a72674d6",
+        "bytes": 23019,
+        "mode": 420
+      },
+      "reason": "Test-first payroll roster restage integrity R3: actual runtime-role owner preservation, canonical and workflow retry/recovery, refusal and concurrent close ordering. Test fixtures are isolated; no product source change."
     }
   ],
   "notes": [
