@@ -36,3 +36,11 @@ jobs:
         env:
           SQLX_OFFLINE: "true"
         run: backend-fork/tools/lanes/pgtest.sh "$GITHUB_WORKSPACE/backend-fork" cargo test --locked -p console-sales-adapter-postgres --test inquiry_rls_surfaces_as_runtime_role --test sales_store -- --test-threads=1
+      - name: Attendance source parser regressions
+        env:
+          SQLX_OFFLINE: "true"
+        run: cargo test --manifest-path backend-fork/backend/Cargo.toml --locked -p console-app --lib hr::tests::attendance_import -- --test-threads=1
+      - name: PostgreSQL HR attendance source fidelity and import gates
+        env:
+          SQLX_OFFLINE: "true"
+        run: backend-fork/tools/lanes/pgtest.sh "$GITHUB_WORKSPACE/backend-fork" cargo test --locked -p console-app --test hr_ingest_checklist_gate -- --test-threads=1

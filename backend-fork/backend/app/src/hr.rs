@@ -4181,7 +4181,13 @@ fn parse_attendance_xlsx(
             .map_err(|err| HrError::workbook(err.to_string()))?;
         let values = range
             .rows()
-            .map(|row| row.iter().map(cell_json).collect::<Vec<_>>())
+            .enumerate()
+            .map(|(index, row)| {
+                (
+                    range.start().map_or(0, |(row, _)| row as usize) + index + 1,
+                    row.iter().map(cell_json).collect::<Vec<_>>(),
+                )
+            })
             .collect::<Vec<_>>();
         rows.extend(parse_attendance_tabular_sheet(
             filename, &sheet, &values, false,
@@ -4196,7 +4202,12 @@ fn parse_attendance_csv(
 ) -> Result<Vec<ParsedAttendanceImportRow>, HrError> {
     let rows = parse_csv_rows(text)?
         .into_iter()
-        .map(|row| row.into_iter().map(Value::String).collect::<Vec<_>>())
+        .map(|(source_row, row)| {
+            (
+                source_row,
+                row.into_iter().map(Value::String).collect::<Vec<_>>(),
+            )
+        })
         .collect::<Vec<_>>();
     parse_attendance_tabular_sheet(filename, "CSV", &rows, true)
 }
@@ -4204,7 +4215,7 @@ fn parse_attendance_csv(
 fn parse_attendance_tabular_sheet(
     _filename: &str,
     sheet: &str,
-    rows: &[Vec<Value>],
+    rows: &[(usize, Vec<Value>)],
     require_header: bool,
 ) -> Result<Vec<ParsedAttendanceImportRow>, HrError> {
     let Some(header) = detect_attendance_import_header(rows) else {
@@ -4217,16 +4228,33 @@ fn parse_attendance_tabular_sheet(
         };
     };
 
-    let mut parsed = Vec::new();
-    for (zero_based_idx, row) in rows
+    let mut names = BTreeSet::new();
+    let mut targets = BTreeSet::new();
+    for name in header
+        .normalized_headers
         .iter()
-        .enumerate()
-        .skip(header.zero_based_row.saturating_add(1))
+        .filter(|name| !name.is_empty())
     {
+        if !names.insert(name) {
+            return Err(HrError::workbook(
+                "attendance import has duplicate normalized headers",
+            ));
+        }
+        if let Some(target) = attendance_import_target_for_header(name)
+            && !targets.insert(target)
+        {
+            return Err(HrError::workbook(
+                "attendance import has multiple columns for the same field",
+            ));
+        }
+    }
+
+    let mut parsed = Vec::new();
+    for (source_row, row) in rows.iter().skip(header.zero_based_row.saturating_add(1)) {
         if !row.iter().any(|cell| json_value_text(cell).is_some()) {
             continue;
         }
-        let source_row = i32::try_from(zero_based_idx + 1)
+        let source_row = i32::try_from(*source_row)
             .map_err(|_| HrError::workbook("source row does not fit i32"))?;
         let raw_row = attendance_raw_row(row, &header.normalized_headers);
         let employee_number =
@@ -4319,8 +4347,8 @@ fn parse_attendance_tabular_sheet(
     Ok(parsed)
 }
 
-fn detect_attendance_import_header(rows: &[Vec<Value>]) -> Option<AttendanceImportHeader> {
-    for (zero_based_row, row) in rows.iter().enumerate().take(MAX_IMPORT_HEADER_SCAN_ROWS) {
+fn detect_attendance_import_header(rows: &[(usize, Vec<Value>)]) -> Option<AttendanceImportHeader> {
+    for (zero_based_row, (_, row)) in rows.iter().enumerate().take(MAX_IMPORT_HEADER_SCAN_ROWS) {
         let normalized_headers = row
             .iter()
             .map(|cell| {
@@ -4388,12 +4416,15 @@ fn mark_duplicate_attendance_rows(rows: &mut [ParsedAttendanceImportRow]) {
     }
 }
 
-fn parse_csv_rows(text: &str) -> Result<Vec<Vec<String>>, HrError> {
+fn parse_csv_rows(text: &str) -> Result<Vec<(usize, Vec<String>)>, HrError> {
     let mut rows = Vec::new();
     let mut row = Vec::new();
     let mut field = String::new();
     let mut chars = text.chars().peekable();
     let mut in_quotes = false;
+    // Count original records before discarding empty ones. Quoted newlines
+    // stay inside their record; header search still sees nonempty records.
+    let mut source_row = 1;
 
     while let Some(ch) = chars.next() {
         match ch {
@@ -4412,10 +4443,11 @@ fn parse_csv_rows(text: &str) -> Result<Vec<Vec<String>>, HrError> {
                 row.push(field.trim().to_owned());
                 field.clear();
                 if row.iter().any(|value| !value.is_empty()) {
-                    rows.push(std::mem::take(&mut row));
+                    rows.push((source_row, std::mem::take(&mut row)));
                 } else {
                     row.clear();
                 }
+                source_row += 1;
             }
             '\r' if !in_quotes => {
                 if chars.peek() == Some(&'\n') {
@@ -4424,10 +4456,11 @@ fn parse_csv_rows(text: &str) -> Result<Vec<Vec<String>>, HrError> {
                 row.push(field.trim().to_owned());
                 field.clear();
                 if row.iter().any(|value| !value.is_empty()) {
-                    rows.push(std::mem::take(&mut row));
+                    rows.push((source_row, std::mem::take(&mut row)));
                 } else {
                     row.clear();
                 }
+                source_row += 1;
             }
             _ => field.push(ch),
         }
@@ -4440,7 +4473,7 @@ fn parse_csv_rows(text: &str) -> Result<Vec<Vec<String>>, HrError> {
     }
     row.push(field.trim().to_owned());
     if row.iter().any(|value| !value.is_empty()) {
-        rows.push(row);
+        rows.push((source_row, row));
     }
     Ok(rows)
 }
@@ -5774,12 +5807,12 @@ async fn resolve_attendance_import_rows(
         .iter()
         .map(|row| row.source_key.clone())
         .collect::<Vec<_>>();
-    let existing_keys = if source_keys.is_empty() {
-        BTreeSet::new()
+    let existing_facts = if source_keys.is_empty() {
+        BTreeMap::new()
     } else {
-        sqlx::query_scalar::<_, String>(
+        sqlx::query_as::<_, (String, String)>(
             r#"
-            SELECT source_key
+            SELECT source_key, fact_key
             FROM attendance_direct_import_events
             WHERE org_id = $1 AND source_sha256 = $2 AND source_key = ANY($3)
             "#,
@@ -5790,7 +5823,7 @@ async fn resolve_attendance_import_rows(
         .fetch_all(tx.as_mut())
         .await?
         .into_iter()
-        .collect::<BTreeSet<_>>()
+        .collect::<BTreeMap<_, _>>()
     };
 
     let mut summary = AttendanceImportDryRunSummary {
@@ -5819,17 +5852,6 @@ async fn resolve_attendance_import_rows(
                         .push(attendance_row_error(row, code, code));
                 }
             }
-            continue;
-        }
-
-        if existing_keys.contains(&row.source_key) {
-            summary.error_rows += 1;
-            summary.duplicate_rows += 1;
-            summary.row_errors.push(attendance_row_error(
-                row,
-                "duplicate_import_row",
-                "attendance import row source key was already applied",
-            ));
             continue;
         }
 
@@ -5901,6 +5923,25 @@ async fn resolve_attendance_import_rows(
             row.canonical.check_out_at.as_deref(),
             row.canonical.minutes_worked,
         );
+        if let Some(existing_fact) = existing_facts.get(&row.source_key) {
+            summary.error_rows += 1;
+            let (code, message) = if existing_fact == &fact_key {
+                summary.duplicate_rows += 1;
+                (
+                    "duplicate_import_row",
+                    "attendance import row source key was already applied",
+                )
+            } else {
+                (
+                    "source_coordinate_conflict",
+                    "attendance source coordinate refers to a different previously imported fact; repair is required",
+                )
+            };
+            summary
+                .row_errors
+                .push(attendance_row_error(row, code, message));
+            continue;
+        }
         if !resolved_fact_keys.insert(fact_key.clone()) {
             summary.error_rows += 1;
             summary.duplicate_rows += 1;
