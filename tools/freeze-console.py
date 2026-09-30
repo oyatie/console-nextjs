@@ -21,6 +21,7 @@ FILES = (
     "docs/reference/일일업무진행현황_0605.xlsx",
     "docs/reference/업무일지_26.05.27.xlsx",
     "backend/crates/payroll/ui/pkg/console_payroll_ui_bg.wasm",
+    "backend/app/tests/fixtures/attendance-offset.xlsx",
     "third-party/rust/vendor/umya-spreadsheet-3.0.0-quickxml41/LICENSE",
 )
 EXCLUDED_DIRS = {"target", "node_modules", ".git", "__pycache__", "buck-out"}

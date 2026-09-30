@@ -1425,7 +1425,12 @@
       "verdict": "ACCEPT_SCOPED_RED_TESTS",
       "scope": "B01 effective current/typed projection and pre-opening-corruption real PostgreSQL test candidates",
       "evidence_status": "independent_exact_commit_review_current_session",
-      "commits": ["6dc016ce59348783040d0e24f1b44f56fc4ae9fc", "c4ed3973800bdb09b8e6113c8644c0a8c338ac12", "4ad86d3b1082fc1b8d133b7c9c9540958dcccd9b", "00239f296ea8584367840991d2221b8b1a00fd42"],
+      "commits": [
+        "6dc016ce59348783040d0e24f1b44f56fc4ae9fc",
+        "c4ed3973800bdb09b8e6113c8644c0a8c338ac12",
+        "4ad86d3b1082fc1b8d133b7c9c9540958dcccd9b",
+        "00239f296ea8584367840991d2221b8b1a00fd42"
+      ],
       "confirmed": "Current-read, UNKNOWN, ambiguous-binding and pre-opening-corruption probes failed against the prior source at the intended behavior; inherited temporal assertions were preserved when the fixed fixture epoch moved into the past.",
       "limits": "Test validity only; no source or module acceptance from red results."
     },
@@ -1464,6 +1469,43 @@
       "log_sha256": "c9af947ebaa1613ca3468567e6371d2ceb92ce8f63761534c2c7c935b80bb04b",
       "confirmed": "The diff changes only backend/app/tests/auth_rest.rs. Disposable PostgreSQL signed HTTP suite discovered/executed 33 tests: 28 passed and five failed at source, purpose or historical-family assertions; none ignored or filtered. Reviewer independently checked the exact log hash and clean diff.",
       "limits": "The five tests stop at first failed assertions; later effects are unreached. No authentication source, serving cutover, two-site barrier, rollback or release acceptance."
+    },
+    {
+      "scope": "Attendance source fidelity design and test-first evidence",
+      "design_sha256": "5652735674e1678386e160d1f5a636ee5035c47efa4d21b1f1103bb0081444b4",
+      "design_verdicts": [
+        {
+          "reviewer": "/root/payroll_publication_trace",
+          "verdict": "ACCEPT"
+        },
+        {
+          "reviewer": "/root/employment_boundary_trace",
+          "verdict": "ACCEPT"
+        },
+        {
+          "reviewer": "/root/foundry_attendance_trace",
+          "verdict": "ACCEPT"
+        },
+        {
+          "reviewer": "/root/source_fidelity_adversary",
+          "verdict": "ACCEPT"
+        }
+      ],
+      "test_commit": "0fe2113e930ab23db1b4ebf11509b3b495305ae0",
+      "evidence_status": "carried_forward_session_summary_and_independent_current_red_log_recheck",
+      "findings": [
+        "Preserve first 25 nonempty CSV record header budget",
+        "Do not mistake historical compacted coordinate collisions for duplicate facts"
+      ],
+      "disposition": "Both incorporated; reviewed design bytes unchanged."
+    },
+    {
+      "reviewer": "/root/source_fidelity_adversary",
+      "scope": "Attendance source code, exact API evidence and custody",
+      "candidate_commit": "ca1282285413099a0baf4f9bff9940200f42bad6",
+      "verdict": "source_review_no_blockers_final_merge_pending_strict_CI",
+      "evidence_status": "observed_current_review",
+      "confirmed": "Exact candidate PostgreSQL 6/6 and every report log/source hash independently verified; final metadata and strict Clippy still required."
     }
   ],
   "findings": [

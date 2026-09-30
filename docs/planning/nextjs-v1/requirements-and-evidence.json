@@ -84,11 +84,24 @@
       "responsible_profiles": "worker, site confirmer, attendance/payroll practitioner",
       "required_screens": "My shift/punch, roster, raw-event/break timeline, source comparison, corrections, period preview/close/reopen",
       "required_workflow_and_acceptance": "Schedule → exact actual intervals → reconciliation → confirmation → close → retro correction. Handle overnight/KST boundaries, missing/duplicate events, actual breaks/waiting, holidays, denied GPS/device/network, unapproved overtime and paid periods. No fabricated breaks/down-rounding. Recompute paid and billable consequences separately.",
-      "implementation_owners": [],
-      "contracts": [],
-      "tests": [],
-      "evidence": [],
-      "status": "unverified"
+      "implementation_owners": [
+        "console-app HR attendance import owner (backend-fork/backend/app/src/hr.rs)"
+      ],
+      "contracts": [
+        "CSV source_row is original record number, including blank records; quoted newline stays in one record.",
+        "XLSX source_row retains Calamine worksheet range origin/gaps through preview, stored rows and applied keys.",
+        "Duplicate normalized headers and aliases to one canonical field reject before persistence.",
+        "Historical source-key lookup compares unchanged fact identity; differing fact blocks as source_coordinate_conflict without rewriting history.",
+        "Checklist-gated lineage_only_not_payable imports; no authoritative attendance or payroll effect."
+      ],
+      "tests": [
+        "cargo test --manifest-path backend/Cargo.toml --locked --offline -p console-app --lib hr::tests::attendance_import -- --test-threads=1",
+        "cargo test --locked --offline -p console-app --test hr_ingest_checklist_gate -- --test-threads=1 (disposable PostgreSQL, real console_rt sessions)"
+      ],
+      "evidence": [
+        "docs/planning/nextjs-v1/attendance-source-fidelity-evidence.json sha256:c3f2bbbf6e8183418e84f9d92d45bac16a119071b2ad50ce29ae80589f63943f"
+      ],
+      "status": "partial_attendance_source_fidelity_full_workflow_unverified"
     },
     {
       "id": "B05",
@@ -562,11 +575,24 @@
       "responsible_profiles": "data operator, domain verifier",
       "required_screens": "Inbox, scan/OCR/source viewer, typed mapping, quality, quarantine/repair, publish/replay",
       "required_workflow_and_acceptance": "Preserve originals/offsets; parse → validate → account for every item → repair → reviewed dataset or owner-action publication. Separately count failed, duplicate, explicitly ignored and accepted items. Preview/execution share versions; retries do not duplicate effects.",
-      "implementation_owners": [],
-      "contracts": [],
-      "tests": [],
-      "evidence": [],
-      "status": "unverified"
+      "implementation_owners": [
+        "console-app HR attendance import owner (backend-fork/backend/app/src/hr.rs)"
+      ],
+      "contracts": [
+        "CSV source_row is original record number, including blank records; quoted newline stays in one record.",
+        "XLSX source_row retains Calamine worksheet range origin/gaps through preview, stored rows and applied keys.",
+        "Duplicate normalized headers and aliases to one canonical field reject before persistence.",
+        "Historical source-key lookup compares unchanged fact identity; differing fact blocks as source_coordinate_conflict without rewriting history.",
+        "Checklist-gated lineage_only_not_payable imports; no authoritative attendance or payroll effect."
+      ],
+      "tests": [
+        "cargo test --manifest-path backend/Cargo.toml --locked --offline -p console-app --lib hr::tests::attendance_import -- --test-threads=1",
+        "cargo test --locked --offline -p console-app --test hr_ingest_checklist_gate -- --test-threads=1 (disposable PostgreSQL, real console_rt sessions)"
+      ],
+      "evidence": [
+        "docs/planning/nextjs-v1/attendance-source-fidelity-evidence.json sha256:c3f2bbbf6e8183418e84f9d92d45bac16a119071b2ad50ce29ae80589f63943f"
+      ],
+      "status": "partial_attendance_source_fidelity_full_workflow_unverified"
     },
     {
       "id": "P03",
@@ -2512,7 +2538,37 @@
         "path": ".artifacts/acceptance/sales-listing-inquiry-impl/receipt.json",
         "sha256": "1d066424d42db2f091411a8f377d284d501d956b5a532971fffa29a53484f12b"
       },
-      "limits": "Candidate is isolated in a clean backend worktree; shared fork contains concurrent unrelated edits. No two-site receipt or inquiry operation identity/status lookup. Isolated full OpenAPI suite did not execute; full B10/B22 and release acceptance remain open. The new private GitHub repository is empty; source publication, PR and queue admission remain pending."
+      "limits": "Candidate is isolated in a clean backend worktree; shared fork contains concurrent unrelated edits. No two-site receipt or inquiry operation identity/status lookup. Isolated full OpenAPI suite did not execute; full B10/B22 and release acceptance remain open. Source import merged through the queue as PR #1 on 2026-09-30: 87212b127503e4f7164a009d6c38e138f075af48; publication receipt sha256:91cd5b9755251cf93eba7f39893981c5efc4c726f433a1f4b42d45178e93b540."
+    },
+    {
+      "scope": "B04/P02 attendance source fidelity; full HR/Org/Payroll/Foundry and release acceptance remain unverified",
+      "candidate_commit": "ca1282285413099a0baf4f9bff9940200f42bad6",
+      "status": "scoped_API_parser_passed_strict_CI_and_final_review_pending",
+      "evidence": {
+        "path": "docs/planning/nextjs-v1/attendance-source-fidelity-evidence.json",
+        "sha256": "c3f2bbbf6e8183418e84f9d92d45bac16a119071b2ad50ce29ae80589f63943f"
+      },
+      "tests": {
+        "postgres": {
+          "discovered": 6,
+          "executed": 6,
+          "passed": 6,
+          "failed": 0,
+          "skipped": 0
+        },
+        "parser": {
+          "executed": 8,
+          "passed": 8,
+          "failed": 0,
+          "skipped": 0,
+          "filtered_unrelated": 158
+        },
+        "tooling": {
+          "executed": 18,
+          "passed": 18
+        }
+      },
+      "limits": "lineage_only_not_payable; no authenticated Next UI, authoritative attendance/payroll, Employment eligibility, original file custody or two-site proof. Strict local Clippy stalled/stopped; exact hosted CI and final independent review required before merge."
     }
   ],
   "foundation_evidence": [
