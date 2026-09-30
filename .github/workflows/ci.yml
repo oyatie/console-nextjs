@@ -14,6 +14,12 @@ jobs:
     name: source-and-inquiry
     runs-on: ubuntu-24.04
     timeout-minutes: 90
+    env:
+      # Keep the full application/test links within the hosted runner budget.
+      CARGO_BUILD_JOBS: "1"
+      CARGO_INCREMENTAL: "0"
+      CARGO_PROFILE_DEV_DEBUG: "0"
+      CARGO_PROFILE_TEST_DEBUG: "0"
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
@@ -28,6 +34,8 @@ jobs:
       - run: npx playwright install --with-deps chromium
       - run: rustup toolchain install 1.98.1 --profile minimal
       - run: rustup component add clippy --toolchain 1.98.1
+      - name: Rust build disk budget
+        run: df -h .
       - name: PostgreSQL and real-browser inquiry
         env:
           SQLX_OFFLINE: "true"
@@ -51,3 +59,6 @@ jobs:
           SQLX_OFFLINE: "true"
           RUSTUP_TOOLCHAIN: "1.98.1"
         run: cargo clippy --manifest-path backend-fork/backend/Cargo.toml --locked -p console-app --lib --test hr_ingest_checklist_gate -- -D warnings
+      - name: Rust build disk readback
+        if: always()
+        run: df -h .
