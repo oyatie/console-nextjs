@@ -1,0 +1,138 @@
+{
+  "version": 1,
+  "design_path": "docs/planning/nextjs-v1/payroll-roster-restage-integrity.md",
+  "design_commit": "604c1ef",
+  "approved_design_sha256": "ad0d51109718404108f1c38d02315b60326762e325613201bf946dd904f71758",
+  "status": "native_green_code_approved_final_CI_and_merge_review_pending",
+  "history": [
+    {
+      "sha256": "53e29695b587bc130f975ec9e44a7bf89c4b0d63a4e2c040936e63ff35319e72",
+      "finding": "Whole-drain phase-1 filter strands committed staging after interrupted acknowledgment and a later period lock.",
+      "disposition": "Remove redundant early filter; delegate locked new versus existing/provenance decisions to actual staging owner."
+    },
+    {
+      "sha256": "2d6a85ef40cff80db29ab27c579c7c17756ba21a6e42bb89a125bcf89fae8716",
+      "findings": [
+        "Owner existing-run branch could refresh pre-close source basis under a locked period after filter removal.",
+        "Rollback restoring the early filter strands accepted pending work."
+      ],
+      "disposition": "Locked matching existing runs accept without refreshing, including pre-close; errors/unknown state refuse. Compatible rollback retains owner-directed acknowledgment and source guards."
+    }
+  ],
+  "reviews": [
+    {
+      "reviewer": "/root/payroll_publication_trace",
+      "verdict": "ACCEPT",
+      "sha256": "ad0d51109718404108f1c38d02315b60326762e325613201bf946dd904f71758",
+      "evidence_status": "observed_current_session_design_review_only"
+    },
+    {
+      "reviewer": "/root/employment_boundary_trace",
+      "verdict": "ACCEPT",
+      "sha256": "ad0d51109718404108f1c38d02315b60326762e325613201bf946dd904f71758",
+      "evidence_status": "observed_current_session_design_review_only"
+    },
+    {
+      "reviewer": "/root/roster_owner_review",
+      "verdict": "ACCEPT",
+      "sha256": "ad0d51109718404108f1c38d02315b60326762e325613201bf946dd904f71758",
+      "evidence_status": "observed_current_session_design_review_only"
+    },
+    {
+      "reviewer": "/root/roster_restaging_adversary",
+      "verdict": "ACCEPT",
+      "sha256": "ad0d51109718404108f1c38d02315b60326762e325613201bf946dd904f71758",
+      "evidence_status": "observed_current_session_design_review_only"
+    }
+  ],
+  "implementation_checks": [
+    "Known-state validation must precede locked existing-run no-op.",
+    "Real whole-drain repeated retry: one draft, one acknowledgment increment and one audit; locked new/provenance mismatch remain pending.",
+    "Changed pre-close source under period lock cannot refresh roster.",
+    "Controlled both-order close versus refresh tests under actual console_rt PostgreSQL."
+  ],
+  "limits": [
+    "Exact final-candidate CI, strict Clippy, final independent merge approval and merge-group proof pending.",
+    "Seeded statuses/calculations prove preservation only; no legal, payroll approval or payment acceptance.",
+    "Compatible persisted cross-build deployment rollback is unverified; original base is unsafe rollback.",
+    "Full HR/Org/Payroll/Foundry, authenticated UI, effective Employment serving, full-population publication, natural-person approval and two-site durability remain unaccepted."
+  ],
+  "test_source": {
+    "approved_test_commit": "ed7ad6bc2272ccad7c82142330dfaee35089fc20",
+    "CI_test_candidate": "603782a4fc4e12a78819a84975705f1195b1ae2b",
+    "reviewer": "/root/source_fidelity_adversary",
+    "verdict": "ACCEPT",
+    "scope": "Source/test/CI validity; not product or release acceptance"
+  },
+  "implementation_admission": {
+    "source_base": "ed7ad6bc2272ccad7c82142330dfaee35089fc20",
+    "reviewer": "/root/source_fidelity_adversary",
+    "verdict": "ACCEPT",
+    "source_commit": "b0a017a7eb1ca64bca420bc9167712345bb9f5e8",
+    "admission_command": "python3 backend-fork/tools/lanes/fanout.py admit --spec /Users/jasonlee/Developer/frontend/.artifacts/acceptance/payroll-roster-freeze/lane-spec.json",
+    "native_counts": {
+      "discovered": 32,
+      "executed": 32,
+      "passed": 21,
+      "failed": 11,
+      "skipped": 0,
+      "filtered": 0
+    },
+    "CI_run": 36745972591,
+    "CI_counts": {
+      "executed": 43,
+      "passed": 32,
+      "failed": 11,
+      "skipped": 0,
+      "filtered": 0
+    },
+    "receipt_sha256": "8d6f5e6e7f259955d244681a5679ffaeed5d79b1464b8379f9bd2dbadeab1e2f",
+    "admission_cwd": "/Users/jasonlee/Developer/frontend/.worktrees/payroll-roster-freeze"
+  },
+  "native_green": {
+    "path": ".artifacts/acceptance/payroll-roster-freeze/run-20260930T170020.794610Z/report.json",
+    "sha256": "20a8b9162859fd2e4c5c22695aa063c789506195625bb75081183f78d9d228b7",
+    "runner_sha256": "27ec72c032674a94eda65863937689adc9d81e7ec833940961fb04a08c5bd390",
+    "suites": [
+      {
+        "name": "pay_run_port_as_runtime_role",
+        "discovered": 25,
+        "executed": 25,
+        "passed": 25,
+        "failed": 0,
+        "ignored": 0,
+        "measured": 0,
+        "filtered": 0,
+        "exit_code": 0
+      },
+      {
+        "name": "payroll_drain_period_lock",
+        "discovered": 7,
+        "executed": 7,
+        "passed": 7,
+        "failed": 0,
+        "ignored": 0,
+        "measured": 0,
+        "filtered": 0,
+        "exit_code": 0
+      }
+    ],
+    "same_named_probe": "lane-spec.json probe executed on new clean source HEAD; exact commands/environment in hashed report",
+    "postgres_version": "PostgreSQL 18.6 (Homebrew)",
+    "scope": "Real console_rt, scoped owner transactions/canonical commands/workflow outbox; not browser or two-site proof"
+  },
+  "code_reviews": [
+    {
+      "reviewer": "/root/source_fidelity_adversary",
+      "verdict": "CODE_APPROVE",
+      "candidate": "b0a017a7eb1ca64bca420bc9167712345bb9f5e8",
+      "scope": "Bounded source with all 32 tests green; final metadata/CI/merge verdict required separately"
+    },
+    {
+      "reviewer": "/root/roster_owner_review",
+      "verdict": "CODE_APPROVE",
+      "candidate": "b0a017a7eb1ca64bca420bc9167712345bb9f5e8",
+      "scope": "Bounded source with all 32 tests green; final metadata/CI/merge verdict required separately"
+    }
+  ]
+}

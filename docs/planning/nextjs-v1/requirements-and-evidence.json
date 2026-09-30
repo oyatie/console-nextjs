@@ -131,10 +131,21 @@
       "responsible_profiles": "preparer, independent approver, reconciler, worker",
       "required_screens": "Population/coverage, source readiness, calculation/rule trace, comparison, approval, payslip/publication, transfer reconciliation, retro/year-end/severance",
       "required_workflow_and_acceptance": "Include proration, hourly/monthly work, overtime/night/holiday, absence/leave, multiple employment, ordinary/average/minimum bases, separate tax/insurance bases/caps/rounding, deductions/refunds and DB/DC/IRP/severance. Distinguish liability, approval, cash submission/partial/unknown/settled, journals and document delivery. Account for every target person and amount. Payslip timing does not wait blindly for bank success.",
-      "implementation_owners": [],
-      "contracts": [],
-      "tests": [],
-      "evidence": [],
+      "implementation_owners": [
+        "console_payroll_adapter_postgres::roster",
+        "console_payroll_adapter_postgres::pay_run",
+        "console_workflow_runtime_adapter_postgres::drain_payroll_job_outbox"
+      ],
+      "contracts": [
+        "Bounded existing payroll.create_run / PayrollDraftStaging owner paths: exact Company/run/period; pre-close refresh; known frozen no-op; locked-existing acknowledgment without refresh. Full module contract unverified."
+      ],
+      "tests": [
+        "pay_run_port_as_runtime_role: 25 real PostgreSQL cases",
+        "payroll_drain_period_lock: 7 real PostgreSQL cases"
+      ],
+      "evidence": [
+        "payroll-roster-restage-evidence.json: source b0a017a; 32/32 native pass; 11 intended red failures; independent code approval. Full module/GUI/rollback/two-site acceptance remains unverified."
+      ],
       "status": "unverified"
     },
     {
@@ -675,10 +686,21 @@
       "responsible_profiles": "steward, operator",
       "required_screens": "Rules, legal source/effectivity, applicability, tests/traces, review/publication/rollback, trigger/run inspector",
       "required_workflow_and_acceptance": "Event/time/object-set → bounded complete population → versioned rule → proposal or authorized action → accountable outcome. Prevent partial scans, loops and retroactive law rewrites. Legal floors override invalid customer configuration.",
-      "implementation_owners": [],
-      "contracts": [],
-      "tests": [],
-      "evidence": [],
+      "implementation_owners": [
+        "console_payroll_adapter_postgres::roster",
+        "console_payroll_adapter_postgres::pay_run",
+        "console_workflow_runtime_adapter_postgres::drain_payroll_job_outbox"
+      ],
+      "contracts": [
+        "Bounded existing payroll.create_run / PayrollDraftStaging owner paths: exact Company/run/period; pre-close refresh; known frozen no-op; locked-existing acknowledgment without refresh. Full module contract unverified."
+      ],
+      "tests": [
+        "pay_run_port_as_runtime_role: 25 real PostgreSQL cases",
+        "payroll_drain_period_lock: 7 real PostgreSQL cases"
+      ],
+      "evidence": [
+        "payroll-roster-restage-evidence.json: source b0a017a; 32/32 native pass; 11 intended red failures; independent code approval. Full module/GUI/rollback/two-site acceptance remains unverified."
+      ],
       "status": "unverified"
     },
     {
@@ -4006,6 +4028,20 @@
         "Current-at-emission revocation race and two-site safe-read barrier",
         "Full B17 audit/compliance lifecycle unverified",
         "Full product/release acceptance unverified"
+      ]
+    },
+    {
+      "scope": "Bounded B06/P07 payroll source-basis preservation and workflow acknowledgment recovery; full modules and release remain unaccepted",
+      "source_commit": "b0a017a7eb1ca64bca420bc9167712345bb9f5e8",
+      "status": "bounded_native_owner_fix_green_final_CI_pending",
+      "evidence_path": "docs/planning/nextjs-v1/payroll-roster-restage-evidence.json",
+      "sha256": "bbead4fc08d9d094f025f72ba6a9f3ee271bfa8aeb638b17dca51fbfbf959e70",
+      "remaining_holds": [
+        "Seeded statuses/calculations prove preservation only; no legal/tax calculation, natural-person approval, payable amount or payment acceptance.",
+        "PostgreSQL stage commit/ack interruption is injected after actual owner commit; no process-crash or two-site durability proof.",
+        "Raw SQL writers and mutable source records are separate unverified boundaries.",
+        "No authenticated Next HR/Org/Payroll/Foundry UI, effective Employment serving, full payroll population/publication, institution integration or deployment.",
+        "Two-site barriers/fencing/safe reads and full module/release acceptance remain HOLD."
       ]
     }
   ]

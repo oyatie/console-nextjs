@@ -197,8 +197,52 @@ ON CONFLICT (org_id, run_id, employee_source_key) DO UPDATE SET
     source_data_import_row_ids = EXCLUDED.source_data_import_row_ids
 "#;
 
+/// Validate the exact scoped run and hold its lifecycle lock through refresh.
+/// Known closed states are accepted without changing their reviewed basis.
+pub(crate) async fn lock_refreshable_run_in_tx(
+    tx: &mut Transaction<'_, Postgres>,
+    org_id: Uuid,
+    run_id: Uuid,
+    period_start: Date,
+    period_end: Date,
+) -> Result<bool, sqlx::Error> {
+    let status: String = sqlx::query_scalar(
+        "SELECT status FROM payroll_draft_runs \
+         WHERE org_id = $1 AND id = $2 AND period_start = $3 AND period_end = $4 \
+         FOR UPDATE",
+    )
+    .bind(org_id)
+    .bind(run_id)
+    .bind(period_start)
+    .bind(period_end)
+    .fetch_one(tx.as_mut())
+    .await?;
+    if crate::lifecycle::CLOSEABLE.contains(&status.as_str()) {
+        return Ok(true);
+    }
+    match status.as_str() {
+        "ATTENDANCE_CLOSED"
+        | "CALCULATING"
+        | "CALCULATED"
+        | "SUBMITTED"
+        | "REJECTED"
+        | "APPROVED"
+        | "DISBURSEMENT_SCHEDULED"
+        | "PAID"
+        | "ISSUED"
+        | "VOID" => Ok(false),
+        _ => Err(sqlx::Error::Protocol(
+            "unknown payroll run status".to_owned(),
+        )),
+    }
+}
+
 /// Materialise the roster for `run_id` from import runs declared for exactly
 /// this pay period.
+///
+/// Only pre-close runs refresh. The run lock is shared with attendance close,
+/// calculation and approval; a later restage cannot replace their source basis.
+/// Missing, foreign or mismatched-period runs and unknown states fail closed.
 ///
 /// Returns the number of lines written. An EMPTY result is not an error: the
 /// caller stages runs from a workflow drain that leaves a failed event PENDING
@@ -213,6 +257,9 @@ pub async fn materialise_roster_in_tx(
     period_start: Date,
     period_end: Date,
 ) -> Result<u64, sqlx::Error> {
+    if !lock_refreshable_run_in_tx(tx, org_id, run_id, period_start, period_end).await? {
+        return Ok(0);
+    }
     let done = sqlx::query(MATERIALISE_ROSTER_SQL)
         .bind(org_id)
         .bind(run_id)

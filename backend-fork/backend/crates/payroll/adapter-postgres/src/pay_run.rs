@@ -211,8 +211,10 @@ const INSERT_DRAFT_RUN_GATED_SQL: &str = "INSERT INTO payroll_draft_runs \
 /// The provenance check runs on every conflict either way.
 /// Materialise the roster for a staged run, in the caller's transaction.
 ///
-/// Called from EVERY success path of `stage_draft_run_inner`, including the
-/// idempotent one that returns `created = false`. Gating this on `created` would
+/// Called for new runs and existing runs whose period gate remains open,
+/// including the idempotent one that returns `created = false`. The shared
+/// roster owner permits refresh only before attendance close. Gating repair
+/// on `created` would
 /// mean a run whose header exists but whose roster was never written — because a
 /// previous attempt died between the two — could never acquire one, and after the
 /// close preflight learned to require `roster_total > 0` that run is stuck
@@ -276,6 +278,24 @@ async fn stage_draft_run_inner(
         if let Some((id, stored)) = existing {
             if !provenance_matches(&stored, &requested) {
                 return Err(StageDraftError::ProvenanceMismatch);
+            }
+            if let (Some(start), Some(end)) = (draft.period_start, draft.period_end) {
+                // Validate known state under the run lock before a locked-period
+                // no-op. Neither an unknown state nor a DB failure may become ack.
+                crate::roster::lock_refreshable_run_in_tx(tx, org_id, id, start, end).await?;
+                let locked: bool = sqlx::query_scalar(
+                    "SELECT EXISTS (SELECT 1 FROM period_locks \
+                     WHERE org_id = $1 AND domain = 'payroll' AND unlocked_at IS NULL \
+                       AND period_start <= $3 AND period_end >= $2)",
+                )
+                .bind(org_id)
+                .bind(start)
+                .bind(end)
+                .fetch_one(tx.as_mut())
+                .await?;
+                if locked {
+                    return Ok((id, false));
+                }
             }
             materialise_roster_for(tx, org_id, id, draft).await?;
             return Ok((id, false));

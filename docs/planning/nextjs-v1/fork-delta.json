@@ -1821,11 +1821,11 @@
         "mode": 420
       },
       "after": {
-        "sha256": "7d14cdb719863a1fcb2a5039813152c75260b90f333bbb1f14185f2ef4d79947",
-        "bytes": 130920,
+        "sha256": "e25cac41784d4ccd535bc86f192a9eb7b70025dd0254a7eda172387479ade06a",
+        "bytes": 129661,
         "mode": 420
       },
-      "reason": "Remove title-based self-approval exemptions in existing locked owner transactions; deny missing maker/checker, preserve author operations/history, pin purchase preparation and executive approval to source state and independent admin provenance. Real-session/runtime-RLS regression proofs."
+      "reason": "Remove title-based self-approval exemptions in existing locked owner transactions; deny missing maker/checker, preserve author operations/history, pin purchase preparation and executive approval to source state and independent admin provenance. Real-session/runtime-RLS regression proofs. Payroll restage integrity R3, source commit b0a017a: exact Company/run/period lifecycle lock and known-state guard; preserve frozen rosters; validate locked existing runs and propagate DB errors; delegate drain period/provenance decisions to the existing owner for interrupted acknowledgment recovery. No migration/API/codec change."
     },
     {
       "path": "backend/openapi/openapi.yaml",
@@ -1952,6 +1952,76 @@
         "mode": 420
       },
       "reason": "Regress the porcelain leading-space path truncation in the lane checker."
+    },
+    {
+      "path": "backend/crates/payroll/adapter-postgres/tests/pay_run_port_as_runtime_role.rs",
+      "before": {
+        "sha256": "af85e2962e5b6e45bf01aa14dd382497f7ee2fc0b7f7d1416174dae0f3869799",
+        "bytes": 53552,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "bfcd0446f48b2c54ee376986b24f35ba70af2dd1239a5eeacf7d345afad88a1c",
+        "bytes": 75932,
+        "mode": 420
+      },
+      "reason": "Test-first payroll roster restage integrity R3: actual runtime-role owner preservation, canonical and workflow retry/recovery, refusal and concurrent close ordering. Test fixtures are isolated; no product source change."
+    },
+    {
+      "path": "backend/crates/workflow/adapter-postgres/tests/payroll_drain_period_lock.rs",
+      "before": {
+        "sha256": "32cd4cef612f5444428f0da22d4952dfd680ec900469ec62d03ec38335f78685",
+        "bytes": 9935,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "76b0ba1e98982543b73cd37d35e09c03530da3ed0c9f59c3ac3e8293a72674d6",
+        "bytes": 23019,
+        "mode": 420
+      },
+      "reason": "Test-first payroll roster restage integrity R3: actual runtime-role owner preservation, canonical and workflow retry/recovery, refusal and concurrent close ordering. Test fixtures are isolated; no product source change."
+    },
+    {
+      "path": "backend/crates/payroll/adapter-postgres/src/roster.rs",
+      "before": {
+        "sha256": "26a04d1aad4bb59cfeab1ee5545e89cd7f06dd90f82c3efb0fbb3f7821b2009f",
+        "bytes": 12248,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "14445064cb64e26f279e87fc7ce23dc06f683982b207e5be69c71abffc8b3382",
+        "bytes": 13773,
+        "mode": 420
+      },
+      "reason": "Payroll restage integrity R3, source commit b0a017a: exact Company/run/period lifecycle lock and known-state guard; preserve frozen rosters; validate locked existing runs and propagate DB errors; delegate drain period/provenance decisions to the existing owner for interrupted acknowledgment recovery. No migration/API/codec change."
+    },
+    {
+      "path": "backend/crates/payroll/adapter-postgres/src/lifecycle.rs",
+      "before": {
+        "sha256": "070c1da569abd4dab31326f2d21953b480dd39d59b21cd5eed3df92b4aa401ae",
+        "bytes": 76183,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "8e9a114d50e97bb8d93e76e7da45c387ac0e4eb7d55b4222f9989ae3d557e20a",
+        "bytes": 76194,
+        "mode": 420
+      },
+      "reason": "Payroll restage integrity R3, source commit b0a017a: exact Company/run/period lifecycle lock and known-state guard; preserve frozen rosters; validate locked existing runs and propagate DB errors; delegate drain period/provenance decisions to the existing owner for interrupted acknowledgment recovery. No migration/API/codec change."
+    },
+    {
+      "path": "backend/crates/payroll/adapter-postgres/src/pay_run.rs",
+      "before": {
+        "sha256": "adfa4d1b1395f03af2853b412e9a65c64966f9a573f16e1b50e29cdaea2135e3",
+        "bytes": 41641,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "d921ee4a8687e152375455780e90ad4b609fd31abc6b6cd3da0ee0099244fca5",
+        "bytes": 42630,
+        "mode": 420
+      },
+      "reason": "Payroll restage integrity R3, source commit b0a017a: exact Company/run/period lifecycle lock and known-state guard; preserve frozen rosters; validate locked existing runs and propagate DB errors; delegate drain period/provenance decisions to the existing owner for interrupted acknowledgment recovery. No migration/API/codec change."
     }
   ],
   "notes": [
