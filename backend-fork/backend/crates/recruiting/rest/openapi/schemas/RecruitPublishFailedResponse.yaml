@@ -1,0 +1,12 @@
+allOf:
+- $ref: '#/components/schemas/ErrorBody'
+- type: object
+  description: A plain validation failure carries the error envelope only; the PREFLIGHT_FAILED gate additionally carries
+    the full check vector with publishable false.
+  properties:
+    checks:
+      type: array
+      items:
+        $ref: '#/components/schemas/RecruitPreflightCheck'
+    publishable:
+      type: boolean

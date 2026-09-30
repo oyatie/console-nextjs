@@ -1,0 +1,23 @@
+tags:
+  - platform
+operationId: listPlatformGroups
+summary: List platform groups and member organizations (platform vendor tier)
+description: Lists group identities and their subsidiary organization memberships. Platform token and GroupManage authority
+  required.
+security:
+- bearerAuth: []
+responses:
+  '200':
+    description: Platform groups with member organization identities.
+    content:
+      application/json:
+        schema:
+          type: array
+          items:
+            $ref: '#/components/schemas/PlatformGroup'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '503':
+    $ref: '#/components/responses/ServiceUnavailable'

@@ -1,0 +1,20 @@
+type: object
+description: >
+  The document that actually sets a number. The version anchor is 공포번호
+  (법령) or 발령번호 (고시) together with `enforced_on` — never a `flSeq`
+  file handle, three of which serve byte-identical 별표 2 content.
+required: [name_ko, article_ko, promulgation_ko, enforced_on, url, retrieved_on]
+properties:
+  name_ko: { type: string, description: 법령명 or 행정규칙명. }
+  article_ko:
+    type: string
+    description: The article carrying the number, quoted tightly enough to diff.
+  promulgation_ko: { type: string, description: 공포번호 (법령) or 발령번호 (고시). }
+  enforced_on:
+    type: string
+    format: date
+    description: >
+      시행일자 of the text quoted in `article_ko` — not the promulgation
+      date, and not the latest promulgated slice.
+  url: { type: string }
+  retrieved_on: { type: string, format: date }

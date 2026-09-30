@@ -1,0 +1,49 @@
+operationId: aggregateOntologyInstances
+summary: Aggregate object instances of a type
+description: |
+  Returns subject-scoped GROUP BY counts over current-state instances of one object type
+  without materialising rows. Uses the same Cedar residual lowering as the list path
+  (deny-by-omission / forbid-wins). group_by is allowlisted: lifecycle_state, object_type_id,
+  or attribute (requires attribute_key naming a declared property).
+tags:
+- Ontology
+security:
+- bearerAuth: []
+parameters:
+- name: type
+  in: query
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+- name: group_by
+  in: query
+  required: true
+  schema:
+    type: string
+    enum:
+    - lifecycle_state
+    - object_type_id
+    - attribute
+- name: attribute_key
+  in: query
+  required: false
+  description: Declared property key; required when group_by=attribute.
+  schema:
+    type: string
+responses:
+  '200':
+    description: Aggregate buckets (group key + count) for the visible residual.
+    content:
+      application/json:
+        schema:
+          type: array
+          items:
+            $ref: '#/components/schemas/OntologyInstanceAggregateBucket'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '422':
+    $ref: '#/components/responses/ValidationError'
+  '503':
+    $ref: '#/components/responses/ServiceUnavailable'

@@ -1,0 +1,69 @@
+tags:
+  - me
+operationId: listMyActionInbox
+summary: Unified action inbox for the authenticated principal
+description: >-
+  One server-side fan-in of the caller's actionable items across every
+  source that owns a person-scoped list: workflow/approval tasks awaiting
+  the caller (the ?assignee=me path), pending P1 dispatch offers, support
+  tickets assigned to the caller, and work orders assigned to the caller.
+  Each source is queried through the exact predicate its own list endpoint
+  uses, so the aggregate never widens visibility (deny-by-omission). Items
+  are bucketed by urgency (now/today/wait) with a derived due tone. Fields
+  the overview prototype carries but no backend source can supply are
+  omitted (entity, amount, detail, files, stats, mailId); site/who/submitted
+  are present only for the sources that carry them. Attendance exceptions
+  are not aggregated (no exception object exists yet). Results use an
+  immutable `(created_at, kind:id)` traversal key plus an `as_of` admission
+  boundary, so rows created after the first page are excluded. Membership is
+  deliberately live rather than a repeatable full-state snapshot: resolved,
+  reassigned, or expired rows can disappear between page requests. Totals are
+  recalculated from live membership admitted by `as_of`; `total_is_exact` is
+  false when an authorization-filtered source reaches its bounded counting
+  budget. Source failures fail the whole request rather than returning a
+  deceptively partial queue.
+security:
+- bearerAuth: []
+parameters:
+- name: limit
+  in: query
+  required: false
+  description: Page size, clamped server-side to 1..=200.
+  schema:
+    type: integer
+    minimum: 1
+    maximum: 200
+    default: 100
+- name: cursor
+  in: query
+  required: false
+  description: Opaque immutable-traversal cursor returned as `next_cursor` by the previous page.
+  schema:
+    type: string
+responses:
+  '200':
+    description: The caller's actionable items in immutable creation order.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ActionInboxResponse'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '422':
+    description: The action-inbox cursor is malformed.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ErrorBody'
+  '500':
+    description: A source failed; no partial action-inbox response is returned.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ErrorBody'
+  '503':
+    description: JWT verification is not configured.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ErrorBody'

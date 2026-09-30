@@ -1,0 +1,49 @@
+tags:
+  - location
+operationId: listArrivalEvents
+summary: Read the site arrival/departure events log (#13)
+description: Ops-facing feed of mechanic site arrivals/departures derived from on-duty location pings (geofenced). OpsDashboardRead-gated;
+  tenant + branch scoped.
+security:
+- bearerAuth: []
+parameters:
+- name: user_id
+  in: query
+  required: false
+  schema:
+    $ref: '#/components/schemas/Uuid'
+- name: branch_id
+  in: query
+  required: false
+  schema:
+    $ref: '#/components/schemas/Uuid'
+- name: limit
+  in: query
+  required: false
+  schema:
+    type: integer
+    format: int64
+    minimum: 1
+    maximum: 1000
+    default: 100
+- name: offset
+  in: query
+  required: false
+  schema:
+    type: integer
+    format: int64
+    minimum: 0
+    default: 0
+responses:
+  '200':
+    description: Paged site arrival/departure events.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ArrivalEventPage'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '422':
+    $ref: '#/components/responses/ValidationError'

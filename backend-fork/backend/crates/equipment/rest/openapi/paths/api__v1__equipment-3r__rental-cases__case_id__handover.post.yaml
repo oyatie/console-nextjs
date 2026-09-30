@@ -1,0 +1,13 @@
+tags: [equipment-3r]
+operationId: handoverEquipment3rCase
+summary: Customer handover with immutable evidence; unit goes ON_RENT
+security: [{ bearerAuth: [] }]
+parameters: [{ name: case_id, in: path, required: true, schema: { $ref: '#/components/schemas/Uuid' } }]
+requestBody: { required: true, content: { application/json: { schema: { type: object, required: [recipientName, evidenceObjectId, handedOverAt], properties: { recipientName: { type: string, minLength: 1, maxLength: 160 }, evidenceObjectId: { $ref: '#/components/schemas/Uuid' }, handedOverAt: { type: string, format: date-time } } } } } }
+responses:
+  '200': { description: Case handed over, content: { application/json: { schema: { $ref: '#/components/schemas/Equipment3rCaseView' } } } }
+  '401': { $ref: '#/components/responses/Unauthorized' }
+  '403': { $ref: '#/components/responses/Forbidden' }
+  '404': { description: Unknown or cross-org case }
+  '409': { description: Case not DISPATCHED }
+  '422': { $ref: '#/components/responses/ValidationError' }

@@ -1,0 +1,20 @@
+type: object
+required:
+- branch_id
+- management_no
+- symptom
+properties:
+  branch_id:
+    $ref: '#/components/schemas/Uuid'
+  management_no:
+    type: string
+  symptom:
+    type: string
+  customer_request:
+    type: string
+  target_due_at:
+    $ref: '#/components/schemas/Timestamp'
+  maintenance_type:
+    $ref: '#/components/schemas/MaintenanceType'
+  maintenance_cause:
+    $ref: '#/components/schemas/MaintenanceCause'

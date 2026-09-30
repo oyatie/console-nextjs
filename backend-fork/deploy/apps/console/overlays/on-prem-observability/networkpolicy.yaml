@@ -1,0 +1,47 @@
+# NetworkPolicy additions for the DARK observability activation overlay.
+# They are intentionally outside base/prod/on-prem so clusters that have not
+# synced deploy/apps/observability/manifests are not coupled to a missing
+# collector. The namespace selector matches labels on
+# deploy/apps/observability/manifests/namespace.yaml.
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-app-egress-otel-collector
+  namespace: console
+spec:
+  podSelector:
+    matchExpressions:
+      - { key: app, operator: In, values: [console-app, console-worker] }
+  policyTypes: [Egress]
+  egress:
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              app.kubernetes.io/name: console-observability
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/name: otel-collector
+      ports:
+        - { protocol: TCP, port: 4317 }
+---
+# Let the self-hosted OTel Collector's Prometheus receiver mirror the same
+# console-app /metrics target used by components/monitoring/servicemonitor.yaml.
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-console-app-metrics-from-otel-collector
+  namespace: console
+spec:
+  podSelector:
+    matchLabels: { app: console-app }
+  policyTypes: [Ingress]
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              app.kubernetes.io/name: console-observability
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/name: otel-collector
+      ports:
+        - { protocol: TCP, port: 8080 }

@@ -1,0 +1,35 @@
+tags:
+  - workflow-studio
+operationId: updateWorkflowSchedule
+summary: Update a workflow cron schedule (label, cron, timezone, enabled)
+description: Changing the cron pattern or timezone, or re-enabling, recomputes next_run_at from now. Schedules are
+  durable objects — disable instead of delete (run history stays dereferenceable).
+security:
+- bearerAuth: []
+parameters:
+- name: id
+  in: path
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/UpdateWorkflowScheduleRequest'
+responses:
+  '200':
+    description: Updated workflow schedule.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/WorkflowScheduleResponse'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '422':
+    $ref: '#/components/responses/ValidationError'

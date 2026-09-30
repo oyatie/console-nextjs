@@ -1,0 +1,21 @@
+tags:
+  - work-orders
+operationId: createOutsourceWork
+summary: Create an outsource work request for a work order
+security:
+- bearerAuth: []
+parameters:
+- $ref: '#/components/parameters/WorkOrderId'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/CreateOutsourceWorkRequest'
+responses:
+  '201':
+    description: Outsource work created.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/OutsourceWorkSummary'

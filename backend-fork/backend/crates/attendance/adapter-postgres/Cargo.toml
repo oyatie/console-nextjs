@@ -1,0 +1,29 @@
+[package]
+name = "console-attendance-adapter-postgres"
+version = "0.1.0"
+description = "Tenant-scoped Postgres adapter for attendance operations."
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+console-attendance-application = { path = "../application" }
+console-attendance-domain = { path = "../domain" }
+console-kernel-core = { workspace = true }
+console-platform-db = { workspace = true }
+serde_json = { workspace = true }
+sha2 = { workspace = true }
+hex = { workspace = true }
+sqlx = { workspace = true }
+thiserror = { workspace = true }
+time = { workspace = true }
+uuid = { workspace = true }
+
+[dev-dependencies]
+console-platform-request-context = { workspace = true }
+console-platform-test-support = { workspace = true }
+tokio = { workspace = true, features = ["macros", "rt-multi-thread", "sync", "time"] }
+
+[lints]
+workspace = true

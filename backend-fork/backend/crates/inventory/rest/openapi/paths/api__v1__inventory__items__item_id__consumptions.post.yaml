@@ -1,0 +1,13 @@
+tags: [inventory]
+operationId: consumeInventoryItem
+summary: Record an idempotent, non-negative inventory consumption
+security: [{ bearerAuth: [] }]
+parameters: [{ name: item_id, in: path, required: true, schema: { $ref: '#/components/schemas/Uuid' } }]
+requestBody: { required: true, content: { application/json: { schema: { $ref: '#/components/schemas/ConsumeInventoryItemRequest' } } } }
+responses:
+  '200': { description: Consumption result, content: { application/json: { schema: { $ref: '#/components/schemas/InventoryConsumptionResult' } } } }
+  '401': { $ref: '#/components/responses/Unauthorized' }
+  '403': { $ref: '#/components/responses/Forbidden' }
+  '404': { $ref: '#/components/responses/NotFound' }
+  '409': { $ref: '#/components/responses/Conflict' }
+  '422': { $ref: '#/components/responses/ValidationError' }

@@ -1,0 +1,12 @@
+type: object
+required:
+- task
+- run
+properties:
+  task:
+    $ref: '#/components/schemas/FinalizedWorkflowTask'
+  run:
+    $ref: '#/components/schemas/FinalizedWorkflowRun'
+  archive_ref:
+    type: object
+    additionalProperties: true

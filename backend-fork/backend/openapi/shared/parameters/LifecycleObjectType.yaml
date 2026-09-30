@@ -1,0 +1,6 @@
+      name: objectType
+      in: path
+      required: true
+      schema:
+        type: string
+        pattern: '^[a-z][a-z0-9_]{1,63}$'

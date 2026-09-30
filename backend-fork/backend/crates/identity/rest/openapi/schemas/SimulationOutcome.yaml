@@ -1,0 +1,7 @@
+type: object
+required: [effect, determining_policies, errors, reason]
+properties:
+  effect: { type: string, enum: [allow, deny] }
+  determining_policies: { type: array, items: { type: string } }
+  errors: { type: array, items: { type: string } }
+  reason: { type: string }

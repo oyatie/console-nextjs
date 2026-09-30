@@ -1,0 +1,23 @@
+tags:
+  - equipment
+operationId: deleteEquipment
+summary: Soft-delete one equipment master row
+description: Admin-gated (EquipmentManage). Marks the row 폐기 (disposed) rather than hard-deleting, so work-order and
+  substitution references stay intact.
+security:
+- bearerAuth: []
+parameters:
+- $ref: '#/components/parameters/EquipmentId'
+responses:
+  '204':
+    description: Equipment soft-deleted.
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '409':
+    $ref: '#/components/responses/Conflict'
+  '503':
+    description: JWT verification is not configured.

@@ -1,0 +1,54 @@
+tags:
+  - leave
+operationId: listLeaveRequestsV2
+summary: List the branch-scoped leave-request approval queue (연차 결재함)
+description: >-
+  Pending-first, then newest. Requires `employee_directory_read`. The
+  queue is confined to the caller's branches (resolved from the JWT); an
+  out-of-scope request is invisible (deny-by-omission).
+security:
+- bearerAuth: []
+parameters:
+- name: status
+  in: query
+  required: false
+  description: >-
+    Filter to one status; omitted returns every status, including the
+    read-only historical `returned`/`rejected` rows.
+  schema:
+    type: string
+    enum: [pending, approved, time_change_consult, returned, rejected]
+- name: limit
+  in: query
+  required: false
+  description: Page size for the stable pending-first queue.
+  schema:
+    type: integer
+    format: int64
+    minimum: 1
+    maximum: 200
+    default: 100
+- name: cursor
+  in: query
+  required: false
+  description: Last request id from the preceding branch-scoped page.
+  schema:
+    type: string
+    format: uuid
+responses:
+  '200':
+    description: A branch-scoped page of leave requests.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/LeaveRequestV2Page'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '503':
+    description: JWT verification is not configured.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ErrorBody'

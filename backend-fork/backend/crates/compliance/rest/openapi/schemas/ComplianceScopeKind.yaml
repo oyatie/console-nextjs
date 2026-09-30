@@ -1,0 +1,2 @@
+type: string
+enum: [ORG, BRANCH, SITE, TEAM, ROLE]

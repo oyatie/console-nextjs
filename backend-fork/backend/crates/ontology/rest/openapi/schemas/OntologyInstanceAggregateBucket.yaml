@@ -1,0 +1,12 @@
+type: object
+required:
+- count
+properties:
+  key:
+    type: string
+    nullable: true
+    description: Text form of the group value; null when the attribute is absent.
+  count:
+    type: integer
+    format: int64
+    minimum: 0

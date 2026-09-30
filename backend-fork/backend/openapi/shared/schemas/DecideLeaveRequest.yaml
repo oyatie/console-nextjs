@@ -1,0 +1,5 @@
+      type: object
+      required: [decision]
+      properties:
+        decision: { type: string, enum: [APPROVE, REJECT] }
+        note: { type: string, nullable: true }

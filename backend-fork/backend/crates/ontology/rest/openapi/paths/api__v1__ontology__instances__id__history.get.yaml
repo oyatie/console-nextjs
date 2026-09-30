@@ -1,0 +1,31 @@
+operationId: listOntologyInstanceHistory
+summary: List an instance's revision history
+description: Returns the append-only, fixity-chained revision timeline for one instance (hash-verified).
+tags:
+- Ontology
+security:
+- bearerAuth: []
+parameters:
+- name: id
+  in: path
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+responses:
+  '200':
+    description: Revision history for the instance.
+    content:
+      application/json:
+        schema:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '503':
+    $ref: '#/components/responses/ServiceUnavailable'

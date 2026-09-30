@@ -1,0 +1,11 @@
+type: object
+required:
+- lines
+properties:
+  lines:
+    type: array
+    minItems: 1
+    items:
+      $ref: '#/components/schemas/SettlementLineRequest'
+  note:
+    type: string

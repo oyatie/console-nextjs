@@ -1,0 +1,27 @@
+      type: object
+      required:
+      - method
+      - url
+      - headers
+      - expires_in_secs
+      properties:
+        method:
+          type: string
+          enum:
+          - PUT
+        url:
+          type: string
+          format: uri
+        headers:
+          type: array
+          items:
+            type: array
+            prefixItems:
+            - type: string
+            - type: string
+            minItems: 2
+            maxItems: 2
+        expires_in_secs:
+          type: integer
+          format: int64
+          minimum: 1

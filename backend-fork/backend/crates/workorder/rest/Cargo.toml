@@ -1,0 +1,42 @@
+[package]
+name = "console-workorder-rest"
+version = "0.1.0"
+description = "REST API for work-order lifecycle use cases."
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+console-contracts = { path = "../../contracts" }
+axum = { workspace = true }
+http = { workspace = true }
+console-kernel-core = { workspace = true }
+console-platform-auth = { path = "../../platform/auth" }
+console-platform-authz = { path = "../../platform/authz" }
+console-platform-db = { workspace = true }
+console-platform-jobs = { workspace = true }
+console-platform-request-context = { workspace = true }
+console-platform-storage = { workspace = true }
+console-workflow-domain = { workspace = true }
+console-workflow-runtime = { workspace = true }
+console-workflow-runtime-adapter-postgres = { workspace = true }
+console-workorder-adapter-postgres = { workspace = true }
+console-workorder-application = { workspace = true }
+console-workorder-domain = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+sha2 = { workspace = true }
+hex = { workspace = true }
+sqlx = { workspace = true }
+time = { workspace = true }
+tracing = { workspace = true }
+uuid = { workspace = true }
+
+[dev-dependencies]
+console-platform-test-support = { workspace = true }
+p256 = { version = "0.13.2", features = ["ecdsa", "pkcs8", "pem"] }
+tower = { workspace = true, features = ["util"] }
+
+[lints]
+workspace = true

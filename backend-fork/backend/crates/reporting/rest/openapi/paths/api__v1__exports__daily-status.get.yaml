@@ -1,0 +1,37 @@
+tags:
+  - exports
+operationId: getDailyStatusExport
+summary: Export the daily work-progress status workbook
+description: Fills the real 일일업무진행현황 Excel template from live work-order, daily-plan, and regular-inspection schedule
+  data for the requested date.
+security:
+- bearerAuth: []
+parameters:
+- $ref: '#/components/parameters/ReportDate'
+responses:
+  '200':
+    description: Daily status workbook.
+    headers:
+      Content-Disposition:
+        schema:
+          type: string
+        description: Attachment filename for the generated workbook.
+    content:
+      application/vnd.openxmlformats-officedocument.spreadsheetml.sheet:
+        schema:
+          type: string
+          format: binary
+  '400':
+    $ref: '#/components/responses/ValidationError'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '422':
+    $ref: '#/components/responses/ValidationError'
+  '503':
+    description: JWT verification is not configured.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ErrorBody'

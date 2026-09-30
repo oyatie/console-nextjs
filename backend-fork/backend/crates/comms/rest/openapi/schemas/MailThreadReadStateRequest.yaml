@@ -1,0 +1,7 @@
+type: object
+required:
+- seen
+properties:
+  seen:
+    type: boolean
+    description: True marks inbound messages in the thread read; false marks them unread.

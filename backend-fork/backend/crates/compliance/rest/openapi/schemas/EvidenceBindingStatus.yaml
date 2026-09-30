@@ -1,0 +1,2 @@
+type: string
+enum: [PROPOSED, ACCEPTED, REJECTED, EXPIRED, RETRACTED]

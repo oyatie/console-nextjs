@@ -1,0 +1,16 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "INSERT INTO audit_events\n               (id, action, target_type, target_id, trace_id, span_id, occurred_at)\n               VALUES (gen_random_uuid(), $1, 'test', 'x',\n                       $2, $3, now())",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Text",
+        "Bpchar",
+        "Bpchar"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "caefe82c377b0edfa79163e146077cce095b52bbc207d2f71f1a8ba74734e096"
+}

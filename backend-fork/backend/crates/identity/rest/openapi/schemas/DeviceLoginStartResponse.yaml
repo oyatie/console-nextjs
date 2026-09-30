@@ -1,0 +1,14 @@
+type: object
+required:
+- poll_token
+- approve_url
+- expires_at
+properties:
+  poll_token:
+    type: string
+    description: Desktop-only token used to poll for approval.
+  approve_url:
+    type: string
+    description: Phone QR URL carrying the approve token in the URL fragment.
+  expires_at:
+    $ref: '#/components/schemas/Timestamp'

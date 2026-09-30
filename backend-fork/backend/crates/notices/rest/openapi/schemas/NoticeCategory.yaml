@@ -1,0 +1,2 @@
+type: string
+enum: [general, legal, hr_order, training]

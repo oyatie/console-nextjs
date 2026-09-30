@@ -1,0 +1,12 @@
+type: object
+required: [id, sequence, status, output_quantity, scrap_quantity, downtime_minutes, version]
+properties:
+  id: {$ref: '#/components/schemas/Uuid'}
+  sequence: {type: integer}
+  status: {type: string, enum: [PENDING, RELEASED, RECORDED]}
+  output_quantity: {type: integer, format: int64}
+  scrap_quantity: {type: integer, format: int64}
+  downtime_minutes: {type: integer}
+  quality_evidence_ref: {type: [string, 'null']}
+  quality_passed: {type: [boolean, 'null']}
+  version: {type: integer}

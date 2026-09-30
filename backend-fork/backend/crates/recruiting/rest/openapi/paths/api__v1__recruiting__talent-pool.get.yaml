@@ -1,0 +1,17 @@
+tags:
+- recruiting
+operationId: listRecruitTalentPool
+summary: Rejected-applicant archive (talent pool)
+security:
+- bearerAuth: []
+responses:
+  '200':
+    description: Talent-pool rows, newest rejection first.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/RecruitTalentPoolListResponse'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'

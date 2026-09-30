@@ -1,0 +1,19 @@
+type: object
+required:
+- domain
+- periodStart
+- periodEnd
+- reason
+properties:
+  domain:
+    type: string
+    enum: [payroll, accounting]
+  periodStart:
+    type: string
+    format: date
+  periodEnd:
+    type: string
+    format: date
+  reason:
+    type: string
+    minLength: 1

@@ -1,0 +1,23 @@
+[package]
+name = "console-logistics-rest"
+version = "0.1.0"
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+console-contracts = { path = "../../contracts" }
+axum = { workspace = true }
+console-kernel-core = { workspace = true }
+console-logistics-adapter-postgres = { workspace = true }
+console-platform-auth = { workspace = true }
+console-platform-authz = { workspace = true }
+console-platform-request-context = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+time = { workspace = true }
+uuid = { workspace = true }
+
+[lints]
+workspace = true

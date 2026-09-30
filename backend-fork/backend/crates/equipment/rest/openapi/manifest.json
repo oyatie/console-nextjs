@@ -1,0 +1,65 @@
+{
+  "source": "console-equipment-rest",
+  "paths": {
+    "/api/v1/equipment": [
+      "get",
+      "post"
+    ],
+    "/api/v1/equipment-3r/dispositions/{disposition_id}/completion": [
+      "post"
+    ],
+    "/api/v1/equipment-3r/rental-cases": [
+      "get",
+      "post"
+    ],
+    "/api/v1/equipment-3r/rental-cases/{case_id}": [
+      "get"
+    ],
+    "/api/v1/equipment-3r/rental-cases/{case_id}/approval": [
+      "post"
+    ],
+    "/api/v1/equipment-3r/rental-cases/{case_id}/assessment": [
+      "post"
+    ],
+    "/api/v1/equipment-3r/rental-cases/{case_id}/dispatch": [
+      "post"
+    ],
+    "/api/v1/equipment-3r/rental-cases/{case_id}/handover": [
+      "post"
+    ],
+    "/api/v1/equipment-3r/rental-cases/{case_id}/inspections": [
+      "post"
+    ],
+    "/api/v1/equipment-3r/rental-cases/{case_id}/return": [
+      "post"
+    ],
+    "/api/v1/equipment-3r/units": [
+      "get",
+      "post"
+    ],
+    "/api/v1/equipment-3r/units/{unit_id}": [
+      "get"
+    ],
+    "/api/v1/equipment-3r/units/{unit_id}/history": [
+      "get"
+    ]
+  },
+  "schemas": [
+    "CreateEquipmentRequest",
+    "CreateEquipmentResponse",
+    "Equipment3rCaseDetailView",
+    "Equipment3rCaseView",
+    "Equipment3rDispositionView",
+    "Equipment3rHistoryEntry",
+    "Equipment3rInspectionView",
+    "Equipment3rUnitDetailView",
+    "Equipment3rUnitView",
+    "EquipmentAutocompletePage"
+  ],
+  "external_schemas": [
+    "EquipmentLookupResponse",
+    "EquipmentStatus",
+    "NamedEntity",
+    "Uuid"
+  ]
+}

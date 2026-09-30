@@ -1,0 +1,59 @@
+type: object
+required:
+- id
+- kind
+- visibility
+- visibility
+- muted
+- branch_id
+- title
+- work_order_id
+- muted
+- last_message_id
+- last_message_at
+- member_count
+- unread_count
+- created_at
+- updated_at
+properties:
+  id:
+    $ref: '#/components/schemas/Uuid'
+  kind:
+    $ref: '#/components/schemas/MessengerThreadKind'
+  visibility:
+    $ref: '#/components/schemas/MessengerThreadVisibility'
+  muted:
+    type: boolean
+    description: Whether the caller has muted this thread (excluded from the unread badge total; mentions suppressed).
+  branch_id:
+    $ref: '#/components/schemas/Uuid'
+  title:
+    type:
+    - string
+    - 'null'
+  work_order_id:
+    type:
+    - string
+    - 'null'
+    format: uuid
+  last_message_id:
+    type:
+    - string
+    - 'null'
+    format: uuid
+  last_message_at:
+    type:
+    - string
+    - 'null'
+    format: date-time
+  member_count:
+    type: integer
+    format: int64
+  unread_count:
+    type: integer
+    format: int64
+    description: Messages newer than the caller's read receipt, excluding messages sent by the caller.
+  created_at:
+    $ref: '#/components/schemas/Timestamp'
+  updated_at:
+    $ref: '#/components/schemas/Timestamp'

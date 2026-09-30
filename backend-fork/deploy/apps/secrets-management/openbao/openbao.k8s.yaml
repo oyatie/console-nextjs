@@ -1,0 +1,119 @@
+# OpenBao — the portable secrets/KMS substrate for Maintenance (ADR-0024 roadmap
+# item 2, "Complete portable self-host secrets"). Lifted from the sibling Oyatie project
+# (full-license reuse; source infra/kms/openbao.k8s.yaml, ADR-0043 topology).
+#
+# Backs the External Secrets Operator via the Vault wire protocol (OpenBao speaks
+# it). File storage is BARRIER-ENCRYPTED by the seal, so secrets are never at rest
+# in plaintext; unseal is Shamir. This ends the out-of-band `kubectl create secret`
+# rebuild dependency (deploy/SECRETS.md) — secrets become GitOps-portable.
+#
+# STAGE / SIZING: single-node here (this cluster is one small OCI node). The HA
+# target (ADR-0024 bare-metal `on-prem` context) runs OpenBao as a 3-node Raft
+# cluster — swap `storage "file"` for `storage "raft"` + replicas: 3 + a
+# headless Service there. Kept single-node + file storage now: proven, minimal.
+#
+# NOTE: init unseal-keys + root-token are generated at runtime (`bao operator
+# init`) and stored OUT of the cluster (OCI Vault / offline) per the README
+# runbook — NEVER committed. No secret value appears in this manifest.
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: console-kms
+  labels:
+    app.kubernetes.io/part-of: console-substrate
+    # Restricted PSS: OpenBao runs non-root, no added caps (securityContext below).
+    pod-security.kubernetes.io/enforce: restricted
+    pod-security.kubernetes.io/enforce-version: latest
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: openbao-config
+  namespace: console-kms
+data:
+  openbao.hcl: |
+    storage "file" { path = "/openbao/data" }   # barrier-encrypted at rest
+    listener "tcp" {
+      address     = "0.0.0.0:8200"
+      tls_disable = true   # in-cluster only; mTLS via the service mesh (follow-up)
+    }
+    api_addr     = "http://openbao.console-kms.svc.cluster.local:8200"
+    cluster_addr = "http://openbao.console-kms.svc.cluster.local:8201"
+    ui        = true
+    log_level = "info"
+    default_lease_ttl = "768h"
+    max_lease_ttl     = "8760h"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: openbao-data
+  namespace: console-kms
+spec:
+  accessModes: ["ReadWriteOnce"]
+  resources: { requests: { storage: 2Gi } }
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: openbao
+  namespace: console-kms
+  labels:
+    app.kubernetes.io/name: openbao
+    app.kubernetes.io/part-of: console-substrate
+spec:
+  replicas: 1
+  strategy: { type: Recreate }
+  selector: { matchLabels: { app.kubernetes.io/name: openbao } }
+  template:
+    metadata:
+      labels: { app.kubernetes.io/name: openbao }
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 100
+        runAsGroup: 1000
+        fsGroup: 1000
+        seccompProfile: { type: RuntimeDefault }
+      containers:
+        - name: openbao
+          # renovate: datasource=docker depName=ghcr.io/openbao/openbao
+          image: ghcr.io/openbao/openbao:2.5.5
+          imagePullPolicy: IfNotPresent
+          args: ["server", "-config=/openbao/config/openbao.hcl"]
+          ports:
+            - { name: http, containerPort: 8200 }
+            - { name: cluster, containerPort: 8201 }
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities: { drop: ["ALL"] }
+          resources:
+            requests: { cpu: 100m, memory: 128Mi }
+            limits: { cpu: "1", memory: 512Mi }
+          volumeMounts:
+            - { name: config, mountPath: /openbao/config }
+            - { name: data, mountPath: /openbao/data }
+          readinessProbe:                       # TCP — HTTP /health is non-200 while sealed
+            tcpSocket: { port: http }
+            initialDelaySeconds: 5
+            periodSeconds: 10
+      volumes:
+        - name: config
+          configMap: { name: openbao-config }
+        - name: data
+          persistentVolumeClaim: { claimName: openbao-data }
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: openbao
+  namespace: console-kms
+  labels:
+    app.kubernetes.io/name: openbao
+    app.kubernetes.io/part-of: console-substrate
+spec:
+  selector: { app.kubernetes.io/name: openbao }
+  ports:
+    - { name: http, port: 8200, targetPort: http }
+    - { name: cluster, port: 8201, targetPort: cluster }

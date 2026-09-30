@@ -1,0 +1,36 @@
+tags:
+  - workflow-studio
+operationId: triggerWorkflowRun
+summary: Trigger a workflow definition run
+description: Creates an idempotent MANUAL runtime row for an ACTIVE workflow definition and returns the run-log event used by Workflow Studio.
+security:
+- bearerAuth: []
+parameters:
+- name: id
+  in: path
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/TriggerWorkflowRunRequest'
+responses:
+  '200':
+    description: Workflow run trigger accepted.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/WorkflowRunResponse'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '409':
+    $ref: '#/components/responses/Conflict'
+  '422':
+    $ref: '#/components/responses/ValidationError'

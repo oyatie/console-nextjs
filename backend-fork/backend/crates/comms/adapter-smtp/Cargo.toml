@@ -1,0 +1,28 @@
+[package]
+name = "console-comms-adapter-smtp"
+version = "0.1.0"
+description = "Outbound SMTP adapter for webmail: SSRF host guard (hickory-resolver + ipnet, resolve-once/pin-IP, deny RFC1918/loopback/link-local/ULA/metadata, mail-port allowlist), TLS-enforced lettre transport, MIME builder for send/reply/forward."
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+console-comms-application = { workspace = true }
+console-comms-domain = { workspace = true }
+lettre = { workspace = true }
+hickory-resolver = { workspace = true }
+ipnet = { workspace = true }
+secrecy = { workspace = true }
+thiserror = { workspace = true }
+tracing = { workspace = true }
+uuid = { workspace = true }
+
+[dev-dependencies]
+console-kernel-core = { workspace = true }
+secrecy = { workspace = true }
+time = { workspace = true }
+tokio = { workspace = true, features = ["macros", "rt-multi-thread"] }
+
+[lints]
+workspace = true

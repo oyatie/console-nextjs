@@ -1,0 +1,19 @@
+type: object
+description: Immutable replay receipt for an accepted instance_revision action command.
+required:
+- command_id
+- payload_digest
+- instance
+- gates
+properties:
+  command_id:
+    $ref: '#/components/schemas/Uuid'
+  payload_digest:
+    type: string
+    pattern: '^[a-f0-9]{64}$'
+  instance:
+    type: object
+    additionalProperties: true
+  gates:
+    type: object
+    additionalProperties: true

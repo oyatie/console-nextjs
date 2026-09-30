@@ -1,0 +1,21 @@
+tags:
+  - financial
+operationId: submitPurchaseRequest
+summary: Submit a statement-attached purchase request for admin approval
+security:
+- bearerAuth: []
+parameters:
+- $ref: '#/components/parameters/PurchaseRequestId'
+responses:
+  '200':
+    description: Submitted purchase request.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/PurchaseRequestSummary'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '409':
+    $ref: '#/components/responses/Conflict'

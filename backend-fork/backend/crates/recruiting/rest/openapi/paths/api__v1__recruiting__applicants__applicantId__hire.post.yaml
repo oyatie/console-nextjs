@@ -1,0 +1,43 @@
+tags:
+- recruiting
+operationId: hireRecruitApplicant
+summary: Hire — one transaction through the HR-owned employee core
+description: >-
+  Requires recruiting_manage AND employee_directory_manage. Creates the employee through the same idempotent core as
+  People & Workforce (idempotency key recruit-hire-{applicantId}), links the applicant (HIRED), and increments the
+  posting fill count. The latest offer must be ACCEPTED. POOL_DAILY postings return 422 POOL_REGISTRATION_UNAVAILABLE.
+security:
+- bearerAuth: []
+parameters:
+- name: applicantId
+  in: path
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/HireRecruitApplicantRequest'
+responses:
+  '201':
+    description: Employee created and linked (also returned on an idempotent employee-core replay).
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/HireRecruitApplicantResponse'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '409':
+    description: State conflict; an already-hired replay additionally carries the linked employee_id.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/RecruitHireConflictResponse'
+  '422':
+    $ref: '#/components/responses/ValidationError'

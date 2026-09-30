@@ -1,0 +1,23 @@
+tags:
+  - auth
+summary: Finish passkey registration (authenticated)
+description: Finishes a passkey registration ceremony for the authenticated session user.
+security:
+- bearerAuth: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/PasskeyRegisterFinishRequest'
+responses:
+  '201':
+    description: Passkey registered.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/PasskeyRegisterFinishResponse'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '409':
+    $ref: '#/components/responses/Conflict'

@@ -1,0 +1,29 @@
+tags:
+  - employees
+operationId: dryRunEmployeeImport
+summary: Compute employee import insert/update counts without writing employees
+security:
+- bearerAuth: []
+parameters:
+- name: run_id
+  in: path
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+responses:
+  '200':
+    description: Dry-run candidate counts by company.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/EmployeeImportDryRunSummary'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '409':
+    $ref: '#/components/responses/Conflict'
+  '422':
+    $ref: '#/components/responses/ValidationError'

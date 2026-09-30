@@ -1,0 +1,14 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "DELETE FROM site_geofence_presence WHERE updated_at < $1",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Timestamptz"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "4230aa3dbdde4059f2ef804b5e1eae1e8130f98841dca777fdaa6e9fedbc83f7"
+}

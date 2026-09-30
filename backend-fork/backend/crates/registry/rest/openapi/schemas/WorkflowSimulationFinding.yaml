@@ -1,0 +1,16 @@
+type: object
+required:
+- severity
+- code
+- message
+properties:
+  severity:
+    type: string
+    enum:
+    - info
+    - warning
+    - blocker
+  code:
+    type: string
+  message:
+    type: string

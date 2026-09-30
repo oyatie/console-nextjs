@@ -1,0 +1,28 @@
+type: object
+description: An object-action preflight/execute request. `params` is validated against the action type's typed param schema.
+required:
+- object_type_id
+properties:
+  object_type_id:
+    $ref: '#/components/schemas/Uuid'
+  instance_id:
+    $ref: '#/components/schemas/Uuid'
+  title:
+    type: string
+  params:
+    type: object
+    additionalProperties: true
+  reason:
+    type: string
+  valid_from:
+    $ref: '#/components/schemas/Timestamp'
+  checklist_all_acknowledged:
+    type: boolean
+  four_eyes_request_ref:
+    $ref: '#/components/schemas/Uuid'
+  command_id:
+    $ref: '#/components/schemas/Uuid'
+  expected_revision:
+    type: integer
+    format: int64
+    minimum: 1

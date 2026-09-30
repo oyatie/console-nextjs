@@ -1,0 +1,30 @@
+type: object
+required:
+- branch_id
+- kind
+- member_ids
+properties:
+  branch_id:
+    $ref: '#/components/schemas/Uuid'
+  kind:
+    $ref: '#/components/schemas/MessengerThreadKind'
+  visibility:
+    description: 'Optional taxonomy override; when omitted the thread is always direct (fixed member set) — pass
+      visibility=channel explicitly to create a joinable, discoverable team channel. A channel requires a title;
+      DM and work-order threads are always direct.'
+    oneOf:
+    - $ref: '#/components/schemas/MessengerThreadVisibility'
+    - type: 'null'
+  title:
+    type:
+    - string
+    - 'null'
+  work_order_id:
+    type:
+    - string
+    - 'null'
+    format: uuid
+  member_ids:
+    type: array
+    items:
+      $ref: '#/components/schemas/Uuid'

@@ -1,0 +1,16 @@
+type: object
+description: >-
+  One scope chip or object link: a reference to a domain object by
+  kind + id with an optional display-label snapshot. `kind` is an
+  extensible free-form string (frontend object-registry kinds), not an
+  enum.
+required:
+- kind
+- id
+properties:
+  kind:
+    type: string
+  id:
+    type: string
+  label:
+    type: string

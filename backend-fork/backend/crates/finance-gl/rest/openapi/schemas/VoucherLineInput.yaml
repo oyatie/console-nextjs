@@ -1,0 +1,16 @@
+type: object
+required:
+- account_code
+- side
+- amount_won
+properties:
+  account_code:
+    type: string
+  side:
+    $ref: '#/components/schemas/DebitCredit'
+  amount_won:
+    type: integer
+    format: int64
+    minimum: 1
+  memo:
+    type: string

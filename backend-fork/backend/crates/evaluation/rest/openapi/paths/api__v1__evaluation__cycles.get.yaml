@@ -1,0 +1,25 @@
+tags: [evaluation]
+operationId: listEvaluationCycles
+summary: List evaluation cycles
+security: [{ bearerAuth: [] }]
+parameters:
+- name: stage
+  in: query
+  required: false
+  schema: { $ref: '#/components/schemas/EvaluationCycleStage' }
+- name: limit
+  in: query
+  required: false
+  description: Normalized to the inclusive range 1 through 100; defaults to 50.
+  schema: { type: integer, format: int64, default: 50 }
+- name: offset
+  in: query
+  required: false
+  description: Negative values normalize to zero.
+  schema: { type: integer, format: int64, default: 0 }
+responses:
+  '200': { description: Evaluation cycle page., content: { application/json: { schema: { $ref: '#/components/schemas/EvaluationCyclePage' } } } }
+  '401': { $ref: '#/components/responses/Unauthorized' }
+  '403': { $ref: '#/components/responses/Forbidden' }
+  '500': { $ref: '#/components/responses/InternalServerError' }
+  '503': { $ref: '#/components/responses/ServiceUnavailable' }

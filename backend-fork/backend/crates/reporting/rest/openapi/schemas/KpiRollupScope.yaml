@@ -1,0 +1,14 @@
+type: object
+required:
+- kind
+properties:
+  kind:
+    type: string
+    enum:
+    - company
+    - region
+    - branch
+    - technician
+  id:
+    $ref: '#/components/schemas/Uuid'
+description: '`id` is present for region, branch, and technician rollups and absent for company.'

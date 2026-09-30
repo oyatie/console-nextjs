@@ -1,0 +1,23 @@
+tags:
+- notices
+operationId: getNotice
+summary: Fetch one notice (a draft is NotFound unless the caller holds NoticeManage)
+security:
+- bearerAuth: []
+parameters:
+- name: id
+  in: path
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+responses:
+  '200':
+    description: The notice.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/NoticeSummary'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '404':
+    $ref: '#/components/responses/NotFound'

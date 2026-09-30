@@ -1,0 +1,30 @@
+tags:
+- recruiting
+operationId: listRecruitPostings
+summary: List job postings with per-stage applicant counts (recruiting_read or recruiting_manage)
+security:
+- bearerAuth: []
+parameters:
+- name: status
+  in: query
+  required: false
+  schema:
+    $ref: '#/components/schemas/RecruitPostingStatus'
+- name: scope
+  in: query
+  required: false
+  schema:
+    $ref: '#/components/schemas/RecruitPostingScope'
+responses:
+  '200':
+    description: Postings in the caller's organization, newest first.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/RecruitPostingListResponse'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '422':
+    $ref: '#/components/responses/ValidationError'

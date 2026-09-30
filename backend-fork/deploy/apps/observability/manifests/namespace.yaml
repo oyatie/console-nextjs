@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: console-observability
+  labels:
+    app.kubernetes.io/name: console-observability
+    app.kubernetes.io/part-of: console-observability
+    console.nousresearch.com/dark-stage: "true"
+    console.nousresearch.com/context: "onprem"
+    pod-security.kubernetes.io/enforce: restricted
+    pod-security.kubernetes.io/enforce-version: latest

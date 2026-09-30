@@ -1,0 +1,18 @@
+type: object
+required:
+- template_key
+- display_name
+- object_type
+- required_approval_line
+- required_payment_line
+properties:
+  template_key:
+    type: string
+  display_name:
+    type: string
+  object_type:
+    type: string
+  required_approval_line:
+    type: boolean
+  required_payment_line:
+    type: boolean

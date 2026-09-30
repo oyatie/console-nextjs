@@ -1,0 +1,10 @@
+type: object
+additionalProperties: false
+required:
+- object_type
+- object_id
+properties:
+  object_type:
+    $ref: '#/components/schemas/WorkflowObjectKind'
+  object_id:
+    $ref: '#/components/schemas/Uuid'

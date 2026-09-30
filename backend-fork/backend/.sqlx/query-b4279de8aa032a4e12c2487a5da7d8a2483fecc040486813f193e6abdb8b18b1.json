@@ -1,0 +1,22 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n                    INSERT INTO location_consent_ledger (\n                        consent_id, user_id, branch_id, actor, action,\n                        from_status, to_status, occurred_at, org_id\n                    )\n                    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)\n                    ",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid",
+        "Uuid",
+        "Uuid",
+        "Text",
+        "Text",
+        "Text",
+        "Timestamptz",
+        "Uuid"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "b4279de8aa032a4e12c2487a5da7d8a2483fecc040486813f193e6abdb8b18b1"
+}

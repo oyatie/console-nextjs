@@ -1,0 +1,8 @@
+      type: object
+      required: [instance_id, object_type_id, title, lifecycle_state, depth]
+      properties:
+        instance_id: { type: string, format: uuid }
+        object_type_id: { type: string, format: uuid }
+        title: { type: string }
+        lifecycle_state: { $ref: '#/components/schemas/InstanceLifecycleState' }
+        depth: { type: integer, format: int32, minimum: 0 }

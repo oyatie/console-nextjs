@@ -1,0 +1,5 @@
+type: object
+required: [unassigned_count, sla_due_count]
+properties:
+  unassigned_count: { type: integer, format: int64 }
+  sla_due_count: { type: integer, format: int64 }

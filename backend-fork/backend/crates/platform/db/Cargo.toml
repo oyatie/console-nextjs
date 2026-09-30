@@ -1,0 +1,33 @@
+[package]
+name = "console-platform-db"
+version = "0.1.0"
+description = "Postgres schema migrations and with_audit transactional helper (append-only audit_events invariant)."
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[features]
+# Requires two disposable PostgreSQL 18 physical instances; the adjacent
+# run-durability-physical.sh supplies them for the targeted fault suite.
+test-physical-replication = []
+
+[dependencies]
+console-kernel-core = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+thiserror = { workspace = true }
+uuid = { workspace = true }
+time = { workspace = true }
+sqlx = { workspace = true }
+tokio = { workspace = true }
+
+[dev-dependencies]
+# Dev-only: feature_catalog_covers_every_feature asserts every shipped Feature is grantable.
+# The layer-boundary gate scopes its layer-edge check to normal deps (backend/ci/gates/
+# layer-boundary/src/lib.rs:397), so a dev-dep here is sanctioned rather than tolerated.
+console-platform-authz = { workspace = true }
+tokio = { workspace = true, features = ["macros", "rt-multi-thread"] }
+
+[lints]
+workspace = true

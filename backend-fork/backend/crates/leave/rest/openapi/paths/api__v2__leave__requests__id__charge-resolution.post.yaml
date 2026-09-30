@@ -1,0 +1,52 @@
+tags:
+  - leave
+operationId: resolveLeaveChargeV2
+summary: Record an audited exact leave-charge resolution
+description: >-
+  Requires EmployeeDirectoryManage in the request branch. The body carries
+  reviewed per-date obligations and source revision references, never a
+  client total or digest. The server validates complete date coverage,
+  canonicalizes, totals, hashes, and records an immutable resolution.
+  `expected_version` is the current mutable request_version; the
+  charge_version is assigned independently to the evidence snapshot.
+security:
+- bearerAuth: []
+parameters:
+- name: id
+  in: path
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/LeaveChargeResolutionRequest'
+responses:
+  '200':
+    description: Server-computed exact charge and digest with the new request CAS and charge-evidence revisions.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/LeaveChargeResolutionView'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '409':
+    description: The request is no longer pending or expected_version does not match the current request_version (`leave_concurrent_modification`).
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ErrorBody'
+  '422':
+    $ref: '#/components/responses/ValidationError'
+  '503':
+    description: The separately credentialed leave command database is not configured or unavailable.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ErrorBody'

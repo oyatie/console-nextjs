@@ -1,0 +1,11 @@
+type: object
+required:
+- total
+- acknowledged
+properties:
+  total:
+    type: integer
+    format: int64
+  acknowledged:
+    type: integer
+    format: int64

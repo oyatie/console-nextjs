@@ -1,0 +1,30 @@
+type: object
+description: The result of a §61 push — the delivered notice + engine state.
+required:
+- id
+- kind
+- round
+- target_user_id
+- inbox_doc_id
+- ap_submission
+properties:
+  id:
+    $ref: '#/components/schemas/Uuid'
+  kind:
+    type: string
+    enum: [promotion, refusal]
+  round:
+    type: integer
+    format: int32
+  target_user_id:
+    $ref: '#/components/schemas/Uuid'
+  inbox_doc_id:
+    $ref: '#/components/schemas/Uuid'
+  ap_run_id:
+    type: string
+    format: uuid
+    description: The engine AP- run, when the submittable definition exists.
+  ap_submission:
+    type: string
+    description: submitted when a run was started, else pending_engine_definition.
+    enum: [submitted, pending_engine_definition]

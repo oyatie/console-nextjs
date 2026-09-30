@@ -1,0 +1,8 @@
+type: object
+required: [id, object_type_id, title, lifecycle_state]
+properties:
+  id: { type: string, format: uuid }
+  object_type_id: { type: string, format: uuid }
+  title: { type: string }
+  current_revision_id: { type: string, format: uuid, nullable: true }
+  lifecycle_state: { $ref: '#/components/schemas/InstanceLifecycleState' }

@@ -1,0 +1,32 @@
+type: object
+required:
+- id
+- action
+- from_stage
+- to_stage
+- reason
+- actor
+- occurred_at
+properties:
+  id:
+    $ref: '#/components/schemas/Uuid'
+  action:
+    $ref: '#/components/schemas/RecruitStageEventAction'
+  from_stage:
+    oneOf:
+    - $ref: '#/components/schemas/RecruitApplicantStage'
+    - type: 'null'
+  to_stage:
+    oneOf:
+    - $ref: '#/components/schemas/RecruitApplicantStage'
+    - type: 'null'
+  reason:
+    type:
+    - string
+    - 'null'
+    description: Free-text or enum payload for the action — reject reason, assessment score, offer decision, or withdraw
+      reason.
+  actor:
+    $ref: '#/components/schemas/Uuid'
+  occurred_at:
+    $ref: '#/components/schemas/Timestamp'

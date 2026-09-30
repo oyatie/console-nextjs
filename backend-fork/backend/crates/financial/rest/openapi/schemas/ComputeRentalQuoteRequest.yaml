@@ -1,0 +1,23 @@
+type: object
+required:
+- branch_id
+- acquisition_value_won
+- current_residual_value_won
+- cumulative_repair_cost_won
+- config
+properties:
+  branch_id:
+    $ref: '#/components/schemas/Uuid'
+  acquisition_value_won:
+    type: integer
+    format: int64
+    minimum: 0
+  current_residual_value_won:
+    type: integer
+    format: int64
+  cumulative_repair_cost_won:
+    type: integer
+    format: int64
+    minimum: 0
+  config:
+    $ref: '#/components/schemas/FinancialConfigSnapshot'

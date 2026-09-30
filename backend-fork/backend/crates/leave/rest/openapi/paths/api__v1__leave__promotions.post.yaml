@@ -1,0 +1,36 @@
+tags:
+  - leave
+operationId: pushLeavePromotion
+summary: Serve a §61 연차 사용 촉진 (round 1 or 2)
+description: >-
+  Requires `employee_directory_manage` in the target `branch_id` (which is
+  validated against the actor's scope). Delivers a receipt-gated 연차촉진
+  notice into the target's 개인 수신함 and records the push. The engine AP-
+  run binds once the 연차촉진 submittable definition exists; until then the
+  push carries `ap_submission: pending_engine_definition`. Idempotent per
+  (target, round).
+security:
+- bearerAuth: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/LeavePromotionRequest'
+responses:
+  '200':
+    description: The recorded push, including the delivered notice id.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/LeaveStatutoryPushView'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '422':
+    description: Invalid round (§61 allows 1 or 2).
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ErrorBody'

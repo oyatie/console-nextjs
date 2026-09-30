@@ -1,0 +1,29 @@
+operationId: preflightLifecycleTransition
+summary: Preflight a lifecycle transition
+description: Evaluates the gate chain for a lifecycle edge WITHOUT committing. An unconfigured edge is fail-closed (denied).
+tags:
+- Governance
+security:
+- bearerAuth: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/GovernanceLifecyclePreflightRequest'
+responses:
+  '200':
+    description: Lifecycle gate-chain preflight status.
+    content:
+      application/json:
+        schema:
+          type: object
+          additionalProperties: true
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '422':
+    $ref: '#/components/responses/ValidationError'
+  '503':
+    $ref: '#/components/responses/ServiceUnavailable'

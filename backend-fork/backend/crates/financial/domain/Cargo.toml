@@ -1,0 +1,13 @@
+[package]
+name = "console-financial-domain"
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+console-kernel-core.workspace = true
+serde.workspace = true
+
+[lints]
+workspace = true

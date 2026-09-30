@@ -1,0 +1,18 @@
+type: object
+required: [id, evidence_object_id, copy_kind, evidentiary_status, storage, digest_sha256, content_type, size_bytes, worm_status, created_by, created_at]
+properties:
+  id: { type: string, format: uuid }
+  evidence_object_id: { type: string, format: uuid }
+  copy_kind: { $ref: '#/components/schemas/EvidenceCopyKind' }
+  evidentiary_status: { $ref: '#/components/schemas/EvidenceCopyEvidentiaryStatus' }
+  derivative_kind: { type: string, nullable: true, enum: [REDACTED, THUMBNAIL, TRANSCODED, EXCERPT, EXPORT_MANIFEST, NORMALIZED_TEXT, OTHER] }
+  parent_copy_id: { type: string, format: uuid, nullable: true }
+  storage: { $ref: '#/components/schemas/EvidenceStorageRef' }
+  source_evidence_media_id: { type: string, format: uuid, nullable: true }
+  digest_sha256: { type: string }
+  content_type: { type: string }
+  size_bytes: { type: integer, format: int64 }
+  worm_status: { $ref: '#/components/schemas/WormStorageStatus' }
+  verified_at: { type: string, format: date-time, nullable: true }
+  created_by: { type: string, format: uuid }
+  created_at: { type: string, format: date-time }

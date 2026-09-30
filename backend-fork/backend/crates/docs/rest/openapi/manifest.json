@@ -1,0 +1,60 @@
+{
+  "source": "console-docs-rest",
+  "paths": {
+    "/api/v1/evidence/objects": [
+      "get"
+    ],
+    "/api/v1/evidence/objects/{id}": [
+      "get"
+    ],
+    "/api/v1/evidence/objects/{id}/hold": [
+      "post"
+    ],
+    "/api/v1/evidence/objects/{id}/verify": [
+      "post"
+    ],
+    "/api/v1/office/callback": [
+      "post"
+    ],
+    "/api/v1/office/documents/{documentRef}/versions": [
+      "get"
+    ],
+    "/api/v1/office/documents/{documentRef}/versions/{versionNo}/restore": [
+      "post"
+    ],
+    "/api/v1/office/sessions": [
+      "post"
+    ]
+  },
+  "schemas": [
+    "AdmissibilityStatus",
+    "CopyVerification",
+    "CustodyEventView",
+    "CustodyStage",
+    "DocumentVersion",
+    "EvidenceClassification",
+    "EvidenceCopyEvidentiaryStatus",
+    "EvidenceCopyKind",
+    "EvidenceCopyView",
+    "EvidenceExportView",
+    "EvidenceHoldRequest",
+    "EvidenceObjectDetail",
+    "EvidenceObjectPage",
+    "EvidenceObjectView",
+    "EvidenceSourceRef",
+    "EvidenceSourceType",
+    "EvidenceStorageRef",
+    "EvidenceVerifyReport",
+    "FixityStatus",
+    "LegalHoldRecordView",
+    "LegalHoldState",
+    "LegalHoldStatus",
+    "TimestampAuthorityProofView",
+    "TsaProofStatus",
+    "VerifyOutcome",
+    "WormStorageStatus"
+  ],
+  "external_schemas": [
+    "ErrorBody"
+  ]
+}

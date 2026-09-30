@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: local-path
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "-2" # storage must exist before CNPG (wave 1) needs a PVC
+spec:
+  project: console
+  source:
+    repoURL: https://github.com/jason931225/console.git
+    targetRevision: main
+    path: deploy/infra/local-path
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: local-path-storage
+  syncPolicy:
+    automated: { prune: true, selfHeal: true }
+    syncOptions: [CreateNamespace=true, ServerSideApply=true]

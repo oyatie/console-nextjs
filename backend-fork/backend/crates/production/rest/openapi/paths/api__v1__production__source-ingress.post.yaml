@@ -1,0 +1,15 @@
+operationId: ingestProductionSource
+tags: [Production]
+summary: Ingest one idempotent machine-owned production source fact
+security: [{basicAuth: []}]
+description: Machine-only Basic ingress. The client id is a service-principal UUID and the password is a one-time 32-byte secret. Tenant, branch, principal, and source system identity are derived server-side; the source id/version tuple is immutable and idempotent.
+requestBody: {required: true, content: {application/json: {schema: {$ref: '#/components/schemas/ProductionSourceIngress'}}}}
+responses:
+  '200': {description: Existing source-version replay or accepted source fact receipt, content: {application/json: {schema: {$ref: '#/components/schemas/ProductionSourceIngressReceipt'}}}}
+  '401': {$ref: '#/components/responses/Unauthorized'}
+  '403': {$ref: '#/components/responses/Forbidden'}
+  '404': {$ref: '#/components/responses/NotFound'}
+  '409': {$ref: '#/components/responses/Conflict'}
+  '422': {$ref: '#/components/responses/ValidationError'}
+  '500': {$ref: '#/components/responses/InternalServerError'}
+  '503': {$ref: '#/components/responses/ServiceUnavailable'}

@@ -1,0 +1,21 @@
+type: object
+additionalProperties: false
+description: >-
+  Reassign employees from one OrgUnit to another via canonical `hr.transfer`
+  (one transfer per matched employee). `fromOrgUnit` and `toOrgUnit` are OrgUnit
+  UUIDs (not free-text team labels) and must differ.
+required:
+- op
+- fromOrgUnit
+- toOrgUnit
+- scope
+properties:
+  op:
+    type: string
+    enum: [REASSIGN_ORG_UNIT]
+  fromOrgUnit:
+    $ref: '#/components/schemas/Uuid'
+  toOrgUnit:
+    $ref: '#/components/schemas/Uuid'
+  scope:
+    $ref: '#/components/schemas/OrgProposalReassignScope'

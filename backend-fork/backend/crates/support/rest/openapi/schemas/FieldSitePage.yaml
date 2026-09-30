@@ -1,0 +1,19 @@
+type: object
+required:
+- items
+- next_cursor
+- total
+properties:
+  items:
+    type: array
+    items:
+      $ref: '#/components/schemas/FieldSiteRow'
+  next_cursor:
+    type:
+    - string
+    - 'null'
+    format: uuid
+    description: Id to pass as `cursor` for the next page, or null on the last page.
+  total:
+    type: integer
+    format: int64

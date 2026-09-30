@@ -1,0 +1,9 @@
+type: object
+description: The series an instance belongs to, or null.
+required:
+- series
+properties:
+  series:
+    oneOf:
+    - $ref: '#/components/schemas/SeriesHead'
+    - type: 'null'

@@ -1,0 +1,15 @@
+tags:
+  - financial
+operationId: getPurchaseRequestPreferences
+summary: Fetch the current user's purchase request workspace preferences
+security:
+- bearerAuth: []
+responses:
+  '200':
+    description: Purchase request workspace preferences.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/PurchaseFeaturePreferences'
+  '401':
+    $ref: '#/components/responses/Unauthorized'

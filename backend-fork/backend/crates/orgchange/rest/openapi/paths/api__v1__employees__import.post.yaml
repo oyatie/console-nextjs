@@ -1,0 +1,35 @@
+tags:
+  - employees
+operationId: importEmployees
+summary: Import payroll workbook sheets into the employee directory
+description: Admin/super-admin multipart .xlsx upload. Each worksheet is treated as a company, row 1 as headers, and
+  rows with non-empty 성명 are upserted by deterministic source filename/sheet/row key. Raw row values and source metadata
+  are preserved as JSONB.
+security:
+- bearerAuth: []
+requestBody:
+  required: true
+  content:
+    multipart/form-data:
+      schema:
+        type: object
+        required:
+        - file
+        properties:
+          file:
+            type: string
+            format: binary
+            description: Payroll employee .xlsx workbook.
+responses:
+  '200':
+    description: Import counts by company.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/EmployeeImportReport'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '422':
+    $ref: '#/components/responses/ValidationError'

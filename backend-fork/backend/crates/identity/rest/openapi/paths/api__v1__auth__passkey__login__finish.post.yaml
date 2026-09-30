@@ -1,0 +1,19 @@
+tags:
+  - auth
+summary: Finish passkey login
+description: Verifies the passkey assertion and issues an ES256 access JWT plus an opaque rotating refresh token.
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/PasskeyLoginFinishRequest'
+responses:
+  '200':
+    description: Access and refresh tokens.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/TokenPairResponse'
+  '401':
+    $ref: '#/components/responses/Unauthorized'

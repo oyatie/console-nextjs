@@ -1,0 +1,6 @@
+type: string
+description: Whether a listing is offered for sale, rental, or both.
+enum:
+- SALE
+- RENTAL
+- BOTH

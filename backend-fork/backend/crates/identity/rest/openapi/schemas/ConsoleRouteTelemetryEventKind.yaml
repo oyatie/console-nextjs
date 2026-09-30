@@ -1,0 +1,5 @@
+type: string
+enum:
+- route_selection
+- rum_error
+- rum_perf

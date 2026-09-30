@@ -1,0 +1,13 @@
+type: object
+required:
+- filename
+- content_type
+- content_base64
+properties:
+  filename:
+    type: string
+  content_type:
+    type: string
+  content_base64:
+    type: string
+    description: Standard-base64 encoded attachment bytes.

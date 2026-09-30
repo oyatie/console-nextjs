@@ -1,0 +1,37 @@
+[package]
+name = "console-docs-rest"
+description = "REST surface for tenant-scoped docs/evidence EV objects (console EvidenceCard)."
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+console-contracts = { path = "../../contracts" }
+axum.workspace = true
+base64.workspace = true
+hex.workspace = true
+console-docs-adapter-postgres = { path = "../adapter-postgres" }
+console-docs-application = { path = "../application" }
+console-docs-domain = { path = "../domain" }
+console-governance-adapter-postgres = { path = "../../governance/adapter-postgres" }
+console-kernel-core.workspace = true
+console-platform-auth = { path = "../../platform/auth" }
+console-platform-authz.workspace = true
+console-platform-db.workspace = true
+console-platform-request-context = { workspace = true }
+console-platform-storage = { workspace = true }
+serde.workspace = true
+serde_json.workspace = true
+sqlx.workspace = true
+time.workspace = true
+tracing.workspace = true
+uuid.workspace = true
+
+[dev-dependencies]
+console-governance-application = { path = "../../governance/application" }
+console-platform-test-support = { workspace = true }
+tokio.workspace = true
+
+[lints]
+workspace = true

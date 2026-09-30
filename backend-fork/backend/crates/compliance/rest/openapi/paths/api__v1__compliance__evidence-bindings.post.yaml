@@ -1,0 +1,12 @@
+tags: [Compliance]
+operationId: createComplianceEvidenceBinding
+summary: Create an audited evidence binding
+security: [{ bearerAuth: [] }]
+requestBody: { required: true, content: { application/json: { schema: { $ref: '#/components/schemas/CreateEvidenceBindingRequest' } } } }
+responses:
+  '200': { description: Created evidence binding., content: { application/json: { schema: { $ref: '#/components/schemas/EvidenceBinding' } } } }
+  '401': { $ref: '#/components/responses/Unauthorized' }
+  '403': { $ref: '#/components/responses/Forbidden' }
+  '422': { $ref: '#/components/responses/ValidationError' }
+  '500': { $ref: '#/components/responses/InternalServerError' }
+  '503': { $ref: '#/components/responses/ServiceUnavailable' }

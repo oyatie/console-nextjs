@@ -1,0 +1,29 @@
+tags:
+  - auth
+summary: Issue a one-time sign-in code (admin)
+description: Issues a single-use, high-entropy 8-character one-time code for a pre-provisioned zero-credential user
+  so they can perform their first sign-in. Authz-gated to ADMIN / SUPER_ADMIN within branch scope. The code is returned
+  once; only its hash is stored. `ttl_seconds` is optional and defaults to 24 hours.
+security:
+- bearerAuth: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/AdminIssueOtpRequest'
+responses:
+  '200':
+    description: The issued one-time code and its expiry.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/AdminIssueOtpResponse'
+  '400':
+    $ref: '#/components/responses/ValidationError'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '409':
+    $ref: '#/components/responses/Conflict'

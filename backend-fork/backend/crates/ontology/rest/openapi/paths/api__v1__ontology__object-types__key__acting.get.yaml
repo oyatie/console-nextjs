@@ -1,0 +1,32 @@
+tags:
+  - Ontology
+operationId: listObjectTypeActing
+summary: Acting rules keyed by object-type
+description: >
+  Automations (bound workflow definitions) and object policies acting on
+  the object type identified by stable key. Type-centric sibling of
+  /instances/{id}/acting — it may return rules for a type that has no
+  instances yet. An unknown key is 404 (deny-by-omission, RLS-scoped).
+security:
+  - bearerAuth: []
+parameters:
+  - name: key
+    in: path
+    required: true
+    schema:
+      type: string
+responses:
+  '200':
+    description: automation rules + policies acting on the object type
+    content:
+      application/json:
+        schema:
+          type: array
+          items:
+            $ref: '#/components/schemas/ActingRule'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'

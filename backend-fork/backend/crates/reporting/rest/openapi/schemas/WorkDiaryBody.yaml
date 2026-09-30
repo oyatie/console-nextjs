@@ -1,0 +1,19 @@
+type: object
+required:
+- previous_results
+- today_plans
+- urgent_actions
+- source_notes
+properties:
+  previous_results:
+    type: string
+  today_plans:
+    type: string
+  urgent_actions:
+    type: array
+    items:
+      $ref: '#/components/schemas/WorkDiaryActionEntry'
+  source_notes:
+    type: array
+    items:
+      $ref: '#/components/schemas/ExportSourceNote'

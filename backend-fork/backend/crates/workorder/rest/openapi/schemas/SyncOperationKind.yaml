@@ -1,0 +1,4 @@
+type: string
+enum:
+- WORK_ORDER_START
+- WORK_ORDER_REPORT

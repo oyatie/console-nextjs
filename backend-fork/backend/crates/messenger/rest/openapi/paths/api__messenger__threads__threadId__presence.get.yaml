@@ -1,0 +1,26 @@
+tags:
+  - messenger
+operationId: getMessengerThreadPresence
+summary: Activity-derived presence for members of a thread
+description: 'Returns online/away/offline per thread member, derived from the age of each member''s last real action
+  (message/read/ack) — not a live socket, so "online" means "acted within the freshness window". The caller must be
+  a thread member; a non-member gets 403 and sees no presence.
+
+  '
+security:
+- bearerAuth: []
+parameters:
+- $ref: '#/components/parameters/ThreadId'
+responses:
+  '200':
+    description: Presence of every member of the thread.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/MessengerMemberPresenceListResponse'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'

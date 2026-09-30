@@ -1,0 +1,27 @@
+type: object
+required:
+- branch_id
+- file_name
+- content_type
+- size_bytes
+properties:
+  branch_id:
+    $ref: '#/components/schemas/Uuid'
+  file_name:
+    type: string
+    minLength: 1
+  content_type:
+    type: string
+    minLength: 1
+  size_bytes:
+    type: integer
+    format: int64
+    minimum: 1
+  checksum_sha256:
+    type:
+    - string
+    - 'null'
+  role:
+    type:
+    - string
+    - 'null'

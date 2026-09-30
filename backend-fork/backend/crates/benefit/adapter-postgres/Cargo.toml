@@ -1,0 +1,26 @@
+[package]
+name = "console-benefit-adapter-postgres"
+version = "0.1.0"
+description = "Postgres adapter for tenant-scoped benefit-catalog storage and mutations."
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+console-benefit-application = { workspace = true }
+console-benefit-domain = { workspace = true }
+console-kernel-core = { workspace = true }
+console-platform-db = { workspace = true }
+console-platform-request-context = { workspace = true }
+serde_json = { workspace = true }
+sqlx = { workspace = true }
+thiserror = { workspace = true }
+time = { workspace = true }
+uuid = { workspace = true }
+
+[lints]
+workspace = true
+
+[dev-dependencies]
+console-platform-test-support = { workspace = true }

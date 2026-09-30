@@ -1,0 +1,62 @@
+type: object
+required:
+- role_id
+- role_key
+- display_name
+- current_status
+- requested_status
+- permission_count
+- condition_count
+- planned_assignment_count
+- requires_passkey_step_up
+- effective_runtime_change
+- warnings
+properties:
+  role_id:
+    $ref: '#/components/schemas/Uuid'
+  role_key:
+    type: string
+    pattern: ^[a-z][a-z0-9_]+$
+  display_name:
+    type: string
+  current_status:
+    type: string
+    enum:
+    - DRAFT
+    - ACTIVE
+    - RETIRED
+  requested_status:
+    type: string
+    enum:
+    - DRAFT
+    - ACTIVE
+    - RETIRED
+  permission_count:
+    type: integer
+    format: int64
+    minimum: 0
+  condition_count:
+    type: integer
+    format: int64
+    minimum: 0
+  planned_assignment_count:
+    type: integer
+    format: int64
+    minimum: 0
+  requires_passkey_step_up:
+    type: boolean
+  effective_runtime_change:
+    type: boolean
+    description: True when changing this role status would make existing assignments gain or lose runtime-effective
+      custom-role grants on the next request.
+  warnings:
+    type: array
+    items:
+      type: string
+      enum:
+      - passkey_step_up_required
+      - no_status_change
+      - assigned_users_may_gain_or_lose_runtime_permissions
+      - rollback_disables_assigned_custom_role_runtime_grants
+      - retire_disables_assigned_custom_role_runtime_grants
+      - publish_enables_assigned_custom_role_runtime_grants

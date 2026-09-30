@@ -1,0 +1,2 @@
+type: string
+enum: [INFO, LOW, MEDIUM, HIGH, CRITICAL]

@@ -1,0 +1,14 @@
+type: object
+required:
+- id
+- display_name
+- team
+properties:
+  id:
+    $ref: '#/components/schemas/Uuid'
+  display_name:
+    type: string
+  team:
+    type:
+    - string
+    - 'null'

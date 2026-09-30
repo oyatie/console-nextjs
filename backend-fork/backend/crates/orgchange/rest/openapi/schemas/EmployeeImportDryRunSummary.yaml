@@ -1,0 +1,31 @@
+type: object
+required:
+- run_id
+- input_rows
+- candidate_rows
+- preserved_rows
+- insert_candidates
+- update_candidates
+- companies
+properties:
+  run_id:
+    $ref: '#/components/schemas/Uuid'
+  input_rows:
+    type: integer
+    minimum: 0
+  candidate_rows:
+    type: integer
+    minimum: 0
+  preserved_rows:
+    type: integer
+    minimum: 0
+  insert_candidates:
+    type: integer
+    minimum: 0
+  update_candidates:
+    type: integer
+    minimum: 0
+  companies:
+    type: array
+    items:
+      $ref: '#/components/schemas/EmployeeImportCompanySummary'

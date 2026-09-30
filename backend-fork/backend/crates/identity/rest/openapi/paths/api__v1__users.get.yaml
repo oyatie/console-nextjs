@@ -1,0 +1,46 @@
+tags:
+  - users
+operationId: listUsers
+summary: List users visible within the caller's branch scope
+security:
+- bearerAuth: []
+parameters:
+- name: include_inactive
+  in: query
+  required: false
+  schema:
+    type: boolean
+- name: limit
+  in: query
+  required: false
+  schema:
+    type: integer
+    format: int64
+    minimum: 1
+    maximum: 200
+    default: 50
+- name: offset
+  in: query
+  required: false
+  schema:
+    type: integer
+    format: int64
+    minimum: 0
+    default: 0
+responses:
+  '200':
+    description: A page of users in the principal's branch scope.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/UserPage'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '503':
+    description: JWT verification is not configured.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ErrorBody'

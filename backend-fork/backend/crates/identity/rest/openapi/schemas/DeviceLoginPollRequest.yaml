@@ -1,0 +1,6 @@
+type: object
+required:
+- poll_token
+properties:
+  poll_token:
+    type: string

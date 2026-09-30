@@ -1,0 +1,22 @@
+type: object
+required:
+- id
+- stepOrder
+- roleKey
+- decision
+properties:
+  id:
+    $ref: '#/components/schemas/Uuid'
+  stepOrder:
+    type: integer
+    format: int32
+  roleKey:
+    $ref: '#/components/schemas/OrgChangeApprovalRoleKey'
+  decision:
+    $ref: '#/components/schemas/OrgChangeStepDecision'
+  decidedBy:
+    $ref: '#/components/schemas/Uuid'
+  decidedAt:
+    $ref: '#/components/schemas/Timestamp'
+  memo:
+    type: string

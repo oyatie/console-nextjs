@@ -1,0 +1,33 @@
+tags:
+  - me
+operationId: getMyInboxDoc
+summary: Read one of the authenticated user's inbox documents
+description: >-
+  Reading a LOCKED legal notice returns its metadata with `payload`
+  omitted and does NOT auto-confirm receipt. A payslip (and an
+  already-confirmed legal notice) returns its `payload`.
+security:
+- bearerAuth: []
+parameters:
+- name: id
+  in: path
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+responses:
+  '200':
+    description: The document (body withheld while locked).
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/InboxDocDetail'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '503':
+    description: JWT verification is not configured.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ErrorBody'

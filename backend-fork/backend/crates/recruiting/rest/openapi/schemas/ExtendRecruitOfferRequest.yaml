@@ -1,0 +1,14 @@
+type: object
+required:
+- amount
+- amount_period
+- reply_deadline
+properties:
+  amount:
+    type: string
+    description: Canonical NUMERIC(14,2) decimal string; at most 12 whole digits and 2 fraction digits, no exponent
+      or leading zeros.
+  amount_period:
+    $ref: '#/components/schemas/RecruitAmountPeriod'
+  reply_deadline:
+    $ref: '#/components/schemas/Date'

@@ -1,0 +1,6 @@
+type: object
+required: [id, status, reservedQuantity]
+properties:
+  id: { $ref: '#/components/schemas/Uuid' }
+  status: { type: string, enum: [RELEASED] }
+  reservedQuantity: { type: integer, format: int64 }

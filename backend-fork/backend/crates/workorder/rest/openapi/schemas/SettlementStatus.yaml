@@ -1,0 +1,3 @@
+type: string
+description: Cost-settlement lifecycle (정산 → 전표). VOID is terminal and frees the one-live-settlement slot.
+enum: [DRAFT, SUBMITTED, APPROVED, VOID]

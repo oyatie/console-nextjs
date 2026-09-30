@@ -1,0 +1,25 @@
+tags:
+  - financial
+operationId: computeRentalQuote
+summary: Compute a rental quote from explicit financial inputs without persisting it
+security:
+- bearerAuth: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/ComputeRentalQuoteRequest'
+responses:
+  '200':
+    description: Computed rental quote.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ComputedRentalQuote'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '422':
+    $ref: '#/components/responses/ValidationError'

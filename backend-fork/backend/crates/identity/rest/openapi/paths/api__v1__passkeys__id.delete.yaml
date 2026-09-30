@@ -1,0 +1,31 @@
+tags:
+  - passkeys
+operationId: deletePasskey
+summary: Revoke one of the authenticated user's own passkey credentials
+description: Deletes a credential owned by the caller. A credential that is not the caller's own returns 404. The caller's
+  last remaining passkey cannot be deleted (409) so they do not lock themselves out.
+security:
+- bearerAuth: []
+parameters:
+- name: id
+  in: path
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+responses:
+  '204':
+    description: The passkey was revoked.
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '409':
+    $ref: '#/components/responses/Conflict'
+  '503':
+    description: JWT verification is not configured.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ErrorBody'

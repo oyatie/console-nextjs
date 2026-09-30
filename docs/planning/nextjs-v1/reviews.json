@@ -1,0 +1,1555 @@
+{
+  "version": 1,
+  "plan_version": "N1-2026-09-23-R4",
+  "saved_plan_sha256": "0aca5aed8299fdd7c3e1d7c2cd38281b3d6e45eddbbe2cd3f0e18d6befffa664",
+  "reported_canonical_sha256": "8a59028e505f3c2d796414b23e2b0f907ecf0a33e6b977b6845b6f0e64f4e90f",
+  "provenance": "Exact plan text supplied by the user in this implementation request, including its final newline. Prior independent review transcripts were not supplied. User instruction authorizes this text as implementation intent.",
+  "canonical_hash_status": "supplied_text_differs_from_reported_canonical_hash",
+  "reviews": [
+    {
+      "reviewer": "final_product_review",
+      "verdict": "ACCEPT",
+      "evidence_status": "reported_in_supplied_plan_not_independently_verified",
+      "scope": "plan_only",
+      "reported_sha256": "8a59028e505f3c2d796414b23e2b0f907ecf0a33e6b977b6845b6f0e64f4e90f"
+    },
+    {
+      "reviewer": "final_compliance_review",
+      "verdict": "ACCEPT",
+      "evidence_status": "reported_in_supplied_plan_not_independently_verified",
+      "scope": "plan_only",
+      "reported_sha256": "8a59028e505f3c2d796414b23e2b0f907ecf0a33e6b977b6845b6f0e64f4e90f"
+    },
+    {
+      "reviewer": "final_architecture_review",
+      "verdict": "ACCEPT",
+      "evidence_status": "reported_in_supplied_plan_not_independently_verified",
+      "scope": "plan_only",
+      "reported_sha256": "8a59028e505f3c2d796414b23e2b0f907ecf0a33e6b977b6845b6f0e64f4e90f"
+    },
+    {
+      "reviewer": "/root/migration_review",
+      "verdict": "REVISE",
+      "scope": "empty-install transition design",
+      "evidence_status": "observed_in_current_session",
+      "findings": [
+        "Require contiguous-prefix and all-checksum prevalidation before pending SQL",
+        "Enforce owner-only ledger ACLs including inherited defaults",
+        "Explicit catalog allowlist and complete occupied-schema refusal"
+      ],
+      "disposition": "All incorporated in the reviewed design"
+    },
+    {
+      "reviewer": "/root/migration_review",
+      "verdict": "ACCEPT",
+      "scope": "empty-install transition design only",
+      "evidence_status": "observed_in_current_session",
+      "sha256": "e02d28759c7699d43e7455f34da5c3f8acd8e546155a64fad8a27b372d6ef4a7",
+      "path": "docs/planning/nextjs-v1/empty-install-transition.md"
+    },
+    {
+      "reviewer": "/root/migration_review",
+      "verdict": "REVISE",
+      "scope": "empty-install implementation",
+      "evidence_status": "observed_in_current_session",
+      "findings": [
+        "SQL LIKE pg_% incorrectly accepts user schema pgx",
+        "Column-level ledger grants survive table-level revocation",
+        "Unexpected creation defaults can expose new security-definer functions"
+      ],
+      "disposition": "Fixed at the migration owner; added actual database negatives for all three"
+    },
+    {
+      "reviewer": "/root/migration_review",
+      "verdict": "ACCEPT",
+      "scope": "empty-install implementation only; final execution required",
+      "evidence_status": "observed_in_current_session",
+      "delta_path": "docs/planning/nextjs-v1/fork-delta.json",
+      "delta_sha256": "806d6303acf5f108f45325f1e8fabb8401c792f5cb6dd6f60e915bfa342a85af",
+      "verification": {
+        "path": ".artifacts/acceptance/20260923T063627.731074Z/report.json",
+        "sha256": "6ae9318fe6f2acfd135bd6b0a61d9ea98b3b1b7ad07ea0170b2ad682264e5794",
+        "result": "343 migration checks and 1245 inherited Rust library tests passed; no skipped checks"
+      }
+    },
+    {
+      "reviewer": "/root/migration_review",
+      "verdict": "ACCEPT",
+      "scope": "empty-install transition verified; not full-product or production-release acceptance",
+      "evidence_status": "observed_in_current_session_after_final_run",
+      "delta_sha256": "806d6303acf5f108f45325f1e8fabb8401c792f5cb6dd6f60e915bfa342a85af",
+      "verification_path": ".artifacts/acceptance/20260923T063627.731074Z/report.json",
+      "confirmed": "343 migration checks passed, zero unreached;1245 Rust library tests passed, zero failed/ignored; current backend hashes match reviewed candidate"
+    },
+    {
+      "reviewer": "/root/migration_review",
+      "scope": "current authority design",
+      "verdict": "REVISE",
+      "sha256": "87fa94ef17e3f109e10c880f583e0fb7eecd3a7ab82e629f0f43f9b33b4e0236",
+      "rounds": [
+        "identity/home binding",
+        "roles/revocation",
+        "token compatibility/Cedar",
+        "operations/rollback"
+      ],
+      "findings": [
+        "Require live ACTIVE target Company on delegated requests",
+        "Require SUPER_ADMIN in signed platform token and current stored roles",
+        "Copy original validated source generations; never renew a concurrently revoked source during child mint"
+      ],
+      "disposition": "All incorporated into revised design and regression probes",
+      "evidence_status": "observed_in_current_session"
+    },
+    {
+      "reviewer": "/root/migration_review",
+      "scope": "current authority design and preimplementation tests",
+      "verdict": "APPROVE",
+      "design_sha256": "10a453f58d5e3bbf77f13629aab7ba9100eae414a1fc00d793c1d82847e5a31b",
+      "initial_test_sha256": "91d70ee3f995966c4a436dd811c1fc66e843b5994ff223e6f3e4dc7f8d0c00b4",
+      "corrected_formatted_test_sha256": "faf15e77691499603e1bb7fcea4166abb41539ac04075cb62d7a345b4fd5ccc5",
+      "findings": [
+        "Create platform fixture accounts in their immutable home initially",
+        "Use the Group assignment owner to move existing Group-of-one members"
+      ],
+      "disposition": "Fixture defects corrected without relaxing assertions; corrected real view-as path and formatting verified in subsequent code review",
+      "evidence_status": "observed_in_current_session"
+    },
+    {
+      "reviewer": "/root/migration_review",
+      "scope": "current authority implementation; affected suites still required",
+      "verdict": "APPROVE",
+      "validator_sha256": "f007a47289e2d9a895cb7841385afe12ae3ba9d611a3f1c31bbdfc40539c57b3",
+      "test_sha256": "faf15e77691499603e1bb7fcea4166abb41539ac04075cb62d7a345b4fd5ccc5",
+      "findings": [
+        "Update obsolete comments claiming freshness is unused by live authentication"
+      ],
+      "disposition": "Comments corrected; no production exposure authorized",
+      "evidence_status": "observed_in_current_session"
+    },
+    {
+      "reviewer": "/root/migration_review",
+      "scope": "current authority final fixture strengthening and documentation; execution pending",
+      "verdict": "APPROVE",
+      "delta_sha256": "06bba4eeebb167f41ca198e8f5ebb415314c99a376ba1270231da3e9001e9cb6",
+      "test_sha256": "faf15e77691499603e1bb7fcea4166abb41539ac04075cb62d7a345b4fd5ccc5",
+      "disposition": "Every recorded code hash matched. Ordinary-mutation fixture now creates its account; all behavior assertions unchanged. Test hash supersedes earlier pre-correction hash.",
+      "evidence_status": "observed_in_current_session"
+    },
+    {
+      "reviewer": "/root/migration_review",
+      "scope": "current authority transition final scoped acceptance; not full-product or production acceptance",
+      "verdict": "ACCEPT",
+      "delta_sha256": "e573636e7eb7dabd41bc595f6ae53d526b2a10431b7003fd30f30667735024f8",
+      "evidence_status": "observed_in_current_session",
+      "verification": {
+        "rust_tests_discovered_executed_passed": 1318,
+        "rust_tests_ignored": 0,
+        "migration_checks_passed": 343,
+        "earlier_fixture_failures": "corrected and rerun without assertion changes",
+        "paths": [
+          ".artifacts/empty-install-20260923T072310.242225Z/report.json",
+          ".artifacts/empty-install-20260923T073013.645842Z/report.json",
+          ".artifacts/empty-install-20260923T073254.800524Z/report.json"
+        ]
+      },
+      "subsequent_lint": {
+        "path": ".artifacts/authority-lint-20260923T073357.906107Z/report.json",
+        "sha256": "c5e18e556f7369384617c40854aa83140b5c1a51a038c4e2f36c5622dd9babae",
+        "status": "passed",
+        "observer": "root; reviewer acceptance preceded lint completion"
+      }
+    },
+    {
+      "reviewer": "/root/migration_review",
+      "scope": "session_family_design",
+      "verdict": "ACCEPT",
+      "evidence_status": "observed_independent_review",
+      "sha256": "699b29c1bcbb70abe935f4243679bfde0e3a1cd545791f36f6ceddc5e441e083",
+      "rounds": [
+        "exact family binding",
+        "revocation with post-lock time",
+        "strict expiry and continuity",
+        "preservation and rollback"
+      ],
+      "resolved_findings": [
+        "JWT 60-second leeway and equality allowed expiry overrun",
+        "refresh request timestamp could precede lock acquisition beyond deadline"
+      ],
+      "limits": "Design only; no implementation, release or production approval."
+    },
+    {
+      "reviewer": "/root/migration_review",
+      "scope": "session_family_preimplementation_tests",
+      "verdict": "ACCEPT",
+      "design_sha256": "699b29c1bcbb70abe935f4243679bfde0e3a1cd545791f36f6ceddc5e441e083",
+      "test_sha256": {
+        "backend/app/tests/current_authority.rs": "f698a0570ed75974f2548e52a5d88ecffda3eb098546caa9976b225993a4aa7a",
+        "backend/app/tests/auth_rest.rs": "d49da6d8a89a623e4dd56b6b1514e3906d00180fb1a8f9bf5555969743f98c3b"
+      },
+      "red_evidence": ".artifacts/empty-install-20260923T075109.680752Z/report.json",
+      "discovered": 36,
+      "executed": 36,
+      "passed": 26,
+      "failed": 10,
+      "ignored": 0,
+      "evidence_status": "observed_independent_review",
+      "resolved_findings": [
+        "Correct refresh route path and same-Company peer fixture",
+        "Separately prove family account and Company ownership",
+        "Test conflicting delegation bindings and source expiry",
+        "Assert initial OTP and passkey login tokens bind the actual refresh family"
+      ],
+      "limits": "Test approval only; fixture helper must use real family owner, no production bypass."
+    },
+    {
+      "reviewer": "/root/migration_review",
+      "scope": "session_family_binding_implementation",
+      "verdict": "ACCEPT",
+      "candidate_manifest_sha256": "824235453597dcec391719d22ac1fd59ea5ecee6f2757556b04adff018c13653",
+      "evidence_status": "observed_independent_review",
+      "audit": "Task-scoped 16-lens audit completed; no unresolved scoped findings",
+      "verification": {
+        "distinct_passing_rust_tests": 1330,
+        "migration_checks_passed": 343,
+        "skipped": 0,
+        "targeted_clippy": "passed",
+        "rustfmt": "passed"
+      },
+      "limits": "Session-family binding only. No release, complete business workflow, two-site durability, or unexecuted suite approval."
+    },
+    {
+      "reviewer": "/root/migration_review",
+      "scope": "business_session_fixture_continuity_design",
+      "verdict": "ACCEPT",
+      "sha256": "4a392a04babafa26afebe075bb03fba570fea32b229a8c91d59713ae02060883",
+      "evidence_status": "observed_independent_review",
+      "rounds": [
+        "owner and identity",
+        "scope preservation",
+        "compatibility and rollback",
+        "adversarial acceptance"
+      ],
+      "findings_resolved": [
+        "Foreign-Company claim must return401, not empty successful layout",
+        "Upload-limit test must exercise actual authorized parser, not pass on401/403"
+      ],
+      "limits": "Design only; actual preserved scope and runtime outcomes required."
+    },
+    {
+      "reviewer": "/root/migration_review",
+      "scope": "business_session_fixture_strengthened_tests",
+      "verdict": "ACCEPT",
+      "test_sha256": {
+        "backend/app/tests/workorder_api.rs": "adb23e39d0291b308ae3270ac28973ca5e98a51956b02b7fa4b29132a651a2e5",
+        "backend/app/tests/router_layers.rs": "16516192ad8e4d0121f03b5c2b91f2484cccc5b94a0328a646cbbdee503f82ce",
+        "backend/crates/identity/rest/tests/org_setup.rs": "8ff4a5b4e9c0573ff6dc3100cb6cefea91d2b0691a5545d8441abb87a5c14177"
+      },
+      "evidence_status": "observed_independent_review",
+      "approved_assertion_change": "Replace obsolete same-account foreign-Company200/empty-layout assertion with exact401 using legitimate sourcefamily. Preserve same-Company A/B and all branch-scope assertions. Strengthen import limit with actual parser/error assertions.",
+      "red_evidence": ".artifacts/empty-install-20260923T081227.784979Z/report.json",
+      "limits": "No production bypass; real refresh owner and explicit fixture pool only."
+    },
+    {
+      "reviewer": "/root/migration_review",
+      "scope": "business_session_fixture_continuity_implementation",
+      "verdict": "ACCEPT",
+      "candidate_manifest_sha256": "7104338cf61601bf532f37befe39380f773f83c145779a37a37b93b5d129fcdb",
+      "evidence_status": "observed_independent_review",
+      "verification": {
+        "rust_tests_discovered": 1380,
+        "rust_tests_executed": 1380,
+        "rust_tests_passed": 1380,
+        "skipped": 0,
+        "migration_checks_passed": 343,
+        "migration_checks_unreached": 0,
+        "rustfmt": "passed",
+        "targeted_clippy": "passed"
+      },
+      "limits": "Selected session fixtures and scope continuity only; full release remains unaccepted."
+    },
+    {
+      "reviewer": "/root/migration_review",
+      "scope": "realtime_company_routing_design",
+      "verdict": "ACCEPT",
+      "sha256": "f37a966c2d7f9af1441d34eaf05990ed79dbfb6e725406a0a7770aab0faf06af",
+      "evidence_status": "observed_independent_review",
+      "rounds": [
+        "tenant identity",
+        "canonical owner",
+        "queue and operability",
+        "adversarial proof"
+      ],
+      "limits": "Company fan-out only; ongoing session/field/purpose/replay-cursor/durability requirements remain open."
+    },
+    {
+      "reviewer": "/root/migration_review",
+      "scope": "realtime_company_routing_tests",
+      "verdict": "ACCEPT",
+      "test_sha256": {
+        "backend/crates/platform/realtime/tests/hub.rs": "ee29f1c2a3c106702ab85abfc046d3607598c99e6fafc9aa15324df43b9de212",
+        "backend/crates/platform/realtime/tests/postgres_bridge.rs": "f15d98079f2eddcf4111e9c71e00d3dc9f89d6303ce698f2c74f921d5ff2e1d7"
+      },
+      "evidence_status": "observed_independent_review",
+      "red_evidence": [
+        ".artifacts/empty-install-20260923T083120.108973Z/report.json",
+        ".artifacts/realtime-company-hub-red.log"
+      ],
+      "findings_resolved": [
+        "Notification fixture serializes tagged domain type instead of invalid untagged JSON",
+        "Bound new positive hub receives with timeout"
+      ],
+      "limits": "Mechanical helper argument change from redundant recipient to Company approved; no assertions removed or weakened."
+    },
+    {
+      "reviewer": "/root/migration_review",
+      "scope": "realtime_company_routing_implementation",
+      "verdict": "ACCEPT",
+      "candidate_manifest_sha256": "9249ca4f733e88e4fcca95bc62048a584225f04982cb2cb77af37ec2ccf84f9e",
+      "evidence_status": "observed_independent_review",
+      "audit": "Task-scoped16-lens audit complete; no unresolved scoped findings",
+      "verification": {
+        "integration_tests_passed": 14,
+        "unit_tests_passed": 2,
+        "migration_checks_passed": 343,
+        "skipped": 0,
+        "unreached_scoped_checks": 0,
+        "format": "passed",
+        "all_target_clippy": "passed",
+        "source_integrity": "passed"
+      },
+      "limits": "Company routing only; ongoing session/object/field/purpose and durability remain unaccepted. No full-product or release acceptance."
+    },
+    {
+      "reviewer": "/root/migration_review",
+      "scope": "communication_session_fixture_continuity_design_and_inherited_tests",
+      "verdict": "ACCEPT",
+      "design_source": "business-session-fixtures.md",
+      "design_sha256": "4a392a04babafa26afebe075bb03fba570fea32b229a8c91d59713ae02060883",
+      "test_sha256": {
+        "backend/crates/messenger/rest/tests/api.rs": "426c7985057eeea76a5ba774554b54a45e7ffd63deec39a68b51f0e9bf140480",
+        "backend/crates/notifications/rest/tests/api.rs": "478f11ecd55cd121d023a17f510e688ff7c509a2a654a625c1b9dd74fc929b5c"
+      },
+      "evidence_status": "observed_independent_review",
+      "limits": "Use existing real-family helper with explicit pool; preserve every assertion and identity/scope fixture."
+    },
+    {
+      "reviewer": "/root/migration_review",
+      "scope": "communication_session_fixture_continuity_implementation",
+      "verdict": "ACCEPT",
+      "candidate_manifest_sha256": "149348322c4a0fe4f0221519bca5e27f7403ecca6d66443bf16ed1092e269e1e",
+      "evidence_status": "observed_independent_review",
+      "verification": {
+        "integration_tests_passed": 4,
+        "migration_checks_passed": 343,
+        "skipped": 0,
+        "unreached_scoped_checks": 0,
+        "format": "passed",
+        "test_target_clippy": "passed",
+        "source_integrity": "passed"
+      },
+      "limits": "Two communication REST fixture files only; unchanged assertions, no production behavior or full module acceptance."
+    },
+    {
+      "reviewer": "/root/migration_review",
+      "scope": "realtime_emission_authority_design",
+      "verdict": "ACCEPT",
+      "design_source": "realtime-emission-authority.md",
+      "design_sha256": "a750a1c5589b6bf81c94498836b7c6c36cae5d37a2494052731f0e9369bce843",
+      "rounds": 4,
+      "evidence_status": "observed_independent_review",
+      "limits": "Bounded owner materialization and current session/scope checks; not atomic revocation/network/durability or full field/purpose authority."
+    },
+    {
+      "reviewer": "/root/migration_review",
+      "scope": "realtime_emission_authority_tests",
+      "verdict": "ACCEPT",
+      "design_sha256": "a750a1c5589b6bf81c94498836b7c6c36cae5d37a2494052731f0e9369bce843",
+      "test_sha256": {
+        "backend/app/tests/realtime_authority.rs": "60d4152dc2b43aa65eb3e758ad305387fab252196a5d8a92b7c8a147b0f27bc9"
+      },
+      "evidence_status": "observed_independent_review",
+      "red_evidence": ".artifacts/empty-install-20260923T090211.528696Z/report.json",
+      "red_report_sha256": "f790ed985a9b206192f69080ff3490125a75b899c2c3cbd8b2a32d917560f341",
+      "verification": {
+        "discovered": 25,
+        "executed": 25,
+        "passed": 3,
+        "behavioral_failures": 22,
+        "skipped": 0
+      },
+      "findings_resolved": [
+        "Both ack fixtures now supply required acked_at",
+        "Replay registration race corrected",
+        "Current ack, mute, recipient, thread and generic-close coverage added"
+      ],
+      "limits": "Exact implementation including task cancellation, interrupted writes and green evidence still requires review."
+    },
+    {
+      "reviewer": "/root/migration_review",
+      "scope": "realtime_emission_authority_test_observation_correction",
+      "verdict": "ACCEPT",
+      "test_sha256": {
+        "backend/app/tests/realtime_authority.rs": "9bd003a56048f3fcf97a3f44505d8675f04bc9ee9939d86a0b6b195de539f60a"
+      },
+      "previous_test_sha256": "60d4152dc2b43aa65eb3e758ad305387fab252196a5d8a92b7c8a147b0f27bc9",
+      "evidence_status": "observed_independent_review",
+      "reason": "Two lock observers use pg_locks+pg_stat_activity with current database, runtime role, exact relation and ungranted lock. Expanded owner SQL exceeds default activity query text length before FROM; no deadline or behavior assertion changed.",
+      "prior_run": ".artifacts/empty-install-20260923T090736.445380Z/report.json"
+    },
+    {
+      "reviewer": "/root/migration_review",
+      "scope": "realtime_emission_authority_implementation",
+      "verdict": "ACCEPT",
+      "candidate_manifest_sha256": "eebe6c0143ffb2e62a949911c4bc883ac64784ac1fa2f9b8463547683b75da4f",
+      "evidence_status": "observed_independent_review",
+      "audit": "Task-scoped16-lens audit complete; no unresolved scoped blocker",
+      "verification": {
+        "distinct_integration_discovered": 69,
+        "distinct_integration_executed": 69,
+        "distinct_integration_passed": 69,
+        "library_discovered": 2,
+        "library_executed": 2,
+        "library_passed": 2,
+        "migration_checks_passed": 343,
+        "skipped": 0,
+        "unreached_scoped_checks": 0,
+        "format": "passed",
+        "owner_and_realtime_all_target_clippy": "passed",
+        "app_test_clippy": "passed",
+        "source_integrity": "passed"
+      },
+      "limits": "Repeated authority observations do not establish atomic revocation/network emission; full field/purpose rules,two-site durability and all complete module/release gates remain open."
+    },
+    {
+      "scope": "approval-title-exemptions",
+      "reviewer": "/root/migration_review",
+      "phase": "design",
+      "rounds": 4,
+      "verdict": "ACCEPT",
+      "design_sha256": "902166c8c34332a0d413bcbba1762a4d56f7406960df340f518432021ccf66de",
+      "findings_resolved": [
+        "Pin financial preparation/executive owner methods to locked source states before target normalization; require independent recorded admin approval before routing.",
+        "Denied accepted effects remain unchanged; truthful authentication and failed-attempt audit are permitted.",
+        "Generic workflow exemptions, verified natural-person linkage and full R4 remain outside bounded acceptance."
+      ],
+      "source_base_candidate": "eebe6c0143ffb2e62a949911c4bc883ac64784ac1fa2f9b8463547683b75da4f"
+    },
+    {
+      "scope": "approval-title-exemptions",
+      "phase": "tests",
+      "reviewer": "/root/migration_review",
+      "verdict": "ACCEPT",
+      "design_sha256": "902166c8c34332a0d413bcbba1762a4d56f7406960df340f518432021ccf66de",
+      "test_manifest_sha256": "142c168cb25be558b890aaaff9d663166ce0e73cc8c7cf549137763d2e827326",
+      "red_report": ".artifacts/empty-install-20260923T093511.067823Z/report.json",
+      "red_discovered": 42,
+      "red_executed": 42,
+      "red_passed": 33,
+      "red_failed": 9,
+      "skipped": 0,
+      "receipt": "Reviewed replacement of four inherited title-exemption success assertions with denial/current-state/history assertions, and distinct approver fixture for positive workflow advance. Other assertions retained."
+    },
+    {
+      "scope": "approval-title-exemptions",
+      "phase": "tests_amendment",
+      "reviewer": "/root/migration_review",
+      "verdict": "ACCEPT",
+      "test_manifest_sha256": "23d5f48ca78168c4b2ac571a25fed42a8aac5de69e511c8272d1a1df3b3a0a69",
+      "receipt": "Add finalization test-only async pool/session helper migration preserving all six behavior assertions, and correct financial preparation comment."
+    },
+    {
+      "scope": "approval-title-exemptions",
+      "phase": "test_fixture_correction",
+      "reviewer": "/root/migration_review",
+      "verdict": "ACCEPT",
+      "test_manifest_sha256": "7ce3ce0edac638edb18e89ae93b54e5ca42331140a26471d51847d47dda70a4b",
+      "receipt": "Reuse one Company lead across eight financial cases; reset its ADMIN setup role before eachcase. All case assertions retained. Initial fixture duplicate23505 preserved."
+    },
+    {
+      "scope": "approval-title-exemptions",
+      "phase": "rollback_fixture_correction",
+      "reviewer": "/root/migration_review",
+      "verdict": "ACCEPT",
+      "test_manifest_sha256": "d597d012129803228d89d0cebc0b760f2d8c00acfa1da218ac96be84b33d50b9",
+      "receipt": "Rollback prerequisite revision approved by distinct SUPER_ADMIN with own registered SoftPasskey and bound session. Original author/rollback actor and all version/start assertions preserved. Initial403 from old self-approval fixture preserved."
+    },
+    {
+      "scope": "approval-title-exemptions",
+      "phase": "implementation",
+      "reviewer": "/root/migration_review",
+      "verdict": "ACCEPT",
+      "candidate_manifest_sha256": "d6fa0a252185178df5f41c898ab7af534bc3ecd290ad9d57b68f004c8b1ec723",
+      "design_sha256": "902166c8c34332a0d413bcbba1762a4d56f7406960df340f518432021ccf66de",
+      "test_manifest_sha256": "d597d012129803228d89d0cebc0b760f2d8c00acfa1da218ac96be84b33d50b9",
+      "scoped_16_lens_audit": "ACCEPT; no blocking findings",
+      "verification": {
+        "integration_discovered": 48,
+        "integration_executed": 48,
+        "integration_passed": 48,
+        "skipped": 0,
+        "filtered": 0,
+        "migration_checks_passed": 343,
+        "migration_checks_unreached": 0,
+        "format": "passed",
+        "clippy": "passed",
+        "source_integrity": "passed"
+      },
+      "limits": "Same-account containment at four existing owners only; verified humans, semantic floor/exact payload/current authority, two-site durability and all45fullmodule suites remain required."
+    },
+    {
+      "scope": "webauthn-contention",
+      "phase": "design",
+      "round": 1,
+      "reviewer": "/root/migration_review",
+      "verdict": "REQUEST_CHANGE",
+      "design_sha256": "3afc1787f7e8a87406b6d6321946b40f3ca89d7f5b3d0ca4b92530ebc571c020",
+      "finding": "Use one materialized DB wall-clock sample for predicate/consumption/returned time.",
+      "disposition": "Revised before implementation; no tests or source changed."
+    },
+    {
+      "scope": "webauthn-contention",
+      "phase": "design",
+      "round": 2,
+      "reviewer": "/root/migration_review",
+      "verdict": "REQUEST_CHANGE",
+      "design_sha256": "7775c48ac18db0b75ff618bcb7b7d595b5d47fd60be6085928795557d663ce06",
+      "finding": "Borrowed registration transaction cancellation requires caller rollback/drop; prove bounded cleanup of owning wrappers.",
+      "disposition": "Revised before implementation; no tests or source changed."
+    },
+    {
+      "scope": "webauthn-contention",
+      "phase": "design",
+      "round": 3,
+      "reviewer": "/root/migration_review",
+      "verdict": "ACCEPT",
+      "design_sha256": "630e8faa33a9c38321092a249bfe01257e9eb7c8d744adb845f41a6662a1def4",
+      "receipt": "No further scoped objection;13baseline tests and343migration checks passed."
+    },
+    {
+      "scope": "webauthn-contention",
+      "phase": "design",
+      "round": 4,
+      "reviewer": "/root/migration_review",
+      "verdict": "ACCEPT",
+      "design_sha256": "630e8faa33a9c38321092a249bfe01257e9eb7c8d744adb845f41a6662a1def4",
+      "receipt": "Both findings resolved; single final DB instant, preserved signatures/UV/mobile binding, caller transaction/cancellation ownership, no new lock inversion. Final design approval."
+    },
+    {
+      "scope": "webauthn-contention",
+      "phase": "tests",
+      "reviewer": "/root/migration_review",
+      "verdict": "REQUEST_CHANGE",
+      "test_manifest_sha256": "d2a67eb66be5ed4aaa507b97e38d4c649663099cba67946b14b052225649ebce",
+      "finding": "Add exact registration audit absence after rollback and one committed audit with actor/keytarget and occurred_at equal DB consumption time.",
+      "disposition": "Added assertions; existing assertions retained."
+    },
+    {
+      "scope": "webauthn-contention",
+      "phase": "tests",
+      "reviewer": "/root/migration_review",
+      "verdict": "ACCEPT",
+      "design_sha256": "630e8faa33a9c38321092a249bfe01257e9eb7c8d744adb845f41a6662a1def4",
+      "test_manifest_sha256": "ed87ea92c8d24f6ab7c2c20c4745ca9f50982baf6a9c72b152af529bacb3d4bb",
+      "test_sha256": "dd5db3170e27e8ad9266821cb10c8016346a17f702c77299e17c32c76c8d793c",
+      "receipt": "Added exact registration audit rollback/actor/target/time checks; preserved prior assertions. Exact amended red completed before source edits."
+    },
+    {
+      "scope": "webauthn-contention",
+      "phase": "implementation",
+      "reviewer": "/root/migration_review",
+      "verdict": "ACCEPT",
+      "candidate_manifest_sha256": "f1b2c5f269cfe8648290e2ca033d9283d48c2365cf50322e2e97395caedd7c70",
+      "design_sha256": "630e8faa33a9c38321092a249bfe01257e9eb7c8d744adb845f41a6662a1def4",
+      "test_manifest_sha256": "ed87ea92c8d24f6ab7c2c20c4745ca9f50982baf6a9c72b152af529bacb3d4bb",
+      "scoped_16_lens_audit": "ACCEPT; no blocking findings",
+      "verification": {
+        "integration_discovered": 29,
+        "integration_executed": 29,
+        "integration_passed": 29,
+        "unit_discovered": 2,
+        "unit_executed": 2,
+        "unit_passed": 2,
+        "skipped": 0,
+        "filtered": 0,
+        "migration_checks_passed": 343,
+        "migration_checks_unreached": 0,
+        "format": "passed",
+        "all_target_auth_clippy": "passed",
+        "source_integrity": "passed",
+        "candidate_delta_hashes_verified": 54
+      },
+      "limits": "Shared ceremony/key contention only; real browser conformance, private auth command/recovery, exact action proof, verified natural people, two-site durability and fullR4 remain required."
+    },
+    {
+      "reviewer": "/root/migration_review",
+      "scope": "authentication ownership design round 1",
+      "verdict": "REQUEST_CHANGES",
+      "sha256": "6bcfd3286344c85623937c79c4541170d5c87807c867ee518cfea0ce831fa345",
+      "evidence_status": "observed_in_current_session",
+      "findings": [
+        "Require actual protected linkage/recovery producer and witnessed commissioning, not copied title reset with new command credentials.",
+        "Single-use protected admission or one transaction must bind source proof to family issuance and retries.",
+        "Specify exact first enrollment/device addition/self-handoff/recovery authorization and retire ForceReset.",
+        "Usernameless challenges require late binding; recovery cannot selectively invalidate unknown accounts.",
+        "Cover every account creator, immutable key identity and constrained revocation without trusting GUCs.",
+        "Specify migration classification and tombstone retention, deletion/reinsertion/removal and restore behavior."
+      ],
+      "disposition": "Revising candidate; no implementation approval or new production changes."
+    },
+    {
+      "reviewer": "/root/migration_review",
+      "scope": "authentication ownership design round 2",
+      "verdict": "REQUEST_CHANGES",
+      "sha256": "467e513fbd717570474f4b0bba58bf63250f77224734504c04d382938805f4b0",
+      "evidence_status": "observed_in_current_session",
+      "findings": [
+        "Fresh Group-of-one/passkey signup must create actual pre-enrolled commissioning Accounts.",
+        "Locked-out subjects need private intake capability without target existence or Account authority.",
+        "Establish operation/status-secret custody before consuming proofs.",
+        "Protect exact subject assent separately from runtime-writable audit.",
+        "Live Account insert must check retained retired-ID denial; retirement invalidates linkage/grants.",
+        "Every normal-family device approval needs fresh handoff-bound UV.",
+        "Insufficient independent verifier quorum requires governed operational recovery; no genesis reopening."
+      ],
+      "disposition": "Revise design; no product-source or test approval."
+    },
+    {
+      "reviewer": "/root/migration_review",
+      "scope": "authentication ownership design round 3",
+      "verdict": "REQUEST_CHANGES",
+      "sha256": "ea94f6f70f24e1de133ef898a3213ed49b1b1c9614457e146af21f0fbaa48e3f",
+      "evidence_status": "observed_in_current_session",
+      "findings": [
+        "Stage candidate key only after attended target resolution with actual Account UUID userHandle; changed target needs new registration.",
+        "Serialize all human matching namespace writes via fixed advisory lock before Account locks and recompare at execution.",
+        "Reserve only provisional Account; existing APIs allocate Company and Group.",
+        "Declare exact users INSERT columns and concrete separate free-entitlement transaction owner."
+      ],
+      "disposition": "Incorporating in revision4; no product implementation approval."
+    },
+    {
+      "reviewer": "/root/migration_review",
+      "scope": "authentication ownership final design round4 including migration tooling dependency",
+      "verdict": "ACCEPT",
+      "evidence_status": "observed_in_current_session",
+      "candidates": [
+        {
+          "path": "docs/planning/nextjs-v1/authentication-ownership.md",
+          "sha256": "1d4d963306e4625404ccb8927e99468afff08aad82904627794937fba51fe2dd"
+        },
+        {
+          "path": "docs/planning/nextjs-v1/migration-suffix-tooling.md",
+          "sha256": "af0c97ed29734510b144e0200cbff7268145f0be8192b3f80cb9c8e41d1d28d8"
+        }
+      ],
+      "limitations": "Design only; exact tests next, no auth implementation/browser/hardware/live commissioning/rollout/release acceptance.",
+      "confirmed": [
+        "Account-resolved immutable WebAuthn userHandle",
+        "Registry serialization/rematch with no Account-to-registry inversion",
+        "Real Company/Group API reuse and exact provisioning grants",
+        "Separate free-entitlement owner in shared signup transaction",
+        "Reviewed-manifest suffix custody and actual baseline executable upgrade"
+      ]
+    },
+    {
+      "reviewer": "/root/migration_review",
+      "scope": "Migration suffix exact test review",
+      "verdict": "REQUEST_CHANGES",
+      "test_manifest_sha256": "1e59c286a0503756c5964e6f0d0be9e4a18a44813c6001e3e2683de4941d057b",
+      "test_sha256": "c92c4ac4e3c777d741429a93058326453d5ec40634ca4eaf1d866b403aa7a775",
+      "findings": [
+        "Failure must expose no usable suffix/lineage.",
+        "Test nonempty fresh and historical expected versions from validated discovery.",
+        "Inventory actual migration directory including ignored extensions/directories and actual mode/unrecorded inputs."
+      ],
+      "disposition": "Added assertions and resubmitted exact tests; seven prior tests unchanged."
+    },
+    {
+      "reviewer": "/root/migration_review",
+      "scope": "Migration suffix exact test revision",
+      "verdict": "ACCEPT",
+      "test_manifest_sha256": "20a1ac84de06f4e7ce69b9f6fc0091dd1806deca4c374ad6301973df5cf2f2fc",
+      "test_sha256": "a6a99e12da6b15856f9015a0a578a1928edb7af7274f332e73e21b5b9d22df80",
+      "evidence_status": "observed_in_current_session_before_implementation",
+      "confirmed": "All four test files match snapshot; seven prior tests byte-identical. Failed discovery has no usable lineage, complete directory census and validated nonempty expectations tested.",
+      "limitations": "Requires real PostgreSQL preservation and final candidate review; not auth or release acceptance."
+    },
+    {
+      "reviewer": "/root/migration_review",
+      "scope": "Migration suffix implementation scoped16-lens audit",
+      "verdict": "REQUEST_CHANGES",
+      "candidate_sha256": "f7b68e73c8ed43734189041834efc631a4df3a39e3711435afae2eb3136e1f7b",
+      "findings": [
+        "Missing baseline file and its delta could emit valid source custody."
+      ],
+      "confirmed": "All13unit/654PG evidence and exact preimages/snapshots verified;343prior checks retained.",
+      "disposition": "Exact approved regression reproduces; required presence guard added."
+    },
+    {
+      "reviewer": "/root/migration_review",
+      "scope": "Baseline-presence regression test revision",
+      "verdict": "ACCEPT",
+      "test_manifest_sha256": "4d5ea2ff997bdc4af09bc0c0a5e0cc7a51f14b6ffdb0aa5b296466988df94515",
+      "test_sha256": "f7369eb6e9b0f10b5be19e80a1d9fdc6f2fc566c46efd894b2670e85d6c28e95",
+      "evidence_status": "observed_in_current_session_before_implementation",
+      "limitations": "Prior654PG evidence may be retained only while harness/SQL/binary unchanged;13unit/source custody must rerun."
+    },
+    {
+      "reviewer": "/root/migration_review",
+      "scope": "Migration suffix final implementation and scoped16-lens audit",
+      "verdict": "ACCEPT",
+      "candidate_sha256": "0cfe5eb9ee55a315cf5164d54d9c536a8d7782d354c0bd0fa94c5628437bed43",
+      "evidence_status": "observed_in_current_session",
+      "confirmed": [
+        "Mandatory pinned-baseline presence with no usable lineage on failed custody",
+        "Exact approved regression1intended failure to13/13green0skipped",
+        "Retained654PG evidence bound to unchanged harness/binary:343original+304baseline-upgrade+7custody checks",
+        "No unresolved scoped16-lens findings"
+      ],
+      "limitations": "Tooling only; actual0226/auth/browser/two-site/full45acceptance remain required."
+    },
+    {
+      "reviewer": "/root/migration_review",
+      "scope": "0226 UPDATE-only credential invariant decomposition",
+      "verdict": "ACCEPT",
+      "design_sha256": "1d4d963306e4625404ccb8927e99468afff08aad82904627794937fba51fe2dd",
+      "confirmed": "Standalone OLD/NEW UPDATE guard is within accepted design; avoids Account-after-key lock inversion. No new design rounds required.",
+      "limitations": "Raw INSERT/DELETE authority, enrollment history, recovery, command ownership and full R4 remain unfinished."
+    },
+    {
+      "reviewer": "/root/migration_review",
+      "scope": "Credential identity exact tests first review",
+      "verdict": "REQUEST_CHANGES",
+      "test_manifest_sha256": "fc5197547bf73e722eba52fb3e0ce0083d68190a9847296bf9599928f1438dce",
+      "findings": [
+        "Require guard23514 for every immutable row mutation to exclude RLS/FK false positives.",
+        "Exercise malformed OLD immutable field type and missing required field."
+      ],
+      "disposition": "Both semantic findings addressed; dynamic test SQL replaced with static literals for SQLx0.9 compilation."
+    },
+    {
+      "reviewer": "/root/migration_review",
+      "scope": "Credential identity revised exact tests",
+      "verdict": "ACCEPT",
+      "test_manifest_sha256": "5486b71cc0fb7e879873f98b0fa14e247fdfa81db69b633a0bf684b13e20731e",
+      "evidence_status": "observed_in_current_session_before_production_implementation",
+      "confirmed": "All10new tests, literal queries and actual suffix cancellation harness independently reviewed;654inherited assertions unchanged.",
+      "limitations": "UPDATE guard test approval only; implementation, real39integration/662migration and final audit remain required."
+    },
+    {
+      "reviewer": "/root/migration_review",
+      "scope": "Credential UPDATE invariant final implementation and scoped16-lens audit",
+      "verdict": "ACCEPT",
+      "candidate_manifest_sha256": "3f4b0fe0c004f1eee9380b085038fdc36906cf2c820d19d03847cad4026280fc",
+      "backend_candidate_sha256": "263d1106dba6185f198b78591d5260fb418444fa06f3d4c91f55955e4b894182",
+      "evidence_status": "observed_in_current_session",
+      "confirmed": [
+        "All56backend delta live/snapshot hashes match; previous54entries unchanged",
+        "Exact approved10new tests and654previous assertions unchanged",
+        "Actual rebuilt app and six test binary hashes verified",
+        "39/39integration0skipped/filtered,662PG0unreached,Clippy/format/source custody passed",
+        "Actual interruption schema/row/ledger rollback and retry across0,226 and1..226 SQLx SHA384 lineage verified",
+        "SQL precedence finding fixed; failed cached-test run preserved; no unresolved scoped16-lens finding"
+      ],
+      "limitations": "UPDATE-only invariant; raw INSERT/DELETE custody, enrollment/recovery, proofing/browser, two-site durability, rollout and full R4 release unaccepted."
+    },
+    {
+      "reviewer": "/root/migration_review",
+      "scope": "Read-only next authentication lock-boundary discovery",
+      "verdict": "COORDINATED_SCOPE_REQUIRED",
+      "base_backend_candidate": "263d1106dba6185f198b78591d5260fb418444fa06f3d4c91f55955e4b894182",
+      "findings": [
+        "WebAuthn-only Account-first FOR UPDATE creates reverse-key/FK cycles with reset/bootstrap and audit.",
+        "Both Company removal paths acquire child locks before users; force dynamic sweep precedes users mutation.",
+        "Refresh token/family→users FK and already-inactive deactivation must be included.",
+        "Evaluate FOR NO KEY UPDATE with real both-schedule tests; it does not repair explicit late Account writes."
+      ],
+      "disposition": "Persisted references in identity-proofing-discovery.md. No next production code or tests written; full auth design remains required."
+    },
+    {
+      "reviewer": "/root/migration_review",
+      "scope": "Coordinated authentication lock mechanics and revised partial WebAuthn tests",
+      "verdict": "ACCEPT_PARTIAL_TESTS_ONLY",
+      "test_manifest_sha256": "bce92a6b0200b44155107c767f1dfb80eafd3eac9cb8d7eaf362d8aace313561",
+      "mechanics": "Account FOR NO KEY UPDATE before all bound child mutations; include refresh, reset, handoff, both removal and roster paths. Recheck exact locator and DB-clock expiry after waits.",
+      "evidence_status": "Reviewer verdict recovered from live agent status; mechanics and findings retained in handoff",
+      "confirmed": [
+        "11 new tests; original16 byte-identical",
+        "Different keys of one Account serialize; other Account progresses",
+        "Deleted/reinserted locator cannot switch Account"
+      ],
+      "limitations": "No coordinated implementation approval; complete test coverage still required."
+    },
+    {
+      "reviewer": "/root/migration_review",
+      "scope": "Initial refresh partial tests",
+      "verdict": "HOLD",
+      "test_manifest_sha256": "f6ebea94b49675b059d8dd30e14d7d5cde2454333c3500422d6c77bc3a06be2a",
+      "findings": [
+        "Missing rotate inactive-after-wait denial",
+        "Logout locator replacement could revoke different Account"
+      ],
+      "disposition": "Both added before implementation; revised partial tests accepted"
+    },
+    {
+      "reviewer": "/root/migration_review",
+      "scope": "Revised refresh partial tests",
+      "verdict": "ACCEPT",
+      "test_manifest_sha256": "6ab78b2e3401deb5798362e9acfa5b6f1120518fbba5a0d48d288bb436cc6045",
+      "test_sha256": "f757b4e8ce9099f7d7802b3e945557b635e091fa0869590e9f1e207e41ca047b",
+      "confirmed": "8tests; both missing negatives fixed; snapshot equality",
+      "limitations": "Partial tests only; actual DB-clock use separately requires code review"
+    },
+    {
+      "reviewer": "/root/migration_review",
+      "scope": "Lifecycle partial tests",
+      "verdict": "ACCEPT",
+      "test_sha256": "37c1fa443cd85a4ec46403333de4d307db767fb0f19351035b80759d5a4ccdf6",
+      "confirmed": "3tests initial/inactive cleanup wait before children plus unrelated-actor/FK compatibility",
+      "limitations": "No implementation approval"
+    },
+    {
+      "reviewer": "/root/migration_review",
+      "scope": "Initial provisioning partial tests",
+      "verdict": "HOLD",
+      "test_manifest_sha256": "8b5e6fba542dcc80862ed1c986b231f5b5a2dd5a20876aca373eed5048e73f63",
+      "findings": [
+        "OTP active/locator negatives missing",
+        "Consume after-wait expiry/active negatives missing",
+        "Roster must lock complete set before child changes and permit KEY SHARE"
+      ],
+      "disposition": "Six additional tests written; exact revised review pending. Original manifest contains11provisioning+3lifecycle tests."
+    },
+    {
+      "reviewer": "/root/migration_review",
+      "scope": "Removal-only exclusive lock mechanics clarification",
+      "verdict": "ACCEPT_MECHANICS_ONLY",
+      "confirmed": "Sorted frozen Account NoKey mutex; exact Account FOR UPDATE NOWAIT then Company FOR UPDATE NOWAIT; membership/status recheck; all conflicts abort before sweep",
+      "limitations": "Exact tests and implementation pending; inherited pre-guard force count-consistency HOLD remains"
+    },
+    {
+      "reviewer": "/root/migration_review",
+      "scope": "Expanded provisioning partial tests",
+      "verdict": "ACCEPT",
+      "test_sha256": "f1e68e4217e060fe2184712e819e9064d49e62ce018cf992e5265dff3b105fe5",
+      "confirmed": "17test source; six requested negatives added",
+      "limitations": "Later real execution found expired-fixture setup error; corrected and re-reviewed in complete candidate"
+    },
+    {
+      "reviewer": "/root/migration_review",
+      "scope": "Expanded coordinated tests and initial0227harness",
+      "verdict": "HOLD",
+      "test_manifest_sha256": "cd3c079505c0f3189d2ab50d5dc34a345af9ea8e5acfcc427ad38bba0a012ab4",
+      "findings": [
+        "Retry must compare prior SQLx ledger metadata exactly, not only versions/checksum/success"
+      ],
+      "disposition": "Exact prior ledger prefix assertion added in both226/227tests; all earlier assertions retained"
+    },
+    {
+      "reviewer": "/root/migration_review",
+      "scope": "Trusted internal time compatibility in Account locking prerequisite",
+      "verdict": "ACCEPT_MECHANICS_ONLY",
+      "confirmed": "Validate using max(trusted server argument,SELECT clock_timestamp()) sampled after all Account/child waits; no request-selected time. Keep separate issuance timestamp/TTL contract.",
+      "limitations": "Does not approve protected generation/admission or legal-time semantics"
+    },
+    {
+      "reviewer": "/root/migration_review",
+      "scope": "Complete coordinated authentication lock test source",
+      "verdict": "ACCEPT",
+      "test_manifest_sha256": "24f4a4deb2725c388ae375a62aac813a1bd99878e7618c5f10624a90c971d86a",
+      "confirmed": [
+        "Every file and immutable snapshot hash verified",
+        "76expected selected tests; prior approved tests retained",
+        "Both migration retries compare exact prior ledger metadata",
+        "Bootstrap last-child-wait expiry test verifies no consumed row/audit",
+        "Corrected prior red report and163command-log hashes independently checked"
+      ],
+      "limitations": "Implementation permitted only after named exact red probe. No implementation, full auth, full45module or release acceptance. Actual0227catalog fault test runs only after suffix implementation."
+    },
+    {
+      "reviewer": "/root/migration_review",
+      "scope": "Final exact provisioning red probe custody",
+      "verdict": "VERIFIED_RED",
+      "report": ".artifacts/empty-install-20260923T215142.636157Z/report.json",
+      "sha256": "5024c1e4bda049d782b6be0116bb629d2d95716ae880ad456066e5139286411f",
+      "confirmed": "18executed1pass17fail;663migration checks0unreached;157log hashes and all approved source hashes match. Last-bootstrap-row expiry failure is behavioral, not fixture setup. Root sole-writer coordinated implementation now started; no candidate acceptance yet."
+    },
+    {
+      "reviewer": "/root/migration_review",
+      "scope": "Initial coordinated lock candidate cf predecessor6d41788",
+      "verdict": "HOLD",
+      "candidate_sha256": "6d41788b6755646032694bc8b7f7c1d92067474f11b69965179361199285f545",
+      "findings": [
+        "Intermediate0196GRANT accidentally copied instead of final force-inner private ACL",
+        "Session alias fails to freeze original bound handoff target"
+      ],
+      "disposition": "Both reproduced with independently approved appended tests then corrected; final green/candidate review pending"
+    },
+    {
+      "reviewer": "/root/migration_review",
+      "scope": "Additional exact regression sources and deletion fixture correction",
+      "verdict": "ACCEPT_TESTS_ONLY",
+      "test_manifest_sha256": "855783d4d4aeaaf5e540b6ba6b205b6f7ad0562b29af19768d491019e16b334c",
+      "accepted_source_hashes": [
+        "a5ff33dd7181d355b3b4e6e5118308b7b397062fae7b0b12d414851ffb45f260",
+        "5b14fca44ecb0eac8a7182ebdf4a52e4007ef3916d39377f4b039be497780560"
+      ],
+      "evidence": ".artifacts/empty-install-20260923T221316.787994Z/report.json",
+      "confirmed": "All180log hashes;675migration checks0unreached;22tests18pass4fail; genuine ACL/target failures; identity403 fixture omission. Two same-Company branch setup calls preserve MEMBER/permissions/assertions. No full-auth or release acceptance."
+    },
+    {
+      "reviewer": "/root/migration_review",
+      "scope": "Bounded compatibility correction and formatting bridge",
+      "verdict": "ACCEPT_TEST_SOURCE_AND_BRIDGE_SCOPE",
+      "test_manifest_sha256": "a33aab0cd0a51be6799410304629ba3f0390f92fdafce3c5615026189272c581",
+      "accepted_test_sha256": "63d0c0bebdb6f4f120f67c16ec5ac783dc240e0358a92e714970a21e9414f769",
+      "format_sources": {
+        "app": "4884c97505b95e64116881ee2aed7148b551bd28cd2b5418961c70464acc5a62",
+        "lifecycle_test": "4c043d7da4b0d16bc2eef3f704422c9bf8fd5c1cab4a65d839064371a2e68c3c"
+      },
+      "evidence": ".artifacts/empty-install-20260923T221751.056325Z/report.json",
+      "confirmed": "216command hashes,166executed163pass3fail,675migration pass.2incorrect Company arguments corrected without weakening enforcement/assertions. Refresh must preserve actualFamilyRevoked prior to inactive denial and still reject before mutation. Green focused22test run, migration675, build/format/source custody and final candidate review remain required."
+    },
+    {
+      "reviewer": "/root/migration_review",
+      "scope": "Coordinated authentication Account lock prerequisite; correctness/security/simplification and scoped16-lens audit",
+      "verdict": "ACCEPT_SCOPED",
+      "candidate_sha256": "041de0f6804b0fad8b69f9ed89aad062015ac604e897a82e7e0dfbc2f6d626fb",
+      "backend_candidate_sha256": "525951582c1fd41b023d593c23c2f328469c876073434e83a547b44b2100f945",
+      "confirmed": [
+        "All69live/snapshot source identities and12candidate reference hashes including app verified",
+        "Both additional review regressions first failed genuinely; effective ACL and original handoff target corrected",
+        "166distinct passing integration cases across exact144+22bounded source bridge; full prior166run remains163pass3fail, not retrospectively green",
+        "2auth unit tests,675migration checks0unreached; actual0227fault/rollback/retry,format,all-targetClippy,build,source custody pass",
+        "No remaining scoped correctness/security/simplification blocker"
+      ],
+      "limitations": [
+        "No full authentication ownership/proofing/admission, two-site durability, or release acceptance",
+        "45business/platform/leaf requirement rows and8operational/browser/protocol suites remain unreached",
+        "Inherited Company hard-deletion policy/count custody and branchless self-service parity remain R4 work"
+      ]
+    },
+    {
+      "reviewer": "/root/migration_review",
+      "verdict": "ACCEPT_MECHANICS_ONLY",
+      "scope": "Account UUID allocation and retirement prerequisite",
+      "candidate_sha256": "83d9c9ed9f0eda03f8a86f2d9a269e8a22c360a65bf2530fe31578d09474cc5f",
+      "findings": [
+        "AFTER INSERT prevents conflict-path phantom reservations; private unique allocation denies stale-snapshot UUID reuse",
+        "Backfill writer lock; retirement after eligibility and before sweep; no enrollment/custody acceptance"
+      ],
+      "evidence_status": "observed_in_current_session"
+    },
+    {
+      "reviewer": "/root/migration_review",
+      "verdict": "REVISION_REQUIRED",
+      "scope": "Account UUID reservation mechanics",
+      "candidate_sha256": "332814018d46aba4d0c5c5afe58ef1ebf496beafd3815b35102879dc9025ecf9",
+      "findings": [
+        "BEFORE INSERT fires on conflict paths that do not create an Account; use AFTER INSERT with unconditional private uniqueness"
+      ],
+      "disposition": "Accepted mechanics83d9c9 uses AFTER INSERT; exact conflict-path tests added",
+      "evidence_status": "observed_in_current_session"
+    },
+    {
+      "reviewer": "/root/migration_review",
+      "verdict": "REVISION_REQUIRED",
+      "scope": "Account UUID reservation tests",
+      "candidate_sha256": "b3489584a718e9eee309a70ceafd8f4012e0007c76aa79e1c6a21f9e1734246e",
+      "findings": [
+        "Must prove retirement before actual first ordinary/force child sweep, not later credential deletion",
+        "Missing reservation must fail closed for runtime DELETE and both removal owners"
+      ],
+      "disposition": "Strengthened14-test manifest15513c5 pending exact review",
+      "evidence_status": "observed_in_current_session"
+    },
+    {
+      "reviewer": "/root/migration_review",
+      "verdict": "ACCEPT_TESTS_ONLY",
+      "scope": "Account UUID allocation/retirement prerequisite tests",
+      "candidate_sha256": "15513c519c07aacaf4cf50c9e95a18fb657867bb3e8a9fd6af6bf97d4585f403",
+      "evidence_status": "observed_in_current_session",
+      "evidence": ".artifacts/empty-install-20260923T224910.446524Z/report.json",
+      "evidence_sha256": "4d7500c98f56d387b4b5b87fb273c16f782965d4e480b8dfe6442d43e4ecc4b4",
+      "findings": [
+        "Current and immutable exact source/harness hashes verified",
+        "14discovered/executed0pass14fail0skip/filter;675migration checks0unreached;178command logs verified",
+        "Actual first sweeps,missing state,committed blocked removal,wrong-password negatives and PG18 RESTRICT correction reviewed"
+      ],
+      "limitations": [
+        "Implementation and full authentication transition remain unaccepted"
+      ]
+    },
+    {
+      "reviewer": "/root/migration_review",
+      "verdict": "ACCEPT_SCOPED_PREREQUISITE",
+      "scope": "Account UUID allocation/retirement; correctness/security/simplification and scoped16-lens audit",
+      "candidate_sha256": "ea3a0485e739a97b57585ec8ac3bff5a0bef5bb5749e40fab04584016d2e73be",
+      "backend_candidate": "2406ee701d5f8c75d9079931e50e209da070169944122077b0d15b398c7a9b38",
+      "evidence_status": "observed_in_current_session",
+      "findings": [
+        "9referenced artifacts+app and immutable copies verified;71current deltas preserved69prior accepted source identities",
+        "78/78integration tests,689/689migration checks,215green log hashes,Clippy verified",
+        "Actual0228cancellation;exact schema/ACL/row/ledger rollback,retry,topology and repeat preservation",
+        "All16scoped lenses reviewed;no blocking correctness/security/simplification finding"
+      ],
+      "limitations": [
+        "Full auth ownership/proofing/generations/admissions/signup/SSR and former-worker deletion correction remain open",
+        "4release preflights failed;45module/leaf rows and8operational suites unreached",
+        "No real browser,hardware,two-site durability,restore or release acceptance"
+      ]
+    },
+    {
+      "reviewer": "/root/migration_review",
+      "verdict": "ACCEPT_MECHANICS_ONLY",
+      "scope": "Native Cargo invalidation for migration directories",
+      "candidate_sha256": "10bed6f7125c9fedfcbf39aec76bdc9a9a5ffa7d3ea9336a255da5914c89fbdd",
+      "evidence_status": "observed_in_current_session",
+      "findings": [
+        "58consumer packages;authz sole uncovered path",
+        "One shared database-owner build script and explicit authz build path;no dependency or lock change",
+        "Real fixed-source incremental fixture with implicit/explicit attrs and normal/transitive/dev consumers"
+      ]
+    },
+    {
+      "reviewer": "/root/migration_review",
+      "verdict": "REVISION_REQUIRED",
+      "scope": "Migration build probe tests",
+      "candidate_sha256": "f7577cebc1aca13acfce86cc34d8cb5e30a6af5dcdffba12ea9487d432cadec6",
+      "evidence_status": "observed_in_current_session",
+      "findings": [
+        "generate-lockfile would re-resolve dependencies rather than preserve copied pins",
+        "Compile/setup failures must explicitly retain remaining unreached phases"
+      ],
+      "disposition": "Revised exact tests5eafd977use metadata resolution and predeclared phases;same-interpreter launch fixes observed setup diagnostic"
+    },
+    {
+      "reviewer": "/root/migration_review",
+      "verdict": "ACCEPT_TESTS_ONLY",
+      "scope": "Native Cargo migration dependency exact tests",
+      "candidate_sha256": "5eafd97796af78c0a2d9f1e2d7fff8389e9b7b6b0daca248b0f3adc0ebcd2408",
+      "evidence_status": "observed_in_current_session",
+      "findings": [
+        "Current and immutable exact test/harness hashes match",
+        "All ten phases predeclared;copied registry pins preserved by fixture-only metadata resolution",
+        "Earlier Python3.9tomllib error remains zero-executed setup failure;implementation waits actual named added-file red"
+      ]
+    },
+    {
+      "reviewer": "/root/migration_review",
+      "verdict": "VERIFIED_NAMED_RED",
+      "scope": "Native Cargo migration directory invalidation",
+      "candidate_sha256": "5eafd97796af78c0a2d9f1e2d7fff8389e9b7b6b0daca248b0f3adc0ebcd2408",
+      "evidence_status": "observed_in_current_session",
+      "findings": [
+        "Corrected probe37e8eb2e: initial10/10 and unchanged10/10pass; added migration10/10fail exact missing-version ledger and inventory assertions; seven later phases unreached",
+        "All seven executable hashes remain identical; Cargo wrongly reports added-file artifacts fresh",
+        "254 parent/probe command-log hashes verified;689migration checks pass; production SQL and lock unchanged"
+      ],
+      "evidence": ".artifacts/empty-install-20260923T231706.430347Z/report.json"
+    },
+    {
+      "reviewer": "/root/migration_review",
+      "verdict": "ACCEPT_SCOPED_BUILD_FIX",
+      "scope": "Exact candidate correctness/security/simplification and scoped16-lens audit",
+      "candidate_sha256": "28c3949a8cab8db4807b832ce9988c6519db5cb0128d7b550e2a505822f559d4",
+      "backend_candidate_sha256": "db2ad6a01941d43cbca8c891a49de4be503614f056b51a4e793e31dd23a6f9c0",
+      "evidence_status": "observed_in_current_session",
+      "findings": [
+        "Only2build-source deltas;71previous deltas unchanged;73current hashes verified",
+        "All candidate evidence and current/preserved app hashes verified;171probe+202parent command logs match",
+        "10distinct tests across10phases=100passing executions;0skip/filter/unreached;both no-op builds fresh;58consumers covered",
+        "689migration checks pass;productionSQL,baseline,Cargo.lock preserved;clean0business counts",
+        "Scoped16-lens audit accepted;no blocking correctness/security/simplification findings",
+        "Full release remains unaccepted:4failed preflights,45module/leaf+8operational suites unreached"
+      ]
+    },
+    {
+      "reviewer": "/root/migration_review",
+      "verdict": "ACCEPT_MECHANICS_ONLY",
+      "scope": "Protected OLD-only credential-removal evidence under accepted authentication ownership design",
+      "candidate_sha256": "652a3539e74f3618b968d7a8db925fba5d4b87dbdf1c2bb7cdcf30425a30cabe",
+      "evidence_status": "observed_in_current_session",
+      "findings": [
+        "AFTER DELETE records actual OLD metadata only; no FK,root/security lookup,UPSERT,actor/generation or verification claim",
+        "Private ACL and TRUNCATE boundary,transaction rollback and complete path tests required",
+        "Detailed security-history retention remains distinct from permanent UUID denial;full retention enforcement and authentication transition remain open",
+        "Exact tests/implementation remain pending"
+      ]
+    },
+    {
+      "reviewer": "/root/migration_review",
+      "verdict": "ACCEPT_TESTS_ONLY",
+      "scope": "Credential-removal evidence exact tests under mechanics652a3539",
+      "candidate_sha256": "6942f8b052d0a12b8aec12202d1be2ea39fdba759a7667ff03d5a190a19659c3",
+      "evidence_status": "observed_in_current_session",
+      "findings": [
+        "All4current/immutable source hashes matched;8new cases plus strengthened real owner/HTTP cases,38selected tests",
+        "No existing assertion removed;exact metadata sorting suggested as nonblocking robustness correction"
+      ]
+    },
+    {
+      "reviewer": "/root/migration_review",
+      "verdict": "ACCEPT_TESTS_ONLY",
+      "scope": "Credential-removal evidence exact tests under mechanics652a3539",
+      "candidate_sha256": "d9462e96e9f2b266ec736ad7faee257182d076702197ecaabf5793ee3d4fb0ef",
+      "evidence_status": "observed_in_current_session",
+      "findings": [
+        "Exact diff only mutable column-name list plus explicit sort;same assertions and38selected tests",
+        "All4current/immutable hashes verified;prior diagnostic38executed28pass10fail,689migration checks;fresh exact red pending"
+      ]
+    },
+    {
+      "reviewer": "/root/migration_review",
+      "verdict": "ACCEPT_SCOPED_PREREQUISITE",
+      "scope": "Credential-removal exact candidate correctness/security/simplification and scoped16-lens audit",
+      "candidate_sha256": "88bf0adfef11fed9fc61b6e186eb44df6a0066273d787a1175f7891db3ff450e",
+      "backend_candidate_sha256": "48dddf313c4ec33b8805483f8c8093eaef6e96ee4582753b1d26f43b29b6915d",
+      "evidence_status": "observed_in_current_session",
+      "findings": [
+        "All75source entries,approved d946tests,referenced artifact/app hashes and235green command-log hashes verified",
+        "38/38integration and703/703migrationchecks pass;0skip/filter/unreached",
+        "Independently recomputed actual0229cancellation restores exact schema/ACL/data/ledger;retry preserves all prior rows/ledgerchecksums;new evidence empty;topology/repeat unchanged",
+        "Scoped16-lens audit accepted:one native OLD-only AFTER trigger,no root locks/FKs,privilege growth,history rewriting or authority claim",
+        "Full authentication,recovery,retention,SSR,two-site/browser/restore/cutover remain open;4failed preflights,45module/leaf+8operational suites unreached"
+      ]
+    },
+    {
+      "reviewer": "/root/migration_review",
+      "verdict": "ACCEPT_RED_PROBE_ONLY",
+      "scope": "Revoked bootstrap source at first passkey registration, tests-first evidence only",
+      "candidate_sha256": "9155fc4ed5f581e445b66c52dc27ade272c25d2733f84f14fea2b7cbf9223911",
+      "fork_delta_sha256": "e246dacdca0abaacda4711320710746fade332b5354571ec9aa638b70edd54f1",
+      "evidence_status": "observed_in_current_session",
+      "findings": [
+        "Genuine OTP session, privacy assent and signed WebAuthn registration reach the real HTTP finish route",
+        "18 discovered/executed: 17 pass, one new failure returns201 instead of required401; zero skipped/filtered",
+        "348 migration checks passed; six optional preserved-binary checks unreached; 119 command-log hashes verified",
+        "Key/audit/ceremony rollback assertions follow the failed status assertion and have not executed",
+        "No implementation, source-substitution, add-device, distinct auth role or release approval"
+      ]
+    },
+    {
+      "reviewer": "/root/auth_source_tests",
+      "scope": "authentication source and restricted OTP exact red tests",
+      "verdict": "ACCEPT_RED_PROBE_ONLY",
+      "test_sha256": "b845f82c0acb671e408fd1c40d975109ee28edfa37207e3cf8d832c7c0d97a01",
+      "report": ".artifacts/empty-install-20260924T003404.931311Z/report.json",
+      "report_sha256": "b90508ba38457d6828dccdfe92cca9a75230faecf841c76aa607be350aa83054",
+      "confirmed": "21/21 HTTP tests executed, 18 passed and three intended authorization failures at observed HTTP 201; no test setup failure, source custody passed",
+      "limitations": "Rollback/audit assertions after failures, rotated-token second attempt, replacement OTP control, post-passkey positive control, full authentication owner and release acceptance remain unproved"
+    },
+    {
+      "reviewer": "/root/auth_0230_final_review",
+      "verdict": "NO_BLOCKER_SCOPED",
+      "scope": "0230 expand-only schema, focused tests and post-DDL interruption/retry; not authentication cutover or R4 release",
+      "evidence_status": "observed_read_only_review_current_session",
+      "evidence_path": ".artifacts/empty-install-20260924T021926.136286Z/report.json",
+      "limitations": [
+        "Backfill may race child proof/family writes; fence and reconcile before authority cutover.",
+        "Provenance schema shape does not prove actual same-Account/Company source ownership.",
+        "Four signed OTP authentication regressions remain red."
+      ]
+    },
+    {
+      "reviewer": "/root/auth_0231_review",
+      "verdict": "ACCEPT_SCOPED",
+      "scope": "0231 private admission storage, temporal constraints, owner restore and actual interruption/retry; not auth cutover or release",
+      "evidence_status": "observed_read_only_review_current_session",
+      "source_sha256": "1bb67c176f04d4846ecf460d59565d8df9ee86f82c0d0f5db373a80a2692619c",
+      "test_sha256": "c83b93ed66c9310b368490ab97bd0cb0fe5050f61b1833f4ec6a6571aa596ad4",
+      "harness_sha256": "0fc38488db1422f90d00f39435adaaa5265f40e19b228b7b37fccb0cb32bf944",
+      "evidence_path": ".artifacts/empty-install-20260924T030227.575745Z/report.json",
+      "evidence_sha256": "f21d87fcf1ff30dcb0aac34d1361e162efd10951d06fe6335f163a1c3e8de437",
+      "confirmed": "691 executed migration/upgrade/interruption checks passed, four optional unreached; 3/3 PostgreSQL tests pass; strict terminal interval and offline restore tested",
+      "limitations": [
+        "Source ceremony/OTP/handoff must hold operation secret before proof; 0231 is Account-bound only after source resolution.",
+        "Registration intents do not implement four-purpose enrollment/recovery authorization.",
+        "console_app restore credential must remain offline; no command role or real proof-to-family owner exists."
+      ]
+    },
+    {
+      "reviewer": "/root/auth_0231_review",
+      "verdict": "ACCEPT_SCOPED",
+      "scope": "acceptance seed-claim correction only; known Console prototype exclusion remains bounded",
+      "evidence_status": "observed_read_only_review_current_session",
+      "runner_sha256": "6dd491729d3ba0bc1187d0169e86ef327208041fc55979e44af1bee422f4b418",
+      "test_sha256": "c7060d2cfea3a3f468823cb7babe6565d410eef4d4138759868c2c43f37113ad",
+      "evidence_path": ".artifacts/acceptance/20260924T031559.485043Z/report.json",
+      "evidence_sha256": "6710829b72d74c4be7b3ca21c6cb8f586c20f716135bca1bc6240c12e28c3054",
+      "confirmed": "no-business-seeds remains unreached even with a planted active storefront fixture; known prototype exclusion passes only after current-run build/route proof; release remains false with 45 requirements unreached",
+      "limitations": "The unit fixture tests report semantics, not a mutated real production build; all active-route and asset seed absence remains unproved."
+    },
+    {
+      "reviewer": "role_0234_audit",
+      "verdict": "REVISE",
+      "scope": "OTP source/purpose cutover design, not the approved R4 product plan",
+      "evidence_status": "observed_in_current_session",
+      "findings": [
+        "A first-enrollment OTP should be consumed once with its restricted family/admission; replacing consumed A with B must revoke/fence A family and unfinished intents/admissions or advance generation.",
+        "A lost admission response resolves the committed receipt but cannot reconstruct bearer tokens from stored hashes; a new token requires separately authorized proof.",
+        "Same-browser own-key addition and cross-browser restricted self-handoff require separate sources; existing normal device_handoff cannot authorize enrollment."
+      ],
+      "disposition": "Recorded as activation holds in OTP-CUTOVER.md; only a dormant first-enrollment source check was implemented."
+    },
+    {
+      "reviewer": "role_0234_audit",
+      "verdict": "ACCEPT",
+      "scope": "dormant version-1 first-enrollment OTP source check and legacy expiry fixture only",
+      "evidence_status": "observed_in_current_session",
+      "base_commit": "346db7a44568e4eeb5481232cbdf621db3723e4e",
+      "final_source_sha256": {
+        "backend/crates/platform/provisioning/src/lib.rs": "e12dc59df5d0b6ea76bb02436dc0371cd2d7db7bdf4522a50c71f58a9a0b49ab",
+        "backend/crates/platform/provisioning/tests/bootstrap_passkey.rs": "234054100f8ab5b0be986ca956fad6c258a8144e6f466adebbce7a7b797d332f",
+        "backend/crates/platform/provisioning/tests/self_enroll_handoff_as_runtime_role.rs": "b80f3efe068f284616119e03b421dbeaba4555d8d3aefe0ba425beac1f9cfbf1"
+      },
+      "limits": "Neither current serving role can execute version-1 admission; no issuer, family transaction, global purpose gate, recovery or release acceptance."
+    },
+    {
+      "reviewer": "role_0234_audit",
+      "verdict": "ACCEPT",
+      "scope": "red two-site write-readiness diagnostic and implementation hold only",
+      "evidence_status": "observed_in_current_session",
+      "base_commit": "346db7a44568e4eeb5481232cbdf621db3723e4e",
+      "final_source_sha256": {
+        "backend/app/tests/two_site_confirmation.rs": "c22a0ed6571ce1080a811482d74cf6939ac89a09229dd861902ce768ffb4593c",
+        "docs/planning/nextjs-v1/DURABILITY-HOLD.md": "9765610f640905a90491ac1cec4ceed90eca60e1d9d22972ea5f4a886cdb332a"
+      },
+      "limits": "The diagnostic proves false write readiness on a single primary; it does not prove two-site barriers or safe egress."
+    },
+    {
+      "reviewer": "auth_backend_readonly_review",
+      "verdict": "ACCEPT",
+      "scope": "Dormant migration 0239 audit-presence constraint only; mail candidate 4c5e46c",
+      "evidence_status": "observed_in_current_session",
+      "base_commit": "956a3aa20cf13fc6fdf5014a4bbf7d8ed827473c",
+      "candidate_commit": "4c5e46c505387f1581006464408c5e7e7c304942",
+      "confirmed": "Production migration login has BYPASSRLS, so the preflight sees FORCE-RLS rows; the trigger is installed before its historical scan, and failed scan/retry is exercised.",
+      "limits": "Shared console_rt can forge actor and matching audit; no authenticated principal provenance, egress authorization, two-site barrier or release approval."
+    },
+    {
+      "reviewer": "readiness_review",
+      "verdict": "ACCEPT",
+      "scope": "Diagnostic-only /readyz write_ready=false candidate f78ffe7, integrated as b241bea",
+      "evidence_status": "observed_in_current_session",
+      "candidate_commit": "f78ffe76b5da208ecdcd64df4e3322204cd076ba",
+      "integrated_commit": "b241bea",
+      "confirmed": "JSON explicitly reports unarmed write readiness without a response-schema contract break.",
+      "limits": "HTTP 200 remains possible, deployment probes use HTTP status, and local-commit mutation acknowledgments remain; no two-site or release approval."
+    },
+    {
+      "reviewer": "pd_gate_review",
+      "verdict": "ACCEPT",
+      "scope": "Column-neutral migration-classification parser candidate only",
+      "evidence_status": "observed_in_current_session",
+      "candidate_commit": "09518696362c6179a058a72d4d51ede838de7ba1",
+      "integrated_commit": "7bb2236665e9a3750026c13f76953751152d2edb",
+      "confirmed": "Only LOCK TABLE and SET LOCAL lock_timeout heads are added; unknown DDL remains fail closed. 30/30 tests and workspace gate pass, including combined 0240 classification.",
+      "limits": "One existing gate waiver remains; this review grants no migration, authentication or release approval."
+    },
+    {
+      "reviewer": "organization_vertical",
+      "verdict": "ACCEPT",
+      "scope": "Unactivated version-0 OTP source and registration race containment only",
+      "evidence_status": "observed_in_current_session",
+      "candidate_commit": "218775a4ab908f2a64f0cb1e10ade9b77e72ec7e",
+      "integrated_commit": "fccad07eafa0d39189f42effaf08ac7f1e3ab06f",
+      "confirmed": "All ten new migration columns classified; Company RLS and grants fit v0 scope. Account-wait start probe red on old candidate and green on this candidate; finish probe green. Signed HTTP executes 30 tests, 28 pass.",
+      "limits": "Two OTP-derived business-authority tests still fail HTTP 201; add-device step-up revocation, protected v1 purpose, writer/egress fencing, two-site durability and release remain on HOLD."
+    },
+    {
+      "reviewer": null,
+      "verdict": "ACCEPT_RED_PROBE_ONLY",
+      "scope": "B01 future-effective Employment test-only candidate 05f433fa77486873ec982ae0784edc219b081458",
+      "evidence_status": "independent_read_only_acceptance_reported_in_IMPLEMENTATION.md; reviewer identity and verbatim verdict not recorded",
+      "probe": ".artifacts/acceptance/b01-future-effective-red-fccad07/probe.log",
+      "probe_sha256": "18e52313a62b89b1287006b65d3dce6dc5143b7c668fa9670f31cc75bbd696e4",
+      "confirmed": "Real PostgreSQL runtime-role test failed once with seven premature current/projection effects; 35 filtered.",
+      "limits": "Test validity only; canonical/legacy activation and reconciliation, current-truth fix and B01/release acceptance remain open."
+    },
+    {
+      "reviewer": null,
+      "verdict": "ACCEPT_RED_PROBE_ONLY",
+      "scope": "Add-device exact step-up revocation test-only candidate 2936f86440a3c8bc9b0041be9680811abb8bdba5",
+      "evidence_status": "independent_read_only_acceptance_reported_in_IMPLEMENTATION.md; reviewer identity and verbatim verdict not recorded",
+      "probe": ".artifacts/acceptance/stepup-revocation-fccad07/probe.log",
+      "probe_sha256": "f910140031c2e12769e628b9982d05e9254671acc643ac3ea0dde8b5c8aa5d13",
+      "confirmed": "Signed HTTP test failed once: registration finish returned 201 after exact proving key revocation, required 401; 30 filtered.",
+      "limits": "Later rollback assertions were unreached; direct registration and QR handoff require joined proof/current-key custody. No production fix or authentication/release acceptance."
+    },
+    {
+      "reviewer": null,
+      "verdict": "ACCEPT_RED_PROBE_ONLY",
+      "scope": "Established-user QR handoff test-only candidate aa5075bd071f341876e1b22ddaf960899675e762",
+      "evidence_status": "independent_read_only_acceptance_reported_in_IMPLEMENTATION.md_and_AUTH-SIGNED-HTTP-HOLD.md; reviewer identity and verbatim verdict not recorded",
+      "probe": ".artifacts/acceptance/handoff-established-fccad07/probe.log",
+      "probe_sha256": "e5d50aa3bb0ab76550625e8a006e779023f9798bdc115456bd7d0e8e271437be",
+      "confirmed": "Signed HTTP test failed once: redeemed step-up-authorized handoff returned phone enrollment start 401, required 200; 31 filtered.",
+      "limits": "Phone finish/login and desktop poll were unreached; accepted fixture exposes product-path failure only. No production fix or authentication/release acceptance."
+    },
+    {
+      "reviewer": "/root/b01_design",
+      "verdict": "ACCEPT_SCOPED_DESIGN",
+      "scope": "Add-device proof and cross-device enrollment proposed direction after staged candidate and fresh A-side UV",
+      "evidence_status": "reported_by_root_current_session",
+      "design_path": "docs/planning/nextjs-v1/add-device-proof-handoff-design.md",
+      "design_sha256": "b9252ec33bdab350c4dce2946d011944a4127081e30c65ccf8f80dcbb06a361a",
+      "limits": "Design acceptance only; signed red probes remain red, no serving implementation, two-site custody or release approval."
+    },
+    {
+      "reviewer": "/root/auth_design",
+      "verdict": "ACCEPT_DORMANT_ONLY",
+      "scope": "Distinct exact-row custody type, fresh READ COMMITTED/SET LOCAL Company context and fixed WAL INSERT bound through retry",
+      "evidence_status": "reported_by_root_current_session",
+      "design_path": "docs/planning/nextjs-v1/post-commit-exact-row-observer-design.md",
+      "design_sha256": "6badcf0ad3d6f9a2ad5b08036f32b2ab05eadd7cff1e7a5f97635259012419de",
+      "limits": "Non-BYPASSRLS role must be tested; no serving acknowledgment or release approval."
+    },
+    {
+      "reviewer": "/root/b01_design",
+      "verdict": "ACCEPT_DORMANT_ONLY",
+      "scope": "Exact-row observer design; timeout before an INSERT bound has no continuation token",
+      "evidence_status": "reported_by_root_current_session",
+      "design_path": "docs/planning/nextjs-v1/post-commit-exact-row-observer-design.md",
+      "design_sha256": "6badcf0ad3d6f9a2ad5b08036f32b2ab05eadd7cff1e7a5f97635259012419de",
+      "limits": "No serving acknowledgment or release approval."
+    },
+    {
+      "reviewer": "/root/cross_design_review",
+      "verdict": "ACCEPT_DORMANT_ONLY",
+      "scope": "Exact-row observer design; physical test must implement a non-owner, non-BYPASSRLS role",
+      "evidence_status": "reported_by_root_current_session",
+      "design_path": "docs/planning/nextjs-v1/post-commit-exact-row-observer-design.md",
+      "design_sha256": "6badcf0ad3d6f9a2ad5b08036f32b2ab05eadd7cff1e7a5f97635259012419de",
+      "limits": "Test role and cross-Company credential custody remain unproved; no serving or release approval."
+    },
+    {
+      "reviewer": "/root/observer_final_review",
+      "verdict": "ACCEPT_DORMANT_RED_TEST_ONLY",
+      "scope": "Exact-row observer design and planned red test, including quiet-WAL/hint-bit behavior",
+      "evidence_status": "reported_by_root_current_session",
+      "design_path": "docs/planning/nextjs-v1/post-commit-exact-row-observer-design.md",
+      "design_sha256": "6badcf0ad3d6f9a2ad5b08036f32b2ab05eadd7cff1e7a5f97635259012419de",
+      "limits": "wal_log_hints behavior requires executable proof; no serving acknowledgment or release approval."
+    },
+    {
+      "reviewer": "/root/auth_design",
+      "verdict": "ACCEPT_SCOPED_DESIGN",
+      "scope": "Earlier B01 effective-time Employment proposal as a bounded read experiment, with blockers",
+      "evidence_status": "reported_by_root_current_session",
+      "reviewed_design_sha256": "5386fcd5c275d18d96e47eae8f4b34a8fba6a5fcdc87362f0d0a65f6da0ca422",
+      "current_design_path": "docs/planning/nextjs-v1/employment-effective-projection-design.md",
+      "limits": "Historical draft verdict is not approval of superseding fdd534d8 or current dda72234 proposals, serving future commands or B01 release."
+    },
+    {
+      "reviewer": "/root/cross_design_review",
+      "verdict": "REVISE",
+      "scope": "Earlier B01 effective-time Employment proposal; cross-owner contract deficiencies",
+      "evidence_status": "reported_by_root_current_session",
+      "reviewed_design_sha256": "5386fcd5c275d18d96e47eae8f4b34a8fba6a5fcdc87362f0d0a65f6da0ca422",
+      "current_design_path": "docs/planning/nextjs-v1/employment-effective-projection-design.md",
+      "findings": [
+        "All-writer population lock order and exact per-operation approval set need one owner contract",
+        "Org-change execution must preserve the approved effective date",
+        "Opening-date correction requires a versioned relationship and initial-state contract",
+        "Overnight attendance/payroll eligibility must split at KST and Employment transitions"
+      ],
+      "disposition": "The fdd534d8 proposed draft addressed this review and was superseded by dda72234; neither later draft inherits an ACCEPT verdict and full B01 remains on HOLD."
+    },
+    {
+      "reviewer": "/root/b01_final_design_review",
+      "verdict": "ACCEPT_BOUNDED_READ_ONLY_SLICE",
+      "scope": "New non-serving Employment owner projection and separate read-only runtime-role test only",
+      "evidence_status": "independent_final_read_only_review_current_session",
+      "design_path": "docs/planning/nextjs-v1/employment-effective-projection-design.md",
+      "design_sha256": "dda72234630d36fd10eedf0f6ab0c8d1ec1d7e8649f5e5b5ea9bb9838cfca793",
+      "confirmed": "The new slice uses a separate test and leaves the existing seven-effect writer/legacy probe red.",
+      "limits": "Full B01 activation remains on HOLD for writer, exact approval, correction, interval eligibility, rollback and two-site durability contracts. No implementation edits or tests were performed by this review."
+    },
+    {
+      "reviewer": "/root/observer_test_review",
+      "verdict": "ACCEPT_RED_TEST_ONLY",
+      "scope": "Test-only exact-audit-row branch at 904f7e0 and 64c86d8",
+      "evidence_status": "independent_review_reported_in_observer_red_receipt",
+      "receipt": ".artifacts/acceptance/observer-exact-row-red-fccad07/receipt.json",
+      "confirmed": "The proposed API failed compilation on the base source; zero new runtime assertions executed. A separate hint fixture observed relation-specific FPI_FOR_HINT.",
+      "limits": "Test admission and fixture acceptance only; no implementation, physical runtime assertion or serving/release approval."
+    },
+    {
+      "reviewer": "/root/observer_test_review",
+      "verdict": "ACCEPT_SCOPED_TEST",
+      "scope": "Quiet-WAL forced-flush test revision 33d7ff5",
+      "evidence_status": "independent_review_reported_in_implementation_receipt",
+      "receipt": ".artifacts/acceptance/observer-exact-row-red-fccad07/implementation-receipt.json",
+      "confirmed": "The revised physical probe requires progress after a fixed audit custody INSERT bound without substituting a later flush LSN.",
+      "limits": "Disposable local physical test only; no independent-site, serving or release approval."
+    },
+    {
+      "reviewer": "/root/observer_test_review",
+      "verdict": "REVISE",
+      "scope": "Intermediate post-bound SQL-error test revision 304dcbe",
+      "evidence_status": "independent_review_reported_by_parent_current_session",
+      "finding": "The candidate test did not yet prove the required epoch recheck on retry.",
+      "disposition": "The test was strengthened in 8367a98; the historical REVISE verdict is retained."
+    },
+    {
+      "reviewer": "/root/observer_test_review",
+      "verdict": "ACCEPT_SCOPED_TEST",
+      "scope": "Final post-bound SQL-error and epoch-recheck test revision 8367a98",
+      "evidence_status": "independent_review_reported_in_implementation_receipt",
+      "receipt": ".artifacts/acceptance/observer-exact-row-red-fccad07/implementation-receipt.json",
+      "confirmed": "The final disposable physical probe discovered, executed and passed one test, including retained custody token after SQLSTATE 42501 and required epoch recheck.",
+      "probe_sha256": "b2c62e1ece60f8239a4ef6c915258ca7a7187af8ed912b262d6e20ed768fa6be",
+      "limits": "Localhost primary/standby proof only; no independent-site, serving or release approval."
+    },
+    {
+      "reviewer": "/root/observer_test_review",
+      "verdict": "ACCEPT_DORMANT_SOURCE_ONLY",
+      "scope": "Exact source commit cb4a64804c5f1c1b0b005e68f138984e2231594a and strengthened physical test",
+      "evidence_status": "independent_review_reported_in_implementation_receipt",
+      "receipt": ".artifacts/acceptance/observer-exact-row-red-fccad07/implementation-receipt.json",
+      "confirmed": "Distinct exact-row custody result keeps one post-read primary WAL INSERT bound through timeout, retry and transient SQL failure; no serving callers were added.",
+      "limits": "External witness, independent physical sites, positive fencing, Company credential custody, safe-read clone and cross-process recovery remain HOLD. No acknowledgment, egress or release acceptance."
+    },
+    {
+      "reviewer": "/root/frontend_diagnostic_review",
+      "verdict": "ACCEPT_NECESSARY_STATIC_DIAGNOSTIC_ONLY",
+      "scope": "People prototype blocker probe and baseline acceptance-runner wiring",
+      "evidence_status": "independent_read_only_review_current_session",
+      "receipt": ".artifacts/acceptance/frontend-ssr-red-20260927/receipt.json",
+      "confirmed": "Final source and receipt hashes match; fresh standalone production manifest records three failed current-path blockers, baseline runs the probe only after a passed build, and 18 evidence-tooling tests pass. Earlier broad static candidates were revised.",
+      "limits": "A green static probe is not proof of authenticated SSR, owner reads, field policy, two-user behavior or two-site safety; release remains unaccepted."
+    },
+    {
+      "reviewer": "/root/b01_test_review",
+      "verdict": "ACCEPT_SCOPED_RED_TESTS",
+      "scope": "B01 effective current/typed projection and pre-opening-corruption real PostgreSQL test candidates",
+      "evidence_status": "independent_exact_commit_review_current_session",
+      "commits": ["6dc016ce59348783040d0e24f1b44f56fc4ae9fc", "c4ed3973800bdb09b8e6113c8644c0a8c338ac12", "4ad86d3b1082fc1b8d133b7c9c9540958dcccd9b", "00239f296ea8584367840991d2221b8b1a00fd42"],
+      "confirmed": "Current-read, UNKNOWN, ambiguous-binding and pre-opening-corruption probes failed against the prior source at the intended behavior; inherited temporal assertions were preserved when the fixed fixture epoch moved into the past.",
+      "limits": "Test validity only; no source or module acceptance from red results."
+    },
+    {
+      "reviewer": "/root/b01_test_review",
+      "verdict": "REVISE",
+      "scope": "Intermediate B01 source commits d9097d9 and 1daca44",
+      "evidence_status": "independent_exact_commit_review_current_session",
+      "finding": "The first query accepted a revision predating the relationship opening; the corrected adapter then made console-app fail its exhaustive EmploymentError match with E0004.",
+      "disposition": "A real PostgreSQL red fixture was added before the opening-bound guard; the existing app composition seam gained explicit redacted Internal/Conflict mapping and the app all-target check passed. Historical REVISE verdicts are retained."
+    },
+    {
+      "reviewer": "/root/b01_test_review",
+      "verdict": "ACCEPT_BOUNDED_NON_SERVING_READ_ONLY",
+      "scope": "Exact candidate 937c57ab2dc03b63a7b88828ad1595b736425c12, tree 7823a7fbe72961a12527cb7e6f2f0a87b91f9797, integrated at b8c749fb01be788d249791513d810fd0d6132fe0",
+      "evidence_status": "independent_exact_commit_review_plus_root_integrated_execution_current_session",
+      "receipt": ".artifacts/acceptance/b01-integrated-b8c749f/receipt.json",
+      "confirmed": "Company-RLS current/as-of reads use one statement instant and fail closed for ambiguity, malformed, missing and pre-opening state; app error mapping compiles and redacts. Integrated PostgreSQL targets pass 3/3, 38/38 and REST dispatch 2/2; app all-target check and source closure pass.",
+      "limits": "Two premature legacy employees writes remain red. No serving People/SSR route, future-command safety, two-site confirmation, complete B01 or release acceptance. Inherited ambiguous-binding Validation/HTTP 422 remains a future serving review item."
+    },
+    {
+      "reviewer": "/root/auth_purpose_review",
+      "verdict": "ACCEPT_RED_EVIDENCE_ONLY",
+      "scope": "Exact isolated test-only candidate 52b1c77750a867168281376869263a3c8a994537, tree f7f28c3d7b5b8533fb8af84d0c5268ee7c055aef",
+      "evidence_status": "independent_read_only_exact_candidate_review_current_session",
+      "receipt": ".artifacts/acceptance/semantic-floor-red-b8/receipt.json",
+      "confirmed": "Runtime-role canonical payroll decision reached the owner with authority-only control points, FourEyes NotRequired, and changed a submitted run to APPROVED without review; inherited same-file tests passed 2/2.",
+      "limits": "The first red assertion leaves alias, preflight and no-receipt assertions unreached. No source implementation, signed HTTP path, verified Person, exact approval digest or release acceptance."
+    },
+    {
+      "reviewer": "/root/auth_purpose_review",
+      "verdict": "ACCEPT_RED_TESTS_ONLY",
+      "scope": "Exact isolated test-only candidate cb462d070f36703c8415c648f1817ad4128e4856 against integrated base b8c749fb01be788d249791513d810fd0d6132fe0",
+      "evidence_status": "independent_reviewer_reported_to_parent_current_session_no_verbatim_transcript",
+      "receipt": ".artifacts/acceptance/auth-purpose-cb462d0/receipt.json",
+      "log_sha256": "c9af947ebaa1613ca3468567e6371d2ceb92ce8f63761534c2c7c935b80bb04b",
+      "confirmed": "The diff changes only backend/app/tests/auth_rest.rs. Disposable PostgreSQL signed HTTP suite discovered/executed 33 tests: 28 passed and five failed at source, purpose or historical-family assertions; none ignored or filtered. Reviewer independently checked the exact log hash and clean diff.",
+      "limits": "The five tests stop at first failed assertions; later effects are unreached. No authentication source, serving cutover, two-site barrier, rollback or release acceptance."
+    }
+  ],
+  "findings": [
+    {
+      "id": "PERSIST-001",
+      "finding": "The byte hash of the supplied plan differs from its reported canonical artifact hash. No canonical artifact or original review transcripts have been verified.",
+      "disposition": "Preserve supplied text verbatim and record both hashes; do not represent the saved bytes as independently hash-verified approved artifact."
+    },
+    {
+      "id": "IMPL-001",
+      "finding": "Real clean installation leaves 2 organizations and 1 account after 225 migrations. Historical migration bytes remain unchanged.",
+      "evidence": ".artifacts/empty-install-20260923T060916.729596Z/report.json",
+      "disposition": "Resolved for fresh schema installation and populated historical 224→225 upgrade by baseline version 0 and legacy checksum-preserving path; original failure retained as evidence. This is not product release acceptance.",
+      "resolution_evidence": {
+        "path": ".artifacts/empty-install-20260923T063704.678092Z/report.json",
+        "sha256": "a742f86c5e2dfbf3a889b976f969029457fd984bd2de4afda8bb5d22274fdb6b"
+      }
+    },
+    {
+      "id": "IMPL-002",
+      "finding": "The earlier frontend imported seeded business state and persisted it in plaintext localStorage. Server runtime conversion alone did not provide authorized SSR.",
+      "evidence": "src/lib/store.ts",
+      "disposition": "Plaintext browser persistence was removed in source and tests; the seeded development store remains excluded from production. Authenticated, owner-backed SSR and full seed-reachability proof remain unmet; no module or release acceptance."
+    },
+    {
+      "id": "IMPL-003",
+      "finding": "Copied with_audit/with_audits return success after COMMIT without the specified two-site confirmation barrier.",
+      "evidence": "backend-fork/backend/crates/platform/db/src/audit_tx.rs",
+      "disposition": "Required durability implementation and real fault proof remain outstanding."
+    },
+    {
+      "id": "IMPL-004",
+      "finding": "The old src/lib/store.ts literal seed import probe was overbroad for excluded development prototype routes. A route/artifact probe can exclude the known Console prototype but cannot prove all active production paths contain no fabricated facts.",
+      "evidence": "tools/acceptance.py; tools/test-production-routes.mjs; .artifacts/acceptance/20260924T031559.485043Z/report.json",
+      "disposition": "Known-prototype exclusion has separate passed evidence; general no-business-seeds remains unreached. Earlier IMPL-002 plaintext-storage concern was resolved in source/tests; full live-data route acceptance remains open."
+    },
+    {
+      "id": "IMPL-005",
+      "finding": "Migration 0239 requires a same-transaction audit for prepared outbound mail, but shared console_rt can forge the actor and matching audit.",
+      "evidence": "backend-fork/backend/crates/platform/db/migrations/0239_outbound_mail_preparation_audit_required.sql",
+      "disposition": "Audit-presence slice accepted; mail egress remains disabled until trusted owner-bound admission, current authority, two-site confirmation and fencing."
+    },
+    {
+      "id": "IMPL-006",
+      "finding": "/readyz now reports write_ready=false, but HTTP 200 and local-commit mutation acknowledgments remain possible.",
+      "evidence": "backend-fork/backend/app/src/lib.rs; backend-fork/backend/app/tests/two_site_confirmation.rs",
+      "disposition": "Diagnostic-only slice accepted; write-mode activation and release remain on HOLD until operation-bound barrier and fenced authority are proved."
+    },
+    {
+      "id": "IMPL-007",
+      "finding": "Three signed HTTP OTP-source/registration regressions are contained for newly redeemed version-0 sessions; two OTP-derived business-authority tests still return HTTP 201.",
+      "evidence": "docs/planning/nextjs-v1/AUTH-SIGNED-HTTP-HOLD.md",
+      "disposition": "Bounded v0 race candidate accepted; no serving v1 auth/SSR activation. Complete protected source/purpose/current-generation ownership, step-up revocation, old-writer fencing and two-site confirmation before retrying acceptance."
+    },
+    {
+      "id": "IMPL-008",
+      "finding": "Future-effective Employment appointment, transfer and exit commands cause seven premature current or legacy projection effects.",
+      "evidence": ".artifacts/acceptance/b01-future-effective-red-fccad07/probe.log",
+      "disposition": "The bounded non-serving canonical read slice removes five observed read-path effects. The exact final combined PostgreSQL probe still fails on two early legacy employees writes for future transfer and exit; legacy authority-reader convergence, activation/reconciliation and B01 acceptance remain on HOLD.",
+      "current_evidence": ".artifacts/acceptance/b01-legacy-activation-red/receipt.json"
+    },
+    {
+      "id": "IMPL-009",
+      "finding": "An add-device registration can finish HTTP 201 after its exact step-up passkey is revoked; required status is 401.",
+      "evidence": ".artifacts/acceptance/stepup-revocation-fccad07/probe.log",
+      "disposition": "Test-only probe accepted as a real failure; exact proof, current-key and handoff custody remain on HOLD."
+    },
+    {
+      "id": "IMPL-010",
+      "finding": "A step-up-authorized established-user QR handoff redeems on a phone, but phone enrollment start returns HTTP 401 instead of required 200.",
+      "evidence": ".artifacts/acceptance/handoff-established-fccad07/probe.log",
+      "disposition": "Test-only probe accepted as a real product-path failure; phone finish/login and desktop poll are unreached. Add-device and QR handoff need one reviewed scoped proof/intent design without granting the OTP business authority."
+    },
+    {
+      "id": "IMPL-011",
+      "finding": "Canonical payroll.decide_run accepts a tenant authority-only action definition and approves a submitted run with FourEyes NotRequired; an alias can target the same owner.",
+      "evidence": ".artifacts/acceptance/semantic-floor-red-b8/receipt.json",
+      "disposition": "Exact isolated red test accepted as evidence only. Non-weakenable typed-target classification, verified natural-person approval, exact payload and authority binding, and compatible cutover remain required; B09/P06 and release are unaccepted."
+    },
+    {
+      "id": "IMPL-012",
+      "finding": "The exact isolated signed HTTP suite exposes five authentication source/purpose/legacy-family failures on the integrated base: revoked OTP source survives handoff or consent Account-lock waits, OTP-derived sessions create business work, and an unclassified legacy family accepts first-login terms.",
+      "evidence": ".artifacts/acceptance/auth-purpose-cb462d0/receipt.json",
+      "disposition": "Independent review accepted exact red test-only evidence. Candidate remains isolated; the partial source/schema draft was not integrated. Complete one coherent current-source, purpose, consent/registration, historical-family and handoff owner with compatible fenced cutover and two-site confirmation before serving or release acceptance."
+    }
+  ],
+  "implementation_review_status": "scoped_foundation_patches_accepted_full_product_unaccepted",
+  "release_status": "not_accepted"
+}

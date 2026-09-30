@@ -1,0 +1,9 @@
+type: object
+required: [object, copies, tsa_proofs, custody_history, legal_holds, exports]
+properties:
+  object: { $ref: '#/components/schemas/EvidenceObjectView' }
+  copies: { type: array, items: { $ref: '#/components/schemas/EvidenceCopyView' } }
+  tsa_proofs: { type: array, items: { $ref: '#/components/schemas/TimestampAuthorityProofView' } }
+  custody_history: { type: array, items: { $ref: '#/components/schemas/CustodyEventView' } }
+  legal_holds: { type: array, items: { $ref: '#/components/schemas/LegalHoldRecordView' } }
+  exports: { type: array, items: { $ref: '#/components/schemas/EvidenceExportView' } }

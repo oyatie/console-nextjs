@@ -1,0 +1,39 @@
+type: object
+description: One row of `payroll_statutory_rates` in force on the pay date, verbatim.
+required:
+- code
+- effective_from
+- effective_to_exclusive
+- rate_num
+- rate_den
+- floor_won
+- cap_won
+- basis
+- bearer
+- instrument_ko
+- article_ko
+- promulgation_ko
+- enforced_on
+- source_url
+- retrieved_on
+- provenance_ko
+properties:
+  code: { type: string }
+  effective_from: { type: string, format: date }
+  effective_to_exclusive: { type: [string, 'null'], format: date }
+  rate_num: { type: [integer, 'null'], format: int64 }
+  rate_den: { type: [integer, 'null'], format: int64 }
+  floor_won: { type: [integer, 'null'], format: int64 }
+  cap_won: { type: [integer, 'null'], format: int64 }
+  basis: { type: string }
+  bearer: { type: string }
+  instrument_ko: { type: string }
+  article_ko: { type: string }
+  promulgation_ko: { type: string }
+  enforced_on:
+    type: string
+    format: date
+    description: Never later than `effective_from` — a row cannot be in force before the document that sets it.
+  source_url: { type: string }
+  retrieved_on: { type: string, format: date }
+  provenance_ko: { type: string }

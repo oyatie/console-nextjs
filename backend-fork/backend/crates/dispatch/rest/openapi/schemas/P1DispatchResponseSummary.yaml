@@ -1,0 +1,11 @@
+type: object
+required: [dispatch_id, user_id, response, responded_at, gps_ranked]
+properties:
+  dispatch_id: { $ref: '#/components/schemas/Uuid' }
+  user_id: { $ref: '#/components/schemas/Uuid' }
+  response: { $ref: '#/components/schemas/DispatchResponseKind' }
+  responded_at: { $ref: '#/components/schemas/Timestamp' }
+  score_milli: { type: integer, format: int64 }
+  gps_ranked: { type: boolean }
+  distance_meters: { type: integer, format: int64 }
+  score_reason: { type: string }

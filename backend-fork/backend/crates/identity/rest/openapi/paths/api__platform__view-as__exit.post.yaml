@@ -1,0 +1,21 @@
+tags:
+  - platform
+operationId: exitPlatformViewAs
+summary: End a read-only platform view-as session audit trail
+description: Records the platform.view_as.stop audit event. Called with the operator's real platform token, not the
+  impersonation token.
+security:
+- bearerAuth: []
+responses:
+  '200':
+    description: The exit audit acknowledgement.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/PlatformExitResponse'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '503':
+    $ref: '#/components/responses/ServiceUnavailable'

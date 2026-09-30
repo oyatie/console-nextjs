@@ -1,0 +1,66 @@
+tags:
+  - financial
+operationId: listPurchaseRequests
+summary: List a branch-scoped purchase-request queue
+description: >-
+  Returns only purchase requests visible to the caller in the required
+  branch. Repeat the plain `status` query key to filter lifecycle states;
+  `status[]`, comma-delimited values, unknown keys, and malformed values
+  are rejected. The response is an offset page with required metadata.
+security:
+- bearerAuth: []
+parameters:
+- name: branch_id
+  in: query
+  required: true
+  description: Branch whose purchase-request queue is requested.
+  schema:
+    $ref: '#/components/schemas/Uuid'
+- name: status
+  in: query
+  required: false
+  description: Repeat this plain key to filter one or more lifecycle states.
+  style: form
+  explode: true
+  schema:
+    type: array
+    items:
+      $ref: '#/components/schemas/PurchaseStatus'
+- name: limit
+  in: query
+  required: false
+  description: Page size; defaults to 25 and must be between 1 and 100.
+  schema:
+    type: integer
+    format: int64
+    default: 25
+    minimum: 1
+    maximum: 100
+- name: offset
+  in: query
+  required: false
+  description: Zero-based offset; defaults to 0.
+  schema:
+    type: integer
+    format: int64
+    default: 0
+    minimum: 0
+responses:
+  '200':
+    description: Branch-scoped purchase-request page.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/PurchaseRequestPage'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '422':
+    $ref: '#/components/responses/ValidationError'
+  '500':
+    description: An unexpected persistence or infrastructure error occurred.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ErrorBody'

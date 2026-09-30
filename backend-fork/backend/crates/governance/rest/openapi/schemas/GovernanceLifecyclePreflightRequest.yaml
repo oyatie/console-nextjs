@@ -1,0 +1,20 @@
+type: object
+required:
+- object_type_id
+- from_state
+- to_state
+properties:
+  object_type_id:
+    $ref: '#/components/schemas/Uuid'
+  from_state:
+    $ref: '#/components/schemas/LifecycleState'
+  to_state:
+    $ref: '#/components/schemas/LifecycleState'
+  authority_allow:
+    type: boolean
+  checklist_all_acknowledged:
+    type: boolean
+  four_eyes_request_ref:
+    $ref: '#/components/schemas/Uuid'
+  egress_cleared:
+    type: boolean

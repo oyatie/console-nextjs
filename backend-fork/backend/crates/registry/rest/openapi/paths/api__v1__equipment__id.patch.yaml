@@ -1,0 +1,29 @@
+tags:
+  - equipment
+operationId: updateEquipment
+summary: Update fields on one equipment master row
+description: Admin-gated (EquipmentManage). Only supplied fields are written; nullable fields explicitly set to null
+  are cleared.
+security:
+- bearerAuth: []
+parameters:
+- $ref: '#/components/parameters/EquipmentId'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/UpdateEquipmentRequest'
+responses:
+  '204':
+    description: Equipment updated.
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '422':
+    $ref: '#/components/responses/ValidationError'
+  '503':
+    description: JWT verification is not configured.

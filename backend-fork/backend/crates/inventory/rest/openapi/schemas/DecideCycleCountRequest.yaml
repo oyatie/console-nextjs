@@ -1,0 +1,4 @@
+type: object
+additionalProperties: false
+required: [expectedVersion, decision]
+properties: { expectedVersion: { type: integer, minimum: 1 }, decision: { type: string, enum: [APPROVE, REJECT] }, memo: { type: string, nullable: true }, idempotencyKey: { type: string, nullable: true, minLength: 16, maxLength: 200 } }

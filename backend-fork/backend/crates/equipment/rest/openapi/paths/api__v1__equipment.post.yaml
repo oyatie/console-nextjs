@@ -1,0 +1,30 @@
+tags:
+  - equipment
+operationId: createEquipment
+summary: Create a single equipment master row on the HQ branch
+description: Admin-gated (EquipmentManage). The equipment number prefix derives the manufacturer, kind, and power codes.
+security:
+- bearerAuth: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/CreateEquipmentRequest'
+responses:
+  '201':
+    description: Equipment created.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/CreateEquipmentResponse'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '409':
+    $ref: '#/components/responses/Conflict'
+  '422':
+    $ref: '#/components/responses/ValidationError'
+  '503':
+    description: JWT verification is not configured.

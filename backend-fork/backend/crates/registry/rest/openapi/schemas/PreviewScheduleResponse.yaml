@@ -1,0 +1,13 @@
+type: object
+required: [cron_expr, timezone, fire_times]
+properties:
+  cron_expr:
+    type: string
+  timezone:
+    type: string
+  fire_times:
+    type: array
+    description: The next fire instants, RFC 3339 in UTC.
+    items:
+      type: string
+      format: date-time

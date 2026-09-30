@@ -1,0 +1,13 @@
+type: object
+required:
+- key
+- ok
+- note
+properties:
+  key:
+    type: string
+    enum: [role_defined, quota_defined, no_duplicate_open, exposure_attested]
+  ok:
+    type: boolean
+  note:
+    type: string

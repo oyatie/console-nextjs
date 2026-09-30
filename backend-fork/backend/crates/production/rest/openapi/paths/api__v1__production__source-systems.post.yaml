@@ -1,0 +1,14 @@
+operationId: registerProductionSourceSystem
+tags: [Production]
+summary: Register a production source system and disclose its first credential once
+security: [{bearerAuth: []}]
+description: RoleManage-only registration of a tenant-scoped non-human source principal. Registration, rotation, and disable actions are audited server-side.
+requestBody: {required: true, content: {application/json: {schema: {$ref: '#/components/schemas/RegisterProductionSourceSystem'}}}}
+responses:
+  '201': {description: Registered source system with one-time credential disclosure, content: {application/json: {schema: {$ref: '#/components/schemas/ProductionSourceSystemCredential'}}}}
+  '401': {$ref: '#/components/responses/Unauthorized'}
+  '403': {$ref: '#/components/responses/Forbidden'}
+  '409': {$ref: '#/components/responses/Conflict'}
+  '422': {$ref: '#/components/responses/ValidationError'}
+  '500': {$ref: '#/components/responses/InternalServerError'}
+  '503': {$ref: '#/components/responses/ServiceUnavailable'}

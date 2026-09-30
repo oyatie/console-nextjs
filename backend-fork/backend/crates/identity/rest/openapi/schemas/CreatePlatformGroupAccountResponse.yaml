@@ -1,0 +1,14 @@
+type: object
+required:
+- account
+- otp
+- otp_expires_at
+properties:
+  account:
+    $ref: '#/components/schemas/PlatformGroupAccount'
+  otp:
+    type: string
+    minLength: 1
+    description: One-time setup OTP returned exactly once; deliver out-of-band and never log it.
+  otp_expires_at:
+    $ref: '#/components/schemas/Timestamp'

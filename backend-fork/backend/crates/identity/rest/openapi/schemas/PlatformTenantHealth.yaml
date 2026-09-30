@@ -1,0 +1,64 @@
+type: object
+required:
+- id
+- slug
+- name
+- status
+- group_id
+- group_slug
+- group_name
+- user_count
+- active_user_count
+- active_work_orders
+- open_work_orders
+- last_activity_at
+- route_adoption
+- zero_legacy_release_cycles
+properties:
+  id:
+    $ref: '#/components/schemas/Uuid'
+  slug:
+    type: string
+  name:
+    type: string
+  status:
+    $ref: '#/components/schemas/PlatformOrgStatus'
+  group_id:
+    type:
+    - string
+    - 'null'
+    format: uuid
+  group_slug:
+    type:
+    - string
+    - 'null'
+  group_name:
+    type:
+    - string
+    - 'null'
+  user_count:
+    type: integer
+    format: int64
+  active_user_count:
+    type: integer
+    format: int64
+  active_work_orders:
+    type: integer
+    format: int64
+  open_work_orders:
+    type: integer
+    format: int64
+  last_activity_at:
+    type:
+    - string
+    - 'null'
+    format: date-time
+  route_adoption:
+    type: array
+    description: Per-release console-vs-legacy route adoption and RUM rollup for ramp decisions.
+    items:
+      $ref: '#/components/schemas/RouteAdoptionMetric'
+  zero_legacy_release_cycles:
+    type: integer
+    format: int64
+    description: Count of release cycles with console route traffic and zero legacy route-selection events.

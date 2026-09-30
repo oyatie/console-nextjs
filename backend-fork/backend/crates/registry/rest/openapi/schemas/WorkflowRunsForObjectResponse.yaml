@@ -1,0 +1,17 @@
+type: object
+additionalProperties: false
+required:
+- subject
+- as_of
+- items
+properties:
+  subject:
+    $ref: '#/components/schemas/WorkflowObjectSubject'
+  as_of:
+    $ref: '#/components/schemas/Timestamp'
+  items:
+    type: array
+    items:
+      $ref: '#/components/schemas/WorkflowRunForObjectSummary'
+  next_before:
+    $ref: '#/components/schemas/Uuid'

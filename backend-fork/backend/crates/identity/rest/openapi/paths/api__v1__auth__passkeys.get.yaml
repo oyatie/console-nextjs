@@ -1,0 +1,26 @@
+tags:
+  - auth
+operationId: listAuthPasskeys
+summary: List the authenticated user's own passkey credentials
+description: Returns the caller's own WebAuthn credentials (id and registration / last-use timestamps) through the auth
+  namespace. This self-only route is not behind tenant middleware, so it works for both tenant sessions and platform-admin
+  sessions. No secret material is ever returned.
+security:
+- bearerAuth: []
+responses:
+  '200':
+    description: The authenticated user's passkey credentials.
+    content:
+      application/json:
+        schema:
+          type: array
+          items:
+            $ref: '#/components/schemas/PasskeySummary'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '503':
+    description: JWT verification is not configured.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ErrorBody'

@@ -1,0 +1,27 @@
+type: object
+description: An ACTIVE workflow definition the caller may start from the 기안 template gallery. Carries only the
+  metadata definitions actually hold; active_version is the version a start binds to.
+required:
+- id
+- workflow_key
+- display_name
+- object_type
+- active_version
+- required_approval_line
+- required_payment_line
+properties:
+  id:
+    $ref: '#/components/schemas/Uuid'
+  workflow_key:
+    type: string
+  display_name:
+    type: string
+  object_type:
+    type: string
+  active_version:
+    type: integer
+    format: int32
+  required_approval_line:
+    type: boolean
+  required_payment_line:
+    type: boolean

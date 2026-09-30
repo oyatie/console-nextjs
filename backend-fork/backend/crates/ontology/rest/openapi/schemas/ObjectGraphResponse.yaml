@@ -1,0 +1,21 @@
+type: object
+description: The bounded, caller-visible neighborhood of an object, walked over object_links. Unresolvable
+  nodes are omitted entirely (never returned as stubs), and edges touching an omitted node are omitted too.
+required:
+- nodes
+- edges
+- truncated
+properties:
+  nodes:
+    type: array
+    description: Every object the caller can resolve, each passed through the same visibility guard as resolveObject.
+    items:
+      $ref: '#/components/schemas/ObjectHead'
+  edges:
+    type: array
+    description: Links between resolved nodes (the induced subgraph over the visible node set).
+    items:
+      $ref: '#/components/schemas/ObjectLinkResponse'
+  truncated:
+    type: boolean
+    description: True if the node cap was hit before the walk exhausted the requested depth.

@@ -1,0 +1,43 @@
+type: object
+required:
+- id
+- branch_id
+- equipment_id
+- source
+- amount_won
+- memo
+- residual_before_won
+- residual_after_won
+- entry_at
+properties:
+  id:
+    $ref: '#/components/schemas/Uuid'
+  branch_id:
+    $ref: '#/components/schemas/Uuid'
+  equipment_id:
+    $ref: '#/components/schemas/Uuid'
+  work_order_id:
+    type:
+    - string
+    - 'null'
+    format: uuid
+  purchase_request_id:
+    type:
+    - string
+    - 'null'
+    format: uuid
+  source:
+    $ref: '#/components/schemas/CostLedgerSource'
+  amount_won:
+    type: integer
+    format: int64
+  memo:
+    type: string
+  residual_before_won:
+    type: integer
+    format: int64
+  residual_after_won:
+    type: integer
+    format: int64
+  entry_at:
+    $ref: '#/components/schemas/Timestamp'

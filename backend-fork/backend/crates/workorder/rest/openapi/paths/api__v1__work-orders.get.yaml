@@ -1,0 +1,124 @@
+tags:
+  - work-orders
+operationId: listWorkOrders
+summary: List branch-scoped work orders
+description: Returns branch-scoped work orders sorted by priority and target due date. The server accepts repeated `status`,
+  `status[]`, `priority`, and `priority[]` query keys, plus comma-separated values. `branch_id` narrows results
+  within the caller's existing branch/RLS scope. `around_work_order_id` searches
+  around a seed work order by returning the seed plus branch/RLS-visible work orders sharing customer, site, or equipment.
+  The response includes a branch/RLS-scoped object-set lens with aggregates, facets, due-date histogram buckets, and
+  customer/site listograms for drill-to-act dashboards.
+security:
+- bearerAuth: []
+parameters:
+- name: status
+  in: query
+  required: false
+  style: form
+  explode: true
+  schema:
+    type: array
+    items:
+      $ref: '#/components/schemas/WorkOrderStatus'
+- name: priority
+  in: query
+  required: false
+  style: form
+  explode: true
+  schema:
+    type: array
+    items:
+      $ref: '#/components/schemas/PriorityLevel'
+- name: maintenance_type
+  in: query
+  required: false
+  style: form
+  explode: true
+  schema:
+    type: array
+    items:
+      $ref: '#/components/schemas/MaintenanceType'
+- name: maintenance_cause
+  in: query
+  required: false
+  style: form
+  explode: true
+  schema:
+    type: array
+    items:
+      $ref: '#/components/schemas/MaintenanceCause'
+- name: assigned_to
+  in: query
+  required: false
+  schema:
+    type: string
+  description: Use `me` for the authenticated user or a user UUID.
+- name: customer_id
+  in: query
+  required: false
+  schema:
+    $ref: '#/components/schemas/Uuid'
+- name: site_id
+  in: query
+  required: false
+  schema:
+    $ref: '#/components/schemas/Uuid'
+- name: equipment_id
+  in: query
+  required: false
+  schema:
+    $ref: '#/components/schemas/Uuid'
+  description: Restricts to one asset's orders (asset → work-order history).
+- name: branch_id
+  in: query
+  required: false
+  schema:
+    $ref: '#/components/schemas/Uuid'
+  description: Narrows results to one branch already visible to the caller; it never expands branch/RLS visibility.
+- name: around_work_order_id
+  in: query
+  required: false
+  schema:
+    $ref: '#/components/schemas/Uuid'
+  description: Search around this seed work order; returns branch/RLS-visible orders sharing the seed's customer, site,
+    or equipment, including the seed.
+- name: target_due_from
+  in: query
+  required: false
+  schema:
+    $ref: '#/components/schemas/Timestamp'
+- name: target_due_to
+  in: query
+  required: false
+  schema:
+    $ref: '#/components/schemas/Timestamp'
+- name: limit
+  in: query
+  required: false
+  schema:
+    type: integer
+    format: int64
+    minimum: 1
+    maximum: 100
+    default: 50
+- name: offset
+  in: query
+  required: false
+  schema:
+    type: integer
+    format: int64
+    minimum: 0
+    default: 0
+responses:
+  '200':
+    description: Paginated work-order list.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/WorkOrderListPage'
+  '400':
+    $ref: '#/components/responses/ValidationError'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'

@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: console
+  labels:
+    # Enforce the restricted Pod Security Standard — all workloads here run
+    # non-root with a read-only rootfs and no added capabilities.
+    pod-security.kubernetes.io/enforce: restricted
+    pod-security.kubernetes.io/enforce-version: latest

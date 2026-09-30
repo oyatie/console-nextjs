@@ -1,0 +1,27 @@
+tags:
+- payroll
+operationId: withdrawPayrollRun
+summary: Withdraw a REJECTED run back to CALCULATED, clearing the submit/decide columns so a fresh maker-checker pair is admissible
+security:
+- bearerAuth: []
+parameters:
+- name: id
+  in: path
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+responses:
+  '200':
+    description: The run detail after the withdrawal.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/PayrollRunDetail'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '409':
+    $ref: '#/components/responses/Conflict'

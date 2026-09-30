@@ -1,0 +1,28 @@
+type: object
+required:
+- id
+- branch_id
+- file_name
+- content_type
+- size_bytes
+- role
+- upload_state
+- created_at
+properties:
+  id:
+    $ref: '#/components/schemas/Uuid'
+  branch_id:
+    $ref: '#/components/schemas/Uuid'
+  file_name:
+    type: string
+  content_type:
+    type: string
+  size_bytes:
+    type: integer
+    format: int64
+  role:
+    type: string
+  upload_state:
+    type: string
+  created_at:
+    $ref: '#/components/schemas/Timestamp'

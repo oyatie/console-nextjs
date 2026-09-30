@@ -1,0 +1,19 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n                UPDATE site_geofence_presence\n                SET inside = $5, since = $6, updated_at = now()\n                WHERE org_id = $1 AND user_id = $2 AND work_order_id = $3 AND site_id = $4\n                ",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid",
+        "Uuid",
+        "Uuid",
+        "Bool",
+        "Timestamptz"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "6763d6436b0661498ecb3e8d0a82284bbaef58653502dfe12dac5aa80d9806c5"
+}

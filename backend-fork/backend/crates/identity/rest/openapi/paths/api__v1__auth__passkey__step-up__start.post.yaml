@@ -1,0 +1,27 @@
+tags:
+  - auth
+operationId: startMobilePasskeyStepUp
+summary: Start an authenticated action-bound mobile passkey step-up ceremony
+description: Starts a discoverable WebAuthn ceremony for a signed-in native client and persists the submitted action
+  binding beside the ceremony. The resulting assertion may authorize only the bound approval or poll-vote action.
+security:
+- bearerAuth: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/MobilePasskeyStepUpStartRequest'
+responses:
+  '200':
+    description: Action-bound authentication ceremony challenge.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/MobilePasskeyStepUpStartResponse'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '422':
+    $ref: '#/components/responses/ValidationError'
+  '429':
+    $ref: '#/components/responses/TooManyRequests'

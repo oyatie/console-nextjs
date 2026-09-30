@@ -1,0 +1,277 @@
+{
+  "source": "console-registry-rest",
+  "paths": {
+    "/api/v1/approval-inbox/bulk-tasks": [
+      "get"
+    ],
+    "/api/v1/customers": [
+      "post"
+    ],
+    "/api/v1/equipment-by-location": [
+      "get"
+    ],
+    "/api/v1/equipment-substitutions": [
+      "post"
+    ],
+    "/api/v1/equipment-substitutions/{id}/return": [
+      "post"
+    ],
+    "/api/v1/equipment/import": [
+      "post"
+    ],
+    "/api/v1/equipment/list": [
+      "get"
+    ],
+    "/api/v1/equipment/ownership-transfer-requests/{id}/decisions": [
+      "post"
+    ],
+    "/api/v1/equipment/{id}": [
+      "delete",
+      "get",
+      "patch"
+    ],
+    "/api/v1/equipment/{id}/ownership-transfer-requests": [
+      "get",
+      "post"
+    ],
+    "/api/v1/equipment/{id}/substitutes": [
+      "get"
+    ],
+    "/api/v1/equipment/{id}/timeline-graph": [
+      "get"
+    ],
+    "/api/v1/equipment/{id}/versions": [
+      "get"
+    ],
+    "/api/v1/equipment/{id}/versions/{version}/rollback": [
+      "post"
+    ],
+    "/api/v1/object-actions/catalog": [
+      "get"
+    ],
+    "/api/v1/object-actions/execute": [
+      "post"
+    ],
+    "/api/v1/sites": [
+      "post"
+    ],
+    "/api/v1/sites/{id}": [
+      "patch"
+    ],
+    "/api/v1/workflow-runs": [
+      "get",
+      "post"
+    ],
+    "/api/v1/workflow-runs/for-object": [
+      "get"
+    ],
+    "/api/v1/workflow-runs/mine": [
+      "get"
+    ],
+    "/api/v1/workflow-runs/{run_id}": [
+      "get"
+    ],
+    "/api/v1/workflow-runs/{run_id}/post-finalization-rejection": [
+      "post"
+    ],
+    "/api/v1/workflow-studio/catalog": [
+      "get"
+    ],
+    "/api/v1/workflow-studio/definitions": [
+      "get",
+      "post"
+    ],
+    "/api/v1/workflow-studio/definitions/by-object-kind/{kind}": [
+      "get"
+    ],
+    "/api/v1/workflow-studio/definitions/{id}": [
+      "delete",
+      "patch"
+    ],
+    "/api/v1/workflow-studio/definitions/{id}/clone": [
+      "post"
+    ],
+    "/api/v1/workflow-studio/definitions/{id}/history": [
+      "get"
+    ],
+    "/api/v1/workflow-studio/definitions/{id}/pause": [
+      "post"
+    ],
+    "/api/v1/workflow-studio/definitions/{id}/publish": [
+      "post"
+    ],
+    "/api/v1/workflow-studio/definitions/{id}/resume": [
+      "post"
+    ],
+    "/api/v1/workflow-studio/definitions/{id}/revisions/{rev}/approve": [
+      "post"
+    ],
+    "/api/v1/workflow-studio/definitions/{id}/revisions/{rev}/withdraw": [
+      "post"
+    ],
+    "/api/v1/workflow-studio/definitions/{id}/rollback": [
+      "post"
+    ],
+    "/api/v1/workflow-studio/definitions/{id}/run": [
+      "post"
+    ],
+    "/api/v1/workflow-studio/definitions/{id}/run-log": [
+      "get"
+    ],
+    "/api/v1/workflow-studio/definitions/{id}/simulate": [
+      "post"
+    ],
+    "/api/v1/workflow-studio/schedules": [
+      "get",
+      "post"
+    ],
+    "/api/v1/workflow-studio/schedules/preview-next-runs": [
+      "post"
+    ],
+    "/api/v1/workflow-studio/schedules/{id}": [
+      "patch"
+    ],
+    "/api/v1/workflow-studio/schedules/{id}/runs": [
+      "get"
+    ],
+    "/api/v1/workflow-studio/submittable-definitions": [
+      "get"
+    ],
+    "/api/v1/workflow-studio/trigger-bindings": [
+      "get",
+      "post"
+    ],
+    "/api/v1/workflow-studio/trigger-bindings/{id}/disable": [
+      "post"
+    ],
+    "/api/v1/workflow-studio/trigger-bindings/{id}/enable": [
+      "post"
+    ],
+    "/api/v1/workflow-tasks": [
+      "get"
+    ],
+    "/api/v1/workflow-tasks/{task_id}/claim": [
+      "post"
+    ],
+    "/api/v1/workflow-tasks/{task_id}/decide": [
+      "post"
+    ],
+    "/api/v1/workflow-tasks/{task_id}/finalize": [
+      "post"
+    ]
+  },
+  "schemas": [
+    "AdminWorkflowRunListResponse",
+    "AssignSubstituteRequest",
+    "BulkApprovalCapability",
+    "BulkApprovalInboxResponse",
+    "BulkApprovalTask",
+    "ClaimWorkflowTaskRequest",
+    "ClaimWorkflowTaskResponse",
+    "ClaimedWorkflowTask",
+    "CloneWorkflowDefinitionRequest",
+    "CreateCustomerRequest",
+    "CreateOwnershipTransferRequest",
+    "CreateSiteRequest",
+    "CreateTriggerBindingRequest",
+    "CreateWorkflowDefinitionRequest",
+    "CreateWorkflowScheduleRequest",
+    "CreatedCustomer",
+    "CreatedSite",
+    "DecideOwnershipTransferRequest",
+    "DecideWorkflowTaskRequest",
+    "DecideWorkflowTaskResponse",
+    "DecidedWorkflowTask",
+    "DefinitionsByObjectKindResponse",
+    "EquipmentByLocationPage",
+    "EquipmentGraphEdge",
+    "EquipmentGraphNode",
+    "EquipmentLifecycleEvent",
+    "EquipmentListItem",
+    "EquipmentListPage",
+    "EquipmentRelationshipGraph",
+    "EquipmentRollbackResult",
+    "EquipmentSortBy",
+    "EquipmentTimelineEquipment",
+    "EquipmentTimelineGraph",
+    "EquipmentVersion",
+    "EquipmentVersionList",
+    "ExecuteObjectActionRequest",
+    "FinalizeWorkflowTaskRequest",
+    "FinalizeWorkflowTaskResponse",
+    "FinalizedWorkflowRun",
+    "FinalizedWorkflowTask",
+    "ObjectActionCatalogResponse",
+    "ObjectActionDescriptor",
+    "ObjectActionExecutionResponse",
+    "ObjectActionFieldDescriptor",
+    "ObjectActionFieldOption",
+    "OwnershipTransfer",
+    "OwnershipTransferPage",
+    "OwnershipTransferStep",
+    "PostFinalizationRejectionDocument",
+    "PostFinalizationRejectionRequest",
+    "PostFinalizationRejectionResponse",
+    "PreviewScheduleRequest",
+    "PreviewScheduleResponse",
+    "RegistryImportReport",
+    "RegistryRowError",
+    "ReturnSubstituteRequest",
+    "RollbackWorkflowDefinitionRequest",
+    "ScheduleRunItem",
+    "ScheduleRunListResponse",
+    "SimulateWorkflowDefinitionRequest",
+    "SiteLocationGroup",
+    "StartWorkflowRunRequest",
+    "StartWorkflowRunResponse",
+    "SubmittableDefinitionListResponse",
+    "SubmittableDefinitionResponse",
+    "SubstituteAssignment",
+    "SubstituteCandidate",
+    "SubstituteCandidatePage",
+    "SubstituteMatchKind",
+    "TriggerBindingListResponse",
+    "TriggerBindingResponse",
+    "TriggerWorkflowRunRequest",
+    "UpdateEquipmentRequest",
+    "UpdateSiteRequest",
+    "UpdateWorkflowDefinitionRequest",
+    "UpdateWorkflowScheduleRequest",
+    "WorkflowActionAllowlistEntry",
+    "WorkflowConnectorDescriptor",
+    "WorkflowDefinitionEventResponse",
+    "WorkflowDefinitionHistoryResponse",
+    "WorkflowDefinitionListResponse",
+    "WorkflowDefinitionResponse",
+    "WorkflowObjectKind",
+    "WorkflowObjectSubject",
+    "WorkflowRunDetailResponse",
+    "WorkflowRunDetailRun",
+    "WorkflowRunDetailTarget",
+    "WorkflowRunForObjectSummary",
+    "WorkflowRunListItem",
+    "WorkflowRunListResponse",
+    "WorkflowRunLogResponse",
+    "WorkflowRunResponse",
+    "WorkflowRunSummary",
+    "WorkflowRunTimelineStep",
+    "WorkflowRunsForObjectResponse",
+    "WorkflowScheduleListResponse",
+    "WorkflowScheduleResponse",
+    "WorkflowSimulationFinding",
+    "WorkflowSimulationResponse",
+    "WorkflowStepUpRequest",
+    "WorkflowStudioCatalogResponse",
+    "WorkflowTaskListResponse",
+    "WorkflowTaskSummary",
+    "WorkflowTemplateDescriptor"
+  ],
+  "external_schemas": [
+    "Date",
+    "EquipmentStatus",
+    "ErrorBody",
+    "PasskeyStepUpAssertion",
+    "Timestamp",
+    "Uuid"
+  ]
+}

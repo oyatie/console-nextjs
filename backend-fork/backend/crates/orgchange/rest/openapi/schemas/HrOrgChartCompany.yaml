@@ -1,0 +1,21 @@
+type: object
+required:
+- company
+- total
+- active
+- units
+properties:
+  company:
+    type: string
+  total:
+    type: integer
+    format: int64
+    minimum: 0
+  active:
+    type: integer
+    format: int64
+    minimum: 0
+  units:
+    type: array
+    items:
+      $ref: '#/components/schemas/HrOrgChartUnit'

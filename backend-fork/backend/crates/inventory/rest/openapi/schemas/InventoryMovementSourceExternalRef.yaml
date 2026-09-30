@@ -1,0 +1,4 @@
+type: object
+additionalProperties: false
+required: [kind, sourceRef]
+properties: { kind: { type: string, enum: [external_ref] }, sourceRef: { type: string, nullable: true } }

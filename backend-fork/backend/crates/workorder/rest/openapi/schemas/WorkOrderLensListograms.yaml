@@ -1,0 +1,13 @@
+type: object
+required:
+- customers
+- sites
+properties:
+  customers:
+    type: array
+    items:
+      $ref: '#/components/schemas/WorkOrderNamedBucket'
+  sites:
+    type: array
+    items:
+      $ref: '#/components/schemas/WorkOrderNamedBucket'

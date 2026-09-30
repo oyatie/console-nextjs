@@ -1,0 +1,19 @@
+type: object
+properties:
+  id:
+    $ref: '#/components/schemas/Uuid'
+  work_order_id:
+    $ref: '#/components/schemas/Uuid'
+  vendor_id:
+    $ref: '#/components/schemas/Uuid'
+  vendor_name:
+    type: string
+  status:
+    type: string
+    enum:
+    - REQUESTED
+    - ASSIGNED
+    - IN_PROGRESS
+    - RESULT_SUBMITTED
+    - COMPLETED
+    - CANCELLED

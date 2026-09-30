@@ -1,0 +1,45 @@
+[package]
+name = "console-payroll-adapter-postgres"
+version = "0.1.0"
+description = "Postgres adapter for the payroll draft-run/line staging tables (mig 0074) — read-only surface for the REST layer."
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+console-kernel-core = { workspace = true }
+# The contract crate. It has no [workspace.dependencies] entry, so — exactly as
+# in backend/crates/orgchange/adapter-postgres/Cargo.toml — it is depended on by
+# path. Required, not optional: this crate is named as `ObjectKey::PayRun`'s
+# owner, and `CanonicalPort` is declared there.
+console-ontology-canonical-domain = { path = "../../ontology/canonical-domain" }
+console-payroll-domain = { workspace = true }
+console-platform-db = { workspace = true }
+console-platform-request-context = { workspace = true }
+# The CONSUMER-declared staging port. The layer-boundary gate forbids
+# console-workflow-runtime-adapter-postgres depending on this crate
+# (adapter → adapter), so the JOB outbox drain reaches the PayRun owner through
+# a trait in the workflow DOMAIN crate, which both adapters may depend on.
+console-workflow-domain = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+sha2 = { workspace = true }
+sqlx = { workspace = true }
+thiserror = { workspace = true }
+time = { workspace = true }
+# `CanonicalPort::execute` is synchronous and `sqlx` is async-only, so the
+# PayRun port needs a runtime handle to bridge the two. Promoted from
+# dev-dependencies, where it already was.
+tokio = { workspace = true, features = ["macros", "rt-multi-thread"] }
+uuid = { workspace = true }
+
+[dev-dependencies]
+console-platform-test-support = { workspace = true }
+# Dev-only: the empty-tenant PayRun lifecycle sits on Company/OrgUnit/JobPosition/
+# Person/hr.appoint. Adapter → adapter is forbidden as a production edge; the
+# layer-boundary gate exempts kind = "dev".
+console-ontology-canonical-adapter-postgres = { path = "../../ontology/canonical-adapter-postgres" }
+
+[lints]
+workspace = true

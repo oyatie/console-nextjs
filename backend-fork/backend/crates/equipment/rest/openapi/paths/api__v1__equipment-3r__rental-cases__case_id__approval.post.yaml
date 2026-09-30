@@ -1,0 +1,13 @@
+tags: [equipment-3r]
+operationId: decideEquipment3rApproval
+summary: Four-eyes approval; APPROVED reserves the unit (single winner)
+security: [{ bearerAuth: [] }]
+parameters: [{ name: case_id, in: path, required: true, schema: { $ref: '#/components/schemas/Uuid' } }]
+requestBody: { required: true, content: { application/json: { schema: { type: object, required: [decision], properties: { decision: { type: string, enum: [APPROVED, DECLINED] }, reason: { type: string, minLength: 1, maxLength: 500 } } } } } }
+responses:
+  '200': { description: Decision recorded, content: { application/json: { schema: { $ref: '#/components/schemas/Equipment3rCaseView' } } } }
+  '401': { $ref: '#/components/responses/Unauthorized' }
+  '403': { description: "Missing grant, branch outside scope, or four-eyes violation" }
+  '404': { description: Unknown or cross-org case }
+  '409': { description: Case not QUOTED or unit not AVAILABLE }
+  '422': { $ref: '#/components/responses/ValidationError' }

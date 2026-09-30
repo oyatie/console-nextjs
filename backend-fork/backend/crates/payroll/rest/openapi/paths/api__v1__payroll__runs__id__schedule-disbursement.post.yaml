@@ -1,0 +1,35 @@
+tags:
+- payroll
+operationId: schedulePayrollDisbursement
+summary: Schedule the transfer for an APPROVED run (one disbursement per run)
+security:
+- bearerAuth: []
+parameters:
+- name: id
+  in: path
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/SchedulePayrollDisbursementRequest'
+responses:
+  '201':
+    description: The created disbursement record; the run moves to DISBURSEMENT_SCHEDULED.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/PayrollDisbursement'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '409':
+    $ref: '#/components/responses/Conflict'
+  '422':
+    $ref: '#/components/responses/ValidationError'

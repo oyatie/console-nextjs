@@ -1,0 +1,24 @@
+type: object
+additionalProperties: false
+required:
+- status
+- as_of
+- items
+- total
+- truncated
+properties:
+  status:
+    type: string
+    enum:
+    - ok
+  as_of:
+    $ref: '#/components/schemas/Timestamp'
+  items:
+    type: array
+    items:
+      $ref: '#/components/schemas/WorkbenchCalendarItem'
+  total:
+    type: integer
+    minimum: 0
+  truncated:
+    type: boolean

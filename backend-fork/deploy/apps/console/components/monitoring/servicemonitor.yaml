@@ -1,0 +1,31 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: console-app
+  namespace: console
+  labels: { app: console-app }
+spec:
+  selector:
+    matchLabels: { app: console-app }
+  # Scrape the active console-app Service (the blue/green active endpoint). The
+  # preview Service shares the app=console-app label, so restrict to the named port.
+  endpoints:
+    - port: http # named port 8080 on the console-app Service
+      path: /metrics
+      interval: 30s
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: console-mox
+  namespace: console
+  labels: { app: console-mox }
+spec:
+  selector:
+    # The headless StatefulSet Service also has app=console-mox; select only the
+    # scrape-facing ClusterIP Service to avoid duplicate Prometheus targets.
+    matchLabels: { app: console-mox, monitoring: "true" }
+  endpoints:
+    - port: metrics # named port 8010 on the ClusterIP-only console-mox Service
+      path: /metrics
+      interval: 30s

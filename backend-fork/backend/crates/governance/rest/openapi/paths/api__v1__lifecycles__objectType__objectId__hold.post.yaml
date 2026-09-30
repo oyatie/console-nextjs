@@ -1,0 +1,32 @@
+tags:
+  - lifecycles
+operationId: setObjectLifecycleHold
+summary: Set or clear legal hold / retention on one object's lifecycle
+description: Lifecycle-authority gated (LifecycleManage, org-wide), audited. Creates the lifecycle row at draft when
+  absent so a hold can be placed before the object ever transitions.
+security:
+- bearerAuth: []
+parameters:
+- $ref: '#/components/parameters/LifecycleObjectType'
+- $ref: '#/components/parameters/LifecycleObjectId'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/SetLifecycleHoldRequest'
+responses:
+  '200':
+    description: Hold updated.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ObjectLifecycle'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '422':
+    $ref: '#/components/responses/ValidationError'
+  '503':
+    description: JWT verification is not configured.

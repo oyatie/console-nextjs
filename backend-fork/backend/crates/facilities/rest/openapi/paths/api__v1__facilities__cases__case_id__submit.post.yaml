@@ -1,0 +1,16 @@
+tags: [facilities]
+operationId: submitFacilitiesExecution
+summary: Submit execution evidence and await customer acceptance
+security: [{ bearerAuth: [] }]
+parameters: [{ name: case_id, in: path, required: true, schema: { $ref: '#/components/schemas/Uuid' } }]
+requestBody: { required: true, content: { application/json: { schema: { $ref: '#/components/schemas/FacilitiesSubmitRequest' } } } }
+responses:
+  '200': { description: Case awaiting customer acceptance, content: { application/json: { schema: { $ref: '#/components/schemas/FacilitiesCase' } } } }
+  '401': { $ref: '#/components/responses/Unauthorized' }
+  '403': { $ref: '#/components/responses/Forbidden' }
+  '404': { $ref: '#/components/responses/NotFound' }
+  '409': { $ref: '#/components/responses/Conflict' }
+  '412': { description: Required execution evidence is not confirmed, content: { application/json: { schema: { $ref: '#/components/schemas/ErrorBody' } } } }
+  '422': { $ref: '#/components/responses/ValidationError' }
+  '500': { $ref: '#/components/responses/InternalServerError' }
+  '503': { $ref: '#/components/responses/ServiceUnavailable' }

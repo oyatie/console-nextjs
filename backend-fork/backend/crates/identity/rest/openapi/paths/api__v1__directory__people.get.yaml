@@ -1,0 +1,77 @@
+tags:
+  - directory
+operationId: listDirectoryPeople
+summary: List people visible through the caller's effective directory scope
+description: >-
+  Returns the tenant people directory after intersecting live branch
+  membership with EmployeeDirectoryRead grants. A requested branch_id
+  narrows that effective scope; it never widens it. Results are ordered by
+  display_name then id, and branch_ids are redacted to the resulting scope.
+  Items are DirectoryPerson records (UserSummary fields except phone).
+security:
+- bearerAuth: []
+parameters:
+- name: search
+  in: query
+  required: false
+  description: Case-insensitive display-name search after trimming and lowercase normalization.
+  schema:
+    type: string
+    maxLength: 200
+- name: team
+  in: query
+  required: false
+  schema:
+    $ref: '#/components/schemas/Team'
+- name: branch_id
+  in: query
+  required: false
+  description: Exact branch filter, intersected with the caller's effective directory scope.
+  schema:
+    $ref: '#/components/schemas/Uuid'
+- name: include_inactive
+  in: query
+  required: false
+  description: Include archived users; defaults to false.
+  schema:
+    type: boolean
+    default: false
+- name: limit
+  in: query
+  required: false
+  schema:
+    type: integer
+    format: int64
+    minimum: 1
+    maximum: 200
+    default: 50
+    description: Values above 200 are rejected with 422; they are never silently clamped.
+- name: offset
+  in: query
+  required: false
+  schema:
+    type: integer
+    format: int64
+    minimum: 0
+    default: 0
+responses:
+  '200':
+    description: Filtered page of people and the exact total within the effective directory scope.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/DirectoryPage'
+  '400':
+    description: Malformed query string (for example an unparsable boolean or repeated scalar parameter); no directory query ran.
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '422':
+    $ref: '#/components/responses/ValidationError'
+  '503':
+    description: JWT verification is not configured.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ErrorBody'

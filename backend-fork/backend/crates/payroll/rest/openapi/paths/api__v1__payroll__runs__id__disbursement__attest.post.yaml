@@ -1,0 +1,35 @@
+tags:
+- payroll
+operationId: attestPayrollDisbursement
+summary: Operator attestation FSM SCHEDULED to SUBMITTED_TO_BANK to PAID or FAILED (reason required) and FAILED back to SCHEDULED; no bank API exists, these are operator records
+security:
+- bearerAuth: []
+parameters:
+- name: id
+  in: path
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/AttestPayrollDisbursementRequest'
+responses:
+  '200':
+    description: The attested disbursement record; PAID also moves the run to PAID.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/PayrollDisbursement'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '409':
+    $ref: '#/components/responses/Conflict'
+  '422':
+    $ref: '#/components/responses/ValidationError'

@@ -1,0 +1,4 @@
+type: object
+additionalProperties: false
+required: [employee_id, week_start]
+properties: { employee_id: { $ref: '#/components/schemas/Uuid' }, week_start: { type: string, format: date } }

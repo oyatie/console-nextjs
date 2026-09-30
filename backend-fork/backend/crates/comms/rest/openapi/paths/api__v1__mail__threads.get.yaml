@@ -1,0 +1,53 @@
+tags:
+  - mail
+operationId: listMailThreads
+summary: List mail threads (paginated, unread filter, search)
+description: 'Lists the mailbox''s threads newest-first. Optional filters: unread-only, a full-text search term q, a
+  folder id, and a keyset cursor (before, a unix-second last_message_at). RLS-armed to the caller''s org. Requires the
+  MailUse feature.'
+security:
+- bearerAuth: []
+parameters:
+- name: unread
+  in: query
+  required: false
+  schema:
+    type: boolean
+- name: q
+  in: query
+  required: false
+  schema:
+    type: string
+- name: folder
+  in: query
+  required: false
+  schema:
+    type: string
+    format: uuid
+- name: before
+  in: query
+  required: false
+  schema:
+    type: integer
+    format: int64
+- name: limit
+  in: query
+  required: false
+  schema:
+    type: integer
+    format: int64
+responses:
+  '200':
+    description: A page of threads (newest first).
+    content:
+      application/json:
+        schema:
+          type: array
+          items:
+            $ref: '#/components/schemas/MailThreadView'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '503':
+    $ref: '#/components/responses/MailUnavailable'

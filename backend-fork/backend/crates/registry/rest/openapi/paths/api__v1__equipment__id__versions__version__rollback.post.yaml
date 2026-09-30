@@ -1,0 +1,34 @@
+tags:
+  - equipment
+operationId: rollbackEquipmentVersion
+summary: Roll one equipment master row back to a prior version
+description: 'Admin-gated (EquipmentManage), audited. Re-applies the target version''s stored content through the
+  normal update path and appends a NEW version (status ROLLBACK, sourceVersion = target); version history is never
+  mutated.'
+security:
+- bearerAuth: []
+parameters:
+- $ref: '#/components/parameters/EquipmentId'
+- name: version
+  in: path
+  required: true
+  schema:
+    type: integer
+    format: int32
+responses:
+  '201':
+    description: Rollback landed as a new version.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/EquipmentRollbackResult'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '422':
+    $ref: '#/components/responses/ValidationError'
+  '503':
+    description: JWT verification is not configured.

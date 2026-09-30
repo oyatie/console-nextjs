@@ -1,0 +1,6 @@
+type: object
+required: [id, status, pickedQuantity]
+properties:
+  id: { $ref: '#/components/schemas/Uuid' }
+  status: { type: string, enum: [PICKED, SHORT_PICK] }
+  pickedQuantity: { type: integer, format: int64 }

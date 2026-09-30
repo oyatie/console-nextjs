@@ -1,0 +1,9 @@
+tags:
+  - system
+operationId: readyz
+summary: Readiness check
+responses:
+  '200':
+    description: Service dependencies are ready.
+  '503':
+    description: A required dependency is unavailable.

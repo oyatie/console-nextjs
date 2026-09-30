@@ -1,0 +1,35 @@
+tags:
+- payroll
+operationId: decidePayrollRun
+summary: APPROVE or REJECT a SUBMITTED run under maker-checker separation of duties (the decider must not be the submitter)
+security:
+- bearerAuth: []
+parameters:
+- name: id
+  in: path
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/DecidePayrollRunRequest'
+responses:
+  '200':
+    description: The run detail after the decision.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/PayrollRunDetail'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '409':
+    $ref: '#/components/responses/Conflict'
+  '422':
+    $ref: '#/components/responses/ValidationError'

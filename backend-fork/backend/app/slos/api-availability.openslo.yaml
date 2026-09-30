@@ -1,0 +1,35 @@
+apiVersion: openslo/v1
+kind: SLO
+metadata:
+  name: console-api-availability
+  displayName: Console API availability
+  labels:
+    service: console-app-api
+    tier: platform
+spec:
+  description: Console API successful HTTP request ratio over a rolling 30 day window.
+  service: console-app-api
+  indicator:
+    metadata:
+      name: console-api-http-availability
+      displayName: Console API HTTP availability ratio
+    spec:
+      ratioMetric:
+        counter: true
+        good:
+          metricSource:
+            type: Prometheus
+            spec:
+              query: sum(rate(http_server_request_duration_seconds_count{service_name="console-app-api",http_response_status_code!~"5.."}[5m]))
+        total:
+          metricSource:
+            type: Prometheus
+            spec:
+              query: sum(rate(http_server_request_duration_seconds_count{service_name="console-app-api"}[5m]))
+  timeWindow:
+    - duration: 30d
+      isRolling: true
+  budgetingMethod: Occurrences
+  objectives:
+    - displayName: 99.5% successful requests over 30d
+      target: 0.995

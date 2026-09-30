@@ -1,0 +1,36 @@
+tags:
+  - workflow-studio
+operationId: withdrawWorkflowDefinitionRevision
+summary: Withdraw (discard) a staged pending revision
+description: Clears the pending-revision pointer; the active version keeps serving and the DRAFT remains in history.
+  Any workflow manager may withdraw (it applies nothing, so it is not SoD-gated).
+security:
+- bearerAuth: []
+parameters:
+- name: id
+  in: path
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+- name: rev
+  in: path
+  required: true
+  description: The pending revision (version number) being withdrawn.
+  schema:
+    type: integer
+    format: int32
+responses:
+  '200':
+    description: Pending revision withdrawn.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/WorkflowDefinitionResponse'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '409':
+    $ref: '#/components/responses/Conflict'

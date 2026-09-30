@@ -1,0 +1,8 @@
+tags: [equipment-3r]
+operationId: listEquipment3rRentalCases
+summary: List rental cases, newest first (org-wide observe)
+security: [{ bearerAuth: [] }]
+responses:
+  '200': { description: Rental cases, content: { application/json: { schema: { type: array, items: { $ref: '#/components/schemas/Equipment3rCaseView' } } } } }
+  '401': { $ref: '#/components/responses/Unauthorized' }
+  '403': { $ref: '#/components/responses/Forbidden' }

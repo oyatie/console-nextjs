@@ -1,0 +1,8 @@
+type: object
+properties:
+  workflow_key:
+    type: string
+  display_name:
+    type: string
+  step_up:
+    $ref: '#/components/schemas/PasskeyStepUpAssertion'

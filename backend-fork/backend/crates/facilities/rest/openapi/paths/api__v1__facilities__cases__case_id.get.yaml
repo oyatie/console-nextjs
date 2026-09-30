@@ -1,0 +1,13 @@
+tags: [facilities]
+operationId: getFacilitiesCase
+summary: Get one facilities case with its derived service readback
+security: [{ bearerAuth: [] }]
+parameters: [{ name: case_id, in: path, required: true, schema: { $ref: '#/components/schemas/Uuid' } }]
+responses:
+  '200': { description: Case including derived SLA and energy delta, content: { application/json: { schema: { $ref: '#/components/schemas/FacilitiesCase' } } } }
+  '401': { $ref: '#/components/responses/Unauthorized' }
+  '403': { $ref: '#/components/responses/Forbidden' }
+  '404': { $ref: '#/components/responses/NotFound' }
+  '422': { $ref: '#/components/responses/ValidationError' }
+  '500': { $ref: '#/components/responses/InternalServerError' }
+  '503': { $ref: '#/components/responses/ServiceUnavailable' }

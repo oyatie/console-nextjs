@@ -1,0 +1,6 @@
+type: object
+required:
+- last_read_message_id
+properties:
+  last_read_message_id:
+    $ref: '#/components/schemas/Uuid'

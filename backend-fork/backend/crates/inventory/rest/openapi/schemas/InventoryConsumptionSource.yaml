@@ -1,0 +1,7 @@
+oneOf:
+  - type: object
+    required: [kind, work_order_id]
+    properties: { kind: { type: string, enum: [work_order] }, work_order_id: { $ref: '#/components/schemas/Uuid' } }
+  - type: object
+    required: [kind, dispatch_id]
+    properties: { kind: { type: string, enum: [p1_dispatch] }, dispatch_id: { $ref: '#/components/schemas/Uuid' } }

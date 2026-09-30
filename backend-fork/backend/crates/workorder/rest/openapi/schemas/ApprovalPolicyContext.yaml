@@ -1,0 +1,28 @@
+type: object
+description: Server policy result and requirements. Clients may display it, but must not treat it as authorization proof;
+  source mutation endpoints always re-check PBAC/RBAC/ABAC server-side.
+required:
+- decision
+- enforcement
+- required_features
+- scope_kind
+- scope_id
+properties:
+  decision:
+    type: string
+    enum:
+    - ALLOWED
+  enforcement:
+    type: string
+    enum:
+    - server
+  required_features:
+    type: array
+    items:
+      type: string
+  scope_kind:
+    type: string
+    enum:
+    - BRANCH
+  scope_id:
+    $ref: '#/components/schemas/Uuid'

@@ -1,0 +1,17 @@
+type: object
+required:
+- org
+- user_id
+properties:
+  org:
+    $ref: '#/components/schemas/Uuid'
+  user_id:
+    type: string
+  roles:
+    type: array
+    items:
+      type: string
+  clearance_keys:
+    type: array
+    items:
+      type: string

@@ -1,0 +1,15 @@
+type: object
+required:
+- employee_id
+- branch_id
+- branch_name
+- updated_at
+properties:
+  employee_id:
+    $ref: '#/components/schemas/Uuid'
+  branch_id:
+    $ref: '#/components/schemas/Uuid'
+  branch_name:
+    type: string
+  updated_at:
+    $ref: '#/components/schemas/Timestamp'

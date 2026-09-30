@@ -1,0 +1,8 @@
+type: object
+required:
+- target_due_date
+properties:
+  target_due_date:
+    type: array
+    items:
+      $ref: '#/components/schemas/WorkOrderHistogramBucket'

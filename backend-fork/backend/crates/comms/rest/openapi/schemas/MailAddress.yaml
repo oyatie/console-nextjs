@@ -1,0 +1,12 @@
+type: object
+required:
+- address
+properties:
+  address:
+    type: string
+    description: The bare mailbox, e.g. user@example.com.
+  name:
+    type:
+    - string
+    - 'null'
+    description: Optional display name.

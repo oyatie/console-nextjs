@@ -1,0 +1,47 @@
+tags:
+  - hr
+operationId: confirmEmployeeExitCase
+summary: Confirm an employee exit case for HR/HQ review
+security:
+- bearerAuth: []
+parameters:
+- name: id
+  in: path
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          decision:
+            type: string
+          hq_confirmation:
+            type: boolean
+            default: false
+          note:
+            type: string
+          settlement_input:
+            type: object
+            additionalProperties: true
+responses:
+  '200':
+    description: Employee exit case after confirmation.
+    content:
+      application/json:
+        schema:
+          type: object
+          additionalProperties: true
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '409':
+    $ref: '#/components/responses/Conflict'
+  '422':
+    $ref: '#/components/responses/ValidationError'

@@ -1,0 +1,12 @@
+type: object
+required: [id, decided_at, subject_ref, action, resource_type, effect, determining_policies, reason]
+properties:
+  id: { type: string, format: uuid }
+  decided_at: { type: string, format: date-time }
+  subject_ref: { type: string }
+  action: { type: string }
+  resource_type: { type: string }
+  resource_id: { type: string, nullable: true }
+  effect: { type: string, enum: [allow, deny] }
+  determining_policies: { type: array, items: { type: string } }
+  reason: { type: string }

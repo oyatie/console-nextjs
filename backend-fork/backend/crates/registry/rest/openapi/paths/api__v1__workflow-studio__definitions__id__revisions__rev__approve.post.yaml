@@ -1,0 +1,51 @@
+tags:
+  - workflow-studio
+operationId: approveWorkflowDefinitionRevision
+summary: Approve a staged pending revision (four-eyes application)
+description: Applies the revision staged by a publish on an ACTIVE definition. A SECOND, distinct actor must approve
+  (the publisher who staged it cannot self-approve unless org-lead/SUPER_ADMIN, recorded as a governance finding). The
+  approved DRAFT is appended as a new PUBLISHED version and becomes the active version.
+security:
+- bearerAuth: []
+parameters:
+- name: id
+  in: path
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+- name: rev
+  in: path
+  required: true
+  description: The pending revision (version number) being approved.
+  schema:
+    type: integer
+    format: int32
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/WorkflowStepUpRequest'
+responses:
+  '200':
+    description: Revision applied; the new version is active.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/WorkflowDefinitionResponse'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '409':
+    $ref: '#/components/responses/Conflict'
+  '428':
+    description: Fresh passkey step-up is required.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ErrorBody'
+  '422':
+    $ref: '#/components/responses/ValidationError'

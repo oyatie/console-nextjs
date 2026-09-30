@@ -1,0 +1,25 @@
+type: object
+description: >-
+  One pending P1 offer for the signed-in mechanic: a BROADCASTING
+  dispatch that fanned out to the caller, still inside its accept
+  window, with no response from the caller yet.
+required:
+- dispatch_id
+- work_order_id
+- branch_id
+- request_no
+- accept_window_started_at
+- accept_window_ends_at
+properties:
+  dispatch_id:
+    $ref: '#/components/schemas/Uuid'
+  work_order_id:
+    $ref: '#/components/schemas/Uuid'
+  branch_id:
+    $ref: '#/components/schemas/Uuid'
+  request_no:
+    type: string
+  accept_window_started_at:
+    $ref: '#/components/schemas/Timestamp'
+  accept_window_ends_at:
+    $ref: '#/components/schemas/Timestamp'

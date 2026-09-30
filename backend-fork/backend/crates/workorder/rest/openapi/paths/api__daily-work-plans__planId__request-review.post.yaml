@@ -1,0 +1,15 @@
+tags:
+  - daily-work-plans
+operationId: requestDailyWorkPlanReview
+summary: Send a daily work plan for review
+security:
+- bearerAuth: []
+parameters:
+- $ref: '#/components/parameters/PlanId'
+responses:
+  '200':
+    description: Daily plan moved to requested.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/DailyPlanSummary'

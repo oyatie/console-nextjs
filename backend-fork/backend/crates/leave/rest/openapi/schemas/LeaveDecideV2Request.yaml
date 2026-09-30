@@ -1,0 +1,21 @@
+type: object
+additionalProperties: false
+required:
+- expected_version
+- decision
+properties:
+  expected_version:
+    type: integer
+    format: int64
+    minimum: 1
+    description: Required mutable request_version compare-and-swap token; never use charge_version.
+  decision:
+    type: string
+    enum: [approve, time_change]
+    description: >-
+      근로기준법 §60: refusal is not representable. `time_change` opens the
+      §60⑤ 시기변경 협의 only when system coverage evidence shows a
+      shortfall; `return`/`reject` are rejected with 422.
+  comment:
+    type: string
+    description: Mandatory for time_change; optional for approve.

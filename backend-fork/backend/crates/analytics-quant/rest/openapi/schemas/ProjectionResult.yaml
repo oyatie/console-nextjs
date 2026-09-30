@@ -1,0 +1,21 @@
+type: object
+required: [point_estimate, ci95_low, ci95_high, cvar95, assumptions]
+properties:
+  point_estimate:
+    type: number
+    format: double
+    description: Deterministic central projection.
+  ci95_low:
+    type: number
+    format: double
+    description: 2.5th percentile of terminal outcomes.
+  ci95_high:
+    type: number
+    format: double
+    description: 97.5th percentile of terminal outcomes.
+  cvar95:
+    type: number
+    format: double
+    description: EVT-refined expected shortfall of the worst 5% of outcomes.
+  assumptions:
+    $ref: '#/components/schemas/ProjectionAssumptions'

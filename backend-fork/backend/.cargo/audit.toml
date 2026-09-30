@@ -1,0 +1,23 @@
+# cargo-audit (RUSTSEC) configuration. Read by the Security workflow from
+# backend/. Keep the ignore list in sync with the rationale in backend/deny.toml.
+[advisories]
+ignore = [
+  # rsa Marvin timing side-channel. Pulled via jsonwebtoken. The RS256 signing
+  # path IS used (FCM service-account JWTs in platform/push), but Marvin targets
+  # RSA *decryption* (PKCS#1 v1.5) via a ciphertext/decryption oracle; this
+  # service only signs (no decryption) against Google's endpoint, so no oracle is
+  # exposed and the advisory is not exploitable here. No fixed rsa release exists
+  # yet — revisit when jsonwebtoken drops rsa or a patched version ships.
+  "RUSTSEC-2023-0071",
+  # paste unmaintained (not a vulnerability). Build-time proc-macro pulled
+  # transitively by umya-spreadsheet (Excel export); no runtime surface.
+  "RUSTSEC-2024-0436",
+  # quick-xml high-severity XML parser DoS advisories. Both vulnerable versions
+  # are transitive through spreadsheet libraries: calamine 0.35 pins quick-xml
+  # ^0.39 and umya-spreadsheet 3.0 pins ^0.37, while the fixed quick-xml is
+  # >=0.41 and therefore outside their semver ranges. The backend only accepts
+  # bounded Excel uploads; revisit as soon as either upstream permits quick-xml
+  # 0.41+ or we replace those spreadsheet readers/writers.
+  "RUSTSEC-2026-0194",
+  "RUSTSEC-2026-0195",
+]

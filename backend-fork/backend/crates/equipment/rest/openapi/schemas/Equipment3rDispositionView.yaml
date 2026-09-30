@@ -1,0 +1,14 @@
+type: object
+required: [id, unitId, caseId, kind, status, completedBy, completedAt, financeGlPosting]
+properties:
+  id: { $ref: '#/components/schemas/Uuid' }
+  unitId: { $ref: '#/components/schemas/Uuid' }
+  caseId: { $ref: '#/components/schemas/Uuid' }
+  kind: { type: string, enum: [REPAIR, REFURBISH, RESALE, REDEPLOY] }
+  status: { type: string, enum: [OPEN, COMPLETED] }
+  costMinor: { type: integer, format: int64, nullable: true }
+  saleAmountMinor: { type: integer, format: int64, nullable: true }
+  buyerName: { type: string, nullable: true }
+  completedBy: { $ref: '#/components/schemas/Uuid' }
+  completedAt: { type: string, format: date-time }
+  financeGlPosting: { nullable: true, description: Always null — the pilot records no GL posting }

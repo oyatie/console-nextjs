@@ -1,0 +1,3 @@
+type: object
+required: [decision]
+properties: { decision: { type: string, enum: [ACCEPTED, REJECTED] }, reason: { type: string, maxLength: 1000 } }

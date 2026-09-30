@@ -1,0 +1,44 @@
+tags:
+- org
+operationId: decideOrgChangeApprovalStep
+summary: Decide one approval step
+description: IN_APPROVAL only. Steps decide strictly in step order, the drafter can never decide (a second SoD net
+  is enforced by the gov_approvals CHECK), and a rejection ends the request as REJECTED.
+security:
+- bearerAuth: []
+parameters:
+- name: id
+  in: path
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+- name: stepId
+  in: path
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/OrgChangeDecisionRequest'
+responses:
+  '200':
+    description: Decision recorded.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/OrgChangeDetail'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '409':
+    $ref: '#/components/responses/Conflict'
+  '422':
+    $ref: '#/components/responses/ValidationError'
+  '503':
+    $ref: '#/components/responses/ServiceUnavailable'

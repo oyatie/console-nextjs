@@ -1,0 +1,67 @@
+# cargo-deny supply-chain policy. Complements `cargo audit` (RUSTSEC advisories)
+# with license compliance, source restriction, and duplicate/wildcard checks.
+# Run: `cargo deny --manifest-path backend/Cargo.toml check`.
+
+[advisories]
+version = 2
+# Yanked crates and unmaintained/vulnerable advisories fail the check. cargo
+# audit already gates RUSTSEC in CI; this keeps the policy self-contained.
+yanked = "deny"
+ignore = [
+  # rsa: Marvin timing side-channel. Pulled via jsonwebtoken. The RS256 signing
+  # path IS exercised in production — the FCM push client mints Google service-
+  # account JWTs with from_rsa_pem/RS256 (platform/push). But Marvin is a side-
+  # channel in RSA *decryption* (PKCS#1 v1.5 unpadding) that requires an
+  # attacker-controlled ciphertext/decryption oracle; this service only *signs*
+  # (no RSA decryption) against Google's endpoint, so no such oracle is exposed
+  # and the advisory is not exploitable here. No fixed rsa release exists yet;
+  # revisit when jsonwebtoken can drop rsa or a patched version ships.
+  "RUSTSEC-2023-0071",
+  # paste: unmaintained (not a vulnerability). Build-time proc-macro pulled
+  # transitively by umya-spreadsheet (Excel export); no runtime attack surface.
+  "RUSTSEC-2024-0436",
+  # proc-macro-error2: unmaintained (not a vulnerability). Build-time proc-macro.
+  # Lockfile direct reverse deps are leptos_macro, reactive_stores_macro, and
+  # syn_derive (rstml → syn_derive). Still leptos-tree / compile-time only; no
+  # runtime attack surface. No safe upgrade exists; 0.8.20 is the recorded
+  # rollback if this pin is withdrawn. Revisit when leptos drops the crate.
+  "RUSTSEC-2026-0173",
+
+]
+
+[licenses]
+version = 2
+# Permissive licenses the dependency tree is allowed to use. Add deliberately,
+# never to silence a surprise copyleft dependency.
+allow = [
+  "MIT",
+  # quoted_printable is 0BSD via lettre SMTP; permissive/no-attribution.
+  "0BSD",
+  "Apache-2.0",
+  "Apache-2.0 WITH LLVM-exception",
+  "BSD-2-Clause",
+  "BSD-3-Clause",
+  "ISC",
+  "Zlib",
+  "MPL-2.0",
+  "Unicode-3.0",
+  "Unicode-DFS-2016",
+  "CC0-1.0",
+  "BSL-1.0",
+  "OpenSSL",
+  "CDLA-Permissive-2.0",
+]
+# The workspace crates are LicenseRef-Proprietary; skip first-party members.
+private = { ignore = true }
+
+[bans]
+# Surface (don't fail on) version skew and wildcard deps — these are advisory
+# signals, not hard gates, for a workspace this size.
+multiple-versions = "warn"
+wildcards = "warn"
+
+[sources]
+# Only crates.io. Any unknown registry or git source is a supply-chain risk.
+unknown-registry = "deny"
+unknown-git = "deny"
+allow-registry = ["https://github.com/rust-lang/crates.io-index"]

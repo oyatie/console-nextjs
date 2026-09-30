@@ -1,0 +1,7 @@
+type: object
+additionalProperties: false
+required: [cycle_id, employee_id, manager_user_id]
+properties:
+  cycle_id: { $ref: '#/components/schemas/Uuid' }
+  employee_id: { $ref: '#/components/schemas/Uuid' }
+  manager_user_id: { $ref: '#/components/schemas/Uuid' }

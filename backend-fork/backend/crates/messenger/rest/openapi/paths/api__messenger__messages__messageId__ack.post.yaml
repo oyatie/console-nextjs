@@ -1,0 +1,31 @@
+tags:
+  - messenger
+operationId: toggleMessengerMessageAck
+summary: Toggle the caller's ack on a message
+description: 'Toggle the caller''s ack: if present it is removed, else added. This is not idempotent
+  and is not safe to blindly retry; clients should reconcile from the returned MessengerAckSummary
+  acked and ack_count values. The caller must be a member of the message''s thread; a non-member gets
+  403.
+
+  '
+security:
+- bearerAuth: []
+parameters:
+- name: messageId
+  in: path
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+responses:
+  '200':
+    description: The message's post-toggle ack state.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/MessengerAckSummary'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'

@@ -1,0 +1,15 @@
+type: object
+required:
+- mechanic_id
+- display_name
+- active_assignments
+properties:
+  mechanic_id:
+    type: string
+    format: uuid
+  display_name:
+    type: string
+  active_assignments:
+    type: integer
+    format: int32
+    minimum: 0

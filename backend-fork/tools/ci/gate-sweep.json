@@ -1,0 +1,57 @@
+{
+  "description": "Gates swept by check:ci-preflight. Fail-SLOW: every gate runs, every failure is reported once. Adding a gate here is how it enters the sweep; a gate absent from this file is not run.",
+  "gates": [
+    {
+      "id": "check-ci-preflight",
+      "run": "node scripts/check-ci-preflight.mjs"
+    },
+    {
+      "id": "ci-tools-suites",
+      "run": "node --test tools/ci/cargo-test-runner.test.mjs tools/ci/work-order-request-no-seed.test.mjs tools/ci/check-product-buck-residual.test.mjs tools/ci/check-nextest-config.test.mjs tools/ci/check-postgres-cargo-map.test.mjs tools/ci/ingest-soft-reds.test.mjs scripts/local-admission.test.mjs tools/ci/assess-tip-contention.test.mjs tools/ci/check-mjs-dark-suites.test.mjs tools/ci/classify-ci-failure.test.mjs tools/ci/postgres-timings.test.mjs tools/ci/cargo-needs-postgres-args.test.mjs tools/ci/check-nightly-workflow.test.mjs tools/ci/nextest-filterset.test.mjs tools/ci/postgres-partition.test.mjs tools/ci/hold-release-conditions.test.mjs"
+    },
+    {
+      "id": "check-product-buck-residual",
+      "run": "node tools/ci/check-product-buck-residual.mjs"
+    },
+    {
+      "id": "check-nextest-config",
+      "run": "node tools/ci/check-nextest-config.mjs"
+    },
+    {
+      "id": "check-postgres-cargo-map",
+      "run": "node tools/ci/check-postgres-cargo-map.mjs"
+    },
+    {
+      "id": "check-mjs-dark-suites",
+      "run": "node tools/ci/check-mjs-dark-suites.mjs --strict"
+    },
+    {
+      "id": "check-nightly-workflow",
+      "run": "node tools/ci/check-nightly-workflow.mjs"
+    },
+    {
+      "id": "check-hold-release-conditions",
+      "run": "node tools/ci/hold-release-conditions.mjs"
+    },
+    {
+      "id": "check-foundation-gates-tests",
+      "run": "node --test scripts/check-foundation-gates.test.mjs"
+    },
+    {
+      "id": "check-non-oci-mail-imessage-relay-tests",
+      "run": "node --test scripts/check-non-oci-mail-imessage-relay.test.mjs"
+    },
+    {
+      "id": "run-verification-queue-tests",
+      "run": "node --test scripts/console/run-verification-queue.test.mjs"
+    },
+    {
+      "id": "fanout-tests",
+      "run": "python3 tools/lanes/fanout.test.py"
+    },
+    {
+      "id": "gate-sweep-tests",
+      "run": "node --test tools/ci/gate-sweep.test.mjs"
+    }
+  ]
+}

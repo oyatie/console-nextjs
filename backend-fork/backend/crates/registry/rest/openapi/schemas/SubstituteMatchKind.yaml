@@ -1,0 +1,5 @@
+type: string
+enum:
+- exact_ton
+- nearest_above
+- unknown_ton_exact_text

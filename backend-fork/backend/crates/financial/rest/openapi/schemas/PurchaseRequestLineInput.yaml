@@ -1,0 +1,23 @@
+type: object
+required:
+- item
+- quantity
+- unit_supply_price_won
+properties:
+  item:
+    type: string
+    minLength: 1
+  quantity:
+    type: integer
+    format: int32
+    minimum: 1
+  unit_supply_price_won:
+    type: integer
+    format: int64
+    minimum: 0
+  vat_won:
+    type:
+    - integer
+    - 'null'
+    format: int64
+    minimum: 0

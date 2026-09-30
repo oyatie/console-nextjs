@@ -1,0 +1,20 @@
+type: object
+required:
+- effective_residual_value
+- residual_was_floored
+- lines
+- monthly_total
+properties:
+  effective_residual_value:
+    type: integer
+    format: int64
+  residual_was_floored:
+    type: boolean
+  lines:
+    type: array
+    items:
+      $ref: '#/components/schemas/QuoteLine'
+  monthly_total:
+    type: integer
+    format: int64
+    minimum: 0

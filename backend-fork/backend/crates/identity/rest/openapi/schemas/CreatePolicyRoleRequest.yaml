@@ -1,0 +1,28 @@
+type: object
+required:
+- role_key
+- display_name
+- permissions
+properties:
+  role_key:
+    type: string
+    pattern: ^[a-z][a-z0-9_]+$
+  display_name:
+    type: string
+    minLength: 1
+    maxLength: 80
+  description:
+    type:
+    - string
+    - 'null'
+    maxLength: 512
+  permissions:
+    type: array
+    minItems: 1
+    items:
+      $ref: '#/components/schemas/PolicyPermissionResponse'
+  conditions:
+    type: array
+    maxItems: 20
+    items:
+      $ref: '#/components/schemas/PolicyConditionResponse'

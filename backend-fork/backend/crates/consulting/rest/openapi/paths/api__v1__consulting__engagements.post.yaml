@@ -1,0 +1,7 @@
+tags: [consulting]
+operationId: createConsultingEngagement
+security: [{ bearerAuth: [] }]
+requestBody: { required: true, content: { application/json: { schema: { $ref: '#/components/schemas/ConsultingEngagementCreateRequest' } } } }
+responses:
+  '201': { description: Created or idempotently replayed original response for this exact idempotency key and request payload, content: { application/json: { schema: { $ref: '#/components/schemas/ConsultingEngagement' } } } }
+  '409': { description: Idempotency key was previously used with a different request payload, content: { application/json: { schema: { $ref: '#/components/schemas/ErrorBody' } } } }

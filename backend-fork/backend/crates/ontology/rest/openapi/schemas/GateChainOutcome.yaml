@@ -1,0 +1,7 @@
+type: object
+required: [allow, gates]
+properties:
+  allow: { type: boolean }
+  gates:
+    type: array
+    items: { type: object, additionalProperties: true }  # per-gate { gate, status }

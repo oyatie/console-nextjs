@@ -1,0 +1,2 @@
+      type: string
+      enum: [MONTHLY, QUARTERLY, SEMI_ANNUAL, ANNUAL, EVENT_DRIVEN]

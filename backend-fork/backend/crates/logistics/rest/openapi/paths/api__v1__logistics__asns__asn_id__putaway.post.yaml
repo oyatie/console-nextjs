@@ -1,0 +1,7 @@
+tags: [logistics]
+operationId: putawayLogisticsAsn
+summary: Put received stock away into the pilot warehouse
+security: [{ bearerAuth: [] }]
+parameters: [{ name: asn_id, in: path, required: true, schema: { $ref: '#/components/schemas/Uuid' } }]
+requestBody: { required: true, content: { application/json: { schema: { type: object, required: [branchId], properties: { branchId: { $ref: '#/components/schemas/Uuid' } } } } } }
+responses: { '200': { description: Stock available for fulfillment, content: { application/json: { schema: { $ref: '#/components/schemas/LogisticsAsnPutaway' } } } }, '409': { description: Illegal state } }

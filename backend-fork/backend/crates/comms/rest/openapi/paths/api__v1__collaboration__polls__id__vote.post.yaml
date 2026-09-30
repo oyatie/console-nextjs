@@ -1,0 +1,35 @@
+tags:
+  - collaboration
+operationId: voteCollaborationPoll
+summary: Submit or replace the caller's poll vote
+description: Upserts the caller's vote after validating poll lifecycle, option ownership, single-vs-multiple selection
+  policy, tenant RLS, and audit/lifecycle evidence.
+security:
+- bearerAuth: []
+parameters:
+- name: id
+  in: path
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/VotePollRequest'
+responses:
+  '200':
+    description: Updated poll with aggregate counts and caller vote state.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/PollResponse'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '422':
+    $ref: '#/components/responses/ValidationError'

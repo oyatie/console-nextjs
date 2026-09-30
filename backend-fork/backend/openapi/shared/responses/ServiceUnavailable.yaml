@@ -1,0 +1,5 @@
+      description: Required storage or platform dependency is not configured.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorBody"

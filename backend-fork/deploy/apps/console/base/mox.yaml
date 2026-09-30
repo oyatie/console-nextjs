@@ -1,0 +1,227 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: console-mox-bootstrap
+  namespace: console
+  labels: { app: console-mox }
+data:
+  # Initial mox static config. The StatefulSet renders leading > markers to the
+  # tabs required by mox.conf, then copies this into the PVC only when
+  # /mox-data/config/mox.conf does not exist, so operator/admin changes on the
+  # persistent volume survive pod restarts. This is intentionally internal-only:
+  # no SMTP port 25, submission, IMAPS, webmail/admin interface, or public listener.
+  mox.conf.tpl: |
+    DataDir: ../data
+    LogLevel: info
+    User: 10001
+    Hostname: console-mox.console.svc
+    CheckUpdates: false
+    Listeners:
+    >internal:
+    >>IPs:
+    >>>- 0.0.0.0
+    >>Hostname: console-mox.console.svc
+    >>WebAPIHTTP:
+    >>>Enabled: true
+    >>>Port: 1080
+    >>IMAP:
+    >>>Enabled: true
+    >>>Port: 1143
+    >>>NoRequireSTARTTLS: true
+    >>MetricsHTTP:
+    >>>Enabled: true
+    >>>Port: 8010
+    Postmaster:
+    >Account: postmaster
+    >Mailbox: Postmaster
+  # Initial mox dynamic config. The webhook Authorization value comes from
+  # console-secrets/CONSOLE_MAIL_MOX_WEBHOOK_SECRET. The StatefulSet creates
+  # domains.conf on first boot, then refreshes only that Authorization line on
+  # later starts so secret rotation does not require manual PVC edits while other
+  # operator/admin config changes survive. The account password is intentionally
+  # not committed here; set it from the OCI Vault value after the pod is running
+  # (`mox setaccountpassword postmaster`).
+  domains.conf.tpl: |
+    Domains:
+    >knllogistic.com:
+    >>ClientSettingsDomain: console-mox.console.svc
+    >>LocalpartCatchallSeparator: +
+    Accounts:
+    >postmaster:
+    >>IncomingWebhook:
+    >>>URL: http://console-app.console.svc:8080/api/v1/mail/mox/webhook
+    >>>Authorization: Bearer __CONSOLE_MAIL_MOX_WEBHOOK_SECRET__
+    >>Domain: knllogistic.com
+    >>Destinations:
+    >>>postmaster@knllogistic.com: nil
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: console-mox
+  namespace: console
+  labels: { app: console-mox }
+spec:
+  # Parked at 0 pending a PodSecurity resolution. This namespace enforces the
+  # `restricted` Pod Security Standard, but `mox serve` structurally requires
+  # starting as root: run as any non-root uid it aborts with "mox must be started
+  # as root, and will drop privileges after binding required sockets" (it binds
+  # sockets as root, then fork/execs the configured User via setuid/setgid). That
+  # needs runAsUser: 0 plus CAP_SETUID/SETGID — both forbidden by `restricted`
+  # (which only permits adding NET_BIND_SERVICE). See serve_unix.go cmdServe /
+  # mox- lifecycle.go RestorePassedFiles. Do NOT weaken this namespace's policy
+  # for the whole app. Running mox requires moving it to a dedicated namespace
+  # that enforces `baseline` (root + setuid/setgid caps allowed); until that is
+  # decided and wired (cross-namespace Service DNS + NetworkPolicy), the dark
+  # mail stack stays scaled to zero so the StatefulSet admits cleanly.
+  # ponytail: replicas 0 = the reversible unblock; flip to 1 once mox lives in a
+  # baseline namespace. Full analysis + migration design in the PR that added this.
+  replicas: 0
+  serviceName: console-mox-headless
+  selector:
+    matchLabels: { app: console-mox }
+  template:
+    metadata:
+      labels: { app: console-mox }
+    spec:
+      # mox does not call the Kubernetes API. The image must start as root and
+      # then drops privileges to User: 10001 after binding sockets; see runbook.
+      automountServiceAccountToken: false
+      terminationGracePeriodSeconds: 60
+      securityContext:
+        fsGroup: 10001
+        seccompProfile: { type: RuntimeDefault }
+      containers:
+        - name: mox
+          image: r.xmox.nl/mox@sha256:47497222e83679f95049329f12c5d8c4bfd3b809e62d4ffcfd508907e66b06a5
+          imagePullPolicy: IfNotPresent
+          command:
+            - /bin/sh
+            - -ceu
+            - |
+              umask 077
+              mkdir -p /mox-data/config /mox-data/data /tmp/mox
+              render_moxconf() {
+                sed -e 's/^>>>/\t\t\t/' -e 's/^>>/\t\t/' -e 's/^>/\t/' "$1"
+              }
+              render_domainsconf() {
+                render_moxconf /mox-bootstrap/domains.conf.tpl | awk '
+                  /^[[:space:]]*Authorization: Bearer __CONSOLE_MAIL_MOX_WEBHOOK_SECRET__/ {
+                    match($0, /^[[:space:]]*/)
+                    $0 = substr($0, RSTART, RLENGTH) "Authorization: Bearer " ENVIRON["CONSOLE_MAIL_MOX_WEBHOOK_SECRET"]
+                  }
+                  { print }
+                '
+              }
+              refresh_domainsconf_webhook_secret() {
+                tmp="$(mktemp /tmp/mox/domains.conf.XXXXXX)"
+                awk '
+                  /^[[:space:]]*Authorization: Bearer / {
+                    match($0, /^[[:space:]]*/)
+                    $0 = substr($0, RSTART, RLENGTH) "Authorization: Bearer " ENVIRON["CONSOLE_MAIL_MOX_WEBHOOK_SECRET"]
+                  }
+                  { print }
+                ' /mox-data/config/domains.conf > "$tmp"
+                if ! cmp -s "$tmp" /mox-data/config/domains.conf; then
+                  cat "$tmp" > /mox-data/config/domains.conf
+                fi
+                rm -f "$tmp"
+              }
+              if [ ! -f /mox-data/config/mox.conf ]; then
+                render_moxconf /mox-bootstrap/mox.conf.tpl > /mox-data/config/mox.conf
+              fi
+              if [ ! -f /mox-data/config/domains.conf ]; then
+                render_domainsconf > /mox-data/config/domains.conf
+              else
+                refresh_domainsconf_webhook_secret
+              fi
+              /bin/mox -config /mox-data/config/mox.conf config test
+              exec /bin/mox -config /mox-data/config/mox.conf serve
+          ports:
+            - { name: webapi, containerPort: 1080, protocol: TCP }
+            - { name: imap, containerPort: 1143, protocol: TCP }
+            - { name: metrics, containerPort: 8010, protocol: TCP }
+          env:
+            - name: CONSOLE_MAIL_MOX_WEBHOOK_SECRET
+              valueFrom:
+                secretKeyRef: { name: console-secrets, key: CONSOLE_MAIL_MOX_WEBHOOK_SECRET }
+          startupProbe:
+            httpGet: { path: /webapi/v0/, port: webapi }
+            failureThreshold: 30
+            periodSeconds: 2
+          readinessProbe:
+            httpGet: { path: /webapi/v0/, port: webapi }
+            periodSeconds: 10
+            timeoutSeconds: 2
+          livenessProbe:
+            httpGet: { path: /webapi/v0/, port: webapi }
+            periodSeconds: 30
+            timeoutSeconds: 2
+          resources:
+            requests: { cpu: 50m, memory: 128Mi }
+            limits: { memory: 512Mi }
+          securityContext:
+            runAsUser: 0 # mox requires root start, then drops to User: 10001
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: [ALL]
+              # mox fixes PVC ownership/permissions at startup, then setuid/setgid
+              # drops to UID/GID 10001. No network/admin capabilities are granted.
+              add: [CHOWN, FOWNER, SETGID, SETUID]
+          volumeMounts:
+            - { name: mox-data, mountPath: /mox-data }
+            - { name: mox-bootstrap, mountPath: /mox-bootstrap, readOnly: true }
+            - { name: tmp, mountPath: /tmp }
+      volumes:
+        - name: mox-bootstrap
+          configMap: { name: console-mox-bootstrap }
+        - name: tmp
+          emptyDir: {}
+  volumeClaimTemplates:
+    - metadata:
+        name: mox-data
+      spec:
+        accessModes: [ReadWriteOnce]
+        resources:
+          requests: { storage: 10Gi }
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: console-mox
+  namespace: console
+  labels: { app: console-mox, monitoring: "true" }
+spec:
+  type: ClusterIP
+  selector: { app: console-mox }
+  ports:
+    - { name: webapi, port: 1080, targetPort: webapi }
+    - { name: imap, port: 1143, targetPort: imap }
+    - { name: metrics, port: 8010, targetPort: metrics }
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: console-mox-headless
+  namespace: console
+  labels: { app: console-mox }
+spec:
+  clusterIP: None
+  selector: { app: console-mox }
+  ports:
+    - { name: webapi, port: 1080, targetPort: webapi }
+    - { name: imap, port: 1143, targetPort: imap }
+    - { name: metrics, port: 8010, targetPort: metrics }
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: console-mox
+  namespace: console
+spec:
+  # Single-replica PVC-backed mail state on one A1 node: allow voluntary eviction
+  # during node maintenance, but rely on restore/runbook for node loss.
+  maxUnavailable: 1
+  selector:
+    matchLabels: { app: console-mox }

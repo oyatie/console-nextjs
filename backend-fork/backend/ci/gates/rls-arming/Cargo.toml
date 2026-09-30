@@ -1,0 +1,19 @@
+[package]
+name = "console-gate-rls-arming"
+version = "0.1.0"
+description = "CI gate: every read/write that touches a FORCE-RLS org-scoped table must arm the app.current_org GUC (with_org_conn / with_audit / with_audits / SECURITY DEFINER); a bare-pool fetch/execute on a tenant table is fail-closed under console_rt and is flagged."
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[[bin]]
+name = "console-gate-rls-arming"
+path = "src/main.rs"
+
+[lib]
+name = "console_gate_rls_arming"
+path = "src/lib.rs"
+
+[lints]
+workspace = true

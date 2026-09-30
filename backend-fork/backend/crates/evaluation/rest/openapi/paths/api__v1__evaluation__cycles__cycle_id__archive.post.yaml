@@ -1,0 +1,6 @@
+tags: [evaluation]
+operationId: archiveEvaluationCycle
+summary: Archive a finalized cycle after preflight
+security: [{ bearerAuth: [] }]
+parameters: [{ $ref: '#/components/parameters/EvaluationCycleId' }]
+responses: *evaluationTransitionResponses

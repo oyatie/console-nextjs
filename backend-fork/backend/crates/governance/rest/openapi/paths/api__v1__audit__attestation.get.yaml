@@ -1,0 +1,38 @@
+tags:
+  - audit
+operationId: getAuditChainAttestation
+summary: L20 tamper-evident audit-chain attestation for the caller's tenant
+description: 'Read-only recompute-and-compare verdict for the org''s cryptographically-sealed audit-event hash
+  chain: walks every stored seal, re-derives batch_hash/seal_hash from the underlying audit_events, checks
+  chain continuity and coverage (no committed row sits in a gap the sealed ranges do not cover), and verifies
+  the signature. `ok` reflects tamper integrity only; `unsealed_tail` is a separate freshness signal (rows
+  committed but not yet sealed by the background worker) and never forces `ok=false` on a healthy live chain.
+  Unlike GET /api/audit, which can branch-filter rows for branch-scoped admins, this whole-tenant attestation
+  requires org-wide AuditLogRead authority; built-in access for this feature is SUPER_ADMIN, not ADMIN.
+  Never mutates.'
+security:
+- bearerAuth: []
+responses:
+  '200':
+    description: The org's audit-chain integrity verdict.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/AuditChainAttestation'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '500':
+    description: verify_org_chain hit a genuine DB/infra error while recomputing the chain (never on
+      a tamper finding, which is a 200 with ok=false).
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ErrorBody'
+  '503':
+    description: JWT verification is not configured, or the database is not configured.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ErrorBody'

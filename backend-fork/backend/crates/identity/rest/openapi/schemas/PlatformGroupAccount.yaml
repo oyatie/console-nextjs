@@ -1,0 +1,45 @@
+type: object
+required:
+- user_id
+- display_name
+- phone
+- tenant_roles
+- is_active
+- has_passkey
+- account_status
+- org_id
+- org_slug
+- org_name
+- group_roles
+- created_at
+properties:
+  user_id:
+    $ref: '#/components/schemas/Uuid'
+  display_name:
+    type: string
+  phone:
+    type:
+    - string
+    - 'null'
+  tenant_roles:
+    type: array
+    items:
+      $ref: '#/components/schemas/PlatformTenantRole'
+  is_active:
+    type: boolean
+  has_passkey:
+    type: boolean
+  account_status:
+    $ref: '#/components/schemas/PlatformAccountStatus'
+  org_id:
+    $ref: '#/components/schemas/Uuid'
+  org_slug:
+    type: string
+  org_name:
+    type: string
+  group_roles:
+    type: array
+    items:
+      $ref: '#/components/schemas/PlatformGroupRole'
+  created_at:
+    $ref: '#/components/schemas/Timestamp'

@@ -1,0 +1,7 @@
+type: object
+additionalProperties: false
+required: [org_unit, total, manager_submitted]
+properties:
+  org_unit: { type: [string, 'null'] }
+  total: { type: integer, format: int64 }
+  manager_submitted: { type: integer, format: int64 }

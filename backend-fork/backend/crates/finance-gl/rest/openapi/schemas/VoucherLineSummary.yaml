@@ -1,0 +1,23 @@
+type: object
+required:
+- id
+- line_no
+- account_code
+- side
+- amount_won
+- memo
+properties:
+  id:
+    $ref: '#/components/schemas/Uuid'
+  line_no:
+    type: integer
+    format: int32
+  account_code:
+    type: string
+  side:
+    $ref: '#/components/schemas/DebitCredit'
+  amount_won:
+    type: integer
+    format: int64
+  memo:
+    type: string

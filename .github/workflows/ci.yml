@@ -1,0 +1,38 @@
+name: Source and inquiry checks
+
+on:
+  pull_request:
+  merge_group:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  source_and_inquiry:
+    name: source-and-inquiry
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version-file: .node-version
+          cache: npm
+      - run: npm ci
+      - run: npm run lint
+      - run: npm test
+      - run: npm run build
+      - run: npm run test:production-routes
+      - run: npx playwright install --with-deps chromium
+      - run: rustup toolchain install 1.98.1 --profile minimal
+      - name: PostgreSQL and real-browser inquiry
+        env:
+          SQLX_OFFLINE: "true"
+          FRONTEND_ROOT: ${{ github.workspace }}
+        run: backend-fork/tools/lanes/pgtest.sh "$GITHUB_WORKSPACE/backend-fork" cargo test --locked --features frontend-e2e -p console-sales-rest --test public_inquiry --test real_browser_inquiry -- --test-threads=1
+      - name: PostgreSQL sales store and runtime-role isolation
+        env:
+          SQLX_OFFLINE: "true"
+        run: backend-fork/tools/lanes/pgtest.sh "$GITHUB_WORKSPACE/backend-fork" cargo test --locked -p console-sales-adapter-postgres --test inquiry_rls_surfaces_as_runtime_role --test sales_store -- --test-threads=1

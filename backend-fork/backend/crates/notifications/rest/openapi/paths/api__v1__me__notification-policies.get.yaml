@@ -1,0 +1,21 @@
+tags:
+  - me
+operationId: listMyNotificationPolicies
+summary: List the authenticated user's notification routing policies, newest first
+security:
+- bearerAuth: []
+responses:
+  '200':
+    description: The caller's routing policies.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/NotificationPolicyList'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '503':
+    description: JWT verification is not configured.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ErrorBody'

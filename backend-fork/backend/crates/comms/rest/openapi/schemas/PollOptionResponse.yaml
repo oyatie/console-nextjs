@@ -1,0 +1,17 @@
+type: object
+required:
+- id
+- label
+- position
+- vote_count
+properties:
+  id:
+    $ref: '#/components/schemas/Uuid'
+  label:
+    type: string
+  position:
+    type: integer
+    format: int32
+  vote_count:
+    type: integer
+    format: int64

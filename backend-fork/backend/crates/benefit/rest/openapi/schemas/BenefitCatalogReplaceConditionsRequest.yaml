@@ -1,0 +1,5 @@
+type: object
+additionalProperties: false
+required: [conditions]
+properties:
+  conditions: { type: array, items: { $ref: '#/components/schemas/BenefitCatalogCondition' } }

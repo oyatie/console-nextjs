@@ -1,0 +1,68 @@
+{
+  "source": "console-messenger-rest",
+  "paths": {
+    "/api/messenger/channels": [
+      "get"
+    ],
+    "/api/messenger/members": [
+      "get"
+    ],
+    "/api/messenger/members/{userId}": [
+      "get"
+    ],
+    "/api/messenger/messages/{messageId}/ack": [
+      "post"
+    ],
+    "/api/messenger/search": [
+      "get"
+    ],
+    "/api/messenger/threads": [
+      "get",
+      "post"
+    ],
+    "/api/messenger/threads/{threadId}/join": [
+      "post"
+    ],
+    "/api/messenger/threads/{threadId}/messages": [
+      "get",
+      "post"
+    ],
+    "/api/messenger/threads/{threadId}/mute": [
+      "put"
+    ],
+    "/api/messenger/threads/{threadId}/presence": [
+      "get"
+    ],
+    "/api/messenger/threads/{threadId}/read-receipt": [
+      "put"
+    ],
+    "/api/v1/ws": [
+      "get"
+    ]
+  },
+  "schemas": [
+    "CreateMessengerThreadRequest",
+    "MarkMessengerThreadReadRequest",
+    "MessengerAckSummary",
+    "MessengerMemberListResponse",
+    "MessengerMemberPresence",
+    "MessengerMemberPresenceListResponse",
+    "MessengerMemberSummary",
+    "MessengerMessageListResponse",
+    "MessengerMessagePage",
+    "MessengerMessageSummary",
+    "MessengerPresenceStatus",
+    "MessengerReadReceiptSummary",
+    "MessengerThreadKind",
+    "MessengerThreadListResponse",
+    "MessengerThreadMuteSummary",
+    "MessengerThreadSummary",
+    "MessengerThreadVisibility",
+    "SendMessengerMessageRequest",
+    "SetMessengerThreadMuteRequest"
+  ],
+  "external_schemas": [
+    "Timestamp",
+    "Uuid"
+  ]
+}

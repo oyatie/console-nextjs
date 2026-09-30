@@ -1,0 +1,17 @@
+type: object
+required: [id, evidence_object_id, stage, actor_user_id, reason, event_digest_sha256, occurred_at, created_at]
+properties:
+  id: { type: string, format: uuid }
+  evidence_object_id: { type: string, format: uuid }
+  stage: { $ref: '#/components/schemas/CustodyStage' }
+  actor_user_id: { type: string, format: uuid }
+  from_custodian: { type: object, additionalProperties: true, nullable: true }
+  to_custodian: { type: object, additionalProperties: true, nullable: true }
+  location_label: { type: string, nullable: true }
+  reason: { type: string }
+  source_ref: { allOf: [ { $ref: '#/components/schemas/EvidenceSourceRef' } ], nullable: true }
+  audit_event_id: { type: string, format: uuid, nullable: true }
+  previous_event_id: { type: string, format: uuid, nullable: true }
+  event_digest_sha256: { type: string }
+  occurred_at: { type: string, format: date-time }
+  created_at: { type: string, format: date-time }

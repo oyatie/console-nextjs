@@ -1,0 +1,4 @@
+type: object
+additionalProperties: false
+required: [items, total, limit, offset]
+properties: { items: { type: array, items: { $ref: '#/components/schemas/OwnAttendanceException' } }, total: { type: integer, format: int64 }, limit: { type: integer, format: int64 }, offset: { type: integer, format: int64 } }

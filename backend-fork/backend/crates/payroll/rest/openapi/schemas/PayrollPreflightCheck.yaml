@@ -1,0 +1,28 @@
+type: object
+required:
+- key
+- label_ko
+- ok
+- warn
+- note
+- blocking_refs
+properties:
+  key:
+    type: string
+    enum: [attendance_material, period_lock, pending_leave]
+  label_ko:
+    type: string
+  ok:
+    type: boolean
+  warn:
+    type: boolean
+    description: Soft signal only; can_close is the AND of the hard checks (attendance_material, period_lock).
+  note:
+    type:
+    - string
+    - 'null'
+  blocking_refs:
+    type: array
+    description: Up to 50 fix-link ids (draft lines missing attendance material, or pending leave requests); the note carries the full count.
+    items:
+      $ref: '#/components/schemas/Uuid'

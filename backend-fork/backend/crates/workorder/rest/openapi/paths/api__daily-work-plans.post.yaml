@@ -1,0 +1,19 @@
+tags:
+  - daily-work-plans
+operationId: createDailyWorkPlan
+summary: Create a daily work plan
+security:
+- bearerAuth: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/CreateDailyPlanRequest'
+responses:
+  '201':
+    description: Daily plan created.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/DailyPlanSummary'

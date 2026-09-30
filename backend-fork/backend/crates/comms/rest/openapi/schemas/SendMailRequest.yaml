@@ -1,0 +1,41 @@
+type: object
+description: Compose a message. For reply/forward, in_reply_to is required and references carries the accumulated chain.
+  The From is constrained to the configured account address (it cannot be set here).
+required:
+- operation_id
+- to
+- subject
+- body_text
+properties:
+  operation_id:
+    $ref: '#/components/schemas/Uuid'
+    description: Client-stable non-nil UUID. Reuse the same value and exact content for every retry.
+  to:
+    type: array
+    items:
+      $ref: '#/components/schemas/MailAddress'
+  cc:
+    type: array
+    items:
+      $ref: '#/components/schemas/MailAddress'
+  bcc:
+    type: array
+    items:
+      $ref: '#/components/schemas/MailAddress'
+  subject:
+    type: string
+  body_text:
+    type: string
+  attachments:
+    type: array
+    items:
+      $ref: '#/components/schemas/MailAttachment'
+  in_reply_to:
+    type:
+    - string
+    - 'null'
+    description: Required for reply/forward — the Message-ID being responded to.
+  references:
+    type: array
+    items:
+      type: string

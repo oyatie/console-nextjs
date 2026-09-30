@@ -1,0 +1,38 @@
+type: object
+required:
+- event_type
+- effective_date
+- comment
+- signoffs
+properties:
+  event_type:
+    type: string
+    enum:
+    - ONBOARD
+    - OFFBOARD
+    - TERMINATE
+    - TRANSFER
+  to_status:
+    type: string
+    nullable: true
+    enum:
+    - ACTIVE
+    - EXITED
+    - UNKNOWN
+  to_company:
+    type: string
+    nullable: true
+  to_org_unit:
+    type: string
+    nullable: true
+  to_position:
+    type: string
+    nullable: true
+  effective_date:
+    type: string
+    minLength: 1
+  comment:
+    type: string
+    minLength: 1
+  signoffs:
+    $ref: '#/components/schemas/EmployeeLifecycleSignoffs'

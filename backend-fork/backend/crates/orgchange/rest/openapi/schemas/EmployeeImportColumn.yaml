@@ -1,0 +1,37 @@
+type: object
+required:
+- source_header
+- normalized_header
+- classification
+- preview_allowed
+properties:
+  source_header:
+    type: string
+  normalized_header:
+    type: string
+  target:
+    type: string
+    nullable: true
+    enum:
+    - name
+    - employee_number
+    - org_unit
+    - job
+    - position
+    - worksite_name
+    - worksite_address
+    - hire_date
+    - exit_date
+    - leave_accrued
+    - leave_used
+    - leave_remaining
+    - company
+  classification:
+    type: string
+    enum:
+    - canonical
+    - retained
+    - restricted
+    - location
+  preview_allowed:
+    type: boolean

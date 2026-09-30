@@ -1,0 +1,29 @@
+operationId: listPolicyCatalog
+summary: List Cedar policy catalog entries
+description: Lists the tenant's Cedar policy catalog entries (enforced / shadow / draft / …), optionally filtered by status.
+tags:
+- Policy
+security:
+- bearerAuth: []
+parameters:
+- name: status
+  in: query
+  required: false
+  schema:
+    type: string
+responses:
+  '200':
+    description: Catalog entries for the caller's tenant.
+    content:
+      application/json:
+        schema:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '503':
+    $ref: '#/components/responses/ServiceUnavailable'

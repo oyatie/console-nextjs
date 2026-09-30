@@ -1,0 +1,96 @@
+type: object
+description: A sales listing as read by the storefront or the admin console.
+required:
+- id
+- equipment_id
+- kind
+- condition
+- model_name
+- capacity_milli
+- model_year
+- usage_hours
+- price_won
+- badge
+- usage_label
+- condition_label
+- availability
+- location
+- description
+- listing_type
+- status
+- sort_weight
+- created_at
+- updated_at
+- media
+properties:
+  id:
+    $ref: '#/components/schemas/Uuid'
+  equipment_id:
+    oneOf:
+    - $ref: '#/components/schemas/Uuid'
+    - type: 'null'
+  kind:
+    $ref: '#/components/schemas/ListingKind'
+  condition:
+    $ref: '#/components/schemas/ListingCondition'
+  model_name:
+    type: string
+  capacity_milli:
+    type:
+    - integer
+    - 'null'
+    format: int64
+  model_year:
+    type:
+    - integer
+    - 'null'
+    format: int32
+  usage_hours:
+    type:
+    - integer
+    - 'null'
+    format: int32
+  price_won:
+    type:
+    - integer
+    - 'null'
+    format: int64
+  badge:
+    type:
+    - string
+    - 'null'
+  usage_label:
+    type:
+    - string
+    - 'null'
+  condition_label:
+    type:
+    - string
+    - 'null'
+  availability:
+    type:
+    - string
+    - 'null'
+  location:
+    type:
+    - string
+    - 'null'
+  description:
+    type:
+    - string
+    - 'null'
+  listing_type:
+    $ref: '#/components/schemas/ListingType'
+  status:
+    $ref: '#/components/schemas/ListingStatus'
+  sort_weight:
+    type: integer
+    format: int32
+  created_at:
+    $ref: '#/components/schemas/Timestamp'
+  updated_at:
+    $ref: '#/components/schemas/Timestamp'
+  media:
+    type: array
+    items:
+      $ref: '#/components/schemas/ListingMediaView'

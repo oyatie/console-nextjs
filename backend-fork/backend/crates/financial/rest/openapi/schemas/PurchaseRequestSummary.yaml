@@ -1,0 +1,72 @@
+type: object
+required:
+  - id
+  - branch_id
+  - equipment_id
+  - work_order_id
+  - statement_evidence_id
+  - purchase_type
+  - vendor_name
+  - amount_won
+  - status
+  - requester
+  - lines
+  - quote_attachments
+  - policy
+  - expenditure_no
+  - rejection_memo
+  - created_at
+  - updated_at
+properties:
+  id:
+    $ref: '#/components/schemas/Uuid'
+  branch_id:
+    $ref: '#/components/schemas/Uuid'
+  equipment_id:
+    type:
+      - string
+      - "null"
+    format: uuid
+  work_order_id:
+    type:
+    - string
+    - 'null'
+    format: uuid
+  statement_evidence_id:
+    type:
+      - string
+      - "null"
+    format: uuid
+  purchase_type:
+    $ref: "#/components/schemas/PurchaseType"
+  vendor_name:
+    type: string
+  amount_won:
+    type: integer
+    format: int64
+  status:
+    $ref: "#/components/schemas/PurchaseStatus"
+  requester:
+    $ref: "#/components/schemas/PurchaseRequesterSummary"
+  lines:
+    type: array
+    items:
+      $ref: "#/components/schemas/PurchaseRequestLineSummary"
+  quote_attachments:
+    type: array
+    items:
+      $ref: "#/components/schemas/PurchaseAttachmentSummary"
+  policy:
+    $ref: "#/components/schemas/PurchasePolicySummary"
+  expenditure_no:
+    type:
+    - string
+    - 'null'
+  rejection_memo:
+    type:
+    - string
+    - 'null'
+  created_at:
+    $ref: '#/components/schemas/Timestamp'
+  updated_at:
+    $ref: "#/components/schemas/Timestamp"

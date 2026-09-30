@@ -1,0 +1,22 @@
+type: object
+required:
+- kind
+- label
+- amount_krw
+properties:
+  kind:
+    $ref: '#/components/schemas/SettlementLineKind'
+  label:
+    type: string
+    minLength: 1
+  amount_krw:
+    type: integer
+    format: int64
+    minimum: 0
+  source_ref:
+    type: string
+    description: PO/IV/outsource code when known.
+  sort_order:
+    type: integer
+    format: int32
+    description: Defaults to the line's position in the array.

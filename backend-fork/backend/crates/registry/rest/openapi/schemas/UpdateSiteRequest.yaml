@@ -1,0 +1,63 @@
+type: object
+description: Partial site update. Absent keys are left unchanged; nullable keys set to null clear the column. Latitude
+  and longitude must be supplied together and within WGS84 ranges.
+properties:
+  address:
+    type:
+    - string
+    - 'null'
+  province:
+    type:
+    - string
+    - 'null'
+  city:
+    type:
+    - string
+    - 'null'
+  postal_code:
+    type:
+    - string
+    - 'null'
+  latitude:
+    type:
+    - number
+    - 'null'
+    format: double
+    minimum: -90
+    maximum: 90
+    description: Nullable admin-authored WGS84 latitude in degrees. Include with longitude to set or clear the pair.
+  longitude:
+    type:
+    - number
+    - 'null'
+    format: double
+    minimum: -180
+    maximum: 180
+    description: Nullable admin-authored WGS84 longitude in degrees. Include with latitude to set or clear the pair.
+  geofence_radius_m:
+    type:
+    - number
+    - 'null'
+    format: double
+    minimum: 0
+    maximum: 100000
+    description: Per-site geofence radius in metres (> 0, ≤ 100000). Null clears the override so the system default
+      (300 m) applies.
+  contact_name:
+    type:
+    - string
+    - 'null'
+    maxLength: 100
+    description: On-site representative contact name (담당자명). Null clears it.
+  contact_phone:
+    type:
+    - string
+    - 'null'
+    maxLength: 40
+    description: On-site contact phone (연락처). Null clears it.
+  contact_email:
+    type:
+    - string
+    - 'null'
+    maxLength: 320
+    description: Optional contact email (이메일). Null clears it.

@@ -1,0 +1,27 @@
+tags:
+  - leave
+operationId: listLeaveBalances
+summary: Per-employee annual-leave balance roster (직원별 연차 현황)
+description: >-
+  Reads the existing employee leave ledger (grant/used/left) — the same
+  source of truth as the balances aggregate; not a second store. Requires
+  `employee_directory_read`. Org-scoped.
+security:
+- bearerAuth: []
+responses:
+  '200':
+    description: The leave-balance roster.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/LeaveRosterPage'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '503':
+    description: JWT verification is not configured.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ErrorBody'

@@ -1,0 +1,30 @@
+tags:
+  - mail
+operationId: getMailMessage
+summary: Get one message with its attachments
+description: Returns one message (with attachment metadata; bytes are fetched via the attachment download endpoint).
+  body_html is verbatim and MUST be sanitized by the client. RLS-armed to the caller's org. Requires the MailUse feature.
+security:
+- bearerAuth: []
+parameters:
+- name: id
+  in: path
+  required: true
+  schema:
+    type: string
+    format: uuid
+responses:
+  '200':
+    description: The message and its attachments.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/MailMessageView'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '503':
+    $ref: '#/components/responses/MailUnavailable'

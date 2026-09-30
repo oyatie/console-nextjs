@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cnpg-operator
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
+spec:
+  project: console
+  source:
+    # Official pinned release manifest, wrapped by a thin kustomization so
+    # Renovate can bump the tag. Installs the operator into cnpg-system.
+    repoURL: https://github.com/jason931225/console.git # replace OWNER
+    targetRevision: main
+    path: deploy/infra/cnpg-operator
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: cnpg-system
+  syncPolicy:
+    automated: { prune: true, selfHeal: true }
+    syncOptions: [CreateNamespace=true, ServerSideApply=true]

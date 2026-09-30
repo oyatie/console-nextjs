@@ -1,0 +1,31 @@
+type: object
+required:
+- node_key
+- node_type
+- status
+- attempt
+properties:
+  node_key:
+    type: string
+  node_type:
+    type: string
+  status:
+    type: string
+  attempt:
+    type: integer
+    format: int32
+  started_at:
+    $ref: '#/components/schemas/Timestamp'
+  finished_at:
+    $ref: '#/components/schemas/Timestamp'
+  actor:
+    $ref: '#/components/schemas/Uuid'
+    description: The user who decided this node (decision nodes only).
+  outcome:
+    type: object
+    additionalProperties: true
+    description: The decision payload recorded on the node's waiting task, if any.
+  error:
+    type: object
+    additionalProperties: true
+    description: The node's error payload for a FAILED node step.

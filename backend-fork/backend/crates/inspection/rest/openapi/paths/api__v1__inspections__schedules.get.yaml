@@ -1,0 +1,55 @@
+tags:
+  - inspections
+operationId: listInspectionSchedules
+summary: List branch-scoped regular inspection schedules
+security:
+- bearerAuth: []
+parameters:
+- name: due_start
+  in: query
+  required: true
+  schema:
+    $ref: '#/components/schemas/Date'
+- name: due_end
+  in: query
+  required: true
+  schema:
+    $ref: '#/components/schemas/Date'
+- name: limit
+  in: query
+  required: false
+  schema:
+    type: integer
+    format: int64
+    minimum: 1
+    maximum: 500
+    default: 200
+- name: offset
+  in: query
+  required: false
+  schema:
+    type: integer
+    format: int64
+    minimum: 0
+    default: 0
+responses:
+  '200':
+    description: A page of inspection schedules due in the requested range.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/InspectionSchedulePage'
+  '400':
+    $ref: '#/components/responses/ValidationError'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '422':
+    $ref: '#/components/responses/ValidationError'
+  '503':
+    description: JWT verification is not configured.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ErrorBody'

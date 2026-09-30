@@ -1,0 +1,39 @@
+# Traefik Helm values for the current OCI guest ingress overlay.
+# This file is consumed by deploy/argocd/apps/traefik.yaml, which remains the
+# live app-of-apps child for the OCI context. The on-prem HA variant must not
+# import this file; it has its own LoadBalancer values under
+# deploy/apps/traefik-onprem/values.yaml.
+
+# Single OCI guest node: bind 80/443 straight onto the node (hostPort) instead
+# of provisioning an OCI load balancer. The reserved public node IP is the entry
+# point; this preserves the Always Free, no-LB-cost ingress path.
+service:
+  enabled: false
+
+providers:
+  kubernetesIngress:
+    publishedService:
+      enabled: false
+    # Service/LoadBalancer is disabled for Always Free hostPort ingress, so
+    # Traefik cannot infer the public endpoint. Publish the reserved OCI node IP
+    # explicitly so Ingress status is populated and Argo CD can report the app
+    # healthy instead of permanently Progressing.
+    ingressEndpoint:
+      ip: 140.245.68.253
+
+deployment:
+  kind: DaemonSet
+
+ports:
+  # Port 80 stays plain HTTP — cert-manager's ACME HTTP-01 challenge is served
+  # there; a blanket http→https redirect would break TLS issuance.
+  web:
+    port: 8000
+    hostPort: 80
+  websecure:
+    port: 8443
+    hostPort: 443
+
+resources:
+  requests: { cpu: 50m, memory: 64Mi }
+  limits: { memory: 192Mi }

@@ -1,0 +1,6 @@
+type: object
+required:
+- task
+properties:
+  task:
+    $ref: '#/components/schemas/ClaimedWorkflowTask'

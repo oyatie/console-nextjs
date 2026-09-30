@@ -1,0 +1,52 @@
+      type: object
+      required:
+      - id
+      - branch_id
+      - equipment_no
+      - management_no
+      - model
+      - status
+      - specification
+      - ton_text
+      - maker
+      - vin
+      - vehicle_registration_no
+      - customer
+      - site
+      properties:
+        id:
+          $ref: '#/components/schemas/Uuid'
+        branch_id:
+          $ref: '#/components/schemas/Uuid'
+        equipment_no:
+          type: string
+        management_no:
+          type:
+          - string
+          - 'null'
+        model:
+          type:
+          - string
+          - 'null'
+        status:
+          type: string
+        specification:
+          type: string
+        ton_text:
+          type: string
+        maker:
+          type:
+          - string
+          - 'null'
+        vin:
+          type:
+          - string
+          - 'null'
+        vehicle_registration_no:
+          type:
+          - string
+          - 'null'
+        customer:
+          $ref: '#/components/schemas/NamedEntity'
+        site:
+          $ref: '#/components/schemas/NamedEntity'

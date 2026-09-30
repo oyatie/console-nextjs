@@ -1,0 +1,3 @@
+type: object
+required: [branch_scope, closed, open_exceptions, pending_leave]
+properties: { branch_scope: { type: string }, closed: { type: boolean }, close: { $ref: '#/components/schemas/AttendanceMonthClose', nullable: true }, open_exceptions: { type: integer, format: int64 }, pending_leave: { type: integer, format: int64 } }

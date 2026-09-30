@@ -1,0 +1,18 @@
+tags: [Compliance]
+operationId: listComplianceEvidenceBindings
+summary: List compliance evidence bindings
+security: [{ bearerAuth: [] }]
+parameters:
+- { name: control_id, in: query, required: false, schema: { $ref: '#/components/schemas/Uuid' } }
+- { name: obligation_id, in: query, required: false, schema: { $ref: '#/components/schemas/Uuid' } }
+- { name: target_type, in: query, required: false, schema: { $ref: '#/components/schemas/EvidenceTargetType' } }
+- { name: status, in: query, required: false, schema: { $ref: '#/components/schemas/EvidenceBindingStatus' } }
+- { name: limit, in: query, required: false, schema: { type: integer, format: int64, minimum: 1, maximum: 1000, default: 100 } }
+- { name: offset, in: query, required: false, schema: { type: integer, format: int64, minimum: 0, default: 0 } }
+responses:
+  '200': { description: Paged evidence bindings., content: { application/json: { schema: { $ref: '#/components/schemas/EvidenceBindingPage' } } } }
+  '401': { $ref: '#/components/responses/Unauthorized' }
+  '403': { $ref: '#/components/responses/Forbidden' }
+  '422': { $ref: '#/components/responses/ValidationError' }
+  '500': { $ref: '#/components/responses/InternalServerError' }
+  '503': { $ref: '#/components/responses/ServiceUnavailable' }

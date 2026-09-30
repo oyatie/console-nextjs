@@ -1,0 +1,34 @@
+tags:
+  - series
+operationId: getSeriesByInstance
+summary: Find which series an object belongs to
+description: 'Returns the series a given (kind, id) instance belongs to, or null. Membership is revealed only when
+  the caller can resolve the instance, so series membership is never an existence oracle for out-of-scope objects.'
+security:
+- bearerAuth: []
+parameters:
+- name: kind
+  in: query
+  required: true
+  description: Instance object kind slug.
+  schema:
+    type: string
+- name: id
+  in: query
+  required: true
+  description: Instance object id/reference.
+  schema:
+    type: string
+responses:
+  '200':
+    description: The series the instance belongs to (series=null when none / not resolvable).
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/SeriesByInstanceResponse'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '422':
+    $ref: '#/components/responses/ValidationError'

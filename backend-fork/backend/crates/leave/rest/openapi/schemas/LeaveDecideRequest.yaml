@@ -1,0 +1,13 @@
+type: object
+required:
+- decision
+properties:
+  decision:
+    type: string
+    enum: [approve, time_change]
+    description: >-
+      근로기준법 §60: refusal is not representable. `time_change` opens the
+      §60⑤ 시기변경 협의; `return`/`reject` are rejected with 422.
+  comment:
+    type: string
+    description: Mandatory for time_change; optional for approve.

@@ -1,0 +1,41 @@
+type: object
+required:
+- definition_id
+- trigger_type
+- idempotency_key
+properties:
+  definition_id:
+    $ref: '#/components/schemas/Uuid'
+  definition_version:
+    type: integer
+    format: int32
+    description: Pin a specific version; omitted uses the definition's active version.
+  object_type:
+    type: string
+    description: Must be provided together with object_id.
+  object_id:
+    $ref: '#/components/schemas/Uuid'
+  trigger_type:
+    type: string
+    enum:
+    - MANUAL
+    - SCHEDULE
+    - OBJECT_EVENT
+    - IMPORT_EVENT
+    - MAIL_EVENT
+    - MESSENGER_EVENT
+    - CALENDAR_EVENT
+    - POLL_EVENT
+    - API
+  idempotency_key:
+    type: string
+    minLength: 16
+  correlation_id:
+    type: string
+    minLength: 8
+  input_payload:
+    type: object
+    additionalProperties: true
+  context_payload:
+    type: object
+    additionalProperties: true

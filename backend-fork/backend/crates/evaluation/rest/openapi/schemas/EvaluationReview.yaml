@@ -1,0 +1,14 @@
+type: object
+additionalProperties: false
+required: [id, subject_id, kind, status, evaluator_user_id, grade, note, evidence_links, submitted_at, updated_at]
+properties:
+  id: { $ref: '#/components/schemas/Uuid' }
+  subject_id: { $ref: '#/components/schemas/Uuid' }
+  kind: { $ref: '#/components/schemas/EvaluationReviewKind' }
+  status: { $ref: '#/components/schemas/EvaluationReviewStatus' }
+  evaluator_user_id: { $ref: '#/components/schemas/Uuid' }
+  grade: { oneOf: [{ $ref: '#/components/schemas/EvaluationGrade' }, { type: 'null' }] }
+  note: { type: [string, 'null'] }
+  evidence_links: { type: array, items: { $ref: '#/components/schemas/EvaluationEvidenceLink' } }
+  submitted_at: { oneOf: [{ $ref: '#/components/schemas/Timestamp' }, { type: 'null' }] }
+  updated_at: { $ref: '#/components/schemas/Timestamp' }

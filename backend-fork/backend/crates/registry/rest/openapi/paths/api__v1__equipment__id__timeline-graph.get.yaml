@@ -1,0 +1,27 @@
+tags:
+  - equipment
+operationId: getEquipmentTimelineGraph
+summary: Read one equipment lifecycle ribbon and relationship graph
+description: 'Read-only equipment lens for object-detail pages. Returns real lifecycle events and the customer-site-equipment-work-order
+  graph visible within the caller''s branch scope. A foreign or missing equipment id returns 404 without revealing existence.
+
+  '
+security:
+- bearerAuth: []
+parameters:
+- $ref: '#/components/parameters/EquipmentId'
+responses:
+  '200':
+    description: Equipment lifecycle and relationship graph lens.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/EquipmentTimelineGraph'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '503':
+    description: JWT verification is not configured.

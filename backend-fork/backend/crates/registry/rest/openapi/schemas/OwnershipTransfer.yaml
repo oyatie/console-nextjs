@@ -1,0 +1,66 @@
+type: object
+required:
+- id
+- equipment_id
+- branch_id
+- from_owner
+- to_owner
+- reason
+- status
+- current_step
+- approval_line
+- requested_at
+properties:
+  id:
+    type: string
+    format: uuid
+  equipment_id:
+    type: string
+    format: uuid
+  branch_id:
+    type: string
+    format: uuid
+  from_owner:
+    type: string
+  to_owner:
+    type: string
+  reason:
+    type: string
+  status:
+    type: string
+    enum:
+    - PENDING
+    - APPROVED
+    - REJECTED
+  current_step:
+    type:
+    - string
+    - 'null'
+    enum:
+    - sending_org_admin
+    - receiving_org_admin
+    - legal_signoff
+    - accounting_signoff
+    - null
+  approval_line:
+    type: array
+    items:
+      $ref: '#/components/schemas/OwnershipTransferStep'
+  requested_by:
+    type:
+    - string
+    - 'null'
+    format: uuid
+  requested_at:
+    type: string
+    format: date-time
+  decided_at:
+    type:
+    - string
+    - 'null'
+    format: date-time
+  completed_at:
+    type:
+    - string
+    - 'null'
+    format: date-time

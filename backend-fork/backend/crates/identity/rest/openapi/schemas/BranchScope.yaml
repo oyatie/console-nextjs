@@ -1,0 +1,18 @@
+type: object
+description: >-
+  The set of branches a principal may act within. `all` (SUPER_ADMIN /
+  EXECUTIVE rollup) carries no `branches`; `branches` carries the explicit
+  set.
+properties:
+  kind:
+    type: string
+    enum:
+    - all
+    - branches
+  branches:
+    type: array
+    description: Present only when `kind = branches`.
+    items:
+      $ref: '#/components/schemas/Uuid'
+required:
+- kind

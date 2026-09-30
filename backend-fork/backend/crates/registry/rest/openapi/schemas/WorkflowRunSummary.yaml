@@ -1,0 +1,25 @@
+type: object
+required:
+- id
+- status
+- definition_id
+- definition_version
+- started_at
+properties:
+  id:
+    $ref: '#/components/schemas/Uuid'
+  status:
+    type: string
+  definition_id:
+    $ref: '#/components/schemas/Uuid'
+  definition_version:
+    type: integer
+    format: int32
+  object_type:
+    type: string
+  object_id:
+    $ref: '#/components/schemas/Uuid'
+  initiated_by:
+    $ref: '#/components/schemas/Uuid'
+  started_at:
+    $ref: '#/components/schemas/Timestamp'

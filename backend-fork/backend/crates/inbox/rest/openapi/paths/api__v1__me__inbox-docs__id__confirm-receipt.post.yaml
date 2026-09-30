@@ -1,0 +1,53 @@
+tags:
+  - me
+operationId: confirmMyInboxDocReceipt
+summary: Confirm receipt of a legal notice (the legal receipt evidence)
+description: >-
+  Requires a FRESH passkey step-up: confirmation IS the legally
+  significant act of receipt (열람 = 법적 수령), audited with receipt
+  semantics. Idempotent — a second confirm returns the existing stamp.
+  Only a legal notice can be confirmed; a payslip is a frictionless
+  self-view (422). Another user's / unknown document is 404.
+security:
+- bearerAuth: []
+parameters:
+- name: id
+  in: path
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/InboxDocConfirmReceiptRequest'
+responses:
+  '200':
+    description: The confirmed document, unlocked and stamped.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/InboxDocSummary'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '422':
+    description: The document is a payslip and cannot be receipt-confirmed.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ErrorBody'
+  '428':
+    description: A fresh passkey step-up is required to confirm receipt.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ErrorBody'
+  '503':
+    description: JWT verification or passkey step-up is not configured.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ErrorBody'

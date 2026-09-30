@@ -1,0 +1,1 @@
+{ type: object, additionalProperties: false, required: [toStatus, expectedVersion, reason], properties: { toStatus: { type: string, enum: [PROPOSED, APPROVED, IMPLEMENTED, MEASURED, SUSTAINED, CORRECTIVE] }, expectedVersion: { type: integer, format: int64, minimum: 1 }, approvalId: { $ref: '#/components/schemas/Uuid', nullable: true }, reason: { type: string, minLength: 1 } } }

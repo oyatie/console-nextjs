@@ -1,0 +1,3 @@
+type: object
+required: [week_start, items]
+properties: { week_start: { type: string, format: date }, items: { type: array, items: { $ref: '#/components/schemas/AttendanceWeek52Row' } } }

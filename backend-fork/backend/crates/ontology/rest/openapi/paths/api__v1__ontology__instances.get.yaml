@@ -1,0 +1,32 @@
+operationId: listOntologyInstances
+summary: List object instances of a type
+description: Lists current-state instances of one object type (RLS-scoped, Cedar residual-filtered). The type is the object-type
+  version id whose head instances to list.
+tags:
+- Ontology
+security:
+- bearerAuth: []
+parameters:
+- name: type
+  in: query
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+responses:
+  '200':
+    description: Instance states for the object type.
+    content:
+      application/json:
+        schema:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '422':
+    $ref: '#/components/responses/ValidationError'
+  '503':
+    $ref: '#/components/responses/ServiceUnavailable'

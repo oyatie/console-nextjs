@@ -1,0 +1,9 @@
+type: object
+required:
+- compensation
+- run
+properties:
+  compensation:
+    $ref: '#/components/schemas/PostFinalizationRejectionDocument'
+  run:
+    $ref: '#/components/schemas/FinalizedWorkflowRun'

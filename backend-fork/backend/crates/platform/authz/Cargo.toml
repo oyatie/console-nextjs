@@ -1,0 +1,25 @@
+[package]
+name = "console-platform-authz"
+build = "../db/build.rs"
+version = "0.1.0"
+description = "Branch-scoped authorization policy engine and repository filter helpers."
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+console-kernel-core = { workspace = true }
+sqlx = { workspace = true }
+serde = { workspace = true }
+uuid = { workspace = true }
+# Default features only: the shadow-first Cedar boundary does not use
+# partial-eval/entity-manifest. Pinned exact for provable bundle equivalence.
+cedar-policy = "=4.11.2"
+sha2 = { workspace = true }
+hex = { workspace = true }
+# Coexistence-map loader (cedar_pbac::map) parses the canonical map JSON at runtime.
+serde_json = { workspace = true }
+
+[lints]
+workspace = true

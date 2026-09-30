@@ -1,0 +1,25 @@
+tags:
+- finance-gl
+operationId: createVoucherDraft
+summary: Open a draft voucher (기표)
+security:
+- bearerAuth: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/CreateVoucherRequest'
+responses:
+  '201':
+    description: Draft voucher created.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/VoucherSummary'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '422':
+    $ref: '#/components/responses/ValidationError'

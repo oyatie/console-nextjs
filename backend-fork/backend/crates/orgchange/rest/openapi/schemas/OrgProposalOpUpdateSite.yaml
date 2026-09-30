@@ -1,0 +1,16 @@
+type: object
+additionalProperties: false
+required:
+- op
+- siteId
+- name
+properties:
+  op:
+    type: string
+    enum: [UPDATE_SITE]
+  siteId:
+    $ref: '#/components/schemas/Uuid'
+  name:
+    type: string
+    minLength: 1
+    maxLength: 120

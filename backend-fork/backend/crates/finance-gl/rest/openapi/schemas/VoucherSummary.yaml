@@ -1,0 +1,80 @@
+type: object
+required:
+- id
+- voucher_no
+- branch_id
+- status
+- memo
+- debit_total_won
+- credit_total_won
+- lines
+- created_by
+- created_at
+- updated_at
+properties:
+  id:
+    $ref: '#/components/schemas/Uuid'
+  voucher_no:
+    type: string
+  branch_id:
+    $ref: '#/components/schemas/Uuid'
+  branch_name:
+    type:
+    - string
+    - 'null'
+  status:
+    $ref: '#/components/schemas/VoucherStatus'
+  memo:
+    type: string
+  source_object_type:
+    type:
+    - string
+    - 'null'
+  source_object_id:
+    type:
+    - string
+    - 'null'
+  reversal_of_voucher_id:
+    type:
+    - string
+    - 'null'
+    format: uuid
+  reversed_by_voucher_id:
+    type:
+    - string
+    - 'null'
+    format: uuid
+  debit_total_won:
+    type: integer
+    format: int64
+  credit_total_won:
+    type: integer
+    format: int64
+  lines:
+    type: array
+    items:
+      $ref: '#/components/schemas/VoucherLineSummary'
+  created_by:
+    $ref: '#/components/schemas/Uuid'
+  created_by_name:
+    type:
+    - string
+    - 'null'
+  approved_by:
+    type:
+    - string
+    - 'null'
+    format: uuid
+  approved_by_name:
+    type:
+    - string
+    - 'null'
+  posted_at:
+    type:
+    - string
+    - 'null'
+    format: date-time
+  created_at:
+    $ref: '#/components/schemas/Timestamp'
+  updated_at:
+    $ref: '#/components/schemas/Timestamp'

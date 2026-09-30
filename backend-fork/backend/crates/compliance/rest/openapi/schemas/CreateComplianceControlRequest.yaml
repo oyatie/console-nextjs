@@ -1,0 +1,11 @@
+type: object
+required: [framework_id, control_key, title, objective, control_type]
+properties:
+  framework_id: { $ref: '#/components/schemas/Uuid' }
+  control_key: { type: string }
+  title: { type: string }
+  objective: { type: string }
+  control_type: { $ref: '#/components/schemas/ControlType' }
+  cadence: { type: [string, 'null'], enum: [CONTINUOUS, DAILY, WEEKLY, MONTHLY, QUARTERLY, ANNUAL, EVENT_DRIVEN, null] }
+  evidence_requirements: { type: object, additionalProperties: true }
+  owner_user_id: { type: [string, 'null'], format: uuid }

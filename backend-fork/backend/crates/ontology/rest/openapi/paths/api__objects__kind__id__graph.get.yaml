@@ -1,0 +1,44 @@
+tags:
+  - objects
+operationId: getObjectGraph
+summary: Walk the bounded object-link neighborhood of an object
+description: 'Bounded level-by-level walk over object_links up to `depth` hops (clamped 1-5), org-scoped under
+  RLS. Every returned node passed the SAME per-kind visibility guard as resolveObject; deny-by-omission governs
+  discovery itself here, not just display: a node the caller cannot resolve is OMITTED (never returned as a
+  stub) and the walk never expands through it, so an edge touching an omitted node is omitted too. `truncated`
+  is true when the response was cut short by the node cap before `depth` was exhausted.'
+security:
+- bearerAuth: []
+parameters:
+- name: kind
+  in: path
+  required: true
+  description: Root object kind slug.
+  schema:
+    type: string
+- name: id
+  in: path
+  required: true
+  description: Root object id.
+  schema:
+    type: string
+- name: depth
+  in: query
+  required: false
+  description: Walk depth in hops, clamped to 1-5 (default 1).
+  schema:
+    type: integer
+    format: int64
+responses:
+  '200':
+    description: The bounded neighborhood of the root object (empty if the root itself does not resolve).
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ObjectGraphResponse'
+  '400':
+    $ref: '#/components/responses/ValidationError'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'

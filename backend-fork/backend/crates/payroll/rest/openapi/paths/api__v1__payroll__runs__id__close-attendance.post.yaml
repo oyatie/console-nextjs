@@ -1,0 +1,35 @@
+tags:
+- payroll
+operationId: closePayrollRunAttendance
+summary: Attested attendance close (STAGED/BLOCKED_LEGAL_GATE/READY_FOR_REVIEW to ATTENDANCE_CLOSED); a blocked preflight is a 409 carrying the failing checks in error.details
+security:
+- bearerAuth: []
+parameters:
+- name: id
+  in: path
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/ClosePayrollAttendanceRequest'
+responses:
+  '200':
+    description: The run detail after the close.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/PayrollRunDetail'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '409':
+    $ref: '#/components/responses/Conflict'
+  '422':
+    $ref: '#/components/responses/ValidationError'

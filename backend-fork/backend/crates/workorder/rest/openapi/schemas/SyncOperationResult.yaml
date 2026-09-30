@@ -1,0 +1,25 @@
+type: object
+required:
+- request_id
+- operation
+- status
+- http_status
+- replayed
+properties:
+  request_id:
+    type: string
+  operation:
+    $ref: '#/components/schemas/SyncOperationKind'
+  status:
+    $ref: '#/components/schemas/SyncOperationStatus'
+  http_status:
+    type: integer
+    format: int32
+    minimum: 100
+    maximum: 599
+  result:
+    $ref: '#/components/schemas/WorkOrderSummary'
+  error:
+    $ref: '#/components/schemas/SyncError'
+  replayed:
+    type: boolean

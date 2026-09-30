@@ -1,0 +1,52 @@
+type: object
+required:
+- id
+- scope_type
+- title
+- description
+- starts_at
+- ends_at
+- all_day
+- status
+- created_at
+- updated_at
+- policy
+properties:
+  id:
+    $ref: '#/components/schemas/Uuid'
+  scope_type:
+    $ref: '#/components/schemas/CollaborationScopeType'
+  scope_ref:
+    type:
+    - string
+    - 'null'
+  title:
+    type: string
+  description:
+    type: string
+  starts_at:
+    $ref: '#/components/schemas/Timestamp'
+  ends_at:
+    $ref: '#/components/schemas/Timestamp'
+  all_day:
+    type: boolean
+  status:
+    $ref: '#/components/schemas/CalendarEventStatus'
+  object_type:
+    type:
+    - string
+    - 'null'
+  object_id:
+    oneOf:
+    - $ref: '#/components/schemas/Uuid'
+    - type: 'null'
+  created_by:
+    oneOf:
+    - $ref: '#/components/schemas/Uuid'
+    - type: 'null'
+  created_at:
+    $ref: '#/components/schemas/Timestamp'
+  updated_at:
+    $ref: '#/components/schemas/Timestamp'
+  policy:
+    $ref: '#/components/schemas/CollaborationScopePolicy'

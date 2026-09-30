@@ -1,0 +1,20 @@
+type: object
+description: One authored policy - one effect, one action, one resource type, and a set of AND-ed conditions.
+required:
+- effect
+- action
+- resource_type
+properties:
+  effect:
+    type: string
+    enum:
+    - permit
+    - forbid
+  action:
+    type: string
+  resource_type:
+    type: string
+  conditions:
+    type: array
+    items:
+      $ref: '#/components/schemas/PolicyNoCodeCondition'

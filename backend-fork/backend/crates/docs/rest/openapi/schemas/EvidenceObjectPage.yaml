@@ -1,0 +1,13 @@
+type: object
+required: [items, limit, offset, total, as_of, next_cursor]
+properties:
+  items: { type: array, items: { $ref: '#/components/schemas/EvidenceObjectView' } }
+  limit: { type: integer, format: int64 }
+  offset: { type: integer, format: int64 }
+  total: { type: integer, format: int64 }
+  as_of: { type: integer, format: int64, description: Immutable evidence-register sequence that fences every row in this response. }
+  next_cursor:
+    type:
+    - string
+    - 'null'
+    description: Opaque unpadded-base64url continuation token, or null at the end of the snapshot.

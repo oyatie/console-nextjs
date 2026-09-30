@@ -1,0 +1,18 @@
+[package]
+name = "console-sales-application"
+version = "0.1.0"
+description = "Sales-catalog application use-case DTOs, commands, and audit helpers."
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+console-kernel-core = { workspace = true }
+console-sales-domain = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+time = { workspace = true }
+
+[lints]
+workspace = true

@@ -1,0 +1,23 @@
+type: object
+description: Tenant and actor are derived from the verified bearer token; neither can be supplied by callers.
+additionalProperties: false
+required: [scope, category, name, coverageLabel, costLabel]
+properties:
+  scope: { $ref: '#/components/schemas/BenefitCatalogScope' }
+  category: { type: string, enum: [legal, extra] }
+  name: { type: string, minLength: 1 }
+  coverageLabel: { type: string, minLength: 1 }
+  coveredCount: { type: integer, nullable: true }
+  costLabel: { type: string, minLength: 1 }
+  estimatedAnnualCostWon: { type: integer, format: int64, nullable: true }
+  employerRateBps: { type: integer, nullable: true }
+  note: { type: string, nullable: true }
+  legalBasis: { type: string, nullable: true }
+  relatedDomain: { type: string, nullable: true }
+  relatedObjectId: { $ref: '#/components/schemas/Uuid', nullable: true }
+  effectiveOn: { type: string, format: date, nullable: true }
+  retiresOn: { type: string, format: date, nullable: true }
+  displayOrder: { type: integer, default: 0 }
+  metadata: { type: object, additionalProperties: true }
+  tiers: { type: array, items: { $ref: '#/components/schemas/BenefitCatalogTier' } }
+  conditions: { type: array, items: { $ref: '#/components/schemas/BenefitCatalogCondition' } }

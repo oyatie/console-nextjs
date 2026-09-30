@@ -1,0 +1,67 @@
+type: object
+description: A typed approval task over an ontology object. The source-specific payloads are mutually exclusive; `source`
+  selects which payload is populated.
+required:
+- id
+- source
+- source_id
+- branch_id
+- status
+- title
+- summary
+- requested_at
+- due_at
+- href
+- action_href
+- ontology
+- workflow
+- policy
+properties:
+  id:
+    type: string
+    description: Stable federated id in `{source}:{source_id}` form.
+  source:
+    type: string
+    enum:
+    - WORK_ORDER
+    - DAILY_PLAN
+    - TARGET_CHANGE
+  source_id:
+    $ref: '#/components/schemas/Uuid'
+  branch_id:
+    $ref: '#/components/schemas/Uuid'
+  status:
+    type: string
+  title:
+    type: string
+  summary:
+    type: string
+  requested_at:
+    type:
+    - string
+    - 'null'
+    format: date-time
+  due_at:
+    type:
+    - string
+    - 'null'
+    format: date-time
+  href:
+    type: string
+  action_href:
+    type: string
+  ontology:
+    $ref: '#/components/schemas/ApprovalOntologyContext'
+  workflow:
+    $ref: '#/components/schemas/ApprovalWorkflowContext'
+  policy:
+    $ref: '#/components/schemas/ApprovalPolicyContext'
+  work_order:
+    $ref: '#/components/schemas/WorkOrderListItem'
+    description: Present only when `source` is `WORK_ORDER`.
+  daily_plan:
+    $ref: '#/components/schemas/DailyPlanSummary'
+    description: Present only when `source` is `DAILY_PLAN`.
+  target_change:
+    $ref: '#/components/schemas/TargetChangeRequestSummary'
+    description: Present only when `source` is `TARGET_CHANGE`.

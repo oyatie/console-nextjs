@@ -1,0 +1,34 @@
+[package]
+name = "console-workflow-runtime-adapter-postgres"
+version = "0.1.0"
+description = "Postgres adapter for the workflow runtime spine (0077/0078): implements the domain WorkflowRuntimePort over with_audit/with_audits/with_org_conn, arming app.current_org as console_rt. The only crate that touches the spine tables + sqlx."
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+console-kernel-core = { workspace = true }
+console-notifications-application = { workspace = true }
+console-notifications-domain = { workspace = true }
+console-platform-db = { workspace = true }
+console-workflow-domain = { workspace = true }
+serde_json = { workspace = true }
+sqlx = { workspace = true }
+thiserror = { workspace = true }
+time = { workspace = true }
+tracing = { workspace = true }
+uuid = { workspace = true }
+
+[dev-dependencies]
+console-notifications-adapter-postgres = { workspace = true }
+# The REAL `ObjectKey::PayRun` owner, for the drain tests only. A NORMAL
+# dependency here would be an adapter → adapter layer-boundary violation; the
+# gate scopes its edge check to normal deps, so a dev-dependency is the
+# supported way to drive the actual seam in a test instead of a stub.
+console-payroll-adapter-postgres = { workspace = true }
+console-platform-request-context = { workspace = true }
+tokio = { workspace = true, features = ["macros", "rt-multi-thread"] }
+
+[lints]
+workspace = true

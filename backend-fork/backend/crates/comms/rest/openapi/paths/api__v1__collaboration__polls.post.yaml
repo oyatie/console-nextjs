@@ -1,0 +1,27 @@
+tags:
+  - collaboration
+operationId: createCollaborationPoll
+summary: Create an audited collaboration poll
+description: Creates a poll with explicit target scope, anonymous/named vote mode, source-object link, option validation,
+  audit event, and append-only lifecycle event. The UI no longer depends on placeholder/static poll text.
+security:
+- bearerAuth: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/CreatePollRequest'
+responses:
+  '200':
+    description: Created poll.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/PollResponse'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '422':
+    $ref: '#/components/responses/ValidationError'

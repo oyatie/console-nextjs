@@ -1,0 +1,28 @@
+type: object
+required:
+- action_id
+- object_type
+- object_id
+- input
+properties:
+  action_id:
+    type: string
+    enum:
+    - equipment.update_profile
+  object_type:
+    type: string
+    enum:
+    - equipment
+  object_id:
+    $ref: '#/components/schemas/Uuid'
+  input:
+    oneOf:
+    - $ref: '#/components/schemas/UpdateEquipmentRequest'
+    description: Typed action payload. For `equipment.update_profile`, this is UpdateEquipmentRequest.
+  idempotency_key:
+    type:
+    - string
+    - 'null'
+    maxLength: 128
+  step_up:
+    $ref: '#/components/schemas/PasskeyStepUpAssertion'

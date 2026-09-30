@@ -1,0 +1,27 @@
+type: object
+required:
+- id
+- src_kind
+- src_id
+- dst_kind
+- dst_id
+- link_type
+- created_at
+properties:
+  id:
+    $ref: '#/components/schemas/Uuid'
+  src_kind:
+    type: string
+  src_id:
+    type: string
+  dst_kind:
+    type: string
+  dst_id:
+    type: string
+  link_type:
+    type: string
+  created_by:
+    $ref: '#/components/schemas/Uuid'
+    nullable: true
+  created_at:
+    $ref: '#/components/schemas/Timestamp'

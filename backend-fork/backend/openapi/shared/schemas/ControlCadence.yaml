@@ -1,0 +1,2 @@
+      type: string
+      enum: [CONTINUOUS, DAILY, WEEKLY, MONTHLY, QUARTERLY, ANNUAL, EVENT_DRIVEN]

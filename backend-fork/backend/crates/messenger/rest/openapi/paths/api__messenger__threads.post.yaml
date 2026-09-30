@@ -1,0 +1,27 @@
+tags:
+  - messenger
+operationId: createMessengerThread
+summary: Create a branch-scoped messenger thread
+security:
+- bearerAuth: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/CreateMessengerThreadRequest'
+responses:
+  '201':
+    description: Messenger thread created.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/MessengerThreadSummary'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '409':
+    $ref: '#/components/responses/Conflict'
+  '422':
+    $ref: '#/components/responses/ValidationError'

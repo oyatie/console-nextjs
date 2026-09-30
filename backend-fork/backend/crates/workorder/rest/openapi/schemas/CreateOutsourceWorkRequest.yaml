@@ -1,0 +1,11 @@
+type: object
+required:
+- vendor_name
+- reason
+properties:
+  vendor_name:
+    type: string
+  vendor_contact:
+    type: string
+  reason:
+    type: string

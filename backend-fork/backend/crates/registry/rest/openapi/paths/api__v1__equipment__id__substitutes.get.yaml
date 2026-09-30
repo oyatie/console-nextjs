@@ -1,0 +1,33 @@
+tags:
+  - equipment
+operationId: listEquipmentSubstitutes
+summary: List compatible spare equipment candidates for a down unit
+description: Same branch by default. SUPER_ADMIN may set all_branches=true to search across branches.
+security:
+- bearerAuth: []
+parameters:
+- $ref: '#/components/parameters/EquipmentId'
+- name: all_branches
+  in: query
+  required: false
+  schema:
+    type: boolean
+    default: false
+  description: SUPER_ADMIN-only flag to include candidates outside the down unit's branch.
+responses:
+  '200':
+    description: Compatible spare equipment candidates ranked by exact ton then nearest-above capacity.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/SubstituteCandidatePage'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '422':
+    $ref: '#/components/responses/ValidationError'
+  '503':
+    description: JWT verification is not configured.

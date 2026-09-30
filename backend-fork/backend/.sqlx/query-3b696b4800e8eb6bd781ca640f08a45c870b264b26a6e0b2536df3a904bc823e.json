@@ -1,0 +1,14 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "UPDATE audit_events SET action = 'tampered.action' WHERE id = $1",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Uuid"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "3b696b4800e8eb6bd781ca640f08a45c870b264b26a6e0b2536df3a904bc823e"
+}

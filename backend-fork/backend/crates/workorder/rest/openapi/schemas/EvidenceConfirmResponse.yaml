@@ -1,0 +1,21 @@
+type: object
+required:
+- id
+- work_order_id
+- stage
+- worm_replica_status
+- retry_count
+properties:
+  id:
+    $ref: '#/components/schemas/Uuid'
+  work_order_id:
+    $ref: '#/components/schemas/Uuid'
+  stage:
+    $ref: '#/components/schemas/AttachmentStage'
+  worm_replica_status:
+    $ref: '#/components/schemas/WormReplicaStatus'
+  retry_count:
+    type: integer
+    format: int32
+  verified_at:
+    $ref: '#/components/schemas/Timestamp'

@@ -1,0 +1,12 @@
+tags: [Compliance]
+operationId: createComplianceObligation
+summary: Create an audited obligation and optional regulation links
+security: [{ bearerAuth: [] }]
+requestBody: { required: true, content: { application/json: { schema: { $ref: '#/components/schemas/CreateComplianceObligationRequest' } } } }
+responses:
+  '200': { description: Created obligation., content: { application/json: { schema: { $ref: '#/components/schemas/ComplianceObligation' } } } }
+  '401': { $ref: '#/components/responses/Unauthorized' }
+  '403': { $ref: '#/components/responses/Forbidden' }
+  '422': { $ref: '#/components/responses/ValidationError' }
+  '500': { $ref: '#/components/responses/InternalServerError' }
+  '503': { $ref: '#/components/responses/ServiceUnavailable' }

@@ -1,0 +1,8 @@
+type: object
+additionalProperties: false
+required: [goals]
+properties:
+  goals:
+    type: array
+    maxItems: 20
+    items: { $ref: '#/components/schemas/EvaluationGoalInput' }

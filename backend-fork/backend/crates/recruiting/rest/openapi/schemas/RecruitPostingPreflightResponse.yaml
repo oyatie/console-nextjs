@@ -1,0 +1,12 @@
+type: object
+required:
+- checks
+- publishable
+properties:
+  checks:
+    type: array
+    items:
+      $ref: '#/components/schemas/RecruitPreflightCheck'
+  publishable:
+    type: boolean
+    description: Verdict over the automatic checks only; the exposure attest is collected at publish.

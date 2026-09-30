@@ -1,0 +1,47 @@
+tags:
+  - storefront
+operationId: storefrontListListings
+summary: List published sales listings for the public storefront (#6)
+description: Public, unauthenticated catalog read. Returns only published/reserved listings (the storefront-visible
+  set). Carries no bearer token; the store is scoped to the KNL org. Optional filters narrow by fuel/drive kind and
+  sale/rental type; results are paged.
+parameters:
+- name: kind
+  in: query
+  required: false
+  schema:
+    $ref: '#/components/schemas/ListingKind'
+- name: condition
+  in: query
+  required: false
+  schema:
+    $ref: '#/components/schemas/ListingCondition'
+- name: listing_type
+  in: query
+  required: false
+  schema:
+    $ref: '#/components/schemas/ListingType'
+- name: limit
+  in: query
+  required: false
+  schema:
+    type: integer
+    format: int64
+    minimum: 1
+    maximum: 100
+    default: 24
+- name: offset
+  in: query
+  required: false
+  schema:
+    type: integer
+    format: int64
+    minimum: 0
+    default: 0
+responses:
+  '200':
+    description: Paged public sales listings.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/SalesListingPage'

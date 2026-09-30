@@ -1,0 +1,40 @@
+tags:
+- payroll
+operationId: resolvePayrollRunException
+summary: Resolve one exception with CONFIRM or HOLD (HOLD requires a reason and carries the row to the next run of the series); the run must be CALCULATED
+security:
+- bearerAuth: []
+parameters:
+- name: id
+  in: path
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+- name: exceptionId
+  in: path
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/ResolvePayrollExceptionRequest'
+responses:
+  '200':
+    description: The resolved exception row.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/PayrollException'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '409':
+    $ref: '#/components/responses/Conflict'
+  '422':
+    $ref: '#/components/responses/ValidationError'

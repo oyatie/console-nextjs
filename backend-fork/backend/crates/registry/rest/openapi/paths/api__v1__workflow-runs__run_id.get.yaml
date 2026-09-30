@@ -1,0 +1,28 @@
+tags:
+  - workflow-runs
+operationId: getWorkflowRun
+summary: Read-only run detail — head, waiting tasks, node-step timeline
+description: Visibility mirrors the approval inbox exactly — the run's initiator, a claimer of one of its tasks, or a
+  holder of an authority role a task is routed to — plus workflow-manage admins org-wide. Anyone else gets 404
+  (deny-by-omission), never a leak of another branch's/org's run.
+security:
+- bearerAuth: []
+parameters:
+- name: run_id
+  in: path
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+responses:
+  '200':
+    description: The run's head, current waiting task(s), and its full node-step timeline.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/WorkflowRunDetailResponse'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'

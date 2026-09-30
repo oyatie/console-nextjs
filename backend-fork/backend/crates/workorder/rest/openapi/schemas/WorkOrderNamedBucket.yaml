@@ -1,0 +1,18 @@
+type: object
+required:
+- id
+- name
+- count
+- filters
+properties:
+  id:
+    $ref: '#/components/schemas/Uuid'
+  name:
+    type: string
+  count:
+    type: integer
+    format: int64
+  filters:
+    type: object
+    additionalProperties:
+      type: string

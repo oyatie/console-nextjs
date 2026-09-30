@@ -1,0 +1,19 @@
+type: object
+required:
+- fromState
+- toState
+- reason
+- occurredAt
+properties:
+  fromState:
+    type: string
+  toState:
+    type: string
+  actor:
+    type: string
+    format: uuid
+  reason:
+    type: string
+  occurredAt:
+    type: string
+    format: date-time

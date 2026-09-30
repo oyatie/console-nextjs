@@ -1,0 +1,35 @@
+type: object
+required:
+- id
+- schedule_id
+- branch_id
+- equipment_id
+- mechanic_id
+- completed_by
+- outcome
+- findings
+- note
+- completed_at
+properties:
+  id:
+    $ref: '#/components/schemas/Uuid'
+  schedule_id:
+    $ref: '#/components/schemas/Uuid'
+  branch_id:
+    $ref: '#/components/schemas/Uuid'
+  equipment_id:
+    $ref: '#/components/schemas/Uuid'
+  mechanic_id:
+    $ref: '#/components/schemas/Uuid'
+  completed_by:
+    $ref: '#/components/schemas/Uuid'
+  outcome:
+    $ref: '#/components/schemas/InspectionRoundOutcome'
+  findings:
+    type: string
+  note:
+    type:
+    - string
+    - 'null'
+  completed_at:
+    $ref: '#/components/schemas/Timestamp'

@@ -1,0 +1,58 @@
+type: object
+description: >-
+  One unified actionable item. Field names mirror the overview prototype's
+  items[] shape. Source-partial fields (site/who/due/submitted) are absent
+  when the originating source does not carry them.
+required:
+- id
+- kind
+- urg
+- ref
+- title
+- dueTone
+- links
+- done
+properties:
+  id:
+    type: string
+    description: '"{kind}:{uuid}" — source-namespaced so ids never collide.'
+  kind:
+    type: string
+    enum:
+    - approval
+    - dispatch
+    - work
+    - support
+  urg:
+    type: string
+    enum:
+    - now
+    - today
+    - wait
+  ref:
+    type: string
+    description: >-
+      Source reference (work order request_no, ticket id, or the workflow
+      run/object id). Not a canonical AP-/CS- object code.
+  title:
+    type: string
+  site:
+    type: string
+  who:
+    type: string
+  due:
+    $ref: '#/components/schemas/Timestamp'
+  dueTone:
+    type: string
+    enum:
+    - danger
+    - warn
+    - neutral
+  submitted:
+    $ref: '#/components/schemas/Timestamp'
+  links:
+    type: array
+    items:
+      $ref: '#/components/schemas/ActionInboxLink'
+  done:
+    type: boolean

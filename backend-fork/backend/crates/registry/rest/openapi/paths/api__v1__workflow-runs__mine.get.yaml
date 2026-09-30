@@ -1,0 +1,39 @@
+tags:
+  - workflow-runs
+operationId: listMyWorkflowRuns
+summary: List the runs the caller initiated (submission box)
+description: Returns runs where initiated_by is the caller, optionally filtered by status/object_type. Final-approved but
+  not-yet-finalized runs are still WAITING (non-terminal) and remain visible.
+security:
+- bearerAuth: []
+parameters:
+- name: status
+  in: query
+  required: false
+  description: Comma-separated run statuses (e.g. WAITING,SUCCEEDED). Omitted returns all statuses.
+  schema:
+    type: string
+- name: object_type
+  in: query
+  required: false
+  schema:
+    type: string
+- name: q
+  in: query
+  required: false
+  description: Reserved free-text filter (not yet applied).
+  schema:
+    type: string
+responses:
+  '200':
+    description: The caller's submission box.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/WorkflowRunListResponse'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '422':
+    $ref: '#/components/responses/ValidationError'

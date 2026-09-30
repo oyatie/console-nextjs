@@ -1,0 +1,73 @@
+type: object
+required:
+- id
+- code
+- definition_id
+- definition_version
+- trigger_type
+- status
+- actor_display_name
+- summary
+- error_message
+- generated_objects
+- started_at
+- updated_at
+- completed_at
+- failed_at
+properties:
+  id:
+    $ref: '#/components/schemas/Uuid'
+  code:
+    type: string
+    example: RUN-9AF31C
+  definition_id:
+    $ref: '#/components/schemas/Uuid'
+  definition_version:
+    type: integer
+    format: int32
+  trigger_type:
+    type: string
+    enum:
+    - MANUAL
+    - SCHEDULE
+    - WEBHOOK
+    - SYSTEM
+  status:
+    type: string
+    enum:
+    - STARTING
+    - RUNNING
+    - WAITING
+    - SUCCEEDED
+    - FAILED
+    - CANCELLED
+  actor_display_name:
+    type:
+    - string
+    - 'null'
+  summary:
+    type: string
+  error_message:
+    type:
+    - string
+    - 'null'
+  generated_objects:
+    type: array
+    items:
+      type: string
+  started_at:
+    type: string
+    format: date-time
+  updated_at:
+    type: string
+    format: date-time
+  completed_at:
+    type:
+    - string
+    - 'null'
+    format: date-time
+  failed_at:
+    type:
+    - string
+    - 'null'
+    format: date-time

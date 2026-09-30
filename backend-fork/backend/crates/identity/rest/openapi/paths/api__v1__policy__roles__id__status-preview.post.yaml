@@ -1,0 +1,43 @@
+tags:
+  - policy
+operationId: previewPolicyRoleStatus
+summary: Preview custom-role lifecycle status impact
+description: Returns a read-only before/after impact summary for publishing, rolling back, or retiring a custom role.
+  This endpoint never mutates policy, does not require a passkey assertion, and reminds callers that the subsequent
+  status update is a sensitive passkey step-up action. Allowed transitions are DRAFT→ACTIVE, ACTIVE→DRAFT, and ACTIVE→RETIRED;
+  RETIRED is terminal.
+security:
+- bearerAuth: []
+parameters:
+- name: id
+  in: path
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/PolicyRoleStatusPreviewRequest'
+responses:
+  '200':
+    description: Read-only status impact preview.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/PolicyRoleStatusPreviewResponse'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '422':
+    $ref: '#/components/responses/ValidationError'
+  '503':
+    description: JWT verification is not configured.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ErrorBody'

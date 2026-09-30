@@ -1,0 +1,45 @@
+tags:
+- support
+operationId: linkSupportTicket
+summary: Bind a support ticket to the field object chain (customer site and/or dispatched work order)
+description: Requires assignee_manage on the ticket branch (untriaged tickets require cross-branch authority). Linking
+  a site to an untriaged CUSTOMER ticket also sets its branch, and customer_id is denormalized from the site. A linked
+  work order must be dispatched to the ticket's linked site. Each body field distinguishes an absent field (leave the
+  link untouched) from an explicit null (clear the link).
+security:
+- bearerAuth: []
+parameters:
+- name: id
+  in: path
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/LinkSupportTicketRequest'
+responses:
+  '200':
+    description: The updated ticket summary carrying the new links.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/SupportTicketSummary'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '409':
+    $ref: '#/components/responses/Conflict'
+  '422':
+    $ref: '#/components/responses/ValidationError'
+  '503':
+    description: JWT verification is not configured.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ErrorBody'

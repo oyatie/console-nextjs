@@ -1,0 +1,47 @@
+{
+  "source": "console-logistics-rest",
+  "paths": {
+    "/api/v1/logistics/asns": [
+      "post"
+    ],
+    "/api/v1/logistics/asns/{asn_id}/putaway": [
+      "post"
+    ],
+    "/api/v1/logistics/asns/{asn_id}/receipts": [
+      "post"
+    ],
+    "/api/v1/logistics/fulfillments": [
+      "post"
+    ],
+    "/api/v1/logistics/fulfillments/{fulfillment_id}/dispatch": [
+      "post"
+    ],
+    "/api/v1/logistics/fulfillments/{fulfillment_id}/pack": [
+      "post"
+    ],
+    "/api/v1/logistics/fulfillments/{fulfillment_id}/pick": [
+      "post"
+    ],
+    "/api/v1/logistics/shipments/{shipment_id}/pod": [
+      "post"
+    ],
+    "/api/v1/logistics/shipments/{shipment_id}/settlements": [
+      "post"
+    ]
+  },
+  "schemas": [
+    "LogisticsAsnCreated",
+    "LogisticsAsnPutaway",
+    "LogisticsAsnReceipt",
+    "LogisticsFulfillmentPacked",
+    "LogisticsFulfillmentPicked",
+    "LogisticsFulfillmentReleased",
+    "LogisticsPodVerified",
+    "LogisticsShipmentDispatched",
+    "LogisticsShipmentSettlement",
+    "LogisticsTimeTuple"
+  ],
+  "external_schemas": [
+    "Uuid"
+  ]
+}

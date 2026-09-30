@@ -1,0 +1,43 @@
+[package]
+name = "console-ontology-canonical-adapter-postgres"
+version = "0.1.0"
+description = "Postgres write adapter for the canonical objects the contract assigns to it — Company, OrgUnit, JobPosition, Person. One module per port; the single permitted holder of production DML against those objects' tables."
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+# The set the four port lanes share, taken from the sibling adapter
+# (backend/crates/ontology/adapter-postgres/Cargo.toml). The contract crate has
+# no [workspace.dependencies] entry, so it is depended on by path.
+#
+# It was declared up front so no lane would have to edit this table; the Person
+# lane had to anyway, for `tokio` (see below). A lane MAY add a name that
+# backend/Cargo.lock already carries for this package — anything else rewrites
+# the lock, which no port lane may write.
+[dependencies]
+console-ontology-canonical-domain = { path = "../canonical-domain" }
+console-kernel-core = { workspace = true }
+console-platform-authz = { workspace = true }
+console-platform-db = { workspace = true }
+console-platform-request-context = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+sha2 = { workspace = true }
+hex = { workspace = true }
+sqlx = { workspace = true }
+thiserror = { workspace = true }
+time = { workspace = true }
+# `CanonicalPort::execute` is synchronous and `sqlx` is async-only, so a port
+# needs a runtime handle to bridge the two. Added by the Person lane.
+tokio = { workspace = true }
+uuid = { workspace = true }
+
+# No [dev-dependencies]. `tokio` moved up to [dependencies] (the lock's flat
+# per-package list is unchanged by that move), and `console-platform-test-support`
+# — which would have supplied `runtime_role_pool`/`seed_org_and_super_admin` —
+# is NOT added, because a new dependency name rewrites this package's entry in
+# backend/Cargo.lock. The two helpers are inlined in the test instead.
+
+[lints]
+workspace = true

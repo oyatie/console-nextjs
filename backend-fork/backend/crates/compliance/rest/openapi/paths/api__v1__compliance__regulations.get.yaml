@@ -1,0 +1,17 @@
+tags: [Compliance]
+operationId: listComplianceRegulations
+summary: List RLS-scoped regulation impacts
+security: [{ bearerAuth: [] }]
+parameters:
+- { name: q, in: query, required: false, schema: { type: string } }
+- { name: status, in: query, required: false, schema: { $ref: '#/components/schemas/RegulationImpactStatus' } }
+- { name: risk_level, in: query, required: false, schema: { $ref: '#/components/schemas/ComplianceRiskLevel' } }
+- { name: limit, in: query, required: false, schema: { type: integer, format: int64, minimum: 1, maximum: 1000, default: 100 } }
+- { name: offset, in: query, required: false, schema: { type: integer, format: int64, minimum: 0, default: 0 } }
+responses:
+  '200': { description: Paged regulation impacts visible to the principal., content: { application/json: { schema: { $ref: '#/components/schemas/RegulationImpactPage' } } } }
+  '401': { $ref: '#/components/responses/Unauthorized' }
+  '403': { $ref: '#/components/responses/Forbidden' }
+  '422': { $ref: '#/components/responses/ValidationError' }
+  '500': { $ref: '#/components/responses/InternalServerError' }
+  '503': { $ref: '#/components/responses/ServiceUnavailable' }

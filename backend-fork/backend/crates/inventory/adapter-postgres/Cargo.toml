@@ -1,0 +1,29 @@
+[package]
+name = "console-inventory-adapter-postgres"
+version = "0.1.0"
+description = "Postgres adapter for tenant-scoped inventory items, locations, and consumption events."
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+console-kernel-core = { workspace = true }
+console-inventory-domain = { workspace = true }
+console-inventory-application = { workspace = true }
+console-platform-db = { workspace = true }
+console-platform-request-context = { workspace = true }
+hex = { workspace = true }
+serde_json = { workspace = true }
+sha2 = { workspace = true }
+sqlx = { workspace = true }
+thiserror = { workspace = true }
+time = { workspace = true }
+uuid = { workspace = true }
+
+[dev-dependencies]
+console-platform-test-support = { workspace = true }
+tokio = { workspace = true, features = ["sync", "time"] }
+
+[lints]
+workspace = true

@@ -1,0 +1,6 @@
+tags: [consulting]
+operationId: createConsultingFinding
+security: [{ bearerAuth: [] }]
+parameters: [{ name: engagement_id, in: path, required: true, schema: { $ref: '#/components/schemas/Uuid' } }]
+requestBody: { required: true, content: { application/json: { schema: { $ref: '#/components/schemas/ConsultingFindingCreateRequest' } } } }
+responses: { '201': { description: Created evidence-linked finding, content: { application/json: { schema: { $ref: '#/components/schemas/ConsultingFinding' } } } }, '409': { $ref: '#/components/responses/Conflict' } }

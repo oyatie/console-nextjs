@@ -1,0 +1,49 @@
+type: object
+required:
+- id
+- branch_id
+- source_equipment_id
+- substitute_equipment_id
+- assigned_by
+- assignment_location
+- assigned_at
+properties:
+  id:
+    type: string
+    format: uuid
+  branch_id:
+    type: string
+    format: uuid
+  source_equipment_id:
+    type: string
+    format: uuid
+  substitute_equipment_id:
+    type: string
+    format: uuid
+  assigned_by:
+    type: string
+    format: uuid
+  assigned_to:
+    type:
+    - string
+    - 'null'
+    format: uuid
+  assignment_location:
+    type: string
+  assigned_at:
+    type: string
+    format: date-time
+  returned_by:
+    type:
+    - string
+    - 'null'
+    format: uuid
+  returned_at:
+    type:
+    - string
+    - 'null'
+    format: date-time
+  return_note:
+    type:
+    - string
+    - 'null'

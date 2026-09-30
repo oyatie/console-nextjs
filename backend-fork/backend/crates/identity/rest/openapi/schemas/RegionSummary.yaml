@@ -1,0 +1,20 @@
+type: object
+required:
+- id
+- name
+- deactivated_at
+- created_at
+properties:
+  id:
+    $ref: '#/components/schemas/Uuid'
+  name:
+    type: string
+  deactivated_at:
+    type:
+    - string
+    - 'null'
+    format: date-time
+    description: Set when the region has been soft-deleted (deactivated); null for an active region. Active-only listings
+      omit deactivated rows.
+  created_at:
+    $ref: '#/components/schemas/Timestamp'

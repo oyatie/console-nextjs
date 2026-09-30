@@ -1,0 +1,18 @@
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: fsm-console-redirect
+  namespace: console
+# Permanent (301) host redirect for the legacy console host:
+#   https://fsm.knllogistic.com/<path>  →  https://console.knllogistic.com/<path>
+# This Middleware is attached ingress-wide (via the router.middlewares annotation
+# in overlays/prod), but the regex is anchored to the fsm host, so it is a no-op
+# for the apex/www storefront routers (their URLs do not match the regex and pass
+# through unchanged). Keeps old fsm.knllogistic.com links working without breaking
+# the public storefront. Base uses a placeholder host; overlays/prod patches the
+# real fsm/console hosts in.
+spec:
+  redirectRegex:
+    regex: "^https?://fsm\\.example\\.com/(.*)"
+    replacement: "https://console.example.com/${1}"
+    permanent: true

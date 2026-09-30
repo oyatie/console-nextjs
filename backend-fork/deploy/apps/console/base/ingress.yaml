@@ -1,0 +1,132 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: console
+  namespace: console
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+spec:
+  ingressClassName: traefik
+  tls:
+    # One SAN cert for the console host + the legacy fsm host (301-redirected to
+    # console) + the public apex + www (hosts set by the prod overlay):
+    # console.knllogistic.com, fsm.knllogistic.com, knllogistic.com,
+    # www.knllogistic.com.
+    - hosts: [console.example.com, fsm.example.com, apex.example.com, www.example.com]
+      secretName: console-tls
+  rules:
+    # Console (authenticated app); WebAuthn RP origin. prod: console.knllogistic.com.
+    - host: console.example.com
+      http:
+        paths:
+          # API (incl. the unauthenticated /api/v1/support/intake, and the vendor
+          # platform-admin API at /api/platform/*) → server.
+          - path: /api
+            pathType: Prefix
+            backend:
+              service:
+                name: console-app
+                port: { number: 8080 }
+          # Everything else → the SPA (which does client-side routing).
+          # Native app-link association docs (Apple AASA + Android assetlinks) are
+          # served by the backend at the fixed /.well-known/* path (Apple/Google
+          # require this exact location, so it cannot move under /api). Longest-
+          # prefix match means this wins over the `/` →SPA rule below.
+          - path: /.well-known
+            pathType: Prefix
+            backend:
+              service:
+                name: console-app
+                port: { number: 8080 }
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: console-web
+                port: { number: 8080 }
+    # Public storefront apex (the #6 KNL landing). prod: knllogistic.com.
+    # Same SPA + API: "/" is the storefront home; the public storefront calls the
+    # unauthenticated /api/v1/storefront/* endpoints, so /api must route here too.
+    - host: apex.example.com
+      http:
+        paths:
+          - path: /api
+            pathType: Prefix
+            backend:
+              service:
+                name: console-app
+                port: { number: 8080 }
+          # Native app-link association docs (Apple AASA + Android assetlinks) are
+          # served by the backend at the fixed /.well-known/* path (Apple/Google
+          # require this exact location, so it cannot move under /api). Longest-
+          # prefix match means this wins over the `/` →SPA rule below.
+          - path: /.well-known
+            pathType: Prefix
+            backend:
+              service:
+                name: console-app
+                port: { number: 8080 }
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: console-web
+                port: { number: 8080 }
+    # www → same storefront (canonical points at the apex for SEO de-dup).
+    # prod: www.knllogistic.com.
+    - host: www.example.com
+      http:
+        paths:
+          - path: /api
+            pathType: Prefix
+            backend:
+              service:
+                name: console-app
+                port: { number: 8080 }
+          # Native app-link association docs (Apple AASA + Android assetlinks) are
+          # served by the backend at the fixed /.well-known/* path (Apple/Google
+          # require this exact location, so it cannot move under /api). Longest-
+          # prefix match means this wins over the `/` →SPA rule below.
+          - path: /.well-known
+            pathType: Prefix
+            backend:
+              service:
+                name: console-app
+                port: { number: 8080 }
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: console-web
+                port: { number: 8080 }
+    # Legacy console host. prod: fsm.knllogistic.com. The fsm-console-redirect
+    # Middleware (301 → console.knllogistic.com, attached ingress-wide via the
+    # router.middlewares annotation in the prod overlay) rewrites every request
+    # to this host; the backend below is the safety net if the redirect is ever
+    # detached. Its redirectRegex is anchored to the fsm host, so apex/www
+    # storefront requests pass through untouched.
+    - host: fsm.example.com
+      http:
+        paths:
+          - path: /api
+            pathType: Prefix
+            backend:
+              service:
+                name: console-app
+                port: { number: 8080 }
+          # Native app-link association docs (Apple AASA + Android assetlinks) are
+          # served by the backend at the fixed /.well-known/* path (Apple/Google
+          # require this exact location, so it cannot move under /api). Longest-
+          # prefix match means this wins over the `/` →SPA rule below.
+          - path: /.well-known
+            pathType: Prefix
+            backend:
+              service:
+                name: console-app
+                port: { number: 8080 }
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: console-web
+                port: { number: 8080 }

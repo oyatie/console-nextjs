@@ -1,0 +1,27 @@
+tags:
+- recruiting
+operationId: requestRecruitApplicantDocuments
+summary: Flag supplementary documents as requested (no request body)
+security:
+- bearerAuth: []
+parameters:
+- name: applicantId
+  in: path
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+responses:
+  '200':
+    description: The applicant with doc_requested set.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/RecruitApplicant'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '409':
+    $ref: '#/components/responses/Conflict'

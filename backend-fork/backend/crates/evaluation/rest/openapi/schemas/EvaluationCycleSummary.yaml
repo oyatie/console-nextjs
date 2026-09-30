@@ -1,0 +1,16 @@
+type: object
+additionalProperties: false
+required: [id, name, kind, period_label, due_date, stage, subjects_total, manager_submitted, self_submitted, calibrated, finalized, created_at]
+properties:
+  id: { $ref: '#/components/schemas/Uuid' }
+  name: { type: string }
+  kind: { $ref: '#/components/schemas/EvaluationCycleKind' }
+  period_label: { type: string }
+  due_date: { $ref: '#/components/schemas/Date' }
+  stage: { $ref: '#/components/schemas/EvaluationCycleStage' }
+  subjects_total: { type: integer, format: int64 }
+  manager_submitted: { type: integer, format: int64 }
+  self_submitted: { type: integer, format: int64 }
+  calibrated: { type: integer, format: int64 }
+  finalized: { type: integer, format: int64 }
+  created_at: { $ref: '#/components/schemas/Timestamp' }

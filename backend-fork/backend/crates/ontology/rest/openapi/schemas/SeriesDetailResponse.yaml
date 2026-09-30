@@ -1,0 +1,23 @@
+type: object
+description: A series head plus its instances resolved to ObjectHeads, ordered by attach time. Instances not
+  resolvable for the caller are omitted (deny-by-omission).
+required:
+- id
+- code
+- label
+- created_at
+- instances
+properties:
+  id:
+    $ref: '#/components/schemas/Uuid'
+  code:
+    type: string
+    description: Canonical SR- code.
+  label:
+    type: string
+  created_at:
+    $ref: '#/components/schemas/Timestamp'
+  instances:
+    type: array
+    items:
+      $ref: '#/components/schemas/ObjectHead'

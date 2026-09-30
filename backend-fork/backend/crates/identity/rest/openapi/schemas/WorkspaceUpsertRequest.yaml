@@ -1,0 +1,8 @@
+type: object
+properties:
+  layout:
+    type: object
+    additionalProperties: true
+    description: Opaque, frontend-owned console layout object to store verbatim.
+required:
+- layout

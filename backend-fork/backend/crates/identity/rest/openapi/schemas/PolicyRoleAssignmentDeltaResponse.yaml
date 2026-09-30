@@ -1,0 +1,18 @@
+type: object
+required:
+- added_role_ids
+- removed_role_ids
+- unchanged_role_ids
+properties:
+  added_role_ids:
+    type: array
+    items:
+      $ref: '#/components/schemas/Uuid'
+  removed_role_ids:
+    type: array
+    items:
+      $ref: '#/components/schemas/Uuid'
+  unchanged_role_ids:
+    type: array
+    items:
+      $ref: '#/components/schemas/Uuid'

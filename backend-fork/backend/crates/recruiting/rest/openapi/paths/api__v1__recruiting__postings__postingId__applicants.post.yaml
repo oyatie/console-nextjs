@@ -1,0 +1,35 @@
+tags:
+- recruiting
+operationId: createRecruitApplicant
+summary: Recruiter intake — register an applicant (APL- code) on a PUBLISHED posting
+security:
+- bearerAuth: []
+parameters:
+- name: postingId
+  in: path
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/CreateRecruitApplicantRequest'
+responses:
+  '201':
+    description: The applicant at APPLIED.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/RecruitApplicant'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '409':
+    $ref: '#/components/responses/Conflict'
+  '422':
+    $ref: '#/components/responses/ValidationError'

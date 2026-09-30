@@ -1,0 +1,3 @@
+type: object
+required: [employee_id, employee_name, branch_id]
+properties: { employee_id: { $ref: '#/components/schemas/Uuid' }, employee_name: { type: string }, branch_id: { $ref: '#/components/schemas/Uuid' } }

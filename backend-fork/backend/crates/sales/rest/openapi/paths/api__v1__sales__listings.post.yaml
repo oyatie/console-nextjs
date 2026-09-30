@@ -1,0 +1,26 @@
+tags:
+  - sales
+operationId: createListing
+summary: Create a sales listing (#6)
+description: Admin-gated (SalesManage). Creates a new catalog listing and returns its server-generated id.
+security:
+- bearerAuth: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/CreateListingRequest'
+responses:
+  '201':
+    description: The listing was created.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/CreateListingResponse'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '422':
+    $ref: '#/components/responses/ValidationError'

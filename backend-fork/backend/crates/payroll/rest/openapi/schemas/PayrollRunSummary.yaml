@@ -1,0 +1,81 @@
+type: object
+required:
+- id
+- period_start
+- period_end
+- source_label
+- status
+- calculation_enabled
+- created_at
+- updated_at
+properties:
+  id:
+    $ref: '#/components/schemas/Uuid'
+  period_start:
+    type: string
+    format: date
+  period_end:
+    type: string
+    format: date
+  source_label:
+    type: string
+  status:
+    type: string
+    enum: [STAGED, BLOCKED_LEGAL_GATE, READY_FOR_REVIEW, ATTENDANCE_CLOSED, CALCULATING, CALCULATED, SUBMITTED, REJECTED, APPROVED, DISBURSEMENT_SCHEDULED, PAID, ISSUED, VOID]
+  calculation_enabled:
+    type: boolean
+  created_by:
+    type:
+    - string
+    - 'null'
+    format: uuid
+  approved_by:
+    type:
+    - string
+    - 'null'
+    format: uuid
+  approved_at:
+    type:
+    - string
+    - 'null'
+    format: date-time
+  close_receipt:
+    type:
+    - object
+    - 'null'
+    description: Attestation receipt written by the attendance close — the preflight checks, the attesting user, and the attestation time.
+  submitted_by:
+    type:
+    - string
+    - 'null'
+    format: uuid
+  submitted_at:
+    type:
+    - string
+    - 'null'
+    format: date-time
+  decided_by:
+    type:
+    - string
+    - 'null'
+    format: uuid
+    description: Maker-checker counterparty; a DB CHECK forbids it from equalling submitted_by.
+  decided_at:
+    type:
+    - string
+    - 'null'
+    format: date-time
+  decision_reason:
+    type:
+    - string
+    - 'null'
+  approval_ref:
+    type:
+    - string
+    - 'null'
+    format: uuid
+    description: Reserved for the future AP- workflow-engine object; never written today.
+  created_at:
+    $ref: '#/components/schemas/Timestamp'
+  updated_at:
+    $ref: '#/components/schemas/Timestamp'

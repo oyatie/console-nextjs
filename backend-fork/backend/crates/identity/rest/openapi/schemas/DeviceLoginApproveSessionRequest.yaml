@@ -1,0 +1,6 @@
+type: object
+required:
+- approve_token
+properties:
+  approve_token:
+    type: string

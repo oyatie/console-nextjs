@@ -1,0 +1,437 @@
+{
+  "scope": "Coordinated authentication Account locking prerequisite only; full R4 remains incomplete",
+  "base_backend_candidate": "263d1106dba6185f198b78591d5260fb418444fa06f3d4c91f55955e4b894182",
+  "backend_candidate": "525951582c1fd41b023d593c23c2f328469c876073434e83a547b44b2100f945",
+  "design_sha256": "1d4d963306e4625404ccb8927e99468afff08aad82904627794937fba51fe2dd",
+  "test_manifests": [
+    {
+      "path": "docs/planning/nextjs-v1/coordinated-authentication-tests.json",
+      "sha256": "24f4a4deb2725c388ae375a62aac813a1bd99878e7618c5f10624a90c971d86a",
+      "bytes": 3880
+    },
+    {
+      "path": "docs/planning/nextjs-v1/coordinated-locking-review-tests.json",
+      "sha256": "855783d4d4aeaaf5e540b6ba6b205b6f7ad0562b29af19768d491019e16b334c",
+      "bytes": 947
+    },
+    {
+      "path": "docs/planning/nextjs-v1/coordinated-locking-compatibility-tests.json",
+      "sha256": "a33aab0cd0a51be6799410304629ba3f0390f92fdafce3c5615026189272c581",
+      "bytes": 709
+    }
+  ],
+  "evidence": [
+    {
+      "path": ".artifacts/empty-install-20260923T220417.343745Z/report.json",
+      "sha256": "cd44fea0aae32c97bbade29711ff4468dc96b30df69b44fd107c91477ba08a5b",
+      "bytes": 174825
+    },
+    {
+      "path": ".artifacts/empty-install-20260923T220859.134991Z/report.json",
+      "sha256": "a15d07de5d0d0d163e16c41898564412d52244257de477d44d974d92c4805494",
+      "bytes": 169055
+    },
+    {
+      "path": ".artifacts/empty-install-20260923T221316.787994Z/report.json",
+      "sha256": "fc4f23f26ddea644f1ce3c7f2fcb5473593501a4f3b357e696dda7bc3b83cedf",
+      "bytes": 169053
+    },
+    {
+      "path": ".artifacts/empty-install-20260923T221751.056325Z/report.json",
+      "sha256": "26799de322b9b33236dadd727992357e72835cd403b21d7f6997956a015c9527",
+      "bytes": 195521
+    },
+    {
+      "path": ".artifacts/empty-install-20260923T222517.046144Z/report.json",
+      "sha256": "e1b32a6c4237b8540cab1f810f80ea9b91a28bcbd148823044a9ad4831752e2f",
+      "bytes": 173447
+    },
+    {
+      "path": ".artifacts/coordinated-locking-compat-lint.json",
+      "sha256": "282640266224767f717819c21ae82952a491ee3147ae6e14159e5adc1006ea6b",
+      "bytes": 1861
+    },
+    {
+      "path": ".artifacts/coordinated-locking-build-compat.log",
+      "sha256": "9c6bc8ea1db3f02ad36af04f256fa42384d735654cfaa84447bf05086d1d10f9",
+      "bytes": 10539
+    },
+    {
+      "path": ".artifacts/acceptance/20260923T222552.885050Z/report.json",
+      "sha256": "008137cb70029d288734c87e94d7cf8624b789625de76e7dea1b3ba80e6ded5b",
+      "bytes": 21965
+    }
+  ],
+  "app": {
+    "path": ".artifacts/cargo-target/debug/console-app",
+    "sha256": "610a0ef34336e4c356936a3f46017d091a5365189abcdceac39166f950145c0d",
+    "bytes": 322961056
+  },
+  "build_command": [
+    "cargo",
+    "build",
+    "--locked",
+    "--offline",
+    "--target-dir",
+    "/Users/jasonlee/Developer/frontend/.artifacts/cargo-target",
+    "-p",
+    "console-app"
+  ],
+  "source_bridge": {
+    "full_run_candidate": "cf930f92358a22975ea13b89f9db4424b5dc91d8b3b9572726a65bcee1795efd",
+    "final_candidate": "525951582c1fd41b023d593c23c2f328469c876073434e83a547b44b2100f945",
+    "changes": [
+      {
+        "path": "backend/app/src/lib.rs",
+        "before": {
+          "sha256": "eb4a71417d1d06701db545f6aa8b5c0346c55b23d00a8cbbe333854ca5d699de",
+          "bytes": 279342,
+          "mode": 420
+        },
+        "after": {
+          "sha256": "4884c97505b95e64116881ee2aed7148b551bd28cd2b5418961c70464acc5a62",
+          "bytes": 279389,
+          "mode": 420
+        }
+      },
+      {
+        "path": "backend/crates/identity/adapter-postgres/tests/account_locking.rs",
+        "before": {
+          "sha256": "37c1fa443cd85a4ec46403333de4d307db767fb0f19351035b80759d5a4ccdf6",
+          "bytes": 6943,
+          "mode": 420
+        },
+        "after": {
+          "sha256": "4c043d7da4b0d16bc2eef3f704422c9bf8fd5c1cab4a65d839064371a2e68c3c",
+          "bytes": 6943,
+          "mode": 420
+        }
+      },
+      {
+        "path": "backend/crates/platform/auth/src/refresh.rs",
+        "before": {
+          "sha256": "9da80df7930d315835f1e0e6e400b1115d55b5dcfce6f9d5f32c9aefee9ea238",
+          "bytes": 21348,
+          "mode": 420
+        },
+        "after": {
+          "sha256": "6d4339c3963ccbacb3743ffc3f7c67769da5b098da2fbc695b26a2ed4d01a6e7",
+          "bytes": 21616,
+          "mode": 420
+        }
+      },
+      {
+        "path": "backend/crates/platform/provisioning/tests/bootstrap_passkey.rs",
+        "before": {
+          "sha256": "7d06753929c07f337d224c8f4fc9ccdc127d884fd75337b45c0081a0bb3a0614",
+          "bytes": 15441,
+          "mode": 420
+        },
+        "after": {
+          "sha256": "63d0c0bebdb6f4f120f67c16ec5ac783dc240e0358a92e714970a21e9414f769",
+          "bytes": 15451,
+          "mode": 420
+        }
+      }
+    ],
+    "justification": "Independent reviewer confirmed3formatting chain hunks+test brace only;2legacy Company arguments corrected to their actual platform owner;refresh preserves actual revoked-family error before denying inactive, with all mutation paths still denied.22affected tests rerun;144untouched successful cases retained.",
+    "full_run": {
+      "executed": 166,
+      "passed": 163,
+      "failed": 3
+    },
+    "focused_run": {
+      "executed": 22,
+      "passed": 22,
+      "failed": 0
+    }
+  },
+  "latest_suite_evidence": {
+    "cargo-console-platform-provisioning-company_locking": {
+      "run": "full166",
+      "result": {
+        "name": "cargo-console-platform-provisioning-company_locking",
+        "status": "passed",
+        "discovered": 9,
+        "executed": 9,
+        "passed": 9,
+        "failed": 0,
+        "skipped": 0,
+        "filtered": 0
+      }
+    },
+    "cargo-console-identity-rest-authentication_locking": {
+      "run": "full166",
+      "result": {
+        "name": "cargo-console-identity-rest-authentication_locking",
+        "status": "passed",
+        "discovered": 13,
+        "executed": 13,
+        "passed": 13,
+        "failed": 0,
+        "skipped": 0,
+        "filtered": 0
+      }
+    },
+    "cargo-console-platform-auth-webauthn_contention": {
+      "run": "full166",
+      "result": {
+        "name": "cargo-console-platform-auth-webauthn_contention",
+        "status": "passed",
+        "discovered": 27,
+        "executed": 27,
+        "passed": 27,
+        "failed": 0,
+        "skipped": 0,
+        "filtered": 0
+      }
+    },
+    "cargo-console-platform-auth-session_locking": {
+      "run": "focused22",
+      "result": {
+        "name": "cargo-console-platform-auth-session_locking",
+        "status": "passed",
+        "discovered": 8,
+        "executed": 8,
+        "passed": 8,
+        "failed": 0,
+        "skipped": 0,
+        "filtered": 0
+      }
+    },
+    "cargo-console-platform-provisioning-account_locking": {
+      "run": "full166",
+      "result": {
+        "name": "cargo-console-platform-provisioning-account_locking",
+        "status": "passed",
+        "discovered": 18,
+        "executed": 18,
+        "passed": 18,
+        "failed": 0,
+        "skipped": 0,
+        "filtered": 0
+      }
+    },
+    "cargo-console-identity-adapter-postgres-account_locking": {
+      "run": "focused22",
+      "result": {
+        "name": "cargo-console-identity-adapter-postgres-account_locking",
+        "status": "passed",
+        "discovered": 3,
+        "executed": 3,
+        "passed": 3,
+        "failed": 0,
+        "skipped": 0,
+        "filtered": 0
+      }
+    },
+    "cargo-console-platform-auth-credential_identity": {
+      "run": "full166",
+      "result": {
+        "name": "cargo-console-platform-auth-credential_identity",
+        "status": "passed",
+        "discovered": 10,
+        "executed": 10,
+        "passed": 10,
+        "failed": 0,
+        "skipped": 0,
+        "filtered": 0
+      }
+    },
+    "cargo-console-platform-auth-webauthn_ceremony": {
+      "run": "full166",
+      "result": {
+        "name": "cargo-console-platform-auth-webauthn_ceremony",
+        "status": "passed",
+        "discovered": 2,
+        "executed": 2,
+        "passed": 2,
+        "failed": 0,
+        "skipped": 0,
+        "filtered": 0
+      }
+    },
+    "cargo-console-platform-auth-webauthn_ceremony_replay": {
+      "run": "full166",
+      "result": {
+        "name": "cargo-console-platform-auth-webauthn_ceremony_replay",
+        "status": "passed",
+        "discovered": 2,
+        "executed": 2,
+        "passed": 2,
+        "failed": 0,
+        "skipped": 0,
+        "filtered": 0
+      }
+    },
+    "cargo-console-platform-auth-webauthn_registration_deactivated_user": {
+      "run": "full166",
+      "result": {
+        "name": "cargo-console-platform-auth-webauthn_registration_deactivated_user",
+        "status": "passed",
+        "discovered": 1,
+        "executed": 1,
+        "passed": 1,
+        "failed": 0,
+        "skipped": 0,
+        "filtered": 0
+      }
+    },
+    "cargo-console-platform-provisioning-rls_auth_chain_as_runtime_role": {
+      "run": "full166",
+      "result": {
+        "name": "cargo-console-platform-provisioning-rls_auth_chain_as_runtime_role",
+        "status": "passed",
+        "discovered": 8,
+        "executed": 8,
+        "passed": 8,
+        "failed": 0,
+        "skipped": 0,
+        "filtered": 0
+      }
+    },
+    "cargo-console-platform-auth-refresh_tokens": {
+      "run": "focused22",
+      "result": {
+        "name": "cargo-console-platform-auth-refresh_tokens",
+        "status": "passed",
+        "discovered": 3,
+        "executed": 3,
+        "passed": 3,
+        "failed": 0,
+        "skipped": 0,
+        "filtered": 0
+      }
+    },
+    "cargo-console-platform-provisioning-bootstrap_passkey": {
+      "run": "focused22",
+      "result": {
+        "name": "cargo-console-platform-provisioning-bootstrap_passkey",
+        "status": "passed",
+        "discovered": 7,
+        "executed": 7,
+        "passed": 7,
+        "failed": 0,
+        "skipped": 0,
+        "filtered": 0
+      }
+    },
+    "cargo-console-platform-provisioning-bootstrap_passkey_replay": {
+      "run": "full166",
+      "result": {
+        "name": "cargo-console-platform-provisioning-bootstrap_passkey_replay",
+        "status": "passed",
+        "discovered": 1,
+        "executed": 1,
+        "passed": 1,
+        "failed": 0,
+        "skipped": 0,
+        "filtered": 0
+      }
+    },
+    "cargo-console-platform-provisioning-self_enroll_handoff_as_runtime_role": {
+      "run": "full166",
+      "result": {
+        "name": "cargo-console-platform-provisioning-self_enroll_handoff_as_runtime_role",
+        "status": "passed",
+        "discovered": 5,
+        "executed": 5,
+        "passed": 5,
+        "failed": 0,
+        "skipped": 0,
+        "filtered": 0
+      }
+    },
+    "cargo-console-platform-provisioning-roster_import": {
+      "run": "full166",
+      "result": {
+        "name": "cargo-console-platform-provisioning-roster_import",
+        "status": "passed",
+        "discovered": 2,
+        "executed": 2,
+        "passed": 2,
+        "failed": 0,
+        "skipped": 0,
+        "filtered": 0
+      }
+    },
+    "cargo-console-platform-provisioning-onboard_mints_group_of_one": {
+      "run": "full166",
+      "result": {
+        "name": "cargo-console-platform-provisioning-onboard_mints_group_of_one",
+        "status": "passed",
+        "discovered": 3,
+        "executed": 3,
+        "passed": 3,
+        "failed": 0,
+        "skipped": 0,
+        "filtered": 0
+      }
+    },
+    "cargo-console-identity-adapter-postgres-deactivate_revokes_credentials": {
+      "run": "focused22",
+      "result": {
+        "name": "cargo-console-identity-adapter-postgres-deactivate_revokes_credentials",
+        "status": "passed",
+        "discovered": 1,
+        "executed": 1,
+        "passed": 1,
+        "failed": 0,
+        "skipped": 0,
+        "filtered": 0
+      }
+    },
+    "cargo-console-identity-adapter-postgres-user_lifecycle_noop_replay": {
+      "run": "full166",
+      "result": {
+        "name": "cargo-console-identity-adapter-postgres-user_lifecycle_noop_replay",
+        "status": "passed",
+        "discovered": 3,
+        "executed": 3,
+        "passed": 3,
+        "failed": 0,
+        "skipped": 0,
+        "filtered": 0
+      }
+    },
+    "cargo-console-identity-rest-org_setup": {
+      "run": "full166",
+      "result": {
+        "name": "cargo-console-identity-rest-org_setup",
+        "status": "passed",
+        "discovered": 40,
+        "executed": 40,
+        "passed": 40,
+        "failed": 0,
+        "skipped": 0,
+        "filtered": 0
+      }
+    }
+  },
+  "verification": {
+    "distinct_integration_tests_passed": 166,
+    "auth_unit_tests_passed": 2,
+    "skipped": 0,
+    "filtered": 0,
+    "migration_checks_passed": 675,
+    "migration_checks_unreached": 0,
+    "format": "passed",
+    "clippy": "passed",
+    "source_custody": "passed",
+    "clean_business_counts": {
+      "organizations": 0,
+      "accounts": 0,
+      "employees": 0,
+      "applied_migrations": 3
+    },
+    "release_accepted": false
+  },
+  "limitations": [
+    "Account mutexes do not implement protected generations, dedicated auth command custody, attended proofing or family admission atomicity",
+    "Existing proof-to-approval, consume-to-family/audit and bootstrap-to-bound-handoff commit gaps remain unaccepted",
+    "Force-removal exact count custody, former-worker history/Account retention and branchless self-service parity remain R4 work",
+    "SET ROLE integration proof is not separate-credential isolation or real-browser ceremonies",
+    "No two-site durability, hardware/capacity/restore/live cutover proof;45complete module/leaf suites remain unreached",
+    "Build logs retain host debug-linker unwind-size and inherited proc-macro-error2 future-compatibility notices; no release capacity claim"
+  ]
+}

@@ -1,0 +1,40 @@
+# Placeholder MetalLB L2 configuration for the ADR-0024 on-prem Traefik VIP.
+# Replace the documentation CIDR below with the real reserved on-prem VIP/pool,
+# VLAN/subnet, and optional interface/node selectors before any manual sync.
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  name: console-onprem-ingress
+  namespace: metallb-system
+  annotations:
+    console.nousresearch.com/dark-stage: "true"
+    console.nousresearch.com/replace-before-sync: "Set addresses to the reserved on-prem ingress VIP or pool; never use the OCI reserved IP."
+spec:
+  # Documentation-only RFC1918 placeholder. Activation must replace this with the
+  # site-reserved VIP, for example one /32 or a small pool on the on-prem L2 VLAN.
+  addresses:
+    - 10.0.0.240/32
+  # Keep this pool opt-in only. The on-prem Traefik Service must request it with
+  # metallb.universe.tf/address-pool: console-onprem-ingress in the follow-up
+  # Traefik lane; arbitrary LoadBalancer Services must not auto-consume it.
+  autoAssign: false
+  avoidBuggyIPs: true
+---
+apiVersion: metallb.io/v1beta1
+kind: L2Advertisement
+metadata:
+  name: console-onprem-l2
+  namespace: metallb-system
+  annotations:
+    console.nousresearch.com/dark-stage: "true"
+    console.nousresearch.com/replace-before-sync: "Confirm the worker L2 segment/VLAN and optional interfaces before manual sync."
+spec:
+  ipAddressPools:
+    - console-onprem-ingress
+  # Optional activation placeholders, intentionally left commented until the site
+  # topology is known:
+  # interfaces:
+  #   - ON_PREM_WORKER_INTERFACE
+  # nodeSelectors:
+  #   - matchLabels:
+  #       console.nousresearch.com/ingress-vip-node: "true"

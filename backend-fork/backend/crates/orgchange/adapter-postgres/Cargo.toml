@@ -1,0 +1,39 @@
+[package]
+name = "console-orgchange-adapter-postgres"
+version = "0.1.0"
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+console-governance-domain = { workspace = true }
+console-kernel-core = { workspace = true }
+console-orgchange-domain = { path = "../domain" }
+# The contract crate. It has no [workspace.dependencies] entry, so — exactly as
+# in backend/crates/ontology/canonical-adapter-postgres/Cargo.toml — it is
+# depended on by path. Required, not optional: this crate is named as
+# `ObjectKey::Employment`'s owner, and `CanonicalPort` is declared there.
+console-ontology-canonical-domain = { path = "../../ontology/canonical-domain" }
+# L5-ORG binding seam: compiled via `#[path]` onto the OrgUnit owner-crate
+# source file (no Cargo edge — adapter→adapter is illegal). SELECT-only
+# company_revisions probe is local in src/lib.rs.
+console-platform-db = { workspace = true }
+console-platform-group = { path = "../../platform/group" }
+console-platform-request-context = { workspace = true }
+# The Employment query decodes from the action payload so one generic
+# dispatcher can serve all three `hr.*` targets without a handler per target.
+serde = { workspace = true }
+serde_json = { workspace = true }
+sha2 = { workspace = true }
+sqlx = { workspace = true }
+thiserror = { workspace = true }
+time = { workspace = true }
+# `CanonicalPort::execute` is synchronous and `sqlx` is async-only, so the
+# Employment port needs a runtime handle to bridge the two. Same reason the
+# Person lane added it to the canonical adapter.
+tokio = { workspace = true }
+uuid = { workspace = true }
+
+[lints]
+workspace = true

@@ -1,0 +1,19 @@
+type: object
+required:
+- work_order_id
+- stage
+- content_type
+- size_bytes
+properties:
+  work_order_id:
+    $ref: '#/components/schemas/Uuid'
+  stage:
+    $ref: '#/components/schemas/AttachmentStage'
+  content_type:
+    type: string
+  size_bytes:
+    type: integer
+    format: int64
+    minimum: 0
+  checksum_sha256:
+    type: string

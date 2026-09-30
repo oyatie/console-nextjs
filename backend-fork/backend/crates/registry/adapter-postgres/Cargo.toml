@@ -1,0 +1,28 @@
+[package]
+name = "console-registry-adapter-postgres"
+version = "0.1.0"
+description = "Postgres adapter and master-list importer for the equipment registry."
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+calamine = { workspace = true }
+console-kernel-core = { workspace = true }
+console-platform-db = { workspace = true }
+console-platform-request-context = { workspace = true }
+console-registry-application = { workspace = true }
+console-registry-domain = { workspace = true }
+serde_json = { workspace = true }
+sqlx = { workspace = true }
+thiserror = { workspace = true }
+time = { workspace = true }
+uuid = { workspace = true }
+
+[dev-dependencies]
+tokio = { workspace = true, features = ["macros", "rt-multi-thread"] }
+umya-spreadsheet = "3.0.0"
+
+[lints]
+workspace = true

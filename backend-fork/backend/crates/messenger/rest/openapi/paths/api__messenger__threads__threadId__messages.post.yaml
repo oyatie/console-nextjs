@@ -1,0 +1,29 @@
+tags:
+  - messenger
+operationId: sendMessengerMessage
+summary: Send a message with optional evidence attachments
+security:
+- bearerAuth: []
+parameters:
+- $ref: '#/components/parameters/ThreadId'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/SendMessengerMessageRequest'
+responses:
+  '201':
+    description: Message persisted.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/MessengerMessageSummary'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '422':
+    $ref: '#/components/responses/ValidationError'

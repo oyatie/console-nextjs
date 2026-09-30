@@ -1,0 +1,6 @@
+type: object
+required: [id, type, title]
+properties:
+  id: { type: string, format: uuid }
+  type: { type: string }   # object-type stable_key
+  title: { type: string }

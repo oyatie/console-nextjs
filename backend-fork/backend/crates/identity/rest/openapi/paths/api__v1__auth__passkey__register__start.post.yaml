@@ -1,0 +1,28 @@
+tags:
+  - auth
+summary: Start passkey registration (authenticated)
+description: Starts a passkey registration ceremony for the authenticated session user. Used during initial-settings
+  passkey enrollment after an OTP first sign-in, or to add a device later. Requires a bearer token. Adding a passkey
+  when the user already has one requires a fresh `step_up` assertion of an existing passkey (user verification required);
+  omitting it returns 401. Initial enrollment (zero existing passkeys) needs no step-up.
+security:
+- bearerAuth: []
+requestBody:
+  required: false
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/PasskeyRegisterStartRequest'
+responses:
+  '200':
+    description: Registration ceremony challenge.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/PasskeyRegisterStartResponse'
+  '400':
+    $ref: '#/components/responses/ValidationError'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '409':
+    $ref: '#/components/responses/Conflict'

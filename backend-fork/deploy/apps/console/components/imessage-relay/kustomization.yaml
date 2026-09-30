@@ -1,0 +1,9 @@
+apiVersion: kustomize.config.k8s.io/v1alpha1
+kind: Component
+# Opt-in non-OCI Talos iMessage relay/proxy. Do not add this to the current OCI
+# prod overlay; enable it only from a non-OCI Talos overlay after the private
+# macOS Messages bridge endpoint, imessage-relay-secrets keys, exact private
+# caller/bridge CIDRs, policy-capable CNI, and immutable image digest exist.
+resources:
+  - deployment.yaml
+  - networkpolicy.yaml

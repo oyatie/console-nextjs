@@ -1,0 +1,8 @@
+tags: [Evidence]
+operationId: getEvidenceObject
+security:
+  - bearerAuth: []
+parameters: [ { name: id, in: path, required: true, schema: { type: string, format: uuid } } ]
+responses:
+  '200': { description: Full EV object detail., content: { application/json: { schema: { $ref: '#/components/schemas/EvidenceObjectDetail' } } } }
+  '404': { description: 'Not found (or cross-tenant, hidden by RLS).' }

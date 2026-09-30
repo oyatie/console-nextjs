@@ -1,0 +1,11 @@
+type: object
+required: [expected_version, idempotency_key, output_quantity, scrap_quantity, downtime_minutes, quality_evidence_ref, quality_passed, note]
+properties:
+  expected_version: {type: integer, minimum: 1}
+  idempotency_key: {type: string, minLength: 1, maxLength: 128}
+  output_quantity: {type: integer, format: int64, minimum: 0}
+  scrap_quantity: {type: integer, format: int64, minimum: 0}
+  downtime_minutes: {type: integer, minimum: 0}
+  quality_evidence_ref: {type: string, minLength: 1}
+  quality_passed: {type: boolean}
+  note: {type: string, maxLength: 500}

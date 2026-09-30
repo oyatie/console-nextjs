@@ -1,0 +1,32 @@
+tags:
+  - messenger
+operationId: listMessengerChannels
+summary: Discover joinable channels in the caller's branch scope
+description: 'Lists channel-visibility threads within a branch the caller is scoped to, whether or not the caller is
+  already a member, so a member can find a room to join. Deny-by-omission: direct threads and out-of-scope channels
+  are never returned.
+
+  '
+security:
+- bearerAuth: []
+parameters:
+- name: limit
+  in: query
+  required: false
+  schema:
+    type: integer
+    format: int64
+    minimum: 1
+    maximum: 100
+    default: 50
+responses:
+  '200':
+    description: Joinable channels visible to the caller.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/MessengerThreadListResponse'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'

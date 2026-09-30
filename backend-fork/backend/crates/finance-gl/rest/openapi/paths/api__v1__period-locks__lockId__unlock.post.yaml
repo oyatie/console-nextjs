@@ -1,0 +1,40 @@
+tags:
+  - period-locks
+operationId: unlockPeriodLock
+summary: Unlock a period lock (one-shot, reason required)
+description: Close-authority gated (PeriodLockManage, org-wide), audited. Unlock is one-shot and immutable; re-locking
+  the same window appends a new lock row.
+security:
+- bearerAuth: []
+parameters:
+- name: lockId
+  in: path
+  required: true
+  schema:
+    type: string
+    format: uuid
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/UnlockPeriodLockRequest'
+responses:
+  '200':
+    description: Period unlocked.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/PeriodLock'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '409':
+    $ref: '#/components/responses/Conflict'
+  '422':
+    $ref: '#/components/responses/ValidationError'
+  '503':
+    description: JWT verification is not configured.

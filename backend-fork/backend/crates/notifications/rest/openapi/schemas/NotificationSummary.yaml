@@ -1,0 +1,47 @@
+type: object
+required:
+- id
+- recipient_user_id
+- category
+- kind
+- text
+- link
+- unread
+- created_at
+- read_at
+- resolved_at
+- muted
+properties:
+  id:
+    $ref: '#/components/schemas/Uuid'
+  recipient_user_id:
+    $ref: '#/components/schemas/Uuid'
+  category:
+    type: string
+    description: Extensible category (결재/멘션/문서/공지/근태/급여 and beyond).
+  kind:
+    type: string
+    description: Extensible producer kind (default "info"); generic detect->assign->resolve chains key on this.
+  text:
+    type: string
+  link:
+    $ref: '#/components/schemas/NotificationLink'
+  unread:
+    type: boolean
+  created_at:
+    $ref: '#/components/schemas/Timestamp'
+  read_at:
+    type:
+    - string
+    - 'null'
+    format: date-time
+    description: When the notification was first marked read; null while unread.
+  resolved_at:
+    type:
+    - string
+    - 'null'
+    format: date-time
+    description: When a producer's resolve-by-link sweep closed this notification; null while open.
+  muted:
+    type: boolean
+    description: Whether the caller's mute policies suppress this row's attention (badge counts, realtime). Computed per caller at read time, never stored, and never filters the list.

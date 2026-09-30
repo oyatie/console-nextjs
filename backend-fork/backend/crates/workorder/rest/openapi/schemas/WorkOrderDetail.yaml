@@ -1,0 +1,72 @@
+allOf:
+- $ref: '#/components/schemas/WorkOrderListItem'
+- type: object
+  required:
+  - symptom
+  - customer_request
+  - delay_reason
+  - delay_note
+  - diagnosis
+  - action_taken
+  - report_submitted_by
+  - report_submitted_at
+  - kpi_excluded
+  - evidence_verified
+  - approval_line
+  - status_history
+  - evidence
+  - settlement
+  properties:
+    symptom:
+      type: string
+    customer_request:
+      type:
+      - string
+      - 'null'
+    delay_reason:
+      type:
+      - string
+      - 'null'
+    delay_note:
+      type:
+      - string
+      - 'null'
+    diagnosis:
+      type:
+      - string
+      - 'null'
+    action_taken:
+      type:
+      - string
+      - 'null'
+    report_submitted_by:
+      type:
+      - string
+      - 'null'
+      format: uuid
+    report_submitted_at:
+      type:
+      - string
+      - 'null'
+      format: date-time
+    kpi_excluded:
+      type: boolean
+    evidence_verified:
+      type: boolean
+    approval_line:
+      type: array
+      items:
+        $ref: '#/components/schemas/ApprovalStepSummary'
+    status_history:
+      type: array
+      items:
+        $ref: '#/components/schemas/StatusHistorySummary'
+    evidence:
+      type: array
+      items:
+        $ref: '#/components/schemas/EvidenceSummary'
+    settlement:
+      description: The live (non-VOID) cost settlement of this order, if one exists.
+      oneOf:
+      - type: 'null'
+      - $ref: '#/components/schemas/SettlementSummary'

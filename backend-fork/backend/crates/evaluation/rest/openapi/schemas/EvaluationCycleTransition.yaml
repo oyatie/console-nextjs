@@ -1,0 +1,2 @@
+type: string
+enum: [open, start_calibration, finalize, archive]

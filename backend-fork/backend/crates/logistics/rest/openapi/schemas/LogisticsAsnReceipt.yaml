@@ -1,0 +1,7 @@
+type: object
+required: [id, status]
+properties:
+  id: { $ref: '#/components/schemas/Uuid' }
+  status: { type: string, enum: [PARTIAL_RECEIVED, RECEIVED] }
+  receivedQuantity: { type: integer, format: int64, description: cumulative received total; absent on an idempotent replay }
+  replayed: { type: boolean, description: present and true only on an idempotent replay }

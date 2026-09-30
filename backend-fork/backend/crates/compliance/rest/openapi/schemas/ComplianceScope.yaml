@@ -1,0 +1,8 @@
+type: object
+required: [kind]
+properties:
+  kind: { $ref: '#/components/schemas/ComplianceScopeKind' }
+  scope_ref: { type: [string, 'null'], format: uuid }
+  branch_id: { type: [string, 'null'], format: uuid }
+  site_id: { type: [string, 'null'], format: uuid }
+description: ORG carries no IDs; BRANCH requires matching branch_id and scope_ref; SITE requires branch_id and matching site_id/scope_ref. TEAM and ROLE are not accepted for writes yet.

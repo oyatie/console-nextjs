@@ -1,0 +1,55 @@
+type: object
+required:
+- id
+- step_order
+- role
+- approver_id
+- approver_name
+- status
+- requested_at
+- approved_at
+- approved_by_id
+- approved_by_name
+- decision_comment
+properties:
+  id:
+    $ref: '#/components/schemas/Uuid'
+  step_order:
+    type: integer
+    format: int32
+  role:
+    type: string
+  approver_id:
+    type:
+    - string
+    - 'null'
+    format: uuid
+  approver_name:
+    type:
+    - string
+    - 'null'
+  status:
+    type: string
+  requested_at:
+    type:
+    - string
+    - 'null'
+    format: date-time
+  approved_at:
+    type:
+    - string
+    - 'null'
+    format: date-time
+  approved_by_id:
+    type:
+    - string
+    - 'null'
+    format: uuid
+  approved_by_name:
+    type:
+    - string
+    - 'null'
+  decision_comment:
+    type:
+    - string
+    - 'null'

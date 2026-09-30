@@ -1,0 +1,52 @@
+tags:
+- support
+operationId: recordSupportTicketAcceptance
+summary: Record the customer's acceptance verdict for a RESOLVED ticket (audited closure evidence)
+description: Requires assignee_manage on the ticket branch and an Idempotency-Key header. CUSTOMER_ACCEPTED drives
+  RESOLVED to CLOSED; CUSTOMER_DECLINED requires a note, drives RESOLVED to IN_PROGRESS, and the note becomes a
+  customer-visible comment. A replay with the same key and the same request returns the stored acceptance; the same
+  key with a different request is a conflict. accepted_by is a business fact and is never logged.
+security:
+- bearerAuth: []
+parameters:
+- name: id
+  in: path
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+- name: Idempotency-Key
+  in: header
+  required: true
+  schema:
+    type: string
+    minLength: 16
+    maxLength: 200
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/RecordSupportTicketAcceptanceRequest'
+responses:
+  '201':
+    description: The recorded acceptance, or the stored acceptance on an idempotent replay.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/SupportTicketAcceptance'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '409':
+    $ref: '#/components/responses/Conflict'
+  '422':
+    $ref: '#/components/responses/ValidationError'
+  '503':
+    description: JWT verification is not configured.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ErrorBody'

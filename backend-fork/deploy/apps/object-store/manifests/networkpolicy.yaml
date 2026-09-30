@@ -1,0 +1,29 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: console-object-store-s3-ingress
+  namespace: console-object-store
+  labels:
+    app.kubernetes.io/name: seaweedfs-s3
+    app.kubernetes.io/instance: console-object-store
+    app.kubernetes.io/part-of: console-object-store
+    console.nousresearch.com/dark-stage: "true"
+    console.nousresearch.com/context: "onprem"
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: seaweedfs-s3
+      app.kubernetes.io/instance: console-object-store
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: console
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: console-object-store
+      ports:
+        - protocol: TCP
+          port: 8333

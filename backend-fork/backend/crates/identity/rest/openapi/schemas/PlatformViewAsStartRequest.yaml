@@ -1,0 +1,9 @@
+type: object
+required:
+- org_id
+- role
+properties:
+  org_id:
+    $ref: '#/components/schemas/Uuid'
+  role:
+    $ref: '#/components/schemas/PlatformTenantRole'

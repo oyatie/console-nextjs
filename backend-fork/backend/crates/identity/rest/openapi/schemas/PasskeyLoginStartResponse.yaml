@@ -1,0 +1,13 @@
+type: object
+required:
+- ceremony_id
+- challenge
+- expires_at
+properties:
+  ceremony_id:
+    $ref: '#/components/schemas/Uuid'
+  challenge:
+    type: object
+    additionalProperties: true
+  expires_at:
+    $ref: '#/components/schemas/Timestamp'

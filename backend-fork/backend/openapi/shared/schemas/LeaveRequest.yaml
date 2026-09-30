@@ -1,0 +1,18 @@
+      type: object
+      required: [id, employee_id, leave_type, reason, start_date, end_date, status, requested_by, requested_at]
+      properties:
+        id: { type: string, format: uuid }
+        employee_id: { type: string, format: uuid }
+        employee_name: { type: string, nullable: true }
+        branch_id: { type: string, format: uuid, nullable: true }
+        leave_type: { type: string }
+        reason: { type: string }
+        start_date: { type: string, format: date }
+        end_date: { type: string, format: date }
+        note: { type: string, nullable: true }
+        status: { type: string, enum: [DRAFT, SUBMITTED, APPROVED, REJECTED] }
+        requested_by: { type: string, format: uuid }
+        requested_at: { type: string, format: date-time }
+        decided_by: { type: string, format: uuid, nullable: true }
+        decided_at: { type: string, format: date-time, nullable: true }
+        decision_note: { type: string, nullable: true }

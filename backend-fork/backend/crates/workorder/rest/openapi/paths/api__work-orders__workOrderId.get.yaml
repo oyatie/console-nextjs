@@ -1,0 +1,17 @@
+tags:
+  - work-orders
+operationId: getWorkOrder
+summary: Fetch one work order
+security:
+- bearerAuth: []
+parameters:
+- $ref: '#/components/parameters/WorkOrderId'
+responses:
+  '200':
+    description: Work order summary.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/WorkOrderSummary'
+  '404':
+    $ref: '#/components/responses/NotFound'

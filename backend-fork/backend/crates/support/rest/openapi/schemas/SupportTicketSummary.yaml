@@ -1,0 +1,97 @@
+type: object
+required:
+- id
+- branch_id
+- origin
+- category
+- priority
+- status
+- title
+- requester_user_id
+- requester_name
+- assignee_user_id
+- assignee_name
+- due_at
+- created_at
+- updated_at
+- resolved_at
+- closed_at
+- site_id
+- site_name
+- customer_id
+- customer_name
+- work_order_id
+properties:
+  id:
+    $ref: '#/components/schemas/Uuid'
+  branch_id:
+    $ref: '#/components/schemas/Uuid'
+  origin:
+    $ref: '#/components/schemas/SupportTicketOrigin'
+  category:
+    $ref: '#/components/schemas/SupportTicketCategory'
+  priority:
+    $ref: '#/components/schemas/SupportTicketPriority'
+  status:
+    $ref: '#/components/schemas/SupportTicketStatus'
+  title:
+    type: string
+  requester_user_id:
+    $ref: '#/components/schemas/Uuid'
+  requester_name:
+    type:
+    - string
+    - 'null'
+  assignee_user_id:
+    $ref: '#/components/schemas/Uuid'
+  assignee_name:
+    type:
+    - string
+    - 'null'
+    description: Assignee display name, resolved via a same-org LEFT JOIN on users. Null when unassigned or the assignee
+      account no longer exists.
+  due_at:
+    type:
+    - string
+    - 'null'
+    format: date-time
+  created_at:
+    $ref: '#/components/schemas/Timestamp'
+  updated_at:
+    $ref: '#/components/schemas/Timestamp'
+  resolved_at:
+    type:
+    - string
+    - 'null'
+    format: date-time
+  closed_at:
+    type:
+    - string
+    - 'null'
+    format: date-time
+  site_id:
+    type:
+    - string
+    - 'null'
+    format: uuid
+    description: Linked customer site (the field object chain); null until the ticket is linked.
+  site_name:
+    type:
+    - string
+    - 'null'
+  customer_id:
+    type:
+    - string
+    - 'null'
+    format: uuid
+    description: Denormalized from the linked site on link; null until the ticket is linked.
+  customer_name:
+    type:
+    - string
+    - 'null'
+  work_order_id:
+    type:
+    - string
+    - 'null'
+    format: uuid
+    description: Work order dispatched for the visit; null until the ticket is linked.

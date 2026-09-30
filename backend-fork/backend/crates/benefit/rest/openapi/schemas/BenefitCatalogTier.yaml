@@ -1,0 +1,13 @@
+type: object
+additionalProperties: false
+required: [tier_basis, tier_key, value_label, criteria, display_order]
+properties:
+  id: { $ref: '#/components/schemas/Uuid' }
+  benefit_id: { $ref: '#/components/schemas/Uuid' }
+  tier_basis: { type: string }
+  tier_key: { type: string }
+  value_label: { type: string }
+  amount_won: { type: integer, format: int64, nullable: true }
+  limit_period: { type: string, nullable: true }
+  criteria: { type: object, additionalProperties: true }
+  display_order: { type: integer }

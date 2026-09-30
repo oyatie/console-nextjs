@@ -1,0 +1,27 @@
+# Empty-install transition
+
+Scope: repair the real clean-install probe; no production deployment or identity ceremony is performed.
+
+Base: frozen Console HEAD `05200e43af13b527ce031b04369e05852862f1d6`, including the working-tree closure in `backend-fork/SOURCE-CLOSURE.json`. The independent fork has no committed HEAD. Red command: `python3 tools/check-empty-install.py --postgres-bin /opt/homebrew/opt/postgresql@18/bin`. Its recorded failure is `.artifacts/empty-install-20260923T060916.729596Z/report.json`: two organizations and one account.
+
+## Ownership and mechanism
+
+The application migration owner selects the lineage under SQLx's existing database advisory lock, on its validated physical owner connection. Historical migrations 1–225 remain byte-for-byte unchanged. Before executing pending SQL, the owner validates every existing checksum and requires an exact contiguous prefix of the selected lineage. SQLx alone does not reject missing earlier entries. Databases with the historical migration ledger continue through that chain; no existing rows are removed or relabeled.
+
+A genuinely empty database installs a generated schema baseline equivalent to migration 225 plus an explicit allowlist of six non-business reference catalogs (`feature_catalog`, `lifecycle_transition_rules`, `link_types`, `object_types`, `ont_builtin_catalog_allowlist`, `payroll_statutory_rates`; inherited legal configuration is preserved without asserting legal acceptance). The baseline is generated from an isolated replay of the frozen historical SQL, not a live database. All other table contents, including tenant, group, administrator and credential records, are excluded. The baseline is SQLx migration version 0, with its actual SQL checksum recorded atomically by SQLx in the existing owner-only migration ledger. No new lineage table or custom checksum codec is introduced. It does not claim the historical migrations executed. Subsequent migrations above 225 use the normal SQLx ledger in both lineages.
+
+Freshness inspection rejects foreign schemas, relations, functions, types, sequences, extensions other than PostgreSQL’s default plpgsql, event triggers and large objects. An empty SQLx table and its own row/index types are the only retry artifacts allowed. Unknown occupied schemas, empty ledgers accompanied by other schema objects, mixed lineages and changed baseline checksums fail closed. The owner explicitly revokes ledger privileges from PUBLIC and serving/definer roles, verifies owner identity and rejects other non-owner grants. The tests include inherited default grants and actual runtime DELETE/UPDATE denial. No runtime switch forces an existing database onto the fresh path. SQLx's migration lock covers selection, installation and vendor migration reconciliation. A failed connection is closed rather than returned with a held session lock. Installation failure rolls back the schema and lineage together; retries select the same safe path.
+
+## Compatibility and rollback
+
+Both lineages expose the same business schema, constraints, RLS, functions, owners and grants. Existing application readers/writers therefore retain their schema contracts. Fresh installations have no bootstrap person or sentinel tenant: attended root proofing and real signup remain separate work. The inherited OTP seeder can only find an existing admin and cannot create one.
+
+Existing installations retain the original SQLx ledger and can return to the previous migration binary. Fresh installations must retain the baseline-aware migration binary: an old migration runner must not replay the legacy seed chain. The actual baseline entry at version 0 makes an old SQLx runner reject with VersionMissing(0) before any migration executes. No rollback deletes accepted data or resets identities. This is an install-lineage transition, not a live v2 cutover.
+
+## Verification and stop conditions
+
+Use disposable PostgreSQL only. Check every public business table for zero rows on fresh installation; compare reference catalogs, schema, ACLs and owners against the historical chain. Exercise repeat and concurrent migration, transaction failure/retry, foreign schema refusal, lineage/checksum tampering, and old-runner refusal. Upgrade a populated historical database and compare exact row contents and migration checksums before/after. Preserve all existing tests.
+
+Pre-mortem: a mistaken empty-database classification could overwrite business data; a missing catalog/grant could silently break an owner; a partial baseline could become unrecoverable; an old migrator could insert seeds. Detection: occupied-schema negatives, whole-schema/reference comparison, exact populated-row hashes, injected failure and old-runner tests. Blast radius: only the independent fork's migration entry point and new generated baseline; no original Console or external service changes. Stop on preservation/schema mismatch, unexpected privileges, failed required probe, or unavailable review. Remaining HOLDs: full identity commissioning, two-site durability, real SSR workflows and all module release acceptance.
+
+Initial independent review: `/root/migration_review` returned REVISE for ledger-prefix prevalidation, ledger ACL enforcement and complete schema/canonical-catalog tests. Those conditions are incorporated above. Implementation evidence and a second verdict remain pending; this document is not an implementation approval.

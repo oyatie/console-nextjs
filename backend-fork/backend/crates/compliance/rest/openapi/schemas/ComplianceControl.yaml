@@ -1,0 +1,17 @@
+type: object
+required: [id, framework_id, control_key, title, objective, control_type, status, evidence_requirements, created_by, updated_by, created_at, updated_at]
+properties:
+  id: { $ref: '#/components/schemas/Uuid' }
+  framework_id: { $ref: '#/components/schemas/Uuid' }
+  control_key: { type: string }
+  title: { type: string }
+  objective: { type: string }
+  control_type: { $ref: '#/components/schemas/ControlType' }
+  cadence: { type: [string, 'null'], enum: [CONTINUOUS, DAILY, WEEKLY, MONTHLY, QUARTERLY, ANNUAL, EVENT_DRIVEN, null] }
+  status: { $ref: '#/components/schemas/ControlStatus' }
+  evidence_requirements: { type: object, additionalProperties: true }
+  owner_user_id: { type: [string, 'null'], format: uuid }
+  created_by: { $ref: '#/components/schemas/Uuid' }
+  updated_by: { $ref: '#/components/schemas/Uuid' }
+  created_at: { $ref: '#/components/schemas/Timestamp' }
+  updated_at: { $ref: '#/components/schemas/Timestamp' }

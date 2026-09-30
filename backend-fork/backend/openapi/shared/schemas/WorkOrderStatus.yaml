@@ -1,0 +1,18 @@
+      type: string
+      enum:
+      - RECEIVED
+      - UNASSIGNED
+      - ASSIGNED
+      - IN_PROGRESS
+      - REPORT_SUBMITTED
+      - ADMIN_REVIEW
+      - FINAL_COMPLETED
+      - REJECTED
+      - ON_HOLD
+      - DELAYED
+      - TEMPORARY_ACTION
+      - PART_WAITING
+      - EQUIPMENT_IN_USE
+      - REVISIT_REQUIRED
+      - ARCHIVED
+      - CANCELLED

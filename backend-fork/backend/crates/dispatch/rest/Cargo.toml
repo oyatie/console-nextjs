@@ -1,0 +1,32 @@
+[package]
+name = "console-dispatch-rest"
+version = "0.1.0"
+description = "REST API for P1 emergency dispatch."
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+console-contracts = { path = "../../contracts" }
+axum = { workspace = true }
+console-dispatch-adapter-postgres = { workspace = true }
+console-dispatch-application = { workspace = true }
+console-dispatch-domain = { workspace = true }
+console-kernel-core = { workspace = true }
+console-platform-auth = { path = "../../platform/auth" }
+console-platform-authz = { path = "../../platform/authz" }
+console-platform-db = { workspace = true }
+console-platform-jobs = { workspace = true }
+console-platform-request-context = { workspace = true }
+console-platform-push = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+sqlx = { workspace = true }
+thiserror = { workspace = true }
+time = { workspace = true }
+tracing = { workspace = true }
+uuid = { workspace = true }
+
+[lints]
+workspace = true

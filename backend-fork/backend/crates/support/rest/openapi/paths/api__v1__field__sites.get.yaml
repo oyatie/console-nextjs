@@ -1,0 +1,60 @@
+tags:
+- field
+operationId: listFieldSites
+summary: List branch-scoped customer sites with their issue, visit, and SLA rollups
+description: The field read gate is work_order_read_all, checked server-side because the overview carries customer
+  contact and geo data. Every count derives from the same aggregation as the rows.
+security:
+- bearerAuth: []
+parameters:
+- name: q
+  in: query
+  required: false
+  description: Substring match on site name or customer name.
+  schema:
+    type: string
+- name: customer_id
+  in: query
+  required: false
+  schema:
+    $ref: '#/components/schemas/Uuid'
+- name: sla
+  in: query
+  required: false
+  schema:
+    $ref: '#/components/schemas/FieldSlaState'
+- name: limit
+  in: query
+  required: false
+  description: Page size; clamped server-side to 1..=100.
+  schema:
+    type: integer
+    format: int64
+    minimum: 1
+    maximum: 100
+- name: cursor
+  in: query
+  required: false
+  description: Keyset cursor — the site id of the previous page's last row.
+  schema:
+    $ref: '#/components/schemas/Uuid'
+responses:
+  '200':
+    description: A keyset page of field sites visible in the principal's branch scope, plus the unpaged total for the
+      same filters.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/FieldSitePage'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '503':
+    description: JWT verification is not configured.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ErrorBody'

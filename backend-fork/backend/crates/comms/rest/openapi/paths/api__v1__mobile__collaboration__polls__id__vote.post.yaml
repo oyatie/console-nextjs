@@ -1,0 +1,37 @@
+tags:
+  - collaboration
+operationId: voteMobileCollaborationPoll
+summary: Submit or replace a native mobile poll vote with passkey step-up
+description: Mobile-scoped poll vote route. It validates poll lifecycle and option ownership only after a fresh passkey
+  step-up envelope is verified for this poll vote.
+security:
+- bearerAuth: []
+parameters:
+- name: id
+  in: path
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/MobileVotePollRequest'
+responses:
+  '200':
+    description: Updated poll with aggregate counts and caller vote state.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/PollResponse'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '428':
+    $ref: '#/components/responses/PreconditionRequired'
+  '422':
+    $ref: '#/components/responses/ValidationError'

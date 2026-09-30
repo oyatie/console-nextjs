@@ -1,0 +1,7 @@
+type: object
+required:
+- otp
+properties:
+  otp:
+    type: string
+    description: The one-time sign-in code (8 characters for admin-issued codes).

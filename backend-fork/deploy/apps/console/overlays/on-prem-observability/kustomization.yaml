@@ -1,0 +1,20 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+# DARK observability activation overlay. Use this only for on-prem contexts where
+# deploy/apps/observability/manifests is synced and the Prometheus Operator CRDs
+# required by components/monitoring are installed. Plain on-prem/prod overlays
+# intentionally do not set OTEL_EXPORTER_OTLP_ENDPOINT, so clusters without the
+# DARK collector remain deployable.
+resources:
+  - ../on-prem
+  - networkpolicy.yaml
+
+components:
+  - ../../components/monitoring
+
+patches:
+  - target: { kind: ConfigMap, name: console-config }
+    patch: |-
+      - op: add
+        path: /data/OTEL_EXPORTER_OTLP_ENDPOINT
+        value: http://otel-collector.console-observability.svc.cluster.local:4317

@@ -1,0 +1,27 @@
+tags:
+  - messenger
+operationId: listMessengerThreads
+summary: List branch-scoped messenger threads for the authenticated member
+security:
+- bearerAuth: []
+parameters:
+- name: limit
+  in: query
+  required: false
+  schema:
+    type: integer
+    format: int64
+    minimum: 1
+    maximum: 100
+    default: 50
+responses:
+  '200':
+    description: Messenger threads visible to the authenticated member.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/MessengerThreadListResponse'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'

@@ -1,0 +1,28 @@
+tags:
+  - series
+operationId: getSeries
+summary: Read a series and its ordered, caller-visible instances
+description: 'Returns the series head and its instances resolved to ObjectHeads, ordered by attach time. Instances
+  that no longer resolve for the caller are omitted (deny-by-omission). Current/next derivation is left to the
+  client. An unknown id or another tenant''s series is 404.'
+security:
+- bearerAuth: []
+parameters:
+- name: id
+  in: path
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+responses:
+  '200':
+    description: The series with its ordered, resolved instances.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/SeriesDetailResponse'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'

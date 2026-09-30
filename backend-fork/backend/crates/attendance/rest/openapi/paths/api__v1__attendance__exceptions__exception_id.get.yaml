@@ -1,0 +1,10 @@
+tags: [attendance]
+operationId: getAttendanceException
+summary: Get one branch-authorized attendance exception
+security: [{ bearerAuth: [] }]
+parameters: [{ name: exception_id, in: path, required: true, schema: { $ref: '#/components/schemas/Uuid' } }]
+responses:
+  '200': { description: Typed exception detail, content: { application/json: { schema: { $ref: '#/components/schemas/AttendanceException' } } } }
+  '401': { $ref: '#/components/responses/Unauthorized' }
+  '403': { $ref: '#/components/responses/Forbidden' }
+  '404': { $ref: '#/components/responses/NotFound' }

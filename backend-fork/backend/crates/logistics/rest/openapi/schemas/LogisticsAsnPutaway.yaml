@@ -1,0 +1,5 @@
+type: object
+required: [id, status]
+properties:
+  id: { $ref: '#/components/schemas/Uuid' }
+  status: { type: string, enum: [PUTAWAY] }

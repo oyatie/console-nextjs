@@ -1,0 +1,31 @@
+type: object
+additionalProperties: false
+required:
+- headcount
+- already_out
+- minimum_on_duty
+- projected_available
+properties:
+  headcount:
+    type: integer
+    format: int32
+    minimum: 0
+    description: Home-branch employees counted for coverage at decide time.
+  already_out:
+    type: integer
+    format: int32
+    minimum: 0
+    description: >-
+      Distinct other subjects with approved leave overlapping the
+      requested span on that branch.
+  minimum_on_duty:
+    type: integer
+    format: int32
+    minimum: 1
+    description: Smallest non-vacuous on-duty floor used by the automatic gate.
+  projected_available:
+    type: integer
+    format: int64
+    description: >-
+      headcount − already_out − 1 (the requester). Negative or below
+      minimum_on_duty is what makes `time_change` eligible.

@@ -1,0 +1,22 @@
+type: object
+required: [run_id, status, definition_id, definition_version, started_at]
+properties:
+  run_id:
+    $ref: '#/components/schemas/Uuid'
+  status:
+    type: string
+  definition_id:
+    $ref: '#/components/schemas/Uuid'
+  definition_version:
+    type: integer
+  started_at:
+    type: string
+    format: date-time
+  completed_at:
+    type: string
+    format: date-time
+    nullable: true
+  failed_at:
+    type: string
+    format: date-time
+    nullable: true

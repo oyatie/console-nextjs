@@ -1,0 +1,53 @@
+type: object
+description: The write-only view of a configured mailbox. It NEVER contains a password; has_smtp_password / has_imap_password
+  signal whether a credential is on file.
+required:
+- id
+- display_name
+- email_address
+- imap_host
+- imap_port
+- imap_security
+- imap_username
+- smtp_host
+- smtp_port
+- smtp_security
+- smtp_username
+- has_smtp_password
+- has_imap_password
+- status
+properties:
+  id:
+    $ref: '#/components/schemas/Uuid'
+  display_name:
+    type: string
+  email_address:
+    type: string
+  from_name:
+    type:
+    - string
+    - 'null'
+  imap_host:
+    type: string
+  imap_port:
+    type: integer
+    format: int32
+  imap_security:
+    $ref: '#/components/schemas/MailSecurity'
+  imap_username:
+    type: string
+  smtp_host:
+    type: string
+  smtp_port:
+    type: integer
+    format: int32
+  smtp_security:
+    $ref: '#/components/schemas/MailSecurity'
+  smtp_username:
+    type: string
+  has_smtp_password:
+    type: boolean
+  has_imap_password:
+    type: boolean
+  status:
+    type: string

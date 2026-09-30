@@ -1,0 +1,14 @@
+type: object
+required: [id, branch_id, customer_demand_id, product_code, quantity, status, version, first_operation_id, created_at, due_at, plan_digest]
+properties:
+  id: {$ref: '#/components/schemas/Uuid'}
+  branch_id: {$ref: '#/components/schemas/Uuid'}
+  customer_demand_id: {$ref: '#/components/schemas/Uuid'}
+  product_code: {type: string}
+  quantity: {type: integer, format: int64}
+  status: {type: string, enum: [DRAFT, RELEASED]}
+  version: {type: integer}
+  first_operation_id: {$ref: '#/components/schemas/Uuid'}
+  created_at: {type: string, format: date-time}
+  due_at: {type: string, format: date-time}
+  plan_digest: {type: string, pattern: '^[0-9a-f]{64}$', description: Immutable server-computed digest required in the matching release approval kind.}

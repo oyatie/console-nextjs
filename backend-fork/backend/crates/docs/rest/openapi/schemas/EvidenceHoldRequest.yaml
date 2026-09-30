@@ -1,0 +1,16 @@
+oneOf:
+  - type: object
+    required: [op, case_ref, basis, reason]
+    properties:
+      op: { type: string, enum: [apply] }
+      case_ref: { type: string }
+      basis: { type: string }
+      reason: { type: string }
+  - type: object
+    required: [op, hold_id, reason, four_eyes_request_ref]
+    properties:
+      op: { type: string, enum: [release] }
+      hold_id: { type: string, format: uuid }
+      reason: { type: string }
+      four_eyes_request_ref: { type: string, format: uuid }
+discriminator: { propertyName: op }

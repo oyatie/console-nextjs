@@ -1,0 +1,30 @@
+tags:
+  - auth
+summary: Mint a cross-device passkey-enrollment handoff (self)
+description: Mints a fresh single-use, short-lived (5 minutes) one-time code for the CURRENTLY AUTHENTICATED user so
+  they can finish passkey enrollment on a SECOND device (typically a phone scanning a QR shown on the desktop console).
+  SELF-ONLY — the user and org come from the verified access token, never the request body, so a caller can only ever
+  mint a handoff for itself. When the caller is ALREADY enrolled (adding a device), a fresh `step_up` assertion of an
+  existing passkey (user verification required) is mandatory, exactly like `passkey/register/start`; a mid-onboarding
+  caller (no passkey yet) omits it. The response returns the code once (only its hash is stored) plus the ready-to-encode
+  enrollment URL. The phone opens that URL, redeems the code via `POST /api/v1/auth/otp/redeem`, and enrolls a platform
+  passkey — no Bluetooth required.
+security:
+- bearerAuth: []
+requestBody:
+  required: false
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/EnrollHandoffRequest'
+responses:
+  '200':
+    description: The minted single-use enrollment code, its expiry, and the QR enrollment URL.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/EnrollHandoffResponse'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '409':
+    $ref: '#/components/responses/Conflict'

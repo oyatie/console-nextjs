@@ -1,0 +1,28 @@
+type: object
+required:
+- id
+- ticket_id
+- author_user_id
+- author_name
+- body
+- is_internal_note
+- created_at
+properties:
+  id:
+    $ref: '#/components/schemas/Uuid'
+  ticket_id:
+    $ref: '#/components/schemas/Uuid'
+  author_user_id:
+    $ref: '#/components/schemas/Uuid'
+  author_name:
+    type:
+    - string
+    - 'null'
+    description: Comment author display name, resolved via a same-org LEFT JOIN on users. Null for an authorless comment
+      or a deleted author.
+  body:
+    type: string
+  is_internal_note:
+    type: boolean
+  created_at:
+    $ref: '#/components/schemas/Timestamp'

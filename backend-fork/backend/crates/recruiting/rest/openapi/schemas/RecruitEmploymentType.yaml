@@ -1,0 +1,2 @@
+type: string
+enum: [REGULAR, RESIDENT_SHIFT, PART_TIME, POOL_DAILY]

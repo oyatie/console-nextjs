@@ -1,0 +1,20 @@
+tags: [Evidence]
+operationId: listEvidenceObjects
+security:
+  - bearerAuth: []
+summary: List EV objects (RLS-scoped) with filters.
+parameters:
+  - { name: q, in: query, required: false, schema: { type: string } }
+  - { name: source_type, in: query, required: false, schema: { $ref: '#/components/schemas/EvidenceSourceType' } }
+  - { name: source_id, in: query, required: false, schema: { type: string } }
+  - { name: admissibility_status, in: query, required: false, schema: { $ref: '#/components/schemas/AdmissibilityStatus' } }
+  - { name: legal_hold_state, in: query, required: false, schema: { $ref: '#/components/schemas/LegalHoldState' } }
+  - { name: custody_stage, in: query, required: false, schema: { $ref: '#/components/schemas/CustodyStage' } }
+  - { name: classification, in: query, required: false, schema: { $ref: '#/components/schemas/EvidenceClassification' } }
+  - { name: limit, in: query, required: false, schema: { type: integer, format: int64 } }
+  - { name: offset, in: query, required: false, schema: { type: integer, format: int64 }, description: "Backward-compatible offset accepted by the runtime. When cursor is supplied, offset must be omitted or zero." }
+  - { name: as_of, in: query, required: false, schema: { type: integer, format: int64 }, description: "Immutable evidence-register sequence returned by the first page; omit to establish the current snapshot. When cursor is supplied, as_of must match that cursor's snapshot." }
+  - { name: cursor, in: query, required: false, schema: { type: string, pattern: '^[A-Za-z0-9_-]+$' }, description: Opaque unpadded-base64url continuation token returned as next_cursor by the preceding page. }
+responses:
+  '200': { description: A page of EV objects., content: { application/json: { schema: { $ref: '#/components/schemas/EvidenceObjectPage' } } } }
+  '422': { $ref: '#/components/responses/ValidationError' }

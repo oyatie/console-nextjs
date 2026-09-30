@@ -1,0 +1,40 @@
+tags:
+  - workflow-tasks
+operationId: listWorkflowTasks
+summary: List approval-inbox waiting tasks (group or personal)
+description: Group inbox via role_key, personal inbox via assignee=me. Policy-bearing rows are gated legacy-enforce with an
+  inert Cedar shadow and denied rows are OMITTED (deny-by-omission), never returned as a 403. Requires role_key or assignee=me.
+security:
+- bearerAuth: []
+parameters:
+- name: role_key
+  in: query
+  required: false
+  description: Group-inbox filter matched against assignee_role_key.
+  schema:
+    type: string
+- name: assignee
+  in: query
+  required: false
+  description: Set to "me" for the personal inbox (the caller's CLAIMED tasks plus claimable OPEN ones).
+  schema:
+    type: string
+- name: status
+  in: query
+  required: false
+  description: Comma-separated task statuses (e.g. OPEN,CLAIMED). Defaults to OPEN.
+  schema:
+    type: string
+responses:
+  '200':
+    description: The visible waiting tasks.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/WorkflowTaskListResponse'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '422':
+    $ref: '#/components/responses/ValidationError'

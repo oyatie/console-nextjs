@@ -1,0 +1,32 @@
+[package]
+name = "console-platform-jobs"
+version = "0.1.0"
+description = "JobQueue port, apalis-postgres adapter, and M2-gating apalis soak harness."
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+apalis = { workspace = true }
+apalis-postgres = { workspace = true }
+apalis-sql = { workspace = true }
+apalis-sqlx = { package = "sqlx", version = "=0.8.6", default-features = false, features = [
+    "postgres",
+    "runtime-tokio-rustls",
+] }
+console-kernel-core = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+sqlx = { workspace = true }
+thiserror = { workspace = true }
+time = { workspace = true }
+tokio = { workspace = true, features = ["fs", "sync", "time"] }
+tracing = { workspace = true }
+uuid = { workspace = true }
+
+[dev-dependencies]
+tokio = { workspace = true, features = ["macros", "rt-multi-thread", "time"] }
+
+[lints]
+workspace = true

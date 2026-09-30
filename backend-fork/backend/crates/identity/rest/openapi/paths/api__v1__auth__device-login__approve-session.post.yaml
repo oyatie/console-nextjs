@@ -1,0 +1,23 @@
+tags:
+  - auth
+operationId: approveDeviceLoginSession
+summary: Approve a desktop QR login from an authenticated phone session
+description: Phone-side approval used after first-time QR enrollment. The phone has redeemed the handoff OTP and enrolled
+  a passkey; this authenticated call links that phone-registered passkey back to the waiting desktop poll token.
+security:
+- bearerAuth: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/DeviceLoginApproveSessionRequest'
+responses:
+  '204':
+    description: The desktop handoff was approved from the authenticated phone session.
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '429':
+    $ref: '#/components/responses/TooManyRequests'

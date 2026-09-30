@@ -1,0 +1,13 @@
+tags: [Compliance]
+operationId: linkComplianceObligationRegulation
+summary: Create an audited obligation-to-regulation link
+description: Relation links are write-only in this catalog API; no relation-list route is implemented.
+security: [{ bearerAuth: [] }]
+requestBody: { required: true, content: { application/json: { schema: { $ref: '#/components/schemas/LinkObligationRegulationRequest' } } } }
+responses:
+  '200': { description: Created obligation-regulation link., content: { application/json: { schema: { $ref: '#/components/schemas/ObligationRegulationLink' } } } }
+  '401': { $ref: '#/components/responses/Unauthorized' }
+  '403': { $ref: '#/components/responses/Forbidden' }
+  '422': { $ref: '#/components/responses/ValidationError' }
+  '500': { $ref: '#/components/responses/InternalServerError' }
+  '503': { $ref: '#/components/responses/ServiceUnavailable' }

@@ -1,0 +1,38 @@
+tags:
+  - group-admin
+operationId: exitGroupAdminTenantContext
+summary: End a group-admin tenant context audit trail
+description: Records the group-admin tenant-context stop event for the selected member organization.
+security:
+- bearerAuth: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        required:
+        - org_id
+        properties:
+          org_id:
+            $ref: '#/components/schemas/Uuid'
+responses:
+  '200':
+    description: Group-admin tenant context ended.
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+          - ended
+          properties:
+            ended:
+              type: boolean
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '503':
+    $ref: '#/components/responses/ServiceUnavailable'

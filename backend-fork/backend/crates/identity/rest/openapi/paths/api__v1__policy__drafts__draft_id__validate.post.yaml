@@ -1,0 +1,30 @@
+operationId: validatePolicyDraft
+summary: Strict-validate a policy draft
+description: Strict-validates the draft's generated Cedar against the authoring schema and returns any errors. Does not activate
+  anything.
+tags:
+- Policy
+security:
+- bearerAuth: []
+parameters:
+- name: draft_id
+  in: path
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+responses:
+  '200':
+    description: Validation result.
+    content:
+      application/json:
+        schema:
+          type: object
+          additionalProperties: true
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '503':
+    $ref: '#/components/responses/ServiceUnavailable'

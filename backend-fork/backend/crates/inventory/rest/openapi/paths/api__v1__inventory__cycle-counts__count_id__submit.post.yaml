@@ -1,0 +1,7 @@
+tags: [inventory]
+operationId: submitInventoryCycleCount
+summary: Submit a nonempty DRAFT cycle count using optimistic version control
+security: [{ bearerAuth: [] }]
+parameters: [{ name: count_id, in: path, required: true, schema: { $ref: '#/components/schemas/Uuid' } }]
+requestBody: { required: true, content: { application/json: { schema: { $ref: '#/components/schemas/CycleCountVersionRequest' } } } }
+responses: { '200': { description: Submitted cycle count, content: { application/json: { schema: { $ref: '#/components/schemas/CycleCountDetail' } } } }, '401': { $ref: '#/components/responses/Unauthorized' }, '403': { $ref: '#/components/responses/Forbidden' }, '409': { $ref: '#/components/responses/Conflict' } }

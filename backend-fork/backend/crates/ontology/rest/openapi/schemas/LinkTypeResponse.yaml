@@ -1,0 +1,18 @@
+type: object
+description: A registered edge type (object-link relationship label).
+required:
+- link_type
+- description
+- status
+properties:
+  link_type:
+    type: string
+  description:
+    type: string
+  status:
+    type: string
+    description: Edge-type lifecycle state (draft, active, archived).
+    enum:
+    - draft
+    - active
+    - archived

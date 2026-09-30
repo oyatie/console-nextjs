@@ -1,0 +1,52 @@
+# MetalLB Helm values for Maintenance ADR-0024 on-prem VIP ingress staging.
+# The chosen provider is MetalLB in layer-2 mode. This file is inert until the
+# dark Argo Application in this directory is manually applied and synced.
+
+rbac:
+  # MetalLB needs ClusterRole/ClusterRoleBinding plus namespaced service accounts;
+  # keep RBAC chart-owned instead of hand-rolling partial permissions here.
+  create: true
+
+crds:
+  enabled: true
+  validationFailurePolicy: Fail
+
+controller:
+  enabled: true
+  logLevel: info
+  resources:
+    requests: { cpu: 50m, memory: 64Mi }
+    limits: { memory: 192Mi }
+
+speaker:
+  enabled: true
+  logLevel: info
+  # L2 mode does not need an FRR sidecar. Leave BGP/FRR disabled unless the final
+  # on-prem fabric lacks a shared L2 segment and issue #377 records router peers,
+  # ASNs, and Cilium/BGP ownership boundaries.
+  frr:
+    enabled: false
+  resources:
+    requests: { cpu: 50m, memory: 64Mi }
+    limits: { memory: 192Mi }
+
+# MetalLB 0.16 defaults to the frr-k8s BGP backend. The initial ADR-0024 VIP path
+# is L2, so do not stage BGP controllers or FRR-K8s until the fallback is chosen.
+frrk8s:
+  enabled: false
+
+prometheus:
+  scrapeAnnotations: false
+  rbacPrometheus: false
+  podMonitor:
+    enabled: false
+  serviceMonitor:
+    enabled: false
+  prometheusRule:
+    enabled: false
+
+# Do not assume Cilium/NetworkPolicy enforcement is live when this dark app first
+# renders. Add MetalLB network policies in a later activation lane after the CNI
+# substrate and namespace policy model are verified.
+networkpolicies:
+  enabled: false

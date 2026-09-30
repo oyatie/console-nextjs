@@ -1,0 +1,7 @@
+tags: [inventory]
+operationId: receiveInventoryItem
+summary: Idempotently record a positive receipt and its before delta after ledger row
+security: [{ bearerAuth: [] }]
+parameters: [{ name: item_id, in: path, required: true, schema: { $ref: '#/components/schemas/Uuid' } }]
+requestBody: { required: true, content: { application/json: { schema: { $ref: '#/components/schemas/RecordInventoryReceiptRequest' } } } }
+responses: { '200': { description: Receipt result, content: { application/json: { schema: { $ref: '#/components/schemas/InventoryReceiptResult' } } } }, '401': { $ref: '#/components/responses/Unauthorized' }, '403': { $ref: '#/components/responses/Forbidden' }, '404': { $ref: '#/components/responses/NotFound' }, '409': { $ref: '#/components/responses/Conflict' }, '422': { $ref: '#/components/responses/ValidationError' } }

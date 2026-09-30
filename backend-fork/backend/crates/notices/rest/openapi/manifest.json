@@ -1,0 +1,41 @@
+{
+  "source": "console-notices-rest",
+  "paths": {
+    "/api/v1/notices": [
+      "get",
+      "post"
+    ],
+    "/api/v1/notices/{id}": [
+      "get",
+      "patch"
+    ],
+    "/api/v1/notices/{id}/ack": [
+      "post"
+    ],
+    "/api/v1/notices/{id}/progress": [
+      "get"
+    ],
+    "/api/v1/notices/{id}/publish": [
+      "post"
+    ],
+    "/api/v1/notices/{id}/receipts": [
+      "get"
+    ]
+  },
+  "schemas": [
+    "CreateNoticeDraftRequest",
+    "NoticeAudienceInput",
+    "NoticeCategory",
+    "NoticeMyReceipt",
+    "NoticeProgress",
+    "NoticeReceipt",
+    "NoticeReceiptPage",
+    "NoticeSummary",
+    "UpdateNoticeDraftRequest"
+  ],
+  "external_schemas": [
+    "NamedEntity",
+    "Timestamp",
+    "Uuid"
+  ]
+}

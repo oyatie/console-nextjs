@@ -1,0 +1,10 @@
+oneOf:
+- $ref: '#/components/schemas/ProductionDemandIngress'
+- $ref: '#/components/schemas/ProductionCapacityIngress'
+- $ref: '#/components/schemas/ProductionMaterialIngress'
+discriminator:
+  propertyName: kind
+  mapping:
+    demand: '#/components/schemas/ProductionDemandIngress'
+    capacity: '#/components/schemas/ProductionCapacityIngress'
+    material: '#/components/schemas/ProductionMaterialIngress'

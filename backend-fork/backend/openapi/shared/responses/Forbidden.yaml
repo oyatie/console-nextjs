@@ -1,0 +1,5 @@
+      description: Principal lacks role or branch authority.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorBody'

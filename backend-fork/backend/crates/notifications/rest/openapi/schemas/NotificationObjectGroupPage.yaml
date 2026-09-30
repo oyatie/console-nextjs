@@ -1,0 +1,14 @@
+type: object
+required:
+- items
+- next_cursor
+properties:
+  items:
+    type: array
+    items:
+      $ref: '#/components/schemas/NotificationObjectGroup'
+  next_cursor:
+    type:
+    - string
+    - 'null'
+    description: Opaque keyset cursor for the next page; null at the end.

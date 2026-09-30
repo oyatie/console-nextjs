@@ -1,0 +1,21 @@
+tags:
+  - storefront
+operationId: storefrontGetListing
+summary: Read one public sales listing (#6)
+description: Public, unauthenticated read of a single storefront-visible listing. Returns 404 if the listing does not
+  exist or is not public.
+parameters:
+- name: id
+  in: path
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+responses:
+  '200':
+    description: The sales listing.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/SalesListingView'
+  '404':
+    $ref: '#/components/responses/NotFound'

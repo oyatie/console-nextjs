@@ -1,0 +1,3 @@
+type: object
+required: [name]
+properties: { name: { type: string }, size: { type: string, nullable: true } }

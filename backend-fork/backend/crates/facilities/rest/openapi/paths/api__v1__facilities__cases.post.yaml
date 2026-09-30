@@ -1,0 +1,14 @@
+tags: [facilities]
+operationId: createDueFacilitiesCase
+summary: Create or replay an idempotent due facilities case
+security: [{ bearerAuth: [] }]
+requestBody: { required: true, content: { application/json: { schema: { $ref: '#/components/schemas/FacilitiesDueCaseRequest' } } } }
+responses:
+  '200': { description: Newly created case or the prior idempotent result, content: { application/json: { schema: { $ref: '#/components/schemas/FacilitiesCase' } } } }
+  '401': { $ref: '#/components/responses/Unauthorized' }
+  '403': { $ref: '#/components/responses/Forbidden' }
+  '404': { $ref: '#/components/responses/NotFound' }
+  '409': { $ref: '#/components/responses/Conflict' }
+  '422': { $ref: '#/components/responses/ValidationError' }
+  '500': { $ref: '#/components/responses/InternalServerError' }
+  '503': { $ref: '#/components/responses/ServiceUnavailable' }

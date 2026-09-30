@@ -1,0 +1,47 @@
+type: object
+description: ABAC/PBAC condition metadata attached to a custom policy role. These constraints are persisted for audit
+  and preview. Runtime evaluation supports data-backed branch narrowing and team matching; unsupported ABAC/PBAC attributes
+  remain visible but fail closed until implemented.
+required:
+- condition_key
+- attribute
+- operator
+- values
+properties:
+  condition_key:
+    type: string
+    pattern: ^[a-z][a-z0-9_]{1,63}$
+  attribute:
+    type: string
+    enum:
+    - group
+    - tenant
+    - organization
+    - org
+    - department
+    - team
+    - position
+    - employment_status
+    - assignment
+    - location
+    - site
+    - branch
+    - device_posture
+    - purpose
+    - action
+    - resource
+    - sensitive_action
+  operator:
+    type: string
+    enum:
+    - equals
+    - not_equals
+    - in
+  values:
+    type: array
+    minItems: 1
+    maxItems: 20
+    items:
+      type: string
+      minLength: 1
+      maxLength: 120

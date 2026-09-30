@@ -1,0 +1,7 @@
+tags: [logistics]
+operationId: settleLogisticsOperationalCost
+summary: Settle one KRW operational transport cost; no finance or GL posting
+security: [{ bearerAuth: [] }]
+parameters: [{ name: shipment_id, in: path, required: true, schema: { $ref: '#/components/schemas/Uuid' } }]
+requestBody: { required: true, content: { application/json: { schema: { type: object, additionalProperties: false, required: [branchId, currencyCode, amountMinor, settledAt], properties: { branchId: { $ref: '#/components/schemas/Uuid' }, currencyCode: { type: string, enum: [KRW] }, amountMinor: { type: integer, format: int64, minimum: 0 }, settledAt: { $ref: '#/components/schemas/LogisticsTimeTuple' } } } } } }
+responses: { '200': { description: Operational cost settled, content: { application/json: { schema: { $ref: '#/components/schemas/LogisticsShipmentSettlement' } } } }, '409': { description: Verified POD required } }

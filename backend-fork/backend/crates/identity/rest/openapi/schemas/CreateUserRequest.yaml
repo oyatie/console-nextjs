@@ -1,0 +1,25 @@
+type: object
+required:
+- display_name
+properties:
+  display_name:
+    type: string
+  employee_id:
+    type:
+    - string
+    - 'null'
+    format: uuid
+  phone:
+    type:
+    - string
+    - 'null'
+  team:
+    $ref: '#/components/schemas/Team'
+  roles:
+    type: array
+    items:
+      type: string
+  branch_ids:
+    type: array
+    items:
+      $ref: '#/components/schemas/Uuid'

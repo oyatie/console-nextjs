@@ -1,0 +1,190 @@
+{
+  "source": "console-orgchange-rest",
+  "paths": {
+    "/api/v1/employees": [
+      "get",
+      "post"
+    ],
+    "/api/v1/employees/export.csv": [
+      "get"
+    ],
+    "/api/v1/employees/import": [
+      "post"
+    ],
+    "/api/v1/employees/import/preview": [
+      "post"
+    ],
+    "/api/v1/employees/import/{run_id}/apply": [
+      "post"
+    ],
+    "/api/v1/employees/import/{run_id}/dry-run": [
+      "post"
+    ],
+    "/api/v1/employees/{id}": [
+      "get"
+    ],
+    "/api/v1/employees/{id}/home-branch": [
+      "put"
+    ],
+    "/api/v1/employees/{id}/lifecycle-events": [
+      "get",
+      "post"
+    ],
+    "/api/v1/hr/absence-exit-dashboard": [
+      "get"
+    ],
+    "/api/v1/hr/attendance-import/preview": [
+      "post"
+    ],
+    "/api/v1/hr/attendance-import/summary": [
+      "get"
+    ],
+    "/api/v1/hr/attendance-import/{run_id}/apply": [
+      "post"
+    ],
+    "/api/v1/hr/attendance-import/{run_id}/dry-run": [
+      "post"
+    ],
+    "/api/v1/hr/attendance-records": [
+      "get"
+    ],
+    "/api/v1/hr/attendance-records/me": [
+      "get",
+      "post"
+    ],
+    "/api/v1/hr/attendance-summary": [
+      "get"
+    ],
+    "/api/v1/hr/exit-cases": [
+      "post"
+    ],
+    "/api/v1/hr/exit-cases/{id}/approval-draft": [
+      "post"
+    ],
+    "/api/v1/hr/exit-cases/{id}/confirm": [
+      "post"
+    ],
+    "/api/v1/hr/leave-balances": [
+      "get"
+    ],
+    "/api/v1/hr/org-chart": [
+      "get"
+    ],
+    "/api/v1/hr/readiness-summary": [
+      "get"
+    ],
+    "/api/v1/org-changes": [
+      "get",
+      "post"
+    ],
+    "/api/v1/org-changes/{id}": [
+      "get",
+      "patch"
+    ],
+    "/api/v1/org-changes/{id}/approval-steps/{stepId}/decision": [
+      "post"
+    ],
+    "/api/v1/org-changes/{id}/archive": [
+      "post"
+    ],
+    "/api/v1/org-changes/{id}/cancel": [
+      "post"
+    ],
+    "/api/v1/org-changes/{id}/effectuate": [
+      "post"
+    ],
+    "/api/v1/org-changes/{id}/preflight": [
+      "post"
+    ],
+    "/api/v1/org-changes/{id}/settlement-items/{itemId}/complete": [
+      "post"
+    ],
+    "/api/v1/org-changes/{id}/submit": [
+      "post"
+    ],
+    "/api/v1/org-entities": [
+      "get"
+    ]
+  },
+  "schemas": [
+    "AttendanceImportApplyReport",
+    "AttendanceImportColumn",
+    "AttendanceImportDryRunSummary",
+    "AttendanceImportPreviewResponse",
+    "AttendanceImportPreviewRow",
+    "AttendanceImportRowError",
+    "AttendanceImportSummaryItem",
+    "AttendanceImportSummaryPage",
+    "AttendanceRecordKind",
+    "AttendanceSummaryItem",
+    "AttendanceSummaryPage",
+    "CancelOrgChangeRequest",
+    "CompleteOrgChangeSettlementItemRequest",
+    "CreateEmployeeAttendanceRecordRequest",
+    "CreateEmployeeLifecycleEventRequest",
+    "CreateEmployeeRequest",
+    "CreateOrgChangeRequest",
+    "Employee",
+    "EmployeeAttendanceRecord",
+    "EmployeeAttendanceRecordPage",
+    "EmployeeDetail",
+    "EmployeeEmploymentDetail",
+    "EmployeeHomeBranch",
+    "EmployeeImportColumn",
+    "EmployeeImportCompanySummary",
+    "EmployeeImportDryRunSummary",
+    "EmployeeImportPreviewResponse",
+    "EmployeeImportPreviewRow",
+    "EmployeeImportReport",
+    "EmployeeLifecycleEvent",
+    "EmployeeLifecycleEventPage",
+    "EmployeeLifecycleSignoffs",
+    "EmployeePage",
+    "HrOrgChartCompany",
+    "HrOrgChartEmployee",
+    "HrOrgChartPosition",
+    "HrOrgChartResponse",
+    "HrOrgChartUnit",
+    "ImportApplyRequest",
+    "LeaveBalanceItem",
+    "LeaveBalancePage",
+    "LeaveBalanceSummary",
+    "OrgChangeApprovalRoleKey",
+    "OrgChangeApprovalStep",
+    "OrgChangeDecisionRequest",
+    "OrgChangeDetail",
+    "OrgChangeEvent",
+    "OrgChangeKind",
+    "OrgChangePage",
+    "OrgChangePreflightBlocker",
+    "OrgChangePreflightReport",
+    "OrgChangePreflightWarning",
+    "OrgChangeSettlementItem",
+    "OrgChangeSettlementKey",
+    "OrgChangeStatus",
+    "OrgChangeStepDecision",
+    "OrgChangeSummary",
+    "OrgChangeTarget",
+    "OrgChangeTargetKind",
+    "OrgEntitySummary",
+    "OrgProposalOp",
+    "OrgProposalOpCreateBranch",
+    "OrgProposalOpCreateRegion",
+    "OrgProposalOpCreateSite",
+    "OrgProposalOpDeactivateBranch",
+    "OrgProposalOpDeactivateRegion",
+    "OrgProposalOpReassignOrgUnit",
+    "OrgProposalOpRenameBranch",
+    "OrgProposalOpRenameRegion",
+    "OrgProposalOpUpdateSite",
+    "OrgProposalReassignScope",
+    "SetEmployeeHomeBranchRequest",
+    "UpdateOrgChangeDraftRequest"
+  ],
+  "external_schemas": [
+    "Date",
+    "ErrorBody",
+    "Timestamp",
+    "Uuid"
+  ]
+}

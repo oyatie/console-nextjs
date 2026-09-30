@@ -1,0 +1,15 @@
+type: object
+required:
+- value
+- count
+- filters
+properties:
+  value:
+    type: string
+  count:
+    type: integer
+    format: int64
+  filters:
+    type: object
+    additionalProperties:
+      type: string

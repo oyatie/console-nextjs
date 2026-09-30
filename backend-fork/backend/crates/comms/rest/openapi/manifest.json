@@ -1,0 +1,93 @@
+{
+  "source": "console-comms-rest",
+  "paths": {
+    "/api/v1/collaboration/calendar/events": [
+      "get",
+      "post"
+    ],
+    "/api/v1/collaboration/polls": [
+      "get",
+      "post"
+    ],
+    "/api/v1/collaboration/polls/{id}/vote": [
+      "post"
+    ],
+    "/api/v1/mail/account": [
+      "get",
+      "put"
+    ],
+    "/api/v1/mail/account/test": [
+      "post"
+    ],
+    "/api/v1/mail/attachments/{id}/download": [
+      "get"
+    ],
+    "/api/v1/mail/folders": [
+      "get"
+    ],
+    "/api/v1/mail/forward": [
+      "post"
+    ],
+    "/api/v1/mail/messages/{id}": [
+      "get"
+    ],
+    "/api/v1/mail/reply": [
+      "post"
+    ],
+    "/api/v1/mail/send": [
+      "post"
+    ],
+    "/api/v1/mail/threads": [
+      "get"
+    ],
+    "/api/v1/mail/threads/{id}": [
+      "get"
+    ],
+    "/api/v1/mail/threads/{id}/read-state": [
+      "patch"
+    ],
+    "/api/v1/mobile/collaboration/polls/{id}/vote": [
+      "post"
+    ]
+  },
+  "schemas": [
+    "CalendarEventListResponse",
+    "CalendarEventResponse",
+    "CalendarEventStatus",
+    "CollaborationScopePolicy",
+    "CollaborationScopeType",
+    "ConfigureMailAccountRequest",
+    "CreateCalendarEventRequest",
+    "CreatePollRequest",
+    "MailAccountView",
+    "MailAddress",
+    "MailAttachment",
+    "MailAttachmentDownload",
+    "MailAttachmentView",
+    "MailFolderView",
+    "MailMessageView",
+    "MailSecurity",
+    "MailTestConnectionResult",
+    "MailThreadDetail",
+    "MailThreadReadStateRequest",
+    "MailThreadView",
+    "MobileVotePollRequest",
+    "PollAnonymity",
+    "PollListResponse",
+    "PollMyVote",
+    "PollOptionResponse",
+    "PollResponse",
+    "PollStatus",
+    "SendMailRequest",
+    "SendMailResult",
+    "VotePollRequest"
+  ],
+  "external_schemas": [
+    "MobilePasskeyStepUpBinding",
+    "MobilePasskeyStepUpEnvelope",
+    "MobileStepUpActionKind",
+    "PasskeyStepUpAssertion",
+    "Timestamp",
+    "Uuid"
+  ]
+}

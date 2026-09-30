@@ -1,0 +1,6 @@
+type: object
+required: [id, label, kind]
+properties:
+  id: { type: string, format: uuid }
+  label: { type: string }
+  kind: { type: string, enum: [automation, policy] }

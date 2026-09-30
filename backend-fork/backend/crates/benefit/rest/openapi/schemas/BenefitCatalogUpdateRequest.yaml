@@ -1,0 +1,20 @@
+type: object
+description: Mutable catalog fields only; tenant, actor, identifiers, and lifecycle state are server-owned.
+additionalProperties: false
+properties:
+  category: { type: string, enum: [legal, extra] }
+  name: { type: string, minLength: 1 }
+  scope: { $ref: '#/components/schemas/BenefitCatalogScope' }
+  coverageLabel: { type: string }
+  coveredCount: { type: integer, nullable: true }
+  costLabel: { type: string }
+  estimatedAnnualCostWon: { type: integer, format: int64, nullable: true }
+  employerRateBps: { type: integer, nullable: true }
+  note: { type: string, nullable: true }
+  legalBasis: { type: string, nullable: true }
+  relatedDomain: { type: string, nullable: true }
+  relatedObjectId: { $ref: '#/components/schemas/Uuid', nullable: true }
+  effectiveOn: { type: string, format: date, nullable: true }
+  retiresOn: { type: string, format: date, nullable: true }
+  displayOrder: { type: integer }
+  metadata: { type: object, additionalProperties: true }

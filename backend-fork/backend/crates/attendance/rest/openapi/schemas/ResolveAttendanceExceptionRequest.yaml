@@ -1,0 +1,4 @@
+type: object
+additionalProperties: false
+required: [action, reason]
+properties: { action: { type: string }, reason: { type: string }, linked_work_ref: { type: string, nullable: true }, ot_hours: { type: number, nullable: true } }

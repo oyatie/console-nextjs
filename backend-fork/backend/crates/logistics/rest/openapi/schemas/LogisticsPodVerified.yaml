@@ -1,0 +1,7 @@
+type: object
+required: [id, status, recipientConfirmedEvidenceReference, slaAssessment]
+properties:
+  id: { $ref: '#/components/schemas/Uuid' }
+  status: { type: string, enum: [DELIVERED] }
+  recipientConfirmedEvidenceReference: { type: string }
+  slaAssessment: { type: string, enum: [MET, BREACHED] }

@@ -1,0 +1,9 @@
+tags: [Ontology]
+operationId: resolveInstanceByCode
+security:
+  - bearerAuth: []
+parameters:
+  - { name: code, in: query, required: true, schema: { type: string } }
+responses:
+  '200': { description: resolved, content: { application/json: { schema: { $ref: '#/components/schemas/ResolvedInstance' } } } }
+  '404': { description: no instance resolves that code (deny-by-omission — also cross-tenant) }

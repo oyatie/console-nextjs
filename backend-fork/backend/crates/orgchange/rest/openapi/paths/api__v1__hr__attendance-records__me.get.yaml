@@ -1,0 +1,36 @@
+tags:
+  - hr
+operationId: listMyEmployeeAttendanceRecords
+summary: List the signed-in employee's attendance records
+description: Returns only records for the employee row explicitly linked to the authenticated user account.
+security:
+- bearerAuth: []
+parameters:
+- name: limit
+  in: query
+  required: false
+  schema:
+    type: integer
+    format: int64
+    minimum: 1
+    maximum: 1000
+    default: 500
+- name: offset
+  in: query
+  required: false
+  schema:
+    type: integer
+    format: int64
+    minimum: 0
+    default: 0
+responses:
+  '200':
+    description: Self-service attendance records and payroll material refs.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/EmployeeAttendanceRecordPage'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'

@@ -1,0 +1,16 @@
+type: object
+required:
+- subject
+- action
+- resource
+properties:
+  subject:
+    $ref: '#/components/schemas/PolicySimSubject'
+  action:
+    type: string
+  resource:
+    $ref: '#/components/schemas/PolicySimResource'
+  purpose:
+    type: string
+  field:
+    type: string

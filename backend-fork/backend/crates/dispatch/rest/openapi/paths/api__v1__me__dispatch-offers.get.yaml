@@ -1,0 +1,27 @@
+tags:
+  - me
+operationId: listMyDispatchOffers
+summary: List the authenticated mechanic's pending P1 dispatch offers
+description: >-
+  BROADCASTING dispatches that fanned out to the caller as a TECHNICIAN,
+  still inside the accept window, with no response from the caller yet.
+  Person-scoped by construction (deny-by-omission): a caller only ever
+  sees offers addressed to them. Respond via
+  /api/v1/p1-dispatches/{dispatchId}/responses.
+security:
+- bearerAuth: []
+responses:
+  '200':
+    description: The caller's pending dispatch offers.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/MyDispatchOfferPage'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '503':
+    description: JWT verification is not configured.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ErrorBody'

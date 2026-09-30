@@ -1,0 +1,26 @@
+      type: object
+      required:
+      - error
+      properties:
+        error:
+          type: object
+          required:
+          - code
+          - message
+          properties:
+            code:
+              type: string
+            message:
+              type: string
+            operation_id:
+              $ref: '#/components/schemas/Uuid'
+              description: Present when an operation has an uncertain admission or external outcome.
+            reasons:
+              type: array
+              items:
+                type: string
+              description: Stable machine-readable reasons for review-required conflicts, when applicable.
+            current_key_write_revision:
+              type: integer
+              format: int64
+              minimum: 1

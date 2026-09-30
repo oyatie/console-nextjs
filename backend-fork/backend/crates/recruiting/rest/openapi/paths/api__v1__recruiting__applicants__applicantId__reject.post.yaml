@@ -1,0 +1,35 @@
+tags:
+- recruiting
+operationId: rejectRecruitApplicant
+summary: Reject with an enum reason — archives the applicant into the talent pool
+security:
+- bearerAuth: []
+parameters:
+- name: applicantId
+  in: path
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/RejectRecruitApplicantRequest'
+responses:
+  '200':
+    description: The rejected applicant.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/RecruitApplicant'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '409':
+    $ref: '#/components/responses/Conflict'
+  '422':
+    $ref: '#/components/responses/ValidationError'

@@ -1,0 +1,25 @@
+tags:
+  - devices
+operationId: registerMobileDevice
+summary: Register or refresh a mobile device binding
+security:
+- bearerAuth: []
+parameters:
+- $ref: '#/components/parameters/XDeviceId'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/DeviceRegistrationRequest'
+responses:
+  '200':
+    description: Registered device binding.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/DeviceRegistrationResponse'
+  '400':
+    $ref: '#/components/responses/ValidationError'
+  '401':
+    $ref: '#/components/responses/Unauthorized'

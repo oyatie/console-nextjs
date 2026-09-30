@@ -1,0 +1,12 @@
+type: object
+required:
+- items
+- limit
+properties:
+  items:
+    type: array
+    items:
+      $ref: '#/components/schemas/EquipmentLookupResponse'
+  limit:
+    type: integer
+    format: int64

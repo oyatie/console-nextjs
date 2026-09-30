@@ -1,0 +1,33 @@
+type: object
+required:
+- id
+- definition_id
+- version
+- status
+- action
+- actor_display_name
+- summary
+- created_at
+properties:
+  id:
+    $ref: '#/components/schemas/Uuid'
+  definition_id:
+    $ref: '#/components/schemas/Uuid'
+  version:
+    type:
+    - integer
+    - 'null'
+    format: int32
+  status:
+    type: string
+  action:
+    type: string
+  actor_display_name:
+    type:
+    - string
+    - 'null'
+  summary:
+    type: string
+  created_at:
+    type: string
+    format: date-time

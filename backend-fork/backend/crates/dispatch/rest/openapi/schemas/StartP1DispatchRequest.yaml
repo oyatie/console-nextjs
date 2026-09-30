@@ -1,0 +1,7 @@
+type: object
+properties:
+  incident_location:
+    $ref: '#/components/schemas/IncidentLocation'
+  include_region:
+    type: boolean
+    default: false

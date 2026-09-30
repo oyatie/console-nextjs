@@ -1,0 +1,16 @@
+type: object
+required:
+- policy_version
+- system_roles
+- custom_roles
+properties:
+  policy_version:
+    $ref: '#/components/schemas/PolicyVersionResponse'
+  system_roles:
+    type: array
+    items:
+      $ref: '#/components/schemas/SystemPolicyRoleResponse'
+  custom_roles:
+    type: array
+    items:
+      $ref: '#/components/schemas/PolicyRoleResponse'

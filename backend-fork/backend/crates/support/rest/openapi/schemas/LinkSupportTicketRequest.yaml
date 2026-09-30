@@ -1,0 +1,14 @@
+type: object
+description: At least one of site_id / work_order_id must be present. An absent field leaves that link untouched; an
+  explicit null clears it.
+properties:
+  site_id:
+    type:
+    - string
+    - 'null'
+    format: uuid
+  work_order_id:
+    type:
+    - string
+    - 'null'
+    format: uuid

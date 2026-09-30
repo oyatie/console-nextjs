@@ -1,0 +1,36 @@
+operationId: decideGovernanceApproval
+summary: Decide a four-eyes approval that is already open (step 2 of 2)
+description: >-
+  Decides a four-eyes request that MUST already be open. Step 1 is POST /api/v1/governance/approvals for the
+  same request_ref; deciding without it is a 409, not an implicit create. The open row — not the request body —
+  is authority for the requester and for the object the approval binds to. 409 when no open pending request
+  exists for request_ref, and 409 when kind differs from the kind that request was opened with. 403 when the
+  approver is that row's recorded requester (self-approval).
+tags:
+- Governance
+security:
+- bearerAuth: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/GovernanceDecideApprovalRequest'
+responses:
+  '201':
+    description: Approval decision recorded.
+    content:
+      application/json:
+        schema:
+          type: object
+          additionalProperties: true
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '409':
+    $ref: '#/components/responses/Conflict'
+  '422':
+    $ref: '#/components/responses/ValidationError'
+  '503':
+    $ref: '#/components/responses/ServiceUnavailable'

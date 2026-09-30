@@ -1,0 +1,21 @@
+type: object
+required:
+- access_token
+- token_type
+- refresh_expires_at
+- requires_passkey_setup
+properties:
+  access_token:
+    type: string
+  refresh_token:
+    type: string
+    nullable: true
+    description: The opaque rotating refresh token in the body transport (mobile). It is null in the cookie transport
+      (web), where the token is set as an HttpOnly `console_refresh` cookie and must never reach web JS.
+  token_type:
+    type: string
+  refresh_expires_at:
+    $ref: '#/components/schemas/Timestamp'
+  requires_passkey_setup:
+    type: boolean
+    description: True when the signed-in user has no passkey yet and should enroll one in initial settings.

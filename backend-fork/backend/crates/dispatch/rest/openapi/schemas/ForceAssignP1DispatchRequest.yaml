@@ -1,0 +1,6 @@
+type: object
+required:
+- mechanic_id
+properties:
+  mechanic_id:
+    $ref: '#/components/schemas/Uuid'

@@ -1,0 +1,3 @@
+type: object
+required: [itemId, ivCode, displayName, unitCode, quantityOnHandMilli, safetyStockMilli, inboundExpectedMilli, reservedOutboundMilli, monthlyUsageMilli, short, proposedOrderMilli]
+properties: { itemId: { $ref: '#/components/schemas/Uuid' }, ivCode: { type: string }, displayName: { type: string }, unitCode: { type: string }, quantityOnHandMilli: { type: integer, format: int64 }, safetyStockMilli: { type: integer, format: int64 }, inboundExpectedMilli: { type: integer, format: int64 }, reservedOutboundMilli: { type: integer, format: int64 }, monthlyUsageMilli: { type: integer, format: int64 }, coverMonthsCenti: { type: integer, format: int64, nullable: true }, short: { type: boolean }, proposedOrderMilli: { type: integer, format: int64 } }

@@ -1,0 +1,80 @@
+tags:
+- payroll
+operationId: getEmployeePayslipDraft
+summary: 4대보험 급여명세서 draft for one employee and period (audited read)
+description: >
+  Read-only. Computes 국민연금·건강보험·장기요양·고용보험 from the contract
+  wage in force on `payDate`. Every figure carries its instrument, article
+  and 시행일자.
+
+
+  The period's real attendance is read and GATES the draft; it drives no
+  figure. Nothing here is prorated by attendance. Recorded working days
+  short of the period's working days — including zero 근태기록 — or a
+  CLOCK_IN count that does not match its CLOCK_OUT count adds
+  `ATTENDANCE_INCOMPLETE` (with the counts) to `blockers[]` and forces
+  `issuable: false`. A draft must not read as a full month on a month
+  nobody evidenced.
+
+
+  ASSERTS NO LEGAL COMPLIANCE. 원천징수 (소득세·지방소득세) is deliberately
+  NOT computed: `not_computed[]` names 소득세법 시행령 별표 2 as the
+  instrument that would supply it, `net_pay_won` is null, and `issuable` is
+  false. A deduction this engine did not compute is never emitted as a zero.
+
+
+  산재보험 appears with `employer_only: true` and a null employee amount
+  (징수법 제13조제5항), so its absence from the deduction total is stated
+  rather than silent. Its `total_won`, `basis_won`, `rate_num` and
+  `rate_den` are null too, not 0: the 사업종류별 요율 lives in 고용노동부고시
+  제2025-91호's un-ingested 별지, so the employer figures are unknown rather
+  than zero.
+
+
+  Where a rounding unit is not settled by any instrument read, the engine
+  computes every candidate and emits the won only if they agree; otherwise
+  the component carries `blocked_by` with the open question id and the
+  totals are null. Returns 200 in that case, not 409, so the caller can
+  see which question blocked which line.
+security:
+- bearerAuth: []
+parameters:
+- name: employeeId
+  in: path
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+- name: period
+  in: query
+  required: true
+  description: 급여계산기간, `YYYY-MM`.
+  schema:
+    type: string
+    pattern: '^[0-9]{4}-[0-9]{2}$'
+- name: pay_date
+  in: query
+  required: false
+  description: >
+    지급일. Defaults to the period end. A SEPARATE input from the period on
+    purpose: the pay date selects both the rate row and the 기준소득월액
+    band, so a June period paid in July must not reuse the June band.
+  schema:
+    type: string
+    format: date
+responses:
+  '200':
+    description: >
+      The draft, including blockers. Also returned when the draft is not
+      issuable — the blocker list is the payload.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/PayrollPayslipDraft'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '422':
+    $ref: '#/components/responses/ValidationError'

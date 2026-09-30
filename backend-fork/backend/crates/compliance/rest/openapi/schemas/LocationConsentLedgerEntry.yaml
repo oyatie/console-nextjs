@@ -1,0 +1,40 @@
+type: object
+required:
+- id
+- consent_id
+- user_id
+- branch_id
+- action
+- from_status
+- to_status
+- occurred_at
+- created_at
+properties:
+  id:
+    $ref: '#/components/schemas/Uuid'
+  consent_id:
+    $ref: '#/components/schemas/Uuid'
+  user_id:
+    $ref: '#/components/schemas/Uuid'
+  branch_id:
+    $ref: '#/components/schemas/Uuid'
+  actor:
+    type:
+    - string
+    - 'null'
+    format: uuid
+  action:
+    type: string
+    enum:
+    - consent.grant
+    - consent.suspend
+    - consent.resume
+    - consent.withdraw
+  from_status:
+    $ref: '#/components/schemas/LocationConsentState'
+  to_status:
+    $ref: '#/components/schemas/LocationConsentState'
+  occurred_at:
+    $ref: '#/components/schemas/Timestamp'
+  created_at:
+    $ref: '#/components/schemas/Timestamp'

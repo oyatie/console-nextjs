@@ -1,0 +1,111 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: imessage-relay
+  namespace: console
+  labels: { app: imessage-relay }
+  annotations:
+    console.knllogistic.com/deployment-owner: non-oci-talos
+    console.knllogistic.com/mac-bridge-required: "macOS Messages bridge"
+    console.knllogistic.com/bridge-private-auth: "mTLS, VPN, or private endpoint"
+    console.knllogistic.com/image-contract: "non-OCI overlay must replace placeholder with signed immutable digest"
+    console.knllogistic.com/secret-contract: "relay image must read *_TOKEN_FILE paths; tokens are mounted as files, not env values"
+spec:
+  replicas: 1
+  selector:
+    matchLabels: { app: imessage-relay }
+  strategy:
+    type: RollingUpdate
+    rollingUpdate: { maxUnavailable: 0, maxSurge: 1 }
+  template:
+    metadata:
+      labels: { app: imessage-relay }
+      annotations:
+        console.knllogistic.com/bridge-note: "Talos hosts only the relay/proxy; iMessage runs on a macOS Messages bridge reached over mTLS/VPN/private endpoint."
+    spec:
+      automountServiceAccountToken: false
+      terminationGracePeriodSeconds: 10
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 10001
+        runAsGroup: 10001
+        fsGroup: 10001
+        seccompProfile: { type: RuntimeDefault }
+      containers:
+        - name: imessage-relay
+          image: registry.invalid/knllogistic/console-imessage-relay@sha256:0000000000000000000000000000000000000000000000000000000000000000
+          ports:
+            - { name: http, containerPort: 8080, protocol: TCP }
+          env:
+            - name: IMESSAGE_RELAY_DRIVER
+              value: messages-host
+            - name: IMESSAGE_RELAY_HOST
+              value: 0.0.0.0
+            - name: IMESSAGE_RELAY_PORT
+              value: "8080"
+            - name: IMESSAGE_RELAY_RECIPIENT_SOURCE
+              value: static
+            - name: IMESSAGE_RELAY_ALLOWED_RECIPIENTS
+              valueFrom:
+                secretKeyRef: { name: imessage-relay-secrets, key: allowed-recipients }
+            - name: IMESSAGE_RELAY_TOKEN_FILE
+              value: /var/run/imessage-relay/secrets/relay-token
+            - name: MESSAGES_BRIDGE_URL
+              valueFrom:
+                secretKeyRef: { name: imessage-relay-secrets, key: messages-bridge-url }
+            - name: MESSAGES_BRIDGE_TOKEN_FILE
+              value: /var/run/imessage-relay/secrets/messages-bridge-token
+            - name: MESSAGES_BRIDGE_TLS_CA
+              value: /var/run/imessage-relay/bridge-mtls/ca.crt
+            - name: MESSAGES_BRIDGE_TLS_CERT
+              value: /var/run/imessage-relay/bridge-mtls/tls.crt
+            - name: MESSAGES_BRIDGE_TLS_KEY
+              value: /var/run/imessage-relay/bridge-mtls/tls.key
+          volumeMounts:
+            - name: relay-secrets
+              mountPath: /var/run/imessage-relay/secrets
+              readOnly: true
+            - name: bridge-mtls
+              mountPath: /var/run/imessage-relay/bridge-mtls
+              readOnly: true
+          readinessProbe:
+            httpGet: { path: /healthz, port: http }
+            periodSeconds: 5
+            timeoutSeconds: 2
+          livenessProbe:
+            httpGet: { path: /healthz, port: http }
+            periodSeconds: 15
+            timeoutSeconds: 2
+          resources:
+            requests: { cpu: 25m, memory: 96Mi }
+            limits: { cpu: 100m, memory: 192Mi }
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities: { drop: [ALL] }
+      volumes:
+        - name: relay-secrets
+          secret:
+            secretName: imessage-relay-secrets
+            items:
+              - { key: relay-token, path: relay-token }
+              - { key: messages-bridge-token, path: messages-bridge-token }
+        - name: bridge-mtls
+          secret:
+            secretName: imessage-relay-secrets
+            items:
+              - { key: bridge-ca.crt, path: ca.crt }
+              - { key: bridge-client.crt, path: tls.crt }
+              - { key: bridge-client.key, path: tls.key }
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: imessage-relay
+  namespace: console
+  labels: { app: imessage-relay }
+spec:
+  type: ClusterIP
+  selector: { app: imessage-relay }
+  ports:
+    - { name: http, port: 8080, targetPort: http }

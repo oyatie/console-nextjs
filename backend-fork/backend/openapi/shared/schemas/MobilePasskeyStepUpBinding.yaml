@@ -1,0 +1,23 @@
+      type: object
+      required:
+      - action_kind
+      - object_id
+      - reason_key
+      - replay_attempt
+      properties:
+        action_kind:
+          $ref: '#/components/schemas/MobileStepUpActionKind'
+        object_id:
+          $ref: '#/components/schemas/Uuid'
+        reason_key:
+          type: string
+          enum:
+          - operations_passkey_approval_decision
+          - operations_passkey_poll_vote
+        replay_attempt:
+          type:
+          - integer
+          - 'null'
+          format: int32
+          minimum: 1
+          description: Null for an immediate online action; 1-based for queued replay attempts.

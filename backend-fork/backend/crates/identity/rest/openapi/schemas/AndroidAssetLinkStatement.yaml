@@ -1,0 +1,26 @@
+type: object
+description: A single Android Digital Asset Links statement authorizing the native app's signing keys to provide login
+  credentials for the RP domain.
+required:
+- relation
+- target
+properties:
+  relation:
+    type: array
+    items:
+      type: string
+  target:
+    type: object
+    required:
+    - namespace
+    - package_name
+    - sha256_cert_fingerprints
+    properties:
+      namespace:
+        type: string
+      package_name:
+        type: string
+      sha256_cert_fingerprints:
+        type: array
+        items:
+          type: string

@@ -1,0 +1,29 @@
+operationId: openGovernanceOverride
+summary: Open a post-draft override
+description: Opens a governance override (reason + before-value snapshot) for editing a non-draft object, recorded append-only.
+tags:
+- Governance
+security:
+- bearerAuth: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/GovernanceOpenOverrideRequest'
+responses:
+  '201':
+    description: Override opened.
+    content:
+      application/json:
+        schema:
+          type: object
+          additionalProperties: true
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '422':
+    $ref: '#/components/responses/ValidationError'
+  '503':
+    $ref: '#/components/responses/ServiceUnavailable'

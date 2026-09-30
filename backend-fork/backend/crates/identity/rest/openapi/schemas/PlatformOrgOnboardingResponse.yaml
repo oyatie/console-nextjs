@@ -1,0 +1,17 @@
+type: object
+required:
+- org
+- admin_user_id
+- otp
+- admin_otp_expires_at
+properties:
+  org:
+    $ref: '#/components/schemas/PlatformOrg'
+  admin_user_id:
+    $ref: '#/components/schemas/Uuid'
+  otp:
+    type: string
+    minLength: 1
+    description: One-time bootstrap OTP returned exactly once; deliver out-of-band and never log it.
+  admin_otp_expires_at:
+    $ref: '#/components/schemas/Timestamp'

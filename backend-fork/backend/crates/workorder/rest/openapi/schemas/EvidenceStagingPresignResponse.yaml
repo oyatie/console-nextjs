@@ -1,0 +1,21 @@
+type: object
+required:
+- id
+- work_order_id
+- stage
+- media_kind
+- processing_status
+- upload
+properties:
+  id:
+    $ref: '#/components/schemas/Uuid'
+  work_order_id:
+    $ref: '#/components/schemas/Uuid'
+  stage:
+    $ref: '#/components/schemas/AttachmentStage'
+  media_kind:
+    $ref: '#/components/schemas/MediaKind'
+  processing_status:
+    $ref: '#/components/schemas/ProcessingStatus'
+  upload:
+    $ref: '#/components/schemas/PresignedUpload'

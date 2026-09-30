@@ -1,0 +1,15 @@
+type: object
+required:
+- id
+- work_order_id
+- stage
+- upload
+properties:
+  id:
+    $ref: '#/components/schemas/Uuid'
+  work_order_id:
+    $ref: '#/components/schemas/Uuid'
+  stage:
+    $ref: '#/components/schemas/AttachmentStage'
+  upload:
+    $ref: '#/components/schemas/PresignedUpload'

@@ -1,0 +1,4 @@
+type: object
+additionalProperties: false
+required: [reason, detail]
+properties: { reason: { type: string }, detail: { type: string }, ref: { type: string, nullable: true } }

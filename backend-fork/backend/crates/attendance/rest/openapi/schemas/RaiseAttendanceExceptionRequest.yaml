@@ -1,0 +1,4 @@
+type: object
+additionalProperties: false
+required: [kind, employee_id, work_date, detail]
+properties: { kind: { type: string, enum: [LATE, NO_SHOW, UNAPPROVED_OVERTIME, EARLY_LEAVE] }, employee_id: { $ref: '#/components/schemas/Uuid' }, branch_id: { $ref: '#/components/schemas/Uuid', nullable: true }, work_date: { type: string, format: date }, detail: { type: string }, evidence: { type: array, items: { type: object, additionalProperties: false, required: [name], properties: { name: { type: string }, size: { type: string, nullable: true } } } } }

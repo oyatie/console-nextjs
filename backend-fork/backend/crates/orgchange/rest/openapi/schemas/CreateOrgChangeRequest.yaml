@@ -1,0 +1,26 @@
+type: object
+additionalProperties: false
+required:
+- kind
+- target
+- effectiveDate
+- reason
+- proposal
+properties:
+  kind:
+    $ref: '#/components/schemas/OrgChangeKind'
+  target:
+    $ref: '#/components/schemas/OrgChangeTarget'
+  effectiveDate:
+    $ref: '#/components/schemas/Date'
+  reason:
+    type: string
+    minLength: 1
+    maxLength: 4000
+  proposal:
+    type: array
+    maxItems: 100
+    items:
+      $ref: '#/components/schemas/OrgProposalOp'
+  supersedesId:
+    $ref: '#/components/schemas/Uuid'

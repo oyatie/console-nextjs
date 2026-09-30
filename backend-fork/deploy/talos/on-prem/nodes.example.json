@@ -1,0 +1,80 @@
+{
+  "cluster_name": "console-onprem",
+  "control_plane_endpoint": "https://10.0.0.240:6443",
+  "control_plane_vip": "10.0.0.240",
+  "additional_sans": [
+    "api.console-onprem.example.invalid"
+  ],
+  "capi": {
+    "namespace": "console-onprem",
+    "talos_version": "v1.13.4",
+    "kubernetes_version": "v1.36.2",
+    "pod_cidrs": [
+      "10.244.0.0/16"
+    ],
+    "service_cidrs": [
+      "10.96.0.0/12"
+    ],
+    "service_domain": "cluster.local",
+    "node_drain_timeout_seconds": 0,
+    "automated_cleaning_mode": "metadata",
+    "node_reuse": false,
+    "image": {
+      "url": "https://images.example.invalid/talos-metal-amd64-v1.13.4.raw.xz",
+      "checksum": "https://images.example.invalid/talos-metal-amd64-v1.13.4.raw.xz.sha256",
+      "checksum_type": "sha256",
+      "format": "raw"
+    }
+  },
+  "node_defaults": {
+    "interface": "eth0",
+    "install_disk": "/dev/sda",
+    "wipe": false,
+    "dhcp": true,
+    "nameservers": [
+      "10.0.0.1"
+    ],
+    "ntp_servers": [
+      "10.0.0.1"
+    ]
+  },
+  "control_planes": [
+    {
+      "name": "console-cp-1",
+      "boot_mac_address": "52:54:00:10:00:11",
+      "bmc_address": "redfish-virtualmedia://192.0.2.11/redfish/v1/Systems/1",
+      "bmc_credentials_name": "console-cp-1-bmc",
+      "failure_domain": "rack-a"
+    },
+    {
+      "name": "console-cp-2",
+      "boot_mac_address": "52:54:00:10:00:12",
+      "bmc_address": "redfish-virtualmedia://192.0.2.12/redfish/v1/Systems/1",
+      "bmc_credentials_name": "console-cp-2-bmc",
+      "failure_domain": "rack-b"
+    },
+    {
+      "name": "console-cp-3",
+      "boot_mac_address": "52:54:00:10:00:13",
+      "bmc_address": "redfish-virtualmedia://192.0.2.13/redfish/v1/Systems/1",
+      "bmc_credentials_name": "console-cp-3-bmc",
+      "failure_domain": "rack-c"
+    }
+  ],
+  "workers": [
+    {
+      "name": "console-worker-1",
+      "boot_mac_address": "52:54:00:10:00:21",
+      "bmc_address": "redfish-virtualmedia://192.0.2.21/redfish/v1/Systems/1",
+      "bmc_credentials_name": "console-worker-1-bmc",
+      "failure_domain": "rack-a"
+    },
+    {
+      "name": "console-worker-2",
+      "boot_mac_address": "52:54:00:10:00:22",
+      "bmc_address": "redfish-virtualmedia://192.0.2.22/redfish/v1/Systems/1",
+      "bmc_credentials_name": "console-worker-2-bmc",
+      "failure_domain": "rack-b"
+    }
+  ]
+}

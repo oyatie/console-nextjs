@@ -1,0 +1,15 @@
+[package]
+name = "console-comms-mailbox"
+version = "0.1.0"
+description = "Standalone corporate mailbox core: hosted-domain/mailbox value objects and a no-open-relay SMTP session state machine for future MX/JMAP/IMAP hosting."
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+serde = { workspace = true }
+thiserror = { workspace = true }
+
+[lints]
+workspace = true

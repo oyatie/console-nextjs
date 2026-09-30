@@ -1,0 +1,26 @@
+tags:
+  - work-orders
+operationId: updateWorkOrderPriority
+summary: Update work-order priority
+security:
+- bearerAuth: []
+parameters:
+- $ref: '#/components/parameters/WorkOrderId'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        required:
+        - priority
+        properties:
+          priority:
+            $ref: '#/components/schemas/PriorityLevel'
+responses:
+  '200':
+    description: Updated work order.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/WorkOrderSummary'

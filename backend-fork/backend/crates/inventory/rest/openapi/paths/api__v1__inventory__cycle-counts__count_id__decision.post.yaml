@@ -1,0 +1,7 @@
+tags: [inventory]
+operationId: decideInventoryCycleCount
+summary: Distinct checker approves idempotent adjustments or rejects with a memo
+security: [{ bearerAuth: [] }]
+parameters: [{ name: count_id, in: path, required: true, schema: { $ref: '#/components/schemas/Uuid' } }]
+requestBody: { required: true, content: { application/json: { schema: { $ref: '#/components/schemas/DecideCycleCountRequest' } } } }
+responses: { '200': { description: Decided cycle count, content: { application/json: { schema: { $ref: '#/components/schemas/CycleCountDetail' } } } }, '401': { $ref: '#/components/responses/Unauthorized' }, '403': { $ref: '#/components/responses/Forbidden' }, '409': { $ref: '#/components/responses/Conflict' }, '422': { $ref: '#/components/responses/ValidationError' } }

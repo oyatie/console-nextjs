@@ -1,0 +1,39 @@
+tags:
+  - storefront
+operationId: storefrontGetListingMedia
+summary: Serve one public sales-listing photo (#6)
+description: Public, unauthenticated serve of one listing photo's bytes, streamed from the object store with a 25 MiB
+  response cap. The media must belong to a published or reserved listing and have a supported raster type; otherwise
+  404. The response is not cached, so a later withdrawal is checked on the next request.
+parameters:
+- name: id
+  in: path
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+- name: media_id
+  in: path
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+responses:
+  '200':
+    description: The listing photo bytes.
+    headers:
+      Cache-Control:
+        schema:
+          type: string
+          enum: [no-store]
+      X-Content-Type-Options:
+        schema:
+          type: string
+          enum: [nosniff]
+    content:
+      image/*:
+        schema:
+          type: string
+          format: binary
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '503':
+    description: Media storage is unavailable.

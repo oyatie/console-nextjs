@@ -1,0 +1,27 @@
+[package]
+name = "console-benefit-rest"
+version = "0.1.0"
+description = "REST API for tenant-scoped benefit catalog rows."
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+console-contracts = { path = "../../contracts" }
+axum = { workspace = true }
+console-benefit-adapter-postgres = { workspace = true }
+console-benefit-application = { workspace = true }
+console-benefit-domain = { workspace = true }
+console-kernel-core = { workspace = true }
+console-platform-auth = { path = "../../platform/auth" }
+console-platform-authz = { path = "../../platform/authz" }
+console-platform-request-context = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+time = { workspace = true }
+tracing = { workspace = true }
+uuid = { workspace = true }
+
+[lints]
+workspace = true

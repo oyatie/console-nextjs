@@ -1,0 +1,25 @@
+tags:
+  - messenger
+operationId: joinMessengerChannel
+summary: Join a channel thread the caller can see in scope
+description: 'Adds the caller as a member of a channel-visibility thread. Idempotent (re-joining is a no-op). A direct
+  thread is not joinable and returns 403; a thread outside the caller''s branch scope returns 404 (deny-by-omission).
+
+  '
+security:
+- bearerAuth: []
+parameters:
+- $ref: '#/components/parameters/ThreadId'
+responses:
+  '200':
+    description: The thread the caller joined.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/MessengerThreadSummary'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'

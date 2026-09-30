@@ -1,0 +1,222 @@
+# Default-deny ingress for the namespace, then the minimum allows, plus a
+# default-deny EGRESS for the app tier with explicit allows (DNS, intra-namespace
+# Postgres, outbound HTTPS for OCI Object Storage / FCM / Solapi). The CNPG
+# database pods are intentionally NOT egress-restricted here — their egress
+# (Barman→OCI, the Kubernetes API used by the instance manager) is operator-
+# managed and unsafe to blanket-deny.
+#
+# ENFORCEMENT: these manifests render on any Kubernetes cluster, but they only
+# isolate traffic when the cluster uses a policy-capable CNI (Cilium, Calico, or
+# Canal: flannel dataplane + Calico policy). Plain flannel (Talos default) does
+# NOT enforce NetworkPolicy, so these resources are inert there. ADR-0024's
+# portable substrate uses Cilium as the intended NetworkPolicy enforcer. Run the
+# live readback preflight plus scripts/smoke-networkpolicy-deny.sh on the target
+# context before claiming production isolation.
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: default-deny-ingress
+  namespace: console
+spec:
+  podSelector: {}
+  policyTypes: [Ingress]
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-web-tier-from-traefik
+  namespace: console
+spec:
+  podSelector:
+    matchExpressions:
+      - { key: app, operator: In, values: [console-app, console-web] }
+  policyTypes: [Ingress]
+  ingress:
+    # From the Traefik ingress controller.
+    - from:
+        - namespaceSelector:
+            matchLabels: { kubernetes.io/metadata.name: traefik }
+      ports:
+        - { protocol: TCP, port: 8080 }
+    # From within the namespace (the blue/green smoke-test job hits the preview
+    # Service; the active/preview Services share the app pods).
+    - from:
+        - podSelector: {}
+      ports:
+        - { protocol: TCP, port: 8080 }
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-postgres-from-app
+  namespace: console
+spec:
+  podSelector:
+    matchLabels: { cnpg.io/cluster: console-db }
+  policyTypes: [Ingress]
+  ingress:
+    - from:
+        - podSelector:
+            matchExpressions:
+              - { key: app, operator: In, values: [console-app, console-worker] }
+      ports:
+        - { protocol: TCP, port: 5432 }
+---
+# Default-deny EGRESS for the app tier (api/web/worker). CNPG pods are excluded.
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: default-deny-egress-app-tier
+  namespace: console
+spec:
+  podSelector:
+    matchExpressions:
+      - { key: app, operator: In, values: [console-app, console-web, console-worker] }
+  policyTypes: [Egress]
+---
+# DNS resolution (kube-dns in kube-system) for the app tier.
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-app-egress-dns
+  namespace: console
+spec:
+  podSelector:
+    matchExpressions:
+      - { key: app, operator: In, values: [console-app, console-web, console-worker] }
+  policyTypes: [Egress]
+  egress:
+    - to:
+        - namespaceSelector:
+            matchLabels: { kubernetes.io/metadata.name: kube-system }
+      ports:
+        - { protocol: UDP, port: 53 }
+        - { protocol: TCP, port: 53 }
+---
+# api/worker → Postgres (intra-namespace).
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-app-egress-postgres
+  namespace: console
+spec:
+  podSelector:
+    matchExpressions:
+      - { key: app, operator: In, values: [console-app, console-worker] }
+  policyTypes: [Egress]
+  egress:
+    - to:
+        - podSelector:
+            matchLabels: { cnpg.io/cluster: console-db }
+      ports:
+        - { protocol: TCP, port: 5432 }
+---
+# api/worker → external HTTPS (OCI Object Storage, FCM, Solapi). External SaaS
+# endpoints have no stable IPs, so allow 443 broadly; every other egress port
+# stays denied by default-deny-egress-app-tier.
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-app-egress-https
+  namespace: console
+spec:
+  podSelector:
+    matchExpressions:
+      - { key: app, operator: In, values: [console-app, console-worker] }
+  policyTypes: [Egress]
+  egress:
+    - to:
+        - ipBlock: { cidr: 0.0.0.0/0 }
+      ports:
+        - { protocol: TCP, port: 443 }
+---
+# api/worker → internal mox webapi/IMAP only. This is deliberately not a public
+# mail-port policy: mox SMTP/submission/admin remain unexposed in the dark lane.
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-app-egress-mox
+  namespace: console
+spec:
+  podSelector:
+    matchExpressions:
+      - { key: app, operator: In, values: [console-app, console-worker] }
+  policyTypes: [Egress]
+  egress:
+    - to:
+        - podSelector:
+            matchLabels: { app: console-mox }
+      ports:
+        - { protocol: TCP, port: 1080 }
+        - { protocol: TCP, port: 1143 }
+---
+# mox ingress: only the app/worker may use WebAPI/IMAP, and Prometheus may
+# scrape metrics from the monitoring namespace when the monitoring component is
+# enabled. No Ingress/LoadBalancer/NodePort exposes webapi, admin, or SMTP.
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-mox-ingress-internal
+  namespace: console
+spec:
+  podSelector:
+    matchLabels: { app: console-mox }
+  policyTypes: [Ingress]
+  ingress:
+    - from:
+        - podSelector:
+            matchExpressions:
+              - { key: app, operator: In, values: [console-app, console-worker] }
+      ports:
+        - { protocol: TCP, port: 1080 }
+        - { protocol: TCP, port: 1143 }
+    - from:
+        - namespaceSelector:
+            matchLabels: { kubernetes.io/metadata.name: monitoring }
+      ports:
+        - { protocol: TCP, port: 8010 }
+---
+# Default-deny EGRESS for mox. Dark deployment only permits DNS and the internal
+# app webhook; outbound SMTP/public delivery is a separate operator gate.
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: default-deny-egress-mox
+  namespace: console
+spec:
+  podSelector:
+    matchLabels: { app: console-mox }
+  policyTypes: [Egress]
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-mox-egress-dns
+  namespace: console
+spec:
+  podSelector:
+    matchLabels: { app: console-mox }
+  policyTypes: [Egress]
+  egress:
+    - to:
+        - namespaceSelector:
+            matchLabels: { kubernetes.io/metadata.name: kube-system }
+      ports:
+        - { protocol: UDP, port: 53 }
+        - { protocol: TCP, port: 53 }
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-mox-egress-app-webhook
+  namespace: console
+spec:
+  podSelector:
+    matchLabels: { app: console-mox }
+  policyTypes: [Egress]
+  egress:
+    - to:
+        - podSelector:
+            matchLabels: { app: console-app }
+      ports:
+        - { protocol: TCP, port: 8080 }

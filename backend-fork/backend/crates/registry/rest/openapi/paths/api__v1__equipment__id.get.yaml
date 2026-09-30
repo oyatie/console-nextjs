@@ -1,0 +1,27 @@
+tags:
+  - equipment
+operationId: getEquipment
+summary: Read one branch-scoped equipment master row
+description: 'Read access (WorkOrderReadAll — all authenticated roles). Non-SUPER_ADMIN principals only receive rows
+  in their own branch scope; a foreign or missing id returns 404 without revealing existence.
+
+  '
+security:
+- bearerAuth: []
+parameters:
+- $ref: '#/components/parameters/EquipmentId'
+responses:
+  '200':
+    description: Equipment master row.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/EquipmentListItem'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '503':
+    description: JWT verification is not configured.

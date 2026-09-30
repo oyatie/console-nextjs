@@ -1,0 +1,2 @@
+type: string
+enum: [S, A, B, C, D]

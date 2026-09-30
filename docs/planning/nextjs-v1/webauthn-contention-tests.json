@@ -1,0 +1,13 @@
+{
+  "design_sha256": "630e8faa33a9c38321092a249bfe01257e9eb7c8d744adb845f41a6662a1def4",
+  "base_candidate_sha256": "d6fa0a252185178df5f41c898ab7af534bc3ecd290ad9d57b68f004c8b1ec723",
+  "tests": [
+    {
+      "path": "backend/crates/platform/auth/tests/webauthn_contention.rs",
+      "sha256": "dd5db3170e27e8ad9266821cb10c8016346a17f702c77299e17c32c76c8d793c",
+      "bytes": 24739
+    }
+  ],
+  "status": "pending_independent_test_review",
+  "inherited_assertions_changed": false
+}

@@ -1,0 +1,5 @@
+type: string
+description: PRECHECKED is legacy and is never entered by a request created today — preflight is read-only, so
+  the lifecycle is DRAFT → IN_APPROVAL at submit. It stays in the enum because rows written before that change
+  still carry it on disk and are still accepted by PATCH, preflight, submit and cancel. Do not poll for it.
+enum: [DRAFT, PRECHECKED, IN_APPROVAL, APPROVED, APPLIED, SETTLING, ARCHIVED, REJECTED, CANCELLED]

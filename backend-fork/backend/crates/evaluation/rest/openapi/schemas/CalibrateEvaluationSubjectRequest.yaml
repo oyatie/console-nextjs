@@ -1,0 +1,6 @@
+type: object
+additionalProperties: false
+required: [final_grade]
+properties:
+  final_grade: { $ref: '#/components/schemas/EvaluationGrade' }
+  reason: { type: [string, 'null'], maxLength: 500 }

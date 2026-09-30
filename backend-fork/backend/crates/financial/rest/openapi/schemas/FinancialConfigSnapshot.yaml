@@ -1,0 +1,43 @@
+type: object
+required:
+- depreciation_method
+- useful_life_months
+- residual_rate_bps
+- declining_balance_rate_bps
+- management_fee_rate_bps
+- profit_rate_bps
+- floor_negative_quote_residual
+- executive_approval_threshold_won
+properties:
+  depreciation_method:
+    $ref: '#/components/schemas/DepreciationMethod'
+  useful_life_months:
+    type: integer
+    format: int32
+    minimum: 1
+  residual_rate_bps:
+    type: integer
+    format: int32
+    minimum: 0
+    maximum: 10000
+  declining_balance_rate_bps:
+    type: integer
+    format: int32
+    minimum: 0
+    maximum: 10000
+  management_fee_rate_bps:
+    type: integer
+    format: int32
+    minimum: 0
+    maximum: 10000
+  profit_rate_bps:
+    type: integer
+    format: int32
+    minimum: 0
+    maximum: 10000
+  floor_negative_quote_residual:
+    type: boolean
+  executive_approval_threshold_won:
+    type: integer
+    format: int64
+    minimum: 0

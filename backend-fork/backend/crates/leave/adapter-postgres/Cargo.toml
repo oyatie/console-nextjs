@@ -1,0 +1,33 @@
+[package]
+name = "console-leave-adapter-postgres"
+version = "0.1.0"
+description = "Postgres adapter for the branch-scoped leave-request queue, decide + ledger write-back, and §61 statutory push."
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+console-kernel-core = { workspace = true }
+console-leave-application = { workspace = true }
+console-leave-domain = { workspace = true }
+console-inbox-application = { workspace = true }
+console-inbox-domain = { workspace = true }
+console-platform-db = { workspace = true }
+console-platform-request-context = { workspace = true }
+serde_json = { workspace = true }
+sha2 = { workspace = true }
+hex = { workspace = true }
+sqlx = { workspace = true }
+thiserror = { workspace = true }
+time = { workspace = true }
+uuid = { workspace = true }
+
+[dev-dependencies]
+console-governance-domain = { workspace = true }
+console-inbox-adapter-postgres = { workspace = true }
+console-platform-test-support = { workspace = true }
+tokio = { workspace = true, features = ["macros", "rt-multi-thread"] }
+
+[lints]
+workspace = true

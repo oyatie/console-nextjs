@@ -1,0 +1,16 @@
+type: object
+description: Links touching one object, split by direction.
+required:
+- outgoing
+- incoming
+properties:
+  outgoing:
+    type: array
+    description: Links where the queried object is the source.
+    items:
+      $ref: '#/components/schemas/ObjectLinkResponse'
+  incoming:
+    type: array
+    description: Links where the queried object is the destination.
+    items:
+      $ref: '#/components/schemas/ObjectLinkResponse'

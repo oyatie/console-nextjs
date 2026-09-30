@@ -1,0 +1,28 @@
+type: object
+required:
+- description
+- sort_order
+properties:
+  work_order_id:
+    $ref: '#/components/schemas/Uuid'
+    nullable: true
+  request_no:
+    type: string
+    nullable: true
+  equipment_no:
+    type: string
+    nullable: true
+  management_no:
+    type: string
+    nullable: true
+  customer_name:
+    type: string
+    nullable: true
+  site_name:
+    type: string
+    nullable: true
+  description:
+    type: string
+  sort_order:
+    type: integer
+    format: int32

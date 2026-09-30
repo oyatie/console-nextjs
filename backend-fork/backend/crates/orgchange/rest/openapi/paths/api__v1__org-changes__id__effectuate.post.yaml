@@ -1,0 +1,31 @@
+tags:
+- org
+operationId: effectuateOrgChange
+summary: Apply the approved change
+description: APPROVED only, and never before the effective date (발효일). NEW and REORG replay the proposal
+  atomically to APPLIED; DISSOLVE seeds the six settlement items and opens SETTLING.
+security:
+- bearerAuth: []
+parameters:
+- name: id
+  in: path
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+responses:
+  '200':
+    description: Applied, or settling for a dissolve.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/OrgChangeDetail'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '409':
+    $ref: '#/components/responses/Conflict'
+  '503':
+    $ref: '#/components/responses/ServiceUnavailable'

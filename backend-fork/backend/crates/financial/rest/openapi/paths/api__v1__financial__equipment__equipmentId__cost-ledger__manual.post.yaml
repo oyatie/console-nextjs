@@ -1,0 +1,29 @@
+tags:
+  - financial
+operationId: appendManualCostLedgerEntry
+summary: Append a manual admin equipment cost and recompute residual value
+security:
+- bearerAuth: []
+parameters:
+- $ref: '#/components/parameters/EquipmentIdV2'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/AppendManualCostLedgerRequest'
+responses:
+  '201':
+    description: Cost ledger entry appended.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/CostLedgerEntrySummary'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '422':
+    $ref: '#/components/responses/ValidationError'

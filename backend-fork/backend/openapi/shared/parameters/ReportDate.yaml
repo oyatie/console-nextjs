@@ -1,0 +1,6 @@
+      name: date
+      in: query
+      required: true
+      schema:
+        $ref: '#/components/schemas/Date'
+      description: Report date in YYYY-MM-DD format.

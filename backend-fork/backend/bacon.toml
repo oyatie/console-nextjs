@@ -1,0 +1,32 @@
+#:schema https://dystroy.org/bacon/.bacon.schema.json
+#
+# Dev-loop config for the console-app backend. `scripts/dev-up.mjs up` spawns
+# `bacon run` as a child process, inheriting the relocated dev env (DB/S3/OTEL
+# endpoints, JWT keys, cold-start OTP) from that parent — this file only
+# defines *what* each job runs, not the environment.
+#
+# Complete help on configuration: https://dystroy.org/bacon/config/
+
+default_job = "run"
+env.CARGO_TERM_COLOR = "always"
+env.SQLX_OFFLINE = "true"
+
+# console-app is a long-running server: restart on change instead of waiting for exit.
+# `--features dev-auth` (W3.5): local dev always runs with the role-switcher
+# endpoint on; it's compiled out by default everywhere else (see
+# console-gate-dev-auth-absence).
+[jobs.run]
+command = ["cargo", "run", "-p", "console-app", "--features", "dev-auth"]
+need_stdout = true
+allow_warnings = true
+background = false
+on_change_strategy = "kill_then_restart"
+
+[jobs.test]
+command = ["cargo", "test", "-p", "console-app"]
+need_stdout = true
+
+# Mirrors the CI clippy gate (.github/workflows/ci.yml): all targets, warnings deny.
+[jobs.clippy]
+command = ["cargo", "clippy", "--all-targets", "--", "-D", "warnings"]
+need_stdout = false

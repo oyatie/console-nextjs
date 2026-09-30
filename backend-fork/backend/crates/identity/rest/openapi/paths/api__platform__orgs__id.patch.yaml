@@ -1,0 +1,37 @@
+tags:
+  - platform
+operationId: setPlatformOrgStatus
+summary: Change a tenant lifecycle status (platform vendor tier)
+description: Sets a tenant organization status to ACTIVE, SUSPENDED, or ARCHIVED. Platform token required; every write
+  is cross-tenant and audited to the target organization.
+security:
+- bearerAuth: []
+parameters:
+- name: id
+  in: path
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/UpdatePlatformOrgRequest'
+responses:
+  '200':
+    description: The updated tenant organization.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/PlatformOrg'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '422':
+    $ref: '#/components/responses/ValidationError'
+  '503':
+    $ref: '#/components/responses/ServiceUnavailable'

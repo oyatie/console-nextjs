@@ -1,0 +1,15 @@
+[package]
+name = "console-comms-domain"
+version = "0.1.0"
+description = "Pure webmail domain: mail direction/flag/folder/security enums, value objects, subject normalization and thread-key derivation."
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+console-kernel-core = { workspace = true }
+serde = { workspace = true }
+
+[lints]
+workspace = true

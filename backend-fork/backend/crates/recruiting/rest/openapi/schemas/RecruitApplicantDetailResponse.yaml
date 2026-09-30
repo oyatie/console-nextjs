@@ -1,0 +1,16 @@
+type: object
+required:
+- applicant
+- offers
+- events
+properties:
+  applicant:
+    $ref: '#/components/schemas/RecruitApplicant'
+  offers:
+    type: array
+    items:
+      $ref: '#/components/schemas/RecruitOffer'
+  events:
+    type: array
+    items:
+      $ref: '#/components/schemas/RecruitStageEvent'

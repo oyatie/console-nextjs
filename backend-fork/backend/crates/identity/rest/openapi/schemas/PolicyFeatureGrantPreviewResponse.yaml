@@ -1,0 +1,25 @@
+type: object
+required:
+- feature_key
+- permission_level
+- source_type
+- source_key
+- source_label
+properties:
+  feature_key:
+    type: string
+  permission_level:
+    type: string
+    enum:
+    - request_only
+    - limited
+    - allow
+  source_type:
+    type: string
+    enum:
+    - system_role
+    - custom_role
+  source_key:
+    type: string
+  source_label:
+    type: string

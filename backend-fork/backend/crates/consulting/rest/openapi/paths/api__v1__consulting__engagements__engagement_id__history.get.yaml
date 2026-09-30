@@ -1,0 +1,15 @@
+tags: [consulting]
+operationId: listConsultingEngagementHistory
+security: [{ bearerAuth: [] }]
+parameters: [{ name: engagement_id, in: path, required: true, schema: { $ref: '#/components/schemas/Uuid' } }]
+responses:
+  '200':
+    description: Append-only engagement history
+    content:
+      application/json:
+        schema:
+          type: array
+          items: { $ref: '#/components/schemas/ConsultingHistoryEntry' }
+  '401': { $ref: '#/components/responses/Unauthorized' }
+  '403': { $ref: '#/components/responses/Forbidden' }
+  '404': { $ref: '#/components/responses/NotFound' }

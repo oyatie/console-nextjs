@@ -1,0 +1,25 @@
+tags:
+  - mail
+operationId: testMailAccountConnection
+summary: Test the SMTP connection with the stored credentials
+description: Authenticates to the tenant's configured SMTP server using the stored credentials and reports a structured
+  result. Never leaks the secret; the error_code is a stable, non-secret token. Requires the MailAccountManage feature.
+security:
+- bearerAuth: []
+responses:
+  '200':
+    description: The structured test-connection result.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/MailTestConnectionResult'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '422':
+    $ref: '#/components/responses/ValidationError'
+  '429':
+    $ref: '#/components/responses/TooManyRequests'
+  '503':
+    $ref: '#/components/responses/MailUnavailable'

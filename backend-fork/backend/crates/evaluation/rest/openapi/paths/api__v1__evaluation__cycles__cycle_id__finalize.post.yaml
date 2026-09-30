@@ -1,0 +1,6 @@
+tags: [evaluation]
+operationId: finalizeEvaluationCycle
+summary: Finalize a calibrated cycle after preflight
+security: [{ bearerAuth: [] }]
+parameters: [{ $ref: '#/components/parameters/EvaluationCycleId' }]
+responses: *evaluationTransitionResponses

@@ -1,0 +1,31 @@
+type: object
+required:
+- user_id
+- role_id
+- role_key
+- display_name
+- status
+- assigned_by
+- created_at
+properties:
+  user_id:
+    $ref: '#/components/schemas/Uuid'
+  role_id:
+    $ref: '#/components/schemas/Uuid'
+  role_key:
+    type: string
+  display_name:
+    type: string
+  status:
+    type: string
+    enum:
+    - DRAFT
+    - ACTIVE
+    - RETIRED
+  assigned_by:
+    type:
+    - string
+    - 'null'
+    format: uuid
+  created_at:
+    $ref: '#/components/schemas/Timestamp'

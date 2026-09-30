@@ -1,0 +1,6 @@
+type: object
+required: [instance, config, gates]
+properties:
+  instance: { $ref: '#/components/schemas/InstanceHead' }
+  config: { $ref: '#/components/schemas/GateChainConfig' }
+  gates: { $ref: '#/components/schemas/GateChainOutcome' }

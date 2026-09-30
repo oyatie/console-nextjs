@@ -1,0 +1,23 @@
+tags:
+  - financial
+operationId: listEquipmentCostLedger
+summary: List equipment cost ledger entries
+security:
+- bearerAuth: []
+parameters:
+- $ref: '#/components/parameters/EquipmentIdV2'
+responses:
+  '200':
+    description: Equipment cost ledger entries.
+    content:
+      application/json:
+        schema:
+          type: array
+          items:
+            $ref: '#/components/schemas/CostLedgerEntrySummary'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'

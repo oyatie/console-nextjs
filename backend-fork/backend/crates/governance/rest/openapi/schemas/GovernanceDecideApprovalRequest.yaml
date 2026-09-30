@@ -1,0 +1,22 @@
+type: object
+required:
+- request_ref
+- kind
+- requested_by
+- decision
+properties:
+  request_ref:
+    $ref: '#/components/schemas/Uuid'
+  kind:
+    type: string
+  requested_by:
+    $ref: '#/components/schemas/Uuid'
+    deprecated: true
+    description: Deprecated and IGNORED. Still required on the wire — omitting it is a 422 — but the requester is
+      read from the open pending approval request inside the decision transaction, so whatever is sent here has
+      no effect on the self-approval check or on the recorded approval. Send the open request's requested_by.
+  decision:
+    type: string
+    enum:
+    - approved
+    - rejected

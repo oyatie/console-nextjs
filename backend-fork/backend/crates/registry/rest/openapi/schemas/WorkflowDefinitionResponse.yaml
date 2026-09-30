@@ -1,0 +1,96 @@
+type: object
+required:
+- id
+- workflow_key
+- display_name
+- object_type
+- status
+- latest_version
+- active_version
+- definition
+- approval_line
+- payment_line
+- notification_rules
+- action_allowlist
+- required_approval_line
+- required_payment_line
+- pending_version
+- pending_staged_by
+- object_kinds
+- pending_version
+- pending_staged_by
+- created_at
+- updated_at
+properties:
+  id:
+    $ref: '#/components/schemas/Uuid'
+  workflow_key:
+    type: string
+    example: work_order.completion_review
+  display_name:
+    type: string
+  object_type:
+    type: string
+  status:
+    type: string
+    enum:
+    - DRAFT
+    - ACTIVE
+    - PAUSED
+    - RETIRED
+  latest_version:
+    type: integer
+    format: int32
+  active_version:
+    type:
+    - integer
+    - 'null'
+    format: int32
+  definition:
+    type: object
+    additionalProperties: true
+  approval_line:
+    type: array
+    items:
+      type: object
+      additionalProperties: true
+  payment_line:
+    type: array
+    items:
+      type: object
+      additionalProperties: true
+  notification_rules:
+    type: array
+    items:
+      type: object
+      additionalProperties: true
+  action_allowlist:
+    type: array
+    items:
+      $ref: '#/components/schemas/WorkflowActionAllowlistEntry'
+  required_approval_line:
+    type: boolean
+  required_payment_line:
+    type: boolean
+  object_kinds:
+    type: array
+    description: Ontology object kinds this definition's nodes touch (dynamics↔ontology).
+    items:
+      type: string
+  pending_version:
+    type:
+    - integer
+    - 'null'
+    format: int32
+    description: A staged revision (version) awaiting four-eyes approval; null when none is pending.
+  pending_staged_by:
+    oneOf:
+    - $ref: '#/components/schemas/Uuid'
+    - type: 'null'
+    description: Who staged the pending revision (the actor barred from self-approving it).
+  created_at:
+    type: string
+    format: date-time
+  updated_at:
+    type: string
+    format: date-time

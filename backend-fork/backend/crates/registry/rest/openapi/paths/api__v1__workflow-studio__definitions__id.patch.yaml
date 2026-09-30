@@ -1,0 +1,37 @@
+tags:
+  - workflow-studio
+operationId: updateWorkflowDefinition
+summary: Update a draft workflow definition
+description: Updates an existing DRAFT workflow definition by appending a new draft version. Workflow key and object
+  type remain immutable; archived, active, and paused definitions are rejected.
+security:
+- bearerAuth: []
+parameters:
+- name: id
+  in: path
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/UpdateWorkflowDefinitionRequest'
+responses:
+  '200':
+    description: Updated draft workflow definition.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/WorkflowDefinitionResponse'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '409':
+    $ref: '#/components/responses/Conflict'
+  '422':
+    $ref: '#/components/responses/ValidationError'

@@ -1,0 +1,41 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: traefik
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
+    console.nousresearch.com/context: "oci-guest"
+    console.nousresearch.com/ingress-shape: "hostport"
+spec:
+  project: console
+  sources:
+    - repoURL: https://traefik.github.io/charts
+      chart: traefik
+      targetRevision: 40.3.0 # renovate: datasource=helm depName=traefik
+      helm:
+        releaseName: traefik
+        # Keep the OCI-only hostPort/reserved-IP coupling in the explicit
+        # oci-guest overlay so the on-prem HA variant cannot inherit it.
+        valueFiles:
+          - $values/deploy/apps/traefik-oci-guest/values.yaml
+    - repoURL: https://github.com/jason931225/console.git # replace OWNER
+      targetRevision: main
+      ref: values
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: traefik
+  syncPolicy:
+    # Talos enforces the baseline PodSecurity profile cluster-wide, and baseline
+    # forbids hostPort. Traefik binds host ports 80/443 directly (no LB, Always
+    # Free) through deploy/apps/traefik-oci-guest/values.yaml, which requires the
+    # privileged PSS level on its namespace. This is the standard tradeoff for
+    # hostPort-based ingress; the chart itself still runs Traefik as non-root
+    # with a dropped-capability container.
+    managedNamespaceMetadata:
+      labels:
+        pod-security.kubernetes.io/enforce: privileged
+        pod-security.kubernetes.io/audit: privileged
+        pod-security.kubernetes.io/warn: privileged
+    automated: { prune: true, selfHeal: true }
+    syncOptions: [CreateNamespace=true, ServerSideApply=true]

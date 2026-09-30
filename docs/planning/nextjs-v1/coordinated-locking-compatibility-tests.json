@@ -1,0 +1,15 @@
+{
+  "parent_approved_tests_sha256": "24f4a4deb2725c388ae375a62aac813a1bd99878e7618c5f10624a90c971d86a",
+  "review_tests_sha256": "855783d4d4aeaaf5e540b6ba6b205b6f7ad0562b29af19768d491019e16b334c",
+  "scope": "Approved legacy cold-admin Company correction and lifecycle formatting only; no assertion changes",
+  "files": [
+    {
+      "path": "backend-fork/backend/crates/platform/provisioning/tests/bootstrap_passkey.rs",
+      "sha256": "63d0c0bebdb6f4f120f67c16ec5ac783dc240e0358a92e714970a21e9414f769"
+    },
+    {
+      "path": "backend-fork/backend/crates/identity/adapter-postgres/tests/account_locking.rs",
+      "sha256": "4c043d7da4b0d16bc2eef3f704422c9bf8fd5c1cab4a65d839064371a2e68c3c"
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+[package]
+name = "console-platform-excel"
+version = "0.1.0"
+description = "Excel generation platform adapter — byte-fidelity template fill using umya-spreadsheet."
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+umya-spreadsheet = "3.0.0"
+
+[dev-dependencies]
+tempfile = "3"
+
+[lints]
+workspace = true

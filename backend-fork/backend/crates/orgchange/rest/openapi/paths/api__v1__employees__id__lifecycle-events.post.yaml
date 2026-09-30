@@ -1,0 +1,37 @@
+tags:
+  - employees
+operationId: createEmployeeLifecycleEvent
+summary: Record an employee lifecycle transition with legal signoffs
+description: Mutates the canonical employee status/company/org-unit/position only through an audited event requiring
+  Korean labor, privacy, and payroll signoff gates.
+security:
+- bearerAuth: []
+parameters:
+- name: id
+  in: path
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/CreateEmployeeLifecycleEventRequest'
+responses:
+  '200':
+    description: Recorded lifecycle event.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/EmployeeLifecycleEvent'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '409':
+    $ref: '#/components/responses/Conflict'
+  '422':
+    $ref: '#/components/responses/ValidationError'

@@ -1,0 +1,48 @@
+type: object
+required:
+- role_title
+- company
+- worksite
+- employment_type
+- scope
+- headcount
+properties:
+  role_title:
+    type: string
+    minLength: 1
+    maxLength: 200
+  company:
+    type: string
+    minLength: 1
+    maxLength: 200
+  worksite:
+    type: string
+    minLength: 1
+    maxLength: 200
+  employment_type:
+    $ref: '#/components/schemas/RecruitEmploymentType'
+  scope:
+    $ref: '#/components/schemas/RecruitPostingScope'
+  headcount:
+    type: integer
+    format: int32
+    minimum: 1
+    maximum: 999
+  deadline:
+    type:
+    - string
+    - 'null'
+    format: date
+    description: Omit or null for an open-ended posting (상시).
+  requirements:
+    type: array
+    maxItems: 20
+    items:
+      type: string
+      minLength: 1
+      maxLength: 300
+  position_ref:
+    type:
+    - string
+    - 'null'
+    maxLength: 200

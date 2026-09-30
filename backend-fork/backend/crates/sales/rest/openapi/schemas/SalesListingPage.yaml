@@ -1,0 +1,20 @@
+type: object
+required:
+- items
+- limit
+- offset
+- total
+properties:
+  items:
+    type: array
+    items:
+      $ref: '#/components/schemas/SalesListingView'
+  limit:
+    type: integer
+    format: int64
+  offset:
+    type: integer
+    format: int64
+  total:
+    type: integer
+    format: int64

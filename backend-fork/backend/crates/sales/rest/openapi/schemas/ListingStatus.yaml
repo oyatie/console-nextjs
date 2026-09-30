@@ -1,0 +1,8 @@
+type: string
+description: Publication lifecycle of a listing.
+enum:
+- DRAFT
+- PUBLISHED
+- RESERVED
+- SOLD
+- WITHDRAWN

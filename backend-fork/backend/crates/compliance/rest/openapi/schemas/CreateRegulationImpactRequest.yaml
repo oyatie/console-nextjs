@@ -1,0 +1,16 @@
+type: object
+required: [title, jurisdiction, citation, impact_area, impact_summary, risk_level]
+properties:
+  title: { type: string }
+  jurisdiction: { type: string }
+  regulator: { type: [string, 'null'] }
+  citation: { type: string }
+  source_url: { type: [string, 'null'], format: uri }
+  impact_area: { type: string }
+  impact_summary: { type: string }
+  risk_level: { $ref: '#/components/schemas/ComplianceRiskLevel' }
+  effective_from: { type: [string, 'null'], format: date }
+  effective_to: { type: [string, 'null'], format: date }
+  review_due_on: { type: [string, 'null'], format: date }
+  owner_user_id: { type: [string, 'null'], format: uuid }
+  metadata: { type: object, additionalProperties: true }

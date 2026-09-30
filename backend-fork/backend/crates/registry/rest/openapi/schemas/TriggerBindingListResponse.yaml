@@ -1,0 +1,11 @@
+type: object
+required: [items, registered_event_keys]
+properties:
+  items:
+    type: array
+    items:
+      $ref: '#/components/schemas/TriggerBindingResponse'
+  registered_event_keys:
+    type: array
+    items:
+      type: string

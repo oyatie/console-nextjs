@@ -1,0 +1,11 @@
+type: object
+required:
+- checks
+- can_close
+properties:
+  checks:
+    type: array
+    items:
+      $ref: '#/components/schemas/PayrollPreflightCheck'
+  can_close:
+    type: boolean

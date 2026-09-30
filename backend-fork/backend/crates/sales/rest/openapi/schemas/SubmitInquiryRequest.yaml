@@ -1,0 +1,26 @@
+type: object
+description: Public lead intake payload. `name` and `phone` are required; `location`, `message`, and `listing_id` are
+  optional. The server never echoes any field back.
+required:
+- name
+- phone
+- topic
+properties:
+  name:
+    type: string
+  phone:
+    type: string
+  topic:
+    $ref: '#/components/schemas/InquiryTopic'
+  location:
+    type:
+    - string
+    - 'null'
+  message:
+    type:
+    - string
+    - 'null'
+  listing_id:
+    oneOf:
+    - $ref: '#/components/schemas/Uuid'
+    - type: 'null'

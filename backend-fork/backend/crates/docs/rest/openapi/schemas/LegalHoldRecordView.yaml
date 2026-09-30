@@ -1,0 +1,15 @@
+type: object
+required: [id, evidence_object_id, status, case_ref, basis, reason, applied_by, applied_at]
+properties:
+  id: { type: string, format: uuid }
+  evidence_object_id: { type: string, format: uuid }
+  status: { $ref: '#/components/schemas/LegalHoldStatus' }
+  case_ref: { type: string }
+  basis: { type: string }
+  reason: { type: string }
+  applied_by: { type: string, format: uuid }
+  applied_at: { type: string, format: date-time }
+  released_by: { type: string, format: uuid, nullable: true }
+  released_at: { type: string, format: date-time, nullable: true }
+  release_reason: { type: string, nullable: true }
+  audit_event_id: { type: string, format: uuid, nullable: true }

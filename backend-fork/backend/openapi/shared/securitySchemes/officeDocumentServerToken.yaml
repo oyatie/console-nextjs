@@ -1,0 +1,6 @@
+      type: http
+      scheme: bearer
+      description: >-
+        JWT signed by ONLYOFFICE DocumentServer, NOT by this service's issuer, so it
+        is not bearerAuth. Accepted from the request body `token` field or from this
+        header. Required in addition to officeCallbackToken, never instead of it.

@@ -1,0 +1,67 @@
+{
+  "source": "console-leave-rest",
+  "paths": {
+    "/api/v1/leave/balances": [
+      "get"
+    ],
+    "/api/v1/leave/promotions": [
+      "post"
+    ],
+    "/api/v1/leave/refusal-notices": [
+      "post"
+    ],
+    "/api/v1/leave/requests": [
+      "get"
+    ],
+    "/api/v1/leave/requests/{id}/decide": [
+      "post"
+    ],
+    "/api/v2/leave/requests": [
+      "get",
+      "post"
+    ],
+    "/api/v2/leave/requests/{id}/alternate-dates": [
+      "post"
+    ],
+    "/api/v2/leave/requests/{id}/charge-resolution": [
+      "post"
+    ],
+    "/api/v2/leave/requests/{id}/decide": [
+      "post"
+    ],
+    "/api/v2/me/leave": [
+      "get"
+    ]
+  },
+  "schemas": [
+    "LeaveBalanceAmount",
+    "LeaveChargeResolutionRequest",
+    "LeaveChargeResolutionView",
+    "LeaveChargeReviewReason",
+    "LeaveCreateRequest",
+    "LeaveDateCharge",
+    "LeaveDecideRequest",
+    "LeaveDecideV2Request",
+    "LeavePromotionRequest",
+    "LeaveProposeAlternateDatesRequest",
+    "LeaveRefusalRequest",
+    "LeaveRequestPage",
+    "LeaveRequestV2Page",
+    "LeaveRequestV2View",
+    "LeaveRequestView",
+    "LeaveRosterEntry",
+    "LeaveRosterPage",
+    "LeaveSourceRevisionRef",
+    "LeaveStatutoryPushView",
+    "LeaveUnits",
+    "MyLeaveV2Overview",
+    "SelfLeaveBalance",
+    "TimeChangeCoverageEvidence",
+    "TimeChangeGroundsCode"
+  ],
+  "external_schemas": [
+    "ErrorBody",
+    "Timestamp",
+    "Uuid"
+  ]
+}

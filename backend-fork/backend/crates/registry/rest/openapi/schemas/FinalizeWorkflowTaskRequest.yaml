@@ -1,0 +1,17 @@
+type: object
+required:
+- mode
+- idempotency_key
+properties:
+  mode:
+    type: string
+    enum:
+    - author
+    - delegate
+    description: author = the initiating author closes; delegate = a policy-authorized delegate closes and must give a reason.
+  reason:
+    type: string
+    description: Required and non-empty when mode is delegate.
+  idempotency_key:
+    type: string
+    minLength: 16

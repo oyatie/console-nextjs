@@ -1,0 +1,29 @@
+tags:
+  - p1-dispatches
+operationId: forceAssignP1Dispatch
+summary: Manager force-assign a P1 dispatch after accept-window escalation
+security:
+- bearerAuth: []
+parameters:
+- $ref: '#/components/parameters/DispatchId'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/ForceAssignP1DispatchRequest'
+responses:
+  '200':
+    description: Force-assigned P1 dispatch.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/P1DispatchSummary'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '409':
+    $ref: '#/components/responses/Conflict'

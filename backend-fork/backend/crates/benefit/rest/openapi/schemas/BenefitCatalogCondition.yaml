@@ -1,0 +1,13 @@
+type: object
+additionalProperties: false
+required: [condition_kind, operator, condition_key, condition_value, display_label, display_order]
+properties:
+  id: { $ref: '#/components/schemas/Uuid' }
+  benefit_id: { $ref: '#/components/schemas/Uuid' }
+  condition_kind: { type: string }
+  operator: { type: string }
+  condition_key: { type: string }
+  condition_value: { type: object, additionalProperties: true }
+  display_label: { type: string }
+  cedar_policy_ref: { type: string, nullable: true }
+  display_order: { type: integer }

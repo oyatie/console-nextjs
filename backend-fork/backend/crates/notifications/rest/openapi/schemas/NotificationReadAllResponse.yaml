@@ -1,0 +1,8 @@
+type: object
+required:
+- marked
+properties:
+  marked:
+    type: integer
+    format: int64
+    description: The number of notifications marked read.

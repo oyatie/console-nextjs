@@ -1,0 +1,16 @@
+type: object
+required:
+- run
+- waiting_tasks
+- timeline
+properties:
+  run:
+    $ref: '#/components/schemas/WorkflowRunDetailRun'
+  waiting_tasks:
+    type: array
+    items:
+      $ref: '#/components/schemas/WorkflowTaskSummary'
+  timeline:
+    type: array
+    items:
+      $ref: '#/components/schemas/WorkflowRunTimelineStep'

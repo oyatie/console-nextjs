@@ -1,0 +1,52 @@
+tags:
+  - workflow-studio
+operationId: listWorkflowRunsForObject
+summary: List visible workflow runs for one authorized object
+description: >-
+  Read-only exact-pair bridge for work_order and support_ticket subjects.
+  The server authorizes the native subject first, then returns only workflow
+  runs visible to the same principal. Unknown or invisible cursors fail with
+  the same validation code and do not disclose foreign rows.
+security:
+- bearerAuth: []
+parameters:
+- name: object_type
+  in: query
+  required: true
+  schema:
+    $ref: '#/components/schemas/WorkflowObjectKind'
+- name: object_id
+  in: query
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+- name: limit
+  in: query
+  required: false
+  schema:
+    type: integer
+    minimum: 1
+    maximum: 100
+    default: 25
+- name: before
+  in: query
+  required: false
+  schema:
+    $ref: '#/components/schemas/Uuid'
+responses:
+  '200':
+    description: Visible workflow runs bound to the exact subject pair.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/WorkflowRunsForObjectResponse'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '422':
+    $ref: '#/components/responses/ValidationError'
+  '503':
+    $ref: '#/components/responses/ServiceUnavailable'

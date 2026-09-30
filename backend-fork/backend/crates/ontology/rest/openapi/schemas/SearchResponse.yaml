@@ -1,0 +1,10 @@
+type: object
+description: Global search hits, each an ObjectHead scoped identically to resolveObject (a hit the caller could
+  not resolve never appears). Grouped by kind; exists is always true for a hit.
+required:
+- results
+properties:
+  results:
+    type: array
+    items:
+      $ref: '#/components/schemas/ObjectHead'

@@ -1,0 +1,30 @@
+type: object
+additionalProperties: false
+required:
+- as_of
+- timezone
+- range
+- scope
+- partial
+- action_inbox
+- todos
+- calendar
+properties:
+  as_of:
+    $ref: '#/components/schemas/Timestamp'
+  timezone:
+    type: string
+    enum:
+    - Asia/Seoul
+  range:
+    $ref: '#/components/schemas/WorkbenchRange'
+  scope:
+    $ref: '#/components/schemas/WorkbenchEffectiveScope'
+  partial:
+    type: boolean
+  action_inbox:
+    $ref: '#/components/schemas/WorkbenchActionSourceEnvelope'
+  todos:
+    $ref: '#/components/schemas/WorkbenchTodoSourceEnvelope'
+  calendar:
+    $ref: '#/components/schemas/WorkbenchCalendarSourceEnvelope'

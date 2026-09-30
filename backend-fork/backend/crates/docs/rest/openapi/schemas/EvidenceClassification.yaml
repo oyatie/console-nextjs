@@ -1,0 +1,1 @@
+{ type: string, enum: [General, Internal, Sensitive, Confidential, Secret] }

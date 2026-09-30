@@ -1,0 +1,16 @@
+type: object
+required:
+- code
+- label
+- dependentKind
+- count
+properties:
+  code:
+    type: string
+  label:
+    type: string
+  dependentKind:
+    type: string
+  count:
+    type: integer
+    format: int64

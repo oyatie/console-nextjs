@@ -1,0 +1,35 @@
+type: object
+required:
+- id
+- stage
+- content_type
+- size_bytes
+- uploaded_by
+- worm_replica_status
+- retry_count
+- verified_at
+- created_at
+properties:
+  id:
+    $ref: '#/components/schemas/Uuid'
+  stage:
+    $ref: '#/components/schemas/AttachmentStage'
+  content_type:
+    type: string
+  size_bytes:
+    type: integer
+    format: int64
+  uploaded_by:
+    $ref: '#/components/schemas/Uuid'
+  worm_replica_status:
+    $ref: '#/components/schemas/WormReplicaStatus'
+  retry_count:
+    type: integer
+    format: int32
+  verified_at:
+    type:
+    - string
+    - 'null'
+    format: date-time
+  created_at:
+    $ref: '#/components/schemas/Timestamp'

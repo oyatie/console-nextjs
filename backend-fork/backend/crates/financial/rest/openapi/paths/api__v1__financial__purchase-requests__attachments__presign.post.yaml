@@ -1,0 +1,27 @@
+tags:
+  - financial
+operationId: presignPurchaseRequestAttachment
+summary: Create a purchase attachment record and return a presigned upload URL
+security:
+- bearerAuth: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/PurchaseAttachmentPresignRequest'
+responses:
+  '201':
+    description: Purchase attachment upload ticket.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/PurchaseAttachmentPresignResponse'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '422':
+    $ref: '#/components/responses/ValidationError'
+  '503':
+    $ref: '#/components/responses/ServiceUnavailable'

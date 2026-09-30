@@ -1,0 +1,23 @@
+type: object
+required:
+- equipment_required
+- statement_evidence_required
+- price_anomaly
+- quote_update_required
+- submit_blocked
+- messages
+properties:
+  equipment_required:
+    type: boolean
+  statement_evidence_required:
+    type: boolean
+  price_anomaly:
+    type: boolean
+  quote_update_required:
+    type: boolean
+  submit_blocked:
+    type: boolean
+  messages:
+    type: array
+    items:
+      type: string

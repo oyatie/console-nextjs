@@ -1,0 +1,10 @@
+tags: [inventory]
+operationId: getInventoryItem
+summary: Get one tenant-authorized inventory item
+security: [{ bearerAuth: [] }]
+parameters: [{ name: item_id, in: path, required: true, schema: { $ref: '#/components/schemas/Uuid' } }]
+responses:
+  '200': { description: Inventory item, content: { application/json: { schema: { $ref: '#/components/schemas/InventoryItem' } } } }
+  '401': { $ref: '#/components/responses/Unauthorized' }
+  '403': { $ref: '#/components/responses/Forbidden' }
+  '404': { $ref: '#/components/responses/NotFound' }

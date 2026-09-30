@@ -1,0 +1,55 @@
+tags:
+  - hr
+operationId: reportEmployeeExitCase
+summary: Report an employee exit case from an absence signal
+description: Creates an audited employee exit case that HR can confirm and prepare for settlement/approval workflows.
+security:
+- bearerAuth: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        required:
+        - employee_id
+        - effective_exit_date
+        - site_manager_note
+        properties:
+          employee_id:
+            $ref: '#/components/schemas/Uuid'
+          branch_id:
+            $ref: '#/components/schemas/Uuid'
+            description: >-
+              Optional consistency assertion only. It must match the
+              durable branch derived from the named absence alert, the
+              employee home branch, or the latest attendance fact. It
+              never assigns or overrides authorization; a mismatch is 404.
+          absence_alert_id:
+            $ref: '#/components/schemas/Uuid'
+            description: >-
+              Optional durable absence signal. When supplied, it must
+              exist for this exact employee or the request is 404; its
+              stored branch takes precedence in branch authorization.
+          effective_exit_date:
+            type: string
+          site_manager_note:
+            type: string
+responses:
+  '201':
+    description: Employee exit case created.
+    content:
+      application/json:
+        schema:
+          type: object
+          additionalProperties: true
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '409':
+    $ref: '#/components/responses/Conflict'
+  '422':
+    $ref: '#/components/responses/ValidationError'

@@ -1,0 +1,18 @@
+type: object
+required:
+- object_type_id
+- from_state
+- to_state
+properties:
+  object_type_id:
+    $ref: '#/components/schemas/Uuid'
+  from_state:
+    $ref: '#/components/schemas/LifecycleState'
+  to_state:
+    $ref: '#/components/schemas/LifecycleState'
+  requires_reason:
+    type: boolean
+  requires_four_eyes:
+    type: boolean
+  requires_checklist:
+    type: boolean

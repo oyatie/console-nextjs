@@ -1,0 +1,51 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n                    SELECT\n                        COUNT(*) FILTER (\n                            WHERE status IN ('RECEIVED', 'UNASSIGNED')\n                        ) AS \"received!\",\n                        COUNT(*) FILTER (WHERE status = 'ASSIGNED') AS \"assigned!\",\n                        COUNT(*) FILTER (\n                            WHERE status IN ('IN_PROGRESS', 'REPORT_SUBMITTED', 'ADMIN_REVIEW')\n                        ) AS \"in_progress!\",\n                        COUNT(*) FILTER (WHERE status = 'FINAL_COMPLETED') AS \"completed!\",\n                        COUNT(*) FILTER (\n                            WHERE status NOT IN (\n                                'FINAL_COMPLETED', 'REJECTED', 'ARCHIVED', 'CANCELLED'\n                            )\n                            AND created_at < now() - make_interval(hours => $1::int)\n                        ) AS \"aging!\"\n                    FROM work_orders\n                    ",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "received!",
+        "type_info": "Int8",
+        "origin": "Expression"
+      },
+      {
+        "ordinal": 1,
+        "name": "assigned!",
+        "type_info": "Int8",
+        "origin": "Expression"
+      },
+      {
+        "ordinal": 2,
+        "name": "in_progress!",
+        "type_info": "Int8",
+        "origin": "Expression"
+      },
+      {
+        "ordinal": 3,
+        "name": "completed!",
+        "type_info": "Int8",
+        "origin": "Expression"
+      },
+      {
+        "ordinal": 4,
+        "name": "aging!",
+        "type_info": "Int8",
+        "origin": "Expression"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Int4"
+      ]
+    },
+    "nullable": [
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  "hash": "ac8573f3984cd60a8be533501e540d52bd3ab87595c05d1a34fe3686cab496b1"
+}

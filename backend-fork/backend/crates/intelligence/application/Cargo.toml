@@ -1,0 +1,17 @@
+[package]
+name = "console-intelligence-application"
+version = "0.1.0"
+description = "Console-owned fail-closed AIP draft seam. Not a tenant Intelligence product, not a clone of the Intelligence repository, not a Palantir client."
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+console-kernel-core = { workspace = true }
+console-ontology-canonical-domain = { path = "../../ontology/canonical-domain" }
+serde_json = { workspace = true }
+uuid = { workspace = true }
+
+[lints]
+workspace = true

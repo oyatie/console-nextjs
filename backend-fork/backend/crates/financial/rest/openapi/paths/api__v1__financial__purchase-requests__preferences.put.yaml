@@ -1,0 +1,23 @@
+tags:
+  - financial
+operationId: savePurchaseRequestPreferences
+summary: Save the current user's purchase request workspace preferences
+security:
+- bearerAuth: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/SavePurchasePreferencesRequest'
+responses:
+  '200':
+    description: Saved purchase request workspace preferences.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/PurchaseFeaturePreferences'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '422':
+    $ref: '#/components/responses/ValidationError'

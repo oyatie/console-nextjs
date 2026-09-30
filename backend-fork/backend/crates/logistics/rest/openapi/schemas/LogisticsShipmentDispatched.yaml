@@ -1,0 +1,6 @@
+type: object
+required: [id, fulfillmentId, status]
+properties:
+  id: { $ref: '#/components/schemas/Uuid', description: created shipment id }
+  fulfillmentId: { $ref: '#/components/schemas/Uuid' }
+  status: { type: string, enum: [DISPATCHED] }

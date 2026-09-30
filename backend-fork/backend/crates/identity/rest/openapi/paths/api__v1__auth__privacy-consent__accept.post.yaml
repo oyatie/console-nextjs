@@ -1,0 +1,25 @@
+tags:
+  - auth
+summary: Accept required first-login privacy terms
+description: Persists the authenticated user's required initial-login acknowledgement of the privacy collection/use
+  notice and service terms as a tenant-scoped audit event. Both required agreements must be accepted explicitly; optional
+  marketing and GPS/location consent are excluded.
+security:
+- bearerAuth: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/PrivacyConsentAcceptRequest'
+responses:
+  '200':
+    description: The accepted current required privacy consent status.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/PrivacyConsentStatusResponse'
+  '400':
+    $ref: '#/components/responses/ValidationError'
+  '401':
+    $ref: '#/components/responses/Unauthorized'

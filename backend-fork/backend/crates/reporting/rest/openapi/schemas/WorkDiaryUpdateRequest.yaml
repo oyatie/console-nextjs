@@ -1,0 +1,6 @@
+type: object
+required:
+- body
+properties:
+  body:
+    $ref: '#/components/schemas/WorkDiaryBody'

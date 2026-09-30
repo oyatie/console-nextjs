@@ -1,0 +1,16 @@
+operationId: recordProductionOperation
+tags: [Production]
+security: [{bearerAuth: []}]
+parameters:
+- name: plan_id
+  in: path
+  required: true
+  schema: {$ref: '#/components/schemas/Uuid'}
+- name: operation_id
+  in: path
+  required: true
+  schema: {$ref: '#/components/schemas/Uuid'}
+requestBody: {required: true, content: {application/json: {schema: {$ref: '#/components/schemas/RecordProductionOperation'}}}}
+responses:
+  '200': {description: "Output, scrap, downtime, and quality evidence recorded idempotently", content: {application/json: {schema: {$ref: '#/components/schemas/ProductionOperation'}}}}
+  '409': {$ref: '#/components/responses/Conflict'}

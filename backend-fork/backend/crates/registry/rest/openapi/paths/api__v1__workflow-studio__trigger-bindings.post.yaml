@@ -1,0 +1,32 @@
+tags:
+  - workflow-studio
+operationId: createWorkflowTriggerBinding
+summary: Bind a registered domain event to a workflow definition
+description: When the bound event's audited mutation commits, the dispatcher starts one idempotent run of the bound
+  definition per event occurrence. trigger_type must be an event-shaped reserved TriggerType and event_key a registered
+  domain event.
+security:
+- bearerAuth: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/CreateTriggerBindingRequest'
+responses:
+  '200':
+    description: Created trigger binding.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/TriggerBindingResponse'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '409':
+    $ref: '#/components/responses/Conflict'
+  '422':
+    $ref: '#/components/responses/ValidationError'

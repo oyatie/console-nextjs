@@ -1,0 +1,9 @@
+type: string
+enum:
+- completed_count
+- average_response_speed
+- completion_duration_and_due_compliance
+- revisit_rate
+- delay_rate_and_reason_distribution
+- inspection_plan_completion_rate
+- p1_acceptance_rate

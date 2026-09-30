@@ -1,0 +1,2 @@
+type: string
+enum: [DRAFT, BALANCE_CHECKED, APPROVED, POSTED, REVERSED]

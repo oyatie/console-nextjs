@@ -1,0 +1,12 @@
+type: object
+additionalProperties: false
+required:
+- status
+- code
+properties:
+  status:
+    type: string
+    enum:
+    - unavailable
+  code:
+    type: string

@@ -1,0 +1,4 @@
+type: object
+additionalProperties: false
+required: [action, reason, resolved_at]
+properties: { action: { type: string }, reason: { type: string }, ot_hours: { type: string, nullable: true }, resolved_at: { type: string, format: date-time } }

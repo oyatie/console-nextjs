@@ -1,0 +1,12 @@
+type: object
+required:
+- items
+- total
+properties:
+  items:
+    type: array
+    items:
+      $ref: '#/components/schemas/SubstituteCandidate'
+  total:
+    type: integer
+    minimum: 0

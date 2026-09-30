@@ -1,0 +1,15 @@
+type: object
+required:
+- site_name
+- management_no
+- diagnosis
+- action_taken
+properties:
+  site_name:
+    type: string
+  management_no:
+    type: string
+  diagnosis:
+    type: string
+  action_taken:
+    type: string

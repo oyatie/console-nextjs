@@ -1,0 +1,54 @@
+tags:
+  - employees
+operationId: listEmployees
+summary: Paginated tenant HR employee directory
+description: Executive/admin/super-admin read of first-class employee rows. Employees are not auth users.
+security:
+- bearerAuth: []
+parameters:
+- name: company
+  in: query
+  required: false
+  schema:
+    type: string
+  description: Filter by workbook sheet/company name.
+- name: search
+  in: query
+  required: false
+  schema:
+    type: string
+  description: Case-insensitive name or employee-number typeahead query.
+- name: home_branch_review_required
+  in: query
+  required: false
+  schema:
+    type: boolean
+  description: Filter to employees whose active authoritative home branch is missing/inactive (true) or usable (false).
+- name: limit
+  in: query
+  required: false
+  schema:
+    type: integer
+    format: int64
+    minimum: 1
+    maximum: 1000
+    default: 500
+- name: offset
+  in: query
+  required: false
+  schema:
+    type: integer
+    format: int64
+    minimum: 0
+    default: 0
+responses:
+  '200':
+    description: Paginated employee list.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/EmployeePage'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'

@@ -1,0 +1,6 @@
+type: object
+required: [kind, id, source_version]
+properties:
+  kind: {type: string, enum: [demand, capacity, material]}
+  id: {$ref: '#/components/schemas/Uuid'}
+  source_version: {type: string}

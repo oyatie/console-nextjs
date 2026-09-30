@@ -1,0 +1,44 @@
+type: object
+description: >-
+  NON-AUTHORITATIVE authorization projection for the caller. A rendering
+  hint only — the backend matrix is the sole enforcer.
+properties:
+  authority:
+    type: string
+    description: Always `advisory_ui_only`; never an authorization decision.
+    enum:
+    - advisory_ui_only
+  source:
+    type: string
+    description: >-
+      Grant source. `legacy_matrix` today; flips to `cedar` on the
+      enforce-promotion with this shape unchanged.
+    enum:
+    - legacy_matrix
+    - cedar
+  user_id:
+    $ref: '#/components/schemas/Uuid'
+  org_id:
+    $ref: '#/components/schemas/Uuid'
+  roles:
+    type: array
+    description: Canonical role keys carried as principal attributes.
+    items:
+      type: string
+  branch_scope:
+    $ref: '#/components/schemas/BranchScope'
+  capabilities:
+    type: array
+    description: >-
+      Capability grants the caller holds (deny-by-omission — a feature the
+      caller cannot use is omitted, never present at `deny`).
+    items:
+      $ref: '#/components/schemas/MeAuthzCapability'
+required:
+- authority
+- source
+- user_id
+- org_id
+- roles
+- branch_scope
+- capabilities

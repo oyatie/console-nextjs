@@ -1,0 +1,22 @@
+type: object
+description: One photo attached to a sales listing.
+required:
+- id
+- url
+- content_type
+- alt_text
+- sort_order
+properties:
+  id:
+    type: string
+  url:
+    type: string
+  content_type:
+    type: string
+  alt_text:
+    type:
+    - string
+    - 'null'
+  sort_order:
+    type: integer
+    format: int32

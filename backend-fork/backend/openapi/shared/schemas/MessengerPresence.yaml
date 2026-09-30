@@ -1,0 +1,20 @@
+      type: object
+      required:
+      - user_id
+      - display_name
+      - last_activity_at
+      - status
+      properties:
+        user_id:
+          $ref: '#/components/schemas/Uuid'
+        display_name:
+          type:
+          - string
+          - 'null'
+        last_activity_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        status:
+          $ref: '#/components/schemas/MessengerPresenceStatus'

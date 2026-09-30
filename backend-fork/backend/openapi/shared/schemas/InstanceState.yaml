@@ -1,0 +1,5 @@
+      type: object
+      required: [instance, revision]
+      properties:
+        instance: { $ref: '#/components/schemas/InstanceHead' }
+        revision: { $ref: '#/components/schemas/RevisionSummary' }

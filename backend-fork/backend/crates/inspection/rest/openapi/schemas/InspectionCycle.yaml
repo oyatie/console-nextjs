@@ -1,0 +1,8 @@
+type: string
+enum:
+- DAILY
+- WEEKLY
+- MONTHLY
+- QUARTERLY
+- YEARLY
+- CUSTOM

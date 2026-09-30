@@ -1,0 +1,15 @@
+type: object
+required:
+- id
+- original_run_id
+- reason
+- created_by
+properties:
+  id:
+    $ref: '#/components/schemas/Uuid'
+  original_run_id:
+    $ref: '#/components/schemas/Uuid'
+  reason:
+    type: string
+  created_by:
+    $ref: '#/components/schemas/Uuid'

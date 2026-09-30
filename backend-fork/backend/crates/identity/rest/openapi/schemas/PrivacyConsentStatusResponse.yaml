@@ -1,0 +1,17 @@
+type: object
+description: Current required first-login privacy/terms consent status.
+required:
+- policy_version
+- accepted
+properties:
+  policy_version:
+    type: string
+    description: Current required privacy/terms notice version.
+  accepted:
+    type: boolean
+    description: True when the authenticated user has accepted the current version.
+  accepted_at:
+    type: string
+    format: date-time
+    nullable: true
+    description: UTC timestamp of the latest acceptance for the current version.

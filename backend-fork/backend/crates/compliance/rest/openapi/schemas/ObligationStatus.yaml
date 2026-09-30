@@ -1,0 +1,2 @@
+type: string
+enum: [DRAFT, ACTIVE, WAIVED, SUPERSEDED, ARCHIVED]

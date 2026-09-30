@@ -1,0 +1,18 @@
+[package]
+name = "console-docs-domain"
+version = "0.1.0"
+description = "Pure docs/evidence-object domain invariants for EV objects, WORM copies, TSA, custody, and legal holds."
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+console-kernel-core = { workspace = true }
+serde = { workspace = true }
+
+[dev-dependencies]
+serde_json = { workspace = true }
+
+[lints]
+workspace = true

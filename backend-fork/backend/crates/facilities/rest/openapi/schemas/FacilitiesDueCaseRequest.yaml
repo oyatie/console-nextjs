@@ -1,0 +1,3 @@
+type: object
+required: [obligationId, idempotencyKey]
+properties: { obligationId: { $ref: '#/components/schemas/Uuid' }, idempotencyKey: { type: string, minLength: 16 } }

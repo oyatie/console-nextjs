@@ -1,0 +1,4 @@
+type: object
+additionalProperties: false
+required: [kind, workOrderId]
+properties: { kind: { type: string, enum: [work_order] }, workOrderId: { $ref: '#/components/schemas/Uuid' } }

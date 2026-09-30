@@ -1,0 +1,25 @@
+type: object
+required:
+- id
+- scope
+- action
+- created_at
+properties:
+  id:
+    $ref: '#/components/schemas/Uuid'
+  scope:
+    type: string
+    enum:
+    - all
+    - category
+    - object
+  category:
+    type: string
+    description: Present only when scope is category.
+  link:
+    $ref: '#/components/schemas/NotificationLink'
+  action:
+    type: string
+    description: Extensible routing action ("mute" today; e.g. "watch" later).
+  created_at:
+    $ref: '#/components/schemas/Timestamp'

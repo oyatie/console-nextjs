@@ -1,0 +1,8 @@
+type: object
+required:
+- assignee_user_id
+properties:
+  assignee_user_id:
+    $ref: '#/components/schemas/Uuid'
+  branch_id:
+    $ref: '#/components/schemas/Uuid'

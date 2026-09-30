@@ -1,0 +1,35 @@
+[package]
+name = "console-platform-realtime"
+version = "0.1.0"
+description = "WebSocket realtime hub and Postgres LISTEN/NOTIFY bridge."
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+axum = { workspace = true, features = ["ws"] }
+console-kernel-core = { workspace = true }
+console-messenger-application = { workspace = true }
+console-messenger-adapter-postgres = { workspace = true }
+console-notifications-application = { workspace = true }
+console-notifications-adapter-postgres = { workspace = true }
+console-notifications-domain = { workspace = true }
+console-platform-auth = { workspace = true }
+console-platform-db = { workspace = true }
+console-platform-request-context = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+sqlx = { workspace = true }
+thiserror = { workspace = true }
+time = { workspace = true }
+tokio = { workspace = true, features = ["sync", "time"] }
+tracing = { workspace = true }
+uuid = { workspace = true }
+
+[dev-dependencies]
+console-messenger-domain = { workspace = true }
+tokio = { workspace = true, features = ["macros", "rt-multi-thread", "time"] }
+
+[lints]
+workspace = true

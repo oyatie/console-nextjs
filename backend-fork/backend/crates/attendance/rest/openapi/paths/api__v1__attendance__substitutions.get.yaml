@@ -1,0 +1,19 @@
+tags: [attendance]
+operationId: listAttendanceSubstitutions
+summary: List branch-scoped substitute assignments
+security: [{ bearerAuth: [] }]
+parameters:
+  # Supply exactly one selector: `month`, `work_date`, or the complete
+  # `from_date` + `to_date` pair. The server rejects ambiguous, absent,
+  # and partial ranges.
+  - { name: month, in: query, required: false, schema: { type: string, pattern: '^\\d{4}-\\d{2}$' } }
+  - { name: work_date, in: query, required: false, schema: { type: string, format: date } }
+  - { name: from_date, in: query, required: false, schema: { type: string, format: date } }
+  - { name: to_date, in: query, required: false, schema: { type: string, format: date } }
+  - { name: branch_id, in: query, required: false, schema: { $ref: '#/components/schemas/Uuid' } }
+  - { name: limit, in: query, required: false, schema: { type: integer, minimum: 1, maximum: 200 } }
+  - { name: offset, in: query, required: false, schema: { type: integer, minimum: 0 } }
+responses:
+  '200': { description: Typed substitution page, content: { application/json: { schema: { $ref: '#/components/schemas/AttendanceSubstitutionPage' } } } }
+  '401': { $ref: '#/components/responses/Unauthorized' }
+  '403': { $ref: '#/components/responses/Forbidden' }

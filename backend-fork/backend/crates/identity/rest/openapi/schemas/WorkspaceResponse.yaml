@@ -1,0 +1,10 @@
+type: object
+properties:
+  layout:
+    type: object
+    additionalProperties: true
+    description: >-
+      Opaque, frontend-owned console layout object. Stored and returned
+      verbatim; empty default is `{}`.
+required:
+- layout

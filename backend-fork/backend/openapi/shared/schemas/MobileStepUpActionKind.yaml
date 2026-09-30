@@ -1,0 +1,4 @@
+      type: string
+      enum:
+      - APPROVAL_DECISION
+      - POLL_VOTE

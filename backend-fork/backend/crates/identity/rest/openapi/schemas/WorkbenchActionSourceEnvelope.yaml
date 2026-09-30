@@ -1,0 +1,10 @@
+oneOf:
+- $ref: '#/components/schemas/WorkbenchActionSourceOk'
+- $ref: '#/components/schemas/WorkbenchDeniedSourceEnvelope'
+- $ref: '#/components/schemas/WorkbenchUnavailableSourceEnvelope'
+discriminator:
+  propertyName: status
+  mapping:
+    ok: '#/components/schemas/WorkbenchActionSourceOk'
+    denied: '#/components/schemas/WorkbenchDeniedSourceEnvelope'
+    unavailable: '#/components/schemas/WorkbenchUnavailableSourceEnvelope'

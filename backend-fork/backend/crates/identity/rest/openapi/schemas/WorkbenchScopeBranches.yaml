@@ -1,0 +1,17 @@
+type: object
+additionalProperties: false
+required:
+- kind
+- branch_ids
+properties:
+  kind:
+    type: string
+    enum:
+    - branches
+  branch_ids:
+    type: array
+    uniqueItems: true
+    items:
+      $ref: '#/components/schemas/Uuid'
+  selected_branch_id:
+    $ref: '#/components/schemas/Uuid'

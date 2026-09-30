@@ -1,0 +1,31 @@
+tags:
+  - sites
+operationId: updateSite
+summary: Update a site's coordinates and administrative address
+description: 'Admin-gated (EquipmentManage). The only coordinate entry point: a site is pinnable on the dispatch map
+  only once an admin writes a valid lat/lon pair here. Latitude/longitude must be updated together and fall within WGS84
+  ranges; supplying one without the other is a 422. Only supplied fields are written; nullable fields explicitly set
+  to null are cleared.'
+security:
+- bearerAuth: []
+parameters:
+- $ref: '#/components/parameters/SiteId'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/UpdateSiteRequest'
+responses:
+  '204':
+    description: Site updated.
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '422':
+    $ref: '#/components/responses/ValidationError'
+  '503':
+    description: JWT verification is not configured.

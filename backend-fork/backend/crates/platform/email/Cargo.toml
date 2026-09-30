@@ -1,0 +1,19 @@
+[package]
+name = "console-platform-email"
+version = "0.1.0"
+description = "SMTP outbound email adapter (OCI Email Delivery relay) behind a platform port."
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+lettre = { workspace = true }
+thiserror = { workspace = true }
+tracing = { workspace = true }
+
+[dev-dependencies]
+tokio = { workspace = true, features = ["macros", "rt"] }
+
+[lints]
+workspace = true

@@ -1,0 +1,12 @@
+type: object
+required:
+- items
+- total
+properties:
+  items:
+    type: array
+    items:
+      $ref: '#/components/schemas/OrgChangeSummary'
+  total:
+    type: integer
+    format: int64

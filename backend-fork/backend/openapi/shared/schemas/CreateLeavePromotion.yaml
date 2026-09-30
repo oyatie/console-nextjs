@@ -1,0 +1,7 @@
+      type: object
+      required: [round_no, reference_year]
+      properties:
+        round_no: { type: integer, enum: [1, 2] }
+        reference_year: { type: integer }
+        min_remaining_days: { type: number, nullable: true }
+        note: { type: string, nullable: true }

@@ -1,0 +1,17 @@
+type: object
+required: [id, code, name, version_label, framework_kind, status, metadata, created_by, updated_by, created_at, updated_at]
+properties:
+  id: { $ref: '#/components/schemas/Uuid' }
+  code: { type: string }
+  name: { type: string }
+  version_label: { type: string }
+  framework_kind: { $ref: '#/components/schemas/FrameworkKind' }
+  status: { $ref: '#/components/schemas/FrameworkStatus' }
+  owner_user_id: { type: [string, 'null'], format: uuid }
+  effective_from: { type: [string, 'null'], format: date }
+  effective_to: { type: [string, 'null'], format: date }
+  metadata: { type: object, additionalProperties: true }
+  created_by: { $ref: '#/components/schemas/Uuid' }
+  updated_by: { $ref: '#/components/schemas/Uuid' }
+  created_at: { $ref: '#/components/schemas/Timestamp' }
+  updated_at: { $ref: '#/components/schemas/Timestamp' }

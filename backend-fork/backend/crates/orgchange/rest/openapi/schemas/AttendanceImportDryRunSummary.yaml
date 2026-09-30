@@ -1,0 +1,43 @@
+type: object
+required:
+- run_id
+- input_rows
+- candidate_rows
+- preserved_rows
+- ready_rows
+- error_rows
+- duplicate_rows
+- missing_employee_rows
+- ambiguous_employee_rows
+- row_errors
+properties:
+  run_id:
+    $ref: '#/components/schemas/Uuid'
+  input_rows:
+    type: integer
+    minimum: 0
+  candidate_rows:
+    type: integer
+    minimum: 0
+  preserved_rows:
+    type: integer
+    minimum: 0
+  ready_rows:
+    type: integer
+    minimum: 0
+  error_rows:
+    type: integer
+    minimum: 0
+  duplicate_rows:
+    type: integer
+    minimum: 0
+  missing_employee_rows:
+    type: integer
+    minimum: 0
+  ambiguous_employee_rows:
+    type: integer
+    minimum: 0
+  row_errors:
+    type: array
+    items:
+      $ref: '#/components/schemas/AttendanceImportRowError'

@@ -1,0 +1,35 @@
+type: object
+required:
+- total_count
+- p1_count
+- overdue_open_count
+- unassigned_count
+- preventive_on_time_rate
+- mttr_minutes
+properties:
+  total_count:
+    type: integer
+    format: int64
+  p1_count:
+    type: integer
+    format: int64
+  overdue_open_count:
+    type: integer
+    format: int64
+  unassigned_count:
+    type: integer
+    format: int64
+  preventive_on_time_rate:
+    type:
+    - number
+    - 'null'
+    format: double
+    description: Share (0..1) of closed preventive orders that reached FINAL_COMPLETED no later than their target due
+      date; null when the filtered set has no basis.
+  mttr_minutes:
+    type:
+    - number
+    - 'null'
+    format: double
+    description: Mean minutes from the first IN_PROGRESS transition to the first REPORT_SUBMITTED transition (OT-13
+      MTTR); null when no order has completed that span.

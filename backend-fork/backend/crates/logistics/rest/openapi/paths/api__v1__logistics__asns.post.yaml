@@ -1,0 +1,6 @@
+tags: [logistics]
+operationId: createLogisticsAsn
+summary: Create a pilot ASN for one branch warehouse
+security: [{ bearerAuth: [] }]
+requestBody: { required: true, content: { application/json: { schema: { type: object, required: [branchId, warehouseCode, externalReference, sku, expectedQuantity], properties: { branchId: { $ref: '#/components/schemas/Uuid' }, warehouseCode: { type: string }, externalReference: { type: string }, sku: { type: string }, expectedQuantity: { type: integer, minimum: 1 } } } } } }
+responses: { '201': { description: ASN created, content: { application/json: { schema: { $ref: '#/components/schemas/LogisticsAsnCreated' } } } }, '401': { $ref: '#/components/responses/Unauthorized' }, '403': { $ref: '#/components/responses/Forbidden' }, '422': { $ref: '#/components/responses/ValidationError' } }

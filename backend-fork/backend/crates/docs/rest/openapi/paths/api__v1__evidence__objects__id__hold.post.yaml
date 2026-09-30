@@ -1,0 +1,13 @@
+tags: [Evidence]
+operationId: holdEvidenceObject
+security:
+  - bearerAuth: []
+summary: Apply or release a legal hold (release is four-eyes gated).
+parameters: [ { name: id, in: path, required: true, schema: { type: string, format: uuid } } ]
+requestBody:
+  required: true
+  content: { application/json: { schema: { $ref: '#/components/schemas/EvidenceHoldRequest' } } }
+responses:
+  '200': { description: Hold released., content: { application/json: { schema: { $ref: '#/components/schemas/LegalHoldRecordView' } } } }
+  '201': { description: Hold applied., content: { application/json: { schema: { $ref: '#/components/schemas/LegalHoldRecordView' } } } }
+  '403': { description: Release requires a distinct-approver four-eyes approval (code four_eyes_required). }

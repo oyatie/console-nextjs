@@ -1,0 +1,27 @@
+type: object
+required:
+- field_key
+- label
+- field_type
+- required
+- options
+properties:
+  field_key:
+    type: string
+  label:
+    type: string
+  field_type:
+    type: string
+    enum:
+    - text
+    - select
+  required:
+    type: boolean
+  current_value:
+    type:
+    - string
+    - 'null'
+  options:
+    type: array
+    items:
+      $ref: '#/components/schemas/ObjectActionFieldOption'

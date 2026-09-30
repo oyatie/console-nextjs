@@ -1,0 +1,127 @@
+type: object
+description: Partial update. Absent keys are left unchanged; nullable keys set to null clear the column.
+properties:
+  customer_name:
+    type: string
+    minLength: 1
+  site_name:
+    type: string
+    minLength: 1
+  status:
+    $ref: '#/components/schemas/EquipmentStatus'
+  specification:
+    type: string
+    minLength: 1
+  ton_text:
+    type: string
+  management_no:
+    type:
+    - string
+    - 'null'
+  power_label:
+    type:
+    - string
+    - 'null'
+  manager_name:
+    type:
+    - string
+    - 'null'
+  placement_location:
+    type:
+    - string
+    - 'null'
+  placement_no:
+    type:
+    - string
+    - 'null'
+  operation_shift:
+    type:
+    - string
+    - 'null'
+  maker:
+    type:
+    - string
+    - 'null'
+  model:
+    type:
+    - string
+    - 'null'
+  vin:
+    type:
+    - string
+    - 'null'
+  year:
+    type:
+    - string
+    - 'null'
+    format: date
+  hours:
+    type:
+    - integer
+    - 'null'
+    format: int64
+  vehicle_registration_no:
+    type:
+    - string
+    - 'null'
+  insured:
+    type:
+    - boolean
+    - 'null'
+  insurer:
+    type:
+    - string
+    - 'null'
+  policy_holder:
+    type:
+    - string
+    - 'null'
+  insured_party:
+    type:
+    - string
+    - 'null'
+  asset_owner:
+    type:
+    - string
+    - 'null'
+  asset_registered_on:
+    type:
+    - string
+    - 'null'
+    format: date
+  rental_started_on:
+    type:
+    - string
+    - 'null'
+    format: date
+  rental_fee:
+    type:
+    - integer
+    - 'null'
+    format: int64
+  vehicle_value:
+    type:
+    - integer
+    - 'null'
+    format: int64
+  residual_value:
+    type:
+    - integer
+    - 'null'
+    format: int64
+  acquisition_cost_won:
+    description: Acquisition cost in KRW. A distinct accounting fact, never the depreciation base.
+    type:
+    - integer
+    - 'null'
+    format: int64
+    minimum: 0
+  acquisition_date:
+    type:
+    - string
+    - 'null'
+    format: date
+  note:
+    type:
+    - string
+    - 'null'

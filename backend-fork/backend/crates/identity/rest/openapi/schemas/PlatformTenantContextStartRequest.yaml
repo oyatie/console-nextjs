@@ -1,0 +1,6 @@
+type: object
+required:
+- org_id
+properties:
+  org_id:
+    $ref: '#/components/schemas/Uuid'

@@ -1,0 +1,31 @@
+tags:
+  - support
+operationId: createInternalSupportTicket
+summary: Open an internal support ticket as authenticated staff
+security:
+- bearerAuth: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/CreateInternalTicketRequest'
+responses:
+  '201':
+    description: Support ticket created.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/SupportTicketSummary'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '422':
+    $ref: '#/components/responses/ValidationError'
+  '503':
+    description: JWT verification is not configured.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ErrorBody'

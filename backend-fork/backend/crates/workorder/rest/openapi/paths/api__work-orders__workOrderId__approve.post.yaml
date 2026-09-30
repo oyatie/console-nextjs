@@ -1,0 +1,23 @@
+tags:
+  - work-orders
+operationId: approveWorkOrder
+summary: Approve the next pending non-mechanic approval step
+security:
+- bearerAuth: []
+parameters:
+- $ref: '#/components/parameters/WorkOrderId'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/ApproveWorkOrderRequest'
+responses:
+  '200':
+    description: Updated work-order approval state.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/WorkOrderSummary'
+  '409':
+    $ref: '#/components/responses/Conflict'

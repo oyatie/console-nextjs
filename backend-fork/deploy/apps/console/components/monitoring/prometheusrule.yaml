@@ -1,0 +1,105 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: console-app-slo
+  namespace: console
+  labels: { app: console-app }
+spec:
+  groups:
+    - name: console-app-slo.rules
+      rules:
+        # Availability SLO: 99.5% non-5xx over 30d (see
+        # backend/app/slos/api-availability.openslo.yaml). Alert when the
+        # short-window 5xx ratio burns the error budget — i.e. the success
+        # ratio drops below the 0.995 objective for a sustained period.
+        - alert: ConsoleApiAvailabilityBurn
+          expr: |
+            (
+              sum(rate(http_server_request_duration_seconds_count{service_name="console-app-api",http_response_status_code=~"5.."}[5m]))
+              /
+              sum(rate(http_server_request_duration_seconds_count{service_name="console-app-api"}[5m]))
+            ) > (1 - 0.995)
+          for: 10m
+          labels:
+            severity: critical
+            service: console-app-api
+            slo: availability
+          annotations:
+            summary: "console-app-api 5xx ratio is burning the availability error budget"
+            description: >-
+              The 5xx ratio for service_name='console-app-api' has exceeded the
+              0.5% budget (99.5% availability objective) for over 10m.
+
+        # Latency SLO: p99 < 500ms over 30d (see
+        # backend/app/slos/api-latency.openslo.yaml).
+        - alert: ConsoleApiLatencyP99High
+          expr: |
+            histogram_quantile(
+              0.99,
+              sum(rate(http_server_request_duration_seconds_bucket{service_name="console-app-api"}[5m])) by (le)
+            ) > 0.5
+          for: 10m
+          labels:
+            severity: warning
+            service: console-app-api
+            slo: latency
+          annotations:
+            summary: "console-app-api p99 latency above 500ms"
+            description: >-
+              The p99 HTTP request duration for service_name='console-app-api' has
+              exceeded the 0.5s latency objective for over 10m.
+
+    - name: console-mox.rules
+      rules:
+        - alert: ConsoleMoxDown
+          expr: up{job=~".*console-mox.*"} == 0
+          for: 5m
+          labels:
+            severity: critical
+            service: console-mox
+          annotations:
+            summary: "console-mox metrics target is down"
+            description: >-
+              Prometheus has not been able to scrape the internal mox metrics
+              endpoint for 5m. Check the StatefulSet, PVC mount, and NetworkPolicy.
+
+        - alert: ConsoleMoxWebhookFailures
+          expr: increase(mox_logging_level_error_total[10m]) > 0
+          for: 5m
+          labels:
+            severity: warning
+            service: console-mox
+          annotations:
+            summary: "mox delivery webhook failures detected"
+            description: >-
+              mox reported failed webhook delivery attempts. Verify the internal
+              console-app webhook health and the shared CONSOLE_MAIL_MOX_WEBHOOK_SECRET.
+
+        - alert: ConsoleMoxQueueBacklog
+          expr: mox_queue_hold > 0
+          for: 15m
+          labels:
+            severity: warning
+            service: console-mox
+          annotations:
+            summary: "mox queue hold backlog is non-empty"
+            description: >-
+              mox has messages held in its queue. Inspect `mox queue list` and
+              keep public MX disabled until the backlog cause is understood.
+
+        - alert: ConsoleMoxPvcSaturation
+          expr: |
+            (
+              kubelet_volume_stats_used_bytes{namespace="console",persistentvolumeclaim=~"mox-data-console-mox-.*"}
+              /
+              kubelet_volume_stats_capacity_bytes{namespace="console",persistentvolumeclaim=~"mox-data-console-mox-.*"}
+            ) > 0.85
+          for: 15m
+          labels:
+            severity: warning
+            service: console-mox
+          annotations:
+            summary: "mox PVC above 85% capacity"
+            description: >-
+              The /mox-data PVC is nearing capacity. Review retention, export old
+              mail safely, and run a backup before expanding the volume.

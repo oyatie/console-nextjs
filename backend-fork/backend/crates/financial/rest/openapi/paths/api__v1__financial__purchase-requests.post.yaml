@@ -1,0 +1,27 @@
+tags:
+  - financial
+operationId: createPurchaseRequest
+summary: Attach a 거래명세표 evidence record and open a purchase request
+security:
+- bearerAuth: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/CreatePurchaseRequest'
+responses:
+  '201':
+    description: Purchase request created in statement-attached state.
+    content:
+      application/json:
+        schema:
+          $ref: "#/components/schemas/PurchaseRequestSummary"
+  "401":
+    $ref: "#/components/responses/Unauthorized"
+  "403":
+    $ref: "#/components/responses/Forbidden"
+  "404":
+    $ref: "#/components/responses/NotFound"
+  "422":
+    $ref: "#/components/responses/ValidationError"

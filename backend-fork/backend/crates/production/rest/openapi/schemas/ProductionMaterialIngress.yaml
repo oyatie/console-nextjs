@@ -1,0 +1,9 @@
+type: object
+required: [kind, material_item_id, quantity_on_hand_milli, safety_stock_milli, source_id, source_version]
+properties:
+  kind: {type: string, enum: [material]}
+  material_item_id: {$ref: '#/components/schemas/Uuid'}
+  quantity_on_hand_milli: {type: integer, format: int64, minimum: 0}
+  safety_stock_milli: {type: integer, format: int64, minimum: 0}
+  source_id: {type: string, minLength: 1, maxLength: 160}
+  source_version: {type: string, minLength: 1, maxLength: 160}

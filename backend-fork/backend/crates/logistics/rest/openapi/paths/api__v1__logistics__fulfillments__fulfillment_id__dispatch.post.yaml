@@ -1,0 +1,7 @@
+tags: [logistics]
+operationId: dispatchLogisticsShipment
+summary: Dispatch one packed carrier and vehicle leg
+security: [{ bearerAuth: [] }]
+parameters: [{ name: fulfillment_id, in: path, required: true, schema: { $ref: '#/components/schemas/Uuid' } }]
+requestBody: { required: true, content: { application/json: { schema: { type: object, additionalProperties: false, required: [branchId, carrierName, vehicleReference], properties: { branchId: { $ref: '#/components/schemas/Uuid' }, carrierName: { type: string, maxLength: 120 }, vehicleReference: { type: string, maxLength: 120 } } } } } }
+responses: { '201': { description: Shipment dispatched, content: { application/json: { schema: { $ref: '#/components/schemas/LogisticsShipmentDispatched' } } } }, '409': { description: Illegal transition } }

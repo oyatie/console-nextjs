@@ -1,0 +1,142 @@
+{
+  "version": 1,
+  "status": "design_no_live_switch",
+  "decisionSource": "docs/decisions/ADR-0021-cedar-pbac-authorization-strangler.md",
+  "cutoverContract": "docs/specs/cedar-pbac-cutover.md",
+  "observabilityContract": "docs/specs/cedar-pbac-verification-observability.md",
+  "generatedAt": "2026-07-03",
+  "defaults": {
+    "legacyRoutesMode": "legacy_only",
+    "enrolledDomainMissingEntry": "deny",
+    "malformedEntry": "deny",
+    "cedarEvaluationError": "deny",
+    "stalePolicyBundle": "deny",
+    "staleSubject": "deny",
+    "rlsArmingFailure": "deny",
+    "auditWriteFailure": "deny"
+  },
+  "allowedModes": [
+    "legacy_only",
+    "cedar_shadow_legacy_enforce",
+    "cedar_enforce_legacy_compare",
+    "cedar_only"
+  ],
+  "cachePolicy": {
+    "compiledBundleCacheOnly": true,
+    "crossRequestAllowDecisionCache": false,
+    "requiredCacheKeyParts": [
+      "org_id",
+      "policy_version",
+      "schema_version",
+      "bundle_digest",
+      "cedar_sdk_version",
+      "cedar_language_version"
+    ]
+  },
+  "sourcePin": {
+    "crate": "cedar-policy",
+    "candidateExactVersion": "4.11.2",
+    "sourceCheckedAt": "2026-07-03",
+    "pinSyntaxWhenIntroduced": "=4.11.2",
+    "mustReverifyBeforeCargoChange": true,
+    "sourceEvidence": [
+      "https://github.com/cedar-policy/cedar/releases/tag/v4.11.2",
+      "https://crates.io/crates/cedar-policy",
+      "https://docs.cedarpolicy.com/other/doc-history.html"
+    ]
+  },
+  "invariants": {
+    "rlsHardBoundary": "Cedar decides capabilities/actions; Postgres console_rt/FORCE RLS decides row visibility and mutation reach.",
+    "serverAuthoritative": "Client projections and JWT feature hints never grant; every protected endpoint reauthorizes server-side.",
+    "uiProjectionNonAuthoritative": true,
+    "subjectFreshnessRequired": true,
+    "schemaValidationRequiredBeforeActivation": true,
+    "noLiveSwitchInG001": true
+  },
+  "entries": [
+    {
+      "id": "identity.policy.role_manage",
+      "domain": "identity.policy",
+      "resourceType": "identity.policy_role",
+      "actions": [
+        "role_manage",
+        "elevated_role_grant",
+        "user_role_assignment_write",
+        "policy_role_write"
+      ],
+      "currentMode": "legacy_only",
+      "owner": "identity-platform",
+      "authoritativeEngineToday": "legacy_system_role_and_custom_role_bridge",
+      "cedarEnrollmentState": "not_enabled",
+      "requiredSubjectInputs": [
+        "org_id",
+        "system_roles",
+        "custom_role_assignments",
+        "policy_version",
+        "authz_subject_version",
+        "passkey_step_up_freshness"
+      ],
+      "rlsProofRequired": true,
+      "promotionRequirements": [
+        "stale_subject_denies_test",
+        "stale_policy_bundle_denies_test",
+        "role_manage_ui_projection_cannot_grant_test",
+        "grant_le_self_server_side_test",
+        "no_lockout_concurrent_revoke_test",
+        "audit_metrics_with_engine_mode_and_versions"
+      ],
+      "denyIf": [
+        "missing_map_entry",
+        "unsupported_mode",
+        "cedar_diagnostic",
+        "stale_subject_version",
+        "stale_policy_version",
+        "unarmed_rls_read",
+        "audit_write_failure"
+      ]
+    },
+    {
+      "id": "workflow.guards.execution_action",
+      "domain": "workflow.guards",
+      "resourceType": "workflow.execution_action",
+      "actions": [
+        "workflow_trigger",
+        "workflow_node_execute",
+        "workflow_connector_invoke",
+        "workflow_human_approval"
+      ],
+      "currentMode": "legacy_only",
+      "owner": "workflow-platform",
+      "authoritativeEngineToday": "legacy_workflow_guards_and_connector_allowlist",
+      "cedarEnrollmentState": "not_enabled",
+      "requiredSubjectInputs": [
+        "org_id",
+        "department_id",
+        "team_id",
+        "responsibility_assignments",
+        "employment_state",
+        "policy_version",
+        "authz_subject_version",
+        "required_step_up_freshness"
+      ],
+      "rlsProofRequired": true,
+      "promotionRequirements": [
+        "connector_action_schema_validation",
+        "sensitive_action_step_up_test",
+        "rls_row_boundary_test",
+        "dual_engine_shadow_disagreement_metrics",
+        "audit_metrics_with_engine_mode_and_versions"
+      ],
+      "denyIf": [
+        "missing_map_entry",
+        "unsupported_mode",
+        "cedar_diagnostic",
+        "stale_subject_version",
+        "stale_policy_version",
+        "unarmed_rls_read",
+        "connector_not_allowlisted",
+        "audit_write_failure"
+      ]
+    }
+  ]
+}

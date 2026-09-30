@@ -1,0 +1,50 @@
+{
+  "source": "console-consulting-rest",
+  "paths": {
+    "/api/v1/consulting/engagements": [
+      "get",
+      "post"
+    ],
+    "/api/v1/consulting/engagements/{engagement_id}": [
+      "get"
+    ],
+    "/api/v1/consulting/engagements/{engagement_id}/diagnostics": [
+      "post"
+    ],
+    "/api/v1/consulting/engagements/{engagement_id}/findings": [
+      "post"
+    ],
+    "/api/v1/consulting/engagements/{engagement_id}/history": [
+      "get"
+    ],
+    "/api/v1/consulting/engagements/{engagement_id}/initiatives": [
+      "post"
+    ],
+    "/api/v1/consulting/engagements/{engagement_id}/observations": [
+      "post"
+    ],
+    "/api/v1/consulting/engagements/{engagement_id}/transition": [
+      "post"
+    ]
+  },
+  "schemas": [
+    "ConsultingBenefitObservation",
+    "ConsultingDiagnostic",
+    "ConsultingDiagnosticCreateRequest",
+    "ConsultingEngagement",
+    "ConsultingEngagementCreateRequest",
+    "ConsultingEngagementDetail",
+    "ConsultingEngagementPage",
+    "ConsultingFinding",
+    "ConsultingFindingCreateRequest",
+    "ConsultingHistoryEntry",
+    "ConsultingInitiative",
+    "ConsultingInitiativeCreateRequest",
+    "ConsultingObservationCreateRequest",
+    "ConsultingTransitionRequest"
+  ],
+  "external_schemas": [
+    "ErrorBody",
+    "Uuid"
+  ]
+}

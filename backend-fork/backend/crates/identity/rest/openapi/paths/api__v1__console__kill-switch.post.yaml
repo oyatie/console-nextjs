@@ -1,0 +1,42 @@
+tags:
+  - console
+operationId: updateConsoleLegacyKillSwitch
+summary: Force or release org-wide legacy-console routing
+description: Super-admin endpoint that overrides all individual new-console opt-ins and records an audit event.
+security:
+- bearerAuth: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        required:
+        - enabled
+        properties:
+          enabled:
+            type: boolean
+          reason:
+            type: string
+          rollout_note:
+            type: string
+responses:
+  '200':
+    description: Updated console rollout status after applying the kill switch.
+    content:
+      application/json:
+        schema:
+          type: object
+          additionalProperties: true
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '422':
+    $ref: '#/components/responses/ValidationError'
+  '503':
+    description: JWT verification is not configured.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ErrorBody'

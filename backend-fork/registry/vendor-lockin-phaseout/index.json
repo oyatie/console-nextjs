@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "entry_type": "managed_cloud_dependency_phaseout",
+  "entries": [
+    {
+      "name": "oci-logging",
+      "replacement_path": "opentelemetry-lgtm-stack",
+      "kernel_trait": "TelemetrySink",
+      "adapters": [
+        "oci-logging-adapter",
+        "opentelemetry-lgtm-adapter"
+      ]
+    },
+    {
+      "name": "oci-object-storage",
+      "replacement_path": "self-hosted-s3-compatible-object-storage",
+      "kernel_trait": "S3ObjectStore",
+      "adapters": [
+        "oci-object-storage-s3-adapter",
+        "self-hosted-s3-adapter"
+      ]
+    },
+    {
+      "name": "oci-vault",
+      "replacement_path": "openbao-external-secrets",
+      "kernel_trait": "SecretStore",
+      "adapters": [
+        "oci-vault-adapter",
+        "openbao-adapter"
+      ]
+    }
+  ]
+}

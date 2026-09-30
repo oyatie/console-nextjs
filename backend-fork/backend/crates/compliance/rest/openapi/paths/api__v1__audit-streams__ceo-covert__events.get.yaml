@@ -1,0 +1,39 @@
+tags:
+  - audit
+operationId: listCeoCovertAuditEvents
+summary: Read the CEO/top-clearance covert audit stream
+description: Cedar/PBAC clearance-gated stream of CEO/top-clearance-labeled audit events. The backend loads clearance
+  facts under org-scoped RLS and records an audit-of-access event for every successful read.
+security:
+- bearerAuth: []
+parameters:
+- name: limit
+  in: query
+  required: false
+  schema:
+    type: integer
+    format: int64
+    minimum: 1
+    maximum: 1000
+    default: 100
+- name: offset
+  in: query
+  required: false
+  schema:
+    type: integer
+    format: int64
+    minimum: 0
+    default: 0
+responses:
+  '200':
+    description: Paged covert audit events, plus the audit-of-access event id created by this read.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/AuditStreamPage'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '422':
+    $ref: '#/components/responses/ValidationError'

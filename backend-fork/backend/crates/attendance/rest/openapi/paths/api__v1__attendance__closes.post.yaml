@@ -1,0 +1,11 @@
+tags: [attendance]
+operationId: closeAttendanceMonth
+summary: Commit a server-validated monthly close
+security: [{ bearerAuth: [] }]
+requestBody: { required: true, content: { application/json: { schema: { $ref: '#/components/schemas/AttendanceCloseRequest' } } } }
+responses:
+  '201': { description: Committed close, content: { application/json: { schema: { $ref: '#/components/schemas/AttendanceMonthClose' } } } }
+  '401': { $ref: '#/components/responses/Unauthorized' }
+  '403': { $ref: '#/components/responses/Forbidden' }
+  '409': { $ref: '#/components/responses/Conflict' }
+  '422': { $ref: '#/components/responses/ValidationError' }

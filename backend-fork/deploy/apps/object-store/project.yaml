@@ -1,0 +1,29 @@
+# Dark Argo CD project for the ADR-0024 self-hosted S3 object-store stage.
+# This file is intentionally under deploy/apps/object-store/, not deploy/argocd/apps/,
+# so merging it does not add object storage to the live app-of-apps root.
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: console-object-store-dark
+  namespace: argocd
+  annotations:
+    console.nousresearch.com/dark-stage: "true"
+    console.nousresearch.com/context: "onprem"
+spec:
+  description: Dark ADR-0024 self-hosted SeaweedFS S3 stage; manual apply/sync only after founder/operator activation.
+  sourceRepos:
+    - https://github.com/jason931225/console.git
+  destinations:
+    - server: https://kubernetes.default.svc
+      namespace: console-object-store
+  # The rendered stack owns only the console-object-store namespace plus
+  # namespace-scoped workloads inside it. Keep this isolated instead of
+  # broadening the live maintenance AppProject during a no-op merge.
+  clusterResourceWhitelist:
+    - group: ""
+      kind: Namespace
+  namespaceResourceWhitelist:
+    - group: "*"
+      kind: "*"
+  orphanedResources:
+    warn: true

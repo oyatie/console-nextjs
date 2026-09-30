@@ -1,0 +1,41 @@
+operationId: getObjectType
+summary: Get an object type definition
+description: Returns the object type definition plus its property/link/action/analytic children. An optional version pins an
+  immutable, content-addressed published schema version; absent returns the head.
+tags:
+- Ontology
+security:
+- bearerAuth: []
+parameters:
+- name: key
+  in: path
+  required: true
+  schema:
+    type: string
+- name: version
+  in: query
+  required: false
+  schema:
+    type: integer
+    format: int64
+    minimum: 1
+responses:
+  '200':
+    description: Object type definition.
+    headers:
+      ETag:
+        description: Strong tenant/key write validator for subsequent mutations.
+        schema: { type: string }
+    content:
+      application/json:
+        schema:
+          type: object
+          additionalProperties: true
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '503':
+    $ref: '#/components/responses/ServiceUnavailable'

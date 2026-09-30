@@ -1,0 +1,12 @@
+tags: [attendance]
+operationId: raiseAttendanceException
+summary: Raise an idempotent attendance exception
+security: [{ bearerAuth: [] }]
+parameters: [{ name: Idempotency-Key, in: header, required: true, schema: { type: string, minLength: 1, maxLength: 200 } }]
+requestBody: { required: true, content: { application/json: { schema: { $ref: '#/components/schemas/RaiseAttendanceExceptionRequest' } } } }
+responses:
+  '201': { description: Created exception, content: { application/json: { schema: { $ref: '#/components/schemas/AttendanceException' } } } }
+  '401': { $ref: '#/components/responses/Unauthorized' }
+  '403': { $ref: '#/components/responses/Forbidden' }
+  '409': { $ref: '#/components/responses/Conflict' }
+  '422': { $ref: '#/components/responses/ValidationError' }

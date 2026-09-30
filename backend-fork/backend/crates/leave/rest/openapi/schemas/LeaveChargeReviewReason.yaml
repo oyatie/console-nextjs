@@ -1,0 +1,8 @@
+type: string
+enum:
+- missing_calendar
+- ambiguous_calendar
+- calendar_source_unavailable
+- missing_policy
+- ambiguous_policy
+- policy_source_unavailable

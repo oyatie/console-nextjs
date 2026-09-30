@@ -1,0 +1,6 @@
+tags: [consulting]
+operationId: createConsultingBenefitObservation
+security: [{ bearerAuth: [] }]
+parameters: [{ name: engagement_id, in: path, required: true, schema: { $ref: '#/components/schemas/Uuid' } }]
+requestBody: { required: true, content: { application/json: { schema: { $ref: '#/components/schemas/ConsultingObservationCreateRequest' } } } }
+responses: { '201': { description: KPI/evidence lineage reference, content: { application/json: { schema: { $ref: '#/components/schemas/ConsultingBenefitObservation' } } } }, '409': { $ref: '#/components/responses/Conflict' } }

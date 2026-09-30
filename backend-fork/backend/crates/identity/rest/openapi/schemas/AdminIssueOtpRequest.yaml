@@ -1,0 +1,13 @@
+type: object
+required:
+- user_id
+- branch_id
+properties:
+  user_id:
+    $ref: '#/components/schemas/Uuid'
+  branch_id:
+    $ref: '#/components/schemas/Uuid'
+  ttl_seconds:
+    type: integer
+    format: int64
+    description: Optional code lifetime in seconds; defaults to 86400 (24 hours).

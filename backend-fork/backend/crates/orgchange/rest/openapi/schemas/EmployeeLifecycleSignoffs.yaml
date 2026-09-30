@@ -1,0 +1,19 @@
+type: object
+required:
+- privacy_notice_ack
+- korean_labor_law_ack
+- payroll_cutoff_ack
+- retirement_settlement_ack
+properties:
+  privacy_notice_ack:
+    type: boolean
+    description: Confirms the employee was notified of personal-data processing for this HR action.
+  korean_labor_law_ack:
+    type: boolean
+    description: Confirms Korean labor-law and employment-rule review.
+  payroll_cutoff_ack:
+    type: boolean
+    description: Confirms payroll cutoff and final wage impact were reviewed.
+  retirement_settlement_ack:
+    type: boolean
+    description: Confirms severance/retirement settlement impact was reviewed.

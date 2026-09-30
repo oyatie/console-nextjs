@@ -1,0 +1,25 @@
+tags:
+  - reporting
+operationId: confirmWorkDiaryDraft
+summary: Confirm a work-diary draft before export
+security:
+- bearerAuth: []
+parameters:
+- $ref: '#/components/parameters/ReportDate'
+responses:
+  '200':
+    description: Confirmed work diary draft.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/WorkDiaryDraft'
+  '400':
+    $ref: '#/components/responses/ValidationError'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '409':
+    $ref: '#/components/responses/Conflict'
+  '422':
+    $ref: '#/components/responses/ValidationError'

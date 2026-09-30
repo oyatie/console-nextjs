@@ -1,0 +1,6 @@
+type: string
+enum:
+- equipment_no
+- model
+- customer
+- updated_at

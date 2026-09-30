@@ -1,0 +1,43 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n            SELECT inside, since FROM site_geofence_presence\n            WHERE org_id = $1 AND user_id = $2 AND work_order_id = $3 AND site_id = $4\n            FOR UPDATE\n            ",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "inside",
+        "type_info": "Bool",
+        "origin": {
+          "Table": {
+            "table": "site_geofence_presence",
+            "name": "inside"
+          }
+        }
+      },
+      {
+        "ordinal": 1,
+        "name": "since",
+        "type_info": "Timestamptz",
+        "origin": {
+          "Table": {
+            "table": "site_geofence_presence",
+            "name": "since"
+          }
+        }
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid",
+        "Uuid",
+        "Uuid"
+      ]
+    },
+    "nullable": [
+      false,
+      false
+    ]
+  },
+  "hash": "f3f12806b2a3e364d3e77755b4210e7b21d279a151b0230859d67a0088eaf4fc"
+}

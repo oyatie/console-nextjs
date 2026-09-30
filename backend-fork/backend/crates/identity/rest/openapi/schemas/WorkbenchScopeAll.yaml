@@ -1,0 +1,11 @@
+type: object
+additionalProperties: false
+required:
+- kind
+properties:
+  kind:
+    type: string
+    enum:
+    - all
+  selected_branch_id:
+    $ref: '#/components/schemas/Uuid'

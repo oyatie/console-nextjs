@@ -1,0 +1,35 @@
+tags:
+- recruiting
+operationId: adjustRecruitOffer
+summary: Adjust a live offer — writes an immutable v+1 row and SUPERSEDEs the prior one
+security:
+- bearerAuth: []
+parameters:
+- name: offerId
+  in: path
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/AdjustRecruitOfferRequest'
+responses:
+  '201':
+    description: The new offer version.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/RecruitOffer'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '409':
+    $ref: '#/components/responses/Conflict'
+  '422':
+    $ref: '#/components/responses/ValidationError'

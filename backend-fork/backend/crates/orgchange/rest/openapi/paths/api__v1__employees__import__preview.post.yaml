@@ -1,0 +1,35 @@
+tags:
+  - employees
+operationId: previewEmployeeImport
+summary: Preview an employee workbook through the governed import ledger
+description: Creates an immutable tenant-scoped raw import run, preserves every non-empty source row, masks restricted/PII/payroll/location
+  values in the response, and returns a column-to-employee schema mapping preview. No employee rows are written until
+  dry-run and apply are completed.
+security:
+- bearerAuth: []
+requestBody:
+  required: true
+  content:
+    multipart/form-data:
+      schema:
+        type: object
+        required:
+        - file
+        properties:
+          file:
+            type: string
+            format: binary
+            description: Employee .xlsx workbook.
+responses:
+  '200':
+    description: Import run preview with masked sample rows and mapping profile.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/EmployeeImportPreviewResponse'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '422':
+    $ref: '#/components/responses/ValidationError'

@@ -1,0 +1,43 @@
+{
+  "source": "console-facilities-rest",
+  "paths": {
+    "/api/v1/facilities/cases": [
+      "get",
+      "post"
+    ],
+    "/api/v1/facilities/cases/{case_id}": [
+      "get"
+    ],
+    "/api/v1/facilities/cases/{case_id}/acceptance": [
+      "post"
+    ],
+    "/api/v1/facilities/cases/{case_id}/assign": [
+      "post"
+    ],
+    "/api/v1/facilities/cases/{case_id}/observations": [
+      "post"
+    ],
+    "/api/v1/facilities/cases/{case_id}/start": [
+      "post"
+    ],
+    "/api/v1/facilities/cases/{case_id}/submit": [
+      "post"
+    ],
+    "/api/v1/facilities/cases/{case_id}/triage": [
+      "post"
+    ]
+  },
+  "schemas": [
+    "FacilitiesAcceptanceRequest",
+    "FacilitiesAssignRequest",
+    "FacilitiesCase",
+    "FacilitiesDueCaseRequest",
+    "FacilitiesObservationRequest",
+    "FacilitiesSubmitRequest",
+    "FacilitiesTriageRequest"
+  ],
+  "external_schemas": [
+    "ErrorBody",
+    "Uuid"
+  ]
+}

@@ -1,0 +1,100 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT action, target_type, target_id, before_snap, after_snap,\n                      trace_id, span_id\n               FROM audit_events WHERE id = $1",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "action",
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "audit_events",
+            "name": "action"
+          }
+        }
+      },
+      {
+        "ordinal": 1,
+        "name": "target_type",
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "audit_events",
+            "name": "target_type"
+          }
+        }
+      },
+      {
+        "ordinal": 2,
+        "name": "target_id",
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "audit_events",
+            "name": "target_id"
+          }
+        }
+      },
+      {
+        "ordinal": 3,
+        "name": "before_snap",
+        "type_info": "Jsonb",
+        "origin": {
+          "Table": {
+            "table": "audit_events",
+            "name": "before_snap"
+          }
+        }
+      },
+      {
+        "ordinal": 4,
+        "name": "after_snap",
+        "type_info": "Jsonb",
+        "origin": {
+          "Table": {
+            "table": "audit_events",
+            "name": "after_snap"
+          }
+        }
+      },
+      {
+        "ordinal": 5,
+        "name": "trace_id",
+        "type_info": "Bpchar",
+        "origin": {
+          "Table": {
+            "table": "audit_events",
+            "name": "trace_id"
+          }
+        }
+      },
+      {
+        "ordinal": 6,
+        "name": "span_id",
+        "type_info": "Bpchar",
+        "origin": {
+          "Table": {
+            "table": "audit_events",
+            "name": "span_id"
+          }
+        }
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      true,
+      true,
+      false,
+      false
+    ]
+  },
+  "hash": "7daa82e73cc324c83555bca6817f7bd06d6ed16c240926c6e5a45331ebfc3d3b"
+}

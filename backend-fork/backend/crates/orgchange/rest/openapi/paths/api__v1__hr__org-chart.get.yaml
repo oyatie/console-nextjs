@@ -1,0 +1,19 @@
+tags:
+  - hr
+operationId: getHrOrgChart
+summary: Read the tenant HR organization chart
+description: Executive/admin/super-admin read model grouped by company, org unit, and position. Source workbook rows
+  remain preserved in the employee directory.
+security:
+- bearerAuth: []
+responses:
+  '200':
+    description: Organization chart grouped from imported employee rows.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/HrOrgChartResponse'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'

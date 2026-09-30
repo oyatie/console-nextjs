@@ -1,0 +1,14 @@
+type: object
+required:
+- feature_key
+- elevated
+- default_permissions
+properties:
+  feature_key:
+    type: string
+  elevated:
+    type: boolean
+  default_permissions:
+    type: array
+    items:
+      $ref: '#/components/schemas/PolicyDefaultPermissionResponse'

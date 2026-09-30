@@ -1,0 +1,8 @@
+oneOf:
+- $ref: '#/components/schemas/WorkbenchScopeAll'
+- $ref: '#/components/schemas/WorkbenchScopeBranches'
+discriminator:
+  propertyName: kind
+  mapping:
+    all: '#/components/schemas/WorkbenchScopeAll'
+    branches: '#/components/schemas/WorkbenchScopeBranches'

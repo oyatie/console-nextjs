@@ -1,0 +1,19 @@
+[package]
+name = "console-inbox-application"
+version = "0.1.0"
+description = "InboxDoc use-case commands, views, and the emission write port."
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+console-kernel-core = { workspace = true }
+console-inbox-domain = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+time = { workspace = true }
+uuid = { workspace = true }
+
+[lints]
+workspace = true

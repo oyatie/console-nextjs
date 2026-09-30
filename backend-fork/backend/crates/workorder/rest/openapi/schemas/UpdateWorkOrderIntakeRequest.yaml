@@ -1,0 +1,11 @@
+type: object
+minProperties: 1
+properties:
+  symptom:
+    type: string
+  customer_request:
+    type: string
+  maintenance_type:
+    $ref: '#/components/schemas/MaintenanceType'
+  maintenance_cause:
+    $ref: '#/components/schemas/MaintenanceCause'

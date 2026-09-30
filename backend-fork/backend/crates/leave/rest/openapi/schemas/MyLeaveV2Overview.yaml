@@ -1,0 +1,7 @@
+type: object
+required: [balance, requests]
+properties:
+  balance:
+    $ref: '#/components/schemas/SelfLeaveBalance'
+  requests:
+    $ref: '#/components/schemas/LeaveRequestV2Page'

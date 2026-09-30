@@ -1,0 +1,4 @@
+type: object
+additionalProperties: false
+required: [site, role, cover_date, from_minutes, to_minutes, covered_employee_id, reason_kind, worker_employee_id]
+properties: { site: { type: string }, branch_id: { oneOf: [{ $ref: '#/components/schemas/Uuid' }, { type: 'null' }] }, role: { type: string }, cover_date: { type: string, format: date }, from_minutes: { type: integer, minimum: 0, maximum: 1439 }, to_minutes: { type: integer, minimum: 1, maximum: 1440 }, covered_employee_id: { $ref: '#/components/schemas/Uuid' }, reason_kind: { type: string }, reason_detail: { type: string, nullable: true }, worker_employee_id: { $ref: '#/components/schemas/Uuid' }, exception_id: { oneOf: [{ $ref: '#/components/schemas/Uuid' }, { type: 'null' }] } }

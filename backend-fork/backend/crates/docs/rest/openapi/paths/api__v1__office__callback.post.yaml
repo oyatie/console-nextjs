@@ -1,0 +1,71 @@
+tags:
+  - office
+operationId: officeCallback
+security:
+  - officeCallbackToken: []
+    officeDocumentServerToken: []
+summary: DocumentServer force-save callback (machine, JWT-verified)
+description: The unauthenticated (no user principal) machine callback from DocumentServer. Verified by the ONLYOFFICE
+  JWT plus a host-issued callback token binding it to (org, document). On status 2 (ready to save) or 6 (force-save)
+  the produced document is fetched and stored as an IMMUTABLE new version (idempotent per editing-session key). Always
+  responds with the ONLYOFFICE error-code JSON body (error 0 on success), never an HTTP error status.
+parameters:
+- name: ct
+  in: query
+  required: true
+  description: Host-issued callback token binding the request to (org, document).
+  schema:
+    type: string
+    minLength: 1
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          token:
+            type: string
+            minLength: 1
+            description: The ONLYOFFICE-signed callback payload (v7.1+ in-body token).
+          status:
+            type: integer
+            description: ONLYOFFICE document status code (2 = ready to save, 6 = force-save, other values are no-ops).
+          url:
+            type: string
+            format: uri
+            description: Short-lived DocumentServer URL for the produced document when status is 2 or 6.
+          key:
+            type: string
+            description: The document.key of the editing session that produced this callback.
+          filetype:
+            type: string
+            enum: [docx, xlsx, pptx]
+            description: ONLYOFFICE file type for the produced document.
+          users:
+            type: array
+            items:
+              type: string
+            description: ONLYOFFICE user identifiers participating in the callback, when supplied.
+          actions:
+            type: array
+            items:
+              type: object
+              additionalProperties: true
+            description: ONLYOFFICE action metadata, when supplied.
+          history:
+            type: object
+            additionalProperties: true
+            description: ONLYOFFICE history payload, when supplied.
+responses:
+  '200':
+    description: Always 200. `error` is 0 on success/ignore, non-zero on a rejected callback.
+    content:
+      application/json:
+        schema:
+          type: object
+          required: [error]
+          properties:
+            error:
+              type: integer
+              minimum: 0

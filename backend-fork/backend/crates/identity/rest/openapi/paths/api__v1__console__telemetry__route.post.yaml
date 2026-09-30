@@ -1,0 +1,30 @@
+tags:
+  - console
+operationId: recordConsoleRouteTelemetry
+summary: Record tenant console route-adoption/RUM telemetry
+description: Ingests one cardinality-safe route-selection or RUM event for the authenticated tenant. Org and user are derived
+  from the bearer token; clients must not send raw URLs, query strings, secrets, or row-level payloads. Platform operators
+  read only per-org aggregates through `GET /api/platform/ops`.
+security:
+- bearerAuth: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/ConsoleRouteTelemetryRequest'
+responses:
+  '202':
+    description: Telemetry event accepted.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ConsoleRouteTelemetryAccepted'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '422':
+    $ref: '#/components/responses/ValidationError'
+  '503':
+    $ref: '#/components/responses/ServiceUnavailable'

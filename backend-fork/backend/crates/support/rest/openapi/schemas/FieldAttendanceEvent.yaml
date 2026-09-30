@@ -1,0 +1,22 @@
+type: object
+required:
+- user_id
+- user_name
+- work_order_id
+- kind
+- occurred_at
+properties:
+  user_id:
+    $ref: '#/components/schemas/Uuid'
+  user_name:
+    type:
+    - string
+    - 'null'
+    description: Same-org display-name lookup; null when the account no longer exists.
+  work_order_id:
+    $ref: '#/components/schemas/Uuid'
+  kind:
+    type: string
+    description: Compliance attendance vocabulary, read-only here — ARRIVAL or DEPARTURE.
+  occurred_at:
+    $ref: '#/components/schemas/Timestamp'

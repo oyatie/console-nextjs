@@ -1,0 +1,80 @@
+type: object
+required:
+- user_id
+- preview_receipt_id
+- preview_receipt_expires_at
+- effective
+- system_roles
+- current_system_roles
+- requested_system_roles
+- current_branch_ids
+- requested_branch_ids
+- current_role_ids
+- requested_role_ids
+- delta
+- custom_roles
+- feature_grants
+- warnings
+properties:
+  user_id:
+    $ref: '#/components/schemas/Uuid'
+  preview_receipt_id:
+    $ref: '#/components/schemas/Uuid'
+  preview_receipt_expires_at:
+    $ref: '#/components/schemas/Timestamp'
+  effective:
+    type: boolean
+    description: True when the requested saved assignment set contains at least one ACTIVE custom role that will produce
+      runtime-effective feature grants for the target user's live branch scope. DRAFT/RETIRED roles, unsupported conditions,
+      invalid branch values, and reserved elevated/scope-widening features remain fail-closed.
+  system_roles:
+    type: array
+    items:
+      type: string
+  current_system_roles:
+    type: array
+    description: System-role set currently persisted on the target before this preview.
+    items:
+      type: string
+  requested_system_roles:
+    type: array
+    description: Replacement system-role set covered by the preview receipt. Defaults to the current system roles when omitted.
+    items:
+      type: string
+  current_branch_ids:
+    type: array
+    description: Branch membership set currently persisted on the target before this preview.
+    items:
+      $ref: '#/components/schemas/Uuid'
+  requested_branch_ids:
+    type: array
+    description: Replacement branch membership set covered by the preview receipt. Defaults to the current branch ids when omitted.
+    items:
+      $ref: '#/components/schemas/Uuid'
+  current_role_ids:
+    type: array
+    items:
+      $ref: '#/components/schemas/Uuid'
+  requested_role_ids:
+    type: array
+    items:
+      $ref: '#/components/schemas/Uuid'
+  delta:
+    $ref: '#/components/schemas/PolicyRoleAssignmentDeltaResponse'
+  custom_roles:
+    type: array
+    items:
+      $ref: '#/components/schemas/PolicyRoleImpactResponse'
+  feature_grants:
+    type: array
+    description: Effective runtime grant preview. Custom-role rows are included only for runtime_effective custom roles;
+      DRAFT roles, unsupported conditions, branch/team mismatches, and unsupported permissions are reported through
+      custom_roles[].runtime_warnings instead of being shown as grants.
+    items:
+      $ref: '#/components/schemas/PolicyFeatureGrantPreviewResponse'
+  warnings:
+    type: array
+    description: Preview-level warnings. Includes deterministic custom-role runtime warning codes when any requested
+      role is planning/audit-only.
+    items:
+      type: string

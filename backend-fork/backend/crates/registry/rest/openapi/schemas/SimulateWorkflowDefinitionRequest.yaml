@@ -1,0 +1,28 @@
+type: object
+properties:
+  definition:
+    type: object
+    additionalProperties: true
+  approval_line:
+    type: array
+    items:
+      type: object
+      additionalProperties: true
+  payment_line:
+    type: array
+    items:
+      type: object
+      additionalProperties: true
+  notification_rules:
+    type: array
+    items:
+      type: object
+      additionalProperties: true
+  action_allowlist:
+    type: array
+    items:
+      $ref: '#/components/schemas/WorkflowActionAllowlistEntry'
+  sample_context:
+    type: object
+    additionalProperties: true
+    description: Sample run context to exercise condition/branch nodes against (defaults to {}).

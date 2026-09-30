@@ -1,0 +1,10 @@
+type: object
+required: [kind, id, site_id, capacity_date, available_quantity, source_id, source_version]
+properties:
+  kind: {type: string, enum: [capacity]}
+  id: {$ref: '#/components/schemas/Uuid'}
+  site_id: {$ref: '#/components/schemas/Uuid'}
+  capacity_date: {type: string, format: date}
+  available_quantity: {type: integer, format: int64, minimum: 1}
+  source_id: {type: string, minLength: 1, maxLength: 160}
+  source_version: {type: string, minLength: 1, maxLength: 160}

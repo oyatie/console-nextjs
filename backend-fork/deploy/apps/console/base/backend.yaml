@@ -1,0 +1,123 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: console-app
+  namespace: console
+  labels: { app: console-app }
+spec:
+  replicas: 2
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels: { app: console-app }
+  strategy:
+    blueGreen:
+      activeService: console-app
+      previewService: console-app-preview
+      # Promote automatically once the preview passes the smoke analysis;
+      # a failed analysis leaves the active (old) version serving = automatic
+      # rollback. Keep the old ReplicaSet warm briefly for instant manual revert.
+      autoPromotionEnabled: true
+      scaleDownDelaySeconds: 30
+      prePromotionAnalysis:
+        templates:
+          - templateName: smoke-http
+        args:
+          - name: health-url
+            value: http://console-app-preview.console.svc:8080/readyz
+  template:
+    metadata:
+      labels: { app: console-app }
+    spec:
+      # The API talks to Postgres and OCI, never to the Kubernetes API.
+      automountServiceAccountToken: false
+      terminationGracePeriodSeconds: 30 # Rust app handles SIGTERM and drains within CONSOLE_SHUTDOWN_TIMEOUT_SECS (10s)
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 10001
+        fsGroup: 10001
+        seccompProfile: { type: RuntimeDefault }
+      containers:
+        - name: console-app
+          image: console-app # registry + tag set by the prod overlay
+          ports:
+            - { name: http, containerPort: 8080, protocol: TCP }
+          envFrom:
+            - configMapRef: { name: console-config }
+            - secretRef: { name: console-secrets }
+          env:
+            - name: CONSOLE_APP_ROLE
+              value: "api"
+            - name: CONSOLE_SERVICE_NAME # metrics/traces service_name — must match the SLO selector
+              value: "console-app-api"
+            # SMTP relay is enabled by non-secret CONSOLE_EMAIL_* fields in console-config.
+            # Require the credential keys explicitly so a missing/partial
+            # console-secrets Secret fails closed during rollout instead of envFrom
+            # silently omitting the variables and degrading to stub email.
+            - name: CONSOLE_EMAIL_SMTP_USERNAME
+              valueFrom:
+                secretKeyRef: { name: console-secrets, key: CONSOLE_EMAIL_SMTP_USERNAME }
+            - name: CONSOLE_EMAIL_SMTP_PASSWORD
+              valueFrom:
+                secretKeyRef: { name: console-secrets, key: CONSOLE_EMAIL_SMTP_PASSWORD }
+            # Runtime connects as the NON-OWNER role console_rt (subject to RLS).
+            # Schema migrations are applied out of band with the owner console-db-app
+            # secret — never from this workload.
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef: { name: console-db-rt, key: uri }
+          startupProbe:
+            httpGet: { path: /healthz, port: http }
+            failureThreshold: 30
+            periodSeconds: 2
+          readinessProbe:
+            httpGet: { path: /readyz, port: http }
+            periodSeconds: 10
+            timeoutSeconds: 2
+          livenessProbe:
+            httpGet: { path: /healthz, port: http }
+            periodSeconds: 15
+            timeoutSeconds: 2
+          resources:
+            requests: { cpu: 100m, memory: 192Mi }
+            limits: { memory: 512Mi }
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities: { drop: [ALL] }
+          volumeMounts:
+            - { name: tmp, mountPath: /tmp }
+      volumes:
+        - name: tmp
+          emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: console-app
+  namespace: console
+  labels: { app: console-app }
+spec:
+  selector: { app: console-app } # Argo Rollouts appends the pod-template-hash for blue/green
+  ports:
+    - { name: http, port: 8080, targetPort: http }
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: console-app-preview
+  namespace: console
+  labels: { app: console-app }
+spec:
+  selector: { app: console-app }
+  ports:
+    - { name: http, port: 8080, targetPort: http }
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: console-app
+  namespace: console
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels: { app: console-app }

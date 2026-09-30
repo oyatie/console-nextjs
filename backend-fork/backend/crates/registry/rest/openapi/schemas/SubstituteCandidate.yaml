@@ -1,0 +1,65 @@
+type: object
+required:
+- equipment_id
+- branch_id
+- equipment_no
+- management_no
+- model
+- status
+- specification
+- ton_text
+- ton_milli
+- power_code
+- power_label
+- customer_name
+- site_name
+- placement_location
+- match_kind
+- ton_delta_milli
+properties:
+  equipment_id:
+    $ref: '#/components/schemas/Uuid'
+  branch_id:
+    $ref: '#/components/schemas/Uuid'
+  equipment_no:
+    type: string
+  management_no:
+    type:
+    - string
+    - 'null'
+  model:
+    type:
+    - string
+    - 'null'
+  status:
+    $ref: '#/components/schemas/EquipmentStatus'
+  specification:
+    type: string
+  ton_text:
+    type: string
+  ton_milli:
+    type:
+    - integer
+    - 'null'
+    format: int32
+  power_code:
+    type: string
+  power_label:
+    type:
+    - string
+    - 'null'
+  customer_name:
+    type: string
+  site_name:
+    type: string
+  placement_location:
+    type:
+    - string
+    - 'null'
+  match_kind:
+    $ref: '#/components/schemas/SubstituteMatchKind'
+  ton_delta_milli:
+    type:
+    - integer
+    - 'null'
+    format: int32

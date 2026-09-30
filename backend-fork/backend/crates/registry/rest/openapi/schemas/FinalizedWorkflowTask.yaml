@@ -1,0 +1,18 @@
+type: object
+required:
+- id
+- run_id
+- status
+- decision_payload
+properties:
+  id:
+    $ref: '#/components/schemas/Uuid'
+  run_id:
+    $ref: '#/components/schemas/Uuid'
+  status:
+    type: string
+  completed_by:
+    $ref: '#/components/schemas/Uuid'
+  decision_payload:
+    type: object
+    additionalProperties: true

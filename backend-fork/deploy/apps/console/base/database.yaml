@@ -1,0 +1,136 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: console-db
+  namespace: console
+spec:
+  # Deployment context: live oci-guest base. This cluster is intentionally one
+  # CNPG instance on one Always Free A1 node; it has restore/PITR artifacts but no
+  # automatic database failover. The ADR-0024 on-prem-ha overlay patches this to
+  # >=3 instances plus replicated storage without changing the live OCI posture.
+  instances: 1
+  imageName: ghcr.io/cloudnative-pg/postgresql:18.4
+  primaryUpdateStrategy: unsupervised
+  storage:
+    size: 5Gi
+  resources:
+    requests: { cpu: 250m, memory: 512Mi }
+    limits: { memory: 1Gi }
+  # OCI-specific Barman/S3 compatibility workaround. Do not treat these env vars
+  # as universal: the on-prem-ha self-hosted S3 endpoint must be validated on its
+  # own before copying checksum behavior.
+  # boto3 >= 1.36 (bundled in barman-cloud's S3 client) defaults to flexible
+  # checksums sent via AWS *chunked encoding* on PutObject. OCI Object Storage's
+  # S3-compatible API rejects that with "NotImplemented: AWS chunked encoding not
+  # supported", which broke EVERY WAL archive + base backup (continuous archiving
+  # stuck False, daily backup failing). Forcing checksum calc/validation to
+  # when_required disables the default chunked upload so OCI accepts it. The
+  # barman-cloud subprocess runs in the instance container and inherits these.
+  env:
+    - name: AWS_REQUEST_CHECKSUM_CALCULATION
+      value: when_required
+    - name: AWS_RESPONSE_CHECKSUM_VALIDATION
+      value: when_required
+  postgresql:
+    parameters:
+      # Deliberate sizing for the shared A1 node rather than container defaults.
+      shared_buffers: 256MB
+      effective_cache_size: 768MB
+      work_mem: 16MB
+      max_connections: "60"
+  bootstrap:
+    initdb:
+      database: console
+      # console_app OWNS every table and is used ONLY to run schema migrations
+      # (out of band, via the console-db-app secret). The running application does
+      # NOT connect as it — see managed.roles.console_rt below.
+      owner: console_app
+  # console_rt is the least-privilege RUNTIME role the app/worker connect as. It
+  # owns nothing, is NOSUPERUSER + NOBYPASSRLS (so Postgres RLS applies to it),
+  # and gets only the GRANTs migration 0031 hands out. CNPG attaches LOGIN + the
+  # password from console-db-rt here; the role attributes are also pinned in 0031 so
+  # they hold regardless of creation order.
+  managed:
+    roles:
+      - name: console_rt
+        ensure: present
+        login: true
+        superuser: false
+        createdb: false
+        createrole: false
+        bypassrls: false
+        inherit: true
+        passwordSecret:
+          name: console-db-rt
+  # Continuous WAL archiving + base backups via the Barman Cloud Plugin.
+  plugins:
+    - name: barman-cloud.cloudnative-pg.io
+      isWALArchiver: true
+      parameters:
+        barmanObjectName: console-backups
+---
+apiVersion: barmancloud.cnpg.io/v1
+kind: ObjectStore
+metadata:
+  name: console-backups
+  namespace: console
+spec:
+  # THIS WINDOW IS THE ERASURE HORIZON, not a storage setting. Every day of retention
+  # is a day during which a person deleted from the live database can be restored from
+  # the archive. It was indefinite (user 2026-06-23) — PITR reaching back to the first
+  # base backup and never closing.
+  #
+  # Korean law sets no duration here. Verified against the instruments themselves
+  # (see ADR-0037 for the full table and citations):
+  #   - The ONLY backup provision in Korean privacy law is 개인정보의 안전성 확보조치 기준
+  #     제11조, which requires a backup-and-recovery PLAN above a subject-count
+  #     threshold. It states no period.
+  #   - The 3-year (근로기준법 제42조) and 5-year (국세기본법 제85조의3제2항) floors attach
+  #     to 서류 and 장부 — records the live database holds. A backup taken today already
+  #     contains every one of those years. Window length is how far BACK one may rewind,
+  #     not how old the data inside is, so importing those numbers here buys nothing.
+  #   - 법 제21조제3항 requires data preserved under the 제21조제1항 단서 to be stored
+  #     SEPARATELY. A PITR archive is an undifferentiated copy of the whole cluster, so
+  #     it could not serve as the statutory preservation medium even if that were wanted.
+  # The only legal pressure on this number is downward: 법 제21조제1항 지체 없이 파기 and
+  # 제21조제2항 / 제36조제3항 복구 또는 재생되지 아니하도록 조치.
+  #
+  # So the window is set by the operational question instead: how long can data
+  # corruption go undiscovered? Payroll runs monthly, and a bad run is normally caught
+  # by the next one. 35d covers one full cycle plus slack.
+  retentionPolicy: "35d"
+  configuration:
+    # OCI Object Storage, S3-compatible API, Chuncheon. NAMESPACE = the tenancy
+    # object-storage namespace (oci os ns get); bucket pre-created out of band.
+    # The on-prem-ha overlay replaces endpoint/credentials with the selected
+    # self-hosted S3-compatible service and OpenBao/ESO-projected secrets.
+    destinationPath: s3://mnt-db-backups/
+    endpointURL: https://axdotp9iv3ua.compat.objectstorage.ap-chuncheon-1.oraclecloud.com
+    s3Credentials:
+      accessKeyId:
+        name: oci-objectstore-creds
+        key: ACCESS_KEY_ID
+      secretAccessKey:
+        name: oci-objectstore-creds
+        key: ACCESS_SECRET_KEY
+    wal:
+      compression: gzip
+      maxParallel: 1 # one WAL PUT stream — keeps requests under the 50k/mo free cap
+    data:
+      compression: gzip
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: ScheduledBackup
+metadata:
+  name: console-db-daily
+  namespace: console
+spec:
+  # 6-field cron (CNPG uses seconds). 03:00 UTC = 12:00 KST daily base backup;
+  # continuous WAL archiving gives point-in-time recovery between base backups.
+  schedule: "0 0 3 * * *"
+  backupOwnerReference: self
+  cluster:
+    name: console-db
+  method: plugin
+  pluginConfiguration:
+    name: barman-cloud.cloudnative-pg.io

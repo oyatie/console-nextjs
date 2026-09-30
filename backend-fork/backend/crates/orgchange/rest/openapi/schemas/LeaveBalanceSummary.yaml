@@ -1,0 +1,12 @@
+type: object
+required:
+- accrued
+- used
+- remaining
+properties:
+  accrued:
+    type: string
+  used:
+    type: string
+  remaining:
+    type: string

@@ -1,0 +1,37 @@
+tags:
+  - object-actions
+operationId: executeObjectAction
+summary: Execute a governed audited object action
+description: Executes a typed object write-back action through the server-side action executor. Sensitive actions require a fresh passkey step-up assertion
+  so the append-only audit event binds the write to the human actor. The initial slice supports `equipment.update_profile`.
+security:
+- bearerAuth: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/ExecuteObjectActionRequest'
+responses:
+  '200':
+    description: Object action execution receipt with audit provenance.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ObjectActionExecutionResponse'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '422':
+    $ref: '#/components/responses/ValidationError'
+  '428':
+    description: Fresh passkey step-up is required.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ErrorBody'
+  '503':
+    description: JWT or passkey step-up verification is not configured.

@@ -1,0 +1,30 @@
+operationId: simulatePolicyDecision
+summary: Simulate a Cedar policy decision
+description: Evaluates a point decision (with an optional what-if draft overlay) and returns Allow/Deny plus matched policies and
+  diagnostics. Deny-by-omission is the default.
+tags:
+- Policy
+security:
+- bearerAuth: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/PolicySimulateRequest'
+responses:
+  '200':
+    description: Simulation outcome.
+    content:
+      application/json:
+        schema:
+          type: object
+          additionalProperties: true
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '422':
+    $ref: '#/components/responses/ValidationError'
+  '503':
+    $ref: '#/components/responses/ServiceUnavailable'

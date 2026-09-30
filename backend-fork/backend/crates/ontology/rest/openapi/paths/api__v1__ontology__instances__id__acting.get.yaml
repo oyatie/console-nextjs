@@ -1,0 +1,13 @@
+tags: [Ontology]
+operationId: listInstanceActing
+security:
+  - bearerAuth: []
+parameters:
+  - { name: id, in: path, required: true, schema: { type: string, format: uuid } }
+responses:
+  '200':
+    description: automation rules + policies acting on the object type
+    content:
+      application/json:
+        schema: { type: array, items: { $ref: '#/components/schemas/ActingRule' } }
+  '404': { description: instance not found (RLS-scoped) }

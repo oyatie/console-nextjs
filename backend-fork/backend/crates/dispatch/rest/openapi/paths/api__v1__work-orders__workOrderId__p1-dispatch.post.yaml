@@ -1,0 +1,29 @@
+tags:
+  - work-orders
+operationId: startP1Dispatch
+summary: Start a P1 emergency dispatch broadcast for a work order
+security:
+- bearerAuth: []
+parameters:
+- $ref: '#/components/parameters/WorkOrderId'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/StartP1DispatchRequest'
+responses:
+  '200':
+    description: Started P1 dispatch.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/P1DispatchSummary'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '409':
+    $ref: '#/components/responses/Conflict'

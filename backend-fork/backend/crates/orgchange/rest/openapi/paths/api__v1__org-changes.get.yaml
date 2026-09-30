@@ -1,0 +1,47 @@
+tags:
+- org
+operationId: listOrgChanges
+summary: List org changes
+description: RLS-filtered page of the tenant's org-change requests, newest first.
+security:
+- bearerAuth: []
+parameters:
+- name: status
+  in: query
+  required: false
+  schema:
+    $ref: '#/components/schemas/OrgChangeStatus'
+- name: kind
+  in: query
+  required: false
+  schema:
+    $ref: '#/components/schemas/OrgChangeKind'
+- name: limit
+  in: query
+  required: false
+  description: Defaults to 50; the server clamps the value into 1..200 rather than rejecting it.
+  schema:
+    type: integer
+    format: int64
+- name: offset
+  in: query
+  required: false
+  description: Defaults to 0; the server clamps the value into 0..100000 rather than rejecting it.
+  schema:
+    type: integer
+    format: int64
+responses:
+  '200':
+    description: Page of org-change summaries.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/OrgChangePage'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '422':
+    $ref: '#/components/responses/ValidationError'
+  '503':
+    $ref: '#/components/responses/ServiceUnavailable'

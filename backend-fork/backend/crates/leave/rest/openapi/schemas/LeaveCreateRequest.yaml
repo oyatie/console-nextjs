@@ -1,0 +1,34 @@
+type: object
+description: >-
+  A self-service leave-request filing. The subject employee and branch are
+  NOT accepted here — they are resolved from the authenticated caller.
+  There is deliberately no `reason` field: 근로기준법 §60 grants the worker
+  the 시기지정권, so a 연차/반차 filing carries no 사유 and a body that
+  still sends one is rejected (422).
+additionalProperties: false
+required:
+  - idempotency_key
+  - leave_type
+  - start_date
+  - end_date
+properties:
+  idempotency_key:
+    type: string
+    format: uuid
+    description: Stable client submission id. Reuse it only to retry the same canonical client intent after an unknown or lost response.
+  leave_type:
+    type: string
+    enum: [annual, half_day]
+    description: Full-day or partial-day intent; quantity is resolved only from evidence.
+  partial_day_period:
+    type: string
+    enum: [am, pm]
+    nullable: true
+    description: Required exactly when leave_type is half_day.
+  start_date:
+    type: string
+    format: date
+    description: YYYY-MM-DD. A half-day request must use the same start and end date.
+  end_date:
+    type: string
+    format: date

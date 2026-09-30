@@ -1,0 +1,30 @@
+type: object
+description: >-
+  Exact, complete action-inbox snapshot admitted at the request ceiling.
+  The server follows the public immutable cursor contract in pages of at
+  most 200 items and fails this source closed rather than returning a
+  priority-ranked prefix when the exact set exceeds its 1000-item budget,
+  drifts, repeats a cursor, or repeats an item id.
+additionalProperties: false
+required:
+- status
+- as_of
+- items
+- total
+- truncated
+properties:
+  status:
+    type: string
+    enum:
+    - ok
+  as_of:
+    $ref: '#/components/schemas/Timestamp'
+  items:
+    type: array
+    items:
+      $ref: '#/components/schemas/WorkbenchActionInboxItem'
+  total:
+    type: integer
+    minimum: 0
+  truncated:
+    type: boolean

@@ -1,0 +1,32 @@
+type: object
+required:
+- input_rows
+- equipment_count
+- added
+- updated
+- unchanged
+- orphaned
+- errors
+properties:
+  input_rows:
+    type: integer
+    minimum: 0
+  equipment_count:
+    type: integer
+    minimum: 0
+  added:
+    type: integer
+    minimum: 0
+  updated:
+    type: integer
+    minimum: 0
+  unchanged:
+    type: integer
+    minimum: 0
+  orphaned:
+    type: integer
+    minimum: 0
+  errors:
+    type: array
+    items:
+      $ref: '#/components/schemas/RegistryRowError'

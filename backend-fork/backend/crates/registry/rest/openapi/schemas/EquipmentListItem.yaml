@@ -1,0 +1,52 @@
+type: object
+required:
+- equipment_id
+- branch_id
+- equipment_no
+- status
+- specification
+- ton_text
+- customer_name
+- site_name
+- updated_at
+properties:
+  equipment_id:
+    $ref: '#/components/schemas/Uuid'
+  branch_id:
+    $ref: '#/components/schemas/Uuid'
+  equipment_no:
+    type: string
+  management_no:
+    type:
+    - string
+    - 'null'
+  status:
+    $ref: '#/components/schemas/EquipmentStatus'
+  model:
+    type:
+    - string
+    - 'null'
+  maker:
+    type:
+    - string
+    - 'null'
+  specification:
+    type: string
+  ton_text:
+    type: string
+  customer_name:
+    type: string
+  site_name:
+    type: string
+  asset_owner:
+    type:
+    - string
+    - 'null'
+    description: Legal owner recorded on the asset master. Distinct from customer_name/site_name, which describe the
+      current operator/site.
+  vin:
+    type:
+    - string
+    - 'null'
+  updated_at:
+    $ref: '#/components/schemas/Timestamp'

@@ -1,0 +1,47 @@
+type: object
+description: Append-only Policy Studio audit evidence. Console UI should render human-safe summaries and avoid exposing
+  raw target identifiers by default; the identifiers remain in the API for export and traceability.
+required:
+- id
+- action
+- target_type
+- target_id
+- trace_id
+- span_id
+- occurred_at
+properties:
+  id:
+    $ref: '#/components/schemas/Uuid'
+  actor:
+    $ref: '#/components/schemas/Uuid'
+    nullable: true
+  action:
+    type: string
+    pattern: ^[a-z0-9_]+(\.[a-z0-9_]+)+$
+  target_type:
+    type: string
+    enum:
+    - policy_role
+    - policy_role_assignment
+  target_id:
+    type: string
+  before_snapshot:
+    type:
+    - object
+    - 'null'
+    additionalProperties: true
+  after_snapshot:
+    type:
+    - object
+    - 'null'
+    additionalProperties: true
+  trace_id:
+    type: string
+    minLength: 32
+    maxLength: 32
+  span_id:
+    type: string
+    minLength: 16
+    maxLength: 16
+  occurred_at:
+    $ref: '#/components/schemas/Timestamp'

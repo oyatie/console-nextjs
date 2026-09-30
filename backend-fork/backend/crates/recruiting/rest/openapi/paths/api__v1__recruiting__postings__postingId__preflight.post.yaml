@@ -1,0 +1,27 @@
+tags:
+- recruiting
+operationId: preflightRecruitPosting
+summary: Read-only publish checklist evaluation for a DRAFT posting (recruiting_manage)
+security:
+- bearerAuth: []
+parameters:
+- name: postingId
+  in: path
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+responses:
+  '200':
+    description: Check vector and the automatic-check verdict.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/RecruitPostingPreflightResponse'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '409':
+    $ref: '#/components/responses/Conflict'

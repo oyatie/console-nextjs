@@ -1,0 +1,39 @@
+tags:
+  - workflow-tasks
+operationId: finalizeWorkflowTask
+summary: Finalize an approval document (author or delegate)
+description: Completes a finalization waiting task (종결). Author mode requires the initiating author; delegate mode is
+  policy-gated (legacy enforce, inert Cedar shadow) and requires a non-empty reason. Finalization is a pre-terminal
+  WAITING step, not a terminal reopen — the run reaches SUCCEEDED only when no receipt-confirmation step follows;
+  otherwise it stays WAITING and a receipt task opens. Idempotent on idempotency_key.
+security:
+- bearerAuth: []
+parameters:
+- name: task_id
+  in: path
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/FinalizeWorkflowTaskRequest'
+responses:
+  '200':
+    description: Finalization recorded (replays return the recorded result).
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/FinalizeWorkflowTaskResponse'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '409':
+    $ref: '#/components/responses/Conflict'
+  '422':
+    $ref: '#/components/responses/ValidationError'

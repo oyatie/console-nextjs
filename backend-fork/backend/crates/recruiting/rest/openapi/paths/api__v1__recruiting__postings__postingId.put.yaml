@@ -1,0 +1,35 @@
+tags:
+- recruiting
+operationId: updateRecruitPosting
+summary: Edit a DRAFT posting in place (409 for any other status); CAS on expected_updated_at
+security:
+- bearerAuth: []
+parameters:
+- name: postingId
+  in: path
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/UpdateRecruitPostingRequest'
+responses:
+  '200':
+    description: The updated draft.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/RecruitPosting'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '409':
+    $ref: '#/components/responses/Conflict'
+  '422':
+    $ref: '#/components/responses/ValidationError'

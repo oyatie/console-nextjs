@@ -1,0 +1,8 @@
+type: object
+required:
+- tenants
+properties:
+  tenants:
+    type: array
+    items:
+      $ref: '#/components/schemas/PlatformTenantHealth'

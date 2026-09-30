@@ -1,0 +1,25 @@
+tags:
+  - workflow-studio
+operationId: listWorkflowScheduleRuns
+summary: Run history for a workflow schedule
+security:
+- bearerAuth: []
+parameters:
+- name: id
+  in: path
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+responses:
+  '200':
+    description: Runs started by this schedule, newest first.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ScheduleRunListResponse'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'

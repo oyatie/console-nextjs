@@ -1,0 +1,14 @@
+type: object
+required:
+- connector_key
+- display_name
+- action_keys
+properties:
+  connector_key:
+    type: string
+  display_name:
+    type: string
+  action_keys:
+    type: array
+    items:
+      type: string

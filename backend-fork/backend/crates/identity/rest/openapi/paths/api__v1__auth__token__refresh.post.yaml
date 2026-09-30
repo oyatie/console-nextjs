@@ -1,0 +1,21 @@
+tags:
+  - auth
+summary: Rotate refresh token
+description: Rotates an opaque refresh token; reuse of an old token revokes the whole family and returns 401.
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/RefreshTokenRequest'
+responses:
+  '200':
+    description: New access and refresh tokens.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/TokenPairResponse'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '429':
+    $ref: '#/components/responses/TooManyRequests'

@@ -1,0 +1,24 @@
+type: object
+required:
+- access_token
+- token_type
+- acting_org_id
+- acting_org_name
+- acting_role
+- expires_at
+properties:
+  access_token:
+    type: string
+    minLength: 1
+  token_type:
+    type: string
+    enum:
+    - Bearer
+  acting_org_id:
+    $ref: '#/components/schemas/Uuid'
+  acting_org_name:
+    type: string
+  acting_role:
+    $ref: '#/components/schemas/PlatformTenantRole'
+  expires_at:
+    $ref: '#/components/schemas/Timestamp'

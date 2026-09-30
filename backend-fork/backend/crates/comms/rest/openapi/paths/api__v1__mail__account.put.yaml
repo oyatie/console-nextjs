@@ -1,0 +1,30 @@
+tags:
+  - mail
+operationId: configureMailAccount
+summary: Configure (create or replace) the tenant's webmail account
+description: 'Upserts the mailbox config. Passwords are write-only: a present password is sealed (envelope AEAD) and
+  only the ciphertext is stored; an absent/null password leaves the stored secret unchanged. A first-time configure
+  requires both the SMTP and IMAP password. Audited. Requires the MailAccountManage feature.'
+security:
+- bearerAuth: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/ConfigureMailAccountRequest'
+responses:
+  '200':
+    description: The configured mailbox (write-only view).
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/MailAccountView'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '422':
+    $ref: '#/components/responses/ValidationError'
+  '503':
+    $ref: '#/components/responses/MailUnavailable'

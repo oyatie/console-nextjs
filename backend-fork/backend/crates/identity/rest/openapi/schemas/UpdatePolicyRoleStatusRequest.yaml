@@ -1,0 +1,15 @@
+type: object
+required:
+- status
+- step_up
+properties:
+  status:
+    type: string
+    description: Requested lifecycle status for read-only impact preview. Allowed transitions are DRAFT→ACTIVE, ACTIVE→DRAFT,
+      and ACTIVE→RETIRED; RETIRED is terminal.
+    enum:
+    - DRAFT
+    - ACTIVE
+    - RETIRED
+  step_up:
+    $ref: '#/components/schemas/PasskeyStepUpAssertion'

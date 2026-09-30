@@ -1,0 +1,13 @@
+{
+  "design_sha256": "902166c8c34332a0d413bcbba1762a4d56f7406960df340f518432021ccf66de",
+  "files": {
+    "crates/platform/db/tests/lifecycle_maker_checker.rs": "8d12ce5b4ec00106ebb65407a9194eb37a6f9f2e14ab511e4e8228313d6e75d4",
+    "crates/financial/adapter-postgres/tests/use_cases.rs": "12af633562a030734386a8eb638845a1accde97e745866ef6c10fbef46e4f477",
+    "app/tests/workflow_runtime_instance_api.rs": "82a17b3adc01c2141f1e9f3de6ef54a76fc52d056d2f5d88616ac3fbd0f0238f",
+    "app/tests/workflow_four_eyes_publish.rs": "9cad8f205eaf9cbf6b91f5cf438b16f3b52aaa6643648b396eb188c5ce8de0b4",
+    "app/tests/workflow_runtime_finalize_api.rs": "8df769a9ea54bc6cbad0d1aefa47ccc1fd067746790295cd829977f442b4225e"
+  },
+  "amendment": "Retain all finalized-workflow assertions; migrate only issuance to real session helper. Correct obsolete financial preparation comment.",
+  "fixture_correction": "Reuse one Company lead across the financial title matrix, resetting its ADMIN setup role before each case, because idx_users_org_lead permits one lead per Company. Preserve all8cases and assertions.",
+  "rollback_fixture_correction": "Preserve every rollback/start assertion; stage revision under original author, approve through second actual SUPER_ADMIN with its own real SoftPasskey, then original actor rolls back and starts. Old setup depended on prohibited self-approval."
+}

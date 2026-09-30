@@ -1,0 +1,35 @@
+type: object
+required:
+- org_id
+- ok
+- kind
+- unsealed_tail
+properties:
+  org_id:
+    type: string
+    format: uuid
+  ok:
+    type: boolean
+    description: No tamper detected. Independent of unsealed_tail.
+  first_bad_seq:
+    type: integer
+    format: int64
+    nullable: true
+    description: The first offending seal's seq, when the failure localizes to one seal.
+  kind:
+    type: string
+    enum:
+    - ok
+    - seal_hash_mismatch
+    - batch_hash_mismatch
+    - broken_continuity
+    - bad_signature
+    - missing_seq
+    - coverage_gap
+    - corrupt_seal
+    description: Tamper classification. `ok` means every seal recomputes, chains, verifies, and covers its range
+      with no gap.
+  unsealed_tail:
+    type: boolean
+    description: Freshness signal — committed rows older than the seal watermark exist beyond the head seal's
+      cursor (the worker fell behind or is stopped). Never forces ok=false on a healthy live chain.

@@ -1,0 +1,18 @@
+[package]
+name = "console-todos-application"
+version = "0.1.0"
+description = "Todos use-case commands and summaries."
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+console-kernel-core = { workspace = true }
+console-todos-domain = { workspace = true }
+serde = { workspace = true }
+time = { workspace = true }
+uuid = { workspace = true }
+
+[lints]
+workspace = true

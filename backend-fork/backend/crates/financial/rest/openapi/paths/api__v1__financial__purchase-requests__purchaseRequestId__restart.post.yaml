@@ -1,0 +1,29 @@
+tags:
+  - financial
+operationId: restartPurchaseRequest
+summary: Restart a rejected purchase request with a replacement statement evidence record
+security:
+- bearerAuth: []
+parameters:
+- $ref: '#/components/parameters/PurchaseRequestId'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/RestartPurchaseRequest'
+responses:
+  '200':
+    description: Restarted purchase request.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/PurchaseRequestSummary'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '409':
+    $ref: '#/components/responses/Conflict'

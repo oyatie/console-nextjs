@@ -1,0 +1,21 @@
+type: object
+description: Tenant/org/branch/object identity for ontology-aware workflow, analytics, audit, and future group/organization
+  hierarchy views.
+required:
+- object_type
+- object_id
+- tenant_id
+- branch_id
+properties:
+  object_type:
+    type: string
+    enum:
+    - WORK_ORDER
+    - DAILY_PLAN
+    - TARGET_CHANGE
+  object_id:
+    $ref: '#/components/schemas/Uuid'
+  tenant_id:
+    $ref: '#/components/schemas/Uuid'
+  branch_id:
+    $ref: '#/components/schemas/Uuid'

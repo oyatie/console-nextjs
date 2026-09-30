@@ -1,0 +1,39 @@
+tags:
+  - search
+operationId: searchObjects
+summary: Global object + person search (⌘K palette, compose picker, explore, token dropdowns)
+description: 'Searches the object kinds resolveObject serves that carry a human-searchable name/code (work_order,
+  equipment, support_ticket, org_unit) plus the person directory (messenger member semantics: active + shared
+  branch). Every hit is scoped identically to resolveObject: the WorkOrderReadAll feature gate for
+  work_order/equipment (a caller lacking it gets zero hits of those kinds), and the branch-visibility guard for
+  every branch-scoped kind — a hit the caller could not resolve never appears. Org-isolated under RLS.
+  Deny-by-omission: never a 403 for an out-of-scope kind, just absence.'
+security:
+- bearerAuth: []
+parameters:
+- name: q
+  in: query
+  required: true
+  description: Case-insensitive substring to match against names/codes (≤200 chars; empty returns no hits).
+  schema:
+    type: string
+- name: limit
+  in: query
+  required: false
+  description: Max hits per object kind, clamped 1-50 (default 20).
+  schema:
+    type: integer
+    format: int64
+responses:
+  '200':
+    description: Caller-visible hits across kinds and the person directory.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/SearchResponse'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '422':
+    $ref: '#/components/responses/ValidationError'

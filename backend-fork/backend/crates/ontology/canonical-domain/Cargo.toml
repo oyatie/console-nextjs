@@ -1,0 +1,17 @@
+[package]
+name = "console-ontology-canonical-domain"
+version = "0.1.0"
+description = "Canonical object write ports (Company, OrgUnit, JobPosition, Person, Employment, PayRun): typed query, pure preflight, immutable receipt, and the writer-ownership registry the CI gate and the database topology are both derived from."
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+console-kernel-core = { workspace = true }
+serde_json = { workspace = true }
+time = { workspace = true }
+uuid = { workspace = true }
+
+[lints]
+workspace = true

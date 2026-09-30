@@ -1,0 +1,73 @@
+{
+  "source_path": "/Users/jasonlee/Library/Mobile Documents/com~apple~CloudDocs/TalkFile_조직도_그룹웨어_회사_20260626105223.csv",
+  "sha256": "d5f4dcf2b856e12015b2af62a59725c1f0a030e5ec4bcba5cfa785e136ad6687",
+  "encoding": "cp949",
+  "format": "csv",
+  "row_count": 83,
+  "column_count": 16,
+  "headers": [
+    "이름",
+    "사번",
+    "직위",
+    "회사명",
+    "부서명",
+    "메일주소",
+    "휴대전화",
+    "회사전화",
+    "팩스번호",
+    "집전화",
+    "회사주소",
+    "집주소",
+    "생일",
+    "음양력",
+    "결혼기념일",
+    "메모"
+  ],
+  "non_empty_counts": {
+    "이름": 83,
+    "사번": 83,
+    "직위": 78,
+    "회사명": 83,
+    "부서명": 83,
+    "메일주소": 83,
+    "휴대전화": 63,
+    "회사전화": 21,
+    "팩스번호": 10,
+    "집전화": 0,
+    "회사주소": 0,
+    "집주소": 0,
+    "생일": 16,
+    "음양력": 82,
+    "결혼기념일": 5,
+    "메모": 0
+  },
+  "legacy_fields": {
+    "employee_number_values_with_coss_prefix": 73,
+    "email_values_with_cossok_domain": 83,
+    "service_or_certificate_rows": 1,
+    "canonical_mapping_policy": "ignore_for_identity_and_login; do_not_use_as_employee_number_or_email; do_not issue OTP from these fields"
+  },
+  "inferred_org_counts": {
+    "coss": 52,
+    "knl": 9,
+    "dsl": 8,
+    "cnl": 5,
+    "cheongun-hr": 3,
+    "lso": 3,
+    "jy-tech": 1,
+    "ignored_service_or_blank": 1,
+    "unmapped_requires_review": 1
+  },
+  "department_count": 24,
+  "sensitivity": {
+    "direct_pii_columns": ["이름", "메일주소", "휴대전화", "회사전화", "팩스번호", "집전화", "집주소", "생일", "결혼기념일"],
+    "legacy_identifier_columns": ["사번", "메일주소"],
+    "organization_columns": ["회사명", "부서명", "직위"]
+  },
+  "notes": [
+    "Fixture intentionally omits source row values and sample cell contents.",
+    "The source file is a legacy groupware org-chart export. Treat coss-prefixed employee numbers and cossok.com email addresses as old-system artifacts, not canonical identity.",
+    "사번 and email will be assigned later; account creation from this source must support blank canonical employee number and blank canonical email.",
+    "Tenant account creation is allowed only after org inference/dry-run review; default created app users to least privilege unless an explicit RBAC mapping is approved."
+  ]
+}

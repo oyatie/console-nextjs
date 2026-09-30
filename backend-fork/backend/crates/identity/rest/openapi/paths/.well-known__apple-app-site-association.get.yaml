@@ -1,0 +1,14 @@
+tags:
+  - system
+operationId: appleAppSiteAssociation
+summary: Apple App Site Association (native passkeys)
+description: Public, unauthenticated association document Apple fetches over the RP origin to authorize the native iOS
+  app's passkeys. The `webcredentials.apps` list is sourced from `CONSOLE_IOS_APP_IDS`; an unconfigured deployment serves
+  a valid empty document. Served as `application/json` (no file extension, per Apple's requirement).
+responses:
+  '200':
+    description: The Apple App Site Association document.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/AppleAppSiteAssociation'

@@ -1,0 +1,14 @@
+type: object
+required:
+- role_key
+- permission_level
+properties:
+  role_key:
+    type: string
+  permission_level:
+    type: string
+    enum:
+    - deny
+    - request_only
+    - limited
+    - allow

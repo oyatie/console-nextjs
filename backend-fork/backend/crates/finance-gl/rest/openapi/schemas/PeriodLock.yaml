@@ -1,0 +1,37 @@
+type: object
+required:
+- id
+- domain
+- periodStart
+- periodEnd
+- reason
+- lockedAt
+properties:
+  id:
+    type: string
+    format: uuid
+  domain:
+    type: string
+    enum: [payroll, accounting]
+  periodStart:
+    type: string
+    format: date
+  periodEnd:
+    type: string
+    format: date
+  reason:
+    type: string
+  lockedBy:
+    type: string
+    format: uuid
+  lockedAt:
+    type: string
+    format: date-time
+  unlockedBy:
+    type: string
+    format: uuid
+  unlockedAt:
+    type: string
+    format: date-time
+  unlockReason:
+    type: string

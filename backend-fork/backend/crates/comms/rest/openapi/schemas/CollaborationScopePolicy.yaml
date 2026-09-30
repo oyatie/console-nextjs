@@ -1,0 +1,23 @@
+type: object
+required:
+- enforcement
+- scope_type
+- visibility
+properties:
+  enforcement:
+    type: string
+    enum:
+    - server
+  scope_type:
+    $ref: '#/components/schemas/CollaborationScopeType'
+  scope_ref:
+    type:
+    - string
+    - 'null'
+  visibility:
+    type: string
+    enum:
+    - org_members
+    - creator_only
+    - department_target
+    - team_target

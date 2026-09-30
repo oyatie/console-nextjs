@@ -1,0 +1,15 @@
+tags:
+  - work-orders
+operationId: startWorkOrder
+summary: Start assigned work
+security:
+- bearerAuth: []
+parameters:
+- $ref: '#/components/parameters/WorkOrderId'
+responses:
+  '200':
+    description: In-progress work order.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/WorkOrderSummary'

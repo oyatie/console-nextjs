@@ -1,0 +1,6 @@
+type: string
+description: Transport security. SSL_TLS is implicit TLS (port 993/465); START_TLS upgrades a plaintext connection (port
+  143/587). There is no plaintext option.
+enum:
+- SSL_TLS
+- START_TLS

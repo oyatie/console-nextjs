@@ -1,0 +1,36 @@
+type: object
+required:
+- step_key
+- label
+- status
+properties:
+  step_key:
+    type: string
+    enum:
+    - sending_org_admin
+    - receiving_org_admin
+    - legal_signoff
+    - accounting_signoff
+  label:
+    type: string
+  status:
+    type: string
+    enum:
+    - WAITING
+    - PENDING
+    - APPROVED
+    - REJECTED
+  decided_by:
+    type:
+    - string
+    - 'null'
+    format: uuid
+  decided_at:
+    type:
+    - string
+    - 'null'
+    format: date-time
+  comment:
+    type:
+    - string
+    - 'null'

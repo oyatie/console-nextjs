@@ -1,0 +1,8 @@
+      type: object
+      required: [leave_type, reason, start_date, end_date]
+      properties:
+        leave_type: { type: string, enum: [ANNUAL, HALF_DAY_AM, HALF_DAY_PM, SICK, FAMILY_EVENT, PUBLIC_DUTY, UNPAID, OTHER] }
+        reason: { type: string, enum: [PERSONAL, FAMILY_EVENT, MEDICAL, BEREAVEMENT, CHILDCARE, CIVIC_DUTY, OTHER] }
+        start_date: { type: string, format: date }
+        end_date: { type: string, format: date }
+        note: { type: string, nullable: true }

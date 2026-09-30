@@ -1,0 +1,38 @@
+operationId: preflightOntologyAction
+summary: Preflight an object action's gate chain
+description: Runs the ordered §16 gate chain (authority / self-checklist / four-eyes / egress) for an action and returns each
+  gate's status WITHOUT committing anything.
+tags:
+- Ontology
+security:
+- bearerAuth: []
+parameters:
+- name: action_key
+  in: path
+  required: true
+  schema:
+    type: string
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/OntologyActionRequest'
+responses:
+  '200':
+    description: Gate-chain preflight status.
+    content:
+      application/json:
+        schema:
+          type: object
+          additionalProperties: true
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '422':
+    $ref: '#/components/responses/ValidationError'
+  '503':
+    $ref: '#/components/responses/ServiceUnavailable'

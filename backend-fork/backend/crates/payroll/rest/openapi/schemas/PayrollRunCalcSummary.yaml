@@ -1,0 +1,32 @@
+type: object
+required:
+- version
+- calculated_at
+- calculated_lines
+- blocked_lines
+- payable
+- kernel_rate_table
+- total_net_won
+properties:
+  version:
+    type: integer
+    format: int32
+  calculated_at:
+    $ref: '#/components/schemas/Timestamp'
+  calculated_lines:
+    type: integer
+    format: int64
+  blocked_lines:
+    type: integer
+    format: int64
+  payable:
+    type: boolean
+    description: Always false until the 노무사/세무사 release gate flips the stored rows.
+  kernel_rate_table:
+    type: string
+  total_net_won:
+    type:
+    - integer
+    - 'null'
+    format: int64
+    description: Whole KRW won. null unless EVERY line of the run calculated — never a partial sum presented as a total.

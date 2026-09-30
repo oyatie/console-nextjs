@@ -1,0 +1,12 @@
+tags: [Compliance]
+operationId: createComplianceFrameworkControl
+summary: Create an audited framework control
+security: [{ bearerAuth: [] }]
+requestBody: { required: true, content: { application/json: { schema: { $ref: '#/components/schemas/CreateComplianceControlRequest' } } } }
+responses:
+  '200': { description: Created framework control., content: { application/json: { schema: { $ref: '#/components/schemas/ComplianceControl' } } } }
+  '401': { $ref: '#/components/responses/Unauthorized' }
+  '403': { $ref: '#/components/responses/Forbidden' }
+  '422': { $ref: '#/components/responses/ValidationError' }
+  '500': { $ref: '#/components/responses/InternalServerError' }
+  '503': { $ref: '#/components/responses/ServiceUnavailable' }

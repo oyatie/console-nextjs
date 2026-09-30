@@ -1,0 +1,38 @@
+tags:
+  - workflow-tasks
+operationId: decideWorkflowTask
+summary: Decide a waiting task (approve/reject/return)
+description: Completes a non-finalize approval task. approve advances the run to the next node (a human task parks WAITING;
+  no successor closes the run SUCCEEDED). reject and return require a non-empty comment (422 otherwise) and cancel the run —
+  a resubmission is a new run, never a terminal reopen. Idempotent on idempotency_key. Audits workflow_task.decide.
+security:
+- bearerAuth: []
+parameters:
+- name: task_id
+  in: path
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/DecideWorkflowTaskRequest'
+responses:
+  '200':
+    description: Decision recorded (replays return the recorded result).
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/DecideWorkflowTaskResponse'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '409':
+    $ref: '#/components/responses/Conflict'
+  '422':
+    $ref: '#/components/responses/ValidationError'

@@ -1,0 +1,25 @@
+tags:
+  - workflow-studio
+operationId: previewWorkflowScheduleNextRuns
+summary: Preview the next fire times for a cron expression
+security:
+- bearerAuth: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/PreviewScheduleRequest'
+responses:
+  '200':
+    description: The next fire times (RFC 3339, UTC) for the expression in its timezone.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/PreviewScheduleResponse'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '422':
+    $ref: '#/components/responses/ValidationError'

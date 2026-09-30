@@ -1,0 +1,27 @@
+[package]
+name = "console-dispatch-worker"
+version = "0.1.0"
+description = "Worker handlers for scheduled P1 emergency dispatch timers."
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+console-dispatch-adapter-postgres = { workspace = true }
+console-dispatch-application = { workspace = true }
+console-kernel-core = { workspace = true }
+console-platform-jobs = { workspace = true }
+console-platform-push = { workspace = true }
+console-platform-request-context = { workspace = true }
+thiserror = { workspace = true }
+time = { workspace = true }
+tracing = { workspace = true }
+
+[dev-dependencies]
+console-dispatch-domain = { workspace = true }
+sqlx = { workspace = true }
+uuid = { workspace = true }
+
+[lints]
+workspace = true

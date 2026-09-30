@@ -1,0 +1,14 @@
+type: object
+required:
+- to_owner
+- reason
+properties:
+  to_owner:
+    type: string
+    minLength: 1
+    description: New legal-owner label after all signoffs approve.
+  reason:
+    type: string
+    minLength: 1
+    maxLength: 1000
+    description: Business/legal reason for the transfer.

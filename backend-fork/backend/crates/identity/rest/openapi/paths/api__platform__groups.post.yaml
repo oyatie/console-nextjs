@@ -1,0 +1,31 @@
+tags:
+  - platform
+operationId: createPlatformGroup
+summary: Create a platform group identity (platform vendor tier)
+description: Creates a group identity that can own multiple tenant organizations. Platform token and GroupManage authority
+  required.
+security:
+- bearerAuth: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/CreatePlatformGroupRequest'
+responses:
+  '201':
+    description: The created platform group.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/PlatformGroup'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '409':
+    $ref: '#/components/responses/Conflict'
+  '422':
+    $ref: '#/components/responses/ValidationError'
+  '503':
+    $ref: '#/components/responses/ServiceUnavailable'

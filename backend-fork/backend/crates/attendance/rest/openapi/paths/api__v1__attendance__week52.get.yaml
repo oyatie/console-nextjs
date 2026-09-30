@@ -1,0 +1,12 @@
+tags: [attendance]
+operationId: listAttendanceWeek52
+summary: List weekly working-hour projections
+security: [{ bearerAuth: [] }]
+parameters:
+  - { name: week_start, in: query, required: true, schema: { type: string, format: date } }
+  - { name: branch_id, in: query, required: false, schema: { $ref: '#/components/schemas/Uuid' } }
+responses:
+  '200': { description: Week-52 projection board, content: { application/json: { schema: { $ref: '#/components/schemas/AttendanceWeek52Board' } } } }
+  '401': { $ref: '#/components/responses/Unauthorized' }
+  '403': { $ref: '#/components/responses/Forbidden' }
+  '422': { $ref: '#/components/responses/ValidationError' }

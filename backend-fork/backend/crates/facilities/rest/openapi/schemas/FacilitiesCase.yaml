@@ -1,0 +1,12 @@
+type: object
+required: [id, branchId, status, responseDueAt, completionDueAt, acceptanceDueAt, totalCostKrw]
+properties:
+  id: { $ref: '#/components/schemas/Uuid' }
+  branchId: { $ref: '#/components/schemas/Uuid', description: Persisted case branch used for capability scoping. }
+  status: { type: string, enum: [DUE, TRIAGED, SCHEDULED, ASSIGNED, IN_PROGRESS, SUBMITTED, REWORK_REQUIRED, AWAITING_ACCEPTANCE, CLOSED] }
+  assigneeId: { type: [string, 'null'], format: uuid }
+  responseDueAt: { type: string, format: date-time }
+  completionDueAt: { type: string, format: date-time }
+  acceptanceDueAt: { type: string, format: date-time }
+  energyDeltaKwh: { type: [string, 'null'] }
+  totalCostKrw: { type: integer, format: int64 }

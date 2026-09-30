@@ -1,0 +1,12 @@
+tags: [benefit-catalog]
+operationId: updateBenefitCatalogItem
+summary: Update an audited benefit catalog item
+security: [{ bearerAuth: [] }]
+parameters: [{ name: benefit_id, in: path, required: true, schema: { $ref: '#/components/schemas/Uuid' } }]
+requestBody: { required: true, content: { application/json: { schema: { $ref: '#/components/schemas/BenefitCatalogUpdateRequest' } } } }
+responses:
+  '200': { description: Updated row, content: { application/json: { schema: { $ref: '#/components/schemas/BenefitCatalogItem' } } } }
+  '401': { $ref: '#/components/responses/Unauthorized' }
+  '403': { $ref: '#/components/responses/Forbidden' }
+  '404': { $ref: '#/components/responses/NotFound' }
+  '422': { $ref: '#/components/responses/ValidationError' }

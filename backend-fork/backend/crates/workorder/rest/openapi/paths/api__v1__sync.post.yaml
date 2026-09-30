@@ -1,0 +1,31 @@
+tags:
+  - sync
+operationId: replayOfflineSyncBatch
+summary: Replay an idempotent mobile offline-operation batch
+security:
+- bearerAuth: []
+parameters:
+- $ref: '#/components/parameters/XDeviceId'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/SyncBatchRequest'
+responses:
+  '200':
+    description: Per-operation replay results. Individual failures do not abort the batch.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/SyncBatchResponse'
+  '400':
+    $ref: '#/components/responses/ValidationError'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '503':
+    description: JWT verification is not configured.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ErrorBody'

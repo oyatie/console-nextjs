@@ -1,0 +1,39 @@
+tags:
+  - policy
+operationId: listPolicyAuditEvents
+summary: List Policy Studio audit evidence
+description: Returns append-only policy audit events for the current tenant. This is a read-only evidence timeline for
+  RoleManage holders and includes only policy role and planned-assignment events, not unrelated tenant audit rows.
+security:
+- bearerAuth: []
+parameters:
+- name: limit
+  in: query
+  required: false
+  schema:
+    type: integer
+    format: int64
+    minimum: 1
+    maximum: 100
+    default: 20
+responses:
+  '200':
+    description: Recent policy audit evidence rows.
+    content:
+      application/json:
+        schema:
+          type: array
+          items:
+            $ref: '#/components/schemas/PolicyAuditEventResponse'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '422':
+    $ref: '#/components/responses/ValidationError'
+  '503':
+    description: JWT verification is not configured.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ErrorBody'

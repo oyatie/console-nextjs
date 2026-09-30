@@ -1,0 +1,23 @@
+tags:
+  - sales
+operationId: deleteListing
+summary: Archive a sales listing (#6)
+description: Admin-gated (SalesManage). Soft-archives the listing (status -> WITHDRAWN) and removes it from
+  the public catalog; the row and its media are preserved for history/object-graph integrity, never hard-deleted.
+security:
+- bearerAuth: []
+parameters:
+- name: id
+  in: path
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+responses:
+  '204':
+    description: The listing was archived (status set to WITHDRAWN).
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'

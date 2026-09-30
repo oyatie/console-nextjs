@@ -1,0 +1,437 @@
+#!/usr/bin/env python3
+"""Render DARK on-prem HA Talos machineconfigs.
+
+This renderer intentionally only writes local files. It never calls
+`talosctl apply-config`, `talosctl bootstrap`, kubectl, Argo CD, or OpenTofu.
+Generated `secrets.yaml`, `talosconfig`, and machineconfigs are operator custody
+artifacts and must stay out of git.
+"""
+
+from __future__ import annotations
+
+import argparse
+import datetime as dt
+import json
+import re
+import shutil
+import subprocess
+import sys
+from pathlib import Path
+from urllib.parse import urlparse
+
+SCRIPT_DIR = Path(__file__).resolve().parent
+DEFAULT_INVENTORY = SCRIPT_DIR / "nodes.example.json"
+DEFAULT_OUTPUT_DIR = SCRIPT_DIR.parent / "_out" / "on-prem"
+DEFAULT_CLUSTER_PATCH = SCRIPT_DIR / "cluster.patch.yaml"
+DEFAULT_CONTROL_PLANE_PATCH = SCRIPT_DIR / "controlplane.patch.yaml"
+DEFAULT_WORKER_PATCH = SCRIPT_DIR / "worker.patch.yaml"
+SAFE_NAME = re.compile(r"^[A-Za-z0-9][A-Za-z0-9_.-]*$")
+
+
+def fail(message: str) -> None:
+    print(f"error: {message}", file=sys.stderr)
+    raise SystemExit(2)
+
+
+def load_inventory(path: Path) -> dict:
+    try:
+        with path.open("r", encoding="utf-8") as handle:
+            data = json.load(handle)
+    except json.JSONDecodeError as exc:
+        fail(f"{path} is not valid JSON: {exc}")
+    except OSError as exc:
+        fail(f"cannot read {path}: {exc}")
+    if not isinstance(data, dict):
+        fail("inventory root must be a JSON object")
+    return data
+
+
+def require_str(data: dict, key: str) -> str:
+    value = data.get(key)
+    if not isinstance(value, str) or not value.strip():
+        fail(f"inventory field {key!r} must be a non-empty string")
+    return value.strip()
+
+
+def require_list(data: dict, key: str) -> list[dict]:
+    value = data.get(key)
+    if not isinstance(value, list) or not value:
+        fail(f"inventory field {key!r} must be a non-empty list")
+    for index, item in enumerate(value):
+        if not isinstance(item, dict):
+            fail(f"{key}[{index}] must be an object")
+    return value
+
+
+def list_of_strings(value: object, field: str) -> list[str]:
+    if value is None:
+        return []
+    if not isinstance(value, list):
+        fail(f"{field} must be a list of strings")
+    result: list[str] = []
+    for index, item in enumerate(value):
+        if not isinstance(item, str) or not item.strip():
+            fail(f"{field}[{index}] must be a non-empty string")
+        result.append(item.strip())
+    return result
+
+
+def yaml_string(value: object) -> str:
+    return json.dumps(str(value))
+
+
+def yaml_bool(value: object) -> str:
+    return "true" if bool(value) else "false"
+
+
+def sanitize_node_name(name: str) -> str:
+    if not SAFE_NAME.match(name):
+        fail(f"node name {name!r} is not file-safe; use letters, digits, '.', '_' or '-'")
+    return name
+
+
+def dedupe(values: list[str]) -> list[str]:
+    seen: set[str] = set()
+    output: list[str] = []
+    for value in values:
+        if value not in seen:
+            output.append(value)
+            seen.add(value)
+    return output
+
+
+def build_routes(node: dict, defaults: dict) -> list[dict]:
+    routes = node.get("routes", defaults.get("routes"))
+    if routes is not None:
+        if not isinstance(routes, list):
+            fail(f"routes for {node.get('name', '<unnamed>')} must be a list")
+        for index, route in enumerate(routes):
+            if not isinstance(route, dict):
+                fail(f"routes[{index}] for {node.get('name', '<unnamed>')} must be an object")
+            require_str(route, "network")
+            require_str(route, "gateway")
+        return routes
+    gateway = node.get("gateway", defaults.get("gateway"))
+    if gateway:
+        return [{"network": "0.0.0.0/0", "gateway": str(gateway)}]
+    return []
+
+
+def render_node_patch(node: dict, *, role: str, defaults: dict, control_plane_vip: str | None) -> str:
+    name = sanitize_node_name(require_str(node, "name"))
+    interface = str(node.get("interface", defaults.get("interface", "eth0")))
+    install_disk = str(node.get("install_disk", defaults.get("install_disk", "/dev/sda")))
+    wipe = node.get("wipe", defaults.get("wipe", False))
+    dhcp = node.get("dhcp", defaults.get("dhcp", True))
+    addresses = list_of_strings(node.get("addresses", defaults.get("addresses")), f"addresses for {name}")
+    nameservers = list_of_strings(node.get("nameservers", defaults.get("nameservers")), f"nameservers for {name}")
+    ntp_servers = list_of_strings(node.get("ntp_servers", defaults.get("ntp_servers")), f"ntp_servers for {name}")
+    routes = build_routes(node, defaults)
+
+    if not dhcp and not addresses:
+        fail(f"node {name} has dhcp=false but no addresses")
+    if role == "controlplane" and not control_plane_vip:
+        fail("control_plane_vip is required for HA control-plane machineconfigs")
+
+    lines = [
+        "# Generated by deploy/talos/on-prem/render-machineconfigs.py; do not edit by hand.",
+        "machine:",
+        "  nodeLabels:",
+        f"    console.nousresearch.com/node-inventory-name: {yaml_string(name)}",
+        "  install:",
+        f"    disk: {yaml_string(install_disk)}",
+        f"    wipe: {yaml_bool(wipe)}",
+        "  network:",
+        "    interfaces:",
+        f"      - interface: {yaml_string(interface)}",
+        f"        dhcp: {yaml_bool(dhcp)}",
+    ]
+    if addresses:
+        lines.append("        addresses:")
+        lines.extend(f"          - {yaml_string(address)}" for address in addresses)
+    if routes:
+        lines.append("        routes:")
+        for route in routes:
+            lines.append(f"          - network: {yaml_string(route['network'])}")
+            lines.append(f"            gateway: {yaml_string(route['gateway'])}")
+    if role == "controlplane":
+        lines.extend([
+            "        vip:",
+            f"          ip: {yaml_string(control_plane_vip)}",
+        ])
+    if nameservers:
+        lines.append("    nameservers:")
+        lines.extend(f"      - {yaml_string(server)}" for server in nameservers)
+    if ntp_servers:
+        lines.append("  time:")
+        lines.append("    servers:")
+        lines.extend(f"      - {yaml_string(server)}" for server in ntp_servers)
+    return "\n".join(lines) + "\n"
+
+
+def run(command: list[str]) -> subprocess.CompletedProcess[str]:
+    completed = subprocess.run(command, text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    if completed.returncode != 0:
+        print(completed.stdout, file=sys.stderr)
+        fail(f"command failed ({completed.returncode}): {' '.join(command)}")
+    return completed
+
+
+def version_value(inventory: dict, key: str) -> str | None:
+    capi = inventory.get("capi", {})
+    value = None
+    if isinstance(capi, dict):
+        value = capi.get(key)
+    if value is None:
+        value = inventory.get(key)
+    if value is None:
+        return None
+    if not isinstance(value, str) or not value.strip():
+        fail(f"{key} must be a non-empty string when set")
+    return value.strip()
+
+
+def installer_image_value(inventory: dict) -> str | None:
+    installer_image = version_value(inventory, "installer_image")
+    if installer_image:
+        return installer_image
+    talos_version = version_value(inventory, "talos_version")
+    if talos_version:
+        return f"ghcr.io/siderolabs/installer:{talos_version}"
+    return None
+
+
+def strip_hostname_config_if_static(path: Path) -> None:
+    """Remove generated HostnameConfig when a supplied patch sets hostname.
+
+    Talos 1.13 emits a `HostnameConfig(auto=stable)` document by default.
+    This renderer records the inventory name as a node label and normally leaves
+    that document intact. If a future site-specific override sets
+    `machine.network.hostname`, validation rejects a config containing both, so
+    strip only that generated HostnameConfig document.
+    """
+    text = path.read_text(encoding="utf-8")
+    if "\n    hostname:" not in text and "\n        hostname:" not in text:
+        return
+    parts = text.split("\n---\n")
+    filtered = [
+        part
+        for part in parts
+        if not ("kind: HostnameConfig" in part and "auto: stable" in part)
+    ]
+    if len(filtered) != len(parts):
+        path.write_text("\n---\n".join(filtered), encoding="utf-8")
+
+
+def talosctl_base_command(args: argparse.Namespace, inventory: dict, secrets_path: Path) -> list[str]:
+    cluster_name = require_str(inventory, "cluster_name")
+    endpoint = require_str(inventory, "control_plane_endpoint")
+    command = [
+        args.talosctl,
+        "gen",
+        "config",
+        cluster_name,
+        endpoint,
+        "--with-secrets",
+        str(secrets_path),
+        "--with-docs=false",
+        "--with-examples=false",
+        "--force",
+    ]
+    talos_version = version_value(inventory, "talos_version")
+    if talos_version:
+        command.extend(["--talos-version", talos_version])
+    kubernetes_version = version_value(inventory, "kubernetes_version")
+    if kubernetes_version:
+        command.extend(["--kubernetes-version", kubernetes_version.removeprefix("v")])
+    installer_image = installer_image_value(inventory)
+    if installer_image:
+        command.extend(["--install-image", installer_image])
+    for san in render_additional_sans(inventory):
+        command.extend(["--additional-sans", san])
+    return command
+
+
+def render_additional_sans(inventory: dict) -> list[str]:
+    endpoint = require_str(inventory, "control_plane_endpoint")
+    parsed = urlparse(endpoint)
+    sans = list_of_strings(inventory.get("additional_sans"), "additional_sans")
+    if parsed.hostname:
+        sans.append(parsed.hostname)
+    vip = inventory.get("control_plane_vip")
+    if isinstance(vip, str) and vip.strip():
+        sans.append(vip.strip())
+    return dedupe(sans)
+
+
+def generate_machineconfig(
+    *,
+    args: argparse.Namespace,
+    inventory: dict,
+    secrets_path: Path,
+    output_type: str,
+    role_patch: Path,
+    node_patch: Path,
+    output_path: Path,
+) -> None:
+    role_flag = "--config-patch-control-plane" if output_type == "controlplane" else "--config-patch-worker"
+    command = talosctl_base_command(args, inventory, secrets_path)
+    command.extend([
+        "--config-patch", f"@{args.cluster_patch}",
+        role_flag, f"@{role_patch}",
+        role_flag, f"@{node_patch}",
+        "--output-types", output_type,
+        "--output", str(output_path),
+    ])
+    run(command)
+    strip_hostname_config_if_static(output_path)
+
+
+def generate_talosconfig(args: argparse.Namespace, inventory: dict, secrets_path: Path, output_path: Path) -> None:
+    command = talosctl_base_command(args, inventory, secrets_path)
+    command.extend([
+        "--config-patch", f"@{args.cluster_patch}",
+        "--output-types", "talosconfig",
+        "--output", str(output_path),
+    ])
+    run(command)
+
+
+def validate_machineconfig(args: argparse.Namespace, path: Path) -> str:
+    completed = run([args.talosctl, "validate", "--mode", "metal", "--config", str(path)])
+    return completed.stdout.strip()
+
+
+def assert_no_onprem_scheduling(machineconfigs: list[Path]) -> None:
+    forbidden = "allowSchedulingOnControlPlanes" + ": true"
+    for path in machineconfigs:
+        text = path.read_text(encoding="utf-8")
+        if forbidden in text:
+            fail(f"on-prem config unexpectedly enables control-plane scheduling: {path}")
+
+
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--inventory", type=Path, default=DEFAULT_INVENTORY)
+    parser.add_argument("--output-dir", type=Path, default=DEFAULT_OUTPUT_DIR)
+    parser.add_argument("--cluster-patch", type=Path, default=DEFAULT_CLUSTER_PATCH)
+    parser.add_argument("--control-plane-patch", type=Path, default=DEFAULT_CONTROL_PLANE_PATCH)
+    parser.add_argument("--worker-patch", type=Path, default=DEFAULT_WORKER_PATCH)
+    parser.add_argument("--talosctl", default="talosctl")
+    parser.add_argument("--validate", action="store_true", help="run talosctl validate --mode metal for generated machineconfigs")
+    parser.add_argument("--rotate-secrets", action="store_true", help="regenerate output-dir/secrets.yaml instead of reusing it")
+    return parser.parse_args()
+
+
+def main() -> int:
+    args = parse_args()
+    if shutil.which(args.talosctl) is None:
+        fail(f"{args.talosctl!r} not found on PATH")
+    inventory = load_inventory(args.inventory)
+    defaults = inventory.get("node_defaults", {})
+    if not isinstance(defaults, dict):
+        fail("node_defaults must be an object when present")
+    control_planes = require_list(inventory, "control_planes")
+    workers = require_list(inventory, "workers")
+    if len(control_planes) != 3:
+        fail(f"ADR-0024 on-prem HA requires exactly 3 control-plane nodes; got {len(control_planes)}")
+    if not workers:
+        fail("on-prem HA requires at least one dedicated worker node")
+    control_plane_vip = require_str(inventory, "control_plane_vip")
+    endpoint = require_str(inventory, "control_plane_endpoint")
+    if not endpoint.startswith("https://"):
+        fail("control_plane_endpoint must be an https:// URL")
+
+    args.output_dir.mkdir(parents=True, exist_ok=True)
+    patch_dir = args.output_dir / "_node-patches"
+    patch_dir.mkdir(parents=True, exist_ok=True)
+    secrets_path = args.output_dir / "secrets.yaml"
+    if args.rotate_secrets or not secrets_path.exists():
+        run([args.talosctl, "gen", "secrets", "--output-file", str(secrets_path), "--force"])
+
+    machineconfigs: list[Path] = []
+    node_patch_paths: list[Path] = []
+    for node in control_planes:
+        name = sanitize_node_name(require_str(node, "name"))
+        node_patch_path = patch_dir / f"controlplane-{name}.patch.yaml"
+        node_patch_path.write_text(
+            render_node_patch(node, role="controlplane", defaults=defaults, control_plane_vip=control_plane_vip),
+            encoding="utf-8",
+        )
+        node_patch_paths.append(node_patch_path)
+        output_path = args.output_dir / f"controlplane-{name}.yaml"
+        generate_machineconfig(
+            args=args,
+            inventory=inventory,
+            secrets_path=secrets_path,
+            output_type="controlplane",
+            role_patch=args.control_plane_patch,
+            node_patch=node_patch_path,
+            output_path=output_path,
+        )
+        machineconfigs.append(output_path)
+
+    for node in workers:
+        name = sanitize_node_name(require_str(node, "name"))
+        node_patch_path = patch_dir / f"worker-{name}.patch.yaml"
+        node_patch_path.write_text(
+            render_node_patch(node, role="worker", defaults=defaults, control_plane_vip=None),
+            encoding="utf-8",
+        )
+        node_patch_paths.append(node_patch_path)
+        output_path = args.output_dir / f"worker-{name}.yaml"
+        generate_machineconfig(
+            args=args,
+            inventory=inventory,
+            secrets_path=secrets_path,
+            output_type="worker",
+            role_patch=args.worker_patch,
+            node_patch=node_patch_path,
+            output_path=output_path,
+        )
+        machineconfigs.append(output_path)
+
+    talosconfig_path = args.output_dir / "talosconfig"
+    generate_talosconfig(args, inventory, secrets_path, talosconfig_path)
+    assert_no_onprem_scheduling(machineconfigs)
+
+    validations: dict[str, str] = {}
+    if args.validate:
+        for path in machineconfigs:
+            validations[path.name] = validate_machineconfig(args, path)
+
+    manifest = {
+        "generated_at": dt.datetime.now(dt.timezone.utc).isoformat(),
+        "dark_stage": True,
+        "cluster_name": require_str(inventory, "cluster_name"),
+        "control_plane_endpoint": endpoint,
+        "control_plane_vip": control_plane_vip,
+        "talos_version": version_value(inventory, "talos_version"),
+        "kubernetes_version": version_value(inventory, "kubernetes_version"),
+        "installer_image": installer_image_value(inventory),
+        "control_plane_count": len(control_planes),
+        "worker_count": len(workers),
+        "additional_sans": render_additional_sans(inventory),
+        "cluster_patch": str(args.cluster_patch),
+        "control_plane_role_patch": str(args.control_plane_patch),
+        "worker_role_patch": str(args.worker_patch),
+        "node_patches": [str(path.relative_to(args.output_dir)) for path in node_patch_paths],
+        "machineconfigs": [str(path.relative_to(args.output_dir)) for path in machineconfigs],
+        "talosconfig": str(talosconfig_path.relative_to(args.output_dir)),
+        "secrets_file": "secrets.yaml (generated operator-custody artifact; do not commit)",
+        "validation_mode": "metal" if args.validate else None,
+        "validation_output": validations,
+        "allowSchedulingOnControlPlanes_true": False,
+    }
+    (args.output_dir / "render-manifest.json").write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
+
+    print(f"Rendered {len(control_planes)} control-plane and {len(workers)} worker machineconfigs into {args.output_dir}")
+    print("On-prem control-plane scheduling guard: single-node override not present")
+    if args.validate:
+        print("talosctl validate --mode metal passed for generated machineconfigs")
+    print("Generated secrets.yaml and talosconfig are local custody artifacts; do not commit output-dir contents.")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

@@ -1,0 +1,13 @@
+type: object
+required: [id, stable_key, title, backing_kind, schema_version, lifecycle_state, key_write_revision, key_write_etag]
+properties:
+  id: { type: string, format: uuid }
+  stable_key: { type: string }
+  title: { type: string }
+  backing_kind: { type: string, enum: [instance, projected] }
+  schema_version: { type: integer, format: int64 }
+  lifecycle_state: { type: string, enum: [draft, review_pending, published, superseded, retired] }
+  key_write_revision: { type: integer, format: int64, minimum: 1 }
+  key_write_etag:
+    type: string
+    pattern: '^"ont-object-type-key:[0-9a-f]{32}:r[1-9][0-9]*"$'

@@ -1,0 +1,50 @@
+tags:
+  - policy
+operationId: replacePolicyAssignments
+summary: Replace one user's custom-role assignments
+description: Replaces custom-role assignments for a visible user and bumps the tenant policy version. This is a sensitive
+  policy action requiring a fresh passkey step-up. ACTIVE assigned roles publish supported ordinary feature grants into
+  runtime authorization on the next request; unsupported conditions/elevated grants remain inert.
+security:
+- bearerAuth: []
+parameters:
+- name: id
+  in: path
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/ReplacePolicyRoleAssignmentsRequest'
+responses:
+  '200':
+    description: Planned assignments after replacement.
+    content:
+      application/json:
+        schema:
+          type: array
+          items:
+            $ref: '#/components/schemas/PolicyRoleAssignmentResponse'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '422':
+    $ref: '#/components/responses/ValidationError'
+  '428':
+    description: Fresh passkey step-up is required.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ErrorBody'
+  '503':
+    description: JWT or passkey step-up verification is not configured.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ErrorBody'

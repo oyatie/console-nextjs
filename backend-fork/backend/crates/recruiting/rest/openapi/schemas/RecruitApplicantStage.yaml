@@ -1,0 +1,2 @@
+type: string
+enum: [APPLIED, SCREENING, INTERVIEW, OFFER, HIRED]

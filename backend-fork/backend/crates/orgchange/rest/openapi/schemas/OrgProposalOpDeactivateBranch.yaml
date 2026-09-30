@@ -1,0 +1,11 @@
+type: object
+additionalProperties: false
+required:
+- op
+- branchId
+properties:
+  op:
+    type: string
+    enum: [DEACTIVATE_BRANCH]
+  branchId:
+    $ref: '#/components/schemas/Uuid'

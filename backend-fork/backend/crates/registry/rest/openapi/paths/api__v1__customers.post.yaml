@@ -1,0 +1,33 @@
+tags:
+  - customers
+operationId: createCustomer
+summary: Create a customer (고객) directly
+description: Admin-gated (EquipmentManage, the same feature as the site PATCH). Creates a customer in the caller's org
+  on the caller's branch (an org-wide SUPER_ADMIN/EXECUTIVE lands it on the default HQ branch). The name is required,
+  trimmed, and bounded (≤ 200 characters). A same-name customer on that branch is a 409 conflict — an explicit create
+  is a distinct intent from the importer's idempotent upsert, so it is surfaced, not merged.
+security:
+- bearerAuth: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/CreateCustomerRequest'
+responses:
+  '201':
+    description: Customer created.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/CreatedCustomer'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '409':
+    $ref: '#/components/responses/Conflict'
+  '422':
+    $ref: '#/components/responses/ValidationError'
+  '503':
+    description: JWT verification is not configured.

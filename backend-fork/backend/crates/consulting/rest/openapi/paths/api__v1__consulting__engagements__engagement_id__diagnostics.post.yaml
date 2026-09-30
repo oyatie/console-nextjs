@@ -1,0 +1,6 @@
+tags: [consulting]
+operationId: createConsultingDiagnostic
+security: [{ bearerAuth: [] }]
+parameters: [{ name: engagement_id, in: path, required: true, schema: { $ref: '#/components/schemas/Uuid' } }]
+requestBody: { required: true, content: { application/json: { schema: { $ref: '#/components/schemas/ConsultingDiagnosticCreateRequest' } } } }
+responses: { '201': { description: Created diagnostic, content: { application/json: { schema: { $ref: '#/components/schemas/ConsultingDiagnostic' } } } }, '409': { $ref: '#/components/responses/Conflict' } }

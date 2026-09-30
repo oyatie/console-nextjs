@@ -1,0 +1,6 @@
+type: string
+enum:
+- DRAFT
+- OPEN
+- CLOSED
+- ARCHIVED

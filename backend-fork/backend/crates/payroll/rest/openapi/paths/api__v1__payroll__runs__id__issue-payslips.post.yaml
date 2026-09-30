@@ -1,0 +1,29 @@
+tags:
+- payroll
+operationId: issuePayrollPayslips
+summary: Issue payslips for a PAID run into each recipient's inbox vault; hard-gated by the registered 노무사/세무사 release-gate record (409 legal_gate otherwise)
+security:
+- bearerAuth: []
+parameters:
+- name: id
+  in: path
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+responses:
+  '200':
+    description: The delivery summary after issuance; the run moves to ISSUED.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/PayrollPayslipDeliverySummary'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '409':
+    $ref: '#/components/responses/Conflict'
+  '422':
+    $ref: '#/components/responses/ValidationError'

@@ -1,0 +1,143 @@
+{
+  "version": 1,
+  "status": "design_no_live_switch",
+  "decisionSource": "docs/decisions/ADR-0021-cedar-pbac-authorization-strangler.md",
+  "cutoverContract": "docs/specs/cedar-pbac-cutover.md",
+  "observabilityContract": "docs/specs/cedar-pbac-verification-observability.md",
+  "cases": [
+    {
+      "id": "stale_policy_denies",
+      "mode": "cedar_only",
+      "inputFault": "cedar_result_bundle_key_does_not_match_coexistence_map_bundle_key",
+      "expectedEffect": "deny",
+      "expectedEngine": "boundary_preflight",
+      "expectedReason": "stale_policy_bundle",
+      "mustAudit": [
+        "coexistence_entry_id",
+        "expected_policy_version",
+        "expected_schema_version",
+        "expected_bundle_digest",
+        "expected_cedar_sdk_version",
+        "expected_cedar_language_version",
+        "evaluated_policy_version",
+        "evaluated_schema_version",
+        "evaluated_bundle_digest",
+        "evaluated_cedar_sdk_version",
+        "evaluated_cedar_language_version",
+        "decision.reason"
+      ]
+    },
+    {
+      "id": "stale_subject_denies",
+      "mode": "legacy_only",
+      "inputFault": "subject_freshness_below_required_policy_or_subject_or_session_generation",
+      "expectedEffect": "deny",
+      "expectedEngine": "boundary_preflight",
+      "expectedReason": "stale_subject",
+      "mustAudit": [
+        "subject_freshness",
+        "required_freshness",
+        "request_id",
+        "decision.reason"
+      ]
+    },
+    {
+      "id": "rls_separation_denies",
+      "mode": "cedar_only",
+      "inputFault": "subject_org_id_differs_from_resource_org_id_before_cedar_allow",
+      "expectedEffect": "deny",
+      "expectedEngine": "boundary_preflight",
+      "expectedReason": "rls_boundary_mismatch",
+      "mustAudit": [
+        "principal_org_id",
+        "resource_org_id",
+        "resource_type",
+        "decision.reason"
+      ]
+    },
+    {
+      "id": "dual_engine_map_missing_denies",
+      "mode": null,
+      "inputFault": "enrolled_domain_has_no_coexistence_map_entry",
+      "expectedEffect": "deny",
+      "expectedEngine": "boundary_preflight",
+      "expectedReason": "missing_coexistence_map",
+      "mustAudit": [
+        "action",
+        "resource_type",
+        "decision.reason"
+      ]
+    },
+    {
+      "id": "dual_engine_disagreement_denies",
+      "mode": "cedar_enforce_legacy_compare",
+      "inputFault": "cedar_allows_but_legacy_denies_compare_mode",
+      "expectedEffect": "deny",
+      "expectedEngine": "dual_engine",
+      "expectedReason": "engine_disagreement",
+      "mustAudit": [
+        "mode",
+        "action",
+        "decision.reason"
+      ]
+    },
+    {
+      "id": "cedar_error_denies",
+      "mode": "cedar_only",
+      "inputFault": "cedar_adapter_returns_error_or_schema_validation_failure",
+      "expectedEffect": "deny",
+      "expectedEngine": "cedar",
+      "expectedReason": "cedar_error",
+      "mustAudit": [
+        "mode",
+        "bundle_digest",
+        "cedar_sdk_version",
+        "cedar_language_version",
+        "evaluated_reason_detail",
+        "decision.reason"
+      ]
+    },
+    {
+      "id": "missing_freshness_denies",
+      "mode": "cedar_only",
+      "inputFault": "cedar_enrolled_request_has_no_required_subject_freshness_material",
+      "expectedEffect": "deny",
+      "expectedEngine": "boundary_preflight",
+      "expectedReason": "missing_subject_freshness",
+      "mustAudit": [
+        "subject_freshness",
+        "required_freshness",
+        "decision.reason"
+      ]
+    },
+    {
+      "id": "missing_rls_scope_proof_denies",
+      "mode": "cedar_only",
+      "inputFault": "cedar_enrolled_request_has_no_armed_runtime_rls_scope_proof",
+      "expectedEffect": "deny",
+      "expectedEngine": "boundary_preflight",
+      "expectedReason": "missing_rls_scope_proof",
+      "mustAudit": [
+        "principal_org_id",
+        "resource_org_id",
+        "rls_scope_proof",
+        "decision.reason"
+      ]
+    },
+    {
+      "id": "malformed_coexistence_map_denies",
+      "mode": "cedar_only",
+      "inputFault": "coexistence_map_entry_domain_action_or_resource_type_does_not_match_request",
+      "expectedEffect": "deny",
+      "expectedEngine": "boundary_preflight",
+      "expectedReason": "malformed_coexistence_map",
+      "mustAudit": [
+        "coexistence_entry_id",
+        "action",
+        "request_domain",
+        "resource_type",
+        "decision.reason"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+[package]
+name = "console-analytics-quant-rest"
+version = "0.1.0"
+description = "REST API for the deterministic analytics projection service."
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+console-contracts = { path = "../../contracts" }
+axum = { workspace = true }
+console-analytics-quant-service = { workspace = true }
+console-kernel-core = { workspace = true }
+console-platform-auth = { workspace = true }
+console-platform-authz = { workspace = true }
+console-platform-request-context = { workspace = true }
+serde = { workspace = true }
+sqlx = { workspace = true }
+
+[lints]
+workspace = true

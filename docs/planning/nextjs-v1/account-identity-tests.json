@@ -1,0 +1,26 @@
+{
+  "scope": "Account UUID allocation and retirement prerequisite; full authentication transition remains open",
+  "base_backend_candidate": "525951582c1fd41b023d593c23c2f328469c876073434e83a547b44b2100f945",
+  "design_sha256": "1d4d963306e4625404ccb8927e99468afff08aad82904627794937fba51fe2dd",
+  "mechanics_sha256": "83d9c9ed9f0eda03f8a86f2d9a269e8a22c360a65bf2530fe31578d09474cc5f",
+  "expected_new_tests": 14,
+  "files": [
+    {
+      "path": "backend-fork/backend/crates/platform/provisioning/tests/account_identity.rs",
+      "sha256": "30af659f932c34273afc113bf1e8123536fd46d10188d862257fc6f4a4b16215",
+      "bytes": 28972
+    },
+    {
+      "path": "tools/check-empty-install.py",
+      "sha256": "5a2fdf1ec2d68a22963de2d33967f60b64392cba64e6ab8c141c83ce54686cda",
+      "bytes": 42670
+    }
+  ],
+  "previous_manifest_sha256": "b3489584a718e9eee309a70ceafd8f4012e0007c76aa79e1c6a21f9e1734246e",
+  "review_changes": [
+    "Probe actual first ordinary refresh-token deletion and first force dynamic direct child, requiring all target Accounts retired",
+    "Missing reservation fails closed on runtime DELETE and both eligible Company removal owners",
+    "Committed blocked ordinary SQL cannot hide premature retirement behind wrapper rollback",
+    "Expected native PG18 RESTRICT SQLSTATE corrected from23503to23001; all rejection/rollback assertions preserved"
+  ]
+}

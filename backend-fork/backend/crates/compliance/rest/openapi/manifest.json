@@ -1,0 +1,120 @@
+{
+  "source": "console-compliance-rest",
+  "paths": {
+    "/api/v1/audit-streams/ceo-covert/access-events": [
+      "get"
+    ],
+    "/api/v1/audit-streams/ceo-covert/events": [
+      "get"
+    ],
+    "/api/v1/compliance/control-obligation-coverage": [
+      "post"
+    ],
+    "/api/v1/compliance/evidence-bindings": [
+      "get",
+      "post"
+    ],
+    "/api/v1/compliance/evidence-bindings/{id}/accept": [
+      "post"
+    ],
+    "/api/v1/compliance/framework-controls": [
+      "get",
+      "post"
+    ],
+    "/api/v1/compliance/frameworks": [
+      "get",
+      "post"
+    ],
+    "/api/v1/compliance/obligation-regulation-links": [
+      "post"
+    ],
+    "/api/v1/compliance/obligations": [
+      "get",
+      "post"
+    ],
+    "/api/v1/compliance/regulations": [
+      "get",
+      "post"
+    ],
+    "/api/v1/location-consent/grant": [
+      "post"
+    ],
+    "/api/v1/location-consent/resume": [
+      "post"
+    ],
+    "/api/v1/location-consent/status": [
+      "get"
+    ],
+    "/api/v1/location-consent/suspend": [
+      "post"
+    ],
+    "/api/v1/location-consent/withdraw": [
+      "post"
+    ],
+    "/api/v1/location-consents/ledger": [
+      "get"
+    ],
+    "/api/v1/location-consents/ledger.csv": [
+      "get"
+    ],
+    "/api/v1/location-pings": [
+      "post"
+    ],
+    "/api/v1/location/arrival-events": [
+      "get"
+    ]
+  },
+  "schemas": [
+    "ArrivalEvent",
+    "ArrivalEventPage",
+    "AuditStreamPage",
+    "AuditStreamReadKind",
+    "AuditStreamRecord",
+    "ComplianceControl",
+    "ComplianceControlPage",
+    "ComplianceFramework",
+    "ComplianceFrameworkPage",
+    "ComplianceObligation",
+    "ComplianceObligationPage",
+    "ComplianceRiskLevel",
+    "ComplianceScope",
+    "ComplianceScopeKind",
+    "ControlObligationCoverage",
+    "ControlStatus",
+    "ControlType",
+    "CoverageLevel",
+    "CoverageStatus",
+    "CreateComplianceControlRequest",
+    "CreateComplianceFrameworkRequest",
+    "CreateComplianceObligationRequest",
+    "CreateEvidenceBindingRequest",
+    "CreateRegulationImpactRequest",
+    "EvidenceBinding",
+    "EvidenceBindingPage",
+    "EvidenceBindingStatus",
+    "EvidenceConfidence",
+    "EvidenceTargetType",
+    "FrameworkKind",
+    "FrameworkStatus",
+    "LinkControlObligationRequest",
+    "LinkObligationRegulationRequest",
+    "LocationConsentLedgerEntry",
+    "LocationConsentLedgerPage",
+    "LocationConsentState",
+    "LocationConsentStatus",
+    "LocationConsentTransitionRequest",
+    "LocationPingRequest",
+    "ObligationRegulationLink",
+    "ObligationRegulationRelationship",
+    "ObligationStatus",
+    "ObligationType",
+    "RegulationImpact",
+    "RegulationImpactPage",
+    "RegulationImpactStatus",
+    "RegulationLinkRequest"
+  ],
+  "external_schemas": [
+    "Timestamp",
+    "Uuid"
+  ]
+}

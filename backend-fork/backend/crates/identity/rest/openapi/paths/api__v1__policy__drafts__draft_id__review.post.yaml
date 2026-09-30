@@ -1,0 +1,40 @@
+operationId: reviewPolicyDraft
+summary: Four-eyes review a policy draft
+description: Records a four-eyes review decision (reviewer must differ from the author) moving the draft to
+  approved_for_promotion or rejected.
+tags:
+- Policy
+security:
+- bearerAuth: []
+parameters:
+- name: draft_id
+  in: path
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/PolicyReviewRequest'
+responses:
+  '200':
+    description: Review decision recorded.
+    content:
+      application/json:
+        schema:
+          type: object
+          additionalProperties: true
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '409':
+    $ref: '#/components/responses/Conflict'
+  '422':
+    $ref: '#/components/responses/ValidationError'
+  '503':
+    $ref: '#/components/responses/ServiceUnavailable'

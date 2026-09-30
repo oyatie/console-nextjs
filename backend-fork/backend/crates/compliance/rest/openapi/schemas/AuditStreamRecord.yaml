@@ -1,0 +1,48 @@
+type: object
+required:
+- id
+- actor
+- action
+- target_type
+- target_id
+- sensitivity
+- before_snap
+- after_snap
+- trace_id
+- span_id
+- occurred_at
+- created_at
+properties:
+  id:
+    type: string
+  actor:
+    type:
+    - string
+    - 'null'
+    format: uuid
+  action:
+    type: string
+  target_type:
+    type: string
+  target_id:
+    type: string
+  sensitivity:
+    type: string
+  before_snap:
+    type:
+    - object
+    - 'null'
+    additionalProperties: true
+  after_snap:
+    type:
+    - object
+    - 'null'
+    additionalProperties: true
+  trace_id:
+    type: string
+  span_id:
+    type: string
+  occurred_at:
+    $ref: '#/components/schemas/Timestamp'
+  created_at:
+    $ref: '#/components/schemas/Timestamp'

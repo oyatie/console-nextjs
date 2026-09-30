@@ -1,0 +1,25 @@
+tags:
+  - location-consent
+operationId: getLocationConsentStatus
+summary: Read the authenticated user's location consent status
+security:
+- bearerAuth: []
+parameters:
+- name: branch_id
+  in: query
+  required: false
+  schema:
+    $ref: '#/components/schemas/Uuid'
+responses:
+  '200':
+    description: Current location consent status.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/LocationConsentStatus'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '422':
+    $ref: '#/components/responses/ValidationError'

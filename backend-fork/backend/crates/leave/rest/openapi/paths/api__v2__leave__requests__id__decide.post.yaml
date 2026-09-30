@@ -1,0 +1,75 @@
+tags:
+  - leave
+operationId: decideLeaveRequestV2
+summary: Approve a pending leave request or open a 시기변경 협의
+description: >-
+  Requires `employee_directory_manage` in the request's branch. An
+  APPROVE writes the leave ledger (used += exact resolved charge units,
+  remaining -= exact resolved charge units) in the same audited transaction.
+  Separation of duties — a request cannot be
+  decided by its own requester (403). 근로기준법 §60 forbids refusing 연차:
+  `return`/`reject` are retired (422) and the only non-approve decision is
+  `time_change` (§60⑤ 시기변경 협의), which requires a comment and never
+  touches the ledger. Eligibility for `time_change` is system-judged from
+  branch coverage evidence (요건 자동 판정); without a coverage shortfall
+  the decision fails closed with 422 `leave_decide.time_change_ineligible`.
+  A successful consult stamps `time_change_grounds` /
+  `time_change_evidence` on the v2 view; the worker then proposes
+  alternate dates via POST `/api/v2/leave/requests/{id}/alternate-dates`.
+  Approval additionally requires a resolved exact charge and a distinct
+  resolver. Clients must carry the current request_version as
+  `expected_version`; omission is rejected so every v2 decision is an
+  explicit compare-and-swap. charge_version identifies immutable evidence
+  and is never a request mutation precondition. A successful decision
+  increments request_version only; charge_version remains unchanged. An
+  unresolved approval returns 409 `leave_calendar_review_required` plus
+  review reasons, audits the blocked attempt, and changes neither request
+  nor ledger.
+security:
+- bearerAuth: []
+parameters:
+- name: id
+  in: path
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/LeaveDecideV2Request'
+responses:
+  '200':
+    description: The decided leave request.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/LeaveRequestV2View'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '409':
+    description: Not pending, stale expected request_version (`leave_concurrent_modification`), or unresolved calendar/policy evidence.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ErrorBody'
+  '422':
+    description: >-
+      Missing mandatory comment, unknown decision, or `time_change`
+      without automatic coverage-shortfall eligibility
+      (`leave_decide.time_change_ineligible`).
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ErrorBody'
+  '503':
+    description: The separately credentialed leave command database is not configured or unavailable.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ErrorBody'

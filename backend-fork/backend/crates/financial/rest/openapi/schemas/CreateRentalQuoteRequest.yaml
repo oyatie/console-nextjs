@@ -1,0 +1,12 @@
+type: object
+required:
+- branch_id
+- equipment_id
+- config
+properties:
+  branch_id:
+    $ref: '#/components/schemas/Uuid'
+  equipment_id:
+    $ref: '#/components/schemas/Uuid'
+  config:
+    $ref: '#/components/schemas/FinancialConfigSnapshot'

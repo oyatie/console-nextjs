@@ -1,0 +1,21 @@
+tags:
+- maintenance
+operationId: getWorkOrderSettlement
+summary: Fetch the live (non-VOID) cost settlement of a work order
+security:
+- bearerAuth: []
+parameters:
+- $ref: '#/components/parameters/WorkOrderId'
+responses:
+  '200':
+    description: The live cost settlement.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/SettlementSummary'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'

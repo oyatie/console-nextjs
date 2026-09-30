@@ -1,0 +1,13 @@
+type: object
+required:
+- branch_id
+- lines
+properties:
+  branch_id:
+    $ref: '#/components/schemas/Uuid'
+  memo:
+    type: string
+  lines:
+    type: array
+    items:
+      $ref: '#/components/schemas/VoucherLineInput'

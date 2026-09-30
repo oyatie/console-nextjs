@@ -1,0 +1,2 @@
+type: string
+enum: [DRAFT, OPEN, CALIBRATION, FINALIZED, ARCHIVED]

@@ -1,0 +1,7 @@
+type: object
+additionalProperties: false
+required: [code, message, subject_id]
+properties:
+  code: { type: string }
+  message: { type: string }
+  subject_id: { oneOf: [{ $ref: '#/components/schemas/Uuid' }, { type: 'null' }] }

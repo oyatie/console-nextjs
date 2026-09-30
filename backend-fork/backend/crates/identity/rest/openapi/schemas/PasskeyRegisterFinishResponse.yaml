@@ -1,0 +1,12 @@
+type: object
+required:
+- passkey_id
+- user_id
+- credential_id
+properties:
+  passkey_id:
+    $ref: '#/components/schemas/Uuid'
+  user_id:
+    $ref: '#/components/schemas/Uuid'
+  credential_id:
+    type: string

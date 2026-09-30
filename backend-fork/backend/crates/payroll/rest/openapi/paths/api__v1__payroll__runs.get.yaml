@@ -1,0 +1,33 @@
+tags:
+- payroll
+operationId: listPayrollRuns
+summary: List payroll draft runs (admin; EXECUTIVE/SUPER_ADMIN only, audited read)
+security:
+- bearerAuth: []
+parameters:
+- name: limit
+  in: query
+  required: false
+  schema:
+    type: integer
+    format: int64
+    minimum: 1
+    maximum: 500
+- name: offset
+  in: query
+  required: false
+  schema:
+    type: integer
+    format: int64
+    minimum: 0
+responses:
+  '200':
+    description: Page of payroll draft runs, newest period first.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/PayrollRunPage'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'

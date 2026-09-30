@@ -1,0 +1,37 @@
+tags:
+  - workflow-tasks
+operationId: claimWorkflowTask
+summary: Claim an OPEN waiting task
+description: Transitions an OPEN task to CLAIMED for the caller. A same-user replay is a 200 no-op; a task claimed by
+  another user, or in a terminal/cancelled/expired state, is a 409. Audits workflow_task.claim.
+security:
+- bearerAuth: []
+parameters:
+- name: task_id
+  in: path
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/ClaimWorkflowTaskRequest'
+responses:
+  '200':
+    description: Task claimed (replays return the current claim).
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ClaimWorkflowTaskResponse'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '409':
+    $ref: '#/components/responses/Conflict'
+  '422':
+    $ref: '#/components/responses/ValidationError'

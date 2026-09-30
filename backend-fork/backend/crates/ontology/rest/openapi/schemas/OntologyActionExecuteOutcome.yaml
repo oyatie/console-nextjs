@@ -1,0 +1,19 @@
+type: object
+required:
+- dispatch
+- gates
+properties:
+  dispatch:
+    type: string
+    enum: [instance_revision, projected_usecase]
+  gates:
+    type: object
+    additionalProperties: true
+  instance:
+    type: object
+    additionalProperties: true
+  projected:
+    type: object
+    additionalProperties: true
+  receipt:
+    $ref: '#/components/schemas/OntologyActionCommandReceipt'

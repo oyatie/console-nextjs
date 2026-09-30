@@ -1,0 +1,27 @@
+{
+  "source": "console-todos-rest",
+  "paths": {
+    "/api/v1/me/todos": [
+      "get",
+      "post"
+    ],
+    "/api/v1/me/todos/{todoId}": [
+      "delete"
+    ],
+    "/api/v1/me/todos/{todoId}/done": [
+      "post"
+    ]
+  },
+  "schemas": [
+    "CreateTodoRequest",
+    "SetTodoDoneRequest",
+    "TodoPage",
+    "TodoRef",
+    "TodoSummary"
+  ],
+  "external_schemas": [
+    "ErrorBody",
+    "Timestamp",
+    "Uuid"
+  ]
+}

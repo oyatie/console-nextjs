@@ -1,0 +1,6 @@
+tags: [consulting]
+operationId: createConsultingInitiative
+security: [{ bearerAuth: [] }]
+parameters: [{ name: engagement_id, in: path, required: true, schema: { $ref: '#/components/schemas/Uuid' } }]
+requestBody: { required: true, content: { application/json: { schema: { $ref: '#/components/schemas/ConsultingInitiativeCreateRequest' } } } }
+responses: { '201': { description: Created KPI-referenced initiative, content: { application/json: { schema: { $ref: '#/components/schemas/ConsultingInitiative' } } } }, '409': { $ref: '#/components/responses/Conflict' } }

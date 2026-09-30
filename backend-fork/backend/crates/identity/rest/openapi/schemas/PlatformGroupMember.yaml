@@ -1,0 +1,15 @@
+type: object
+required:
+- id
+- slug
+- name
+- status
+properties:
+  id:
+    $ref: '#/components/schemas/Uuid'
+  slug:
+    type: string
+  name:
+    type: string
+  status:
+    $ref: '#/components/schemas/PlatformOrgStatus'

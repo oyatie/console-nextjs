@@ -1,0 +1,33 @@
+tags:
+  - messenger
+operationId: searchMessengerMessages
+summary: Search branch-scoped messenger messages visible to the authenticated member
+security:
+- bearerAuth: []
+parameters:
+- name: q
+  in: query
+  required: true
+  schema:
+    type: string
+    minLength: 1
+- name: limit
+  in: query
+  required: false
+  schema:
+    type: integer
+    format: int64
+    minimum: 1
+    maximum: 100
+    default: 50
+responses:
+  '200':
+    description: Matching messenger messages.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/MessengerMessageListResponse'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'

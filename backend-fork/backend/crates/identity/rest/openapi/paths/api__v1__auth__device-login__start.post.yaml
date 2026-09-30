@@ -1,0 +1,16 @@
+tags:
+  - auth
+operationId: startDeviceLogin
+summary: Start desktop QR login handoff
+description: Creates a short-lived desktop login handoff. The desktop keeps the `poll_token` and renders `approve_url`
+  as a QR. A phone opens the approve URL and proves a passkey; the desktop then polls once for its own token pair. No
+  phone session is minted by this endpoint.
+responses:
+  '200':
+    description: Poll token and phone approval URL for the desktop QR.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/DeviceLoginStartResponse'
+  '429':
+    $ref: '#/components/responses/TooManyRequests'

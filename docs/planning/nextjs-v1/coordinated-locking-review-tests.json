@@ -1,0 +1,20 @@
+{
+  "parent_approved_tests_sha256": "24f4a4deb2725c388ae375a62aac813a1bd99878e7618c5f10624a90c971d86a",
+  "base_backend_candidate": "6d41788b6755646032694bc8b7f7c1d92067474f11b69965179361199285f545",
+  "scope": "Independently approved review regressions, literal SQLx09 queries, bounded diagnostics, actual branch membership for deletion concurrency fixtures",
+  "expected_selected_tests": {
+    "company_locking": 9,
+    "authentication_locking": 13
+  },
+  "files": [
+    {
+      "path": "backend-fork/backend/crates/platform/provisioning/tests/company_locking.rs",
+      "sha256": "a5ff33dd7181d355b3b4e6e5118308b7b397062fae7b0b12d414851ffb45f260"
+    },
+    {
+      "path": "backend-fork/backend/crates/identity/rest/tests/authentication_locking.rs",
+      "sha256": "5b14fca44ecb0eac8a7182ebdf4a52e4007ef3916d39377f4b039be497780560"
+    }
+  ],
+  "previous_manifest_sha256": "851cb101b49dce9eb867c9fea74e30e359f5e0fba0d23f62225ee02e0c6f03bf"
+}

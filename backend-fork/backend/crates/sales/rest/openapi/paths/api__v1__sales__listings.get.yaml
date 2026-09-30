@@ -1,0 +1,52 @@
+tags:
+  - sales
+operationId: adminListListings
+summary: List all sales listings for the admin console (#6)
+description: Admin catalog read (SalesManage). Unlike the public storefront, returns listings in every status (including
+  DRAFT/SOLD/WITHDRAWN). Optional filters narrow by fuel/drive kind and sale/rental type; results are paged.
+security:
+- bearerAuth: []
+parameters:
+- name: kind
+  in: query
+  required: false
+  schema:
+    $ref: '#/components/schemas/ListingKind'
+- name: condition
+  in: query
+  required: false
+  schema:
+    $ref: '#/components/schemas/ListingCondition'
+- name: listing_type
+  in: query
+  required: false
+  schema:
+    $ref: '#/components/schemas/ListingType'
+- name: limit
+  in: query
+  required: false
+  schema:
+    type: integer
+    format: int64
+    minimum: 1
+    maximum: 100
+    default: 24
+- name: offset
+  in: query
+  required: false
+  schema:
+    type: integer
+    format: int64
+    minimum: 0
+    default: 0
+responses:
+  '200':
+    description: Paged sales listings (all statuses).
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/SalesListingPage'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'

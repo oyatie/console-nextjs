@@ -1,0 +1,7 @@
+type: object
+required:
+- decision
+properties:
+  decision:
+    type: string
+    enum: [ACCEPTED, DECLINED]

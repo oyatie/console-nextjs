@@ -1,0 +1,26 @@
+type: object
+required:
+- id
+- actor
+- action
+- from_status
+- to_status
+- occurred_at
+properties:
+  id:
+    $ref: '#/components/schemas/Uuid'
+  actor:
+    type:
+    - string
+    - 'null'
+    format: uuid
+  action:
+    type: string
+  from_status:
+    type:
+    - string
+    - 'null'
+  to_status:
+    $ref: '#/components/schemas/WorkOrderStatus'
+  occurred_at:
+    $ref: '#/components/schemas/Timestamp'

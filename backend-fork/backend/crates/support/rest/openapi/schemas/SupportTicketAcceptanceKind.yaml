@@ -1,0 +1,4 @@
+type: string
+enum:
+- CUSTOMER_ACCEPTED
+- CUSTOMER_DECLINED

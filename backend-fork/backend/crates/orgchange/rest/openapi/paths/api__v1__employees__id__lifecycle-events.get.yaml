@@ -1,0 +1,27 @@
+tags:
+  - employees
+operationId: listEmployeeLifecycleEvents
+summary: List audited employee lifecycle events
+description: Tenant-scoped append-only lifecycle ledger for onboarding, offboarding, termination, and intra-group/company
+  transfer decisions.
+security:
+- bearerAuth: []
+parameters:
+- name: id
+  in: path
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+responses:
+  '200':
+    description: Employee lifecycle events, newest first.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/EmployeeLifecycleEventPage'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'

@@ -1,0 +1,2 @@
+type: string
+enum: [ENTITY, REGION, BRANCH, SITE, ORG_UNIT]

@@ -1,0 +1,37 @@
+tags:
+  - exports
+operationId: getWorkDiaryExport
+summary: Export the confirmed or generated work-diary workbook
+description: Exports the 업무일지 workbook for the requested date, preserving the template's additional sheets and using
+  an existing draft when one has been edited or confirmed.
+security:
+- bearerAuth: []
+parameters:
+- $ref: '#/components/parameters/ReportDate'
+responses:
+  '200':
+    description: Work diary workbook.
+    headers:
+      Content-Disposition:
+        schema:
+          type: string
+        description: Attachment filename for the generated workbook.
+    content:
+      application/vnd.openxmlformats-officedocument.spreadsheetml.sheet:
+        schema:
+          type: string
+          format: binary
+  '400':
+    $ref: '#/components/responses/ValidationError'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '422':
+    $ref: '#/components/responses/ValidationError'
+  '503':
+    description: JWT verification is not configured.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ErrorBody'

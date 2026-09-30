@@ -1,0 +1,25 @@
+tags:
+  - me
+operationId: getCurrentUserWorkspace
+summary: Get the authenticated user's console workspace layout
+description: >-
+  Returns the caller's saved Oyatie Console window/panel layout. The
+  `layout` is an opaque, frontend-owned JSON object; a user with no saved
+  layout gets the empty default `{}`.
+security:
+- bearerAuth: []
+responses:
+  '200':
+    description: The caller's workspace layout.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/WorkspaceResponse'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '503':
+    description: JWT verification is not configured.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ErrorBody'

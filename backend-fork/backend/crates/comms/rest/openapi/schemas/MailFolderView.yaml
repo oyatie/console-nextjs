@@ -1,0 +1,21 @@
+type: object
+required:
+- id
+- role
+- name
+- unread_count
+- total_count
+properties:
+  id:
+    $ref: '#/components/schemas/Uuid'
+  role:
+    type: string
+    description: INBOX | SENT | DRAFTS | ARCHIVE | TRASH | JUNK | CUSTOM.
+  name:
+    type: string
+  unread_count:
+    type: integer
+    format: int64
+  total_count:
+    type: integer
+    format: int64

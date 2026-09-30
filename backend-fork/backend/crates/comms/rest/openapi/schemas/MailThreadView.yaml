@@ -1,0 +1,27 @@
+type: object
+required:
+- id
+- subject
+- last_message_at
+- message_count
+- unread_count
+- has_attachments
+- is_flagged
+properties:
+  id:
+    $ref: '#/components/schemas/Uuid'
+  subject:
+    type: string
+  last_message_at:
+    type: string
+    format: date-time
+  message_count:
+    type: integer
+    format: int64
+  unread_count:
+    type: integer
+    format: int64
+  has_attachments:
+    type: boolean
+  is_flagged:
+    type: boolean

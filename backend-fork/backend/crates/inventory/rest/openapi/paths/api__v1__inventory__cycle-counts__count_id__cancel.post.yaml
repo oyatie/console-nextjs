@@ -1,0 +1,7 @@
+tags: [inventory]
+operationId: cancelInventoryCycleCount
+summary: Cancel a DRAFT or SUBMITTED count without mutating ledger history
+security: [{ bearerAuth: [] }]
+parameters: [{ name: count_id, in: path, required: true, schema: { $ref: '#/components/schemas/Uuid' } }]
+requestBody: { required: true, content: { application/json: { schema: { $ref: '#/components/schemas/CycleCountVersionRequest' } } } }
+responses: { '200': { description: Cancelled cycle count, content: { application/json: { schema: { $ref: '#/components/schemas/CycleCountDetail' } } } }, '401': { $ref: '#/components/responses/Unauthorized' }, '403': { $ref: '#/components/responses/Forbidden' }, '409': { $ref: '#/components/responses/Conflict' } }

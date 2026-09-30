@@ -1,0 +1,129 @@
+type: object
+required:
+- equipment_no
+- customer_name
+- site_name
+- status
+- specification
+- ton_text
+properties:
+  equipment_no:
+    type: string
+    description: Equipment number in AAANN-NNNN form; prefix derives manufacturer/kind/power codes.
+  customer_name:
+    type: string
+    minLength: 1
+  site_name:
+    type: string
+    minLength: 1
+  status:
+    $ref: '#/components/schemas/EquipmentStatus'
+  specification:
+    type: string
+    minLength: 1
+    description: 규격, e.g. 입식 or 좌식.
+  ton_text:
+    type: string
+    description: 톤수 text, e.g. "2.5T"; numeric milli-tons are derived when the value ends in T.
+  management_no:
+    type:
+    - string
+    - 'null'
+  power_label:
+    type:
+    - string
+    - 'null'
+  manager_name:
+    type:
+    - string
+    - 'null'
+  placement_location:
+    type:
+    - string
+    - 'null'
+  placement_no:
+    type:
+    - string
+    - 'null'
+  operation_shift:
+    type:
+    - string
+    - 'null'
+  maker:
+    type:
+    - string
+    - 'null'
+  model:
+    type:
+    - string
+    - 'null'
+  vin:
+    type:
+    - string
+    - 'null'
+  year:
+    type:
+    - string
+    - 'null'
+    format: date
+  hours:
+    type:
+    - integer
+    - 'null'
+    format: int64
+  vehicle_registration_no:
+    type:
+    - string
+    - 'null'
+  insured:
+    type:
+    - boolean
+    - 'null'
+  insurer:
+    type:
+    - string
+    - 'null'
+  policy_holder:
+    type:
+    - string
+    - 'null'
+  insured_party:
+    type:
+    - string
+    - 'null'
+  asset_owner:
+    type:
+    - string
+    - 'null'
+  asset_registered_on:
+    type:
+    - string
+    - 'null'
+    format: date
+  rental_started_on:
+    type:
+    - string
+    - 'null'
+    format: date
+  rental_fee:
+    type:
+    - integer
+    - 'null'
+    format: int64
+    description: 임대료 in KRW.
+  vehicle_value:
+    type:
+    - integer
+    - 'null'
+    format: int64
+    description: 취득가액 in KRW.
+  residual_value:
+    type:
+    - integer
+    - 'null'
+    format: int64
+    description: 잔존가액 in KRW.
+  note:
+    type:
+    - string
+    - 'null'

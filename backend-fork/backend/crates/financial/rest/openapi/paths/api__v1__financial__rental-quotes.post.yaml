@@ -1,0 +1,27 @@
+tags:
+  - financial
+operationId: createRentalQuote
+summary: Compute and persist a rental quote for equipment
+security:
+- bearerAuth: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/CreateRentalQuoteRequest'
+responses:
+  '201':
+    description: Rental quote persisted.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/RentalQuoteSummary'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '422':
+    $ref: '#/components/responses/ValidationError'

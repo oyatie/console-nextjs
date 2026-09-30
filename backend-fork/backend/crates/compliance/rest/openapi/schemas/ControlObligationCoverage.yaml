@@ -1,0 +1,13 @@
+type: object
+required: [id, control_id, obligation_id, coverage_level, status, created_by, updated_by, created_at, updated_at]
+properties:
+  id: { $ref: '#/components/schemas/Uuid' }
+  control_id: { $ref: '#/components/schemas/Uuid' }
+  obligation_id: { $ref: '#/components/schemas/Uuid' }
+  coverage_level: { $ref: '#/components/schemas/CoverageLevel' }
+  coverage_rationale: { type: [string, 'null'] }
+  status: { $ref: '#/components/schemas/CoverageStatus' }
+  created_by: { $ref: '#/components/schemas/Uuid' }
+  updated_by: { $ref: '#/components/schemas/Uuid' }
+  created_at: { $ref: '#/components/schemas/Timestamp' }
+  updated_at: { $ref: '#/components/schemas/Timestamp' }

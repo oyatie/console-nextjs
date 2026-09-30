@@ -1,0 +1,10 @@
+tags: [evaluation]
+operationId: listMyEvaluationTasks
+summary: List the authenticated submitter's evaluation tasks
+security: [{ bearerAuth: [] }]
+responses:
+  '200': { description: Submitter task page., content: { application/json: { schema: { $ref: '#/components/schemas/EvaluationTaskPage' } } } }
+  '401': { $ref: '#/components/responses/Unauthorized' }
+  '403': { $ref: '#/components/responses/Forbidden' }
+  '500': { $ref: '#/components/responses/InternalServerError' }
+  '503': { $ref: '#/components/responses/ServiceUnavailable' }

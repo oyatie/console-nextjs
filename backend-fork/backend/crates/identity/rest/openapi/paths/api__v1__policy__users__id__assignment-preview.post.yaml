@@ -1,0 +1,41 @@
+tags:
+  - policy
+operationId: previewPolicyAssignments
+summary: Preview requested custom-role assignment impact for one user
+description: 'Computes requested-vs-current planned custom-role assignment deltas and feature grants for a visible user.
+  This is an impact-preview surface only: it does not write assignments and does not publish runtime authorization.'
+security:
+- bearerAuth: []
+parameters:
+- name: id
+  in: path
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/ReplacePolicyRoleAssignmentsRequest'
+responses:
+  '200':
+    description: Preview of assignment delta and resulting grants.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/PolicyAssignmentPreviewResponse'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '422':
+    $ref: '#/components/responses/ValidationError'
+  '503':
+    description: JWT verification is not configured.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ErrorBody'

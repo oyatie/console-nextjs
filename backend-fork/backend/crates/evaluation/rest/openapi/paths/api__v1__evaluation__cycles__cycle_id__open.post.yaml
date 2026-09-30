@@ -1,0 +1,13 @@
+tags: [evaluation]
+operationId: openEvaluationCycle
+summary: Open a draft cycle after its server-side preflight passes
+security: [{ bearerAuth: [] }]
+parameters: [{ $ref: '#/components/parameters/EvaluationCycleId' }]
+responses: &evaluationTransitionResponses
+  '200': { description: Transitioned cycle., content: { application/json: { schema: { $ref: '#/components/schemas/EvaluationCycleDetail' } } } }
+  '401': { $ref: '#/components/responses/Unauthorized' }
+  '403': { $ref: '#/components/responses/Forbidden' }
+  '404': { $ref: '#/components/responses/NotFound' }
+  '409': { $ref: '#/components/responses/Conflict' }
+  '500': { $ref: '#/components/responses/InternalServerError' }
+  '503': { $ref: '#/components/responses/ServiceUnavailable' }

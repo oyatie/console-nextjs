@@ -1,0 +1,15 @@
+type: object
+required:
+- title
+- body
+properties:
+  title:
+    type: string
+    maxLength: 300
+  body:
+    type: string
+    maxLength: 20000
+  category:
+    $ref: '#/components/schemas/NoticeCategory'
+  audience:
+    $ref: '#/components/schemas/NoticeAudienceInput'

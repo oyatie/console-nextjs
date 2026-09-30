@@ -1,0 +1,9 @@
+type: object
+required:
+- requested_target_due_at
+- reason
+properties:
+  requested_target_due_at:
+    $ref: '#/components/schemas/Timestamp'
+  reason:
+    type: string

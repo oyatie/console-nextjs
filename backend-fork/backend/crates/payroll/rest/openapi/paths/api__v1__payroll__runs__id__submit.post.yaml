@@ -1,0 +1,27 @@
+tags:
+- payroll
+operationId: submitPayrollRun
+summary: Submit a CALCULATED run for approval; fail-closed while any exception is still OPEN (409 carries the open count in error.details.open)
+security:
+- bearerAuth: []
+parameters:
+- name: id
+  in: path
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+responses:
+  '200':
+    description: The run detail after submission.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/PayrollRunDetail'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '409':
+    $ref: '#/components/responses/Conflict'

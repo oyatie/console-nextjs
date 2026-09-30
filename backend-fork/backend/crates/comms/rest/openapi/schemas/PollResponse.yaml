@@ -1,0 +1,65 @@
+type: object
+required:
+- id
+- target_scope_type
+- title
+- question
+- status
+- anonymity
+- allow_multiple
+- options
+- vote_count
+- my_vote
+- created_at
+- updated_at
+- policy
+properties:
+  id:
+    $ref: '#/components/schemas/Uuid'
+  target_scope_type:
+    $ref: '#/components/schemas/CollaborationScopeType'
+  target_scope_ref:
+    type:
+    - string
+    - 'null'
+  title:
+    type: string
+  question:
+    type: string
+  status:
+    $ref: '#/components/schemas/PollStatus'
+  anonymity:
+    $ref: '#/components/schemas/PollAnonymity'
+  allow_multiple:
+    type: boolean
+  closes_at:
+    oneOf:
+    - $ref: '#/components/schemas/Timestamp'
+    - type: 'null'
+  object_type:
+    type:
+    - string
+    - 'null'
+  object_id:
+    oneOf:
+    - $ref: '#/components/schemas/Uuid'
+    - type: 'null'
+  options:
+    type: array
+    items:
+      $ref: '#/components/schemas/PollOptionResponse'
+  vote_count:
+    type: integer
+    format: int64
+  my_vote:
+    $ref: '#/components/schemas/PollMyVote'
+  created_by:
+    oneOf:
+    - $ref: '#/components/schemas/Uuid'
+    - type: 'null'
+  created_at:
+    $ref: '#/components/schemas/Timestamp'
+  updated_at:
+    $ref: '#/components/schemas/Timestamp'
+  policy:
+    $ref: '#/components/schemas/CollaborationScopePolicy'

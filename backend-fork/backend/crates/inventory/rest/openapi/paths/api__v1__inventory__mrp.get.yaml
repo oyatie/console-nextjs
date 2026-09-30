@@ -1,0 +1,6 @@
+tags: [inventory]
+operationId: getInventoryMrp
+summary: Deterministic movement-derived MRP with explicit zero inbound and reservation values until those modules exist
+security: [{ bearerAuth: [] }]
+parameters: [{ name: branchId, in: query, required: true, schema: { $ref: '#/components/schemas/Uuid' } }]
+responses: { '200': { description: MRP lines, content: { application/json: { schema: { type: array, items: { $ref: '#/components/schemas/InventoryMrpLine' } } } } }, '401': { $ref: '#/components/responses/Unauthorized' }, '403': { $ref: '#/components/responses/Forbidden' } }

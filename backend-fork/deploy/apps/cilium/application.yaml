@@ -1,0 +1,32 @@
+# Dark Argo CD Application for Cilium on the ADR-0024 on-prem Talos context.
+# Do not move this file under deploy/argocd/apps/ until the substrate cutover lane
+# intentionally makes Cilium live: the root app only watches deploy/argocd/apps/.
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cilium-onprem
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "0" # CNI must land before workload apps when manually promoted.
+    console.nousresearch.com/dark-stage: "true"
+spec:
+  project: console-onprem-cilium
+  sources:
+    - repoURL: https://helm.cilium.io
+      chart: cilium
+      targetRevision: 1.19.4
+      helm:
+        releaseName: cilium
+        valueFiles:
+          - $values/deploy/apps/cilium/values.yaml
+    - repoURL: https://github.com/jason931225/console.git
+      targetRevision: main
+      ref: values
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: kube-system
+  syncPolicy:
+    # No automated sync by design: applying this Application should stage visibility
+    # only. A later VIP/BGP/substrate cutover must opt in with an explicit Argo sync.
+    syncOptions:
+      - ServerSideApply=true

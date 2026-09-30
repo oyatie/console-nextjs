@@ -1,0 +1,12 @@
+oneOf:
+- $ref: '#/components/schemas/InventoryMovementSourceWorkOrder'
+- $ref: '#/components/schemas/InventoryMovementSourceP1Dispatch'
+- $ref: '#/components/schemas/InventoryMovementSourceCycleCount'
+- $ref: '#/components/schemas/InventoryMovementSourceExternalRef'
+discriminator:
+  propertyName: kind
+  mapping:
+    work_order: '#/components/schemas/InventoryMovementSourceWorkOrder'
+    p1_dispatch: '#/components/schemas/InventoryMovementSourceP1Dispatch'
+    cycle_count: '#/components/schemas/InventoryMovementSourceCycleCount'
+    external_ref: '#/components/schemas/InventoryMovementSourceExternalRef'

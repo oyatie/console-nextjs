@@ -1,0 +1,6 @@
+      type: object
+      required: [root, nodes, edges]
+      properties:
+        root: { type: string, format: uuid }
+        nodes: { type: array, items: { $ref: '#/components/schemas/TraversalNode' } }
+        edges: { type: array, items: { $ref: '#/components/schemas/TraversalEdge' } }

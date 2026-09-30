@@ -1,0 +1,6 @@
+type: object
+required:
+- expected_updated_at
+properties:
+  expected_updated_at:
+    $ref: '#/components/schemas/Timestamp'

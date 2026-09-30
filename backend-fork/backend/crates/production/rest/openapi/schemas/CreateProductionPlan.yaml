@@ -1,0 +1,11 @@
+type: object
+required: [branch_id, customer_demand_id, capacity_slot_id, material_item_id, quantity, due_at, ontology_type_id, idempotency_key]
+properties:
+  branch_id: {$ref: '#/components/schemas/Uuid'}
+  customer_demand_id: {$ref: '#/components/schemas/Uuid'}
+  capacity_slot_id: {$ref: '#/components/schemas/Uuid'}
+  material_item_id: {$ref: '#/components/schemas/Uuid'}
+  quantity: {type: integer, format: int64, minimum: 1}
+  due_at: {type: string, format: date-time}
+  ontology_type_id: {$ref: '#/components/schemas/Uuid'}
+  idempotency_key: {type: string, minLength: 1, maxLength: 128}

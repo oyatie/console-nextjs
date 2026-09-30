@@ -1,0 +1,25 @@
+tags:
+- recruiting
+operationId: getRecruitPosting
+summary: Posting detail with its non-PII applicant pipeline rows
+security:
+- bearerAuth: []
+parameters:
+- name: postingId
+  in: path
+  required: true
+  schema:
+    $ref: '#/components/schemas/Uuid'
+responses:
+  '200':
+    description: Posting and applicant summaries.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/RecruitPostingDetailResponse'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'

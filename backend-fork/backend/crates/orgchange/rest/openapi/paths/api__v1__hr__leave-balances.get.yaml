@@ -1,0 +1,37 @@
+tags:
+  - hr
+operationId: listHrLeaveBalances
+summary: List employee leave-balance rows
+description: Read-only HR leave summary extracted from imported employee workbooks. Payroll and sensitive columns remain
+  preserved in raw import JSON unless explicitly modeled.
+security:
+- bearerAuth: []
+parameters:
+- name: limit
+  in: query
+  required: false
+  schema:
+    type: integer
+    format: int64
+    minimum: 1
+    maximum: 1000
+    default: 500
+- name: offset
+  in: query
+  required: false
+  schema:
+    type: integer
+    format: int64
+    minimum: 0
+    default: 0
+responses:
+  '200':
+    description: Leave-balance rows and aggregate totals.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/LeaveBalancePage'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'

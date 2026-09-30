@@ -1,0 +1,26 @@
+type: object
+required:
+- employee_number
+- phone
+- org_unit
+- position
+- site
+- home_branch_id
+properties:
+  employee_number:
+    type: string
+  phone:
+    type: string
+  org_unit:
+    type: string
+  position:
+    type: string
+  site:
+    type: string
+  home_branch_id:
+    $ref: '#/components/schemas/Uuid'
+  base_pay:
+    type:
+    - string
+    - 'null'
+    description: Defaults to the accepted offer amount for MONTHLY offers; required explicitly for DAILY offers.

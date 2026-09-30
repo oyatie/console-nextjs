@@ -1,0 +1,48 @@
+type: object
+required:
+- id
+- applicant_id
+- version
+- amount
+- amount_period
+- currency
+- reply_deadline
+- status
+- withdraw_reason
+- extended_by
+- extended_at
+- resolved_at
+properties:
+  id:
+    $ref: '#/components/schemas/Uuid'
+  applicant_id:
+    $ref: '#/components/schemas/Uuid'
+  version:
+    type: integer
+    format: int32
+    minimum: 1
+  amount:
+    type: string
+    description: Canonical NUMERIC(14,2) decimal string.
+  amount_period:
+    $ref: '#/components/schemas/RecruitAmountPeriod'
+  currency:
+    type: string
+    enum: [KRW]
+  reply_deadline:
+    $ref: '#/components/schemas/Date'
+  status:
+    $ref: '#/components/schemas/RecruitOfferStatus'
+  withdraw_reason:
+    type:
+    - string
+    - 'null'
+  extended_by:
+    $ref: '#/components/schemas/Uuid'
+  extended_at:
+    $ref: '#/components/schemas/Timestamp'
+  resolved_at:
+    type:
+    - string
+    - 'null'
+    format: date-time

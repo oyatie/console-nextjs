@@ -1,0 +1,11 @@
+type: object
+required:
+- slug
+- name
+properties:
+  slug:
+    type: string
+    minLength: 1
+  name:
+    type: string
+    minLength: 1

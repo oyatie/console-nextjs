@@ -1,0 +1,63 @@
+type: object
+required:
+- id
+- employee_display_name
+- employee_company
+- gross_pay_source_present
+- net_pay_source_present
+- nts_tax_row_status
+- calculation_status
+- blockers
+properties:
+  id:
+    $ref: '#/components/schemas/Uuid'
+  employee_id:
+    type:
+    - string
+    - 'null'
+    format: uuid
+  employee_display_name:
+    type: string
+  employee_company:
+    type: string
+  work_days:
+    type:
+    - number
+    - 'null'
+  regular_hours:
+    type:
+    - number
+    - 'null'
+  overtime_hours:
+    type:
+    - number
+    - 'null'
+  night_hours:
+    type:
+    - number
+    - 'null'
+  holiday_hours:
+    type:
+    - number
+    - 'null'
+  leave_used:
+    type:
+    - number
+    - 'null'
+  leave_remaining:
+    type:
+    - number
+    - 'null'
+  gross_pay_source_present:
+    type: boolean
+  net_pay_source_present:
+    type: boolean
+  nts_tax_row_status:
+    type: string
+    enum: [REQUIRED_NOT_SUPPLIED, SUPPLIED_UNVERIFIED, VERIFIED_SOURCE_ROW]
+  calculation_status:
+    type: string
+    enum: [BLOCKED_LEGAL_GATE, READY_FOR_REVIEW, APPROVED, ISSUED, VOID]
+  blockers:
+    type: array
+    items: {}

@@ -1,0 +1,11 @@
+type: object
+required:
+- sync_id
+- results
+properties:
+  sync_id:
+    type: string
+  results:
+    type: array
+    items:
+      $ref: '#/components/schemas/SyncOperationResult'

@@ -1,0 +1,19 @@
+[package]
+name = "console-workorder-application"
+version = "0.1.0"
+description = "Work-order application use-case commands, ports, and audit helpers."
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+console-kernel-core = { workspace = true }
+console-workorder-domain = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+time = { workspace = true }
+uuid = { workspace = true }
+
+[lints]
+workspace = true

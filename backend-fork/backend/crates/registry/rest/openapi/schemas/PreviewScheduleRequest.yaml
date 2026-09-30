@@ -1,0 +1,8 @@
+type: object
+required: [cron_expr]
+properties:
+  cron_expr:
+    type: string
+  timezone:
+    type: string
+    description: IANA timezone (default Asia/Seoul).

@@ -1,0 +1,27 @@
+tags:
+  - ops
+operationId: getOpsSummary
+summary: Per-tenant operational dashboard rollup
+description: 'Point-in-time operational rollup for the authenticated tenant: work-order funnel counts by stage, aging
+  work orders, P1 SLA risk, mechanic utilization, equipment-status distribution, active substitutions, pending approvals,
+  and open support tickets. The current unfiltered tenant-wide view requires org-wide authority (SUPER_ADMIN for built-in
+  roles); every read is org-scoped under RLS. Branch-scoped ADMIN principals are denied until the query itself is branch-filtered.'
+security:
+- bearerAuth: []
+responses:
+  '200':
+    description: Operational summary scoped to the authenticated tenant.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/OpsSummary'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '503':
+    description: JWT verification is not configured.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ErrorBody'

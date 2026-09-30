@@ -1,0 +1,20 @@
+type: object
+required:
+- source_sheet
+- source_row
+- source_key
+- code
+- message
+properties:
+  source_sheet:
+    type: string
+  source_row:
+    type: integer
+    format: int32
+    minimum: 1
+  source_key:
+    type: string
+  code:
+    type: string
+  message:
+    type: string

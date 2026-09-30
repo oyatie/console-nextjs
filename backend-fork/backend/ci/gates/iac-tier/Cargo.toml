@@ -1,0 +1,19 @@
+[package]
+name = "console-gate-iac-tier"
+version = "0.1.0"
+description = "CI gate: keeps ArgoCD/Kustomize app manifests (Tier A) free of hardcoded cloud-vendor resource kinds (aws_/google_/azurerm_/oci_) and keeps per-pod Kubernetes manifests out of OpenTofu (Tier B) — each concern stays in its own IaC tier, so cloud lock-in cannot creep back into app manifests."
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[[bin]]
+name = "console-gate-iac-tier"
+path = "src/main.rs"
+
+[lib]
+name = "console_gate_iac_tier"
+path = "src/lib.rs"
+
+[lints]
+workspace = true

@@ -1,0 +1,26 @@
+[package]
+name = "console-inspection-rest"
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+console-contracts = { path = "../../contracts" }
+axum.workspace = true
+console-inspection-adapter-postgres = { path = "../adapter-postgres" }
+console-inspection-application = { path = "../application" }
+console-inspection-domain = { path = "../domain" }
+console-kernel-core.workspace = true
+console-platform-auth = { path = "../../platform/auth" }
+console-platform-authz.workspace = true
+console-platform-db.workspace = true
+console-platform-request-context = { workspace = true }
+serde.workspace = true
+sqlx.workspace = true
+time.workspace = true
+tracing.workspace = true
+uuid.workspace = true
+
+[lints]
+workspace = true

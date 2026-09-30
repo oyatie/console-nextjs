@@ -1,0 +1,6 @@
+type: string
+enum:
+- LOW
+- MEDIUM
+- HIGH
+- URGENT

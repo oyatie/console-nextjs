@@ -1,0 +1,37 @@
+tags:
+  - lifecycles
+operationId: transitionObjectLifecycle
+summary: Transition one object's lifecycle state
+description: 'Lifecycle-authority gated (LifecycleManage, org-wide), audited. The transition is validated against the
+  seeded per-object-type rule table (document: draft → submitted → approved → active → revised → archived → disposed);
+  an illegal transition returns 409. The disposed transition additionally fails closed with 409 while the object is
+  under legal hold or its retentionUntil lies in the future. The first legal transition of an unknown object
+  implicitly registers its lifecycle at draft.'
+security:
+- bearerAuth: []
+parameters:
+- $ref: '#/components/parameters/LifecycleObjectType'
+- $ref: '#/components/parameters/LifecycleObjectId'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/TransitionLifecycleRequest'
+responses:
+  '200':
+    description: Transition applied.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ObjectLifecycle'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '409':
+    $ref: '#/components/responses/Conflict'
+  '422':
+    $ref: '#/components/responses/ValidationError'
+  '503':
+    description: JWT verification is not configured.

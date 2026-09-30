@@ -1,0 +1,23 @@
+tags:
+  - mail
+operationId: listMailFolders
+summary: List the tenant mailbox folders
+description: Lists the configured mailbox's folders (Inbox/Sent/…) with per-folder unread + total counts. RLS-armed
+  to the caller's org. Requires the MailUse feature.
+security:
+- bearerAuth: []
+responses:
+  '200':
+    description: The folders for the tenant's mailbox (empty if unconfigured).
+    content:
+      application/json:
+        schema:
+          type: array
+          items:
+            $ref: '#/components/schemas/MailFolderView'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '503':
+    $ref: '#/components/responses/MailUnavailable'

@@ -1,0 +1,31 @@
+tags:
+  - messenger
+operationId: setMessengerThreadMute
+summary: Set the caller's personal mute for a thread
+description: 'Direct-save personal setting. A muted thread still records every message; it only suppresses the caller''s
+  mention notifications and is excluded from their unread badge total. The caller must be a thread member.
+
+  '
+security:
+- bearerAuth: []
+parameters:
+- $ref: '#/components/parameters/ThreadId'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/SetMessengerThreadMuteRequest'
+responses:
+  '200':
+    description: The thread's post-toggle mute state for the caller.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/MessengerThreadMuteSummary'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'

@@ -1,0 +1,9 @@
+type: object
+additionalProperties: false
+required:
+- company
+properties:
+  company:
+    type: string
+    minLength: 1
+    maxLength: 120

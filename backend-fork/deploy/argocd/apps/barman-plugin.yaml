@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: barman-cloud-plugin
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "0" # after cert-manager (the plugin webhook needs certs)
+spec:
+  project: console
+  source:
+    repoURL: https://github.com/jason931225/console.git # replace OWNER
+    targetRevision: main
+    path: deploy/infra/barman-plugin
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: cnpg-system
+  syncPolicy:
+    automated: { prune: true, selfHeal: true }
+    syncOptions: [CreateNamespace=true, ServerSideApply=true]

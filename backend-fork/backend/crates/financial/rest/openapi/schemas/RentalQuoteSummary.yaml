@@ -1,0 +1,43 @@
+type: object
+required:
+- id
+- branch_id
+- equipment_id
+- acquisition_value
+- current_residual_value
+- effective_residual_value
+- residual_was_floored
+- cumulative_repair_cost
+- monthly_total
+- lines
+- created_at
+properties:
+  id:
+    $ref: '#/components/schemas/Uuid'
+  branch_id:
+    $ref: '#/components/schemas/Uuid'
+  equipment_id:
+    $ref: '#/components/schemas/Uuid'
+  acquisition_value:
+    type: integer
+    format: int64
+  current_residual_value:
+    type: integer
+    format: int64
+  effective_residual_value:
+    type: integer
+    format: int64
+  residual_was_floored:
+    type: boolean
+  cumulative_repair_cost:
+    type: integer
+    format: int64
+  monthly_total:
+    type: integer
+    format: int64
+  lines:
+    type: array
+    items:
+      $ref: '#/components/schemas/QuoteLine'
+  created_at:
+    $ref: '#/components/schemas/Timestamp'

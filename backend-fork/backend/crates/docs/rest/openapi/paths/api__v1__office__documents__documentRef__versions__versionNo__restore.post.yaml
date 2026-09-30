@@ -1,0 +1,35 @@
+tags:
+  - office
+operationId: restoreOfficeDocumentVersion
+summary: Non-destructively restore a version (re-publish it as a new version)
+description: Rollback is non-destructive — it appends a NEW version that re-publishes the target version's blob, with
+  restoredFrom recording the lineage. Audited (office.document_version.restore). Gated on LifecycleManage.
+security:
+- bearerAuth: []
+parameters:
+- name: documentRef
+  in: path
+  required: true
+  schema:
+    type: string
+    minLength: 1
+    maxLength: 200
+- name: versionNo
+  in: path
+  required: true
+  schema:
+    type: integer
+    minimum: 1
+responses:
+  '200':
+    description: The newly appended (restored) version.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/DocumentVersion'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'

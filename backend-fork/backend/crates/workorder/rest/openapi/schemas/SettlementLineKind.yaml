@@ -1,0 +1,2 @@
+type: string
+enum: [LABOR, PART, OUTSOURCE, OTHER]

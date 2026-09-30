@@ -1,0 +1,152 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --canvas: #f2f4f7;
+    --surface: #ffffff;
+    --muted: #eceff3;
+    --border: #dbe1e8;
+    --border-soft: #e8ecf1;
+    --ink: #141a21;
+    --steel: #566475;
+    --faint: #8b98a7;
+    --signal: #f6b521;
+    --signal-deep: #e2a30d;
+    --teal: #0f766e;
+
+    --danger-bg: #fef2f2;
+    --danger-bd: #fca5a5;
+    --danger-tx: #b91c1c;
+    --danger-solid: #dc2626;
+
+    --warn-bg: #fffbeb;
+    --warn-bd: #fcd34d;
+    --warn-tx: #92400e;
+    --warn-solid: #b45309;
+
+    --ok-bg: #ecfdf5;
+    --ok-bd: #6ee7b7;
+    --ok-tx: #065f46;
+    --ok-solid: #059669;
+
+    --info-bg: #eff6ff;
+    --info-bd: #93c5fd;
+    --info-tx: #1e40af;
+
+    --accent-bg: #fffbeb;
+    --accent-bd: #f6b521;
+    --accent-tx: #78350f;
+
+    --purple-bg: #f5f3ff;
+    --purple-bd: #c4b5fd;
+    --purple-tx: #5b21b6;
+
+    --shadow: 0 1px 2px rgba(20, 26, 33, 0.05);
+    --shadow-pop: 0 12px 32px rgba(20, 26, 33, 0.16);
+
+    color-scheme: light;
+  }
+
+  .dark {
+    --canvas: #0e1217;
+    --surface: #161b22;
+    --muted: #21262d;
+    --border: #30363d;
+    --border-soft: #282e36;
+    --ink: #f0f6fc;
+    --steel: #8b949e;
+    --faint: #6e7681;
+    --signal: #f6b521;
+    --signal-deep: #e2a30d;
+    --teal: #14b8a6;
+
+    --danger-bg: rgba(220, 38, 38, 0.15);
+    --danger-bd: rgba(220, 38, 38, 0.35);
+    --danger-tx: #fca5a5;
+    --danger-solid: #dc2626;
+
+    --warn-bg: rgba(180, 83, 9, 0.15);
+    --warn-bd: rgba(245, 158, 11, 0.35);
+    --warn-tx: #fcd34d;
+    --warn-solid: #b45309;
+
+    --ok-bg: rgba(5, 150, 105, 0.15);
+    --ok-bd: rgba(16, 185, 129, 0.35);
+    --ok-tx: #6ee7b7;
+    --ok-solid: #059669;
+
+    --info-bg: rgba(30, 64, 175, 0.15);
+    --info-bd: rgba(59, 130, 246, 0.35);
+    --info-tx: #93c5fd;
+
+    --accent-bg: rgba(246, 181, 33, 0.15);
+    --accent-bd: rgba(246, 181, 33, 0.4);
+    --accent-tx: #fcd34d;
+
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    --shadow-pop: 0 12px 32px rgba(0, 0, 0, 0.5);
+
+    color-scheme: dark;
+  }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background-color: var(--canvas);
+    color: var(--ink);
+    font-family: "Pretendard Variable", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    word-break: keep-all;
+    overflow-wrap: anywhere;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Custom scrollbars */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(127, 143, 159, 0.3);
+    border-radius: 4px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(127, 143, 159, 0.5);
+  }
+
+  /* Modern Web Guidance: Complex layout isolation & deferred rendering */
+  .layout-contain-column {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 280px auto 600px;
+  }
+  
+  .layout-contain-table {
+    content-visibility: auto;
+    contain-intrinsic-size: auto none auto 400px;
+  }
+
+  @supports not (content-visibility: auto) {
+    .layout-contain-column {
+      contain: layout style paint;
+    }
+    .layout-contain-table {
+      contain: layout style paint;
+    }
+  }
+
+  /* Modern Web Guidance: Modal Backdrop blur */
+  .modal-backdrop {
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+  }
+
+  /* Modern Web Guidance: Reduced motion compliance */
+  @media (prefers-reduced-motion: reduce) {
+    *, ::before, ::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}

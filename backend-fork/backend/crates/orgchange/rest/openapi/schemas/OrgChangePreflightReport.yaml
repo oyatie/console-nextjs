@@ -1,0 +1,29 @@
+type: object
+required:
+- computedAt
+- stale
+- blockers
+- warnings
+- headcount
+- dependentsTotal
+properties:
+  computedAt:
+    $ref: '#/components/schemas/Timestamp'
+  stale:
+    type: boolean
+    description: True when the draft changed after this receipt was computed; submit recomputes and never trusts a
+      stale receipt.
+  blockers:
+    type: array
+    items:
+      $ref: '#/components/schemas/OrgChangePreflightBlocker'
+  warnings:
+    type: array
+    items:
+      $ref: '#/components/schemas/OrgChangePreflightWarning'
+  headcount:
+    type: integer
+    format: int64
+  dependentsTotal:
+    type: integer
+    format: int64

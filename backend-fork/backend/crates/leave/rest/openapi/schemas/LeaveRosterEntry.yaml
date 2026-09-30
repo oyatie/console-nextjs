@@ -1,0 +1,32 @@
+type: object
+description: One employee's annual-leave balance row (직원별 연차 현황).
+required:
+- employee_id
+- name
+- team
+- grant
+- used
+- left
+- tone
+properties:
+  employee_id:
+    $ref: '#/components/schemas/Uuid'
+  name:
+    type: string
+  team:
+    type:
+    - string
+    - 'null'
+  grant:
+    type: number
+    format: double
+  used:
+    type: number
+    format: double
+  left:
+    type: number
+    format: double
+  tone:
+    type: string
+    description: Bar color / 촉진 bucket — one of ok, promote, low.
+    enum: [ok, promote, low]

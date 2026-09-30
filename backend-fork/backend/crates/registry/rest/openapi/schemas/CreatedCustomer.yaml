@@ -1,0 +1,12 @@
+type: object
+required:
+- id
+- branch_id
+- name
+properties:
+  id:
+    $ref: '#/components/schemas/Uuid'
+  branch_id:
+    $ref: '#/components/schemas/Uuid'
+  name:
+    type: string

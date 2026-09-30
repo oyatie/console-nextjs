@@ -1,0 +1,65 @@
+type: object
+required:
+- site_id
+- site_name
+- branch_id
+- customer_id
+- customer_name
+- address
+- latitude
+- longitude
+- open_ticket_count
+- breached_ticket_count
+- next_due_at
+- active_work_order_count
+- last_arrival_at
+- sla
+properties:
+  site_id:
+    $ref: '#/components/schemas/Uuid'
+  site_name:
+    type: string
+  branch_id:
+    $ref: '#/components/schemas/Uuid'
+  customer_id:
+    $ref: '#/components/schemas/Uuid'
+  customer_name:
+    type: string
+  address:
+    type:
+    - string
+    - 'null'
+  latitude:
+    type:
+    - number
+    - 'null'
+    format: double
+  longitude:
+    type:
+    - number
+    - 'null'
+    format: double
+  open_ticket_count:
+    type: integer
+    format: int64
+    description: Tickets in OPEN/IN_PROGRESS/ON_HOLD linked to the site.
+  breached_ticket_count:
+    type: integer
+    format: int64
+    description: Open tickets whose SLA due_at has already passed.
+  next_due_at:
+    type:
+    - string
+    - 'null'
+    format: date-time
+  active_work_order_count:
+    type: integer
+    format: int64
+    description: Work orders for the site in a non-terminal status.
+  last_arrival_at:
+    type:
+    - string
+    - 'null'
+    format: date-time
+  sla:
+    $ref: '#/components/schemas/FieldSlaState'

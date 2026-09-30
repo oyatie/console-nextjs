@@ -1,0 +1,28 @@
+tags:
+  - lifecycles
+operationId: getObjectLifecycle
+summary: Read one object's lifecycle state and transition log
+description: Lifecycle-authority gated (LifecycleManage, org-wide). Returns the current FSM state, legal hold /
+  retention flags, and the append-only transition history (newest first).
+security:
+- bearerAuth: []
+parameters:
+- $ref: '#/components/parameters/LifecycleObjectType'
+- $ref: '#/components/parameters/LifecycleObjectId'
+responses:
+  '200':
+    description: Lifecycle record.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ObjectLifecycle'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '404':
+    $ref: '#/components/responses/NotFound'
+  '422':
+    $ref: '#/components/responses/ValidationError'
+  '503':
+    description: JWT verification is not configured.

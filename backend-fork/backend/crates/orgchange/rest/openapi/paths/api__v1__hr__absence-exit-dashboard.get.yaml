@@ -1,0 +1,40 @@
+tags:
+  - hr
+operationId: getHrAbsenceExitDashboard
+summary: Read absence-to-exit HR dashboard
+description: Lists absence alerts and exit-case workflow state for HR users who can triage Korean labor-law exit flows.
+security:
+- bearerAuth: []
+parameters:
+- name: limit
+  in: query
+  required: false
+  schema:
+    type: integer
+    format: int64
+    minimum: 1
+    maximum: 1000
+- name: offset
+  in: query
+  required: false
+  schema:
+    type: integer
+    format: int64
+    minimum: 0
+- name: employee_id
+  in: query
+  required: false
+  schema:
+    $ref: '#/components/schemas/Uuid'
+responses:
+  '200':
+    description: Absence and exit-case dashboard data.
+    content:
+      application/json:
+        schema:
+          type: object
+          additionalProperties: true
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'

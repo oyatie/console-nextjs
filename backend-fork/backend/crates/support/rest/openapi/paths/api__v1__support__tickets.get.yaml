@@ -1,0 +1,75 @@
+tags:
+  - support
+operationId: listSupportTickets
+summary: List branch-scoped support tickets with optional filters
+security:
+- bearerAuth: []
+parameters:
+- name: status
+  in: query
+  required: false
+  schema:
+    $ref: '#/components/schemas/SupportTicketStatus'
+- name: priority
+  in: query
+  required: false
+  schema:
+    $ref: '#/components/schemas/SupportTicketPriority'
+- name: category
+  in: query
+  required: false
+  schema:
+    $ref: '#/components/schemas/SupportTicketCategory'
+- name: origin
+  in: query
+  required: false
+  schema:
+    $ref: '#/components/schemas/SupportTicketOrigin'
+- name: assignee_user_id
+  in: query
+  required: false
+  schema:
+    $ref: '#/components/schemas/Uuid'
+- name: site_id
+  in: query
+  required: false
+  description: Restrict to tickets linked to one customer site (the field-console queue).
+  schema:
+    $ref: '#/components/schemas/Uuid'
+- name: include_untriaged
+  in: query
+  required: false
+  schema:
+    type: boolean
+- name: limit
+  in: query
+  required: false
+  schema:
+    type: integer
+    format: int64
+    minimum: 1
+    maximum: 100
+    default: 50
+- name: cursor
+  in: query
+  required: false
+  schema:
+    $ref: '#/components/schemas/Uuid'
+responses:
+  '200':
+    description: A keyset page of support tickets visible in the principal's branch scope, plus the unpaged total for
+      the same filters.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/SupportTicketPage'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
+  '503':
+    description: JWT verification is not configured.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ErrorBody'
