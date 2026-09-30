@@ -750,16 +750,15 @@ impl PgWorkflowRuntimeStore {
     /// The staging write belongs to another transaction now, so the drain is
     /// staged-then-acked rather than all-in-one:
     ///
-    /// 1. claim the due events and apply the freeze-window gate, in ONE read
+    /// 1. claim the due events in ONE read
     ///    transaction that is CLOSED before any owner call — a cross-crate write
     ///    performed while this connection still held a transaction open would
     ///    make the drain a two-connection operation and is how a bounded pool
     ///    deadlocks;
-    /// 2. stage each draft through the owner. Idempotent on the natural key, and
-    ///    the owner re-runs the freeze-window gate ATOMICALLY inside its own
-    ///    staging INSERT (`WHERE NOT EXISTS` over `period_locks`) — a period
-    ///    lock acquired after step 1's read but before this write is refused in
-    ///    the same statement (fail-closed, event stays PENDING);
+    /// 2. stage each draft through the owner, which owns the period/provenance
+    ///    decision. A locked new draft is refused; a matching existing draft
+    ///    reconciles without refreshing its roster. This lets an interrupted
+    ///    acknowledgment recover even when the period has since locked;
     /// 3. ack + audit the events that staged, re-claiming with
     ///    `FOR UPDATE SKIP LOCKED` and acking only rows still `PENDING`/`FAILED`,
     ///    so a concurrent drainer that raced through phase 1 on the same event
@@ -771,7 +770,7 @@ impl PgWorkflowRuntimeStore {
     /// reverse order would be the unsafe one — acking first can lose a draft
     /// forever — which is why staging comes first. What is genuinely given up is
     /// "the draft and its ack roll back together"; the natural key was always
-    /// the exactly-once mechanism, and this is the identical trade
+    /// what prevents duplicate draft rows, and this is the identical trade
     /// [`Self::drain_notification_outbox`] documents below.
     // console-gate: state-changing-handler
     pub async fn drain_payroll_job_outbox(
@@ -780,7 +779,7 @@ impl PgWorkflowRuntimeStore {
         limit: i64,
         staging: &dyn PayrollDraftStaging,
     ) -> Result<u64, KernelError> {
-        // --- Phase 1: claim + freeze-window gate, in one read transaction ---
+        // --- Phase 1: claim, in one read transaction ---
         let drafts: Vec<StagePayrollDraft> =
             with_org_conn::<_, _, PgWorkflowRuntimeError>(&self.pool, org, move |tx| {
                 Box::pin(async move {
@@ -826,28 +825,6 @@ impl PgWorkflowRuntimeStore {
                             let end: Option<time::Date> = r.try_get("period_end").ok()?;
                             Some((start?, end?))
                         });
-
-                        // Freeze-window gate: a payroll draft whose period
-                        // overlaps an active payroll period lock must NOT be
-                        // created. The event is left un-acked (PENDING) so it
-                        // retries after the period is unlocked — fail closed,
-                        // never fail forgotten.
-                        if let Some((period_start, period_end)) = period
-                            && console_platform_db::assert_period_open_range(
-                                tx,
-                                console_platform_db::PeriodLockDomain::Payroll,
-                                period_start,
-                                period_end,
-                            )
-                            .await
-                            .is_err()
-                        {
-                            tracing::warn!(
-                                run_id = %run_id,
-                                "payroll draft skipped: period is locked; event stays pending"
-                            );
-                            continue;
-                        }
 
                         drafts.push(StagePayrollDraft {
                             org,

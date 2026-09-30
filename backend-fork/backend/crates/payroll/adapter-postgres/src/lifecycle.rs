@@ -407,7 +407,7 @@ async fn preflight_for(
 
 /// Statuses a run may be closed from. The three 0074-era pre-close states are
 /// all admissible so real staged rows can enter the lifecycle.
-const CLOSEABLE: [&str; 3] = ["STAGED", "BLOCKED_LEGAL_GATE", "READY_FOR_REVIEW"];
+pub(crate) const CLOSEABLE: [&str; 3] = ["STAGED", "BLOCKED_LEGAL_GATE", "READY_FOR_REVIEW"];
 
 pub async fn close_attendance_in_tx(
     tx: &mut Transaction<'_, Postgres>,
