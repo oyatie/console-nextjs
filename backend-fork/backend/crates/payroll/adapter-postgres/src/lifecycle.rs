@@ -475,14 +475,26 @@ struct SourceAmounts {
 /// are fine; two DIFFERENT figure sets for one line mean the figure to pay is
 /// ambiguous — a truthful blocker, never an arbitrary row-order pick.
 fn select_source_amounts(canonical_rows: &[Value]) -> Result<SourceAmounts, &'static str> {
-    let mut found = canonical_rows.iter().filter_map(extract_source_amounts);
-    let Some(first) = found.next() else {
-        return Err("SOURCE_AMOUNTS_NOT_MATERIALIZED");
-    };
-    if found.any(|other| other != first) {
-        return Err("SOURCE_AMOUNTS_CONFLICTING");
+    let mut selected: Option<SourceAmounts> = None;
+    let mut conflicting = false;
+    for row in canonical_rows {
+        let object = row.as_object().ok_or("SOURCE_AMOUNTS_INVALID")?;
+        if !object.contains_key("payroll") {
+            continue;
+        }
+        let amounts = extract_source_amounts(row).ok_or("SOURCE_AMOUNTS_INVALID")?;
+        match &selected {
+            Some(first) => conflicting |= first != &amounts,
+            None => selected = Some(amounts),
+        }
     }
-    Ok(first)
+    // Examine every declared payload before reporting a conflict, so malformed
+    // evidence is never hidden by another row or dependent on query order.
+    if conflicting {
+        Err("SOURCE_AMOUNTS_CONFLICTING")
+    } else {
+        selected.ok_or("SOURCE_AMOUNTS_NOT_MATERIALIZED")
+    }
 }
 
 fn extract_source_amounts(canonical_row: &Value) -> Option<SourceAmounts> {
@@ -490,9 +502,12 @@ fn extract_source_amounts(canonical_row: &Value) -> Option<SourceAmounts> {
     let tax = payroll.get("nts_tax_row")?;
     Some(SourceAmounts {
         gross_won: payroll.get("monthly_gross_pay_won")?.as_i64()?,
-        pension_standard_monthly_income_won: payroll
+        pension_standard_monthly_income_won: match payroll
             .get("pension_standard_monthly_income_won")
-            .and_then(Value::as_i64),
+        {
+            None | Some(Value::Null) => None,
+            Some(value) => Some(value.as_i64()?),
+        },
         tax_row: VerifiedNtsTaxRow {
             table_version: tax.get("table_version")?.as_str()?.to_owned(),
             monthly_income_tax_won: tax.get("monthly_income_tax_won")?.as_i64()?,

@@ -889,11 +889,11 @@
         "mode": 420
       },
       "after": {
-        "sha256": "c8feba462893ef09b2b081c6d02f3193d60aedf005bbb6cdaf2acc95a08f23ef",
-        "bytes": 80267,
+        "sha256": "21a518e81315483f8f18052d25cc4d0d8b44d0c3994b82d35e8134c8bbcb10e7",
+        "bytes": 80851,
         "mode": 420
       },
-      "reason": "Payroll restage integrity R3, source commit b0a017a: exact Company/run/period lifecycle lock and known-state guard; preserve frozen rosters; validate locked existing runs and propagate DB errors; delegate drain period/provenance decisions to the existing owner for interrupted acknowledgment recovery. No migration/API/codec change. Add independently reviewed red-first malformed payroll source and exact runtime-role calculation-accounting regressions; production behavior remains unchanged in the test candidate."
+      "reason": "Payroll restage integrity R3, source commit b0a017a: exact Company/run/period lifecycle lock and known-state guard; preserve frozen rosters; validate locked existing runs and propagate DB errors; delegate drain period/provenance decisions to the existing owner for interrupted acknowledgment recovery. No migration/API/codec change. Add independently reviewed red-first malformed payroll source and exact runtime-role calculation-accounting regressions; production behavior remains unchanged in the test candidate. Reject malformed declared payroll evidence and optional pension values in the existing selector; preserve legitimate ancillary material, duplicates, conflict checks and existing arithmetic."
     },
     {
       "path": "backend/crates/payroll/adapter-postgres/src/pay_run.rs",
