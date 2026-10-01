@@ -65,7 +65,12 @@ struct Gate {
 }
 
 impl Gate {
-    async fn install(owner: &PgPool, table: &str, query: &str, exact: bool) -> Self {
+    async fn install(
+        owner: &PgPool,
+        table: &'static str,
+        query: &'static str,
+        exact: bool,
+    ) -> Self {
         // All interpolated values are fixed test literals, never client input.
         let comparison = if exact { "=" } else { "LIKE" };
         let pattern = if exact {
@@ -73,7 +78,7 @@ impl Gate {
         } else {
             format!("{query}%")
         };
-        sqlx::raw_sql(&format!(
+        sqlx::raw_sql(sqlx::AssertSqlSafe(format!(
             "CREATE FUNCTION payroll_snapshot_gate(row_id uuid) RETURNS boolean \
              LANGUAGE plpgsql VOLATILE PARALLEL UNSAFE AS $gate$ \
              BEGIN IF current_setting('application_name') = '{READER}' \
@@ -82,7 +87,7 @@ impl Gate {
              RETURN row_id IS NOT NULL; END $gate$; \
              CREATE POLICY payroll_snapshot_probe ON {table} AS RESTRICTIVE \
              FOR SELECT TO console_rt USING (payroll_snapshot_gate(id));"
-        )).execute(owner).await.unwrap();
+        ))).execute(owner).await.unwrap();
         let mut controller = owner.begin().await.unwrap();
         let pid = sqlx::query_scalar("SELECT pg_backend_pid()")
             .fetch_one(controller.as_mut())
