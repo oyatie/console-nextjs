@@ -475,14 +475,26 @@ struct SourceAmounts {
 /// are fine; two DIFFERENT figure sets for one line mean the figure to pay is
 /// ambiguous — a truthful blocker, never an arbitrary row-order pick.
 fn select_source_amounts(canonical_rows: &[Value]) -> Result<SourceAmounts, &'static str> {
-    let mut found = canonical_rows.iter().filter_map(extract_source_amounts);
-    let Some(first) = found.next() else {
-        return Err("SOURCE_AMOUNTS_NOT_MATERIALIZED");
-    };
-    if found.any(|other| other != first) {
-        return Err("SOURCE_AMOUNTS_CONFLICTING");
+    let mut selected: Option<SourceAmounts> = None;
+    let mut conflicting = false;
+    for row in canonical_rows {
+        let object = row.as_object().ok_or("SOURCE_AMOUNTS_INVALID")?;
+        if !object.contains_key("payroll") {
+            continue;
+        }
+        let amounts = extract_source_amounts(row).ok_or("SOURCE_AMOUNTS_INVALID")?;
+        match &selected {
+            Some(first) => conflicting |= first != &amounts,
+            None => selected = Some(amounts),
+        }
     }
-    Ok(first)
+    // Examine every declared payload before reporting a conflict, so malformed
+    // evidence is never hidden by another row or dependent on query order.
+    if conflicting {
+        Err("SOURCE_AMOUNTS_CONFLICTING")
+    } else {
+        selected.ok_or("SOURCE_AMOUNTS_NOT_MATERIALIZED")
+    }
 }
 
 fn extract_source_amounts(canonical_row: &Value) -> Option<SourceAmounts> {
@@ -490,9 +502,12 @@ fn extract_source_amounts(canonical_row: &Value) -> Option<SourceAmounts> {
     let tax = payroll.get("nts_tax_row")?;
     Some(SourceAmounts {
         gross_won: payroll.get("monthly_gross_pay_won")?.as_i64()?,
-        pension_standard_monthly_income_won: payroll
+        pension_standard_monthly_income_won: match payroll
             .get("pension_standard_monthly_income_won")
-            .and_then(Value::as_i64),
+        {
+            None | Some(Value::Null) => None,
+            Some(value) => Some(value.as_i64()?),
+        },
         tax_row: VerifiedNtsTaxRow {
             table_version: tax.get("table_version")?.as_str()?.to_owned(),
             monthly_income_tax_won: tax.get("monthly_income_tax_won")?.as_i64()?,
@@ -1580,6 +1595,126 @@ mod tests {
             .err(),
             Some("SOURCE_AMOUNTS_CONFLICTING")
         );
+    }
+
+    #[test]
+    fn source_amount_selection_rejects_malformed_declared_data() {
+        let valid = payroll_row(3_000_000, 74_350);
+        let mut malformed = vec![
+            Value::Null,
+            json!([]),
+            json!("not a canonical object"),
+            json!({"payroll": null}),
+            json!({"payroll": []}),
+            json!({"payroll": "private source text"}),
+            json!({"payroll": {}}),
+            json!({"payroll": {"monthly_gross_pay_won": 3_000_000}}),
+        ];
+        for path in [
+            vec!["payroll", "monthly_gross_pay_won"],
+            vec!["payroll", "nts_tax_row", "monthly_income_tax_won"],
+            vec!["payroll", "nts_tax_row", "local_income_tax_won"],
+        ] {
+            for bad in [
+                Value::Null,
+                json!("74350"),
+                json!(true),
+                json!(1.5),
+                json!(u64::MAX),
+            ] {
+                let mut row = valid.clone();
+                let mut field = &mut row;
+                for key in &path {
+                    field = &mut field[*key];
+                }
+                *field = bad;
+                malformed.push(row);
+            }
+        }
+        for bad in [Value::Null, json!(false), json!([]), json!({})] {
+            let mut row = valid.clone();
+            row["payroll"]["nts_tax_row"]["table_version"] = bad;
+            malformed.push(row);
+        }
+        let mut missing = valid.clone();
+        missing["payroll"]["nts_tax_row"]
+            .as_object_mut()
+            .unwrap()
+            .remove("local_income_tax_won");
+        malformed.push(missing);
+        for bad in malformed {
+            for rows in [
+                vec![bad.clone()],
+                vec![valid.clone(), bad.clone()],
+                vec![bad.clone(), valid.clone()],
+            ] {
+                assert_eq!(
+                    select_source_amounts(&rows).err(),
+                    Some("SOURCE_AMOUNTS_INVALID")
+                );
+            }
+        }
+    }
+
+    #[test]
+    fn source_amount_selection_checks_optional_pension_without_coercion() {
+        let absent = payroll_row(3_000_000, 74_350);
+        let mut null = absent.clone();
+        null["payroll"]["pension_standard_monthly_income_won"] = Value::Null;
+        let selected = select_source_amounts(&[absent.clone(), null]).unwrap();
+        assert_eq!(selected.pension_standard_monthly_income_won, None);
+        let mut integer = absent.clone();
+        integer["payroll"]["pension_standard_monthly_income_won"] = json!(2_000_000);
+        assert_eq!(
+            select_source_amounts(&[integer])
+                .unwrap()
+                .pension_standard_monthly_income_won,
+            Some(2_000_000)
+        );
+        for bad in [
+            json!("2000000"),
+            json!(false),
+            json!(2_000_000.5),
+            json!({}),
+            json!([]),
+            json!(u64::MAX),
+        ] {
+            let mut row = absent.clone();
+            row["payroll"]["pension_standard_monthly_income_won"] = bad;
+            for rows in [
+                vec![row.clone()],
+                vec![row.clone(), absent.clone()],
+                vec![absent.clone(), row.clone()],
+            ] {
+                assert_eq!(
+                    select_source_amounts(&rows).err(),
+                    Some("SOURCE_AMOUNTS_INVALID")
+                );
+            }
+        }
+    }
+
+    #[test]
+    fn source_amount_selection_prioritizes_invalid_data_in_every_order() {
+        let rows = [
+            payroll_row(3_000_000, 74_350),
+            payroll_row(3_100_000, 74_350),
+            json!({"payroll": null}),
+        ];
+        for order in [
+            [0, 1, 2],
+            [0, 2, 1],
+            [1, 0, 2],
+            [1, 2, 0],
+            [2, 0, 1],
+            [2, 1, 0],
+        ] {
+            let permutation = order.map(|index| rows[index].clone());
+            assert_eq!(
+                select_source_amounts(&permutation).err(),
+                Some("SOURCE_AMOUNTS_INVALID")
+            );
+        }
     }
 
     /// The release-gate record shape written by the REST fixture
