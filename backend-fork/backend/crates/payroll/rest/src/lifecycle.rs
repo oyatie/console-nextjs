@@ -31,7 +31,7 @@ use console_payroll_adapter_postgres::lifecycle::{
 };
 use console_payroll_adapter_postgres::{PayrollRunDetail, get_run_in_tx};
 use console_platform_authz::{Action, Feature, Principal, authorize_org_wide};
-use console_platform_db::{with_audit, with_audits, with_org_conn};
+use console_platform_db::{with_audit, with_audited_snapshot, with_audits, with_org_snapshot};
 use serde::Deserialize;
 use serde_json::{Value, json};
 use time::OffsetDateTime;
@@ -157,14 +157,15 @@ pub(crate) async fn get_close_preflight(
     // persist it — and `close_attendance_in_tx` therefore has no stored verdict
     // to trust instead of recomputing (TOCTOU). The read is still audited, in
     // its own transaction below, before the blocking refs are disclosed.
-    let preflight = with_org_conn::<_, Option<ClosePreflight>, RestError>(&pool, org, move |tx| {
-        Box::pin(async move {
-            lifecycle::close_preflight_in_tx(tx, run_id)
-                .await
-                .map_err(RestError::from_lifecycle)
+    let preflight =
+        with_org_snapshot::<_, Option<ClosePreflight>, RestError>(&pool, org, move |tx| {
+            Box::pin(async move {
+                lifecycle::close_preflight_in_tx(tx, run_id)
+                    .await
+                    .map_err(RestError::from_lifecycle)
+            })
         })
-    })
-    .await?;
+        .await?;
     let preflight = preflight
         .ok_or_else(|| RestError::new(StatusCode::NOT_FOUND, "not_found", "run not found"))?;
     let read_event = audit_event(
@@ -283,27 +284,29 @@ pub(crate) async fn list_exceptions(
     require_run_read(&principal)?;
     let (org, actor) = (principal.org_id, principal.user_id);
     let pool = state.store.pool().clone();
-    let page = with_audits::<_, Option<ExceptionPage>, RestError>(&pool, org, move |tx| {
-        Box::pin(async move {
-            let page = lifecycle::list_exceptions_in_tx(tx, run_id, params.limit, params.offset)
-                .await
-                .map_err(RestError::from_lifecycle)?;
-            let events = if page.is_some() {
-                vec![audit_event(
-                    actor,
-                    org,
-                    "payroll_run.exceptions_read",
-                    "payroll_draft_run",
-                    run_id,
-                    None,
-                )?]
-            } else {
-                Vec::new()
-            };
-            Ok((page, events))
+    let page =
+        with_audited_snapshot::<_, Option<ExceptionPage>, RestError>(&pool, org, move |tx| {
+            Box::pin(async move {
+                let page =
+                    lifecycle::list_exceptions_in_tx(tx, run_id, params.limit, params.offset)
+                        .await
+                        .map_err(RestError::from_lifecycle)?;
+                let events = if page.is_some() {
+                    vec![audit_event(
+                        actor,
+                        org,
+                        "payroll_run.exceptions_read",
+                        "payroll_draft_run",
+                        run_id,
+                        None,
+                    )?]
+                } else {
+                    Vec::new()
+                };
+                Ok((page, events))
+            })
         })
-    })
-    .await?;
+        .await?;
     let page =
         page.ok_or_else(|| RestError::new(StatusCode::NOT_FOUND, "not_found", "run not found"))?;
     Ok(Json(page).into_response())
@@ -646,8 +649,10 @@ pub(crate) async fn get_payslip_delivery(
     require_run_read(&principal)?;
     let (org, actor) = (principal.org_id, principal.user_id);
     let pool = state.store.pool().clone();
-    let summary =
-        with_audits::<_, Option<PayslipDeliverySummary>, RestError>(&pool, org, move |tx| {
+    let summary = with_audited_snapshot::<_, Option<PayslipDeliverySummary>, RestError>(
+        &pool,
+        org,
+        move |tx| {
             Box::pin(async move {
                 let summary =
                     lifecycle::payslip_delivery_in_tx(tx, run_id, params.limit, params.offset)
@@ -667,8 +672,9 @@ pub(crate) async fn get_payslip_delivery(
                 };
                 Ok((summary, events))
             })
-        })
-        .await?;
+        },
+    )
+    .await?;
     let summary = summary
         .ok_or_else(|| RestError::new(StatusCode::NOT_FOUND, "not_found", "run not found"))?;
     Ok(Json(summary).into_response())

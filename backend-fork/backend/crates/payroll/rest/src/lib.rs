@@ -28,7 +28,7 @@
 //! # Audit
 //!
 //! `/runs` and `/runs/{id}` read another person's compensation-adjacent data,
-//! so each read is itself an audited event (`with_audits`), mirroring the
+//! so each read is itself an audited event (`with_audited_snapshot`), mirroring the
 //! `office.rs::issue_session_version` / `lib.rs::audit_read_event` pattern.
 //! `/me/lines` is a self-scoped read of the caller's own data — never
 //! audited, mirroring `GET /api/v1/hr/attendance-records/me`.
@@ -47,12 +47,12 @@ use axum::routing::{get, post};
 use axum::{Json, Router};
 use console_kernel_core::{AuditAction, AuditEvent, ErrorKind, KernelError, TraceContext};
 use console_payroll_adapter_postgres::{
-    MyPayrollLinePage, PayrollRunDetail, PayrollRunPage, PayrollRunSummary, PgPayrollError,
-    PgPayrollStore, get_run_in_tx, list_runs_in_tx,
+    PayrollRunDetail, PayrollRunPage, PayrollRunSummary, PgPayrollError, PgPayrollStore,
+    get_run_in_tx, list_runs_in_tx,
 };
 use console_platform_auth::JwtVerifier;
 use console_platform_authz::{Action, Feature, Principal, authorize_org_wide};
-use console_platform_db::{DbError, with_audits};
+use console_platform_db::{DbError, with_audited_snapshot};
 use console_platform_request_context::RequestContextError;
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
@@ -224,7 +224,7 @@ async fn list_runs_page(
     let org = principal.org_id;
     let actor = principal.user_id;
     let pool = state.store.pool().clone();
-    with_audits::<_, PayrollRunPage, RestError>(&pool, org, move |tx| {
+    with_audited_snapshot::<_, PayrollRunPage, RestError>(&pool, org, move |tx| {
         Box::pin(async move {
             let page = list_runs_in_tx(tx, params.limit, params.offset)
                 .await
@@ -265,33 +265,34 @@ async fn get_run(
     let org = principal.org_id;
     let actor = principal.user_id;
     let pool = state.store.pool().clone();
-    let detail = with_audits::<_, Option<PayrollRunDetail>, RestError>(&pool, org, move |tx| {
-        Box::pin(async move {
-            let detail = get_run_in_tx(tx, run_id, params.limit, params.offset)
-                .await
-                .map_err(RestError::from_store)?;
-            // Audit only on an actual read of a real run — a miss carries
-            // no sensitive payload and would otherwise pollute the trail
-            // with probe noise.
-            let events = if detail.is_some() {
-                vec![
-                    AuditEvent::new(
-                        Some(actor),
-                        AuditAction::new("payroll_run.read").map_err(RestError::from_kernel)?,
-                        "payroll_draft_run",
-                        run_id.to_string(),
-                        TraceContext::generate(),
-                        time::OffsetDateTime::now_utc(),
-                    )
-                    .with_org(org),
-                ]
-            } else {
-                Vec::new()
-            };
-            Ok((detail, events))
+    let detail =
+        with_audited_snapshot::<_, Option<PayrollRunDetail>, RestError>(&pool, org, move |tx| {
+            Box::pin(async move {
+                let detail = get_run_in_tx(tx, run_id, params.limit, params.offset)
+                    .await
+                    .map_err(RestError::from_store)?;
+                // Audit only on an actual read of a real run — a miss carries
+                // no sensitive payload and would otherwise pollute the trail
+                // with probe noise.
+                let events = if detail.is_some() {
+                    vec![
+                        AuditEvent::new(
+                            Some(actor),
+                            AuditAction::new("payroll_run.read").map_err(RestError::from_kernel)?,
+                            "payroll_draft_run",
+                            run_id.to_string(),
+                            TraceContext::generate(),
+                            time::OffsetDateTime::now_utc(),
+                        )
+                        .with_org(org),
+                    ]
+                } else {
+                    Vec::new()
+                };
+                Ok((detail, events))
+            })
         })
-    })
-    .await?;
+        .await?;
 
     let detail = detail
         .ok_or_else(|| RestError::new(StatusCode::NOT_FOUND, "not_found", "run not found"))?;
@@ -309,24 +310,11 @@ async fn list_my_lines(
     // own draft lines. Mirrors `GET /api/v1/hr/attendance-records/me`: an
     // account with no linked employee (ADMIN/system) reads an empty page,
     // never a 403, and this read is never audited (own-data self-service).
-    let page = match state
+    let page = state
         .store
-        .linked_employee_id(principal.user_id)
+        .list_my_lines_for_user(principal.user_id, params.limit, params.offset)
         .await
-        .map_err(RestError::from_store)?
-    {
-        Some(employee_id) => state
-            .store
-            .list_my_lines(employee_id, params.limit, params.offset)
-            .await
-            .map_err(RestError::from_store)?,
-        None => MyPayrollLinePage {
-            items: Vec::new(),
-            total: 0,
-            limit: params.limit.unwrap_or(100),
-            offset: params.offset.unwrap_or(0),
-        },
-    };
+        .map_err(RestError::from_store)?;
     Ok(Json(page).into_response())
 }
 

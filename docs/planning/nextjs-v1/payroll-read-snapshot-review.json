@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "design_sha256": "793c3c9116e2278db7e4928b65892b8e2bedb26a99fd6a1c29f916e7b13a00be",
+  "test_source_sha256": "fa918ab318018bb9efe5226a7d8831f0d0a43d2c9f93bcf6ca437bbf8edb3cd8",
+  "approved_tests_head": "cdc6a0ec0c85f1c5ca45da68b894b01282987611",
+  "implementation_head": "beab86e1840e368f04ddfaf06fd687928a16d538",
+  "verdicts": [
+    {
+      "reviewer_task": "live_ui_trace",
+      "scope": "design, exact tests and final owner/API source",
+      "verdict": "APPROVE",
+      "candidate": "beab86e1840e368f04ddfaf06fd687928a16d538"
+    },
+    {
+      "reviewer_task": "payroll_path_adversary",
+      "scope": "design and final owner/API source",
+      "verdict": "APPROVE",
+      "candidate": "beab86e1840e368f04ddfaf06fd687928a16d538"
+    },
+    {
+      "reviewer_task": "population_runner",
+      "scope": "exact test admission, genuine RED and147-test GREEN raw evidence/custody",
+      "verdict": "APPROVE",
+      "candidate": "beab86e1840e368f04ddfaf06fd687928a16d538"
+    }
+  ],
+  "dispositions": [
+    "Fixed invalid run provenance, delivery CHECKs, observation-before-writer, detail contradictory facts, timeout cleanup and standalone/helper coverage.",
+    "Repaired SQLx0.9 static SQL declaration, apostrophe escaping and multiline query-stage observation. All prior approvals and invalid runs remain historical.",
+    "Actual147-test discovery includes10 REST unit tests across all three modules; no module-local test omission."
+  ],
+  "remaining": "Final metadata/strict evidence and hosted protected CI are separate gates; no product release approval."
+}

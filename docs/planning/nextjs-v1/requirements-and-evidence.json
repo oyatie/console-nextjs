@@ -4086,7 +4086,7 @@
     {
       "scope": "B06/P07 staged payroll population and atomic local payslip publication only",
       "candidate_commit": "3c544ba3267d99d9e25917e7da0871fc8f7ef4e3",
-      "status": "bounded_owner_GREEN_100_strict_Clippy_passed_final_hosted_review_pending",
+      "status": "merged_protected_queue_reviewed_tree_preserved_full_modules_unaccepted",
       "evidence": {
         "path": "docs/planning/nextjs-v1/payroll-population-coverage-evidence.json",
         "sha256": "1cec6ddbe5e09c3093e187acf4a3e0a5e5eb586b44db0c9a39abbd6077820578"
@@ -4107,7 +4107,42 @@
         "Different accounts are not verified different natural people; existing PAID/release gates remain and payment status is operator-attested.",
         "Authenticated Next HR/Org/Payroll/Foundry UI, legal packs, full modules, capacity/restore/migration and release acceptance remain open.",
         "Compromised runtime raw SQL is outside this established-owner lock-serialization proof.",
-        "Exact final metadata revision, hosted CI, independent COMMENT and protected queue/merge readback remain pending at this checkpoint. No deployment or live effects."
+        "PR7 protected merge-group CI and independent audit passed; merged as e3d85c1027152b4b0c35736250a4a7495c306251. No deployment or live effects."
+      ],
+      "protected_delivery": {
+        "pr": "https://github.com/oyatie/console-nextjs/pull/7",
+        "merge_sha": "e3d85c1027152b4b0c35736250a4a7495c306251",
+        "merge_group_run": 36856167260,
+        "status": "merged through protected queue; reviewed tree preserved",
+        "receipt": {
+          "path": ".artifacts/acceptance/payroll-population-coverage/hosted-pr7-merge-group-36856167260-audit-20261001T122225.704964Z/independent-merge-group-audit.json",
+          "sha256": "00276597b3dab2c3fd7d00474efbc2ddb534af3ac100dcc9a5565d355f05b227"
+        }
+      }
+    },
+    {
+      "scope": "B06 native payroll run/readiness snapshot coherence; standalone and Account-linked self-service reads",
+      "candidate_commit": "beab86e1840e368f04ddfaf06fd687928a16d538",
+      "status": "bounded_native_owner_GREEN_147_strict_Clippy_passed_final_hosted_review_pending",
+      "evidence": {
+        "path": "docs/planning/nextjs-v1/payroll-read-snapshot-evidence.json",
+        "sha256": "7eefc9011f5cb3eda24292c9eef8ad1f993f3421cbf8c4e42375f56e1a1cac4b"
+      },
+      "tests": {
+        "discovered": 147,
+        "executed": 147,
+        "passed": 147,
+        "failed": 0,
+        "ignored": 0,
+        "measured": 0,
+        "filtered": 0
+      },
+      "limitations": [
+        "Local snapshot coherence only; emission-time revocation, trusted epochs/fencing and two-site confirmation remain unresolved.",
+        "In-process real family-bound HTTP and PostgreSQL runtime-role tests are not browser/passkey, real database-login or legal payroll proof.",
+        "Employee payslip-draft GET, SSR error-to-empty folding and exact decimal transport remain outside this bounded repair.",
+        "Next HR/Org/Payroll/Foundry business routes remain production-excluded; complete modules and release acceptance remain open.",
+        "No schema, migration, dependency, endpoint, arithmetic, payment, institution or deployment change."
       ]
     }
   ]
