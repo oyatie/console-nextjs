@@ -1,0 +1,33 @@
+{
+  "design_sha256": "1745c6ae698101793048ac4d2f4bb00c189cd4193d1531ab50786c9cdeeb9583",
+  "base_sha": "f35a1716886894e86014318d201f61169762c7a2",
+  "design_rounds": [
+    {
+      "round": 1,
+      "reviewer": "/root/live_ui_trace",
+      "verdict": "APPROVE",
+      "artifact_sha256": "f164f9cf8cd2aa94766c301abcc86d3dbf3822fb20e89611f435fe2bf2d5f70a"
+    },
+    {
+      "round": 2,
+      "reviewer": "/root/live_owner_trace",
+      "verdict": "APPROVE",
+      "artifact_sha256": "5a2bcb73d909391a1696fa5221e74f9869c4b0331e6df6d24d8e535d26000dbc"
+    },
+    {
+      "round": 3,
+      "reviewer": "/root/payroll_path_adversary",
+      "verdict": "APPROVE",
+      "artifact_sha256": "47847c14b167b3fd4f85e1535096eb7e3e3f0f8b3ec770a6d94e1a882065a2f5"
+    },
+    {
+      "round": 4,
+      "reviewer": "/root/live_ui_trace",
+      "verdict": "APPROVE",
+      "artifact_sha256": "c6014dcb9e59cc8b1cd2e53b8eee8c708de6de26bac6c864bcfcfd5f66095036"
+    }
+  ],
+  "initial_design_sha256": "cd811bde663bf53030e68e1e7ae8f9f85964993298ec7d7574298e8709377adb",
+  "initial_revision": "Submission-negative assertion contradicted existing unchanged gate; removed and retained as explicit open coverage gap.",
+  "scope": "Payroll source selection/calculation only; no serving, legal, submission coverage or release approval."
+}
