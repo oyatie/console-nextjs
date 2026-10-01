@@ -465,7 +465,11 @@ async fn dedup_redelivery_requires_every_immutable_field_and_preserves_the_recei
             store.emit_inbox_doc(changed).await
         })
         .await;
-        let err = result.expect_err("same key with different immutable input must conflict");
+        assert!(
+            result.is_err(),
+            "same key with different immutable input must conflict"
+        );
+        let err = result.unwrap_err();
         assert_eq!(err.kind(), ErrorKind::Conflict, "field={field}: {err:?}");
         assert!(
             !err.to_string().contains("private content"),
@@ -539,11 +543,12 @@ async fn concurrent_dedup_collision_revalidates_the_committed_document(owner: Pg
         }
     }).await.is_ok();
     initial.commit().await.unwrap();
-    let error = tokio::time::timeout(std::time::Duration::from_secs(10), pending)
+    let result = tokio::time::timeout(std::time::Duration::from_secs(10), pending)
         .await
         .unwrap()
-        .unwrap()
-        .unwrap_err();
+        .unwrap();
+    assert!(result.is_err(), "concurrent changed artifact must conflict");
+    let error = result.unwrap_err();
     assert!(
         observed,
         "the conflicting insert must actually collide with the uncommitted unique key"

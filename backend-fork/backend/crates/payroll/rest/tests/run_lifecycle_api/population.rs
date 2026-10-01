@@ -154,6 +154,7 @@ async fn defective_population_cannot_submit_or_issue_and_has_no_total(owner: PgP
         "duplicate-person",
         "mixed-version",
         "wrong-run",
+        "extraneous",
     ] {
         let p = population(&owner, if defect == "empty" { 0 } else { 2 }).await;
         if !p.members.is_empty() {
@@ -199,7 +200,7 @@ async fn defective_population_cannot_submit_or_issue_and_has_no_total(owner: PgP
                 "mixed-version" => {
                     copy_calculation(&owner, p.run, p.members[0].0, 2).await;
                 }
-                "wrong-run" => {
+                "wrong-run" | "extraneous" => {
                     // Same raw count, but the second calculation references another run's line.
                     let foreign_run = seed_run(&owner, p.org, p.actor).await;
                     let source = seed_verified_import_row(&owner, p.org).await;
@@ -210,14 +211,19 @@ async fn defective_population_cannot_submit_or_issue_and_has_no_total(owner: PgP
                             .fetch_one(&owner)
                             .await
                             .unwrap();
-                    sqlx::query(
-                        "UPDATE payroll_line_calculations SET line_id = $2 WHERE line_id = $1",
-                    )
-                    .bind(line)
-                    .bind(other_line)
-                    .execute(&owner)
-                    .await
-                    .unwrap();
+                    if defect == "extraneous" {
+                        sqlx::query("INSERT INTO payroll_line_calculations (org_id,run_id,line_id,version,gross_won,deductions,total_deductions_won,net_won,tax_table_version) SELECT org_id,run_id,$2,version,gross_won,deductions,total_deductions_won,net_won,tax_table_version FROM payroll_line_calculations WHERE line_id=$1")
+                            .bind(line).bind(other_line).execute(&owner).await.unwrap();
+                    } else {
+                        sqlx::query(
+                            "UPDATE payroll_line_calculations SET line_id = $2 WHERE line_id = $1",
+                        )
+                        .bind(line)
+                        .bind(other_line)
+                        .execute(&owner)
+                        .await
+                        .unwrap();
+                    }
                 }
                 _ => unreachable!(),
             }
@@ -573,80 +579,97 @@ async fn observed_blocker(owner: &PgPool, blocker: i32, app_name: &str) -> bool 
 
 #[sqlx::test(migrations = "../../platform/db/migrations")]
 async fn relinking_before_publication_is_observed_and_refused_without_disclosure(owner: PgPool) {
-    let p = population(&owner, 2).await;
-    paid_fixture(&owner, &p).await;
-    let mut relink = owner.begin().await.unwrap();
-    let blocker: i32 = sqlx::query_scalar("SELECT pg_backend_pid()")
-        .fetch_one(&mut *relink)
-        .await
-        .unwrap();
-    sqlx::query("SELECT id FROM users WHERE id = $1 FOR UPDATE")
-        .bind(p.members[1].2.as_uuid())
-        .fetch_one(&mut *relink)
-        .await
-        .unwrap();
-    sqlx::query("UPDATE users SET employee_id = NULL WHERE id = $1")
-        .bind(p.members[1].2.as_uuid())
-        .execute(&mut *relink)
-        .await
-        .unwrap();
-    let named = PgPoolOptions::new()
-        .max_connections(2)
-        .after_connect(|c, _| {
-            Box::pin(async move {
-                sqlx::query("SET ROLE console_rt").execute(c).await?;
-                Ok(())
+    for replace in [false, true] {
+        let p = population(&owner, 2).await;
+        let replacement = seed_user(&owner, p.org, "MEMBER", None).await;
+        paid_fixture(&owner, &p).await;
+        let mut relink = owner.begin().await.unwrap();
+        let blocker: i32 = sqlx::query_scalar("SELECT pg_backend_pid()")
+            .fetch_one(&mut *relink)
+            .await
+            .unwrap();
+        sqlx::query("SELECT id FROM users WHERE id = $1 FOR UPDATE")
+            .bind(p.members[1].2.as_uuid())
+            .fetch_one(&mut *relink)
+            .await
+            .unwrap();
+        sqlx::query("UPDATE users SET employee_id = NULL WHERE id = $1")
+            .bind(p.members[1].2.as_uuid())
+            .execute(&mut *relink)
+            .await
+            .unwrap();
+        if replace {
+            sqlx::query("UPDATE users SET employee_id=$2 WHERE id=$1")
+                .bind(replacement.as_uuid())
+                .bind(p.members[1].1)
+                .execute(&mut *relink)
+                .await
+                .unwrap();
+        }
+        let named = PgPoolOptions::new()
+            .max_connections(2)
+            .after_connect(|c, _| {
+                Box::pin(async move {
+                    sqlx::query("SET ROLE console_rt").execute(c).await?;
+                    Ok(())
+                })
             })
-        })
-        .connect_with(
-            owner
-                .connect_options()
-                .as_ref()
-                .clone()
-                .application_name("population-issue"),
-        )
-        .await
-        .unwrap();
-    let keys = Keys {
-        private_pem: p.keys.private_pem.clone(),
-        public_pem: p.keys.public_pem.clone(),
-    };
-    let token = p.token.clone();
-    let run = p.run;
-    let pending = tokio::spawn(async move {
-        send(
-            &named,
-            &keys,
-            "POST",
-            &format!("/api/v1/payroll/runs/{run}/issue-payslips"),
-            &token,
-            None,
-        )
-        .await
-    });
-    let observed = observed_blocker(&owner, blocker, "population-issue").await;
-    relink.commit().await.unwrap();
-    let (status, body) = tokio::time::timeout(LOCK_TIMEOUT, pending)
-        .await
-        .unwrap()
-        .unwrap();
-    assert!(
-        observed,
-        "publication must lock the recipient selected before the relink commit"
-    );
-    assert_eq!(status, StatusCode::CONFLICT, "{body}");
-    let count: i64 = sqlx::query_scalar("SELECT COUNT(*) FROM inbox_docs WHERE source_id = $1")
-        .bind(p.run.to_string())
-        .fetch_one(&owner)
-        .await
-        .unwrap();
-    assert_eq!(count, 0);
-    let state: String = sqlx::query_scalar("SELECT status FROM payroll_draft_runs WHERE id=$1")
-        .bind(p.run)
-        .fetch_one(&owner)
-        .await
-        .unwrap();
-    assert_eq!(state, "PAID");
+            .connect_with(
+                owner
+                    .connect_options()
+                    .as_ref()
+                    .clone()
+                    .application_name("population-issue"),
+            )
+            .await
+            .unwrap();
+        let keys = Keys {
+            private_pem: p.keys.private_pem.clone(),
+            public_pem: p.keys.public_pem.clone(),
+        };
+        let token = p.token.clone();
+        let run = p.run;
+        let pending = tokio::spawn(async move {
+            send(
+                &named,
+                &keys,
+                "POST",
+                &format!("/api/v1/payroll/runs/{run}/issue-payslips"),
+                &token,
+                None,
+            )
+            .await
+        });
+        let observed = observed_blocker(&owner, blocker, "population-issue").await;
+        relink.commit().await.unwrap();
+        let (status, body) = tokio::time::timeout(LOCK_TIMEOUT, pending)
+            .await
+            .unwrap()
+            .unwrap();
+        assert!(
+            observed,
+            "publication must lock the recipient selected before the relink commit"
+        );
+        assert_eq!(status, StatusCode::CONFLICT, "{body}");
+        let count: i64 = sqlx::query_scalar("SELECT COUNT(*) FROM inbox_docs WHERE source_id = $1")
+            .bind(p.run.to_string())
+            .fetch_one(&owner)
+            .await
+            .unwrap();
+        assert_eq!(count, 0);
+        let state: String = sqlx::query_scalar("SELECT status FROM payroll_draft_runs WHERE id=$1")
+            .bind(p.run)
+            .fetch_one(&owner)
+            .await
+            .unwrap();
+        assert_eq!(state, "PAID");
+        let effects: (i64,i64) = sqlx::query_as("SELECT (SELECT COUNT(*) FROM payroll_payslip_deliveries WHERE run_id=$1),(SELECT COUNT(*) FROM audit_events WHERE action IN ('inbox_doc.emit','payroll_run.payslip_issue'))").bind(p.run).fetch_one(&owner).await.unwrap();
+        assert_eq!(
+            effects,
+            (0, 0),
+            "replacement={replace}: no publication evidence may escape"
+        );
+    }
 }
 
 #[sqlx::test(migrations = "../../platform/db/migrations")]

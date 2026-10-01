@@ -165,8 +165,11 @@ const COUNT_RUNS: &str = "SELECT count(*)::bigint FROM payroll_draft_runs WHERE 
 
 /// Test-only source/roster prerequisites go through the real close/calculation
 /// owners as console_rt. These sources are not legal or imported-population proof.
-async fn prepare_calculated_roster(owner: &PgPool, run: Uuid) {
-    let employee = roster_seed::seed_employee(owner, ORG, &format!("calc-{run}"), "김직원").await;
+async fn prepare_calculated_roster(owner: &PgPool, run: Uuid, existing_employee: Option<Uuid>) {
+    let employee = match existing_employee {
+        Some(employee) => employee,
+        None => roster_seed::seed_employee(owner, ORG, &format!("calc-{run}"), "김직원").await,
+    };
     let import: Uuid = sqlx::query_scalar(
         "INSERT INTO data_import_runs (org_id, entity_type, status, source_filename, source_format, \
          source_sha256, pay_period_start, pay_period_end) VALUES ($1, 'employee_hr', 'DRY_RUN', \
@@ -540,7 +543,7 @@ async fn the_create_receipt_resolves_the_run_after_calculation(owner_pool: PgPoo
          stopped proving anything."
     );
 
-    prepare_calculated_roster(&owner_pool, draft_run_id).await;
+    prepare_calculated_roster(&owner_pool, draft_run_id, None).await;
 
     let submit = execute(
         &port,
@@ -565,7 +568,7 @@ async fn submit_and_decide_drive_the_statements_this_crate_already_owned(owner_p
         .await
         .unwrap();
     let (id, _, _) = run_by_label(&owner_pool, run_id).await.unwrap();
-    prepare_calculated_roster(&owner_pool, id).await;
+    prepare_calculated_roster(&owner_pool, id, None).await;
 
     let submit = execute(
         &port,
@@ -645,7 +648,7 @@ async fn a_decider_who_submitted_the_run_is_refused(owner_pool: PgPool) {
         .await
         .unwrap();
     let (id, _, _) = run_by_label(&owner_pool, run_id).await.unwrap();
-    prepare_calculated_roster(&owner_pool, id).await;
+    prepare_calculated_roster(&owner_pool, id, None).await;
     execute(
         &port,
         command(org, submitter, PayRunQuery::SubmitRun { run_id: id }),
@@ -1255,7 +1258,7 @@ async fn a_stored_receipt_naming_no_dispatch_target_is_refused(owner_pool: PgPoo
 /// `INSERT INTO organizations` plus a PayRun port is not this path.
 #[sqlx::test(migrations = "../../platform/db/migrations")]
 async fn empty_tenant_pay_run_lifecycle_sits_on_canonical_org_tree(owner_pool: PgPool) {
-    let (org, submitter, decider, port, appointed) =
+    let (org, submitter, decider, port, appointed, employee_id) =
         empty_tenant_pay_run_fixture(&owner_pool).await;
     assert_eq!(appointed.target(), DispatchTarget::HrAppoint);
 
@@ -1280,7 +1283,13 @@ async fn empty_tenant_pay_run_lifecycle_sits_on_canonical_org_tree(owner_pool: P
         "a staged run on the canonical tree must not be calculation-enabled"
     );
 
-    prepare_calculated_roster(&owner_pool, draft_run_id).await;
+    prepare_calculated_roster(&owner_pool, draft_run_id, Some(employee_id)).await;
+    let calculated_employee: Uuid = sqlx::query_scalar("SELECT l.employee_id FROM payroll_line_calculations c JOIN payroll_draft_lines l ON l.id=c.line_id WHERE c.run_id=$1")
+        .bind(draft_run_id).fetch_one(&owner_pool).await.unwrap();
+    assert_eq!(
+        calculated_employee, employee_id,
+        "the canonically appointed employee is the payroll subject"
+    );
     let submit = execute(
         &port,
         command(
@@ -1338,7 +1347,7 @@ async fn empty_tenant_pay_run_lifecycle_sits_on_canonical_org_tree(owner_pool: P
 
 async fn empty_tenant_pay_run_fixture(
     owner_pool: &PgPool,
-) -> (OrgId, UserId, UserId, PgPayRunPort, CommandReceipt) {
+) -> (OrgId, UserId, UserId, PgPayRunPort, CommandReceipt, Uuid) {
     let submitter = seed_org_and_super_admin(owner_pool, ORG, "payrun-tree").await;
     let decider = seed_org_and_user(owner_pool, ORG, "payrun-tree-decider").await;
     let runtime_pool = runtime_role_pool(owner_pool).await;
@@ -1477,7 +1486,7 @@ async fn empty_tenant_pay_run_fixture(
     .await
     .unwrap();
 
-    (org, submitter, decider, port, appointed)
+    (org, submitter, decider, port, appointed, employee_id)
 }
 
 async fn execute_sync<P: CanonicalPort + Clone + Send + 'static>(
@@ -2319,7 +2328,7 @@ async fn calculation_before_submission_serializes_the_latest_complete_version(ow
         .unwrap()
         .parse()
         .unwrap();
-    prepare_calculated_roster(&owner, run).await;
+    prepare_calculated_roster(&owner, run, None).await;
     sqlx::query("UPDATE payroll_draft_runs SET status = 'ATTENDANCE_CLOSED' WHERE id = $1")
         .bind(run)
         .execute(&owner)
@@ -2383,7 +2392,7 @@ async fn submission_before_calculation_preserves_the_submitted_version(owner: Pg
         .unwrap()
         .parse()
         .unwrap();
-    prepare_calculated_roster(&owner, run).await;
+    prepare_calculated_roster(&owner, run, None).await;
     let before = calculation_snapshot(&owner, run).await;
     let runtime = runtime_role_pool(&owner).await;
     let mut submission = roster_runtime_tx(&runtime, ORG).await;
@@ -2436,12 +2445,16 @@ async fn canonical_empty_submission_conflicts_without_a_success_receipt(owner: P
         .unwrap();
     let before: (i64, i64) = sqlx::query_as("SELECT (SELECT COUNT(*) FROM ont_action_command_receipts), (SELECT COUNT(*) FROM audit_events)")
         .fetch_one(&owner).await.unwrap();
-    let error = execute(
+    let result = execute(
         &port,
         command(org, actor, PayRunQuery::SubmitRun { run_id: run }),
     )
-    .await
-    .unwrap_err();
+    .await;
+    assert!(
+        result.is_err(),
+        "empty population must not create a successful receipt"
+    );
+    let error = result.unwrap_err();
     let kernel = console_ontology_canonical_domain::CanonicalPortError::into_kernel_error(error);
     assert_eq!(kernel.kind, console_kernel_core::ErrorKind::Conflict);
     let after: (i64, i64) = sqlx::query_as("SELECT (SELECT COUNT(*) FROM ont_action_command_receipts), (SELECT COUNT(*) FROM audit_events)")

@@ -3039,7 +3039,12 @@ async fn promotion_retry_reuses_an_orphan_notice_but_refuses_changed_immutable_n
     assert_eq!(counts, (0, 1));
     sqlx::raw_sql("DROP TRIGGER test_fail_promotion ON leave_promotions; DROP FUNCTION test_fail_promotion();").execute(&owner).await.unwrap();
     // No promotion row exists, so this calls InboxDocSink rather than short-circuiting.
-    let conflict = push("다른 이름").await.unwrap_err();
+    let result = push("다른 이름").await;
+    assert!(
+        result.is_err(),
+        "an orphan retry with changed notice content must conflict"
+    );
+    let conflict = result.unwrap_err();
     assert_eq!(conflict.kind(), ErrorKind::Conflict);
     assert_eq!(notice_payload(&owner, orphan).await, original);
     let retried = push("홍길동").await.unwrap();
