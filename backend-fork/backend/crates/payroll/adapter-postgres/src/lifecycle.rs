@@ -1582,6 +1582,126 @@ mod tests {
         );
     }
 
+    #[test]
+    fn source_amount_selection_rejects_malformed_declared_data() {
+        let valid = payroll_row(3_000_000, 74_350);
+        let mut malformed = vec![
+            Value::Null,
+            json!([]),
+            json!("not a canonical object"),
+            json!({"payroll": null}),
+            json!({"payroll": []}),
+            json!({"payroll": "private source text"}),
+            json!({"payroll": {}}),
+            json!({"payroll": {"monthly_gross_pay_won": 3_000_000}}),
+        ];
+        for path in [
+            vec!["payroll", "monthly_gross_pay_won"],
+            vec!["payroll", "nts_tax_row", "monthly_income_tax_won"],
+            vec!["payroll", "nts_tax_row", "local_income_tax_won"],
+        ] {
+            for bad in [
+                Value::Null,
+                json!("74350"),
+                json!(true),
+                json!(1.5),
+                json!(u64::MAX),
+            ] {
+                let mut row = valid.clone();
+                let mut field = &mut row;
+                for key in &path {
+                    field = &mut field[*key];
+                }
+                *field = bad;
+                malformed.push(row);
+            }
+        }
+        for bad in [Value::Null, json!(false), json!([]), json!({})] {
+            let mut row = valid.clone();
+            row["payroll"]["nts_tax_row"]["table_version"] = bad;
+            malformed.push(row);
+        }
+        let mut missing = valid.clone();
+        missing["payroll"]["nts_tax_row"]
+            .as_object_mut()
+            .unwrap()
+            .remove("local_income_tax_won");
+        malformed.push(missing);
+        for bad in malformed {
+            for rows in [
+                vec![bad.clone()],
+                vec![valid.clone(), bad.clone()],
+                vec![bad.clone(), valid.clone()],
+            ] {
+                assert_eq!(
+                    select_source_amounts(&rows).err(),
+                    Some("SOURCE_AMOUNTS_INVALID")
+                );
+            }
+        }
+    }
+
+    #[test]
+    fn source_amount_selection_checks_optional_pension_without_coercion() {
+        let absent = payroll_row(3_000_000, 74_350);
+        let mut null = absent.clone();
+        null["payroll"]["pension_standard_monthly_income_won"] = Value::Null;
+        let selected = select_source_amounts(&[absent.clone(), null]).unwrap();
+        assert_eq!(selected.pension_standard_monthly_income_won, None);
+        let mut integer = absent.clone();
+        integer["payroll"]["pension_standard_monthly_income_won"] = json!(2_000_000);
+        assert_eq!(
+            select_source_amounts(&[integer])
+                .unwrap()
+                .pension_standard_monthly_income_won,
+            Some(2_000_000)
+        );
+        for bad in [
+            json!("2000000"),
+            json!(false),
+            json!(2_000_000.5),
+            json!({}),
+            json!([]),
+            json!(u64::MAX),
+        ] {
+            let mut row = absent.clone();
+            row["payroll"]["pension_standard_monthly_income_won"] = bad;
+            for rows in [
+                vec![row.clone()],
+                vec![row.clone(), absent.clone()],
+                vec![absent.clone(), row.clone()],
+            ] {
+                assert_eq!(
+                    select_source_amounts(&rows).err(),
+                    Some("SOURCE_AMOUNTS_INVALID")
+                );
+            }
+        }
+    }
+
+    #[test]
+    fn source_amount_selection_prioritizes_invalid_data_in_every_order() {
+        let rows = [
+            payroll_row(3_000_000, 74_350),
+            payroll_row(3_100_000, 74_350),
+            json!({"payroll": null}),
+        ];
+        for order in [
+            [0, 1, 2],
+            [0, 2, 1],
+            [1, 0, 2],
+            [1, 2, 0],
+            [2, 0, 1],
+            [2, 1, 0],
+        ] {
+            let permutation = order.map(|index| rows[index].clone());
+            assert_eq!(
+                select_source_amounts(&permutation).err(),
+                Some("SOURCE_AMOUNTS_INVALID")
+            );
+        }
+    }
+
     /// The release-gate record shape written by the REST fixture
     /// (`payroll/rest/tests/run_lifecycle_api.rs`), hand-copied key for key.
     /// That file needs PostgreSQL 17 and runs in no workflow, so a key typo or

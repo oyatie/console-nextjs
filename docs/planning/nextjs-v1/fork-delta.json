@@ -889,11 +889,11 @@
         "mode": 420
       },
       "after": {
-        "sha256": "8e9a114d50e97bb8d93e76e7da45c387ac0e4eb7d55b4222f9989ae3d557e20a",
-        "bytes": 76194,
+        "sha256": "c8feba462893ef09b2b081c6d02f3193d60aedf005bbb6cdaf2acc95a08f23ef",
+        "bytes": 80267,
         "mode": 420
       },
-      "reason": "Payroll restage integrity R3, source commit b0a017a: exact Company/run/period lifecycle lock and known-state guard; preserve frozen rosters; validate locked existing runs and propagate DB errors; delegate drain period/provenance decisions to the existing owner for interrupted acknowledgment recovery. No migration/API/codec change."
+      "reason": "Payroll restage integrity R3, source commit b0a017a: exact Company/run/period lifecycle lock and known-state guard; preserve frozen rosters; validate locked existing runs and propagate DB errors; delegate drain period/provenance decisions to the existing owner for interrupted acknowledgment recovery. No migration/API/codec change. Add independently reviewed red-first malformed payroll source and exact runtime-role calculation-accounting regressions; production behavior remains unchanged in the test candidate."
     },
     {
       "path": "backend/crates/payroll/adapter-postgres/src/pay_run.rs",
@@ -931,11 +931,11 @@
         "mode": 420
       },
       "after": {
-        "sha256": "bfcd0446f48b2c54ee376986b24f35ba70af2dd1239a5eeacf7d345afad88a1c",
-        "bytes": 75932,
+        "sha256": "e5873f018d5d55632a6efbb9883f47e4fe2e52440016377e1eb2b983a0f63885",
+        "bytes": 82764,
         "mode": 420
       },
-      "reason": "Test-first payroll roster restage integrity R3: actual runtime-role owner preservation, canonical and workflow retry/recovery, refusal and concurrent close ordering. Test fixtures are isolated; no product source change."
+      "reason": "Test-first payroll roster restage integrity R3: actual runtime-role owner preservation, canonical and workflow retry/recovery, refusal and concurrent close ordering. Test fixtures are isolated; no product source change. Add independently reviewed red-first malformed payroll source and exact runtime-role calculation-accounting regressions; production behavior remains unchanged in the test candidate."
     },
     {
       "path": "backend/crates/platform/auth-rest/Cargo.toml",

@@ -2096,3 +2096,172 @@ async fn roster_restage_close_before_refresh_preserves_the_closed_basis(owner: P
     assert_eq!(status, "ATTENDANCE_CLOSED");
     assert_eq!(saved, receipt);
 }
+
+/// Test-only immutable sources exercise the real calculation owner. This does
+/// not certify tax provenance, full workforce coverage or submission readiness.
+#[sqlx::test(migrations = "../../platform/db/migrations")]
+async fn calculation_blocks_invalid_sources_without_losing_valid_lines(owner: PgPool) {
+    use console_payroll_adapter_postgres::lifecycle::{
+        calculate_run_in_tx, latest_calc_summary_in_tx,
+    };
+
+    let (org, actor, _, port) = fixture(&owner).await;
+    let receipt = execute(&port, command(org, actor, create(Uuid::new_v4())))
+        .await
+        .unwrap();
+    let run: Uuid = receipt.result()["draft_run_id"]
+        .as_str()
+        .unwrap()
+        .parse()
+        .unwrap();
+    let valid = json!({"payroll": {
+        "monthly_gross_pay_won": 3_000_000,
+        "nts_tax_row": {"table_version": "test-only-v1",
+                        "monthly_income_tax_won": 74_350, "local_income_tax_won": 7_430}
+    }});
+    let mut null_basis = valid.clone();
+    null_basis["payroll"]["pension_standard_monthly_income_won"] = serde_json::Value::Null;
+    let mut explicit_basis = valid.clone();
+    explicit_basis["payroll"]["pension_standard_monthly_income_won"] = json!(2_000_000);
+    let mut bad_basis = valid.clone();
+    bad_basis["payroll"]["pension_standard_monthly_income_won"] = json!("private source text");
+    let cases = [
+        (
+            "valid-duplicates",
+            vec![
+                valid.clone(),
+                null_basis,
+                valid.clone(),
+                json!({"attendance": {}}),
+            ],
+            true,
+        ),
+        ("valid-explicit-basis", vec![explicit_basis], true),
+        (
+            "mixed-invalid",
+            vec![valid.clone(), json!({"payroll": {}})],
+            false,
+        ),
+        ("invalid-pension", vec![bad_basis], false),
+        ("invalid-root", vec![json!([]), valid], false),
+    ];
+    let mut lines = Vec::new();
+    for (key, sources, is_valid) in cases {
+        let employee = roster_seed::seed_employee(&owner, ORG, key, key).await;
+        let import_run: Uuid = sqlx::query_scalar(
+            "INSERT INTO data_import_runs (org_id, entity_type, status, source_filename, \
+             source_format, source_sha256, pay_period_start, pay_period_end) \
+             VALUES ($1, 'employee_hr', 'DRY_RUN', 'test-only.xlsx', 'xlsx', repeat('a',64), $2, $3) RETURNING id",
+        ).bind(ORG).bind(roster_seed::PERIOD_START).bind(roster_seed::PERIOD_END)
+         .fetch_one(&owner).await.unwrap();
+        let mut source_ids = Vec::new();
+        for (index, source) in sources.into_iter().enumerate() {
+            let id: Uuid = sqlx::query_scalar(
+                "INSERT INTO data_import_rows (org_id, run_id, source_sheet, source_row, \
+                 source_key, row_status, canonical_row) \
+                 VALUES ($1, $2, 'test-only', $3, $4, 'CANDIDATE', $5) RETURNING id",
+            )
+            .bind(ORG)
+            .bind(import_run)
+            .bind(i32::try_from(index + 1).unwrap())
+            .bind(format!("{key}-{index}"))
+            .bind(source)
+            .fetch_one(&owner)
+            .await
+            .unwrap();
+            source_ids.push(id);
+        }
+        let line: Uuid = sqlx::query_scalar(
+            "INSERT INTO payroll_draft_lines (org_id, run_id, employee_id, employee_source_key, \
+             employee_display_name, employee_company, attendance_source_row_count, \
+             gross_pay_source_present, nts_tax_row_status, source_data_import_row_ids) \
+             VALUES ($1, $2, $3, $4, $4, 'test-only', 1, true, 'VERIFIED_SOURCE_ROW', $5) RETURNING id",
+        ).bind(ORG).bind(run).bind(employee).bind(key).bind(source_ids)
+         .fetch_one(&owner).await.unwrap();
+        lines.push((line, key, is_valid));
+    }
+    let source_sql =
+        "SELECT to_jsonb(r)::text FROM data_import_rows r WHERE org_id = $1 ORDER BY id";
+    let before_sources: Vec<String> = sqlx::query_scalar(source_sql)
+        .bind(ORG)
+        .fetch_all(&owner)
+        .await
+        .unwrap();
+    seed_roster_period_lock(&owner, ORG).await;
+    let runtime = runtime_role_pool(&owner).await;
+    close_roster_fixture(&runtime, run, actor).await;
+    let mut tx = roster_runtime_tx(&runtime, ORG).await;
+    let outcome = calculate_run_in_tx(&mut tx, run).await.unwrap();
+    assert_eq!(
+        (
+            outcome.version,
+            outcome.calculated_lines,
+            outcome.blocked_lines,
+            outcome.exceptions_created
+        ),
+        (1, 2, 3, 0)
+    );
+    let summary = latest_calc_summary_in_tx(&mut tx, run, 5)
+        .await
+        .unwrap()
+        .unwrap();
+    assert_eq!(
+        (
+            summary.calculated_lines,
+            summary.blocked_lines,
+            summary.total_net_won,
+            summary.payable
+        ),
+        (2, 3, None, false)
+    );
+    tx.commit().await.unwrap();
+
+    for (line, key, is_valid) in lines {
+        let (status, blockers): (String, serde_json::Value) = sqlx::query_as(
+            "SELECT calculation_status, blockers FROM payroll_draft_lines WHERE id = $1",
+        )
+        .bind(line)
+        .fetch_one(&owner)
+        .await
+        .unwrap();
+        let calculations: Vec<(i64, i64, i64, bool)> = sqlx::query_as(
+            "SELECT gross_won, total_deductions_won, net_won, payable FROM payroll_line_calculations WHERE line_id = $1",
+        ).bind(line).fetch_all(&owner).await.unwrap();
+        if is_valid {
+            assert_eq!(status, "READY_FOR_REVIEW", "{key}");
+            assert_eq!(blockers, json!([]), "{key}");
+            let deductions = if key == "valid-explicit-basis" {
+                325_800
+            } else {
+                373_300
+            };
+            assert_eq!(
+                calculations,
+                vec![(3_000_000, deductions, 3_000_000 - deductions, false)],
+                "{key}"
+            );
+        } else {
+            assert_eq!(status, "BLOCKED_LEGAL_GATE", "{key}");
+            assert_eq!(blockers, json!(["SOURCE_AMOUNTS_INVALID"]), "{key}");
+            assert!(
+                calculations.is_empty(),
+                "{key} must not produce a calculation"
+            );
+        }
+    }
+    let after_sources: Vec<String> = sqlx::query_scalar(source_sql)
+        .bind(ORG)
+        .fetch_all(&owner)
+        .await
+        .unwrap();
+    assert_eq!(after_sources, before_sources);
+    let saved_status: String =
+        sqlx::query_scalar("SELECT status FROM payroll_draft_runs WHERE id = $1")
+            .bind(run)
+            .fetch_one(&owner)
+            .await
+            .unwrap();
+    assert_eq!(saved_status, "CALCULATED");
+    // Current submission does not enforce full calculation coverage. This test
+    // proves only calculation accounting and must not imply submission safety.
+}
