@@ -95,8 +95,8 @@
   ],
   "test_source": {
     "paths_and_sha256": {
-      "backend-fork/backend/app/tests/hr_attendance_self_read.rs": "e3871c3f5825079698a89d27020b02cecbfaa70edd19e1add2803f4c4227c900",
-      "backend-fork/backend/app/tests/hr_attendance_manager_scope.rs": "0f0a7a125ba3e289a82adfa4ce4fef2789339a590b5e0465fb0cb5300bbe6ba3"
+      "backend-fork/backend/app/tests/hr_attendance_self_read.rs": "cb86a1087d714ccb91d41d2fae879be80f0d15fdb01161d229e27e88fcc398e2",
+      "backend-fork/backend/app/tests/hr_attendance_manager_scope.rs": "410c328def6d4ccd33b2b2362ac13111276a35f4aabf878d3b1de8ce192c969b"
     },
     "reviews": [
       {
@@ -138,6 +138,27 @@
             "disposition": "Final manager hash verifies exact matching persisted UUID."
           }
         ]
+      },
+      {
+        "approved_test_commit": "400a67332bca36e7a222510b8206050bc0400ae6",
+        "paths_and_sha256": {
+          "backend-fork/backend/app/tests/hr_attendance_self_read.rs": "e3871c3f5825079698a89d27020b02cecbfaa70edd19e1add2803f4c4227c900",
+          "backend-fork/backend/app/tests/hr_attendance_manager_scope.rs": "0f0a7a125ba3e289a82adfa4ce4fef2789339a590b5e0465fb0cb5300bbe6ba3"
+        },
+        "source_verdict": "ACCEPT source; execution exposed fixture defects",
+        "execution_verdict": "REJECT implementation admission",
+        "report": "run-20261001T012708.960456Z/report.json",
+        "discovered": 35,
+        "executed": 30,
+        "passed": 25,
+        "failed": 5,
+        "filtered": 5,
+        "ignored": 0,
+        "findings": [
+          "Actual JSON keys preserved insertion order; helpers incorrectly compared unsorted keys to sorted exact sets.",
+          "New EXECUTIVE fixture actor lacked leave-owner org-admin authority for home-branch setup."
+        ],
+        "disposition": "Sort actual key vectors while preserving exact-set checks; use genuine SUPER_ADMIN fixture steward, retaining original read actors. Both reviewers accepted corrected hashes; fresh RED required."
       }
     ],
     "expected_discovery": {

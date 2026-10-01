@@ -929,12 +929,13 @@ fn assert_record_shape(item: &Value, employee: Uuid, reference: Option<Uuid>, du
         expected.push("note");
     }
     expected.sort_unstable();
-    let actual: Vec<_> = item
+    let mut actual: Vec<_> = item
         .as_object()
         .unwrap()
         .keys()
         .map(String::as_str)
         .collect();
+    actual.sort_unstable();
     assert_eq!(
         actual, expected,
         "no financial/digest/personnel fields may escape"

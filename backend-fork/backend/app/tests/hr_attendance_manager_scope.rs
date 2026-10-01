@@ -127,8 +127,9 @@ async fn manager_raw_history_pages_keep_scope_filters_and_unassigned_visibility(
     let branch_b = seed_branch(&pool, "raw-b").await;
     let admin = seed_user(&pool, "ADMIN", Some(branch_a)).await;
     let executive = seed_user(&pool, "EXECUTIVE", None).await;
-    let employee_a = seed_employee_attendance(&pool, executive, branch_a).await;
-    let employee_b = seed_employee_attendance(&pool, executive, branch_b).await;
+    let steward = seed_user(&pool, "SUPER_ADMIN", None).await;
+    let employee_a = seed_employee_attendance(&pool, steward, branch_a).await;
+    let employee_b = seed_employee_attendance(&pool, steward, branch_b).await;
     let missing = seed_unlinked_attendance(&pool, org, employee_a, executive).await;
     let malformed = seed_unlinked_attendance(&pool, org, employee_a, executive).await;
     let wrong_date = seed_unlinked_attendance(&pool, org, employee_a, executive).await;
@@ -215,12 +216,15 @@ async fn manager_raw_history_pages_keep_scope_filters_and_unassigned_visibility(
                     assert_eq!(item["payroll_material_ref_id"], actual_ref.to_string());
                     assert_eq!(item["payroll_link_status"], "LINKED");
                 }
+                let mut field_keys: Vec<_> = item
+                    .as_object()
+                    .unwrap()
+                    .keys()
+                    .map(String::as_str)
+                    .collect();
+                field_keys.sort_unstable();
                 assert_eq!(
-                    item.as_object()
-                        .unwrap()
-                        .keys()
-                        .map(String::as_str)
-                        .collect::<Vec<_>>(),
+                    field_keys,
                     vec![
                         "duplicate",
                         "employee_display_name",
