@@ -1965,6 +1965,23 @@ async fn poll_device_login(
             return Err(RestError::unauthorized("login handoff identity changed"));
         }
     }
+    // Supported credential removal owners hold this same Account lock.
+    let recorded_passkey_id = current
+        .try_get::<Option<Uuid>, _>("approved_passkey_id")
+        .map_err(DbError::Sqlx)?
+        .ok_or_else(|| RestError::unauthorized("invalid or expired login handoff"))?;
+    let live_passkey: Option<bool> = sqlx::query_scalar(
+        "SELECT true FROM auth_webauthn_credentials WHERE id=$1 AND user_id=$2 AND org_id=$3",
+    )
+    .bind(recorded_passkey_id)
+    .bind(user_id)
+    .bind(org_uuid)
+    .fetch_optional(tx.as_mut())
+    .await
+    .map_err(DbError::Sqlx)?;
+    if live_passkey != Some(true) {
+        return Err(RestError::unauthorized("invalid or expired login handoff"));
+    }
     let now = console_platform_auth::authentication_time_tx(&mut tx, now)
         .await
         .map_err(DbError::Sqlx)?;

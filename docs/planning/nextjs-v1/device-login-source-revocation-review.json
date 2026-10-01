@@ -4,23 +4,82 @@
   "sole_writer": "root",
   "design_path": "docs/planning/nextjs-v1/device-login-source-revocation.md",
   "design_sha256": "0a349df6f4032c70f545f5ba53411de50798d3a996271ff36119c2da9ad74271",
-  "reviewers": ["session_owner_trace", "next_session_trace", "pr8_delivery_audit"],
+  "reviewers": [
+    "session_owner_trace",
+    "next_session_trace",
+    "pr8_delivery_audit"
+  ],
   "rounds": [
     {
       "round": 1,
       "design_sha256": "04250f426fe455ca29795e026f6896aadc6cecb1b41c894b4c2c9dc0227970a5",
-      "verdicts": ["REQUEST_CHANGES", "REQUEST_CHANGES", "APPROVE"],
+      "verdicts": [
+        "REQUEST_CHANGES",
+        "REQUEST_CHANGES",
+        "APPROVE"
+      ],
       "findings": [
-        {"finding": "Cover both real approval producers", "disposition": "Added signed and session approval requirements"},
-        {"finding": "A retained recorded key must remain valid after a newer key is added", "disposition": "Added positive preservation for both producers"}
+        {
+          "finding": "Cover both real approval producers",
+          "disposition": "Added signed and session approval requirements"
+        },
+        {
+          "finding": "A retained recorded key must remain valid after a newer key is added",
+          "disposition": "Added positive preservation for both producers"
+        }
       ]
     },
-    {"round": 2, "verdicts": ["APPROVE", "APPROVE", "APPROVE"], "findings": []},
-    {"round": 3, "verdicts": ["APPROVE", "APPROVE", "APPROVE"], "findings": []},
-    {"round": 4, "verdicts": ["APPROVE", "APPROVE", "APPROVE"], "findings": []}
+    {
+      "round": 2,
+      "verdicts": [
+        "APPROVE",
+        "APPROVE",
+        "APPROVE"
+      ],
+      "findings": []
+    },
+    {
+      "round": 3,
+      "verdicts": [
+        "APPROVE",
+        "APPROVE",
+        "APPROVE"
+      ],
+      "findings": []
+    },
+    {
+      "round": 4,
+      "verdicts": [
+        "APPROVE",
+        "APPROVE",
+        "APPROVE"
+      ],
+      "findings": []
+    }
   ],
   "approval": "Revision-bound design only; rounds 2 through 4 bind the current design SHA",
-  "runtime_red": "unreached",
-  "implementation": "unreached",
-  "holds": ["Native authentication purpose/provenance", "Operation and lost-response custody", "Two-site confirmation and writer/egress fencing", "Next business sessions and production exposure", "Full HR/Org/Payroll/Foundry acceptance"]
+  "runtime_red": {
+    "status": "APPROVED",
+    "approved_tests_head": "d189942f85c3bac44119eb8a6a7f8a31ecd7e3f5",
+    "reviewer": "pr8_delivery_audit",
+    "report_sha256": "9ab116bcac7ae6f1709a8ca4319a335a2a72f2f5759d46c0f683826dae30daf4",
+    "discovered": 28,
+    "executed": 28,
+    "passed": 16,
+    "failed": 12,
+    "ignored": 0,
+    "filtered": 0,
+    "all_failures_at_reviewed_assertions": true,
+    "production_source_unchanged": true,
+    "source_custody_and_owned_cleanup": "passed",
+    "scope": "Linux ARM64, actual PostgreSQL18.4 and Rust1.98.1, production in-process routers and standard SoftPasskey; no browser or two-site claim"
+  },
+  "implementation": "Pending unchanged-test GREEN and exact-candidate review",
+  "holds": [
+    "Native authentication purpose/provenance",
+    "Operation and lost-response custody",
+    "Two-site confirmation and writer/egress fencing",
+    "Next business sessions and production exposure",
+    "Full HR/Org/Payroll/Foundry acceptance"
+  ]
 }
