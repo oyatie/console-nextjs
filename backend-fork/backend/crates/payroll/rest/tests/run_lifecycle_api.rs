@@ -1,19 +1,14 @@
 #![allow(clippy::expect_used, clippy::panic, clippy::unwrap_used)]
-//! Authenticated, runtime-role HTTP contract for the payroll run lifecycle
-//! (CAP-PAYROLL-CONSOLE). Crosses the crate's assembled router (the same
-//! `with_request_context` middleware the app mounts) on a genuine `console_rt`
-//! served pool (RLS enforced), with a real ES256 signature chain, through the
-//! full close → calculate → exception → SoD decision → disbursement →
-//! release-gated payslip issuance pipeline; asserts PBAC denial without
-//! leakage, cross-tenant invisibility, and the audit readback.
+//! In-process payroll lifecycle contract (CAP-PAYROLL-CONSOLE).
+//! Uses the assembled production router and real family-bound ES256 tokens
+//! with owner-authenticated connections switched to `console_rt` (RLS enforced).
+//! Exercises close → calculate → exception → SoD decision → operator-attested
+//! disbursement → release-gated local payslip publication, PBAC denial,
+//! cross-Company invisibility and audit readback. This is not socket/browser,
+//! passkey-ceremony, live-payment, legal-sign-off or two-site durability proof.
 //!
-//! NOTE: chartered home was `backend/app/tests/payroll_run_api.rs`, but
-//! `console-app` does not compile on this branch (facilities/production rest
-//! lanes are mid-refactor), so the identical proof runs here against the
-//! crate router the app mounts verbatim.
-//!
-//! Draft-run fixtures mint via `payroll.create_run` as `console_rt` (no owner
-//! INSERT of draft runs). Lines still INSERT (calculate HOLD).
+//! Draft-run fixtures mint via `payroll.create_run` as `console_rt`.
+//! Fixture lines supply source inputs to the existing calculation owner.
 
 use axum::body::{Body, to_bytes};
 use console_kernel_core::{OrgId, UserId};
