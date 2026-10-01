@@ -882,3 +882,353 @@ async fn add_branch_membership(owner: &PgPool, user: Uuid) {
         .await
         .unwrap();
 }
+
+// The source key must still exist when an approved QR handoff is consumed.
+struct SourceHandoff {
+    app: Router,
+    user: Uuid,
+    key: Uuid,
+    survivor: Uuid,
+    survivor_credential: String,
+    survivor_client: WebauthnAuthenticator<SoftPasskey>,
+    id: Uuid,
+    poll_body: Value,
+}
+impl SourceHandoff {
+    async fn new(owner: &PgPool, session: bool, label: &str) -> Self {
+        let u = user(owner).await;
+        add_branch_membership(owner, u).await;
+        let keys = Keys::new();
+        let rt = runtime(owner, label).await;
+        let token = keys.token(&rt, u).await;
+        // A is deliberately newer than B so session approval really records A.
+        let (survivor, survivor_credential, survivor_client) = passkey(owner, u).await;
+        let (key, credential, mut client) = passkey(owner, u).await;
+        let app = keys.app(rt, false);
+        let (id, handoff, approve) = start_handoff(owner, app.clone()).await;
+        let mut body = if session {
+            sqlx::query("UPDATE auth_device_login_handoffs SET target_user_id=$2,target_org_id=$3 WHERE id=$1")
+                .bind(id).bind(u).bind(*OrgId::knl().as_uuid()).execute(owner).await.unwrap();
+            json!({})
+        } else {
+            assertion(owner, &credential, &mut client).await
+        };
+        body["approve_token"] = json!(approve);
+        let path = if session {
+            DEVICE_LOGIN_APPROVE_SESSION_PATH
+        } else {
+            DEVICE_LOGIN_APPROVE_PATH
+        };
+        assert_eq!(
+            request(app.clone(), "POST", path, Some(&token), Some(body))
+                .await
+                .0,
+            StatusCode::NO_CONTENT
+        );
+        let recorded: (Option<Uuid>, Option<Uuid>, Option<Uuid>) = sqlx::query_as(
+            "SELECT approved_passkey_id,approved_user_id,approved_org_id FROM auth_device_login_handoffs WHERE id=$1")
+            .bind(id).fetch_one(owner).await.unwrap();
+        assert_eq!(
+            recorded,
+            (Some(key), Some(u), Some(*OrgId::knl().as_uuid()))
+        );
+        Self {
+            app,
+            user: u,
+            key,
+            survivor,
+            survivor_credential,
+            survivor_client,
+            id,
+            poll_body: json!({"poll_token":handoff["poll_token"]}),
+        }
+    }
+    async fn poll(&self) -> (StatusCode, Value) {
+        request(
+            self.app.clone(),
+            "POST",
+            DEVICE_LOGIN_POLL_PATH,
+            None,
+            Some(self.poll_body.clone()),
+        )
+        .await
+    }
+    async fn state(&self, owner: &PgPool) -> (bool, i64, i64, i64) {
+        sqlx::query_as("SELECT (SELECT consumed_at IS NOT NULL FROM auth_device_login_handoffs WHERE id=$1),(SELECT count(*) FROM auth_refresh_token_families WHERE user_id=$2),(SELECT count(*) FROM auth_refresh_tokens WHERE user_id=$2),(SELECT count(*) FROM audit_events WHERE actor=$2 AND action='auth.device_login.consume')")
+            .bind(self.id).bind(self.user).fetch_one(owner).await.unwrap()
+    }
+    async fn assert_denied(&self, owner: &PgPool, before: (bool, i64, i64, i64)) {
+        for _ in 0..2 {
+            assert_eq!(
+                self.poll().await.0,
+                StatusCode::UNAUTHORIZED,
+                "recorded source key is no longer authorized"
+            );
+            assert_eq!(
+                self.state(owner).await,
+                before,
+                "denied poll must not consume, issue or audit a session"
+            );
+        }
+    }
+    async fn survivor_login(&mut self, owner: &PgPool) {
+        let body = assertion(owner, &self.survivor_credential, &mut self.survivor_client).await;
+        let (status, result) = request(
+            self.app.clone(),
+            "POST",
+            console_platform_auth_rest::PASSKEY_LOGIN_FINISH_PATH,
+            None,
+            Some(body),
+        )
+        .await;
+        assert_eq!(status, StatusCode::OK);
+        assert!(
+            result["access_token"]
+                .as_str()
+                .is_some_and(|token| !token.is_empty())
+        );
+    }
+}
+async fn removed_source(owner: &PgPool, session: bool, identity: bool) {
+    let mut handoff = SourceHandoff::new(owner, session, "source-remove").await;
+    // Both real aliases run the same audited removal owner under runtime RLS.
+    // The family-bound helper token is already included in the issuance baseline.
+    let keys = Keys::new();
+    let rt = runtime(owner, "source-delete").await;
+    let token = keys.token(&rt, handoff.user).await;
+    assert_eq!(
+        request(
+            keys.app(rt, identity),
+            "DELETE",
+            &delete_path(identity, handoff.key),
+            Some(&token),
+            None
+        )
+        .await
+        .0,
+        StatusCode::NO_CONTENT
+    );
+    let remaining: Vec<Uuid> =
+        sqlx::query_scalar("SELECT id FROM auth_webauthn_credentials WHERE user_id=$1")
+            .bind(handoff.user)
+            .fetch_all(owner)
+            .await
+            .unwrap();
+    assert_eq!(remaining, vec![handoff.survivor]);
+    let receipt: i64 = sqlx::query_scalar("SELECT count(*) FROM auth_security.credential_removals WHERE account_id=$1 AND credential_row_id=$2")
+        .bind(handoff.user).bind(handoff.key).fetch_one(owner).await.unwrap();
+    assert_eq!(receipt, 1);
+    let before = handoff.state(owner).await;
+    handoff.assert_denied(owner, before).await;
+    handoff.survivor_login(owner).await;
+}
+async fn source_removed_while_waiting(owner: &PgPool, session: bool) {
+    let handoff = SourceHandoff::new(owner, session, "source-poll-wait").await;
+    let before = handoff.state(owner).await;
+    let (mut held, controller) = account(owner, handoff.user).await;
+    let app = handoff.app.clone();
+    let body = handoff.poll_body.clone();
+    let task = tokio::spawn(async move {
+        request(app, "POST", DEVICE_LOGIN_POLL_PATH, None, Some(body)).await
+    });
+    let pid = blocked(owner, "source-poll-wait", controller).await;
+    let query: String = sqlx::query_scalar("SELECT query FROM pg_stat_activity WHERE pid=$1")
+        .bind(pid)
+        .fetch_one(owner)
+        .await
+        .unwrap();
+    assert_eq!(
+        query,
+        "SELECT is_active FROM users WHERE id = $1 AND org_id = $2 FOR NO KEY UPDATE"
+    );
+    sqlx::query("SELECT set_config('app.current_org',$1,true)")
+        .bind(OrgId::knl().to_string())
+        .execute(&mut *held)
+        .await
+        .unwrap();
+    let audit = console_platform_auth::delete_self_passkey_tx(
+        &mut held,
+        OrgId::knl(),
+        handoff.user,
+        handoff.key,
+        OffsetDateTime::now_utc(),
+    )
+    .await
+    .unwrap();
+    console_platform_db::insert_audit_event(&mut held, &audit)
+        .await
+        .unwrap();
+    held.commit().await.unwrap();
+    assert_eq!(
+        task.await.unwrap().0,
+        StatusCode::UNAUTHORIZED,
+        "revocation won the actual Account lock"
+    );
+    assert_eq!(handoff.state(owner).await, before);
+    handoff.assert_denied(owner, before).await;
+    let remaining: Vec<Uuid> =
+        sqlx::query_scalar("SELECT id FROM auth_webauthn_credentials WHERE user_id=$1")
+            .bind(handoff.user)
+            .fetch_all(owner)
+            .await
+            .unwrap();
+    assert_eq!(remaining, vec![handoff.survivor]);
+}
+async fn foreign_source(owner: &PgPool, company: bool) -> Uuid {
+    let org = if company {
+        OrgId::platform()
+    } else {
+        OrgId::knl()
+    };
+    let u: Uuid = sqlx::query_scalar("INSERT INTO users(display_name,org_id,roles) VALUES('Foreign source fixture',$1,ARRAY['MEMBER']) RETURNING id")
+        .bind(*org.as_uuid()).fetch_one(owner).await.unwrap();
+    let svc = service();
+    let start = svc
+        .start_registration(
+            owner,
+            org,
+            PasskeyRegistrationStart {
+                user_id: u,
+                username: u.to_string(),
+                display_name: "Foreign source fixture".into(),
+            },
+        )
+        .await
+        .unwrap();
+    let mut client = WebauthnAuthenticator::new(SoftPasskey::new(true));
+    let credential = client
+        .do_registration(
+            Url::parse("https://auth.example.com").unwrap(),
+            start.challenge,
+        )
+        .unwrap();
+    let stored = svc
+        .finish_registration(owner, org, start.ceremony_id, credential)
+        .await
+        .unwrap();
+    let actual: (Uuid, Uuid) =
+        sqlx::query_as("SELECT user_id,org_id FROM auth_webauthn_credentials WHERE id=$1")
+            .bind(stored.id)
+            .fetch_one(owner)
+            .await
+            .unwrap();
+    assert_eq!(actual, (u, *org.as_uuid()));
+    stored.id
+}
+async fn corrupt_source(owner: &PgPool, session: bool, foreign: Option<bool>) {
+    let handoff = SourceHandoff::new(owner, session, "source-corrupt").await;
+    let source = match foreign {
+        Some(company) => Some(foreign_source(owner, company).await),
+        None => None,
+    };
+    // Hostile owner fixture only: neither public approval producer records this source.
+    sqlx::query("UPDATE auth_device_login_handoffs SET approved_passkey_id=$2 WHERE id=$1")
+        .bind(handoff.id)
+        .bind(source)
+        .execute(owner)
+        .await
+        .unwrap();
+    let before = handoff.state(owner).await;
+    handoff.assert_denied(owner, before).await;
+}
+async fn retained_source(owner: &PgPool, session: bool) {
+    let handoff = SourceHandoff::new(owner, session, "source-retained").await;
+    let (newer, _, _) = passkey(owner, handoff.user).await;
+    let latest: Uuid = sqlx::query_scalar("SELECT id FROM auth_webauthn_credentials WHERE user_id=$1 ORDER BY created_at DESC,id DESC LIMIT 1")
+        .bind(handoff.user).fetch_one(owner).await.unwrap();
+    assert_eq!(latest, newer);
+    assert_ne!(latest, handoff.key);
+    let before = handoff.state(owner).await;
+    let (status, result) = handoff.poll().await;
+    assert_eq!(status, StatusCode::OK);
+    assert_eq!(result["status"], "approved");
+    assert!(
+        result["access_token"]
+            .as_str()
+            .is_some_and(|token| !token.is_empty())
+    );
+    let after = (true, before.1 + 1, before.2 + 1, before.3 + 1);
+    assert_eq!(handoff.state(owner).await, after);
+    let recorded: Option<Uuid> = sqlx::query_scalar(
+        "SELECT approved_passkey_id FROM auth_device_login_handoffs WHERE id=$1",
+    )
+    .bind(handoff.id)
+    .fetch_one(owner)
+    .await
+    .unwrap();
+    assert_eq!(recorded, Some(handoff.key));
+    for _ in 0..2 {
+        assert_eq!(handoff.poll().await.0, StatusCode::UNAUTHORIZED);
+    }
+    assert_eq!(handoff.state(owner).await, after);
+}
+
+#[sqlx::test(migrations = "../../platform/db/migrations")]
+async fn signed_handoff_removed_source_via_auth_denies(owner: PgPool) {
+    removed_source(&owner, false, false).await;
+}
+
+#[sqlx::test(migrations = "../../platform/db/migrations")]
+async fn signed_handoff_removed_source_via_identity_denies(owner: PgPool) {
+    removed_source(&owner, false, true).await;
+}
+
+#[sqlx::test(migrations = "../../platform/db/migrations")]
+async fn signed_handoff_source_removed_during_account_wait_denies(owner: PgPool) {
+    source_removed_while_waiting(&owner, false).await;
+}
+
+#[sqlx::test(migrations = "../../platform/db/migrations")]
+async fn signed_handoff_null_source_denies(owner: PgPool) {
+    corrupt_source(&owner, false, None).await;
+}
+
+#[sqlx::test(migrations = "../../platform/db/migrations")]
+async fn signed_handoff_foreign_account_source_denies(owner: PgPool) {
+    corrupt_source(&owner, false, Some(false)).await;
+}
+
+#[sqlx::test(migrations = "../../platform/db/migrations")]
+async fn signed_handoff_foreign_company_source_denies(owner: PgPool) {
+    corrupt_source(&owner, false, Some(true)).await;
+}
+
+#[sqlx::test(migrations = "../../platform/db/migrations")]
+async fn signed_handoff_retained_source_after_newer_key_issues_once(owner: PgPool) {
+    retained_source(&owner, false).await;
+}
+
+#[sqlx::test(migrations = "../../platform/db/migrations")]
+async fn session_handoff_removed_source_via_auth_denies(owner: PgPool) {
+    removed_source(&owner, true, false).await;
+}
+
+#[sqlx::test(migrations = "../../platform/db/migrations")]
+async fn session_handoff_removed_source_via_identity_denies(owner: PgPool) {
+    removed_source(&owner, true, true).await;
+}
+
+#[sqlx::test(migrations = "../../platform/db/migrations")]
+async fn session_handoff_source_removed_during_account_wait_denies(owner: PgPool) {
+    source_removed_while_waiting(&owner, true).await;
+}
+
+#[sqlx::test(migrations = "../../platform/db/migrations")]
+async fn session_handoff_null_source_denies(owner: PgPool) {
+    corrupt_source(&owner, true, None).await;
+}
+
+#[sqlx::test(migrations = "../../platform/db/migrations")]
+async fn session_handoff_foreign_account_source_denies(owner: PgPool) {
+    corrupt_source(&owner, true, Some(false)).await;
+}
+
+#[sqlx::test(migrations = "../../platform/db/migrations")]
+async fn session_handoff_foreign_company_source_denies(owner: PgPool) {
+    corrupt_source(&owner, true, Some(true)).await;
+}
+
+#[sqlx::test(migrations = "../../platform/db/migrations")]
+async fn session_handoff_retained_source_after_newer_key_issues_once(owner: PgPool) {
+    retained_source(&owner, true).await;
+}
