@@ -1,0 +1,248 @@
+{
+  "version": 1,
+  "design_path": "docs/planning/nextjs-v1/attendance-material-history-design.md",
+  "approved_design_sha256": "deadab931ddd3891e86772c727a4be3e63f8af5dbf0004e8d0968bff83e1cd95",
+  "base": "7d84de6533a63a2ec1c3bc42ef0e9eca5418da03",
+  "base_tree": "d0c69382c814171f018f06c51cd54fcb5777d98f",
+  "owner": "root; sole repository writer",
+  "status": "implemented_corrected_tests_identical_GREEN_pending",
+  "rounds": [
+    {
+      "round": 1,
+      "version": "H1",
+      "sha256": "0a0b6114645788a622ce283ddfd50dd85f1b9674a089093856e1d56272320df9",
+      "reviews": [
+        {
+          "reviewer": "/root/attendance_material_contract_trace",
+          "verdict": "ACCEPT"
+        },
+        {
+          "reviewer": "/root/attendance_material_adversary",
+          "verdict": "REVISE",
+          "finding": "Locked period replay/fresh-write and same-key employee/Company collision controls required.",
+          "disposition": "H2 adds required controls."
+        }
+      ]
+    },
+    {
+      "round": 2,
+      "version": "H2",
+      "sha256": "368d06a1205b4d1123575d000836383b8389bc3db72ae2841d82fef7d1b348ee",
+      "reviews": [
+        {
+          "reviewer": "/root/attendance_material_contract_trace",
+          "verdict": "ACCEPT"
+        },
+        {
+          "reviewer": "/root/attendance_material_adversary",
+          "verdict": "ACCEPT"
+        }
+      ]
+    },
+    {
+      "round": 3,
+      "version": "H3",
+      "sha256": "812a0f831d52a40408800a87d88d440c1945fb0c9b9971d9e83e218f8a18c29b",
+      "reviews": [
+        {
+          "reviewer": "/root/attendance_material_contract_trace",
+          "verdict": "ACCEPT"
+        },
+        {
+          "reviewer": "/root/attendance_material_adversary",
+          "verdict": "ACCEPT"
+        }
+      ]
+    },
+    {
+      "round": 4,
+      "version": "H3",
+      "sha256": "812a0f831d52a40408800a87d88d440c1945fb0c9b9971d9e83e218f8a18c29b",
+      "reviews": [
+        {
+          "reviewer": "/root/attendance_material_contract_trace",
+          "verdict": "REVISE",
+          "finding": "Broad previous LINKED compatibility incorrectly includes malformed references.",
+          "disposition": "H4 qualifies equivalence to valid matching links; malformed links intentionally change."
+        },
+        {
+          "reviewer": "/root/attendance_material_adversary",
+          "verdict": "ACCEPT"
+        }
+      ]
+    },
+    {
+      "round": 5,
+      "version": "H4",
+      "sha256": "deadab931ddd3891e86772c727a4be3e63f8af5dbf0004e8d0968bff83e1cd95",
+      "reviews": [
+        {
+          "reviewer": "/root/attendance_material_contract_trace",
+          "verdict": "ACCEPT"
+        },
+        {
+          "reviewer": "/root/attendance_material_adversary",
+          "verdict": "ACCEPT"
+        }
+      ]
+    }
+  ],
+  "review_evidence": "Current independent full-design messages; earlier verdicts not carried onto changed designs. Final both ACCEPT exact H4.",
+  "limits": [
+    "Source-only expanded pre-exposure fork contract; strict client activation and compatible deployed rollback remain HOLD.",
+    "No authenticated Next UI, legal payroll, temporal Employment, current-at-emission authority, two-site confirmation or full-module acceptance.",
+    "Snapshot helper proof required; deterministic HTTP interleaving remains unproved without an existing seam."
+  ],
+  "test_source": {
+    "paths_and_sha256": {
+      "backend-fork/backend/app/tests/hr_attendance_self_read.rs": "6df6bb948d342f2407cda917d6cf334d6b3c7080ccc32a984882b143ca29d987",
+      "backend-fork/backend/app/tests/hr_attendance_manager_scope.rs": "410c328def6d4ccd33b2b2362ac13111276a35f4aabf878d3b1de8ce192c969b"
+    },
+    "reviews": [
+      {
+        "reviewer": "/root/attendance_material_adversary",
+        "verdict": "ACCEPT exact corrected sources"
+      },
+      {
+        "reviewer": "/root/attendance_material_contract_trace",
+        "verdict": "ACCEPT exact corrected sources and test-only commit/custody"
+      }
+    ],
+    "revisions": [
+      {
+        "self_sha256": "60de9355ba0559805919a879810b0d0121326b35a2a35ca9a25e0ffbffaf6f1d",
+        "manager_sha256": "8def1eb7b5b9b084fc7af6e572ac0d916abf7acf0a5d8329d884c63d34ea9eea",
+        "verdict": "REVISE",
+        "findings": [
+          "Actual served contract must couple GET/create/replay branches.",
+          "Returned reference must match persisted association.",
+          "Exact raw fields must be preserved.",
+          "Manager wrong-date ref requires independent proof.",
+          "Closed-period409 must identify period gate.",
+          "Audit actions/targets/actor must match exact real effects."
+        ],
+        "disposition": "Added focused real responses, persisted-field/reference comparisons, manager wrong-date fixture, freeze reason and exact audit evidence."
+      },
+      {
+        "self_sha256": "e3871c3f5825079698a89d27020b02cecbfaa70edd19e1add2803f4c4227c900",
+        "manager_sha256": "77e462cc9630c206d03124107226dc37688f983848f41b0f2327060258a46c6b",
+        "reviews": [
+          {
+            "reviewer": "/root/attendance_material_adversary",
+            "verdict": "ACCEPT"
+          },
+          {
+            "reviewer": "/root/attendance_material_contract_trace",
+            "verdict": "REVISE",
+            "finding": "Manager LINKED UUID parse did not prove exact persisted association.",
+            "disposition": "Final manager hash verifies exact matching persisted UUID."
+          }
+        ]
+      },
+      {
+        "approved_test_commit": "400a67332bca36e7a222510b8206050bc0400ae6",
+        "paths_and_sha256": {
+          "backend-fork/backend/app/tests/hr_attendance_self_read.rs": "e3871c3f5825079698a89d27020b02cecbfaa70edd19e1add2803f4c4227c900",
+          "backend-fork/backend/app/tests/hr_attendance_manager_scope.rs": "0f0a7a125ba3e289a82adfa4ce4fef2789339a590b5e0465fb0cb5300bbe6ba3"
+        },
+        "source_verdict": "ACCEPT source; execution exposed fixture defects",
+        "execution_verdict": "REJECT implementation admission",
+        "report": "run-20261001T012708.960456Z/report.json",
+        "discovered": 35,
+        "executed": 30,
+        "passed": 25,
+        "failed": 5,
+        "filtered": 5,
+        "ignored": 0,
+        "findings": [
+          "Actual JSON keys preserved insertion order; helpers incorrectly compared unsorted keys to sorted exact sets.",
+          "New EXECUTIVE fixture actor lacked leave-owner org-admin authority for home-branch setup."
+        ],
+        "disposition": "Sort actual key vectors while preserving exact-set checks; use genuine SUPER_ADMIN fixture steward, retaining original read actors. Both reviewers accepted corrected hashes; fresh RED required."
+      },
+      {
+        "approved_test_commit": "02c02c92f23c772370b79a883d5cfecf8000f0ba",
+        "paths_and_sha256": {
+          "backend-fork/backend/app/tests/hr_attendance_self_read.rs": "cb86a1087d714ccb91d41d2fae879be80f0d15fdb01161d229e27e88fcc398e2",
+          "backend-fork/backend/app/tests/hr_attendance_manager_scope.rs": "410c328def6d4ccd33b2b2362ac13111276a35f4aabf878d3b1de8ce192c969b"
+        },
+        "reviews": [
+          {
+            "reviewer": "/root/attendance_material_contract_trace",
+            "verdict": "ACCEPT"
+          },
+          {
+            "reviewer": "/root/attendance_material_adversary",
+            "verdict": "ACCEPT"
+          }
+        ],
+        "execution_verdict": "Actual RED accepted; initial GREEN rejected for misplaced fresh-session audit boundary",
+        "green_report": "run-20261001T020426.622013Z/report.json",
+        "green_report_sha256": "bd70ab5b78686030d5f8fd99d264a9d64e981e850852246463468e10bbab26ea",
+        "green_discovered": 35,
+        "green_executed": 30,
+        "green_passed": 29,
+        "green_failed": 1,
+        "green_filtered": 5,
+        "green_ignored": 0,
+        "finding": "Fresh bearer() legitimately writes one auth.refresh.issue audit. A global before/after GET comparison crossed that fixture mutation.",
+        "disposition": "Retain all business assertions and exact audit verification; assert every GET is write-free at its own boundary. Independently review corrected tests and run fresh matching-source RED/GREEN."
+      }
+    ],
+    "expected_discovery": {
+      "hr_attendance_self_read": 10,
+      "hr_attendance_manager_scope": 2
+    },
+    "limits": "Reviewed test sources only. Focused contract assertions, not general JSON-Schema validation or deterministic HTTP interleaving proof.",
+    "approved_test_commit": "d10ca2edf9f09d121ed765190f3afc4c15a083d3"
+  },
+  "implementation_admission": {
+    "source_base": "d10ca2edf9f09d121ed765190f3afc4c15a083d3",
+    "command": "python3 tools/lanes/fanout.py admit --probe 'python3 /Users/jasonlee/Developer/frontend/.artifacts/acceptance/attendance-material-history/probe.py --approved-tests-head d10ca2edf9f09d121ed765190f3afc4c15a083d3'",
+    "report": "run-20261001T022124.942904Z/report.json",
+    "report_sha256": "a10667534e220e200eba657c664f116b5058a1c52af8e0d74e0c0e01853d35cb",
+    "discovered": 35,
+    "selected_and_executed": 30,
+    "passed": 26,
+    "failed": 4,
+    "filtered": 5,
+    "ignored": 0,
+    "classification": "Four genuine wrong-reference, missing-reference replay and contract failures. All selected tests executed; no fixture or infrastructure failure. Cleanup and clean/source revalidation passed.",
+    "reviewer": "/root/attendance_material_adversary",
+    "verdict": "ACCEPT complete corrected RED",
+    "review_receipt": "red-review-d10ca2e-adversary.json",
+    "review_receipt_sha256": "5ee529d58ba18351d36f15bf4befce5974a360bd94a22b0c620e4f20e311d705",
+    "limits": "Later assertions in failed tests remain unreached on RED; identical complete GREEN required."
+  },
+  "canonical_projection_reconciliation": {
+    "scope": "Pre-existing storefront-media source/composed drift; full composer output retained.",
+    "verdict": "ACCEPT artifact reconciliation, not material design change",
+    "reviewer": "/root/attendance_material_contract_trace",
+    "unchanged_fragment_sha256": "1b1df8d8236124af19f9558f238de7c73d02190ea99675b6400f9f97d2a58f83",
+    "evidence": "Existing owner already enforces25MiB, supported raster types, no-store/nosniff and503. Neither storefront source nor fragment changed. Generated documentation now reflects those existing controls."
+  },
+  "previous_implementation_admissions": [
+    {
+      "source_base": "02c02c92f23c772370b79a883d5cfecf8000f0ba",
+      "command": "python3 tools/lanes/fanout.py admit --probe 'python3 /Users/jasonlee/Developer/frontend/.artifacts/acceptance/attendance-material-history/probe.py --approved-tests-head 02c02c92f23c772370b79a883d5cfecf8000f0ba'",
+      "report": "run-20261001T015144.713563Z/report.json",
+      "report_sha256": "7986b9ddcdb7164eb9e7f3b68e37b5b40fa805136af9f4749fba4a28677dc8d7",
+      "discovered": 35,
+      "selected_and_executed": 30,
+      "passed": 26,
+      "failed": 4,
+      "filtered": 5,
+      "ignored": 0,
+      "classification": "Four genuine missing/malformed association/replay/contract failures. Every selected test executed; no infrastructure/fixture failure. Independent adversary verified logs and exact sources.",
+      "reviewer": "/root/attendance_material_adversary",
+      "verdict": "ACCEPT actual RED evidence",
+      "limits": "Later assertions within failed tests remain unreached on RED; identical complete GREEN required."
+    }
+  ],
+  "corrected_test_merge": {
+    "merge_commit": "9251169495ed7540e8ab321ec4dce18a2d58fda4",
+    "preserved_implementation_commit": "69ee3e3fed9ccfca07d5931114f1a95abe74e238",
+    "approved_test_commit": "d10ca2edf9f09d121ed765190f3afc4c15a083d3",
+    "ancestry": "Non-fast-forward merge preserves both exact candidates; production code and contracts unchanged."
+  }
+}

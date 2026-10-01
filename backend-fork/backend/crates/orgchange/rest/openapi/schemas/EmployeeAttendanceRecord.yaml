@@ -1,3 +1,4 @@
+description: Raw work fact. LINKED denotes a matching payroll-material association only, not approval, calculation readiness, posting or payment. UNLINKED means no matching usable reference in this authorized snapshot.
 type: object
 required:
 - id
@@ -35,10 +36,13 @@ properties:
     type: string
     nullable: true
   payroll_material_ref_id:
-    $ref: '#/components/schemas/Uuid'
+    anyOf:
+    - $ref: '#/components/schemas/Uuid'
+    - type: 'null'
   payroll_link_status:
     type: string
     enum:
     - LINKED
+    - UNLINKED
   duplicate:
     type: boolean

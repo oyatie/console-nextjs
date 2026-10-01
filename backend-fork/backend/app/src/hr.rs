@@ -28,7 +28,7 @@ use console_platform_auth::JwtVerifier;
 use console_platform_authz::{
     Action, Feature, Principal, Role, authorize, authorize_capability, authorize_org_wide,
 };
-use console_platform_db::{DbError, with_audit, with_audits, with_org_conn};
+use console_platform_db::{DbError, with_audit, with_audits, with_org_conn, with_org_snapshot};
 use serde::{Deserialize, Serialize};
 use serde_json::{Map, Value, json};
 use sha2::{Digest, Sha256};
@@ -450,7 +450,7 @@ struct EmployeeAttendanceRecordResponse {
     state_after: String,
     #[serde(skip_serializing_if = "Option::is_none")]
     note: Option<String>,
-    payroll_material_ref_id: Uuid,
+    payroll_material_ref_id: Option<Uuid>,
     payroll_link_status: String,
     duplicate: bool,
 }
@@ -1742,7 +1742,7 @@ async fn list_my_attendance_records(
     let limit = query.limit.unwrap_or(DEFAULT_LIMIT).clamp(1, MAX_LIMIT);
     let offset = query.offset.unwrap_or(0).max(0);
 
-    let page = with_org_conn::<_, _, HrError>(&state.pool, org, move |tx| {
+    let page = with_org_snapshot::<_, _, HrError>(&state.pool, org, move |tx| {
         Box::pin(async move {
             // Self-scoped read, no role gate: an authenticated user with no
             // linked employee — an ADMIN/system account — has zero personal
@@ -1782,7 +1782,7 @@ async fn list_attendance_records(
     let offset = query.offset.unwrap_or(0).max(0);
     let employee_id = query.employee_id;
 
-    let page = with_org_conn::<_, _, HrError>(&state.pool, org, move |tx| {
+    let page = with_org_snapshot::<_, _, HrError>(&state.pool, org, move |tx| {
         Box::pin(async move {
             if let Some(employee_id) = employee_id {
                 list_attendance_records_for_employee(tx, employee_id, branch_id, limit, offset)
@@ -7767,9 +7767,11 @@ async fn list_attendance_records_for_employee(
         JOIN employees e
           ON e.id = r.employee_id
          AND e.org_id = r.org_id
-        JOIN payroll_attendance_material_refs pmr
+        LEFT JOIN payroll_attendance_material_refs pmr
           ON pmr.attendance_record_id = r.id
          AND pmr.org_id = r.org_id
+         AND pmr.employee_id = r.employee_id
+         AND pmr.work_date = r.work_date
         WHERE r.employee_id =
         "#,
     );
@@ -7831,9 +7833,11 @@ async fn list_attendance_records_for_org(
         JOIN employees e
           ON e.id = r.employee_id
          AND e.org_id = r.org_id
-        JOIN payroll_attendance_material_refs pmr
+        LEFT JOIN payroll_attendance_material_refs pmr
           ON pmr.attendance_record_id = r.id
          AND pmr.org_id = r.org_id
+         AND pmr.employee_id = r.employee_id
+         AND pmr.work_date = r.work_date
         WHERE TRUE
         "#,
     );
@@ -7881,9 +7885,11 @@ async fn load_attendance_record_by_idempotency_key(
         JOIN employees e
           ON e.id = r.employee_id
          AND e.org_id = r.org_id
-        JOIN payroll_attendance_material_refs pmr
+        LEFT JOIN payroll_attendance_material_refs pmr
           ON pmr.attendance_record_id = r.id
          AND pmr.org_id = r.org_id
+         AND pmr.employee_id = r.employee_id
+         AND pmr.work_date = r.work_date
         WHERE r.employee_id = $1
           AND r.idempotency_key = $2
         "#,
@@ -7901,6 +7907,7 @@ fn employee_attendance_record_from_joined_row(
     row: sqlx::postgres::PgRow,
     duplicate: bool,
 ) -> Result<EmployeeAttendanceRecordResponse, HrError> {
+    let payroll_material_ref_id: Option<Uuid> = row.try_get("payroll_material_ref_id")?;
     Ok(EmployeeAttendanceRecordResponse {
         id: row.try_get("id")?,
         employee_id: row.try_get("employee_id")?,
@@ -7910,8 +7917,13 @@ fn employee_attendance_record_from_joined_row(
         work_date: row.try_get("work_date")?,
         state_after: row.try_get("state_after")?,
         note: row.try_get("note")?,
-        payroll_material_ref_id: row.try_get("payroll_material_ref_id")?,
-        payroll_link_status: "LINKED".to_owned(),
+        payroll_material_ref_id,
+        payroll_link_status: if payroll_material_ref_id.is_some() {
+            "LINKED"
+        } else {
+            "UNLINKED"
+        }
+        .to_owned(),
         duplicate,
     })
 }
@@ -7931,7 +7943,7 @@ fn employee_attendance_record_from_parts(
         work_date: row.try_get("work_date")?,
         state_after: row.try_get("state_after")?,
         note: row.try_get("note")?,
-        payroll_material_ref_id,
+        payroll_material_ref_id: Some(payroll_material_ref_id),
         payroll_link_status: "LINKED".to_owned(),
         duplicate,
     })

@@ -49,10 +49,10 @@ async fn manager_attendance_branch_scope_is_explicit_and_nonleaking(pool: PgPool
     seed_site_attendance(&pool, executive, branch_b, "902").await;
     let app =
         build_router(app_state(runtime_role_pool(&pool).await, keys.public_pem.clone()).unwrap());
-    let admin = bearer(&keys, admin_a, "ADMIN");
-    let custom = bearer(&keys, custom_a, "MEMBER");
-    let executive = bearer(&keys, executive, "EXECUTIVE");
-    let super_admin = bearer(&keys, super_admin, "SUPER_ADMIN");
+    let admin = bearer(&pool, &keys, admin_a, "ADMIN").await;
+    let custom = bearer(&pool, &keys, custom_a, "MEMBER").await;
+    let executive = bearer(&pool, &keys, executive, "EXECUTIVE").await;
+    let super_admin = bearer(&pool, &keys, super_admin, "SUPER_ADMIN").await;
     let a = format!("?branch_id={branch_a}");
     let b = format!("?branch_id={branch_b}");
 
@@ -117,6 +117,181 @@ async fn manager_attendance_branch_scope_is_explicit_and_nonleaking(pool: PgPool
     );
     assert_eq!(absent.status, StatusCode::OK, "{:?}", absent.json);
     assert_eq!(out_of_branch.json, absent.json);
+}
+
+#[sqlx::test(migrations = "../crates/platform/db/migrations")]
+async fn manager_raw_history_pages_keep_scope_filters_and_unassigned_visibility(pool: PgPool) {
+    let keys = keys();
+    let org = *OrgId::knl().as_uuid();
+    let branch_a = seed_branch(&pool, "raw-a").await;
+    let branch_b = seed_branch(&pool, "raw-b").await;
+    let admin = seed_user(&pool, "ADMIN", Some(branch_a)).await;
+    let executive = seed_user(&pool, "EXECUTIVE", None).await;
+    let steward = seed_user(&pool, "SUPER_ADMIN", None).await;
+    let employee_a = seed_employee_attendance(&pool, steward, branch_a).await;
+    let employee_b = seed_employee_attendance(&pool, steward, branch_b).await;
+    let missing = seed_unlinked_attendance(&pool, org, employee_a, executive).await;
+    let malformed = seed_unlinked_attendance(&pool, org, employee_a, executive).await;
+    let wrong_date = seed_unlinked_attendance(&pool, org, employee_a, executive).await;
+    let invalid_date_reference: Uuid = sqlx::query_scalar("INSERT INTO payroll_attendance_material_refs (org_id,attendance_record_id,employee_id,work_date,source_digest) VALUES ($1,$2,$3,(now() AT TIME ZONE 'Asia/Seoul')::DATE + 1,$4) RETURNING id")
+        .bind(org).bind(wrong_date).bind(employee_a).bind("a".repeat(64)).fetch_one(&pool).await.unwrap();
+    let invalid_reference: Uuid = sqlx::query_scalar("INSERT INTO payroll_attendance_material_refs (org_id,attendance_record_id,employee_id,work_date,source_digest) VALUES ($1,$2,$3,(now() AT TIME ZONE 'Asia/Seoul')::DATE,$4) RETURNING id")
+        .bind(org).bind(malformed).bind(employee_b).bind("a".repeat(64)).fetch_one(&pool).await.unwrap();
+    let unassigned = seed_unassigned_employee(&pool, org).await;
+    let unassigned_record = seed_unlinked_attendance(&pool, org, unassigned, executive).await;
+    let foreign_org = Uuid::new_v4();
+    sqlx::query("INSERT INTO organizations (id,slug,name) VALUES ($1,$2,'Foreign Company')")
+        .bind(foreign_org)
+        .bind(foreign_org.to_string())
+        .execute(&pool)
+        .await
+        .unwrap();
+    let foreign_employee = seed_unassigned_employee(&pool, foreign_org).await;
+    let foreign_actor = UserId::new();
+    sqlx::query("INSERT INTO users (id,org_id,display_name,roles) VALUES ($1,$2,'Foreign actor',ARRAY['EXECUTIVE'])")
+        .bind(*foreign_actor.as_uuid()).bind(foreign_org).execute(&pool).await.unwrap();
+    let foreign_record =
+        seed_unlinked_attendance(&pool, foreign_org, foreign_employee, foreign_actor).await;
+    let app =
+        build_router(app_state(runtime_role_pool(&pool).await, keys.public_pem.clone()).unwrap());
+    let admin_token = bearer(&pool, &keys, admin, "ADMIN").await;
+    let executive_token = bearer(&pool, &keys, executive, "EXECUTIVE").await;
+    let branch_path = format!("{RECORDS}?branch_id={branch_a}");
+    for (path, token, total) in [
+        (branch_path.clone(), &admin_token, 4),
+        (
+            format!("{branch_path}&employee_id={employee_a}"),
+            &admin_token,
+            4,
+        ),
+        (RECORDS.to_owned(), &executive_token, 6),
+        (
+            format!("{RECORDS}?employee_id={unassigned}"),
+            &executive_token,
+            1,
+        ),
+    ] {
+        let separator = if path.contains('?') { '&' } else { '?' };
+        let mut ids = Vec::new();
+        for offset in (0..=total + 1).step_by(2) {
+            let page = get(
+                app.clone(),
+                &format!("{path}{separator}limit=2&offset={offset}"),
+                token,
+            )
+            .await;
+            assert_ok(&page);
+            assert_eq!(page.json["total"], total);
+            assert_eq!(page.json["limit"], 2);
+            assert_eq!(page.json["offset"], offset);
+            let items = page.json["items"].as_array().unwrap();
+            assert_eq!(
+                items.len(),
+                usize::try_from((total - offset).clamp(0, 2)).unwrap()
+            );
+            for item in items {
+                let id = Uuid::parse_str(item["id"].as_str().unwrap()).unwrap();
+                assert_ne!(id, foreign_record);
+                assert!(!item.to_string().contains(&invalid_reference.to_string()));
+                assert!(
+                    !item
+                        .to_string()
+                        .contains(&invalid_date_reference.to_string())
+                );
+                let raw: (Uuid, String, String, OffsetDateTime, String, String) = sqlx::query_as("SELECT r.employee_id,r.kind,r.state_after,r.occurred_at,r.work_date::text,e.name FROM employee_attendance_records r JOIN employees e ON e.org_id=r.org_id AND e.id=r.employee_id WHERE r.id=$1 AND r.org_id=$2")
+                    .bind(id).bind(org).fetch_one(&pool).await.unwrap();
+                assert_eq!(item["employee_id"], raw.0.to_string());
+                assert_eq!(item["kind"], raw.1);
+                assert_eq!(item["state_after"], raw.2);
+                assert_eq!(item["occurred_at"], serde_json::to_value(raw.3).unwrap());
+                assert_eq!(item["work_date"], raw.4);
+                assert_eq!(item["employee_display_name"], raw.5);
+                assert_eq!(item["duplicate"], false);
+                if [missing, malformed, wrong_date, unassigned_record].contains(&id) {
+                    assert_eq!(item["payroll_material_ref_id"], Value::Null);
+                    assert_eq!(item["payroll_link_status"], "UNLINKED");
+                } else {
+                    let actual_ref: Uuid = sqlx::query_scalar("SELECT id FROM payroll_attendance_material_refs WHERE org_id=$1 AND attendance_record_id=$2 AND employee_id=$3 AND work_date=$4::text::date")
+                        .bind(org).bind(id).bind(raw.0).bind(&raw.4).fetch_one(&pool).await.unwrap();
+                    assert_eq!(item["payroll_material_ref_id"], actual_ref.to_string());
+                    assert_eq!(item["payroll_link_status"], "LINKED");
+                }
+                let mut field_keys: Vec<_> = item
+                    .as_object()
+                    .unwrap()
+                    .keys()
+                    .map(String::as_str)
+                    .collect();
+                field_keys.sort_unstable();
+                assert_eq!(
+                    field_keys,
+                    vec![
+                        "duplicate",
+                        "employee_display_name",
+                        "employee_id",
+                        "id",
+                        "kind",
+                        "occurred_at",
+                        "payroll_link_status",
+                        "payroll_material_ref_id",
+                        "state_after",
+                        "work_date"
+                    ]
+                );
+                ids.push(id);
+            }
+        }
+        let expected: Vec<Uuid> = if total == 1 {
+            vec![unassigned_record]
+        } else {
+            // Fixture-only exact facts and total order, independent of payroll joins.
+            sqlx::query_scalar("SELECT id FROM employee_attendance_records WHERE org_id=$1 AND ($2::uuid IS NULL OR employee_id=$2) ORDER BY occurred_at DESC,created_at DESC,id DESC")
+                .bind(org).bind((total == 4).then_some(employee_a)).fetch_all(&pool).await.unwrap()
+        };
+        assert_eq!(ids, expected);
+    }
+    let absent_path = format!("{branch_path}&employee_id={}", Uuid::new_v4());
+    let absent = get(app.clone(), &absent_path, &admin_token).await;
+    assert_ok(&absent);
+    assert_eq!(absent.json["total"], 0);
+    assert_eq!(absent.json["items"], json!([]));
+    for employee in [employee_b, unassigned, foreign_employee] {
+        let denied = get(
+            app.clone(),
+            &format!("{branch_path}&employee_id={employee}"),
+            &admin_token,
+        )
+        .await;
+        assert_ok(&denied);
+        assert_eq!(denied.json, absent.json);
+    }
+    let foreign = get(
+        app.clone(),
+        &format!("{RECORDS}?employee_id={foreign_employee}"),
+        &executive_token,
+    )
+    .await;
+    assert_ok(&foreign);
+    assert_eq!(foreign.json, absent.json);
+    assert_forbidden(get(app.clone(), RECORDS, &admin_token).await);
+    assert_forbidden(
+        get(
+            app,
+            &format!("{RECORDS}?branch_id={branch_b}"),
+            &admin_token,
+        )
+        .await,
+    );
+}
+
+async fn seed_unassigned_employee(pool: &PgPool, org: Uuid) -> Uuid {
+    sqlx::query_scalar("INSERT INTO employees (org_id,company,name,source_filename,source_sheet,source_row,source_key,raw_row,source_metadata) VALUES ($1,'test','unassigned','test.xlsx','test',1,$2,'{}','{}') RETURNING id")
+        .bind(org).bind(Uuid::new_v4().to_string()).fetch_one(pool).await.unwrap()
+}
+
+async fn seed_unlinked_attendance(pool: &PgPool, org: Uuid, employee: Uuid, actor: UserId) -> Uuid {
+    sqlx::query_scalar("INSERT INTO employee_attendance_records (org_id,employee_id,actor_user_id,kind,state_after,idempotency_key) VALUES ($1,$2,$3,'CLOCK_IN','CLOCKED_IN',$4) RETURNING id")
+        .bind(org).bind(employee).bind(*actor.as_uuid()).bind(Uuid::new_v4().to_string()).fetch_one(pool).await.unwrap()
 }
 
 fn assert_ok(response: &Response) {
@@ -228,7 +403,7 @@ async fn seed_employee_attendance(pool: &PgPool, actor: UserId, branch: Uuid) ->
         .bind(record)
         .bind(*org.as_uuid())
         .bind(employee).bind(*actor.as_uuid()).bind(format!("attendance-scope-{record}")).execute(pool).await.unwrap();
-    sqlx::query("INSERT INTO payroll_attendance_material_refs (org_id, attendance_record_id, employee_id, work_date, source_digest) VALUES ($1, $2, $3, CURRENT_DATE, $4)")
+    sqlx::query("INSERT INTO payroll_attendance_material_refs (org_id, attendance_record_id, employee_id, work_date, source_digest) VALUES ($1, $2, $3, (now() AT TIME ZONE 'Asia/Seoul')::DATE, $4)")
         .bind(*org.as_uuid())
         .bind(record)
         .bind(employee).bind("a".repeat(64)).execute(pool).await.unwrap();
@@ -324,8 +499,8 @@ fn keys() -> Keys {
     }
 }
 
-fn bearer(keys: &Keys, user: UserId, role: &str) -> String {
-    JwtIssuer::from_es256_pem(
+async fn bearer(pool: &PgPool, keys: &Keys, user: UserId, role: &str) -> String {
+    let issuer = JwtIssuer::from_es256_pem(
         JwtSettings {
             issuer: ISSUER.into(),
             audience: AUDIENCE.into(),
@@ -334,23 +509,32 @@ fn bearer(keys: &Keys, user: UserId, role: &str) -> String {
         keys.private_pem.as_bytes(),
         keys.public_pem.as_bytes(),
     )
-    .unwrap()
-    .issue_access_token(AccessTokenInput {
-        subject: user,
-        org_id: OrgId::knl(),
-        roles: vec![role.into()],
-        branches: vec![],
-        platform: false,
-        view_as: false,
-        read_only: false,
-        display_name: None,
-        feature_grants: vec![],
-        authz_subject_version: 0,
-        authz_policy_version: 0,
-        session_generation: 0,
-        issued_at: OffsetDateTime::now_utc(),
-    })
-    .unwrap()
+    .unwrap();
+    let versions: (i64, i64) = sqlx::query_as(
+        "SELECT COALESCE(v.version,0),COALESCE(v.session_generation,0) FROM users u LEFT JOIN subject_authz_versions v ON v.user_id=u.id AND v.org_id=u.org_id WHERE u.id=$1",
+    ).bind(*user.as_uuid()).fetch_one(pool).await.unwrap();
+    console_platform_test_support::issue_session_token(
+        pool,
+        &issuer,
+        AccessTokenInput {
+            subject: user,
+            org_id: OrgId::knl(),
+            roles: vec![role.into()],
+            branches: vec![],
+            platform: false,
+            view_as: false,
+            read_only: false,
+            display_name: None,
+            feature_grants: vec![],
+            authz_subject_version: versions.0.try_into().unwrap(),
+            authz_policy_version: 0,
+            session_generation: versions.1.try_into().unwrap(),
+            issued_at: OffsetDateTime::now_utc(),
+        },
+        None,
+        Vec::new(),
+    )
+    .await
 }
 
 async fn runtime_role_pool(owner_pool: &PgPool) -> PgPool {

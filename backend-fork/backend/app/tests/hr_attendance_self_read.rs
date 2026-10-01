@@ -499,6 +499,550 @@ async fn history_reads_preserve_existing_ack_subject_and_member_resolution_contr
     assert_eq!(read_history(service, &member).await, before);
 }
 
+// A raw work fact survives absent or malformed downstream payroll evidence.
+#[sqlx::test(migrations = "../crates/platform/db/migrations")]
+async fn raw_history_pages_preserve_missing_and_invalid_material_links(pool: PgPool) {
+    let keys = keys();
+    let worker = UserId::new();
+    let employee = seed_linked_employee(&pool, worker, "MEMBER", "raw-history").await;
+    let other = UserId::new();
+    let other_employee = seed_linked_employee(&pool, other, "MEMBER", "raw-other").await;
+    let org = *OrgId::knl().as_uuid();
+    let linked = seed_raw_record(&pool, org, worker, employee, "linked", "09:00:00").await;
+    let valid_ref = seed_material_ref(&pool, org, linked, employee, "2026-07-20").await;
+    let missing = seed_raw_record(&pool, org, worker, employee, "missing", "09:00:00").await;
+    let wrong_employee =
+        seed_raw_record(&pool, org, worker, employee, "wrong-employee", "09:00:00").await;
+    let invalid_employee_ref =
+        seed_material_ref(&pool, org, wrong_employee, other_employee, "2026-07-20").await;
+    let wrong_date = seed_raw_record(&pool, org, worker, employee, "wrong-date", "09:00:00").await;
+    let invalid_date_ref = seed_material_ref(&pool, org, wrong_date, employee, "2026-07-21").await;
+    let newest = seed_raw_record(&pool, org, worker, employee, "newest", "10:00:00").await;
+    seed_raw_record(&pool, org, other, other_employee, "other", "11:00:00").await;
+    let (foreign_org, foreign_worker, foreign_employee) = seed_foreign_employee(&pool).await;
+    seed_raw_record(
+        &pool,
+        foreign_org,
+        foreign_worker,
+        foreign_employee,
+        "foreign",
+        "12:00:00",
+    )
+    .await;
+    let service =
+        build_router(app_state(runtime_role_pool(&pool).await, keys.public_pem.clone()).unwrap());
+    let token = bearer(&pool, &keys, worker, "MEMBER").await;
+    let mut tied = vec![linked, missing, wrong_employee, wrong_date];
+    tied.sort_by(|a, b| b.cmp(a));
+    let expected: Vec<_> = std::iter::once(newest).chain(tied).collect();
+    let before = attendance_counts(&pool).await;
+    for status in ["ACTIVE", "EXITED", "UNKNOWN"] {
+        sqlx::query("UPDATE employees SET employment_status=$1 WHERE id=$2")
+            .bind(status)
+            .bind(employee)
+            .execute(&pool)
+            .await
+            .unwrap();
+        let mut actual = Vec::new();
+        for offset in [0, 2, 4, 6] {
+            let page = get_without_effects(
+                &pool,
+                service.clone(),
+                &format!("{ME_PATH}?limit=2&offset={offset}"),
+                &token,
+            )
+            .await;
+            assert_eq!(page.status, StatusCode::OK, "{:?}", page.json);
+            assert_eq!(page.json["total"], 5);
+            assert_eq!(page.json["limit"], 2);
+            assert_eq!(page.json["offset"], offset);
+            let items = page.json["items"].as_array().unwrap();
+            assert_eq!(
+                items.len(),
+                if offset < 4 {
+                    2
+                } else if offset == 4 {
+                    1
+                } else {
+                    0
+                },
+                "raw pagination must not lose facts"
+            );
+            for item in items {
+                let id = Uuid::parse_str(item["id"].as_str().unwrap()).unwrap();
+                assert_record_shape(item, employee, (id == linked).then_some(valid_ref), false);
+                assert_persisted_raw_fields(&pool, item).await;
+                assert_eq!(item["note"], "실제 근무 기록");
+                assert_eq!(item["work_date"], "2026-07-20");
+                assert!(!item.to_string().contains(&invalid_employee_ref.to_string()));
+                assert!(!item.to_string().contains(&invalid_date_ref.to_string()));
+                actual.push(id);
+            }
+        }
+        assert_eq!(actual, expected);
+    }
+    // Current Account authority still governs retained raw history.
+    sqlx::query("UPDATE users SET employee_id=NULL WHERE id=$1")
+        .bind(*worker.as_uuid())
+        .execute(&pool)
+        .await
+        .unwrap();
+    let unlinked = get_without_effects(&pool, service.clone(), ME_PATH, &token).await;
+    assert_eq!(unlinked.status, StatusCode::OK);
+    assert_eq!(unlinked.json["total"], 0);
+    assert_eq!(unlinked.json["items"], json!([]));
+    sqlx::query("UPDATE users SET employee_id=$1 WHERE id=$2")
+        .bind(employee)
+        .bind(*worker.as_uuid())
+        .execute(&pool)
+        .await
+        .unwrap();
+    sqlx::query("UPDATE auth_refresh_token_families SET revoked_at=now() WHERE user_id=$1 AND revoked_at IS NULL")
+        .bind(*worker.as_uuid()).execute(&pool).await.unwrap();
+    assert_eq!(
+        get_without_effects(&pool, service.clone(), ME_PATH, &token)
+            .await
+            .status,
+        StatusCode::UNAUTHORIZED
+    );
+    let before_fresh_session = attendance_counts(&pool).await;
+    let fresh = bearer(&pool, &keys, worker, "MEMBER").await;
+    let after_fresh_session = attendance_counts(&pool).await;
+    assert_eq!(
+        after_fresh_session,
+        (
+            before_fresh_session.0,
+            before_fresh_session.1,
+            before_fresh_session.2 + 1
+        )
+    );
+    let session_audits: Vec<(String, String, Uuid)> = sqlx::query_as("SELECT a.action,a.target_type,a.actor FROM audit_events a JOIN auth_refresh_token_families f ON a.target_id=f.id::text AND a.org_id=f.org_id WHERE f.org_id=$1 AND f.user_id=$2 AND f.revoked_at IS NULL")
+        .bind(org).bind(*worker.as_uuid()).fetch_all(&pool).await.unwrap();
+    assert_eq!(
+        session_audits,
+        vec![(
+            "auth.refresh.issue".into(),
+            "auth_refresh_token_family".into(),
+            *worker.as_uuid()
+        )]
+    );
+    sqlx::query("UPDATE users SET is_active=false WHERE id=$1")
+        .bind(*worker.as_uuid())
+        .execute(&pool)
+        .await
+        .unwrap();
+    assert_eq!(
+        get_without_effects(&pool, service, ME_PATH, &fresh)
+            .await
+            .status,
+        StatusCode::UNAUTHORIZED
+    );
+    let after = attendance_counts(&pool).await;
+    assert_eq!((after.0, after.1), (before.0, before.1));
+}
+
+#[sqlx::test(migrations = "../crates/platform/db/migrations")]
+async fn raw_record_replay_is_scoped_and_write_free_in_closed_payroll_period(pool: PgPool) {
+    let keys = keys();
+    let worker = UserId::new();
+    let employee = seed_linked_employee(&pool, worker, "MEMBER", "replay-worker").await;
+    let other = UserId::new();
+    let other_employee = seed_linked_employee(&pool, other, "MEMBER", "replay-other").await;
+    let org = *OrgId::knl().as_uuid();
+    let (foreign_org, foreign_worker, foreign_employee) = seed_foreign_employee(&pool).await;
+    let mut cases = Vec::new();
+    for key in [
+        "linked-replay",
+        "missing-replay",
+        "employee-replay",
+        "date-replay",
+    ] {
+        let record = seed_raw_record(&pool, org, worker, employee, key, "09:00:00").await;
+        let reference = match key {
+            "linked-replay" => {
+                Some(seed_material_ref(&pool, org, record, employee, "2026-07-20").await)
+            }
+            "employee-replay" => {
+                seed_material_ref(&pool, org, record, other_employee, "2026-07-20").await;
+                None
+            }
+            "date-replay" => {
+                seed_material_ref(&pool, org, record, employee, "2026-07-21").await;
+                None
+            }
+            _ => None,
+        };
+        // Both collisions are genuine scoped rows, not JWT-only Companies.
+        let other_record =
+            seed_raw_record(&pool, org, other, other_employee, key, "10:00:00").await;
+        seed_material_ref(&pool, org, other_record, other_employee, "2026-07-20").await;
+        let foreign_record = seed_raw_record(
+            &pool,
+            foreign_org,
+            foreign_worker,
+            foreign_employee,
+            key,
+            "11:00:00",
+        )
+        .await;
+        seed_material_ref(
+            &pool,
+            foreign_org,
+            foreign_record,
+            foreign_employee,
+            "2026-07-20",
+        )
+        .await;
+        cases.push((key, record, reference));
+    }
+    let service =
+        build_router(app_state(runtime_role_pool(&pool).await, keys.public_pem.clone()).unwrap());
+    let token = bearer(&pool, &keys, worker, "MEMBER").await;
+    let counts = attendance_counts(&pool).await;
+    for locked in [false, true] {
+        if locked {
+            sqlx::query("INSERT INTO period_locks (org_id,domain,period_start,period_end,reason) VALUES ($1,'payroll',DATE '2020-01-01',DATE '2099-12-31','reviewed period closed')")
+                .bind(org).execute(&pool).await.unwrap();
+        }
+        for (key, id, reference) in &cases {
+            let replay = post(
+                service.clone(),
+                ME_PATH,
+                &token,
+                json!({"kind":"clock_in", "idempotency_key":key, "note":"  실제 근무 기록  "}),
+            )
+            .await;
+            assert_eq!(
+                replay.status,
+                StatusCode::OK,
+                "locked={locked}, {key}: {:?}",
+                replay.json
+            );
+            assert_eq!(replay.json["id"], id.to_string());
+            assert_record_shape(&replay.json, employee, *reference, true);
+            assert_persisted_raw_fields(&pool, &replay.json).await;
+            assert_eq!(replay.json["note"], "실제 근무 기록");
+            assert_eq!(attendance_counts(&pool).await, counts);
+            for change in [
+                json!({"kind":"CLOCK_OUT", "idempotency_key":key, "note":"실제 근무 기록"}),
+                json!({"kind":"CLOCK_IN", "idempotency_key":key, "note":"다른 내용"}),
+            ] {
+                let conflict = post(service.clone(), ME_PATH, &token, change).await;
+                assert_eq!(conflict.status, StatusCode::CONFLICT, "{:?}", conflict.json);
+                assert_eq!(attendance_counts(&pool).await, counts);
+            }
+        }
+    }
+    // CLOCK_OUT is an otherwise valid next event; only the closed period rejects it.
+    let refused = post(
+        service,
+        ME_PATH,
+        &token,
+        json!({"kind":"CLOCK_OUT", "idempotency_key":"new-closed-record"}),
+    )
+    .await;
+    assert_eq!(refused.status, StatusCode::CONFLICT, "{:?}", refused.json);
+    assert_eq!(refused.json["error"]["code"], "conflict");
+    assert!(
+        refused.json["error"]["message"]
+            .as_str()
+            .unwrap()
+            .starts_with("payroll period 2020-01-01..2099-12-31 is locked; write dated "),
+        "{:?}",
+        refused.json
+    );
+    assert_eq!(attendance_counts(&pool).await, counts);
+}
+
+#[sqlx::test(migrations = "../crates/platform/db/migrations")]
+async fn normal_attendance_creation_and_replay_keep_real_link_and_single_audit_effect(
+    pool: PgPool,
+) {
+    let keys = keys();
+    let worker = UserId::new();
+    let employee = seed_linked_employee(&pool, worker, "MEMBER", "fresh-worker").await;
+    let service =
+        build_router(app_state(runtime_role_pool(&pool).await, keys.public_pem.clone()).unwrap());
+    let token = bearer(&pool, &keys, worker, "MEMBER").await;
+    let body = json!({"kind":"CLOCK_IN", "idempotency_key":"fresh-record", "note":"출근 확인"});
+    let before = attendance_counts(&pool).await;
+    let created = post(service.clone(), ME_PATH, &token, body.clone()).await;
+    assert_eq!(created.status, StatusCode::OK, "{:?}", created.json);
+    let reference =
+        Uuid::parse_str(created.json["payroll_material_ref_id"].as_str().unwrap()).unwrap();
+    assert_record_shape(&created.json, employee, Some(reference), false);
+    assert_persisted_raw_fields(&pool, &created.json).await;
+    let persisted: (Uuid, Uuid, String) = sqlx::query_as("SELECT attendance_record_id,employee_id,work_date::text FROM payroll_attendance_material_refs WHERE org_id=$1 AND id=$2")
+        .bind(*OrgId::knl().as_uuid()).bind(reference).fetch_one(&pool).await.unwrap();
+    assert_eq!(persisted.0.to_string(), created.json["id"]);
+    assert_eq!(persisted.1, employee);
+    assert_eq!(persisted.2, created.json["work_date"]);
+    let after = attendance_counts(&pool).await;
+    assert_eq!(after.0, before.0 + 1);
+    assert_eq!(after.1, before.1 + 1);
+    assert_eq!(after.2, before.2 + 2);
+    let audits: Vec<(String, String, String, Uuid)> = sqlx::query_as("SELECT action,target_type,target_id,actor FROM audit_events WHERE org_id=$1 AND action IN ('employee_attendance.record','payroll_attendance.link') ORDER BY action")
+        .bind(*OrgId::knl().as_uuid()).fetch_all(&pool).await.unwrap();
+    assert_eq!(
+        audits,
+        vec![
+            (
+                "employee_attendance.record".into(),
+                "employee_attendance_record".into(),
+                created.json["id"].as_str().unwrap().into(),
+                *worker.as_uuid()
+            ),
+            (
+                "payroll_attendance.link".into(),
+                "payroll_attendance_material_ref".into(),
+                reference.to_string(),
+                *worker.as_uuid()
+            )
+        ]
+    );
+    let replay = post(service.clone(), ME_PATH, &token, body).await;
+    assert_eq!(replay.status, StatusCode::OK, "{:?}", replay.json);
+    let mut expected = created.json.clone();
+    expected["duplicate"] = json!(true);
+    assert_eq!(replay.json, expected);
+    assert_eq!(attendance_counts(&pool).await, after);
+    let page = get(service, ME_PATH, &token).await;
+    assert_eq!(page.status, StatusCode::OK);
+    assert_eq!(page.json["total"], 1);
+    assert_eq!(page.json["items"], json!([created.json]));
+}
+
+#[sqlx::test(migrations = "../crates/platform/db/migrations")]
+async fn served_attendance_contract_requires_uuid_or_null_and_association_status(pool: PgPool) {
+    let keys = keys();
+    let worker = UserId::new();
+    let employee = seed_linked_employee(&pool, worker, "MEMBER", "contract-worker").await;
+    let token = bearer(&pool, &keys, worker, "MEMBER").await;
+    let service = build_router(app_state(runtime_role_pool(&pool).await, keys.public_pem).unwrap());
+    let response = service
+        .clone()
+        .oneshot(
+            Request::builder()
+                .uri("/openapi/openapi.yaml")
+                .body(Body::empty())
+                .unwrap(),
+        )
+        .await
+        .unwrap();
+    assert_eq!(response.status(), StatusCode::OK);
+    let bytes = to_bytes(response.into_body(), usize::MAX).await.unwrap();
+    let served = std::str::from_utf8(&bytes).unwrap();
+    assert_eq!(served, include_str!("../../openapi/openapi.yaml"));
+    assert!(served.starts_with("openapi: 3.1.0\n"));
+    let schema = served
+        .split("    EmployeeAttendanceRecord:\n")
+        .nth(1)
+        .unwrap()
+        .split("    EmployeeAttendanceRecordPage:\n")
+        .next()
+        .unwrap();
+    let required = schema.split("      properties:\n").next().unwrap();
+    for property in ["payroll_material_ref_id", "payroll_link_status"] {
+        assert!(
+            required
+                .lines()
+                .any(|line| line.trim() == format!("- {property}"))
+        );
+    }
+    let reference = schema
+        .split("        payroll_material_ref_id:\n")
+        .nth(1)
+        .unwrap()
+        .split("        payroll_link_status:\n")
+        .next()
+        .unwrap();
+    let union: Vec<_> = reference.lines().map(str::trim).collect();
+    assert_eq!(
+        union,
+        vec![
+            "anyOf:",
+            "- $ref: '#/components/schemas/Uuid'",
+            "- type: 'null'"
+        ],
+        "3.1 requires a real UUID/null union, not nullable metadata"
+    );
+    let status = schema
+        .split("        payroll_link_status:\n")
+        .nth(1)
+        .unwrap()
+        .split("        duplicate:\n")
+        .next()
+        .unwrap();
+    assert_eq!(
+        status.lines().map(str::trim).collect::<Vec<_>>(),
+        vec!["type: string", "enum:", "- LINKED", "- UNLINKED"]
+    );
+    // Couple both contract branches to real GET/create/replay responses.
+    // This focused contract proof is not a general JSON-Schema validator.
+    let body = json!({"kind":"CLOCK_IN", "idempotency_key":"contract-create"});
+    let created = post(service.clone(), ME_PATH, &token, body.clone()).await;
+    assert_eq!(created.status, StatusCode::OK, "{:?}", created.json);
+    let reference: Uuid = sqlx::query_scalar("SELECT id FROM payroll_attendance_material_refs WHERE org_id=$1 AND attendance_record_id=$2")
+        .bind(*OrgId::knl().as_uuid()).bind(Uuid::parse_str(created.json["id"].as_str().unwrap()).unwrap()).fetch_one(&pool).await.unwrap();
+    assert_record_shape(&created.json, employee, Some(reference), false);
+    assert_persisted_raw_fields(&pool, &created.json).await;
+    let missing = seed_raw_record(
+        &pool,
+        *OrgId::knl().as_uuid(),
+        worker,
+        employee,
+        "contract-missing",
+        "09:00:00",
+    )
+    .await;
+    let page = get(service.clone(), ME_PATH, &token).await;
+    assert_eq!(page.status, StatusCode::OK, "{:?}", page.json);
+    assert_eq!(page.json["total"], 2);
+    assert_eq!(page.json["items"].as_array().unwrap().len(), 2);
+    for item in page.json["items"].as_array().unwrap() {
+        assert_record_shape(
+            item,
+            employee,
+            (item["id"] != missing.to_string()).then_some(reference),
+            false,
+        );
+        assert_persisted_raw_fields(&pool, item).await;
+    }
+    for (request, reference) in [
+        (body, Some(reference)),
+        (
+            json!({"kind":"CLOCK_IN", "idempotency_key":"contract-missing", "note":"실제 근무 기록"}),
+            None,
+        ),
+    ] {
+        let replay = post(service.clone(), ME_PATH, &token, request).await;
+        assert_eq!(replay.status, StatusCode::OK, "{:?}", replay.json);
+        assert_record_shape(&replay.json, employee, reference, true);
+        assert_persisted_raw_fields(&pool, &replay.json).await;
+    }
+}
+
+async fn assert_persisted_raw_fields(pool: &PgPool, item: &Value) {
+    let id = Uuid::parse_str(item["id"].as_str().unwrap()).unwrap();
+    let raw: (Uuid, String, String, OffsetDateTime, String, Option<String>, String) = sqlx::query_as("SELECT r.employee_id,r.kind,r.state_after,r.occurred_at,r.work_date::text,r.note,e.name FROM employee_attendance_records r JOIN employees e ON e.org_id=r.org_id AND e.id=r.employee_id WHERE r.id=$1 AND r.org_id=$2")
+        .bind(id).bind(*OrgId::knl().as_uuid()).fetch_one(pool).await.unwrap();
+    assert_eq!(item["employee_id"], raw.0.to_string());
+    assert_eq!(item["kind"], raw.1);
+    assert_eq!(item["state_after"], raw.2);
+    assert_eq!(item["occurred_at"], serde_json::to_value(raw.3).unwrap());
+    assert_eq!(item["work_date"], raw.4);
+    match raw.5 {
+        Some(note) => assert_eq!(item["note"], note),
+        None => assert!(item.get("note").is_none()),
+    }
+    assert_eq!(item["employee_display_name"], raw.6);
+}
+
+fn assert_record_shape(item: &Value, employee: Uuid, reference: Option<Uuid>, duplicate: bool) {
+    let mut expected = vec![
+        "id",
+        "employee_id",
+        "employee_display_name",
+        "kind",
+        "occurred_at",
+        "work_date",
+        "state_after",
+        "payroll_material_ref_id",
+        "payroll_link_status",
+        "duplicate",
+    ];
+    if item.get("note").is_some() {
+        expected.push("note");
+    }
+    expected.sort_unstable();
+    let mut actual: Vec<_> = item
+        .as_object()
+        .unwrap()
+        .keys()
+        .map(String::as_str)
+        .collect();
+    actual.sort_unstable();
+    assert_eq!(
+        actual, expected,
+        "no financial/digest/personnel fields may escape"
+    );
+    assert_eq!(item["employee_id"], employee.to_string());
+    assert_eq!(
+        item["payroll_material_ref_id"],
+        reference.map_or(Value::Null, |id| json!(id))
+    );
+    assert_eq!(
+        item["payroll_link_status"],
+        if reference.is_some() {
+            "LINKED"
+        } else {
+            "UNLINKED"
+        }
+    );
+    assert_eq!(item["duplicate"], duplicate);
+}
+
+async fn seed_raw_record(
+    pool: &PgPool,
+    org: Uuid,
+    actor: UserId,
+    employee: Uuid,
+    key: &str,
+    clock: &str,
+) -> Uuid {
+    sqlx::query_scalar("INSERT INTO employee_attendance_records (org_id,employee_id,actor_user_id,kind,occurred_at,created_at,work_date,state_after,note,idempotency_key) VALUES ($1,$2,$3,'CLOCK_IN',$4::text::timestamptz,TIMESTAMPTZ '2026-07-20 12:00:00+09',DATE '2026-07-20','CLOCKED_IN','실제 근무 기록',$5) RETURNING id")
+        .bind(org).bind(employee).bind(*actor.as_uuid()).bind(format!("2026-07-20 {clock}+09")).bind(key).fetch_one(pool).await.unwrap()
+}
+
+async fn seed_material_ref(
+    pool: &PgPool,
+    org: Uuid,
+    record: Uuid,
+    employee: Uuid,
+    date: &str,
+) -> Uuid {
+    sqlx::query_scalar("INSERT INTO payroll_attendance_material_refs (org_id,attendance_record_id,employee_id,work_date,source_digest) VALUES ($1,$2,$3,$4::text::date,$5) RETURNING id")
+        .bind(org).bind(record).bind(employee).bind(date).bind("a".repeat(64)).fetch_one(pool).await.unwrap()
+}
+
+async fn seed_foreign_employee(pool: &PgPool) -> (Uuid, UserId, Uuid) {
+    let org = Uuid::new_v4();
+    sqlx::query("INSERT INTO organizations (id,slug,name) VALUES ($1,$2,'Foreign Company')")
+        .bind(org)
+        .bind(org.to_string())
+        .execute(pool)
+        .await
+        .unwrap();
+    let employee = Uuid::new_v4();
+    sqlx::query("INSERT INTO employees (id,org_id,company,name,source_filename,source_sheet,source_row,source_key,raw_row,source_metadata) VALUES ($1,$2,'Foreign','Foreign worker','test.xlsx','test',1,'foreign','{}','{}')")
+        .bind(employee).bind(org).execute(pool).await.unwrap();
+    let user = UserId::new();
+    sqlx::query("INSERT INTO users (id,org_id,display_name,roles,employee_id) VALUES ($1,$2,'Foreign worker',ARRAY['MEMBER'],$3)")
+        .bind(*user.as_uuid()).bind(org).bind(employee).execute(pool).await.unwrap();
+    (org, user, employee)
+}
+
+async fn get_without_effects(
+    pool: &PgPool,
+    service: axum::Router,
+    uri: &str,
+    token: &str,
+) -> JsonResponse {
+    let before = attendance_counts(pool).await;
+    let response = get(service, uri, token).await;
+    assert_eq!(
+        attendance_counts(pool).await,
+        before,
+        "GET {uri} must not write raw facts, references or audits"
+    );
+    response
+}
+
+async fn attendance_counts(pool: &PgPool) -> (i64, i64, i64) {
+    sqlx::query_as("SELECT (SELECT count(*) FROM employee_attendance_records),(SELECT count(*) FROM payroll_attendance_material_refs),(SELECT count(*) FROM audit_events)")
+        .fetch_one(pool).await.unwrap()
+}
+
 struct HistoryFixture {
     worker: UserId,
     employee: Uuid,

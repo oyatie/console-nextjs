@@ -15194,9 +15194,9 @@ paths:
         - storefront
       operationId: storefrontGetListingMedia
       summary: Serve one public sales-listing photo (#6)
-      description: Public, unauthenticated serve of one listing photo's bytes, streamed from the object store. The media must
-        belong to the listing and the listing must be storefront-visible (published/reserved); otherwise 404. The response
-        body is the raw image with its stored content type.
+      description: Public, unauthenticated serve of one listing photo's bytes, streamed from the object store with a 25 MiB
+        response cap. The media must belong to a published or reserved listing and have a supported raster type; otherwise
+        404. The response is not cached, so a later withdrawal is checked on the next request.
       parameters:
       - name: id
         in: path
@@ -15211,6 +15211,15 @@ paths:
       responses:
         '200':
           description: The listing photo bytes.
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum: [no-store]
+            X-Content-Type-Options:
+              schema:
+                type: string
+                enum: [nosniff]
           content:
             image/*:
               schema:
@@ -15218,6 +15227,8 @@ paths:
                 format: binary
         '404':
           $ref: '#/components/responses/NotFound'
+        '503':
+          description: Media storage is unavailable.
   /api/v1/support/intake:
     post:
       tags:
@@ -22759,6 +22770,7 @@ components:
         updated_at:
           $ref: '#/components/schemas/Timestamp'
     EmployeeAttendanceRecord:
+      description: Raw work fact. LINKED denotes a matching payroll-material association only, not approval, calculation readiness, posting or payment. UNLINKED means no matching usable reference in this authorized snapshot.
       type: object
       required:
       - id
@@ -22796,11 +22808,14 @@ components:
           type: string
           nullable: true
         payroll_material_ref_id:
-          $ref: '#/components/schemas/Uuid'
+          anyOf:
+          - $ref: '#/components/schemas/Uuid'
+          - type: 'null'
         payroll_link_status:
           type: string
           enum:
           - LINKED
+          - UNLINKED
         duplicate:
           type: boolean
     EmployeeAttendanceRecordPage:

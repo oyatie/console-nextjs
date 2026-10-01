@@ -53,11 +53,11 @@
         "mode": 420
       },
       "after": {
-        "sha256": "abf60b986fd751638d2eaa3ba65c86f4de60b192c2604a7a3a32fbc8e4c5109c",
-        "bytes": 470574,
+        "sha256": "4dcf4c3b910804f38494f4717190ef49a2462406ba2b9b4bea8f0adec944f374",
+        "bytes": 471071,
         "mode": 420
       },
-      "reason": "Preserve attendance source coordinates and reject ambiguous headers before persistence; distinguish historical source-coordinate conflicts from duplicate facts, with real session-bound PostgreSQL tests. Fixture remains test-only."
+      "reason": "Preserve attendance source coordinates and reject ambiguous headers before persistence; distinguish historical source-coordinate conflicts from duplicate facts, with real session-bound PostgreSQL tests. Fixture remains test-only. Preserve authorized raw work facts through LEFT matching payroll joins in all three readers, nullable association response and existing repeatable-read owner; retain writes/current authority/period checks."
     },
     {
       "path": "backend/app/src/lib.rs",
@@ -181,11 +181,11 @@
         "mode": 420
       },
       "after": {
-        "sha256": "90b47ca04c3b6d16a5b588a28656894719302d87a3846f5c59709397c6078b9c",
-        "bytes": 29922,
+        "sha256": "6df6bb948d342f2407cda917d6cf334d6b3c7080ccc32a984882b143ca29d987",
+        "bytes": 52717,
         "mode": 420
       },
-      "reason": "Test retained own attendance history across exit/UNKNOWN/site closure and current Account/link/session revocation; preserve inherited assertions, actual console_rt RLS and unchanged mutation controls. Use real family-bound test sessions and owner-valid branch/material fixtures; no runtime business seeds."
+      "reason": "Test retained own attendance history across exit/UNKNOWN/site closure and current Account/link/session revocation; preserve inherited assertions, actual console_rt RLS and unchanged mutation controls. Use real family-bound test sessions and owner-valid branch/material fixtures; no runtime business seeds. Prove raw attendance missing/malformed payroll linkage, exact scoped pages, real-family authority and write-free closed-period replay before the owner repair. Assert each history GET has no raw/ref/audit effects at its own boundary; independently verify the genuine fresh-session audit."
     },
     {
       "path": "backend/app/tests/hr_ingest_checklist_gate.rs",
@@ -1947,11 +1947,11 @@
         "mode": 420
       },
       "after": {
-        "sha256": "07752ee4156d034fb320e082526b08a762a644c8aa037e2d4aa1ccba4deec2c2",
-        "bytes": 1215224,
+        "sha256": "4c3c42d8e22da32c734efe038008dcb54fb1a219d167bda3a78eb4aa50b51f58",
+        "bytes": 1215864,
         "mode": 420
       },
-      "reason": "Describe stable outbound operation IDs, conflict and truthful UNKNOWN response; synchronize the mail HTTP contract. Publish the inquiry 409 in the served OpenAPI document without unrelated generated-media drift."
+      "reason": "Describe stable outbound operation IDs, conflict and truthful UNKNOWN response; synchronize the mail HTTP contract. Publish the inquiry 409 in the served OpenAPI document without unrelated generated-media drift. Regenerate exact canonical composition including reviewed attendance contract and inherited storefront-media projection drift; no storefront owner/fragment change."
     },
     {
       "path": "backend/openapi/shared/schemas/ErrorBody.yaml",
@@ -2064,6 +2064,34 @@
         "mode": 420
       },
       "reason": "Regress the porcelain leading-space path truncation in the lane checker."
+    },
+    {
+      "path": "backend/app/tests/hr_attendance_manager_scope.rs",
+      "before": {
+        "sha256": "84e3c522345645f1268ace86b1a726a3a1a91569ac15233765f2a2ad3e993b78",
+        "bytes": 14894,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "410c328def6d4ccd33b2b2362ac13111276a35f4aabf878d3b1de8ce192c969b",
+        "bytes": 24622,
+        "mode": 420
+      },
+      "reason": "Test-first attendance raw fact/link contract with real router/runtime role, safe scoped pagination, closed-period replay, actual ref/audit evidence and served3.1 schema."
+    },
+    {
+      "path": "backend/crates/orgchange/rest/openapi/schemas/EmployeeAttendanceRecord.yaml",
+      "before": {
+        "sha256": "cc0b240afa289175835dabdb635a00d9661e3d26b7d5ba26313cb811a0d1c7bc",
+        "bytes": 807,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "c8b2befa9cf6a95fd82d1afdccdae39484f2c57c037c1258e35c5f34a42d5d63",
+        "bytes": 1073,
+        "mode": 420
+      },
+      "reason": "Document the required UUID/null association and LINKED/UNLINKED3.1 contract, with no payroll-success claim."
     }
   ],
   "notes": [
