@@ -1,6 +1,8 @@
 #![allow(clippy::unwrap_used, clippy::expect_used, clippy::panic)]
 //! HTTP-level proofs over the real `console-payroll-rest` router, driven on a
-//! genuine non-owner `console_rt` pool (RLS actually enforced).
+//! owner-authenticated connections switched to non-owner `console_rt` (RLS
+//! enforced), with real family-bound ES256 sessions. This is not browser,
+//! passkey-ceremony or two-site durability proof.
 //!
 //! Proves:
 //!  * `GET /api/v1/payroll/payslips/me` is draft READINESS, not issued
@@ -44,7 +46,9 @@ use console_payroll_adapter_postgres::pay_run::{PayRunCommand, PayRunQuery, PgPa
 use console_payroll_rest::{PAYROLL_MY_PAYSLIPS_PATH, PAYROLL_RUNS_PATH, PayrollRestState, router};
 use console_platform_auth::{AccessTokenInput, JwtIssuer, JwtSettings, JwtVerifier};
 use console_platform_db::{DbError, with_audit};
-use console_platform_test_support::{runtime_role_pool, seed_org_and_super_admin};
+use console_platform_test_support::{
+    issue_session_token, runtime_role_pool, seed_org_and_super_admin,
+};
 use http::{Request, StatusCode, header};
 use p256::ecdsa::SigningKey;
 use p256::elliptic_curve::rand_core::OsRng;
@@ -84,7 +88,7 @@ fn keys() -> Keys {
     }
 }
 
-fn bearer(keys: &Keys, user_id: UserId, org: OrgId, role: &str) -> String {
+async fn bearer(pool: &PgPool, keys: &Keys, user_id: UserId, org: OrgId, role: &str) -> String {
     let issuer = JwtIssuer::from_es256_pem(
         JwtSettings {
             issuer: TEST_ISSUER.to_owned(),
@@ -95,8 +99,10 @@ fn bearer(keys: &Keys, user_id: UserId, org: OrgId, role: &str) -> String {
         keys.public_pem.as_bytes(),
     )
     .unwrap();
-    issuer
-        .issue_access_token(AccessTokenInput {
+    issue_session_token(
+        pool,
+        &issuer,
+        AccessTokenInput {
             subject: user_id,
             org_id: org,
             roles: vec![role.to_owned()],
@@ -110,8 +116,11 @@ fn bearer(keys: &Keys, user_id: UserId, org: OrgId, role: &str) -> String {
             authz_policy_version: 0,
             session_generation: 0,
             issued_at: OffsetDateTime::now_utc(),
-        })
-        .unwrap()
+        },
+        None,
+        Vec::new(),
+    )
+    .await
 }
 
 fn app(pool: PgPool, keys: &Keys) -> axum::Router {
@@ -533,9 +542,10 @@ async fn payslips_me_is_self_scoped_never_a_coworkers(pool: PgPool) {
     let admin_no_link = UserId::new();
     seed_user(&pool, admin_no_link, *org.as_uuid(), "ADMIN").await;
 
-    let service = app(runtime_role_pool(&pool).await, &keys);
-    let alice_token = bearer(&keys, alice_user, org, "MEMBER");
-    let bob_token = bearer(&keys, bob_user, org, "MEMBER");
+    let rt = runtime_role_pool(&pool).await;
+    let service = app(rt.clone(), &keys);
+    let alice_token = bearer(&rt, &keys, alice_user, org, "MEMBER").await;
+    let bob_token = bearer(&rt, &keys, bob_user, org, "MEMBER").await;
 
     let anon = get_unauthenticated(service.clone(), PAYROLL_MY_PAYSLIPS_PATH).await;
     assert_eq!(anon, StatusCode::UNAUTHORIZED);
@@ -588,7 +598,7 @@ async fn payslips_me_is_self_scoped_never_a_coworkers(pool: PgPool) {
     let admin_read = get(
         service,
         PAYROLL_MY_PAYSLIPS_PATH,
-        &bearer(&keys, admin_no_link, org, "ADMIN"),
+        &bearer(&rt, &keys, admin_no_link, org, "ADMIN").await,
     )
     .await;
     assert_eq!(
@@ -628,12 +638,13 @@ async fn runs_admin_read_is_executive_and_super_admin_only(pool: PgPool) {
     let admin = UserId::new();
     seed_user(&pool, admin, *org.as_uuid(), "ADMIN").await;
 
-    let service = app(runtime_role_pool(&pool).await, &keys);
+    let rt = runtime_role_pool(&pool).await;
+    let service = app(rt.clone(), &keys);
 
     let member_read = get(
         service.clone(),
         PAYROLL_RUNS_PATH,
-        &bearer(&keys, member, org, "MEMBER"),
+        &bearer(&rt, &keys, member, org, "MEMBER").await,
     )
     .await;
     assert_eq!(member_read.status, StatusCode::FORBIDDEN);
@@ -644,7 +655,7 @@ async fn runs_admin_read_is_executive_and_super_admin_only(pool: PgPool) {
     let admin_read = get(
         service.clone(),
         PAYROLL_RUNS_PATH,
-        &bearer(&keys, admin, org, "ADMIN"),
+        &bearer(&rt, &keys, admin, org, "ADMIN").await,
     )
     .await;
     assert_eq!(admin_read.status, StatusCode::FORBIDDEN);
@@ -652,7 +663,7 @@ async fn runs_admin_read_is_executive_and_super_admin_only(pool: PgPool) {
     let super_admin_read = get(
         service,
         PAYROLL_RUNS_PATH,
-        &bearer(&keys, super_admin, org, "SUPER_ADMIN"),
+        &bearer(&rt, &keys, super_admin, org, "SUPER_ADMIN").await,
     )
     .await;
     assert_eq!(
@@ -678,11 +689,12 @@ async fn runs_are_org_isolated_over_http(pool: PgPool) {
     seed_user(&pool, other_actor, other_org, "SUPER_ADMIN").await;
     seed_run(&pool, other_org, other_actor).await;
 
-    let service = app(runtime_role_pool(&pool).await, &keys);
+    let rt = runtime_role_pool(&pool).await;
+    let service = app(rt.clone(), &keys);
     let read = get(
         service,
         PAYROLL_RUNS_PATH,
-        &bearer(&keys, super_admin, org, "SUPER_ADMIN"),
+        &bearer(&rt, &keys, super_admin, org, "SUPER_ADMIN").await,
     )
     .await;
     assert_eq!(read.status, StatusCode::OK, "{:?}", read.json);
@@ -698,8 +710,9 @@ async fn runs_are_org_isolated_over_http(pool: PgPool) {
 async fn empty_tenant_runs_list_sits_on_canonical_org_tree(owner_pool: PgPool) {
     let tree = provision_empty_tenant_appointed_run(&owner_pool).await;
     let keys = keys();
-    let service = app(runtime_role_pool(&owner_pool).await, &keys);
-    let token = bearer(&keys, tree.actor, tree.org, "SUPER_ADMIN");
+    let rt = runtime_role_pool(&owner_pool).await;
+    let service = app(rt.clone(), &keys);
+    let token = bearer(&rt, &keys, tree.actor, tree.org, "SUPER_ADMIN").await;
 
     let listed = get(service.clone(), PAYROLL_RUNS_PATH, &token).await;
     assert_eq!(listed.status, StatusCode::OK, "{:?}", listed.json);
