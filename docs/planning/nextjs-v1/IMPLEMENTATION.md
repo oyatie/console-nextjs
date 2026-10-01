@@ -682,3 +682,28 @@ Fresh canonical staging commands and workflow restages could overwrite reviewed 
 The independently approved test-first commit executed 32 tests with 21 passes and 11 intended failures; fanout admission reran the same behavioral probe. The unchanged probe now passes **32/32**, no skips/filters. Both real close/refresh lock orders, exact source/review/calculation preservation, canonical receipt replay, missing/foreign/period/unknown/error refusals and single acknowledgment/audit recovery execute successfully. Two independent source reviews approve the bounded repair. [Evidence](payroll-roster-restage-evidence.json) binds commands, hashes, failures and rollback limits. Strict checks and final independent review of the final CI candidate remain required before merge-queue admission.
 
 This is native owner integrity proof, not authenticated Next UI, legal payroll, natural-person approval, full-population publication, payment, compatible persisted cross-build rollback or two-site proof. B06/P07 and full HR/Org/Payroll/Foundry release acceptance remain unverified.
+
+## Payroll supplied-source validation — 2026-10-01
+
+The calculation owner's selector now distinguishes ancillary source objects
+from malformed declared payroll evidence. Invalid required fields, non-object
+canonical rows and supplied non-integer pension bases block the line with
+`SOURCE_AMOUNTS_INVALID`; absent/null optional pension, valid duplicates and
+valid conflict handling retain their existing behavior. No malformed source is
+silently omitted beside a valid row, and invalid input takes precedence over
+conflicting valid rows in every order.
+
+Four revision-bound design reviews and two exact test reviews approved the
+bounded repair. The unchanged PostgreSQL 18 probe reproduced **40 passed / 4
+intended failures**, then **44/44 passed**, with zero ignored or filtered tests.
+The real `console_rt` owner proves two valid and three blocked lines, exact
+stored amounts, no invalid calculation, unchanged immutable source rows and
+draft-only `payable=false`. The protected CI producer now includes the unit
+target. [The evidence record](payroll-source-validation-evidence.json) identifies
+exact source/test commits, commands, hashes, counts and proof limits.
+
+This is calculation-owner proof. Submission still lacks complete calculation
+coverage, and issuance lacks complete roster coverage; both need a coordinated
+follow-up. Source identity/period/provenance, authenticated Next business UI,
+effective Employment, natural-person approval, legal payroll, payment,
+cross-build rollback and two-site release proof remain unverified.

@@ -29,5 +29,18 @@
   ],
   "initial_design_sha256": "cd811bde663bf53030e68e1e7ae8f9f85964993298ec7d7574298e8709377adb",
   "initial_revision": "Submission-negative assertion contradicted existing unchanged gate; removed and retained as explicit open coverage gap.",
-  "scope": "Payroll source selection/calculation only; no serving, legal, submission coverage or release approval."
+  "scope": "Payroll source selection/calculation only; no serving, legal, submission coverage or release approval.",
+  "approved_tests_commit": "b62a9384918011bb98022365246e11497e125138",
+  "test_reviews": [
+    {
+      "reviewer": "/root/payroll_path_adversary",
+      "verdict": "APPROVE",
+      "artifact_sha256": "afc0590f8e540b23615c1297daa3d9e3dd261ef5e90667a7019e4cec099755bf"
+    },
+    {
+      "reviewer": "/root/live_owner_trace",
+      "verdict": "APPROVE",
+      "artifact_sha256": "ae6f3a9e74707bf566552bc02bddee08685d55cfab1c4ba46ab8350dc0e1f637"
+    }
+  ]
 }
