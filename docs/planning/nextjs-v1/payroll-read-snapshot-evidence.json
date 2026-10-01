@@ -5,7 +5,7 @@
   "approved_tests_head": "cdc6a0ec0c85f1c5ca45da68b894b01282987611",
   "implementation_head": "beab86e1840e368f04ddfaf06fd687928a16d538",
   "design": {
-    "path": ".worktrees/payroll-read-snapshot/docs/planning/nextjs-v1/payroll-read-snapshot.md",
+    "path": "docs/planning/nextjs-v1/payroll-read-snapshot.md",
     "sha256": "793c3c9116e2278db7e4928b65892b8e2bedb26a99fd6a1c29f916e7b13a00be"
   },
   "baseline": {
