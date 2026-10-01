@@ -545,7 +545,8 @@ async fn raw_history_pages_preserve_missing_and_invalid_material_links(pool: PgP
             .unwrap();
         let mut actual = Vec::new();
         for offset in [0, 2, 4, 6] {
-            let page = get(
+            let page = get_without_effects(
+                &pool,
                 service.clone(),
                 &format!("{ME_PATH}?limit=2&offset={offset}"),
                 &token,
@@ -586,7 +587,7 @@ async fn raw_history_pages_preserve_missing_and_invalid_material_links(pool: PgP
         .execute(&pool)
         .await
         .unwrap();
-    let unlinked = get(service.clone(), ME_PATH, &token).await;
+    let unlinked = get_without_effects(&pool, service.clone(), ME_PATH, &token).await;
     assert_eq!(unlinked.status, StatusCode::OK);
     assert_eq!(unlinked.json["total"], 0);
     assert_eq!(unlinked.json["items"], json!([]));
@@ -599,20 +600,45 @@ async fn raw_history_pages_preserve_missing_and_invalid_material_links(pool: PgP
     sqlx::query("UPDATE auth_refresh_token_families SET revoked_at=now() WHERE user_id=$1 AND revoked_at IS NULL")
         .bind(*worker.as_uuid()).execute(&pool).await.unwrap();
     assert_eq!(
-        get(service.clone(), ME_PATH, &token).await.status,
+        get_without_effects(&pool, service.clone(), ME_PATH, &token)
+            .await
+            .status,
         StatusCode::UNAUTHORIZED
     );
+    let before_fresh_session = attendance_counts(&pool).await;
     let fresh = bearer(&pool, &keys, worker, "MEMBER").await;
+    let after_fresh_session = attendance_counts(&pool).await;
+    assert_eq!(
+        after_fresh_session,
+        (
+            before_fresh_session.0,
+            before_fresh_session.1,
+            before_fresh_session.2 + 1
+        )
+    );
+    let session_audits: Vec<(String, String, Uuid)> = sqlx::query_as("SELECT a.action,a.target_type,a.actor FROM audit_events a JOIN auth_refresh_token_families f ON a.target_id=f.id::text AND a.org_id=f.org_id WHERE f.org_id=$1 AND f.user_id=$2 AND f.revoked_at IS NULL")
+        .bind(org).bind(*worker.as_uuid()).fetch_all(&pool).await.unwrap();
+    assert_eq!(
+        session_audits,
+        vec![(
+            "auth.refresh.issue".into(),
+            "auth_refresh_token_family".into(),
+            *worker.as_uuid()
+        )]
+    );
     sqlx::query("UPDATE users SET is_active=false WHERE id=$1")
         .bind(*worker.as_uuid())
         .execute(&pool)
         .await
         .unwrap();
     assert_eq!(
-        get(service, ME_PATH, &fresh).await.status,
+        get_without_effects(&pool, service, ME_PATH, &fresh)
+            .await
+            .status,
         StatusCode::UNAUTHORIZED
     );
-    assert_eq!(attendance_counts(&pool).await, before);
+    let after = attendance_counts(&pool).await;
+    assert_eq!((after.0, after.1), (before.0, before.1));
 }
 
 #[sqlx::test(migrations = "../crates/platform/db/migrations")]
@@ -994,6 +1020,22 @@ async fn seed_foreign_employee(pool: &PgPool) -> (Uuid, UserId, Uuid) {
     sqlx::query("INSERT INTO users (id,org_id,display_name,roles,employee_id) VALUES ($1,$2,'Foreign worker',ARRAY['MEMBER'],$3)")
         .bind(*user.as_uuid()).bind(org).bind(employee).execute(pool).await.unwrap();
     (org, user, employee)
+}
+
+async fn get_without_effects(
+    pool: &PgPool,
+    service: axum::Router,
+    uri: &str,
+    token: &str,
+) -> JsonResponse {
+    let before = attendance_counts(pool).await;
+    let response = get(service, uri, token).await;
+    assert_eq!(
+        attendance_counts(pool).await,
+        before,
+        "GET {uri} must not write raw facts, references or audits"
+    );
+    response
 }
 
 async fn attendance_counts(pool: &PgPool) -> (i64, i64, i64) {
