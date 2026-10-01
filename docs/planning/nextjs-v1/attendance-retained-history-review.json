@@ -1,0 +1,199 @@
+{
+  "version": 1,
+  "design_path": "docs/planning/nextjs-v1/attendance-retained-history-design.md",
+  "approved_design_sha256": "3d4735f29c909c4de162c3f92d5171ba709b7a5686eb580166b1adf0a8142fa9",
+  "base": "a9a5dd86c6f40be2c2d694d76a381db7733fdc77",
+  "owner": "root; sole repository writer",
+  "status": "native_GREEN_code_approved_final_gates_pending",
+  "rounds": [
+    {
+      "round": 1,
+      "sha256": "933d434f47f59c1dd92ff82bf07adfd09a6fc2db23889a20dae1044af2a0b599",
+      "reviews": [
+        {
+          "reviewer": "/root/employment_consumer_trace",
+          "verdict": "ACCEPT"
+        },
+        {
+          "reviewer": "/root/source_fidelity_adversary",
+          "verdict": "REVISE",
+          "finding": "Qualify exited-worker write safety: exception resolution is permission-based; HR self-punch has separate unresolved eligibility.",
+          "disposition": "H2 explicitly retains wider exit-write eligibility HOLD and limits tests to unchanged refusals; adds authorized active-subject ACK control."
+        }
+      ]
+    },
+    {
+      "round": 2,
+      "sha256": "3d4735f29c909c4de162c3f92d5171ba709b7a5686eb580166b1adf0a8142fa9",
+      "reviews": [
+        {
+          "reviewer": "/root/source_fidelity_adversary",
+          "verdict": "ACCEPT"
+        },
+        {
+          "reviewer": "/root/employment_consumer_trace",
+          "verdict": "ACCEPT"
+        }
+      ]
+    },
+    {
+      "round": 3,
+      "sha256": "3d4735f29c909c4de162c3f92d5171ba709b7a5686eb580166b1adf0a8142fa9",
+      "reviews": [
+        {
+          "reviewer": "/root/employment_consumer_trace",
+          "verdict": "ACCEPT",
+          "scope": "Independent alternate-case challenge: UNKNOWN, unlink/relink, foreign user/Company, revocation, site closure, malformed timelines, mutation reachability."
+        }
+      ]
+    },
+    {
+      "round": 4,
+      "sha256": "3d4735f29c909c4de162c3f92d5171ba709b7a5686eb580166b1adf0a8142fa9",
+      "reviews": [
+        {
+          "reviewer": "/root/source_fidelity_adversary",
+          "verdict": "ACCEPT",
+          "scope": "Independent scope, architecture, isolation, fixture validity and compatible rollback challenge."
+        }
+      ]
+    }
+  ],
+  "limits": [
+    "All9focusedtests passed; full B01/B04/HR/Org/Payroll/Foundry acceptance remains incomplete.",
+    "StrictClippy, exact final-headCI and independent finalcandidate verdict are pending; protectedqueue admission follows those gates.",
+    "Real passkey/browser workflows, broader current/exit-write eligibility and temporal Employment/provenance serving remain HOLD.",
+    "Current-link/revocation races at emission, full historical Person relationships, inherited full-own-timeline cost, two-site confirmation and persisted cross-build rollback remain unproved.",
+    "Separate HR raw read count omits the material-ref join used by items; absent-ref count/item inconsistency is outside this repair. Fixtures include actual per-event refs, not proof of missing-ref behavior.",
+    "No production deployment, institutional act, payment or legal certification is authorized by this source patch."
+  ],
+  "review_evidence": "Observed independent current-session messages, exact H2 file rehash; no historical approval inferred.",
+  "test_source": {
+    "paths_and_sha256": {
+      "backend-fork/backend/crates/attendance/adapter-postgres/tests/self_service.rs": "6f633644f9d4117fbdbdfcb72782efc5136baaf681d38ab4be7d783f810f63df",
+      "backend-fork/backend/app/tests/hr_attendance_self_read.rs": "90b47ca04c3b6d16a5b588a28656894719302d87a3846f5c59709397c6078b9c"
+    },
+    "reviews": [
+      {
+        "reviewer": "/root/employment_consumer_trace",
+        "verdict": "ACCEPT"
+      },
+      {
+        "reviewer": "/root/source_fidelity_adversary",
+        "verdict": "ACCEPT"
+      }
+    ],
+    "rejected_source": {
+      "app_sha256": "b373ae80938b668e34c9cfae300d8c15f13cd52955178dc0a50d5874fe69e8cc",
+      "findings": [
+        "Fixture attempted forbidden OPEN-to-OPEN exception branch update.",
+        "Fixture queried resolution columns on the wrong table."
+      ],
+      "disposition": "Insert branch initially; read real resolution LEFT JOIN and assert zero resolution rows. Production untouched; original assertions retained."
+    },
+    "expected_discovery": {
+      "adapter": 3,
+      "HTTP": 6,
+      "inherited": 4
+    },
+    "expected_behavioral_RED": 3,
+    "limits": "Source review only. Later UNKNOWN/site assertions remain unreached when EXITED equality fails on RED.",
+    "approved_test_commit": "2b739d8fc7f30576890882c91dad3bed6f3a27c5"
+  },
+  "implementation_admission": {
+    "source_base": "2b739d8fc7f30576890882c91dad3bed6f3a27c5",
+    "command": [
+      "python3",
+      "backend-fork/tools/lanes/fanout.py",
+      "admit",
+      "--spec",
+      "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/attendance-retained-history/lane-spec.json"
+    ],
+    "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/employment-eligibility",
+    "report_sha256": "fae92c0ad13cedb420284c5699a49495383287aab3a1a52ba9c5c17efbae2373",
+    "reviewer": "/root/source_fidelity_adversary",
+    "verdict": "ACCEPT",
+    "counts": {
+      "discovered": 9,
+      "executed": 9,
+      "passed": 6,
+      "failed": 3,
+      "ignored": 0,
+      "filtered": 0
+    },
+    "receipt_sha256": "b3125739829517c3a291b90c08016b6edddd43f0b0f241afc45d849d1c4ec1b2",
+    "runner_sha256": "44da2b294b114761270fd41093bcd5bd08ad269b08fd0a4c42d19db4565dab87",
+    "incomplete_run": {
+      "report_sha256": "464c3f90197d02af4dc0622a42b22328e26814d1578bbb07de18bd780dd76039",
+      "verdict": "REJECT",
+      "reason": "HTTP discovery compilation900s timeout;0HTTPtests. Only timeout allowance changed900->3600; all tests/checks preserved.",
+      "reviewer": "/root/source_fidelity_adversary"
+    },
+    "limits": "UNKNOWN/site and later privacy/filter assertions behind first failed equality were unreached on RED; full GREEN required. No source/schema/API/write owner change beyond private selector."
+  },
+  "implementation_head": "95b75f3f602a32ec6a16da64fe41e2d5582680f6",
+  "native_GREEN": {
+    "report": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/attendance-retained-history/run-20260930T233538.765403Z/report.json",
+    "sha256": "8c959a69a30ae5e38a5961b175ce0d5af27109d4167f7778ea85e75d296db689",
+    "command": [
+      "python3",
+      "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/attendance-retained-history/probe.py"
+    ],
+    "source_head": "95b75f3f602a32ec6a16da64fe41e2d5582680f6",
+    "discovered": 9,
+    "executed": 9,
+    "passed": 9,
+    "failed": 0,
+    "ignored": 0,
+    "filtered": 0,
+    "scope": "Full approved adapter3+HTTP6 targets on disposable PostgreSQL18.6 console_rt; same behavioral probe as admitted RED. Not browser, legal or two-site proof."
+  },
+  "tooling": {
+    "report": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/attendance-retained-history/tooling-20260930T233834.282439Z/report.json",
+    "sha256": "98ff76f8b1a100b7f0a1d3e41a7aa87cea0e3f5c029b855cd19e594d1e4a06d0",
+    "source_head": "95b75f3f602a32ec6a16da64fe41e2d5582680f6",
+    "discovered": 17,
+    "executed": 17,
+    "passed": 17,
+    "skipped": 0,
+    "custody_files": 4068
+  },
+  "code_reviews": [
+    {
+      "reviewer": "/root/source_fidelity_adversary",
+      "verdict": "APPROVE",
+      "head": "95b75f3f602a32ec6a16da64fe41e2d5582680f6",
+      "scope": "Exact implementation/source/admission custody only; finalGREEN/strictchecks/CI and merge verdict separate."
+    },
+    {
+      "reviewer": "/root/employment_consumer_trace",
+      "verdict": "APPROVE",
+      "head": "95b75f3f602a32ec6a16da64fe41e2d5582680f6",
+      "scope": "Exact implementation/source/admission custody only; finalGREEN/strictchecks/CI and merge verdict separate."
+    }
+  ],
+  "audit": {
+    "reviewer": "/root/employment_consumer_trace",
+    "head": "95b75f3f602a32ec6a16da64fe41e2d5582680f6",
+    "verdict": "CODE_APPROVE",
+    "lenses": [
+      "Cartesian doubt",
+      "Essentialism/YAGNI",
+      "Chesterton’s Fence",
+      "Contrarian",
+      "Socratic",
+      "Pragmatism",
+      "Red Team",
+      "Systems Thinking",
+      "Operability/Day-2",
+      "Blast radius",
+      "Constant work",
+      "Shared-nothing/eventual consistency",
+      "FinOps",
+      "Telemetry-first",
+      "Zero trust",
+      "Opportunity cost"
+    ],
+    "conclusion": "Existing two-caller read owner reused; no new service, dependency, schema, API or mutation authority. Active Account, current link, Company join/RLS and exact employee filters preserved; all inherited assertions retained. No required fix found."
+  }
+}
