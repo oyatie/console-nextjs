@@ -38,7 +38,7 @@ use console_payroll_adapter_postgres::PgPayrollStore;
 use console_payroll_adapter_postgres::pay_run::{PayRunCommand, PayRunQuery, PgPayRunPort};
 use console_payroll_rest::{PayrollRestState, router};
 use console_platform_auth::{AccessTokenInput, JwtIssuer, JwtSettings, JwtVerifier};
-use console_platform_test_support::seed_org_and_super_admin;
+use console_platform_test_support::{issue_session_token, seed_org_and_super_admin};
 use http::{Request, StatusCode, header};
 use p256::ecdsa::SigningKey;
 use p256::elliptic_curve::rand_core::OsRng;
@@ -66,8 +66,8 @@ async fn executive_drives_full_lifecycle_with_audit_readback(pool: PgPool) {
 
     let submitter = seed_user(&pool, org, "EXECUTIVE", None).await;
     let decider = seed_user(&pool, org, "EXECUTIVE", None).await;
-    let submitter_token = keys.token(submitter, org, "EXECUTIVE");
-    let decider_token = keys.token(decider, org, "EXECUTIVE");
+    let submitter_token = keys.token(&rt, submitter, org, "EXECUTIVE").await;
+    let decider_token = keys.token(&rt, decider, org, "EXECUTIVE").await;
 
     let employee = seed_employee(&pool, org, "Alice").await;
     let recipient = seed_user(&pool, org, "MEMBER", Some(employee)).await;
@@ -377,7 +377,7 @@ async fn executive_drives_full_lifecycle_with_audit_readback(pool: PgPool) {
         .await
         .unwrap();
     let outsider = seed_user(&pool, org_b, "EXECUTIVE", None).await;
-    let outsider_token = keys.token(outsider, org_b, "EXECUTIVE");
+    let outsider_token = keys.token(&rt, outsider, org_b, "EXECUTIVE").await;
     let (status, omitted) = send(
         &rt,
         &keys,
@@ -585,12 +585,40 @@ async fn lifecycle_writes_deny_without_leakage_and_cross_tenant_is_invisible(poo
     let stager = seed_user(&pool, org_a, "EXECUTIVE", None).await;
     let run = seed_run(&pool, org_a, stager).await;
 
+    // A real signed session stops authenticating when its family is revoked.
+    let revoked_token = keys.token(&rt, stager, org_a, "EXECUTIVE").await;
+    let revoked = sqlx::query(
+        "UPDATE auth_refresh_token_families SET revoked_at=now(), revoked_reason='test_revocation' \
+         WHERE user_id=$1 AND org_id=$2 AND revoked_at IS NULL",
+    )
+    .bind(stager.as_uuid())
+    .bind(org_a.as_uuid())
+    .execute(&pool)
+    .await
+    .unwrap();
+    assert_eq!(revoked.rows_affected(), 1);
+    for target in [run, Uuid::new_v4()] {
+        let request = Request::builder()
+            .method("POST")
+            .uri(format!("/api/v1/payroll/runs/{target}/calculate"))
+            .header(header::AUTHORIZATION, format!("Bearer {revoked_token}"))
+            .body(Body::empty())
+            .unwrap();
+        let response = app(rt.clone(), &keys.public_pem)
+            .oneshot(request)
+            .await
+            .unwrap();
+        assert_eq!(response.status(), StatusCode::UNAUTHORIZED);
+        let bytes = to_bytes(response.into_body(), usize::MAX).await.unwrap();
+        assert_eq!(bytes.as_ref(), b"invalid bearer token");
+    }
+
     // MEMBER and built-in ADMIN (the write tier is EXECUTIVE/SUPER_ADMIN or a
     // custom org-wide PBAC grant): 403, and the same 403 whether or not the
     // run exists — no existence oracle.
     for role in ["MEMBER", "ADMIN"] {
         let user = seed_user(&pool, org_a, role, None).await;
-        let token = keys.token(user, org_a, role);
+        let token = keys.token(&rt, user, org_a, role).await;
         for target in [run, Uuid::new_v4()] {
             let (status, denied) = send(
                 &rt,
@@ -609,7 +637,7 @@ async fn lifecycle_writes_deny_without_leakage_and_cross_tenant_is_invisible(poo
     // An org-B EXECUTIVE: org A's run is indistinguishable from a missing one
     // on both the read and the write path (RLS deny-by-omission).
     let outsider = seed_user(&pool, org_b, "EXECUTIVE", None).await;
-    let outsider_token = keys.token(outsider, org_b, "EXECUTIVE");
+    let outsider_token = keys.token(&rt, outsider, org_b, "EXECUTIVE").await;
     for (method, uri) in [
         ("GET", format!("/api/v1/payroll/runs/{run}")),
         ("GET", format!("/api/v1/payroll/runs/{run}/close-preflight")),
@@ -666,7 +694,7 @@ async fn close_preflight_persists_no_verdict_only_its_read_audit(pool: PgPool) {
     let org = OrgId::knl();
     seed_org(&pool, org).await;
     let executive = seed_user(&pool, org, "EXECUTIVE", None).await;
-    let token = keys.token(executive, org, "EXECUTIVE");
+    let token = keys.token(&rt, executive, org, "EXECUTIVE").await;
     let employee = seed_employee(&pool, org, "Alice").await;
     let run = seed_run(&pool, org, executive).await;
     let import_row = seed_verified_import_row(&pool, org).await;
@@ -848,7 +876,7 @@ async fn close_recomputes_the_preflight_after_the_read_verdict_goes_stale(pool: 
     let org = OrgId::knl();
     seed_org(&pool, org).await;
     let executive = seed_user(&pool, org, "EXECUTIVE", None).await;
-    let token = keys.token(executive, org, "EXECUTIVE");
+    let token = keys.token(&rt, executive, org, "EXECUTIVE").await;
     let employee = seed_employee(&pool, org, "Alice").await;
     let run = seed_run(&pool, org, executive).await;
     let import_row = seed_verified_import_row(&pool, org).await;
@@ -913,7 +941,7 @@ async fn empty_tenant_run_close_preflight_sits_on_canonical_org_tree(owner_pool:
     let keys = Keys::generate();
     let rt = runtime_role_pool(&owner_pool).await;
     let executive = seed_user(&owner_pool, tree.org, "EXECUTIVE", None).await;
-    let token = keys.token(executive, tree.org, "EXECUTIVE");
+    let token = keys.token(&rt, executive, tree.org, "EXECUTIVE").await;
 
     let (status, preflight) = send(
         &rt,
@@ -1081,8 +1109,8 @@ impl Keys {
         }
     }
 
-    fn token(&self, user: UserId, org: OrgId, role: &str) -> String {
-        JwtIssuer::from_es256_pem(
+    async fn token(&self, pool: &PgPool, user: UserId, org: OrgId, role: &str) -> String {
+        let issuer = JwtIssuer::from_es256_pem(
             JwtSettings {
                 issuer: ISSUER.into(),
                 audience: AUDIENCE.into(),
@@ -1091,8 +1119,8 @@ impl Keys {
             self.private_pem.as_bytes(),
             self.public_pem.as_bytes(),
         )
-        .unwrap()
-        .issue_access_token(AccessTokenInput {
+        .unwrap();
+        let input = AccessTokenInput {
             subject: user,
             org_id: org,
             roles: vec![role.to_owned()],
@@ -1106,8 +1134,8 @@ impl Keys {
             authz_policy_version: 0,
             session_generation: 0,
             issued_at: OffsetDateTime::now_utc(),
-        })
-        .unwrap()
+        };
+        issue_session_token(pool, &issuer, input, None, Vec::new()).await
     }
 }
 

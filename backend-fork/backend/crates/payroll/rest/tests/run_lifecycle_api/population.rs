@@ -27,7 +27,7 @@ async fn population(owner: &PgPool, size: usize) -> Population {
     let decider = seed_user(owner, org, "EXECUTIVE", None).await;
     let rt = runtime_role_pool(owner).await;
     let keys = Keys::generate();
-    let token = keys.token(actor, org, "EXECUTIVE");
+    let token = keys.token(&rt, actor, org, "EXECUTIVE").await;
     let run = seed_run(owner, org, actor).await;
     let mut members = Vec::new();
     for index in 0..size {
@@ -301,8 +301,8 @@ async fn approval_rechecks_population_and_exceptions_but_rejection_remains_avail
                 .bind(p.org.as_uuid()).bind(p.run).bind(line).execute(&owner).await.unwrap();
             }
         }
+        let token = p.keys.token(&p.rt, p.decider, p.org, "EXECUTIVE").await;
         let before = content_digest_of_every_table(&owner).await;
-        let token = p.keys.token(p.decider, p.org, "EXECUTIVE");
         let (status, body) = send(
             &p.rt,
             &p.keys,
