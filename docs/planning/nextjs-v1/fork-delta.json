@@ -181,11 +181,11 @@
         "mode": 420
       },
       "after": {
-        "sha256": "cb86a1087d714ccb91d41d2fae879be80f0d15fdb01161d229e27e88fcc398e2",
-        "bytes": 51270,
+        "sha256": "6df6bb948d342f2407cda917d6cf334d6b3c7080ccc32a984882b143ca29d987",
+        "bytes": 52717,
         "mode": 420
       },
-      "reason": "Test retained own attendance history across exit/UNKNOWN/site closure and current Account/link/session revocation; preserve inherited assertions, actual console_rt RLS and unchanged mutation controls. Use real family-bound test sessions and owner-valid branch/material fixtures; no runtime business seeds. Prove raw attendance missing/malformed payroll linkage, exact scoped pages, real-family authority and write-free closed-period replay before the owner repair."
+      "reason": "Test retained own attendance history across exit/UNKNOWN/site closure and current Account/link/session revocation; preserve inherited assertions, actual console_rt RLS and unchanged mutation controls. Use real family-bound test sessions and owner-valid branch/material fixtures; no runtime business seeds. Prove raw attendance missing/malformed payroll linkage, exact scoped pages, real-family authority and write-free closed-period replay before the owner repair. Assert each history GET has no raw/ref/audit effects at its own boundary; independently verify the genuine fresh-session audit."
     },
     {
       "path": "backend/app/tests/hr_ingest_checklist_gate.rs",
