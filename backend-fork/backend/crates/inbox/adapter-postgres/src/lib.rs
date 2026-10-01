@@ -16,11 +16,11 @@ use console_inbox_application::{
     InboxDocDetail, InboxDocFilter, InboxDocPage, InboxDocSink, InboxDocSummary,
     ListInboxDocsQuery, inbox_doc_audit_event,
 };
-use console_inbox_domain::InboxDocKind;
+use console_inbox_domain::{InboxDocKind, NewInboxDoc};
 use console_kernel_core::{ErrorKind, InboxDocId, KernelError, OrgId, UserId};
-use console_platform_db::{DbError, with_audit, with_org_conn};
+use console_platform_db::{DbError, insert_audit_event, with_audit, with_org_conn};
 use console_platform_request_context::current_org;
-use sqlx::{PgPool, Postgres, QueryBuilder, Row};
+use sqlx::{PgPool, Postgres, QueryBuilder, Row, Transaction};
 
 /// The summary column list (no `payload`). `get` appends `, payload` for the
 /// single-document read. Kept as one `&'static str` so sqlx's SQL-injection
@@ -36,9 +36,8 @@ pub enum PgInboxError {
     #[error(transparent)]
     Domain(#[from] KernelError),
 
-    /// Internal sentinel: a `dedup_key` INSERT lost the race to a concurrent
-    /// emit. Never surfaced — `emit_inbox_doc` catches it and returns the
-    /// already-committed row.
+    /// Legacy error variant retained for adapter consumers. Emission now
+    /// validates dedup collisions within the caller's transaction.
     #[error("inbox document dedup conflict")]
     Dedup,
 }
@@ -88,29 +87,91 @@ impl PgInboxStore {
         &self.pool
     }
 
-    /// Deliver a document into a recipient's vault. Validates the domain
-    /// invariants (done by [`NewInboxDoc`](console_inbox_domain::NewInboxDoc)),
-    /// inserts one audited row, and — only for a genuinely new row — returns it.
-    /// A `dedup_key` redelivery is a no-op returning the existing row without
-    /// re-auditing.
+    /// Deliver a validated document. Exact redelivery preserves the document
+    /// and receipt without another audit; changed immutable input conflicts.
     pub async fn emit_inbox_doc(
         &self,
         command: EmitInboxDocCommand,
     ) -> Result<InboxDocSummary, PgInboxError> {
         let org = current_org().map_err(KernelError::from)?;
-        let org_uuid = *org.as_uuid();
+        with_org_conn::<_, _, PgInboxError>(&self.pool, org, move |tx| {
+            Box::pin(Self::emit_inbox_doc_in_tx(tx, org, command))
+        })
+        .await
+    }
+
+    /// Compose delivery and its audit with an existing Company-armed
+    /// transaction. This helper never commits or broadens the RLS context.
+    pub async fn emit_inbox_doc_in_tx(
+        tx: &mut Transaction<'_, Postgres>,
+        org: OrgId,
+        command: EmitInboxDocCommand,
+    ) -> Result<InboxDocSummary, PgInboxError> {
         let recipient_uuid = *command.recipient.as_uuid();
-        let dedup_key = command.dedup_key.clone();
-        let doc = command.doc;
-
-        // Fast path for a redelivered event: return the existing row untouched.
-        if let Some(key) = &dedup_key
-            && let Some(existing) = self.find_by_dedup(org, command.recipient, key).await?
-        {
-            return Ok(existing);
-        }
-
+        let doc = &command.doc;
         let id = InboxDocId::new();
+        let inserted = sqlx::query(
+            r#"
+            INSERT INTO inbox_docs (
+                id, org_id, recipient_user_id, kind, notice_type, title,
+                payload, legal_basis, source_kind, source_id, dedup_key
+            )
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+            ON CONFLICT (org_id, recipient_user_id, dedup_key)
+                WHERE dedup_key IS NOT NULL DO NOTHING
+            RETURNING id, recipient_user_id, kind, notice_type, title, legal_basis,
+                      source_kind, source_id, confirmed_by, confirmed_at, created_at
+            "#,
+        )
+        .bind(id.as_uuid())
+        .bind(org.as_uuid())
+        .bind(recipient_uuid)
+        .bind(doc.kind.as_str())
+        .bind(&doc.notice_type)
+        .bind(&doc.title)
+        .bind(&doc.payload)
+        .bind(&doc.legal_basis)
+        .bind(&doc.source_kind)
+        .bind(&doc.source_id)
+        .bind(&command.dedup_key)
+        .fetch_optional(tx.as_mut())
+        .await?;
+
+        let Some(row) = inserted else {
+            // ON CONFLICT waits for concurrent insertion. The next statement
+            // reads and locks its committed artifact, including its payload.
+            let key = command
+                .dedup_key
+                .as_deref()
+                .ok_or_else(|| KernelError::internal("dedup collision without a dedup key"))?;
+            let row = sqlx::query(
+                "SELECT id, recipient_user_id, kind, notice_type, title, legal_basis, \
+                        source_kind, source_id, confirmed_by, confirmed_at, created_at, payload \
+                 FROM inbox_docs WHERE org_id = $1 AND recipient_user_id = $2 AND dedup_key = $3 \
+                 FOR UPDATE",
+            )
+            .bind(org.as_uuid())
+            .bind(recipient_uuid)
+            .bind(key)
+            .fetch_optional(tx.as_mut())
+            .await?
+            .ok_or_else(|| KernelError::conflict("inbox document dedup conflict"))?;
+            // Read raw fields: the constructor would trim corrupt historical
+            // metadata and could turn a changed artifact into a matching one.
+            let stored = NewInboxDoc {
+                kind: InboxDocKind::parse(row.try_get::<String, _>("kind")?.as_str())?,
+                title: row.try_get("title")?,
+                notice_type: row.try_get("notice_type")?,
+                legal_basis: row.try_get("legal_basis")?,
+                source_kind: row.try_get("source_kind")?,
+                source_id: row.try_get("source_id")?,
+                payload: row.try_get("payload")?,
+            };
+            if stored != *doc {
+                return Err(KernelError::conflict("inbox document dedup conflict").into());
+            }
+            return summary_from_row(&row);
+        };
         let event = inbox_doc_audit_event(
             "inbox_doc.emit",
             command.actor,
@@ -127,88 +188,8 @@ impl PgInboxStore {
                 "recipient_user_id": recipient_uuid,
             })),
         );
-
-        let kind = doc.kind.as_str();
-        let dedup_key_for_insert = dedup_key.clone();
-        let insert =
-            with_audit::<_, Option<InboxDocSummary>, PgInboxError>(&self.pool, event, move |tx| {
-                Box::pin(async move {
-                    let row = sqlx::query(
-                        r#"
-                        INSERT INTO inbox_docs (
-                            id, org_id, recipient_user_id, kind, notice_type, title,
-                            payload, legal_basis, source_kind, source_id, dedup_key
-                        )
-                        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
-                        ON CONFLICT (org_id, recipient_user_id, dedup_key)
-                            WHERE dedup_key IS NOT NULL DO NOTHING
-                        RETURNING id, recipient_user_id, kind, notice_type, title, legal_basis,
-                                  source_kind, source_id, confirmed_by, confirmed_at, created_at
-                        "#,
-                    )
-                    .bind(id.as_uuid())
-                    .bind(org_uuid)
-                    .bind(recipient_uuid)
-                    .bind(kind)
-                    .bind(doc.notice_type)
-                    .bind(doc.title)
-                    .bind(doc.payload)
-                    .bind(doc.legal_basis)
-                    .bind(doc.source_kind)
-                    .bind(doc.source_id)
-                    .bind(dedup_key_for_insert)
-                    .fetch_optional(tx.as_mut())
-                    .await?;
-                    // No row => a concurrent emit already committed this
-                    // dedup_key. Roll back (no audit) via the sentinel.
-                    row.as_ref()
-                        .map(summary_from_row)
-                        .transpose()?
-                        .map_or(Err(PgInboxError::Dedup), |summary| Ok(Some(summary)))
-                })
-            })
-            .await;
-
-        match insert {
-            Ok(Some(summary)) => Ok(summary),
-            Ok(None) => unreachable!("insert closure returns Some or the Dedup sentinel"),
-            Err(PgInboxError::Dedup) => match dedup_key {
-                Some(key) => self
-                    .find_by_dedup(org, command.recipient, &key)
-                    .await?
-                    .ok_or_else(|| {
-                        KernelError::internal("dedup conflict but no existing inbox document")
-                            .into()
-                    }),
-                None => Err(KernelError::internal("dedup sentinel without a dedup_key").into()),
-            },
-            Err(other) => Err(other),
-        }
-    }
-
-    async fn find_by_dedup(
-        &self,
-        org: OrgId,
-        recipient: UserId,
-        dedup_key: &str,
-    ) -> Result<Option<InboxDocSummary>, PgInboxError> {
-        let recipient_uuid = *recipient.as_uuid();
-        let dedup_key = dedup_key.to_owned();
-        let row = with_org_conn::<_, _, PgInboxError>(&self.pool, org, move |tx| {
-            Box::pin(async move {
-                Ok(sqlx::query(
-                    "SELECT id, recipient_user_id, kind, notice_type, title, legal_basis, \
-                     source_kind, source_id, confirmed_by, confirmed_at, created_at \
-                     FROM inbox_docs WHERE recipient_user_id = $1 AND dedup_key = $2",
-                )
-                .bind(recipient_uuid)
-                .bind(dedup_key)
-                .fetch_optional(tx.as_mut())
-                .await?)
-            })
-        })
-        .await?;
-        row.as_ref().map(summary_from_row).transpose()
+        insert_audit_event(tx, &event).await?;
+        summary_from_row(&row)
     }
 
     /// List the caller's documents, newest first, keyset-paginated. Metadata
