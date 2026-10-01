@@ -83,7 +83,7 @@ impl Gate {
             "CREATE FUNCTION payroll_snapshot_gate(row_id uuid) RETURNS boolean \
              LANGUAGE plpgsql VOLATILE PARALLEL UNSAFE AS $gate$ \
              BEGIN IF current_setting('application_name') = '{READER}' \
-             AND btrim(current_query()) {comparison} '{pattern}' THEN \
+             AND btrim(current_query(),chr(32)||chr(10)||chr(13)||chr(9)) {comparison} '{pattern}' THEN \
              PERFORM pg_advisory_xact_lock_shared({LOCK}, CASE current_setting('transaction_isolation') WHEN 'repeatable read' THEN 2 ELSE 1 END); END IF; \
              RETURN row_id IS NOT NULL; END $gate$; \
              CREATE POLICY payroll_snapshot_probe ON {table} AS RESTRICTIVE \
@@ -119,7 +119,7 @@ impl Gate {
                      AND a.wait_event_type='Lock' AND a.wait_event='advisory' \
                      AND $2=ANY(pg_blocking_pids(a.pid)) AND l.locktype='advisory' \
                      AND NOT l.granted AND l.classid=$5::bigint::oid AND l.objsubid=2 \
-                     AND CASE WHEN $4 THEN btrim(a.query)=$3 ELSE starts_with(btrim(a.query),$3) END"
+                     AND CASE WHEN $4 THEN btrim(a.query,chr(32)||chr(10)||chr(13)||chr(9))=$3 ELSE starts_with(btrim(a.query,chr(32)||chr(10)||chr(13)||chr(9)),$3) END"
                 ).bind(READER).bind(self.pid).bind(&self.query).bind(self.exact).bind(LOCK)
                     .fetch_optional(owner).await.unwrap();
                 if let Some((mode, query)) = blocked {
