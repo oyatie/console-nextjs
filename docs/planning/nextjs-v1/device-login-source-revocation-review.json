@@ -1,0 +1,26 @@
+{
+  "scope": "Current recorded approving passkey at device-login poll consumption",
+  "base_head": "62a9c3b8f1b4f95e78583f32138dbc25704e29fb",
+  "sole_writer": "root",
+  "design_path": "docs/planning/nextjs-v1/device-login-source-revocation.md",
+  "design_sha256": "0a349df6f4032c70f545f5ba53411de50798d3a996271ff36119c2da9ad74271",
+  "reviewers": ["session_owner_trace", "next_session_trace", "pr8_delivery_audit"],
+  "rounds": [
+    {
+      "round": 1,
+      "design_sha256": "04250f426fe455ca29795e026f6896aadc6cecb1b41c894b4c2c9dc0227970a5",
+      "verdicts": ["REQUEST_CHANGES", "REQUEST_CHANGES", "APPROVE"],
+      "findings": [
+        {"finding": "Cover both real approval producers", "disposition": "Added signed and session approval requirements"},
+        {"finding": "A retained recorded key must remain valid after a newer key is added", "disposition": "Added positive preservation for both producers"}
+      ]
+    },
+    {"round": 2, "verdicts": ["APPROVE", "APPROVE", "APPROVE"], "findings": []},
+    {"round": 3, "verdicts": ["APPROVE", "APPROVE", "APPROVE"], "findings": []},
+    {"round": 4, "verdicts": ["APPROVE", "APPROVE", "APPROVE"], "findings": []}
+  ],
+  "approval": "Revision-bound design only; rounds 2 through 4 bind the current design SHA",
+  "runtime_red": "unreached",
+  "implementation": "unreached",
+  "holds": ["Native authentication purpose/provenance", "Operation and lost-response custody", "Two-site confirmation and writer/egress fencing", "Next business sessions and production exposure", "Full HR/Org/Payroll/Foundry acceptance"]
+}
