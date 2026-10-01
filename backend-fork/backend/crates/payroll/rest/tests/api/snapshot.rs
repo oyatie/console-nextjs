@@ -78,6 +78,7 @@ impl Gate {
         } else {
             format!("{query}%")
         };
+        let pattern = pattern.replace("'", "''");
         sqlx::raw_sql(sqlx::AssertSqlSafe(format!(
             "CREATE FUNCTION payroll_snapshot_gate(row_id uuid) RETURNS boolean \
              LANGUAGE plpgsql VOLATILE PARALLEL UNSAFE AS $gate$ \
