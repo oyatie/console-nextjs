@@ -2984,3 +2984,66 @@ async fn section_60_5_exited_peers_do_not_inflate_coverage_headcount(owner_pool:
         "projected_available must be ACTIVE shortfall, not inflated by EXITED"
     );
 }
+
+#[sqlx::test(migrations = "../../platform/db/migrations")]
+async fn promotion_retry_reuses_an_orphan_notice_but_refuses_changed_immutable_notice(
+    owner: PgPool,
+) {
+    let rt = runtime_role_pool(&owner).await;
+    let command_pool = leave_command_role_pool(&owner).await;
+    let org = OrgId::knl();
+    let branch = seed_branch(&owner, *org.as_uuid()).await;
+    let actor = seed_user(&owner, *org.as_uuid()).await;
+    let target = seed_user(&owner, *org.as_uuid()).await;
+    let employee = seed_employee(&owner, *org.as_uuid(), 15.5, 2.0, 13.5).await;
+    link_user_to_employee_and_branch(&owner, *org.as_uuid(), target, employee, branch).await;
+    let store = test_store(&rt, &command_pool);
+    let push = |name: &str| {
+        let name = name.to_owned();
+        let store = store.clone();
+        async move {
+            console_platform_request_context::scope_org(org, async move {
+                store
+                    .statutory_push(StatutoryPushCommand {
+                        actor,
+                        branch_id: branch,
+                        target_user_id: target,
+                        target_employee_id: employee,
+                        target_name: name,
+                        kind: PromotionKind::Promotion,
+                        round: 1,
+                        track: PromotionTrack::Annual,
+                        leave_period_end: date!(2026 - 12 - 31),
+                        designated_dates: vec![],
+                        trace: TraceContext::generate(),
+                        occurred_at: datetime!(2026-07-01 10:00:00 +9),
+                    })
+                    .await
+            })
+            .await
+        }
+    };
+    // Fail the real second transaction after Inbox has already committed.
+    sqlx::raw_sql("CREATE FUNCTION test_fail_promotion() RETURNS trigger LANGUAGE plpgsql AS $$ BEGIN RAISE EXCEPTION 'test promotion insert failure'; END $$; CREATE TRIGGER test_fail_promotion BEFORE INSERT ON leave_promotions FOR EACH ROW EXECUTE FUNCTION test_fail_promotion();")
+        .execute(&owner).await.unwrap();
+    assert!(push("홍길동").await.is_err());
+    let orphan: Uuid = sqlx::query_scalar(
+        "SELECT id FROM inbox_docs WHERE recipient_user_id=$1 AND source_kind='leave_promotion'",
+    )
+    .bind(target.as_uuid())
+    .fetch_one(&owner)
+    .await
+    .unwrap();
+    let original = notice_payload(&owner, orphan).await;
+    let counts:(i64,i64)=sqlx::query_as("SELECT (SELECT COUNT(*) FROM leave_promotions),(SELECT COUNT(*) FROM audit_events WHERE action='inbox_doc.emit')").fetch_one(&owner).await.unwrap();
+    assert_eq!(counts, (0, 1));
+    sqlx::raw_sql("DROP TRIGGER test_fail_promotion ON leave_promotions; DROP FUNCTION test_fail_promotion();").execute(&owner).await.unwrap();
+    // No promotion row exists, so this calls InboxDocSink rather than short-circuiting.
+    let conflict = push("다른 이름").await.unwrap_err();
+    assert_eq!(conflict.kind(), ErrorKind::Conflict);
+    assert_eq!(notice_payload(&owner, orphan).await, original);
+    let retried = push("홍길동").await.unwrap();
+    assert_eq!(retried.inbox_doc_id, orphan);
+    let counts:(i64,i64,i64)=sqlx::query_as("SELECT (SELECT COUNT(*) FROM inbox_docs WHERE source_kind='leave_promotion'),(SELECT COUNT(*) FROM audit_events WHERE action='inbox_doc.emit'),(SELECT COUNT(*) FROM leave_promotions)").fetch_one(&owner).await.unwrap();
+    assert_eq!(counts, (1, 1, 1));
+}

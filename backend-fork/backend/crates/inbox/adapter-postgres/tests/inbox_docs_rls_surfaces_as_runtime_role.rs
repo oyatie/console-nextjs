@@ -401,3 +401,154 @@ async fn filters_and_dedup_idempotency(owner_pool: PgPool) {
         .unwrap();
     assert_eq!(row_count, 1, "dedup_key never doubles a delivery");
 }
+
+#[sqlx::test(migrations = "../../platform/db/migrations")]
+async fn dedup_redelivery_requires_every_immutable_field_and_preserves_the_receipt(owner: PgPool) {
+    let org = OrgId::knl();
+    let recipient = seed_user(&owner, *org.as_uuid(), "Recipient").await;
+    let rt = runtime_role_pool(&owner).await;
+    let store = PgInboxStore::new(rt);
+    let first = console_platform_request_context::scope_org(org, async {
+        store
+            .emit_inbox_doc(legal_notice_to(recipient, Some("exact-artifact")))
+            .await
+    })
+    .await
+    .unwrap();
+    console_platform_request_context::scope_org(org, async {
+        store.confirm_receipt(confirm(recipient, first.id)).await
+    })
+    .await
+    .unwrap();
+    let rows = "SELECT to_jsonb(d)::text FROM inbox_docs d ORDER BY id";
+    let before: Vec<String> = sqlx::query_scalar(rows).fetch_all(&owner).await.unwrap();
+    let audits: Vec<String> =
+        sqlx::query_scalar("SELECT to_jsonb(a)::text FROM audit_events a ORDER BY id")
+            .fetch_all(&owner)
+            .await
+            .unwrap();
+    let exact = console_platform_request_context::scope_org(org, async {
+        store
+            .emit_inbox_doc(legal_notice_to(recipient, Some("exact-artifact")))
+            .await
+    })
+    .await
+    .unwrap();
+    assert_eq!(exact.id, first.id);
+    assert!(
+        !exact.locked,
+        "valid redelivery preserves prior receipt confirmation"
+    );
+    for field in [
+        "kind",
+        "title",
+        "notice_type",
+        "legal_basis",
+        "source_kind",
+        "source_id",
+        "payload",
+    ] {
+        let mut changed = legal_notice_to(recipient, Some("exact-artifact"));
+        match field {
+            "kind" => {
+                changed.doc.kind = InboxDocKind::Payslip;
+                changed.doc.notice_type = None;
+            }
+            "title" => changed.doc.title = "다른 통지".to_owned(),
+            "notice_type" => changed.doc.notice_type = Some("근로계약".to_owned()),
+            "legal_basis" => changed.doc.legal_basis = Some("다른 근거".to_owned()),
+            "source_kind" => changed.doc.source_kind = Some("other_source".to_owned()),
+            "source_id" => changed.doc.source_id = Some("different-version".to_owned()),
+            _ => changed.doc.payload = json!({"paragraphs":["changed private content"]}),
+        }
+        let result = console_platform_request_context::scope_org(org, async {
+            store.emit_inbox_doc(changed).await
+        })
+        .await;
+        let err = result.expect_err("same key with different immutable input must conflict");
+        assert_eq!(err.kind(), ErrorKind::Conflict, "field={field}: {err:?}");
+        assert!(
+            !err.to_string().contains("private content"),
+            "no document content in conflict"
+        );
+        assert_eq!(
+            sqlx::query_scalar::<_, String>(rows)
+                .fetch_all(&owner)
+                .await
+                .unwrap(),
+            before
+        );
+        assert_eq!(
+            sqlx::query_scalar::<_, String>(
+                "SELECT to_jsonb(a)::text FROM audit_events a ORDER BY id"
+            )
+            .fetch_all(&owner)
+            .await
+            .unwrap(),
+            audits
+        );
+    }
+}
+
+#[sqlx::test(migrations = "../../platform/db/migrations")]
+async fn concurrent_dedup_collision_revalidates_the_committed_document(owner: PgPool) {
+    let org = OrgId::knl();
+    let recipient = seed_user(&owner, *org.as_uuid(), "Recipient").await;
+    let mut initial = owner.begin().await.unwrap();
+    let blocker: i32 = sqlx::query_scalar("SELECT pg_backend_pid()")
+        .fetch_one(&mut *initial)
+        .await
+        .unwrap();
+    let input = legal_notice_to(recipient, Some("racing-artifact"));
+    let doc = &input.doc;
+    sqlx::query("INSERT INTO inbox_docs (org_id,recipient_user_id,kind,notice_type,title,legal_basis,source_kind,source_id,payload,dedup_key) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)")
+        .bind(org.as_uuid()).bind(recipient.as_uuid()).bind(doc.kind.as_str()).bind(&doc.notice_type).bind(&doc.title).bind(&doc.legal_basis).bind(&doc.source_kind).bind(&doc.source_id).bind(&doc.payload).bind(&input.dedup_key)
+        .execute(&mut *initial).await.unwrap();
+    let rt = PgPoolOptions::new()
+        .max_connections(2)
+        .after_connect(|c, _| {
+            Box::pin(async move {
+                sqlx::query("SET ROLE console_rt").execute(c).await?;
+                Ok(())
+            })
+        })
+        .connect_with(
+            owner
+                .connect_options()
+                .as_ref()
+                .clone()
+                .application_name("inbox-dedup-race"),
+        )
+        .await
+        .unwrap();
+    let store = PgInboxStore::new(rt);
+    let mut changed = legal_notice_to(recipient, Some("racing-artifact"));
+    changed.doc.payload = json!({"paragraphs":["conflicting"]});
+    let pending = tokio::spawn(async move {
+        console_platform_request_context::scope_org(org, async {
+            store.emit_inbox_doc(changed).await
+        })
+        .await
+    });
+    let observed=tokio::time::timeout(std::time::Duration::from_secs(10),async{
+        loop{
+            let blocked:bool=sqlx::query_scalar("SELECT EXISTS (SELECT 1 FROM pg_stat_activity WHERE datname=current_database() AND application_name='inbox-dedup-race' AND wait_event_type='Lock' AND $1=ANY(pg_blocking_pids(pid)))")
+                .bind(blocker).fetch_one(&owner).await.unwrap();
+            if blocked {break;}
+            tokio::task::yield_now().await;
+        }
+    }).await.is_ok();
+    initial.commit().await.unwrap();
+    let error = tokio::time::timeout(std::time::Duration::from_secs(10), pending)
+        .await
+        .unwrap()
+        .unwrap()
+        .unwrap_err();
+    assert!(
+        observed,
+        "the conflicting insert must actually collide with the uncommitted unique key"
+    );
+    assert_eq!(error.kind(), ErrorKind::Conflict);
+    let count:(i64,i64)=sqlx::query_as("SELECT (SELECT COUNT(*) FROM inbox_docs WHERE dedup_key='racing-artifact'),(SELECT COUNT(*) FROM audit_events WHERE action='inbox_doc.emit')").fetch_one(&owner).await.unwrap();
+    assert_eq!(count, (1, 0));
+}
