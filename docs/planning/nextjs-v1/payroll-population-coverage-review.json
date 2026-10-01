@@ -1,0 +1,116 @@
+{
+  "base_sha": "08cafb8588ca77b9b690a1442ec860d69e8a0283",
+  "design_sha256": "ee1fbf71298d76433d030fb4de0443818e9870625e211ca95f62107d65bb5a29",
+  "design_rounds": [
+    {
+      "round": 1,
+      "reviewer": "/root/live_owner_trace",
+      "verdict": "APPROVE",
+      "artifact": "design-round1-revised.json",
+      "artifact_sha256": "3a97b48024e15a62281ed697c23a960a2ec7359d19ca7eb0d0cdf45cc8d52e99"
+    },
+    {
+      "round": 2,
+      "reviewer": "/root/payroll_path_adversary",
+      "verdict": "APPROVE",
+      "artifact": "design-round2.json",
+      "artifact_sha256": "d4c50f7a7525e984174748cad7b29a630d6116835f2e39de60a1da76bf4c0913"
+    },
+    {
+      "round": 3,
+      "reviewer": "/root/live_ui_trace",
+      "verdict": "APPROVE",
+      "artifact": "design-round3.json",
+      "artifact_sha256": "06fcd0884d6a330cfdccdf3a51504dcad1339a39f92957875aee7a9185fe0ba0"
+    },
+    {
+      "round": 4,
+      "reviewer": "/root/live_owner_trace",
+      "verdict": "APPROVE",
+      "artifact": "design-round4.json",
+      "artifact_sha256": "5501bb28a9c9474f80e3688e701b2b50228d2f26568490e69fa5bbe69f6c72a2"
+    }
+  ],
+  "initial_design_sha256": "af2eebf1c6722aeb34783053d58e22d9ac766417831702b157ea1370338c647b",
+  "initial_verdict": "REVISE",
+  "resolved": "Duplicate employee representation, summary snapshot consistency, stable document/link locks and leave consumer target proof.",
+  "scope": "Existing staged payroll population and atomic local payslip publication only. No legal, UI, payment or release approval.",
+  "approved_tests_head": "9641dbaf54571d7b335dc5aa0438186a3abb96ca",
+  "approved_test_reviews": [
+    {
+      "path": ".artifacts/acceptance/payroll-population-coverage/tests-review-auth-adversary-final.json",
+      "sha256": "adff2f01fd2674b0e6af3750231ccbdcd4a5ebfcd522af64dbb1a9e34b102413"
+    },
+    {
+      "path": ".artifacts/acceptance/payroll-population-coverage/tests-review-auth-owner-final.json",
+      "sha256": "8c1d03c556c6dd743b4b0652959db1009d0a8e23cab36f011dac84e195af0482"
+    }
+  ],
+  "RED": {
+    "path": ".artifacts/acceptance/payroll-population-coverage/run-20261001T091416.505326Z/report.json",
+    "sha256": "381a7c04852da5ee07f6c0fa1a03abd32653d844cd452d2ec2dccfa219428309",
+    "totals": {
+      "discovered": 100,
+      "executed": 100,
+      "passed": 87,
+      "failed": 13,
+      "ignored": 0,
+      "measured": 0,
+      "filtered": 0
+    }
+  },
+  "RED_admission": {
+    "path": ".artifacts/acceptance/payroll-population-coverage/red-admission-review.json",
+    "sha256": "9c3cf65bc2e7593961929ce4040ed5ec63f68c77909114140ace531e7b54fdd2"
+  },
+  "implementation_head": "3c544ba3267d99d9e25917e7da0871fc8f7ef4e3",
+  "GREEN": {
+    "path": ".artifacts/acceptance/payroll-population-coverage/run-20261001T100521.463659Z/report.json",
+    "sha256": "cf93034fe3176a10711c12175c3a1e17eb6648147f868e4d71bc37f504fe98c4",
+    "totals": {
+      "discovered": 100,
+      "executed": 100,
+      "passed": 100,
+      "failed": 0,
+      "ignored": 0,
+      "measured": 0,
+      "filtered": 0
+    }
+  },
+  "GREEN_review": {
+    "path": ".artifacts/acceptance/payroll-population-coverage/green-acceptance-review-3c544ba.json",
+    "sha256": "7d935073c2f0c28b199697af3a884b5f6ee8b8edb2e9e0d0f4bab3e32bb42ff6"
+  },
+  "source_reviews": [
+    {
+      "path": ".artifacts/acceptance/payroll-population-coverage/implementation-owner-3c544ba.json",
+      "sha256": "dd0479e4aca0b37772be55521f1df33a0235ff4ffd8f145c9a277e6e24ae725e"
+    },
+    {
+      "path": ".artifacts/acceptance/payroll-population-coverage/implementation-adversary-3c544ba.json",
+      "sha256": "0932e07c32bb94747b3a5bffef9d0911da0863b9114dc209f478fc78299a1b33"
+    },
+    {
+      "path": ".artifacts/acceptance/payroll-population-coverage/implementation-adversary-green-3c544ba.json",
+      "sha256": "11ed56991c21db16314289d39575c9c5109a134aab506d080b8a937dc11c656e"
+    }
+  ],
+  "strict_clippy": {
+    "path": ".artifacts/acceptance/payroll-population-coverage/clippy-3c544ba/report.json",
+    "sha256": "d8450150ad1e42ef1ef111aaab5ad3cead1d801a0bc5fa60d9b382394df1b743"
+  },
+  "format": {
+    "path": ".artifacts/acceptance/payroll-population-coverage/format-3c544ba.json",
+    "sha256": "e08cca8b22eea84784f90ddc7b7d55e2157535bf1fdbeadea881426f0a31150f"
+  },
+  "final_16_lens_source_audit": {
+    "path": ".artifacts/acceptance/payroll-population-coverage/final-16-lens-audit-3c544ba.json",
+    "sha256": "b3af4c5b4bc47a1ccdb9eb912b20223839870e54ba97f5ec81f19dfc23bd67c2"
+  },
+  "evidence": {
+    "path": "docs/planning/nextjs-v1/payroll-population-coverage-evidence.json",
+    "sha256": "1cec6ddbe5e09c3093e187acf4a3e0a5e5eb586b44db0c9a39abbd6077820578"
+  },
+  "final_revision_and_hosted_merge_status": "pending_separate_revision_bound_review_CI_COMMENT_and_protected_queue_readback",
+  "release_accepted": false
+}

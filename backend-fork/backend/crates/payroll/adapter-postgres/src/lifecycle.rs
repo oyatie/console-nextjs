@@ -33,6 +33,7 @@ use console_platform_db::DbError;
 use serde::Serialize;
 use serde_json::{Value, json};
 use sqlx::{Postgres, Row, Transaction};
+use std::collections::BTreeMap;
 use time::format_description::well_known::Iso8601;
 use time::{Date, OffsetDateTime};
 use uuid::Uuid;
@@ -752,21 +753,43 @@ async fn write_line_blockers(
 pub async fn latest_calc_summary_in_tx(
     tx: &mut Transaction<'_, Postgres>,
     run_id: Uuid,
-    lines_total: i64,
+    _lines_total: i64,
 ) -> Result<Option<RunCalcSummary>, LifecycleError> {
     let row = sqlx::query(
-        "SELECT version, MAX(created_at) AS calculated_at, COUNT(*)::BIGINT AS calculated_lines, \
-                BOOL_AND(payable) AS payable, SUM(net_won)::BIGINT AS net_sum \
-         FROM payroll_line_calculations \
-         WHERE run_id = $1 \
-           AND version = (SELECT MAX(version) FROM payroll_line_calculations WHERE run_id = $1) \
-         GROUP BY version",
+        r#"
+        WITH roster AS (
+            SELECT l.*, e.id AS resolved_employee_id,
+                   COUNT(*) OVER (PARTITION BY l.employee_id) AS person_lines
+            FROM payroll_draft_lines l
+            JOIN payroll_draft_runs r ON r.id = l.run_id AND r.org_id = l.org_id
+            LEFT JOIN employees e ON e.id = l.employee_id AND e.org_id = l.org_id
+            WHERE r.id = $1
+        ), current_calculations AS (
+            SELECT c.* FROM payroll_line_calculations c
+            JOIN payroll_draft_runs r ON r.id = c.run_id AND r.org_id = c.org_id
+            WHERE r.id = $1
+              AND c.version = (SELECT MAX(version) FROM payroll_line_calculations WHERE run_id = $1)
+        ), covered AS (
+            SELECT c.id FROM current_calculations c
+            JOIN roster l ON l.id = c.line_id AND l.run_id = c.run_id AND l.org_id = c.org_id
+            WHERE l.resolved_employee_id IS NOT NULL AND l.person_lines = 1
+              AND l.calculation_status = 'READY_FOR_REVIEW' AND l.blockers = '[]'::jsonb
+        )
+        SELECT c.version, MAX(c.created_at) AS calculated_at,
+               (SELECT COUNT(*) FROM roster) AS lines_total,
+               (SELECT COUNT(*) FROM covered) AS calculated_lines,
+               COUNT(*) AS current_calculations,
+               BOOL_AND(c.payable) AS payable, SUM(c.net_won)::BIGINT AS net_sum
+        FROM current_calculations c GROUP BY c.version
+        "#,
     )
     .bind(run_id)
     .fetch_optional(tx.as_mut())
     .await?;
     row.map(|row| {
         let calculated_lines: i64 = row.try_get("calculated_lines")?;
+        let lines_total: i64 = row.try_get("lines_total")?;
+        let current_calculations: i64 = row.try_get("current_calculations")?;
         let net_sum: Option<i64> = row.try_get("net_sum")?;
         Ok(RunCalcSummary {
             version: row.try_get("version")?,
@@ -775,7 +798,10 @@ pub async fn latest_calc_summary_in_tx(
             blocked_lines: (lines_total - calculated_lines).max(0),
             payable: row.try_get("payable")?,
             kernel_rate_table: format!("statutory-rates-{}", payroll_sources_verified_on()),
-            total_net_won: if calculated_lines == lines_total {
+            total_net_won: if lines_total > 0
+                && calculated_lines == lines_total
+                && current_calculations == lines_total
+            {
                 net_sum
             } else {
                 None
@@ -783,6 +809,32 @@ pub async fn latest_calc_summary_in_tx(
         })
     })
     .transpose()
+}
+
+fn incomplete_population() -> LifecycleError {
+    LifecycleError::InvalidState("payroll population coverage is incomplete".to_owned())
+}
+
+/// The caller holds the run lock. Keep its roster stable through execution;
+/// the summary checks exact identities at one run-wide calculation version.
+async fn require_population_in_tx(
+    tx: &mut Transaction<'_, Postgres>,
+    run_id: Uuid,
+) -> Result<i32, LifecycleError> {
+    sqlx::query("SELECT id FROM payroll_draft_lines WHERE run_id = $1 ORDER BY id FOR UPDATE")
+        .bind(run_id)
+        .fetch_all(tx.as_mut())
+        .await?;
+    let summary = latest_calc_summary_in_tx(tx, run_id, 0)
+        .await?
+        .ok_or_else(incomplete_population)?;
+    if summary.calculated_lines == 0
+        || summary.blocked_lines != 0
+        || summary.total_net_won.is_none()
+    {
+        return Err(incomplete_population());
+    }
+    Ok(summary.version)
 }
 
 // ---------------------------------------------------------------------------
@@ -958,6 +1010,7 @@ pub async fn submit_run_in_tx(
     if open > 0 {
         return Err(LifecycleError::ExceptionsOpen(open));
     }
+    require_population_in_tx(tx, run_id).await?;
     sqlx::query(
         "UPDATE payroll_draft_runs \
          SET status = 'SUBMITTED', submitted_by = $2, submitted_at = now(), updated_at = now() \
@@ -988,6 +1041,11 @@ pub async fn decide_run_in_tx(
     }
     match decision {
         "APPROVE" => {
+            let (open, _) = exception_counts_in_tx(tx, run_id).await?;
+            if open > 0 {
+                return Err(LifecycleError::ExceptionsOpen(open));
+            }
+            require_population_in_tx(tx, run_id).await?;
             sqlx::query(
                 "UPDATE payroll_draft_runs \
                  SET status = 'APPROVED', decided_by = $2, decided_at = now(), \
@@ -1353,73 +1411,179 @@ fn parse_release_gate(gate: &Value) -> Result<PayrollReleaseGateInput, Lifecycle
     })
 }
 
-/// Load the run + deliverable lines for payslip issuance. Guards status =
-/// PAID and the release gate; a run with no deliverable calculated line is a
-/// truthful invalid state (issuing nothing is not issuance).
+#[must_use]
+pub fn payslip_title(run: &RunHead, line: &IssuanceLine) -> String {
+    format!(
+        "급여명세서 {} ~ {} · {}",
+        run.period_start, run.period_end, line.employee_display_name
+    )
+    .trim()
+    .to_owned()
+}
+
+#[must_use]
+pub fn payslip_payload(run: &RunHead, line: &IssuanceLine) -> Value {
+    json!({
+        "run_id": run.id,
+        "line_id": line.line_id,
+        "period_start": run.period_start.to_string(),
+        "period_end": run.period_end.to_string(),
+        "gross_won": line.gross_won,
+        "deductions": line.deductions,
+        "total_deductions_won": line.total_deductions_won,
+        "net_won": line.net_won,
+        "tax_table_version": line.tax_table_version,
+        "calculation_version": line.version,
+    })
+}
+
+fn incomplete_publication() -> LifecycleError {
+    LifecycleError::InvalidState(
+        "payroll publication evidence is incomplete or conflicting".to_owned(),
+    )
+}
+
+/// Lock the complete current population and its captured recipients through
+/// publication. Former workers retain their linked Account as recipients.
 pub async fn load_payslip_issuance_in_tx(
     tx: &mut Transaction<'_, Postgres>,
     run_id: Uuid,
 ) -> Result<(RunHead, Vec<IssuanceLine>), LifecycleError> {
-    let Some(run) = run_head(tx, run_id, false).await? else {
+    let Some(run) = run_head(tx, run_id, true).await? else {
         return Err(LifecycleError::NotFound);
     };
     if run.status != "PAID" {
         return Err(invalid_state("issue payslips for", &run.status));
     }
     validate_run_release_gate(&run.legal_basis)?;
+    let version = require_population_in_tx(tx, run_id).await?;
     let rows = sqlx::query(
-        "SELECT DISTINCT ON (c.line_id) c.line_id, c.version, c.gross_won, c.deductions, \
+        "SELECT c.line_id, c.version, c.gross_won, c.deductions, \
                 c.total_deductions_won, c.net_won, c.tax_table_version, \
                 l.employee_id, l.employee_display_name, u.id AS recipient_user_id \
          FROM payroll_line_calculations c \
-         JOIN payroll_draft_lines l ON l.id = c.line_id \
-         JOIN users u ON u.employee_id = l.employee_id \
-         WHERE c.run_id = $1 AND l.employee_id IS NOT NULL \
-         ORDER BY c.line_id, c.version DESC",
+         JOIN payroll_draft_lines l ON l.id = c.line_id AND l.run_id = c.run_id AND l.org_id = c.org_id \
+         LEFT JOIN users u ON u.employee_id = l.employee_id AND u.org_id = l.org_id \
+         WHERE c.run_id = $1 AND c.version = $2 \
+         ORDER BY c.line_id",
     )
     .bind(run_id)
+    .bind(version)
     .fetch_all(tx.as_mut())
     .await?;
-    let lines =
-        rows.iter()
-            .map(|row| {
-                Ok(IssuanceLine {
-                    line_id: row.try_get("line_id")?,
-                    employee_id: row.try_get::<Option<Uuid>, _>("employee_id")?.ok_or_else(
-                        || LifecycleError::Validation("issuance line lost its employee".to_owned()),
-                    )?,
-                    employee_display_name: row.try_get("employee_display_name")?,
-                    recipient_user_id: row.try_get("recipient_user_id")?,
-                    version: row.try_get("version")?,
-                    gross_won: row.try_get("gross_won")?,
-                    deductions: row.try_get("deductions")?,
-                    total_deductions_won: row.try_get("total_deductions_won")?,
-                    net_won: row.try_get("net_won")?,
-                    tax_table_version: row.try_get("tax_table_version")?,
-                })
+    let lines = rows
+        .iter()
+        .map(|row| {
+            Ok(IssuanceLine {
+                line_id: row.try_get("line_id")?,
+                employee_id: row
+                    .try_get::<Option<Uuid>, _>("employee_id")?
+                    .ok_or_else(incomplete_publication)?,
+                employee_display_name: row.try_get("employee_display_name")?,
+                recipient_user_id: row
+                    .try_get::<Option<Uuid>, _>("recipient_user_id")?
+                    .ok_or_else(incomplete_publication)?,
+                version: row.try_get("version")?,
+                gross_won: row.try_get("gross_won")?,
+                deductions: row.try_get("deductions")?,
+                total_deductions_won: row.try_get("total_deductions_won")?,
+                net_won: row.try_get("net_won")?,
+                tax_table_version: row.try_get("tax_table_version")?,
             })
-            .collect::<Result<Vec<_>, LifecycleError>>()?;
-    if lines.is_empty() {
-        return Err(LifecycleError::InvalidState(
-            "no calculated line with a linked user account exists to issue payslips for".to_owned(),
-        ));
+        })
+        .collect::<Result<Vec<_>, LifecycleError>>()?;
+    let mut recipient_ids: Vec<Uuid> = lines.iter().map(|line| line.recipient_user_id).collect();
+    recipient_ids.sort_unstable();
+    recipient_ids.dedup();
+    // Lock only the Accounts selected above. After a wait, adopting a newly
+    // linked replacement would disclose to an Account we never locked.
+    let accounts: BTreeMap<Uuid, Option<Uuid>> = sqlx::query_as(
+        "SELECT id, employee_id FROM users WHERE id = ANY($1) ORDER BY id FOR NO KEY UPDATE",
+    )
+    .bind(&recipient_ids)
+    .fetch_all(tx.as_mut())
+    .await?
+    .into_iter()
+    .collect();
+    if accounts.len() != lines.len()
+        || lines
+            .iter()
+            .any(|line| accounts.get(&line.recipient_user_id) != Some(&Some(line.employee_id)))
+    {
+        return Err(incomplete_publication());
     }
     Ok((run, lines))
 }
 
-/// Record the delivered inbox docs and flip the run to ISSUED. Idempotent:
-/// links insert `ON CONFLICT DO NOTHING`, so an interrupted issuance can be
-/// re-driven to completion.
+/// Independently validate exact current tuples, stored artifacts and legacy
+/// links before recording the complete publication. Keep all locks to commit.
 pub async fn record_payslip_deliveries_in_tx(
     tx: &mut Transaction<'_, Postgres>,
     run_id: Uuid,
     deliveries: &[(Uuid, Uuid, Uuid)],
 ) -> Result<(), LifecycleError> {
-    let Some(run) = run_head(tx, run_id, true).await? else {
-        return Err(LifecycleError::NotFound);
-    };
-    if run.status != "PAID" {
-        return Err(invalid_state("record payslip deliveries for", &run.status));
+    let (run, lines) = load_payslip_issuance_in_tx(tx, run_id).await?;
+    let mut supplied = BTreeMap::new();
+    for &(line_id, employee_id, doc_id) in deliveries {
+        if supplied.insert(line_id, (employee_id, doc_id)).is_some() {
+            return Err(incomplete_publication());
+        }
+    }
+    if supplied.len() != lines.len()
+        || lines.iter().any(|line| {
+            supplied
+                .get(&line.line_id)
+                .is_none_or(|(employee, _)| *employee != line.employee_id)
+        })
+    {
+        return Err(incomplete_publication());
+    }
+    let existing: Vec<(Uuid, Uuid, Uuid)> = sqlx::query_as(
+        "SELECT line_id, employee_id, inbox_doc_id FROM payroll_payslip_deliveries \
+         WHERE run_id = $1 ORDER BY id FOR UPDATE",
+    )
+    .bind(run_id)
+    .fetch_all(tx.as_mut())
+    .await?;
+    if existing
+        .iter()
+        .any(|(line, employee, doc)| supplied.get(line) != Some(&(*employee, *doc)))
+    {
+        return Err(incomplete_publication());
+    }
+    let mut doc_ids: Vec<Uuid> = supplied.values().map(|(_, doc)| *doc).collect();
+    doc_ids.sort_unstable();
+    doc_ids.dedup();
+    let docs = sqlx::query(
+        "SELECT id, recipient_user_id, kind, notice_type, title, legal_basis, source_kind, source_id, payload \
+         FROM inbox_docs WHERE id = ANY($1) ORDER BY id FOR UPDATE",
+    )
+    .bind(&doc_ids)
+    .fetch_all(tx.as_mut())
+    .await?;
+    let docs: BTreeMap<Uuid, _> = docs
+        .into_iter()
+        .map(|row| Ok((row.try_get::<Uuid, _>("id")?, row)))
+        .collect::<Result<_, LifecycleError>>()?;
+    if docs.len() != lines.len() {
+        return Err(incomplete_publication());
+    }
+    for line in &lines {
+        let (_, doc_id) = supplied
+            .get(&line.line_id)
+            .ok_or_else(incomplete_publication)?;
+        let doc = docs.get(doc_id).ok_or_else(incomplete_publication)?;
+        if doc.try_get::<Uuid, _>("recipient_user_id")? != line.recipient_user_id
+            || doc.try_get::<String, _>("kind")? != "payslip"
+            || doc.try_get::<Option<String>, _>("notice_type")?.is_some()
+            || doc.try_get::<String, _>("title")? != payslip_title(&run, line)
+            || doc.try_get::<Option<String>, _>("legal_basis")?.is_some()
+            || doc.try_get::<Option<String>, _>("source_kind")?.as_deref() != Some("payroll_run")
+            || doc.try_get::<Option<String>, _>("source_id")? != Some(run.id.to_string())
+            || doc.try_get::<Value, _>("payload")? != payslip_payload(&run, line)
+        {
+            return Err(incomplete_publication());
+        }
     }
     for (line_id, employee_id, inbox_doc_id) in deliveries {
         sqlx::query(

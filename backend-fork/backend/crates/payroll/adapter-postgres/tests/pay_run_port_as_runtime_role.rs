@@ -163,19 +163,57 @@ async fn count(owner_pool: &PgPool, sql: &'static str, org: Uuid) -> i64 {
 
 const COUNT_RUNS: &str = "SELECT count(*)::bigint FROM payroll_draft_runs WHERE org_id = $1";
 
-/// Move a staged run to `CALCULATED` as the table owner. Submitting requires it,
-/// and the port deliberately does NOT own a "calculate" target — `calculate_run_in_tx`
-/// already exists in this crate and is not one of the contract's three PayRun
-/// dispatch targets.
-async fn mark_calculated(owner_pool: &PgPool, id: Uuid) {
-    sqlx::query("UPDATE payroll_draft_runs SET status = 'CALCULATED' WHERE id = $1")
-        .bind(id)
-        .execute(owner_pool)
+/// Test-only source/roster prerequisites go through the real close/calculation
+/// owners as console_rt. These sources are not legal or imported-population proof.
+async fn prepare_calculated_roster(owner: &PgPool, run: Uuid, existing_employee: Option<Uuid>) {
+    let employee = match existing_employee {
+        Some(employee) => employee,
+        None => roster_seed::seed_employee(owner, ORG, &format!("calc-{run}"), "김직원").await,
+    };
+    let import: Uuid = sqlx::query_scalar(
+        "INSERT INTO data_import_runs (org_id, entity_type, status, source_filename, source_format, \
+         source_sha256, pay_period_start, pay_period_end) VALUES ($1, 'employee_hr', 'DRY_RUN', \
+         'test-only.xlsx', 'xlsx', repeat('a',64), $2, $3) RETURNING id",
+    ).bind(ORG).bind(roster_seed::PERIOD_START).bind(roster_seed::PERIOD_END)
+     .fetch_one(owner).await.unwrap();
+    let source: Uuid = sqlx::query_scalar(
+        "INSERT INTO data_import_rows (org_id, run_id, source_sheet, source_row, source_key, \
+         row_status, canonical_row) VALUES ($1, $2, 'test-only', 1, $3, 'CANDIDATE', $4) RETURNING id",
+    ).bind(ORG).bind(import).bind(format!("calc-{run}")).bind(json!({"payroll": {
+        "monthly_gross_pay_won": 3_000_000,
+        "nts_tax_row": {"table_version": "test-only", "monthly_income_tax_won": 74350,
+                        "local_income_tax_won": 7430}
+    }})).fetch_one(owner).await.unwrap();
+    sqlx::query(
+        "INSERT INTO payroll_draft_lines (org_id, run_id, employee_id, employee_source_key, \
+         employee_display_name, employee_company, attendance_source_row_count, \
+         gross_pay_source_present, nts_tax_row_status, source_data_import_row_ids) \
+         VALUES ($1, $2, $3, $4, '김직원', 'test-only', 1, true, 'VERIFIED_SOURCE_ROW', $5)",
+    )
+    .bind(ORG)
+    .bind(run)
+    .bind(employee)
+    .bind(format!("calc-{run}"))
+    .bind(vec![source])
+    .execute(owner)
+    .await
+    .unwrap();
+    seed_roster_period_lock(owner, ORG).await;
+    let actor: Uuid =
+        sqlx::query_scalar("SELECT id FROM users WHERE org_id = $1 ORDER BY id LIMIT 1")
+            .bind(ORG)
+            .fetch_one(owner)
+            .await
+            .unwrap();
+    let runtime = runtime_role_pool(owner).await;
+    close_roster_fixture(&runtime, run, UserId::from_uuid(actor)).await;
+    let mut tx = roster_runtime_tx(&runtime, ORG).await;
+    let calc = console_payroll_adapter_postgres::lifecycle::calculate_run_in_tx(&mut tx, run)
         .await
         .unwrap();
+    assert_eq!((calc.calculated_lines, calc.blocked_lines), (1, 0));
+    tx.commit().await.unwrap();
 }
-
-// ---------------------------------------------------------------------------
 
 #[sqlx::test(migrations = "../../platform/db/migrations")]
 async fn the_contract_identity_is_copied_verbatim_and_the_port_is_the_named_one(
@@ -480,7 +518,7 @@ async fn a_changed_provenance_on_the_same_run_and_period_is_refused(owner_pool: 
 /// PRIMARY KEY -- `SubmitRun` returned `not_found` for every value create ever
 /// produced.
 #[sqlx::test(migrations = "../../platform/db/migrations")]
-async fn the_create_receipt_alone_is_enough_to_submit(owner_pool: PgPool) {
+async fn the_create_receipt_resolves_the_run_after_calculation(owner_pool: PgPool) {
     let (org, submitter, _decider, port) = fixture(&owner_pool).await;
     let run_id = Uuid::new_v4();
 
@@ -488,7 +526,8 @@ async fn the_create_receipt_alone_is_enough_to_submit(owner_pool: PgPool) {
         .await
         .expect("create");
 
-    // Everything below uses ONLY the receipt. No owner pool, no source_label lookup.
+    // The successor ID comes ONLY from the receipt, never a source_label lookup.
+    // Real source/close/calculation prerequisites are prepared separately below.
     let receipt = created.result();
     let draft_run_id: Uuid = receipt
         .get("draft_run_id")
@@ -504,7 +543,7 @@ async fn the_create_receipt_alone_is_enough_to_submit(owner_pool: PgPool) {
          stopped proving anything."
     );
 
-    mark_calculated(&owner_pool, draft_run_id).await;
+    prepare_calculated_roster(&owner_pool, draft_run_id, None).await;
 
     let submit = execute(
         &port,
@@ -529,7 +568,7 @@ async fn submit_and_decide_drive_the_statements_this_crate_already_owned(owner_p
         .await
         .unwrap();
     let (id, _, _) = run_by_label(&owner_pool, run_id).await.unwrap();
-    mark_calculated(&owner_pool, id).await;
+    prepare_calculated_roster(&owner_pool, id, None).await;
 
     let submit = execute(
         &port,
@@ -609,7 +648,7 @@ async fn a_decider_who_submitted_the_run_is_refused(owner_pool: PgPool) {
         .await
         .unwrap();
     let (id, _, _) = run_by_label(&owner_pool, run_id).await.unwrap();
-    mark_calculated(&owner_pool, id).await;
+    prepare_calculated_roster(&owner_pool, id, None).await;
     execute(
         &port,
         command(org, submitter, PayRunQuery::SubmitRun { run_id: id }),
@@ -1083,7 +1122,12 @@ async fn a_foreign_tenant_is_invisible_and_unwritable_to_the_runtime_role(owner_
     // CALCULATED / SUBMITTED are the states those targets WOULD advance if the
     // port could see the row — InvalidState on BLOCKED_LEGAL_GATE would also
     // "not write" while proving the foreign id was visible.
-    mark_calculated(&owner_pool, foreign_id).await;
+    // Only the foreign-run nondisclosure state is needed here, not readiness.
+    sqlx::query("UPDATE payroll_draft_runs SET status = 'CALCULATED' WHERE id = $1")
+        .bind(foreign_id)
+        .execute(&owner_pool)
+        .await
+        .unwrap();
     let submit_err = execute(
         &port,
         command(org, actor, PayRunQuery::SubmitRun { run_id: foreign_id }),
@@ -1210,11 +1254,11 @@ async fn a_stored_receipt_naming_no_dispatch_target_is_refused(owner_pool: PgPoo
 }
 
 /// Empty-tenant Company/OrgUnit/JobPosition/Person/`hr.appoint`, then the same
-/// PayRun create → submit → decide path. Fixture `INSERT INTO organizations`
-/// plus a PayRun port is not this path. No won arithmetic.
+/// PayRun create → close/calculation → submit → decide path. Fixture
+/// `INSERT INTO organizations` plus a PayRun port is not this path.
 #[sqlx::test(migrations = "../../platform/db/migrations")]
 async fn empty_tenant_pay_run_lifecycle_sits_on_canonical_org_tree(owner_pool: PgPool) {
-    let (org, submitter, decider, port, appointed) =
+    let (org, submitter, decider, port, appointed, employee_id) =
         empty_tenant_pay_run_fixture(&owner_pool).await;
     assert_eq!(appointed.target(), DispatchTarget::HrAppoint);
 
@@ -1239,7 +1283,13 @@ async fn empty_tenant_pay_run_lifecycle_sits_on_canonical_org_tree(owner_pool: P
         "a staged run on the canonical tree must not be calculation-enabled"
     );
 
-    mark_calculated(&owner_pool, draft_run_id).await;
+    prepare_calculated_roster(&owner_pool, draft_run_id, Some(employee_id)).await;
+    let calculated_employee: Uuid = sqlx::query_scalar("SELECT l.employee_id FROM payroll_line_calculations c JOIN payroll_draft_lines l ON l.id=c.line_id WHERE c.run_id=$1")
+        .bind(draft_run_id).fetch_one(&owner_pool).await.unwrap();
+    assert_eq!(
+        calculated_employee, employee_id,
+        "the canonically appointed employee is the payroll subject"
+    );
     let submit = execute(
         &port,
         command(
@@ -1297,7 +1347,7 @@ async fn empty_tenant_pay_run_lifecycle_sits_on_canonical_org_tree(owner_pool: P
 
 async fn empty_tenant_pay_run_fixture(
     owner_pool: &PgPool,
-) -> (OrgId, UserId, UserId, PgPayRunPort, CommandReceipt) {
+) -> (OrgId, UserId, UserId, PgPayRunPort, CommandReceipt, Uuid) {
     let submitter = seed_org_and_super_admin(owner_pool, ORG, "payrun-tree").await;
     let decider = seed_org_and_user(owner_pool, ORG, "payrun-tree-decider").await;
     let runtime_pool = runtime_role_pool(owner_pool).await;
@@ -1436,7 +1486,7 @@ async fn empty_tenant_pay_run_fixture(
     .await
     .unwrap();
 
-    (org, submitter, decider, port, appointed)
+    (org, submitter, decider, port, appointed, employee_id)
 }
 
 async fn execute_sync<P: CanonicalPort + Clone + Send + 'static>(
@@ -2264,4 +2314,159 @@ async fn calculation_blocks_invalid_sources_without_losing_valid_lines(owner: Pg
     assert_eq!(saved_status, "CALCULATED");
     // Current submission does not enforce full calculation coverage. This test
     // proves only calculation accounting and must not imply submission safety.
+}
+
+#[sqlx::test(migrations = "../../platform/db/migrations")]
+async fn calculation_before_submission_serializes_the_latest_complete_version(owner: PgPool) {
+    use console_payroll_adapter_postgres::lifecycle::{calculate_run_in_tx, submit_run_in_tx};
+    let (org, actor, _, port) = fixture(&owner).await;
+    let created = execute(&port, command(org, actor, create(Uuid::new_v4())))
+        .await
+        .unwrap();
+    let run: Uuid = created.result()["draft_run_id"]
+        .as_str()
+        .unwrap()
+        .parse()
+        .unwrap();
+    prepare_calculated_roster(&owner, run, None).await;
+    sqlx::query("UPDATE payroll_draft_runs SET status = 'ATTENDANCE_CLOSED' WHERE id = $1")
+        .bind(run)
+        .execute(&owner)
+        .await
+        .unwrap();
+    let runtime = runtime_role_pool(&owner).await;
+    let mut calculation = roster_runtime_tx(&runtime, ORG).await;
+    let blocker: i32 = sqlx::query_scalar("SELECT pg_backend_pid()")
+        .fetch_one(&mut *calculation)
+        .await
+        .unwrap();
+    let result = calculate_run_in_tx(&mut calculation, run).await.unwrap();
+    assert_eq!(
+        (
+            result.version,
+            result.calculated_lines,
+            result.blocked_lines
+        ),
+        (2, 1, 0)
+    );
+    let mut submission = roster_runtime_tx(&runtime, ORG).await;
+    let waiter: i32 = sqlx::query_scalar("SELECT pg_backend_pid()")
+        .fetch_one(&mut *submission)
+        .await
+        .unwrap();
+    let pending = tokio::spawn(async move {
+        let result = submit_run_in_tx(&mut submission, run, *actor.as_uuid()).await;
+        if result.is_ok() {
+            submission.commit().await.unwrap();
+        }
+        result
+    });
+    let observed = wait_for_roster_blocker(&owner, waiter, blocker).await;
+    calculation.commit().await.unwrap();
+    tokio::time::timeout(LOCK_WAIT, pending)
+        .await
+        .unwrap()
+        .unwrap()
+        .unwrap();
+    assert!(
+        observed,
+        "submission must wait for the actual calculation transaction"
+    );
+    let state: String = sqlx::query_scalar("SELECT status FROM payroll_draft_runs WHERE id = $1")
+        .bind(run)
+        .fetch_one(&owner)
+        .await
+        .unwrap();
+    assert_eq!(state, "SUBMITTED");
+}
+
+#[sqlx::test(migrations = "../../platform/db/migrations")]
+async fn submission_before_calculation_preserves_the_submitted_version(owner: PgPool) {
+    use console_payroll_adapter_postgres::lifecycle::{calculate_run_in_tx, submit_run_in_tx};
+    let (org, actor, _, port) = fixture(&owner).await;
+    let created = execute(&port, command(org, actor, create(Uuid::new_v4())))
+        .await
+        .unwrap();
+    let run: Uuid = created.result()["draft_run_id"]
+        .as_str()
+        .unwrap()
+        .parse()
+        .unwrap();
+    prepare_calculated_roster(&owner, run, None).await;
+    let before = calculation_snapshot(&owner, run).await;
+    let runtime = runtime_role_pool(&owner).await;
+    let mut submission = roster_runtime_tx(&runtime, ORG).await;
+    let blocker: i32 = sqlx::query_scalar("SELECT pg_backend_pid()")
+        .fetch_one(&mut *submission)
+        .await
+        .unwrap();
+    submit_run_in_tx(&mut submission, run, *actor.as_uuid())
+        .await
+        .unwrap();
+    let mut calculation = roster_runtime_tx(&runtime, ORG).await;
+    let waiter: i32 = sqlx::query_scalar("SELECT pg_backend_pid()")
+        .fetch_one(&mut *calculation)
+        .await
+        .unwrap();
+    let pending = tokio::spawn(async move { calculate_run_in_tx(&mut calculation, run).await });
+    let observed = wait_for_roster_blocker(&owner, waiter, blocker).await;
+    submission.commit().await.unwrap();
+    let error = tokio::time::timeout(LOCK_WAIT, pending)
+        .await
+        .unwrap()
+        .unwrap()
+        .unwrap_err();
+    assert!(
+        observed,
+        "calculation must wait for the actual submission transaction"
+    );
+    assert!(
+        matches!(error, LifecycleError::InvalidState(_)),
+        "{error:?}"
+    );
+    assert_eq!(calculation_snapshot(&owner, run).await, before);
+}
+
+#[sqlx::test(migrations = "../../platform/db/migrations")]
+async fn canonical_empty_submission_conflicts_without_a_success_receipt(owner: PgPool) {
+    let (org, actor, _, port) = fixture(&owner).await;
+    let created = execute(&port, command(org, actor, create(Uuid::new_v4())))
+        .await
+        .unwrap();
+    let run: Uuid = created.result()["draft_run_id"]
+        .as_str()
+        .unwrap()
+        .parse()
+        .unwrap();
+    sqlx::query("UPDATE payroll_draft_runs SET status = 'CALCULATED' WHERE id = $1")
+        .bind(run)
+        .execute(&owner)
+        .await
+        .unwrap();
+    let before: (i64, i64) = sqlx::query_as("SELECT (SELECT COUNT(*) FROM ont_action_command_receipts), (SELECT COUNT(*) FROM audit_events)")
+        .fetch_one(&owner).await.unwrap();
+    let result = execute(
+        &port,
+        command(org, actor, PayRunQuery::SubmitRun { run_id: run }),
+    )
+    .await;
+    assert!(
+        result.is_err(),
+        "empty population must not create a successful receipt"
+    );
+    let error = result.unwrap_err();
+    let kernel = console_ontology_canonical_domain::CanonicalPortError::into_kernel_error(error);
+    assert_eq!(kernel.kind, console_kernel_core::ErrorKind::Conflict);
+    let after: (i64, i64) = sqlx::query_as("SELECT (SELECT COUNT(*) FROM ont_action_command_receipts), (SELECT COUNT(*) FROM audit_events)")
+        .fetch_one(&owner).await.unwrap();
+    assert_eq!(
+        before, after,
+        "failed population review cannot create a receipt/audit"
+    );
+    let state: String = sqlx::query_scalar("SELECT status FROM payroll_draft_runs WHERE id = $1")
+        .bind(run)
+        .fetch_one(&owner)
+        .await
+        .unwrap();
+    assert_eq!(state, "CALCULATED");
 }

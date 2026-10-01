@@ -174,6 +174,20 @@
       "reason": "Preserve attendance source coordinates and reject ambiguous headers before persistence; distinguish historical source-coordinate conflicts from duplicate facts, with real session-bound PostgreSQL tests. Fixture remains test-only."
     },
     {
+      "path": "backend/app/tests/hr_attendance_manager_scope.rs",
+      "before": {
+        "sha256": "84e3c522345645f1268ace86b1a726a3a1a91569ac15233765f2a2ad3e993b78",
+        "bytes": 14894,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "410c328def6d4ccd33b2b2362ac13111276a35f4aabf878d3b1de8ce192c969b",
+        "bytes": 24622,
+        "mode": 420
+      },
+      "reason": "Test-first attendance raw fact/link contract with real router/runtime role, safe scoped pagination, closed-period replay, actual ref/audit evidence and served3.1 schema."
+    },
+    {
       "path": "backend/app/tests/hr_attendance_self_read.rs",
       "before": {
         "sha256": "da70d29118fcb093302238fc2d39c4b47a5735de5db579c8f5ed4efe9eb48481",
@@ -746,6 +760,34 @@
       "reason": "Preserve explicit hierarchy scope in family-bound access and use real family/account fixtures under runtime RLS. Strengthen reviewed foreign-Company denial and actual upload-limit/error assertions; retain existing branch and same-Company isolation proof. Retire v1 AI permission authority at every runtime door and role owner command; preserve historical policy rows, assignment identity and audit evidence with red-first regressions."
     },
     {
+      "path": "backend/crates/inbox/adapter-postgres/src/lib.rs",
+      "before": {
+        "sha256": "4a436fbbe77e84eea67ece8f128efe34a739c31b58e9b2ab25555eeabbf157b7",
+        "bytes": 17316,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "f000d7cc49c7741024fe17c73e9b259cc1b594df605e2104d017f8570b7a2cd0",
+        "bytes": 16573,
+        "mode": 420
+      },
+      "reason": "Reviewed staged-roster coverage and atomic local payslip publication at existing payroll/Inbox owners, immutable dedup replay and frozen real-session/runtime-role regressions. No full-module, legal, payment or two-site claim."
+    },
+    {
+      "path": "backend/crates/inbox/adapter-postgres/tests/inbox_docs_rls_surfaces_as_runtime_role.rs",
+      "before": {
+        "sha256": "525094852d1982d3eedfe63afbf19b05747f040f77e14d8c40f04ebad83ca9e0",
+        "bytes": 13868,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "954bc8d91228ad2dd09023df7a5e664961d26e6559ad168a8ca4ee8fab303a23",
+        "bytes": 20270,
+        "mode": 420
+      },
+      "reason": "Reviewed staged-roster coverage and atomic local payslip publication at existing payroll/Inbox owners, immutable dedup replay and frozen real-session/runtime-role regressions. No full-module, legal, payment or two-site claim."
+    },
+    {
       "path": "backend/crates/kernel/core/src/validation.rs",
       "before": {
         "sha256": "9cf99318cf7fa70f992df4bf11476873fcd0889bc03ad0924234f108545f0188",
@@ -758,6 +800,20 @@
         "mode": 420
       },
       "reason": "Reject NUL in the shared bounded PostgreSQL text validator so sales and registry callers return validation errors before SQLx binding."
+    },
+    {
+      "path": "backend/crates/leave/adapter-postgres/tests/leave_rls_surfaces_as_runtime_role.rs",
+      "before": {
+        "sha256": "24b9cf1e89bde6a1d7dd0fe364e458d9e1a4c8d29771dec62127908562e5d48b",
+        "bytes": 109584,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "b0306efd0203aa43def50e5702c5dc9bb6d3b580bddbd34401944955fa478357",
+        "bytes": 113172,
+        "mode": 420
+      },
+      "reason": "Reviewed staged-roster coverage and atomic local payslip publication at existing payroll/Inbox owners, immutable dedup replay and frozen real-session/runtime-role regressions. No full-module, legal, payment or two-site claim."
     },
     {
       "path": "backend/crates/messenger/adapter-postgres/src/lib.rs",
@@ -882,6 +938,20 @@
       "reason": "Prove retroactive correction, transfer, exit boundaries, foreign-Company denial, current effective appointment/transfer/exit, UNKNOWN exclusion and ambiguous-binding refusal through the runtime-role port. Move the old shared fixed test instant into the past so inherited current-read assertions keep their intended precondition without weakening temporal offsets."
     },
     {
+      "path": "backend/crates/orgchange/rest/openapi/schemas/EmployeeAttendanceRecord.yaml",
+      "before": {
+        "sha256": "cc0b240afa289175835dabdb635a00d9661e3d26b7d5ba26313cb811a0d1c7bc",
+        "bytes": 807,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "c8b2befa9cf6a95fd82d1afdccdae39484f2c57c037c1258e35c5f34a42d5d63",
+        "bytes": 1073,
+        "mode": 420
+      },
+      "reason": "Document the required UUID/null association and LINKED/UNLINKED3.1 contract, with no payroll-success claim."
+    },
+    {
       "path": "backend/crates/payroll/adapter-postgres/src/lifecycle.rs",
       "before": {
         "sha256": "070c1da569abd4dab31326f2d21953b480dd39d59b21cd5eed3df92b4aa401ae",
@@ -889,11 +959,11 @@
         "mode": 420
       },
       "after": {
-        "sha256": "21a518e81315483f8f18052d25cc4d0d8b44d0c3994b82d35e8134c8bbcb10e7",
-        "bytes": 80851,
+        "sha256": "b6f0bbcc614653f89b2c675087e2dc686b531abdf13372c36d4c9d3ff9f60559",
+        "bytes": 87307,
         "mode": 420
       },
-      "reason": "Payroll restage integrity R3, source commit b0a017a: exact Company/run/period lifecycle lock and known-state guard; preserve frozen rosters; validate locked existing runs and propagate DB errors; delegate drain period/provenance decisions to the existing owner for interrupted acknowledgment recovery. No migration/API/codec change. Add independently reviewed red-first malformed payroll source and exact runtime-role calculation-accounting regressions; production behavior remains unchanged in the test candidate. Reject malformed declared payroll evidence and optional pension values in the existing selector; preserve legitimate ancillary material, duplicates, conflict checks and existing arithmetic."
+      "reason": "Payroll restage integrity R3, source commit b0a017a: exact Company/run/period lifecycle lock and known-state guard; preserve frozen rosters; validate locked existing runs and propagate DB errors; delegate drain period/provenance decisions to the existing owner for interrupted acknowledgment recovery. No migration/API/codec change. Add independently reviewed red-first malformed payroll source and exact runtime-role calculation-accounting regressions; production behavior remains unchanged in the test candidate. Reject malformed declared payroll evidence and optional pension values in the existing selector; preserve legitimate ancillary material, duplicates, conflict checks and existing arithmetic. Reviewed staged-roster coverage and atomic local payslip publication at existing payroll/Inbox owners, immutable dedup replay and frozen real-session/runtime-role regressions. No full-module, legal, payment or two-site claim."
     },
     {
       "path": "backend/crates/payroll/adapter-postgres/src/pay_run.rs",
@@ -931,11 +1001,49 @@
         "mode": 420
       },
       "after": {
-        "sha256": "e5873f018d5d55632a6efbb9883f47e4fe2e52440016377e1eb2b983a0f63885",
-        "bytes": 82764,
+        "sha256": "2fca79ca1f56a8a811289c16174aa06249911967507b71b17967ba05302d7701",
+        "bytes": 91414,
         "mode": 420
       },
-      "reason": "Test-first payroll roster restage integrity R3: actual runtime-role owner preservation, canonical and workflow retry/recovery, refusal and concurrent close ordering. Test fixtures are isolated; no product source change. Add independently reviewed red-first malformed payroll source and exact runtime-role calculation-accounting regressions; production behavior remains unchanged in the test candidate."
+      "reason": "Test-first payroll roster restage integrity R3: actual runtime-role owner preservation, canonical and workflow retry/recovery, refusal and concurrent close ordering. Test fixtures are isolated; no product source change. Add independently reviewed red-first malformed payroll source and exact runtime-role calculation-accounting regressions; production behavior remains unchanged in the test candidate. Reviewed staged-roster coverage and atomic local payslip publication at existing payroll/Inbox owners, immutable dedup replay and frozen real-session/runtime-role regressions. No full-module, legal, payment or two-site claim."
+    },
+    {
+      "path": "backend/crates/payroll/rest/src/lifecycle.rs",
+      "before": {
+        "sha256": "49ad599ed56162070b9430a35cce3c34c4f2e18743767c6f5c28587aba834aed",
+        "bytes": 27339,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "6322aa29304b10e592b879d51bc08d67bdf2b642495b46cdc3f4dd7dc4e7aa16",
+        "bytes": 26591,
+        "mode": 420
+      },
+      "reason": "Reviewed staged-roster coverage and atomic local payslip publication at existing payroll/Inbox owners, immutable dedup replay and frozen real-session/runtime-role regressions. No full-module, legal, payment or two-site claim."
+    },
+    {
+      "path": "backend/crates/payroll/rest/tests/run_lifecycle_api.rs",
+      "before": {
+        "sha256": "d8427a5d13eea27123ac90bf841af8bd8393e5ec2ac2f09902e463858faf9b42",
+        "bytes": 54157,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "f7e063b2f704ba43886a3b5260d44f5c6d956d20604560478e76298f10b00f0c",
+        "bytes": 55316,
+        "mode": 420
+      },
+      "reason": "Reviewed staged-roster coverage and atomic local payslip publication at existing payroll/Inbox owners, immutable dedup replay and frozen real-session/runtime-role regressions. No full-module, legal, payment or two-site claim."
+    },
+    {
+      "path": "backend/crates/payroll/rest/tests/run_lifecycle_api/population.rs",
+      "before": null,
+      "after": {
+        "sha256": "d7dad65851d17a1106e38886e65cd68bfe6657baebc1037fd04900cc80bfffb4",
+        "bytes": 32490,
+        "mode": 420
+      },
+      "reason": "Reviewed staged-roster coverage and atomic local payslip publication at existing payroll/Inbox owners, immutable dedup replay and frozen real-session/runtime-role regressions. No full-module, legal, payment or two-site claim."
     },
     {
       "path": "backend/crates/platform/auth-rest/Cargo.toml",
@@ -2064,34 +2172,6 @@
         "mode": 420
       },
       "reason": "Regress the porcelain leading-space path truncation in the lane checker."
-    },
-    {
-      "path": "backend/app/tests/hr_attendance_manager_scope.rs",
-      "before": {
-        "sha256": "84e3c522345645f1268ace86b1a726a3a1a91569ac15233765f2a2ad3e993b78",
-        "bytes": 14894,
-        "mode": 420
-      },
-      "after": {
-        "sha256": "410c328def6d4ccd33b2b2362ac13111276a35f4aabf878d3b1de8ce192c969b",
-        "bytes": 24622,
-        "mode": 420
-      },
-      "reason": "Test-first attendance raw fact/link contract with real router/runtime role, safe scoped pagination, closed-period replay, actual ref/audit evidence and served3.1 schema."
-    },
-    {
-      "path": "backend/crates/orgchange/rest/openapi/schemas/EmployeeAttendanceRecord.yaml",
-      "before": {
-        "sha256": "cc0b240afa289175835dabdb635a00d9661e3d26b7d5ba26313cb811a0d1c7bc",
-        "bytes": 807,
-        "mode": 420
-      },
-      "after": {
-        "sha256": "c8b2befa9cf6a95fd82d1afdccdae39484f2c57c037c1258e35c5f34a42d5d63",
-        "bytes": 1073,
-        "mode": 420
-      },
-      "reason": "Document the required UUID/null association and LINKED/UNLINKED3.1 contract, with no payroll-success claim."
     }
   ],
   "notes": [
@@ -2117,6 +2197,7 @@
     "Pinned Next/React and Node LTS server runtime",
     "Removed static export, serve dependency and Nginx static configuration",
     "Added server redirect, dynamic responses, immutable server container image and isolation excludes",
-    "Added reproducible source-freeze and acceptance tooling; launch gates remain unaccepted"
+    "Added reproducible source-freeze and acceptance tooling; launch gates remain unaccepted",
+    "Protected PR/merge-group CI retains every producer and adds complete Payroll REST, Inbox and leave targets plus strict Clippy for their existing owners."
   ]
 }
