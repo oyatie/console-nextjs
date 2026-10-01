@@ -181,11 +181,11 @@
         "mode": 420
       },
       "after": {
-        "sha256": "90b47ca04c3b6d16a5b588a28656894719302d87a3846f5c59709397c6078b9c",
-        "bytes": 29922,
+        "sha256": "e3871c3f5825079698a89d27020b02cecbfaa70edd19e1add2803f4c4227c900",
+        "bytes": 51238,
         "mode": 420
       },
-      "reason": "Test retained own attendance history across exit/UNKNOWN/site closure and current Account/link/session revocation; preserve inherited assertions, actual console_rt RLS and unchanged mutation controls. Use real family-bound test sessions and owner-valid branch/material fixtures; no runtime business seeds."
+      "reason": "Test retained own attendance history across exit/UNKNOWN/site closure and current Account/link/session revocation; preserve inherited assertions, actual console_rt RLS and unchanged mutation controls. Use real family-bound test sessions and owner-valid branch/material fixtures; no runtime business seeds. Prove raw attendance missing/malformed payroll linkage, exact scoped pages, real-family authority and write-free closed-period replay before the owner repair."
     },
     {
       "path": "backend/app/tests/hr_ingest_checklist_gate.rs",
@@ -2064,6 +2064,20 @@
         "mode": 420
       },
       "reason": "Regress the porcelain leading-space path truncation in the lane checker."
+    },
+    {
+      "path": "backend/app/tests/hr_attendance_manager_scope.rs",
+      "before": {
+        "sha256": "84e3c522345645f1268ace86b1a726a3a1a91569ac15233765f2a2ad3e993b78",
+        "bytes": 14894,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "0f0a7a125ba3e289a82adfa4ce4fef2789339a590b5e0465fb0cb5300bbe6ba3",
+        "bytes": 24467,
+        "mode": 420
+      },
+      "reason": "Test-first attendance raw fact/link contract with real router/runtime role, safe scoped pagination, closed-period replay, actual ref/audit evidence and served3.1 schema."
     }
   ],
   "notes": [

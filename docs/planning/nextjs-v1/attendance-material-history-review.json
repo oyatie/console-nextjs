@@ -1,0 +1,149 @@
+{
+  "version": 1,
+  "design_path": "docs/planning/nextjs-v1/attendance-material-history-design.md",
+  "approved_design_sha256": "deadab931ddd3891e86772c727a4be3e63f8af5dbf0004e8d0968bff83e1cd95",
+  "base": "7d84de6533a63a2ec1c3bc42ef0e9eca5418da03",
+  "base_tree": "d0c69382c814171f018f06c51cd54fcb5777d98f",
+  "owner": "root; sole repository writer",
+  "status": "design_and_test_sources_approved_RED_pending",
+  "rounds": [
+    {
+      "round": 1,
+      "version": "H1",
+      "sha256": "0a0b6114645788a622ce283ddfd50dd85f1b9674a089093856e1d56272320df9",
+      "reviews": [
+        {
+          "reviewer": "/root/attendance_material_contract_trace",
+          "verdict": "ACCEPT"
+        },
+        {
+          "reviewer": "/root/attendance_material_adversary",
+          "verdict": "REVISE",
+          "finding": "Locked period replay/fresh-write and same-key employee/Company collision controls required.",
+          "disposition": "H2 adds required controls."
+        }
+      ]
+    },
+    {
+      "round": 2,
+      "version": "H2",
+      "sha256": "368d06a1205b4d1123575d000836383b8389bc3db72ae2841d82fef7d1b348ee",
+      "reviews": [
+        {
+          "reviewer": "/root/attendance_material_contract_trace",
+          "verdict": "ACCEPT"
+        },
+        {
+          "reviewer": "/root/attendance_material_adversary",
+          "verdict": "ACCEPT"
+        }
+      ]
+    },
+    {
+      "round": 3,
+      "version": "H3",
+      "sha256": "812a0f831d52a40408800a87d88d440c1945fb0c9b9971d9e83e218f8a18c29b",
+      "reviews": [
+        {
+          "reviewer": "/root/attendance_material_contract_trace",
+          "verdict": "ACCEPT"
+        },
+        {
+          "reviewer": "/root/attendance_material_adversary",
+          "verdict": "ACCEPT"
+        }
+      ]
+    },
+    {
+      "round": 4,
+      "version": "H3",
+      "sha256": "812a0f831d52a40408800a87d88d440c1945fb0c9b9971d9e83e218f8a18c29b",
+      "reviews": [
+        {
+          "reviewer": "/root/attendance_material_contract_trace",
+          "verdict": "REVISE",
+          "finding": "Broad previous LINKED compatibility incorrectly includes malformed references.",
+          "disposition": "H4 qualifies equivalence to valid matching links; malformed links intentionally change."
+        },
+        {
+          "reviewer": "/root/attendance_material_adversary",
+          "verdict": "ACCEPT"
+        }
+      ]
+    },
+    {
+      "round": 5,
+      "version": "H4",
+      "sha256": "deadab931ddd3891e86772c727a4be3e63f8af5dbf0004e8d0968bff83e1cd95",
+      "reviews": [
+        {
+          "reviewer": "/root/attendance_material_contract_trace",
+          "verdict": "ACCEPT"
+        },
+        {
+          "reviewer": "/root/attendance_material_adversary",
+          "verdict": "ACCEPT"
+        }
+      ]
+    }
+  ],
+  "review_evidence": "Current independent full-design messages; earlier verdicts not carried onto changed designs. Final both ACCEPT exact H4.",
+  "limits": [
+    "Source-only expanded pre-exposure fork contract; strict client activation and compatible deployed rollback remain HOLD.",
+    "No authenticated Next UI, legal payroll, temporal Employment, current-at-emission authority, two-site confirmation or full-module acceptance.",
+    "Snapshot helper proof required; deterministic HTTP interleaving remains unproved without an existing seam."
+  ],
+  "test_source": {
+    "paths_and_sha256": {
+      "backend-fork/backend/app/tests/hr_attendance_self_read.rs": "e3871c3f5825079698a89d27020b02cecbfaa70edd19e1add2803f4c4227c900",
+      "backend-fork/backend/app/tests/hr_attendance_manager_scope.rs": "0f0a7a125ba3e289a82adfa4ce4fef2789339a590b5e0465fb0cb5300bbe6ba3"
+    },
+    "reviews": [
+      {
+        "reviewer": "/root/attendance_material_contract_trace",
+        "verdict": "ACCEPT"
+      },
+      {
+        "reviewer": "/root/attendance_material_adversary",
+        "verdict": "ACCEPT"
+      }
+    ],
+    "revisions": [
+      {
+        "self_sha256": "60de9355ba0559805919a879810b0d0121326b35a2a35ca9a25e0ffbffaf6f1d",
+        "manager_sha256": "8def1eb7b5b9b084fc7af6e572ac0d916abf7acf0a5d8329d884c63d34ea9eea",
+        "verdict": "REVISE",
+        "findings": [
+          "Actual served contract must couple GET/create/replay branches.",
+          "Returned reference must match persisted association.",
+          "Exact raw fields must be preserved.",
+          "Manager wrong-date ref requires independent proof.",
+          "Closed-period409 must identify period gate.",
+          "Audit actions/targets/actor must match exact real effects."
+        ],
+        "disposition": "Added focused real responses, persisted-field/reference comparisons, manager wrong-date fixture, freeze reason and exact audit evidence."
+      },
+      {
+        "self_sha256": "e3871c3f5825079698a89d27020b02cecbfaa70edd19e1add2803f4c4227c900",
+        "manager_sha256": "77e462cc9630c206d03124107226dc37688f983848f41b0f2327060258a46c6b",
+        "reviews": [
+          {
+            "reviewer": "/root/attendance_material_adversary",
+            "verdict": "ACCEPT"
+          },
+          {
+            "reviewer": "/root/attendance_material_contract_trace",
+            "verdict": "REVISE",
+            "finding": "Manager LINKED UUID parse did not prove exact persisted association.",
+            "disposition": "Final manager hash verifies exact matching persisted UUID."
+          }
+        ]
+      }
+    ],
+    "expected_discovery": {
+      "hr_attendance_self_read": 10,
+      "hr_attendance_manager_scope": 2
+    },
+    "limits": "Reviewed test sources only. Focused contract assertions, not general JSON-Schema validation or deterministic HTTP interleaving proof."
+  }
+}
