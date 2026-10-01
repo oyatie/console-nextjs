@@ -18,7 +18,7 @@ pub mod payslip_draft;
 pub mod roster;
 
 use console_kernel_core::{ErrorKind, KernelError, UserId};
-use console_platform_db::{DbError, with_org_conn};
+use console_platform_db::{DbError, with_org_conn, with_org_snapshot};
 use console_platform_request_context::current_org;
 use serde::Serialize;
 use sqlx::{PgPool, Postgres, Row, Transaction};
@@ -217,7 +217,7 @@ impl PgPayrollStore {
         offset: Option<i64>,
     ) -> Result<PayrollRunPage, PgPayrollError> {
         let org = current_org().map_err(KernelError::from)?;
-        with_org_conn::<_, _, PgPayrollError>(&self.pool, org, move |tx| {
+        with_org_snapshot::<_, _, PgPayrollError>(&self.pool, org, move |tx| {
             Box::pin(async move { list_runs_in_tx(tx, limit, offset).await })
         })
         .await
@@ -236,7 +236,7 @@ impl PgPayrollStore {
         lines_offset: Option<i64>,
     ) -> Result<Option<PayrollRunDetail>, PgPayrollError> {
         let org = current_org().map_err(KernelError::from)?;
-        with_org_conn::<_, _, PgPayrollError>(&self.pool, org, move |tx| {
+        with_org_snapshot::<_, _, PgPayrollError>(&self.pool, org, move |tx| {
             Box::pin(async move { get_run_in_tx(tx, run_id, lines_limit, lines_offset).await })
         })
         .await
@@ -250,15 +250,7 @@ impl PgPayrollStore {
     ) -> Result<Option<Uuid>, PgPayrollError> {
         let org = current_org().map_err(KernelError::from)?;
         with_org_conn::<_, _, PgPayrollError>(&self.pool, org, move |tx| {
-            Box::pin(async move {
-                let employee_id: Option<Uuid> =
-                    sqlx::query_scalar("SELECT employee_id FROM users WHERE id = $1")
-                        .bind(*user_id.as_uuid())
-                        .fetch_optional(tx.as_mut())
-                        .await?
-                        .flatten();
-                Ok(employee_id)
-            })
+            Box::pin(async move { linked_employee_id_in_tx(tx, user_id).await })
         })
         .await
     }
@@ -273,58 +265,37 @@ impl PgPayrollStore {
         offset: Option<i64>,
     ) -> Result<MyPayrollLinePage, PgPayrollError> {
         let org = current_org().map_err(KernelError::from)?;
-        let limit = limit.unwrap_or(DEFAULT_LIMIT).clamp(1, MAX_LIMIT);
-        let offset = offset.unwrap_or(0).max(0);
+        with_org_snapshot::<_, _, PgPayrollError>(&self.pool, org, move |tx| {
+            Box::pin(async move { list_my_lines_in_tx(tx, employee_id, limit, offset).await })
+        })
+        .await
+    }
 
-        let (items, total) = with_org_conn::<_, _, PgPayrollError>(&self.pool, org, move |tx| {
+    /// Resolve the authenticated Account's employee link and readiness page in
+    /// one Company-scoped snapshot. `user_id` comes from the verified principal,
+    /// never a browser-selected employee or Company identifier.
+    pub async fn list_my_lines_for_user(
+        &self,
+        user_id: UserId,
+        limit: Option<i64>,
+        offset: Option<i64>,
+    ) -> Result<MyPayrollLinePage, PgPayrollError> {
+        let org = current_org().map_err(KernelError::from)?;
+        with_org_snapshot::<_, _, PgPayrollError>(&self.pool, org, move |tx| {
             Box::pin(async move {
-                let total: i64 = sqlx::query_scalar(
-                    "SELECT COUNT(*) FROM payroll_draft_lines WHERE employee_id = $1",
-                )
-                .bind(employee_id)
-                .fetch_one(tx.as_mut())
-                .await?;
-
-                // Readiness projection: hours + *_source_present. Never SELECT *_won.
-                let rows = sqlx::query(
-                    r#"
-                    SELECT r.id AS run_id, r.period_start, r.period_end, r.status AS run_status,
-                           l.calculation_status,
-                           l.work_days::float8 AS work_days,
-                           l.regular_hours::float8 AS regular_hours,
-                           l.overtime_hours::float8 AS overtime_hours,
-                           l.night_hours::float8 AS night_hours,
-                           l.holiday_hours::float8 AS holiday_hours,
-                           l.leave_used::float8 AS leave_used,
-                           l.leave_remaining::float8 AS leave_remaining,
-                           l.gross_pay_source_present, l.net_pay_source_present
-                    FROM payroll_draft_lines l
-                    JOIN payroll_draft_runs r ON r.id = l.run_id
-                    WHERE l.employee_id = $1
-                    ORDER BY r.period_start DESC, r.period_end DESC, l.id DESC
-                    LIMIT $2 OFFSET $3
-                    "#,
-                )
-                .bind(employee_id)
-                .bind(limit)
-                .bind(offset)
-                .fetch_all(tx.as_mut())
-                .await?;
-                let items = rows
-                    .iter()
-                    .map(my_line_from_row)
-                    .collect::<Result<Vec<_>, PgPayrollError>>()?;
-                Ok((items, total))
+                match linked_employee_id_in_tx(tx, user_id).await? {
+                    Some(employee_id) => list_my_lines_in_tx(tx, employee_id, limit, offset).await,
+                    // Preserve the existing unlinked-account pagination response.
+                    None => Ok(MyPayrollLinePage {
+                        items: Vec::new(),
+                        total: 0,
+                        limit: limit.unwrap_or(DEFAULT_LIMIT),
+                        offset: offset.unwrap_or(0),
+                    }),
+                }
             })
         })
-        .await?;
-
-        Ok(MyPayrollLinePage {
-            items,
-            total,
-            limit,
-            offset,
-        })
+        .await
     }
 
     /// Keyset page of SUBMITTED runs the caller did not submit.
@@ -344,7 +315,7 @@ impl PgPayrollStore {
         let (after_created_at, after_id) = after.map_or((None, None), |(created_at, id)| {
             (Some(created_at), Some(id))
         });
-        with_org_conn::<_, _, PgPayrollError>(&self.pool, org, move |tx| {
+        with_org_snapshot::<_, _, PgPayrollError>(&self.pool, org, move |tx| {
             Box::pin(async move {
                 let total: i64 = sqlx::query_scalar(
                     "SELECT COUNT(*) FROM payroll_draft_runs \
@@ -424,6 +395,70 @@ impl PgPayrollStore {
         })
         .await
     }
+}
+
+async fn linked_employee_id_in_tx(
+    tx: &mut Transaction<'_, Postgres>,
+    user_id: UserId,
+) -> Result<Option<Uuid>, PgPayrollError> {
+    Ok(
+        sqlx::query_scalar("SELECT employee_id FROM users WHERE id = $1")
+            .bind(*user_id.as_uuid())
+            .fetch_optional(tx.as_mut())
+            .await?
+            .flatten(),
+    )
+}
+
+async fn list_my_lines_in_tx(
+    tx: &mut Transaction<'_, Postgres>,
+    employee_id: Uuid,
+    limit: Option<i64>,
+    offset: Option<i64>,
+) -> Result<MyPayrollLinePage, PgPayrollError> {
+    let limit = limit.unwrap_or(DEFAULT_LIMIT).clamp(1, MAX_LIMIT);
+    let offset = offset.unwrap_or(0).max(0);
+    let total: i64 =
+        sqlx::query_scalar("SELECT COUNT(*) FROM payroll_draft_lines WHERE employee_id = $1")
+            .bind(employee_id)
+            .fetch_one(tx.as_mut())
+            .await?;
+
+    // Readiness projection: hours + *_source_present. Never SELECT *_won.
+    let rows = sqlx::query(
+        r#"
+        SELECT r.id AS run_id, r.period_start, r.period_end, r.status AS run_status,
+               l.calculation_status,
+               l.work_days::float8 AS work_days,
+               l.regular_hours::float8 AS regular_hours,
+               l.overtime_hours::float8 AS overtime_hours,
+               l.night_hours::float8 AS night_hours,
+               l.holiday_hours::float8 AS holiday_hours,
+               l.leave_used::float8 AS leave_used,
+               l.leave_remaining::float8 AS leave_remaining,
+               l.gross_pay_source_present, l.net_pay_source_present
+        FROM payroll_draft_lines l
+        JOIN payroll_draft_runs r ON r.id = l.run_id
+        WHERE l.employee_id = $1
+        ORDER BY r.period_start DESC, r.period_end DESC, l.id DESC
+        LIMIT $2 OFFSET $3
+        "#,
+    )
+    .bind(employee_id)
+    .bind(limit)
+    .bind(offset)
+    .fetch_all(tx.as_mut())
+    .await?;
+    let items = rows
+        .iter()
+        .map(my_line_from_row)
+        .collect::<Result<Vec<_>, PgPayrollError>>()?;
+    Ok(MyPayrollLinePage {
+        items,
+        total,
+        limit,
+        offset,
+    })
 }
 
 /// Query logic behind [`PgPayrollStore::list_runs`], factored out so a

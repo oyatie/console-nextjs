@@ -117,7 +117,46 @@ where
     >,
     E: From<DbError>,
 {
+    with_audits_transaction(pool, org, false, f).await
+}
+
+/// Read multiple Company-scoped statements from one snapshot and append their
+/// audits before returning data. The transaction remains writable for audit
+/// insertion. This establishes local consistency, not physical durability.
+pub async fn with_audited_snapshot<F, T, E>(pool: &PgPool, org: OrgId, f: F) -> Result<T, E>
+where
+    F: for<'tx> FnOnce(
+        &'tx mut Transaction<'_, Postgres>,
+    ) -> std::pin::Pin<
+        Box<dyn std::future::Future<Output = Result<(T, Vec<AuditEvent>), E>> + Send + 'tx>,
+    >,
+    E: From<DbError>,
+{
+    with_audits_transaction(pool, org, true, f).await
+}
+
+async fn with_audits_transaction<F, T, E>(
+    pool: &PgPool,
+    org: OrgId,
+    snapshot: bool,
+    f: F,
+) -> Result<T, E>
+where
+    F: for<'tx> FnOnce(
+        &'tx mut Transaction<'_, Postgres>,
+    ) -> std::pin::Pin<
+        Box<dyn std::future::Future<Output = Result<(T, Vec<AuditEvent>), E>> + Send + 'tx>,
+    >,
+    E: From<DbError>,
+{
     let mut tx = pool.begin().await.map_err(|e| E::from(DbError::Sqlx(e)))?;
+    if snapshot {
+        // Company arming issues the first SELECT, so set isolation before it.
+        sqlx::query("SET TRANSACTION ISOLATION LEVEL REPEATABLE READ")
+            .execute(tx.as_mut())
+            .await
+            .map_err(|e| E::from(DbError::Sqlx(e)))?;
+    }
     set_current_org(&mut tx, org).await.map_err(E::from)?;
     let result = f(&mut tx).await;
 
