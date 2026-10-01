@@ -1522,6 +1522,52 @@
       "candidate": "b0a017a7eb1ca64bca420bc9167712345bb9f5e8",
       "native_receipt_sha256": "20a8b9162859fd2e4c5c22695aa063c789506195625bb75081183f78d9d228b7",
       "evidence_status": "observed_current_session; final candidate CI/merge approval pending"
+    },
+    {
+      "reviewer": "Independent payroll adversarial, ownership and execution reviewers",
+      "verdict": "SOURCE_AND_GREEN_APPROVE",
+      "scope": "B06/P07 staged payroll population and atomic local payslip publication only",
+      "candidate": "3c544ba3267d99d9e25917e7da0871fc8f7ef4e3",
+      "evidence_status": "revision_bound_source_GREEN_100_and_16_lens_source_audit_observed; strict_Clippy_passed; final_metadata_hosted_merge_verdict_pending",
+      "receipts": [
+        {
+          "path": ".artifacts/acceptance/payroll-population-coverage/red-admission-review.json",
+          "sha256": "9c3cf65bc2e7593961929ce4040ed5ec63f68c77909114140ace531e7b54fdd2"
+        },
+        {
+          "path": ".artifacts/acceptance/payroll-population-coverage/implementation-owner-3c544ba.json",
+          "sha256": "dd0479e4aca0b37772be55521f1df33a0235ff4ffd8f145c9a277e6e24ae725e"
+        },
+        {
+          "path": ".artifacts/acceptance/payroll-population-coverage/implementation-adversary-3c544ba.json",
+          "sha256": "0932e07c32bb94747b3a5bffef9d0911da0863b9114dc209f478fc78299a1b33"
+        },
+        {
+          "path": ".artifacts/acceptance/payroll-population-coverage/implementation-adversary-green-3c544ba.json",
+          "sha256": "11ed56991c21db16314289d39575c9c5109a134aab506d080b8a937dc11c656e"
+        },
+        {
+          "path": ".artifacts/acceptance/payroll-population-coverage/green-acceptance-review-3c544ba.json",
+          "sha256": "7d935073c2f0c28b199697af3a884b5f6ee8b8edb2e9e0d0f4bab3e32bb42ff6"
+        },
+        {
+          "path": ".artifacts/acceptance/payroll-population-coverage/final-16-lens-audit-3c544ba.json",
+          "sha256": "b3af4c5b4bc47a1ccdb9eb912b20223839870e54ba97f5ec81f19dfc23bd67c2"
+        }
+      ],
+      "evidence": {
+        "path": "docs/planning/nextjs-v1/payroll-population-coverage-evidence.json",
+        "sha256": "1cec6ddbe5e09c3093e187acf4a3e0a5e5eb586b44db0c9a39abbd6077820578"
+      },
+      "remaining_holds": [
+        "Existing staged person-grain roster only; legal Employment coverage, source/period provenance and exact approval binding remain unverified.",
+        "Atomic local Company PostgreSQL publication only; two-site durability/fencing, legal service/timing, bank/institution acceptance and persisted rollback remain open.",
+        "Owner-credential connections switch SET ROLE console_rt; real revocable ES256 in-process Router tests are not authenticated database-login, socket/browser or passkey-ceremony proof.",
+        "Different accounts are not verified different natural people; existing PAID/release gates remain and payment status is operator-attested.",
+        "Authenticated Next HR/Org/Payroll/Foundry UI, legal packs, full modules, capacity/restore/migration and release acceptance remain open.",
+        "Compromised runtime raw SQL is outside this established-owner lock-serialization proof.",
+        "Exact final metadata revision, hosted CI, independent COMMENT and protected queue/merge readback remain pending at this checkpoint. No deployment or live effects."
+      ]
     }
   ],
   "findings": [

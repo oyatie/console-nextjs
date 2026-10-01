@@ -707,3 +707,16 @@ coverage, and issuance lacks complete roster coverage; both need a coordinated
 follow-up. Source identity/period/provenance, authenticated Next business UI,
 effective Employment, natural-person approval, legal payroll, payment,
 cross-build rollback and two-site release proof remain unverified.
+
+
+## 2026-10-01 — staged payroll population and atomic local publication
+
+Source `3c544ba3267d99d9e25917e7da0871fc8f7ef4e3` repairs the existing lifecycle, Payroll REST and Inbox owners. Submission and APPROVE require exact coverage of the staged person-grain roster at one current run-wide calculation version. Missing, stale, blocked, unresolved, duplicated or foreign-bound lines cannot produce a complete total or advance. REJECT and existing SoD precedence remain. This supersedes the earlier staged-coverage gap prospectively.
+
+Issuance captures and locks every linked recipient, preserves former-worker Accounts, and combines documents, links, audits and ISSUED status in one Company transaction. A late failure rolls back the new batch. Exact immutable Inbox redelivery preserves receipts; changed artifacts conflict. The final recorder independently validates the complete current population and stored artifacts, including matching legacy partial publications.
+
+Approved tests at `9641dbaf` were unchanged: complete RED discovered/executed100 (87 passed,13 reviewed behavioral failures), then GREEN100/100 with zero ignored, measured or filtered cases. Two independent runtime reviews verified raw logs, hashes, all prior failures and cleanup. All eight changed Rust files passed formatting; five strict locked/offline owner/lib/regression Clippy checks passed. Source/ownership and the16-lens source audit approved this bounded repair. See [evidence](payroll-population-coverage-evidence.json) and [revision-bound reviews](payroll-population-coverage-review.json).
+
+Earlier invalid census/auth-fixture and compiler-stall attempts remain diagnostics, never RED/GREEN. The stalled cached macro was selectively rebuilt without source, lockfile or OS security changes. Protected CI retains every producer and adds complete Payroll REST, Inbox and leave targets. Exact final-revision hosted CI, independent COMMENT and protected queue/merge readback remain pending at this checkpoint.
+
+This is staged-roster coverage and atomic local PostgreSQL publication. Legal Employment population/provenance, exact approval binding, verified natural-person independence, legal payslip timing, bank acceptance, authenticated Next HR/Org/Payroll/Foundry UI, two-site durability, load/restore and persisted rollback remain open. No deployment, institutional act or collection was performed. Full module and release acceptance remains unaccepted.

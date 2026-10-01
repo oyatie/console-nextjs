@@ -1,0 +1,1906 @@
+{
+  "version": 1,
+  "scope": "B06/P07 staged payroll population and atomic local payslip publication only",
+  "base_sha": "08cafb8588ca77b9b690a1442ec860d69e8a0283",
+  "approved_tests_head": "9641dbaf54571d7b335dc5aa0438186a3abb96ca",
+  "implementation_head": "3c544ba3267d99d9e25917e7da0871fc8f7ef4e3",
+  "design": {
+    "path": "docs/planning/nextjs-v1/payroll-population-coverage.md",
+    "sha256": "ee1fbf71298d76433d030fb4de0443818e9870625e211ca95f62107d65bb5a29"
+  },
+  "frozen_harness": {
+    "probe.py": {
+      "path": ".artifacts/acceptance/payroll-population-coverage/probe.py",
+      "sha256": "751d764c6e498c36c5e6a1ed581d8c064ff684eea8ae59658a62c39742bc4f03"
+    },
+    "run_disposable_pg.py": {
+      "path": ".artifacts/acceptance/payroll-population-coverage/run_disposable_pg.py",
+      "sha256": "55fdbbbd1d964f876c9dc54240b8899f551963f51e71512336bd78daa2dc05ae"
+    },
+    "red-expectations-proposed-9641dbaf.json": {
+      "path": ".artifacts/acceptance/payroll-population-coverage/red-expectations-proposed-9641dbaf.json",
+      "sha256": "08b2d60f51fb75b695427d88425548f2092a5711d903166e746b78ffb0846a14"
+    }
+  },
+  "RED": {
+    "path": ".artifacts/acceptance/payroll-population-coverage/run-20261001T091416.505326Z/report.json",
+    "sha256": "381a7c04852da5ee07f6c0fa1a03abd32653d844cd452d2ec2dccfa219428309",
+    "candidate_head": "9641dbaf54571d7b335dc5aa0438186a3abb96ca",
+    "approved_tests_head": "9641dbaf54571d7b335dc5aa0438186a3abb96ca",
+    "status": "failed",
+    "commands": [
+      {
+        "name": "pg_config-version",
+        "command": [
+          "/opt/homebrew/Cellar/postgresql@18/18.6/bin/pg_config",
+          "--version"
+        ],
+        "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/payroll-population-coverage/backend-fork",
+        "status": "passed",
+        "exit_code": 0,
+        "stdout_log": "pg_config-version.stdout.log",
+        "stdout_sha256": "a7f8e6812c2beb2f5243737ca17a1cf6be1ae26291991495a0371b9bba446d79",
+        "stderr_log": "pg_config-version.stderr.log",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "postgres-version",
+        "command": [
+          "/opt/homebrew/Cellar/postgresql@18/18.6/bin/postgres",
+          "--version"
+        ],
+        "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/payroll-population-coverage/backend-fork",
+        "status": "passed",
+        "exit_code": 0,
+        "stdout_log": "postgres-version.stdout.log",
+        "stdout_sha256": "1f6bff71efc118ffd7738eff34169ffdc19f0c8153a101eecd9517f40ffcf89c",
+        "stderr_log": "postgres-version.stderr.log",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "initdb-version",
+        "command": [
+          "/opt/homebrew/Cellar/postgresql@18/18.6/bin/initdb",
+          "--version"
+        ],
+        "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/payroll-population-coverage/backend-fork",
+        "status": "passed",
+        "exit_code": 0,
+        "stdout_log": "initdb-version.stdout.log",
+        "stdout_sha256": "14ee18735e00aabf2a7acd9c47a94ceb66a48c90ed31e16c7ddac2bfd2281678",
+        "stderr_log": "initdb-version.stderr.log",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "pg_ctl-version",
+        "command": [
+          "/opt/homebrew/Cellar/postgresql@18/18.6/bin/pg_ctl",
+          "--version"
+        ],
+        "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/payroll-population-coverage/backend-fork",
+        "status": "passed",
+        "exit_code": 0,
+        "stdout_log": "pg_ctl-version.stdout.log",
+        "stdout_sha256": "8e5974d4426ecc630442dd8ba4102138b88f579a8ea623d680836b8cb7922107",
+        "stderr_log": "pg_ctl-version.stderr.log",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "psql-version",
+        "command": [
+          "/opt/homebrew/Cellar/postgresql@18/18.6/bin/psql",
+          "--version"
+        ],
+        "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/payroll-population-coverage/backend-fork",
+        "status": "passed",
+        "exit_code": 0,
+        "stdout_log": "psql-version.stdout.log",
+        "stdout_sha256": "5b2d0593df6e2b61fdcb827755ecc4f429e0b61dc2371d93a0422d35b4e83cb0",
+        "stderr_log": "psql-version.stderr.log",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "initdb",
+        "command": [
+          "/opt/homebrew/Cellar/postgresql@18/18.6/bin/initdb",
+          "-D",
+          "/private/tmp/payroll-population-pg-ydjj8wn_/data",
+          "--username=console_buck_admin",
+          "--auth-local=scram-sha-256",
+          "--auth-host=reject",
+          "--no-locale",
+          "--encoding=UTF8",
+          "--pwfile",
+          "/private/tmp/payroll-population-pg-ydjj8wn_/admin-password"
+        ],
+        "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/payroll-population-coverage/backend-fork",
+        "status": "passed",
+        "exit_code": 0,
+        "stdout_log": "initdb.stdout.log",
+        "stdout_sha256": "84f42bf35d1f93e3635e64ad3c5a082376d324489569f536273b8dcda07e2e97",
+        "stderr_log": "initdb.stderr.log",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "postgres-start",
+        "command": [
+          "/opt/homebrew/Cellar/postgresql@18/18.6/bin/pg_ctl",
+          "-D",
+          "/private/tmp/payroll-population-pg-ydjj8wn_/data",
+          "-l",
+          "/private/tmp/payroll-population-pg-ydjj8wn_/postgres.log",
+          "-o",
+          "-k /private/tmp/payroll-population-pg-ydjj8wn_/socket -c listen_addresses='' -c unix_socket_permissions=0700",
+          "-w",
+          "start"
+        ],
+        "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/payroll-population-coverage/backend-fork",
+        "status": "passed",
+        "exit_code": 0,
+        "stdout_log": "postgres-start.stdout.log",
+        "stdout_sha256": "66afd0411ccc09366e99fdd99b85f21899c8d2d064f5835126859618802153ad",
+        "stderr_log": "postgres-start.stderr.log",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "postgres-server-version",
+        "command": [
+          "/opt/homebrew/Cellar/postgresql@18/18.6/bin/psql",
+          "--host",
+          "/private/tmp/payroll-population-pg-ydjj8wn_/socket",
+          "--username",
+          "console_buck_admin",
+          "--dbname",
+          "postgres",
+          "--no-psqlrc",
+          "--tuples-only",
+          "--no-align",
+          "--set",
+          "ON_ERROR_STOP=1",
+          "--command",
+          "SELECT current_setting('server_version_num'), version()"
+        ],
+        "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/payroll-population-coverage/backend-fork",
+        "status": "passed",
+        "exit_code": 0,
+        "stdout_log": "postgres-server-version.stdout.log",
+        "stdout_sha256": "99c3f678218d6a74b09cb259476f80d10f0892fc68936c938fe6422c0be4b6a4",
+        "stderr_log": "postgres-server-version.stderr.log",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "role-topology",
+        "command": [
+          "bash",
+          "/Users/jasonlee/Developer/frontend/.worktrees/payroll-population-coverage/backend-fork/ops/postgres-reconcile-topology.sh"
+        ],
+        "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/payroll-population-coverage/backend-fork",
+        "status": "passed",
+        "exit_code": 0,
+        "stdout_log": "role-topology.stdout.log",
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_log": "role-topology.stderr.log",
+        "stderr_sha256": "0d3b9f5d44b25649ac035d2d98430aff35d74d46e5e94f94c14d5abf33dba76a"
+      },
+      {
+        "name": "rust-version",
+        "command": [
+          "rustc",
+          "--version"
+        ],
+        "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/payroll-population-coverage/backend-fork/backend",
+        "status": "passed",
+        "exit_code": 0,
+        "stdout_log": "rust-version.stdout.log",
+        "stdout_sha256": "2073de5abf149185c2f4d7473dc833bc921b99135560d24ae7b2293f33a9c376",
+        "stderr_log": "rust-version.stderr.log",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "cargo-version",
+        "command": [
+          "cargo",
+          "--version"
+        ],
+        "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/payroll-population-coverage/backend-fork/backend",
+        "status": "passed",
+        "exit_code": 0,
+        "stdout_log": "cargo-version.stdout.log",
+        "stdout_sha256": "9950bbb2d5c3417b1a068f0e81f6d3cac991a363193bdf2a22d447f5acf8b503",
+        "stderr_log": "cargo-version.stderr.log",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "payroll_unit-discover",
+        "command": [
+          "cargo",
+          "test",
+          "--locked",
+          "--offline",
+          "-p",
+          "console-payroll-adapter-postgres",
+          "--lib",
+          "--",
+          "--list"
+        ],
+        "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/payroll-population-coverage/backend-fork/backend",
+        "status": "passed",
+        "exit_code": 0,
+        "stdout_log": "payroll_unit-discover.stdout.log",
+        "stdout_sha256": "7d79903ce028565710d89ae64c67e42873aca803305504757bbf87deca470736",
+        "stderr_log": "payroll_unit-discover.stderr.log",
+        "stderr_sha256": "893decec2d3699233e715ef232fa6e4e7875004995b36bcbf095889a1ded9fdb"
+      },
+      {
+        "name": "payroll_unit",
+        "command": [
+          "cargo",
+          "test",
+          "--locked",
+          "--offline",
+          "-p",
+          "console-payroll-adapter-postgres",
+          "--lib",
+          "--",
+          "--test-threads=1",
+          "--format=pretty"
+        ],
+        "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/payroll-population-coverage/backend-fork/backend",
+        "status": "passed",
+        "exit_code": 0,
+        "stdout_log": "payroll_unit.stdout.log",
+        "stdout_sha256": "bf2b0665d3f91cc5238686a781eaef32fecfc59bdff433392aa830b89ca7ccc7",
+        "stderr_log": "payroll_unit.stderr.log",
+        "stderr_sha256": "c6820a717e55266b7ab96863bd993c171f6a4521bbf7ee54d2492414fcd5d045"
+      },
+      {
+        "name": "payroll_runtime-discover",
+        "command": [
+          "cargo",
+          "test",
+          "--locked",
+          "--offline",
+          "-p",
+          "console-payroll-adapter-postgres",
+          "--test",
+          "pay_run_port_as_runtime_role",
+          "--",
+          "--list"
+        ],
+        "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/payroll-population-coverage/backend-fork/backend",
+        "status": "passed",
+        "exit_code": 0,
+        "stdout_log": "payroll_runtime-discover.stdout.log",
+        "stdout_sha256": "b225a30dd5c6c99abc96e516763880b963aa8436ff9036dcd2a83cee4777ee6e",
+        "stderr_log": "payroll_runtime-discover.stderr.log",
+        "stderr_sha256": "f563771eb8c1612359d8d30027a799dd6b0e9277f986dd0515326428c79760e7"
+      },
+      {
+        "name": "payroll_runtime",
+        "command": [
+          "cargo",
+          "test",
+          "--locked",
+          "--offline",
+          "-p",
+          "console-payroll-adapter-postgres",
+          "--test",
+          "pay_run_port_as_runtime_role",
+          "--",
+          "--test-threads=1",
+          "--format=pretty"
+        ],
+        "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/payroll-population-coverage/backend-fork/backend",
+        "status": "failed",
+        "exit_code": 101,
+        "stdout_log": "payroll_runtime.stdout.log",
+        "stdout_sha256": "5f924a0aa75e068863a9adbab7ca8a2b77076127990df6bab899540662ece608",
+        "stderr_log": "payroll_runtime.stderr.log",
+        "stderr_sha256": "600c8e3aaceb096704082b2a63ca90996e5afe09a4113e83b511f68883505528"
+      },
+      {
+        "name": "payroll_lifecycle_rls-discover",
+        "command": [
+          "cargo",
+          "test",
+          "--locked",
+          "--offline",
+          "-p",
+          "console-payroll-adapter-postgres",
+          "--test",
+          "payroll_lifecycle_rls_as_runtime_role",
+          "--",
+          "--list"
+        ],
+        "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/payroll-population-coverage/backend-fork/backend",
+        "status": "passed",
+        "exit_code": 0,
+        "stdout_log": "payroll_lifecycle_rls-discover.stdout.log",
+        "stdout_sha256": "6c03294b6a6b413a5112e51b0c60a30345ba970bf08a25855cdd350da2c8bb44",
+        "stderr_log": "payroll_lifecycle_rls-discover.stderr.log",
+        "stderr_sha256": "bf3a018b89c2d49543f1b17b26da7780d9a201a081dd72adfbceb78047df86d2"
+      },
+      {
+        "name": "payroll_lifecycle_rls",
+        "command": [
+          "cargo",
+          "test",
+          "--locked",
+          "--offline",
+          "-p",
+          "console-payroll-adapter-postgres",
+          "--test",
+          "payroll_lifecycle_rls_as_runtime_role",
+          "--",
+          "--test-threads=1",
+          "--format=pretty"
+        ],
+        "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/payroll-population-coverage/backend-fork/backend",
+        "status": "passed",
+        "exit_code": 0,
+        "stdout_log": "payroll_lifecycle_rls.stdout.log",
+        "stdout_sha256": "9071485a78bab36e3f5b5547c7c71939a24e475f02c49dcb8bc3d408d33fa43d",
+        "stderr_log": "payroll_lifecycle_rls.stderr.log",
+        "stderr_sha256": "ed112b23c94d905d1f0b2f53bef23adeb3cd50bea5c37fb5e429d5a7d267c9f1"
+      },
+      {
+        "name": "payroll_roster-discover",
+        "command": [
+          "cargo",
+          "test",
+          "--locked",
+          "--offline",
+          "-p",
+          "console-payroll-adapter-postgres",
+          "--test",
+          "roster_materialisation",
+          "--",
+          "--list"
+        ],
+        "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/payroll-population-coverage/backend-fork/backend",
+        "status": "passed",
+        "exit_code": 0,
+        "stdout_log": "payroll_roster-discover.stdout.log",
+        "stdout_sha256": "8639c45c562d3b102d7c2a52cfaa744d415e22f822208be52116caa56b06d8c6",
+        "stderr_log": "payroll_roster-discover.stderr.log",
+        "stderr_sha256": "250b45b6595fd849382fcb517451b2e4595d8ebe927169eefa3a75584b9ea2e5"
+      },
+      {
+        "name": "payroll_roster",
+        "command": [
+          "cargo",
+          "test",
+          "--locked",
+          "--offline",
+          "-p",
+          "console-payroll-adapter-postgres",
+          "--test",
+          "roster_materialisation",
+          "--",
+          "--test-threads=1",
+          "--format=pretty"
+        ],
+        "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/payroll-population-coverage/backend-fork/backend",
+        "status": "passed",
+        "exit_code": 0,
+        "stdout_log": "payroll_roster.stdout.log",
+        "stdout_sha256": "ce1fd4cdb6d087356ef4f2dfe249735f8462fdd195c2841854a888fd56da7b85",
+        "stderr_log": "payroll_roster.stderr.log",
+        "stderr_sha256": "ab96a43bcbde52015a4f56c510d57ec4df535fff9cf4cf35648cdc90d56c1083"
+      },
+      {
+        "name": "payroll_rest-discover",
+        "command": [
+          "cargo",
+          "test",
+          "--locked",
+          "--offline",
+          "-p",
+          "console-payroll-rest",
+          "--test",
+          "run_lifecycle_api",
+          "--",
+          "--list"
+        ],
+        "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/payroll-population-coverage/backend-fork/backend",
+        "status": "passed",
+        "exit_code": 0,
+        "stdout_log": "payroll_rest-discover.stdout.log",
+        "stdout_sha256": "6b65f25219f50ae8917af72e0185c9e08f688bac2ab5c9f4f58705e3d425ea40",
+        "stderr_log": "payroll_rest-discover.stderr.log",
+        "stderr_sha256": "a99b41af333623d31639390df0b3f47174299fc307d79116b38ba166b83128ae"
+      },
+      {
+        "name": "payroll_rest",
+        "command": [
+          "cargo",
+          "test",
+          "--locked",
+          "--offline",
+          "-p",
+          "console-payroll-rest",
+          "--test",
+          "run_lifecycle_api",
+          "--",
+          "--test-threads=1",
+          "--format=pretty"
+        ],
+        "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/payroll-population-coverage/backend-fork/backend",
+        "status": "failed",
+        "exit_code": 101,
+        "stdout_log": "payroll_rest.stdout.log",
+        "stdout_sha256": "25da2e5cc2b0e503cd9d2b3691caa106cf5aa41c64a36c2a60e6304926144fa2",
+        "stderr_log": "payroll_rest.stderr.log",
+        "stderr_sha256": "379dfd6a46c02221e4d174f730de06b546648daa9e005e443c113f9f5d0ec305"
+      },
+      {
+        "name": "inbox_runtime-discover",
+        "command": [
+          "cargo",
+          "test",
+          "--locked",
+          "--offline",
+          "-p",
+          "console-inbox-adapter-postgres",
+          "--test",
+          "inbox_docs_rls_surfaces_as_runtime_role",
+          "--",
+          "--list"
+        ],
+        "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/payroll-population-coverage/backend-fork/backend",
+        "status": "passed",
+        "exit_code": 0,
+        "stdout_log": "inbox_runtime-discover.stdout.log",
+        "stdout_sha256": "73ceeeec5b11c1129ef376384021d4859bad986b1110d635c4bc983beef26df0",
+        "stderr_log": "inbox_runtime-discover.stderr.log",
+        "stderr_sha256": "639d853c0d5347d46463644ec5507a3112365c44dddc5d4664290c04a86032b6"
+      },
+      {
+        "name": "inbox_runtime",
+        "command": [
+          "cargo",
+          "test",
+          "--locked",
+          "--offline",
+          "-p",
+          "console-inbox-adapter-postgres",
+          "--test",
+          "inbox_docs_rls_surfaces_as_runtime_role",
+          "--",
+          "--test-threads=1",
+          "--format=pretty"
+        ],
+        "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/payroll-population-coverage/backend-fork/backend",
+        "status": "failed",
+        "exit_code": 101,
+        "stdout_log": "inbox_runtime.stdout.log",
+        "stdout_sha256": "a6a1612f973645f4a5439ec21ef2d8381989040c091cedb8ba0b581d7b0f5559",
+        "stderr_log": "inbox_runtime.stderr.log",
+        "stderr_sha256": "ff3dba729e3bca6e9099149ebf05f576df1c025ff6f351801a4b140e0074d61c"
+      },
+      {
+        "name": "leave_runtime-discover",
+        "command": [
+          "cargo",
+          "test",
+          "--locked",
+          "--offline",
+          "-p",
+          "console-leave-adapter-postgres",
+          "--test",
+          "leave_rls_surfaces_as_runtime_role",
+          "--",
+          "--list"
+        ],
+        "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/payroll-population-coverage/backend-fork/backend",
+        "status": "passed",
+        "exit_code": 0,
+        "stdout_log": "leave_runtime-discover.stdout.log",
+        "stdout_sha256": "2b45bb83799e9d861a30b8cbc5817f9b759e3ccb0bd1040ba249b0eca4270686",
+        "stderr_log": "leave_runtime-discover.stderr.log",
+        "stderr_sha256": "59e2b6ac07bae8ab813262e4d386c08b5d83b31cfdb8095378c603b061d7ad9b"
+      },
+      {
+        "name": "leave_runtime",
+        "command": [
+          "cargo",
+          "test",
+          "--locked",
+          "--offline",
+          "-p",
+          "console-leave-adapter-postgres",
+          "--test",
+          "leave_rls_surfaces_as_runtime_role",
+          "--",
+          "--test-threads=1",
+          "--format=pretty"
+        ],
+        "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/payroll-population-coverage/backend-fork/backend",
+        "status": "failed",
+        "exit_code": 101,
+        "stdout_log": "leave_runtime.stdout.log",
+        "stdout_sha256": "c89d0a99d53f75cbab14642fa7f75ec3acca4b385798f4dc7004d3a585bdf67e",
+        "stderr_log": "leave_runtime.stderr.log",
+        "stderr_sha256": "20815e7437fc77f1add9c86b6647ae5169a0b558252a41b159c1d85ccbe3e9f8"
+      },
+      {
+        "name": "payroll_workflow-discover",
+        "command": [
+          "cargo",
+          "test",
+          "--locked",
+          "--offline",
+          "-p",
+          "console-workflow-runtime-adapter-postgres",
+          "--test",
+          "payroll_drain_period_lock",
+          "--",
+          "--list"
+        ],
+        "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/payroll-population-coverage/backend-fork/backend",
+        "status": "passed",
+        "exit_code": 0,
+        "stdout_log": "payroll_workflow-discover.stdout.log",
+        "stdout_sha256": "caeadc4845bc6a27560c05fbc6e14b1d18616d6f78ec3be9a947e77b0360c355",
+        "stderr_log": "payroll_workflow-discover.stderr.log",
+        "stderr_sha256": "2bec8eb8f013f04e7f9e06036b39fe503697b9be534d5987c618d817ee5ea072"
+      },
+      {
+        "name": "payroll_workflow",
+        "command": [
+          "cargo",
+          "test",
+          "--locked",
+          "--offline",
+          "-p",
+          "console-workflow-runtime-adapter-postgres",
+          "--test",
+          "payroll_drain_period_lock",
+          "--",
+          "--test-threads=1",
+          "--format=pretty"
+        ],
+        "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/payroll-population-coverage/backend-fork/backend",
+        "status": "passed",
+        "exit_code": 0,
+        "stdout_log": "payroll_workflow.stdout.log",
+        "stdout_sha256": "357a300de952326bff9922eda097164ff4ed643622d38823d311c9f6bec32e55",
+        "stderr_log": "payroll_workflow.stderr.log",
+        "stderr_sha256": "a96affb8d3d935de995b936cda1ac9adadace88f3ec05184fe7c91264e3a066a"
+      },
+      {
+        "name": "postgres-stop",
+        "command": [
+          "/opt/homebrew/Cellar/postgresql@18/18.6/bin/pg_ctl",
+          "-D",
+          "/private/tmp/payroll-population-pg-ydjj8wn_/data",
+          "-m",
+          "immediate",
+          "-w",
+          "stop"
+        ],
+        "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/payroll-population-coverage/backend-fork",
+        "status": "passed",
+        "exit_code": 0,
+        "stdout_log": "postgres-stop.stdout.log",
+        "stdout_sha256": "ca19178a35ab4153b75b494963b66ce8243e1b94c173107c87b44d09db23652d",
+        "stderr_log": "postgres-stop.stderr.log",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ],
+    "custody_source_count": 2749,
+    "postgres_tool_versions": {
+      "pg_config": "PostgreSQL 18.6 (Homebrew)",
+      "postgres": "postgres (PostgreSQL) 18.6 (Homebrew)",
+      "initdb": "initdb (PostgreSQL) 18.6 (Homebrew)",
+      "pg_ctl": "pg_ctl (PostgreSQL) 18.6 (Homebrew)",
+      "psql": "psql (PostgreSQL) 18.6 (Homebrew)"
+    },
+    "postgres_server_version": {
+      "server_version_num": 180006,
+      "version": "PostgreSQL 18.6 (Homebrew) on aarch64-apple-darwin25.6.0, compiled by Apple clang version 21.0.0 (clang-2100.1.1.101), 64-bit"
+    },
+    "rust_version": "rustc 1.98.1 (48a229cea 2026-09-01)",
+    "cargo_version": "cargo 1.98.1 (797e8a9bc 2026-08-05)",
+    "suites": [
+      {
+        "name": "payroll_unit",
+        "package": "console-payroll-adapter-postgres",
+        "target": "lib",
+        "status": "passed",
+        "discovered": 18,
+        "executed": 18,
+        "passed": 18,
+        "failed": 0,
+        "ignored": 0,
+        "measured": 0,
+        "filtered": 0,
+        "execution_complete": true,
+        "behavioral_red": {
+          "status": "passed",
+          "failures": [],
+          "issues": []
+        }
+      },
+      {
+        "name": "payroll_runtime",
+        "package": "console-payroll-adapter-postgres",
+        "target": "pay_run_port_as_runtime_role",
+        "status": "failed",
+        "discovered": 29,
+        "executed": 29,
+        "passed": 28,
+        "failed": 1,
+        "ignored": 0,
+        "measured": 0,
+        "filtered": 0,
+        "execution_complete": true,
+        "behavioral_red": {
+          "status": "passed",
+          "failures": [
+            {
+              "test_name": "canonical_empty_submission_conflicts_without_a_success_receipt",
+              "panic_path": "crates/payroll/adapter-postgres/tests/pay_run_port_as_runtime_role.rs",
+              "line": 2453,
+              "column": 5,
+              "panic_message": "empty population must not create a successful receipt"
+            }
+          ],
+          "issues": []
+        }
+      },
+      {
+        "name": "payroll_lifecycle_rls",
+        "package": "console-payroll-adapter-postgres",
+        "target": "payroll_lifecycle_rls_as_runtime_role",
+        "status": "passed",
+        "discovered": 4,
+        "executed": 4,
+        "passed": 4,
+        "failed": 0,
+        "ignored": 0,
+        "measured": 0,
+        "filtered": 0,
+        "execution_complete": true,
+        "behavioral_red": {
+          "status": "passed",
+          "failures": [],
+          "issues": []
+        }
+      },
+      {
+        "name": "payroll_roster",
+        "package": "console-payroll-adapter-postgres",
+        "target": "roster_materialisation",
+        "status": "passed",
+        "discovered": 7,
+        "executed": 7,
+        "passed": 7,
+        "failed": 0,
+        "ignored": 0,
+        "measured": 0,
+        "filtered": 0,
+        "execution_complete": true,
+        "behavioral_red": {
+          "status": "passed",
+          "failures": [],
+          "issues": []
+        }
+      },
+      {
+        "name": "payroll_rest",
+        "package": "console-payroll-rest",
+        "target": "run_lifecycle_api",
+        "status": "failed",
+        "discovered": 14,
+        "executed": 14,
+        "passed": 5,
+        "failed": 9,
+        "ignored": 0,
+        "measured": 0,
+        "filtered": 0,
+        "execution_complete": true,
+        "behavioral_red": {
+          "status": "passed",
+          "failures": [
+            {
+              "test_name": "population::approval_rechecks_population_and_exceptions_but_rejection_remains_available",
+              "panic_path": "crates/payroll/rest/tests/run_lifecycle_api/population.rs",
+              "line": 315,
+              "column": 9,
+              "panic_message": "assertion `left == right` failed: blocked: {\"run\":{\"id\":\"be4a6d90-d949-431d-8e1a-fe60be3acd1f\",\"period_start\":[2026,152],\"period_end\":[2026,181],\"source_label\":\"workflow_runtime_m2:run:75e6f363-b3ab-4dab-8375-fb2724d35e9c\",\"status\":\"APPROVED\",\"calculation_enabled\":false,\"created_by\":null,\"approved_by\":\"c0764264-c6c9-4914-b897-bbf9f1c920e9\",\"approved_at\":[2026,274,9,28,11,743499000,0,0,0],\"close_receipt\":{\"checks\":[{\"ok\":true,\"key\":\"attendance_material\",\"note\":null,\"warn\":false,\"label_ko\":\"근태 원천 확보\",\"blocking_refs\":[]},{\"ok\":true,\"key\":\"period_lock\",\"note\":null,\"warn\":false,\"label_ko\":\"급여 기간 동결\",\"blocking_refs\":[]},{\"ok\":true,\"key\":\"pending_leave\",\"note\":null,\"warn\":false,\"label_ko\":\"미결 휴가 신청\",\"blocking_refs\":[]}],\"attested_at\":\"2026-10-01T09:28:11.664058000Z\",\"attested_by\":\"c7ee3a5f-53cd-4314-8372-da4dd5b0dede\"},\"submitted_by\":\"c7ee3a5f-53cd-4314-8372-da4dd5b0dede\",\"submitted_at\":[2026,274,9,28,11,686230000,0,0,0],\"decided_by\":\"c0764264-c6c9-4914-b897-bbf9f1c920e9\",\"decided_at\":[2026,274,9,28,11,743499000,0,0,0],\"decision_reason\":null,\"approval_ref\":null,\"created_at\":[2026,274,9,28,11,620551000,0,0,0],\"updated_at\":[2026,274,9,28,11,743499000,0,0,0]},\"legal_basis\":{},\"source_summary\":{\"job\":\"payroll_draft\",\"run_id\":\"75e6f363-b3ab-4dab-8375-fb2724d35e9c\",\"connector\":\"m2\",\"outbox_event_id\":\"5a73de7c-0997-49bb-a2e9-fd0766bae7ea\"},\"lines\":[{\"id\":\"36745bd1-926b-4431-8fcf-58e6f2eb9a2d\",\"employee_id\":\"9c4a55b9-944e-4a33-9afc-2952ec3ea33e\",\"employee_display_name\":\"Alice\",\"employee_company\":\"KNL\",\"work_days\":null,\"regular_hours\":null,\"overtime_hours\":0.0,\"night_hours\":null,\"holiday_hours\":null,\"leave_used\":null,\"leave_remaining\":null,\"gross_pay_source_present\":true,\"net_pay_source_present\":false,\"nts_tax_row_status\":\"VERIFIED_SOURCE_ROW\",\"calculation_status\":\"READY_FOR_REVIEW\",\"blockers\":[]},{\"id\":\"79253cd1-088e-4bfc-a13f-306b2fd74c7e\",\"employee_id\":\"56d074bd-f0c9-4c0a-a4f6-011216b0aa79\",\"employee_display_name\":\"Alice\",\"employee_company\":\"KNL\",\"work_days\":null,\"regular_hours\":null,\"overtime_hours\":0.0,\"night_hours\":null,\"holiday_hours\":null,\"leave_used\":null,\"leave_remaining\":null,\"gross_pay_source_present\":true,\"net_pay_source_present\":false,\"nts_tax_row_status\":\"VERIFIED_SOURCE_ROW\",\"calculation_status\":\"READY_FOR_REVIEW\",\"blockers\":[\"changed\"]}],\"lines_total\":2,\"lines_limit\":100,\"lines_offset\":0,\"exceptions_open\":0,\"exceptions_total\":0,\"calculation\":{\"version\":1,\"calculated_at\":[2026,274,9,28,11,673863000,0,0,0],\"calculated_lines\":2,\"blocked_lines\":0,\"payable\":false,\"kernel_rate_table\":\"statutory-rates-2026-06-27\",\"total_net_won\":5253400},\"disbursement\":null,\"payslip_delivery\":null}"
+            },
+            {
+              "test_name": "population::complete_current_version_publication_includes_exited_workers_and_reuses_exact_legacy_artifacts",
+              "panic_path": "crates/payroll/rest/tests/run_lifecycle_api/population.rs",
+              "line": 385,
+              "column": 5,
+              "panic_message": "assertion `left == right` failed: summary uses actual current roster, never a stale caller count"
+            },
+            {
+              "test_name": "population::defective_population_cannot_submit_or_issue_and_has_no_total",
+              "panic_path": "crates/payroll/rest/tests/run_lifecycle_api/population.rs",
+              "line": 233,
+              "column": 9,
+              "panic_message": "assertion `left == right` failed: defect=empty: {\"run\":{\"id\":\"601ecfa7-7390-4102-b4fe-7c88fc97917f\",\"period_start\":[2026,152],\"period_end\":[2026,181],\"source_label\":\"workflow_runtime_m2:run:e6cb5e95-323d-49f8-a1be-b5c0ab8d4449\",\"status\":\"SUBMITTED\",\"calculation_enabled\":false,\"created_by\":null,\"approved_by\":null,\"approved_at\":null,\"close_receipt\":null,\"submitted_by\":\"7f273369-7b0c-49bb-819a-85c23e265ed3\",\"submitted_at\":[2026,274,9,28,13,619356000,0,0,0],\"decided_by\":null,\"decided_at\":null,\"decision_reason\":null,\"approval_ref\":null,\"created_at\":[2026,274,9,28,13,535491000,0,0,0],\"updated_at\":[2026,274,9,28,13,619356000,0,0,0]},\"legal_basis\":{},\"source_summary\":{\"job\":\"payroll_draft\",\"run_id\":\"e6cb5e95-323d-49f8-a1be-b5c0ab8d4449\",\"connector\":\"m2\",\"outbox_event_id\":\"987d1e1f-5436-4ac0-92b8-5f29fb55b90f\"},\"lines\":[],\"lines_total\":0,\"lines_limit\":100,\"lines_offset\":0,\"exceptions_open\":0,\"exceptions_total\":0,\"calculation\":null,\"disbursement\":null,\"payslip_delivery\":null}"
+            },
+            {
+              "test_name": "population::final_recorder_refuses_incomplete_duplicate_foreign_or_mismatched_evidence",
+              "panic_path": "crates/payroll/rest/tests/run_lifecycle_api/population.rs",
+              "line": 547,
+              "column": 9,
+              "panic_message": "[]: Ok(())"
+            },
+            {
+              "test_name": "population::final_recorder_revalidates_document_content_metadata_and_current_recipient",
+              "panic_path": "crates/payroll/rest/tests/run_lifecycle_api/population.rs",
+              "line": 758,
+              "column": 9,
+              "panic_message": "title: Ok(())"
+            },
+            {
+              "test_name": "population::missing_recipient_or_conflicting_artifact_never_publishes_a_partial_batch",
+              "panic_path": "crates/payroll/rest/tests/run_lifecycle_api/population.rs",
+              "line": 465,
+              "column": 9,
+              "panic_message": "assertion `left == right` failed: unlinked: {\"run_id\":\"e4e7b26d-aa40-4c7d-80c9-61f3c865cff0\",\"issued\":1,\"acknowledged\":0,\"items\":[{\"line_id\":\"4f8c3032-6080-491c-bb13-acf8679b6ee3\",\"employee_id\":\"e17d5e7e-759d-4856-9bb0-c2cecdbc942b\",\"inbox_doc_id\":\"71013d47-c31f-4bb3-a314-1a9e7aef5cce\",\"issued_at\":[2026,274,9,28,16,704344000,0,0,0],\"acknowledged_at\":null}],\"total\":1,\"limit\":100,\"offset\":0}"
+            },
+            {
+              "test_name": "population::publication_holds_recipient_linkage_until_its_commit",
+              "panic_path": "crates/payroll/rest/tests/run_lifecycle_api/population.rs",
+              "line": 713,
+              "column": 5,
+              "panic_message": "the publication transaction must retain selected recipient locks until commit"
+            },
+            {
+              "test_name": "population::relinking_before_publication_is_observed_and_refused_without_disclosure",
+              "panic_path": "crates/payroll/rest/tests/run_lifecycle_api/population.rs",
+              "line": 653,
+              "column": 9,
+              "panic_message": "assertion `left == right` failed: {\"run_id\":\"9a4fcde8-7d2e-479b-bf36-6fe0a94d0696\",\"issued\":2,\"acknowledged\":0,\"items\":[{\"line_id\":\"44fe4e02-23b7-4534-a7e0-5769df0218ea\",\"employee_id\":\"383c3cf1-3aff-4184-b44e-d0dab32f42e1\",\"inbox_doc_id\":\"918ecae4-791e-4194-a01b-50593f5a79c0\",\"issued_at\":[2026,274,9,28,28,757436000,0,0,0],\"acknowledged_at\":null},{\"line_id\":\"64fe07a4-b0e2-40f0-bb97-39baff3236b3\",\"employee_id\":\"7242a586-766e-4029-b21e-1881182e60f0\",\"inbox_doc_id\":\"b50244dc-53d4-4afc-9d93-61eff1387921\",\"issued_at\":[2026,274,9,28,28,757436000,0,0,0],\"acknowledged_at\":null}],\"total\":2,\"limit\":100,\"offset\":0}"
+            },
+            {
+              "test_name": "population::second_document_database_failure_rolls_back_every_new_publication",
+              "panic_path": "crates/payroll/rest/tests/run_lifecycle_api/population.rs",
+              "line": 488,
+              "column": 5,
+              "panic_message": "assertion `left == right` failed: a late real failure must undo all document/audit/link/status effects"
+            }
+          ],
+          "issues": []
+        }
+      },
+      {
+        "name": "inbox_runtime",
+        "package": "console-inbox-adapter-postgres",
+        "target": "inbox_docs_rls_surfaces_as_runtime_role",
+        "status": "failed",
+        "discovered": 5,
+        "executed": 5,
+        "passed": 3,
+        "failed": 2,
+        "ignored": 0,
+        "measured": 0,
+        "filtered": 0,
+        "execution_complete": true,
+        "behavioral_red": {
+          "status": "passed",
+          "failures": [
+            {
+              "test_name": "concurrent_dedup_collision_revalidates_the_committed_document",
+              "panic_path": "crates/inbox/adapter-postgres/tests/inbox_docs_rls_surfaces_as_runtime_role.rs",
+              "line": 550,
+              "column": 5,
+              "panic_message": "concurrent changed artifact must conflict"
+            },
+            {
+              "test_name": "dedup_redelivery_requires_every_immutable_field_and_preserves_the_receipt",
+              "panic_path": "crates/inbox/adapter-postgres/tests/inbox_docs_rls_surfaces_as_runtime_role.rs",
+              "line": 468,
+              "column": 9,
+              "panic_message": "same key with different immutable input must conflict"
+            }
+          ],
+          "issues": []
+        }
+      },
+      {
+        "name": "leave_runtime",
+        "package": "console-leave-adapter-postgres",
+        "target": "leave_rls_surfaces_as_runtime_role",
+        "status": "failed",
+        "discovered": 16,
+        "executed": 16,
+        "passed": 15,
+        "failed": 1,
+        "ignored": 0,
+        "measured": 0,
+        "filtered": 0,
+        "execution_complete": true,
+        "behavioral_red": {
+          "status": "passed",
+          "failures": [
+            {
+              "test_name": "promotion_retry_reuses_an_orphan_notice_but_refuses_changed_immutable_notice",
+              "panic_path": "crates/leave/adapter-postgres/tests/leave_rls_surfaces_as_runtime_role.rs",
+              "line": 3043,
+              "column": 5,
+              "panic_message": "an orphan retry with changed notice content must conflict"
+            }
+          ],
+          "issues": []
+        }
+      },
+      {
+        "name": "payroll_workflow",
+        "package": "console-workflow-runtime-adapter-postgres",
+        "target": "payroll_drain_period_lock",
+        "status": "passed",
+        "discovered": 7,
+        "executed": 7,
+        "passed": 7,
+        "failed": 0,
+        "ignored": 0,
+        "measured": 0,
+        "filtered": 0,
+        "execution_complete": true,
+        "behavioral_red": {
+          "status": "passed",
+          "failures": [],
+          "issues": []
+        }
+      }
+    ],
+    "totals": {
+      "discovered": 100,
+      "executed": 100,
+      "passed": 87,
+      "failed": 13,
+      "ignored": 0,
+      "measured": 0,
+      "filtered": 0
+    },
+    "source_revalidation": {
+      "status": "passed",
+      "candidate_head": "9641dbaf54571d7b335dc5aa0438186a3abb96ca",
+      "clean": true,
+      "red_expectations_unchanged": true
+    },
+    "cleanup": "postgres-stop exit0; no cleanup error or retained temp data",
+    "outer_exit_code": 1
+  },
+  "GREEN": {
+    "path": ".artifacts/acceptance/payroll-population-coverage/run-20261001T100521.463659Z/report.json",
+    "sha256": "cf93034fe3176a10711c12175c3a1e17eb6648147f868e4d71bc37f504fe98c4",
+    "candidate_head": "3c544ba3267d99d9e25917e7da0871fc8f7ef4e3",
+    "approved_tests_head": "9641dbaf54571d7b335dc5aa0438186a3abb96ca",
+    "status": "passed",
+    "commands": [
+      {
+        "name": "pg_config-version",
+        "command": [
+          "/opt/homebrew/Cellar/postgresql@18/18.6/bin/pg_config",
+          "--version"
+        ],
+        "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/payroll-population-coverage/backend-fork",
+        "status": "passed",
+        "exit_code": 0,
+        "stdout_log": "pg_config-version.stdout.log",
+        "stdout_sha256": "a7f8e6812c2beb2f5243737ca17a1cf6be1ae26291991495a0371b9bba446d79",
+        "stderr_log": "pg_config-version.stderr.log",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "postgres-version",
+        "command": [
+          "/opt/homebrew/Cellar/postgresql@18/18.6/bin/postgres",
+          "--version"
+        ],
+        "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/payroll-population-coverage/backend-fork",
+        "status": "passed",
+        "exit_code": 0,
+        "stdout_log": "postgres-version.stdout.log",
+        "stdout_sha256": "1f6bff71efc118ffd7738eff34169ffdc19f0c8153a101eecd9517f40ffcf89c",
+        "stderr_log": "postgres-version.stderr.log",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "initdb-version",
+        "command": [
+          "/opt/homebrew/Cellar/postgresql@18/18.6/bin/initdb",
+          "--version"
+        ],
+        "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/payroll-population-coverage/backend-fork",
+        "status": "passed",
+        "exit_code": 0,
+        "stdout_log": "initdb-version.stdout.log",
+        "stdout_sha256": "14ee18735e00aabf2a7acd9c47a94ceb66a48c90ed31e16c7ddac2bfd2281678",
+        "stderr_log": "initdb-version.stderr.log",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "pg_ctl-version",
+        "command": [
+          "/opt/homebrew/Cellar/postgresql@18/18.6/bin/pg_ctl",
+          "--version"
+        ],
+        "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/payroll-population-coverage/backend-fork",
+        "status": "passed",
+        "exit_code": 0,
+        "stdout_log": "pg_ctl-version.stdout.log",
+        "stdout_sha256": "8e5974d4426ecc630442dd8ba4102138b88f579a8ea623d680836b8cb7922107",
+        "stderr_log": "pg_ctl-version.stderr.log",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "psql-version",
+        "command": [
+          "/opt/homebrew/Cellar/postgresql@18/18.6/bin/psql",
+          "--version"
+        ],
+        "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/payroll-population-coverage/backend-fork",
+        "status": "passed",
+        "exit_code": 0,
+        "stdout_log": "psql-version.stdout.log",
+        "stdout_sha256": "5b2d0593df6e2b61fdcb827755ecc4f429e0b61dc2371d93a0422d35b4e83cb0",
+        "stderr_log": "psql-version.stderr.log",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "initdb",
+        "command": [
+          "/opt/homebrew/Cellar/postgresql@18/18.6/bin/initdb",
+          "-D",
+          "/private/tmp/payroll-population-pg-gt6jnk15/data",
+          "--username=console_buck_admin",
+          "--auth-local=scram-sha-256",
+          "--auth-host=reject",
+          "--no-locale",
+          "--encoding=UTF8",
+          "--pwfile",
+          "/private/tmp/payroll-population-pg-gt6jnk15/admin-password"
+        ],
+        "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/payroll-population-coverage/backend-fork",
+        "status": "passed",
+        "exit_code": 0,
+        "stdout_log": "initdb.stdout.log",
+        "stdout_sha256": "2b5acf4675780eab22d2fccc4a973dde277a7968302f9c35f73269e573068b14",
+        "stderr_log": "initdb.stderr.log",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "postgres-start",
+        "command": [
+          "/opt/homebrew/Cellar/postgresql@18/18.6/bin/pg_ctl",
+          "-D",
+          "/private/tmp/payroll-population-pg-gt6jnk15/data",
+          "-l",
+          "/private/tmp/payroll-population-pg-gt6jnk15/postgres.log",
+          "-o",
+          "-k /private/tmp/payroll-population-pg-gt6jnk15/socket -c listen_addresses='' -c unix_socket_permissions=0700",
+          "-w",
+          "start"
+        ],
+        "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/payroll-population-coverage/backend-fork",
+        "status": "passed",
+        "exit_code": 0,
+        "stdout_log": "postgres-start.stdout.log",
+        "stdout_sha256": "66afd0411ccc09366e99fdd99b85f21899c8d2d064f5835126859618802153ad",
+        "stderr_log": "postgres-start.stderr.log",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "postgres-server-version",
+        "command": [
+          "/opt/homebrew/Cellar/postgresql@18/18.6/bin/psql",
+          "--host",
+          "/private/tmp/payroll-population-pg-gt6jnk15/socket",
+          "--username",
+          "console_buck_admin",
+          "--dbname",
+          "postgres",
+          "--no-psqlrc",
+          "--tuples-only",
+          "--no-align",
+          "--set",
+          "ON_ERROR_STOP=1",
+          "--command",
+          "SELECT current_setting('server_version_num'), version()"
+        ],
+        "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/payroll-population-coverage/backend-fork",
+        "status": "passed",
+        "exit_code": 0,
+        "stdout_log": "postgres-server-version.stdout.log",
+        "stdout_sha256": "99c3f678218d6a74b09cb259476f80d10f0892fc68936c938fe6422c0be4b6a4",
+        "stderr_log": "postgres-server-version.stderr.log",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "role-topology",
+        "command": [
+          "bash",
+          "/Users/jasonlee/Developer/frontend/.worktrees/payroll-population-coverage/backend-fork/ops/postgres-reconcile-topology.sh"
+        ],
+        "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/payroll-population-coverage/backend-fork",
+        "status": "passed",
+        "exit_code": 0,
+        "stdout_log": "role-topology.stdout.log",
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_log": "role-topology.stderr.log",
+        "stderr_sha256": "0d3b9f5d44b25649ac035d2d98430aff35d74d46e5e94f94c14d5abf33dba76a"
+      },
+      {
+        "name": "rust-version",
+        "command": [
+          "rustc",
+          "--version"
+        ],
+        "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/payroll-population-coverage/backend-fork/backend",
+        "status": "passed",
+        "exit_code": 0,
+        "stdout_log": "rust-version.stdout.log",
+        "stdout_sha256": "2073de5abf149185c2f4d7473dc833bc921b99135560d24ae7b2293f33a9c376",
+        "stderr_log": "rust-version.stderr.log",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "cargo-version",
+        "command": [
+          "cargo",
+          "--version"
+        ],
+        "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/payroll-population-coverage/backend-fork/backend",
+        "status": "passed",
+        "exit_code": 0,
+        "stdout_log": "cargo-version.stdout.log",
+        "stdout_sha256": "9950bbb2d5c3417b1a068f0e81f6d3cac991a363193bdf2a22d447f5acf8b503",
+        "stderr_log": "cargo-version.stderr.log",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "payroll_unit-discover",
+        "command": [
+          "cargo",
+          "test",
+          "--locked",
+          "--offline",
+          "-p",
+          "console-payroll-adapter-postgres",
+          "--lib",
+          "--",
+          "--list"
+        ],
+        "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/payroll-population-coverage/backend-fork/backend",
+        "status": "passed",
+        "exit_code": 0,
+        "stdout_log": "payroll_unit-discover.stdout.log",
+        "stdout_sha256": "7d79903ce028565710d89ae64c67e42873aca803305504757bbf87deca470736",
+        "stderr_log": "payroll_unit-discover.stderr.log",
+        "stderr_sha256": "bdfce06239dcd79af80673c24800e2a22b686c9b420bc5370eb1419ef00fb10d"
+      },
+      {
+        "name": "payroll_unit",
+        "command": [
+          "cargo",
+          "test",
+          "--locked",
+          "--offline",
+          "-p",
+          "console-payroll-adapter-postgres",
+          "--lib",
+          "--",
+          "--test-threads=1",
+          "--format=pretty"
+        ],
+        "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/payroll-population-coverage/backend-fork/backend",
+        "status": "passed",
+        "exit_code": 0,
+        "stdout_log": "payroll_unit.stdout.log",
+        "stdout_sha256": "bf2b0665d3f91cc5238686a781eaef32fecfc59bdff433392aa830b89ca7ccc7",
+        "stderr_log": "payroll_unit.stderr.log",
+        "stderr_sha256": "162e4fa8144b84d423edc153d514430ae61679a3bfc0a22943e82a78fd20ec97"
+      },
+      {
+        "name": "payroll_runtime-discover",
+        "command": [
+          "cargo",
+          "test",
+          "--locked",
+          "--offline",
+          "-p",
+          "console-payroll-adapter-postgres",
+          "--test",
+          "pay_run_port_as_runtime_role",
+          "--",
+          "--list"
+        ],
+        "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/payroll-population-coverage/backend-fork/backend",
+        "status": "passed",
+        "exit_code": 0,
+        "stdout_log": "payroll_runtime-discover.stdout.log",
+        "stdout_sha256": "b225a30dd5c6c99abc96e516763880b963aa8436ff9036dcd2a83cee4777ee6e",
+        "stderr_log": "payroll_runtime-discover.stderr.log",
+        "stderr_sha256": "aab0950a57c470a45ba2f5786c25f1e7c665bad128d8a6c6535019e0bf056551"
+      },
+      {
+        "name": "payroll_runtime",
+        "command": [
+          "cargo",
+          "test",
+          "--locked",
+          "--offline",
+          "-p",
+          "console-payroll-adapter-postgres",
+          "--test",
+          "pay_run_port_as_runtime_role",
+          "--",
+          "--test-threads=1",
+          "--format=pretty"
+        ],
+        "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/payroll-population-coverage/backend-fork/backend",
+        "status": "passed",
+        "exit_code": 0,
+        "stdout_log": "payroll_runtime.stdout.log",
+        "stdout_sha256": "6bafe27d32e921dfd7818eeef16e34e4f324bd8928de70fbdb5bb33c58a22c69",
+        "stderr_log": "payroll_runtime.stderr.log",
+        "stderr_sha256": "4e72d19825d3bd487500f7d1276bb0cd905de02811f51f5b66c87d94ae6deacd"
+      },
+      {
+        "name": "payroll_lifecycle_rls-discover",
+        "command": [
+          "cargo",
+          "test",
+          "--locked",
+          "--offline",
+          "-p",
+          "console-payroll-adapter-postgres",
+          "--test",
+          "payroll_lifecycle_rls_as_runtime_role",
+          "--",
+          "--list"
+        ],
+        "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/payroll-population-coverage/backend-fork/backend",
+        "status": "passed",
+        "exit_code": 0,
+        "stdout_log": "payroll_lifecycle_rls-discover.stdout.log",
+        "stdout_sha256": "6c03294b6a6b413a5112e51b0c60a30345ba970bf08a25855cdd350da2c8bb44",
+        "stderr_log": "payroll_lifecycle_rls-discover.stderr.log",
+        "stderr_sha256": "69fce10baabc47a419ced3d841538b6b74ea892680ad5e7135a71fc0cd4a958e"
+      },
+      {
+        "name": "payroll_lifecycle_rls",
+        "command": [
+          "cargo",
+          "test",
+          "--locked",
+          "--offline",
+          "-p",
+          "console-payroll-adapter-postgres",
+          "--test",
+          "payroll_lifecycle_rls_as_runtime_role",
+          "--",
+          "--test-threads=1",
+          "--format=pretty"
+        ],
+        "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/payroll-population-coverage/backend-fork/backend",
+        "status": "passed",
+        "exit_code": 0,
+        "stdout_log": "payroll_lifecycle_rls.stdout.log",
+        "stdout_sha256": "a36343e350665373c91f3d898ab5b888ca61476a68779b59dc6bc3cabdc5865e",
+        "stderr_log": "payroll_lifecycle_rls.stderr.log",
+        "stderr_sha256": "d8df7a29499456f9da28b92674f1bee3fcc013c91dc2db8dcbe23e10915a9f13"
+      },
+      {
+        "name": "payroll_roster-discover",
+        "command": [
+          "cargo",
+          "test",
+          "--locked",
+          "--offline",
+          "-p",
+          "console-payroll-adapter-postgres",
+          "--test",
+          "roster_materialisation",
+          "--",
+          "--list"
+        ],
+        "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/payroll-population-coverage/backend-fork/backend",
+        "status": "passed",
+        "exit_code": 0,
+        "stdout_log": "payroll_roster-discover.stdout.log",
+        "stdout_sha256": "8639c45c562d3b102d7c2a52cfaa744d415e22f822208be52116caa56b06d8c6",
+        "stderr_log": "payroll_roster-discover.stderr.log",
+        "stderr_sha256": "4290e5517d89a1b051e9c30c1aaef2c8518bc8499a31b5ba23a427b90a53a506"
+      },
+      {
+        "name": "payroll_roster",
+        "command": [
+          "cargo",
+          "test",
+          "--locked",
+          "--offline",
+          "-p",
+          "console-payroll-adapter-postgres",
+          "--test",
+          "roster_materialisation",
+          "--",
+          "--test-threads=1",
+          "--format=pretty"
+        ],
+        "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/payroll-population-coverage/backend-fork/backend",
+        "status": "passed",
+        "exit_code": 0,
+        "stdout_log": "payroll_roster.stdout.log",
+        "stdout_sha256": "e127b999d9a02eb239b2c20fa9ee2ea632f54eab6e6b0f3842b81302df15ff61",
+        "stderr_log": "payroll_roster.stderr.log",
+        "stderr_sha256": "b7011dc984d5197820d22b77f5750aef3af5ef198eb4c1f031fdd4147f8b6292"
+      },
+      {
+        "name": "payroll_rest-discover",
+        "command": [
+          "cargo",
+          "test",
+          "--locked",
+          "--offline",
+          "-p",
+          "console-payroll-rest",
+          "--test",
+          "run_lifecycle_api",
+          "--",
+          "--list"
+        ],
+        "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/payroll-population-coverage/backend-fork/backend",
+        "status": "passed",
+        "exit_code": 0,
+        "stdout_log": "payroll_rest-discover.stdout.log",
+        "stdout_sha256": "6b65f25219f50ae8917af72e0185c9e08f688bac2ab5c9f4f58705e3d425ea40",
+        "stderr_log": "payroll_rest-discover.stderr.log",
+        "stderr_sha256": "af0302d609f4d46134bc06b539deb5a1990c86e71d1e36368434e2b1a2b0d60a"
+      },
+      {
+        "name": "payroll_rest",
+        "command": [
+          "cargo",
+          "test",
+          "--locked",
+          "--offline",
+          "-p",
+          "console-payroll-rest",
+          "--test",
+          "run_lifecycle_api",
+          "--",
+          "--test-threads=1",
+          "--format=pretty"
+        ],
+        "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/payroll-population-coverage/backend-fork/backend",
+        "status": "passed",
+        "exit_code": 0,
+        "stdout_log": "payroll_rest.stdout.log",
+        "stdout_sha256": "d123c9d9878c2d2081a07b12b26d2994bb3a0ea9f0751ab6731cdb1afec6c1ed",
+        "stderr_log": "payroll_rest.stderr.log",
+        "stderr_sha256": "5571980d9477b06bc33d6617acd214f7db8f13a1c90ae35a682291a72ca3ea9b"
+      },
+      {
+        "name": "inbox_runtime-discover",
+        "command": [
+          "cargo",
+          "test",
+          "--locked",
+          "--offline",
+          "-p",
+          "console-inbox-adapter-postgres",
+          "--test",
+          "inbox_docs_rls_surfaces_as_runtime_role",
+          "--",
+          "--list"
+        ],
+        "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/payroll-population-coverage/backend-fork/backend",
+        "status": "passed",
+        "exit_code": 0,
+        "stdout_log": "inbox_runtime-discover.stdout.log",
+        "stdout_sha256": "73ceeeec5b11c1129ef376384021d4859bad986b1110d635c4bc983beef26df0",
+        "stderr_log": "inbox_runtime-discover.stderr.log",
+        "stderr_sha256": "99d590f4f84e87ab5944f47024e64049efbe58f0591e138f9ac37b030c23bf62"
+      },
+      {
+        "name": "inbox_runtime",
+        "command": [
+          "cargo",
+          "test",
+          "--locked",
+          "--offline",
+          "-p",
+          "console-inbox-adapter-postgres",
+          "--test",
+          "inbox_docs_rls_surfaces_as_runtime_role",
+          "--",
+          "--test-threads=1",
+          "--format=pretty"
+        ],
+        "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/payroll-population-coverage/backend-fork/backend",
+        "status": "passed",
+        "exit_code": 0,
+        "stdout_log": "inbox_runtime.stdout.log",
+        "stdout_sha256": "3baa2add87c7e181e172a937d28ad39b7769c5452e438dcd61ed0bd263667544",
+        "stderr_log": "inbox_runtime.stderr.log",
+        "stderr_sha256": "24a1f3729c1a6c7b949e87c8dbdbc55b7f4d92f734d1556cc108dfb7b976d6c0"
+      },
+      {
+        "name": "leave_runtime-discover",
+        "command": [
+          "cargo",
+          "test",
+          "--locked",
+          "--offline",
+          "-p",
+          "console-leave-adapter-postgres",
+          "--test",
+          "leave_rls_surfaces_as_runtime_role",
+          "--",
+          "--list"
+        ],
+        "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/payroll-population-coverage/backend-fork/backend",
+        "status": "passed",
+        "exit_code": 0,
+        "stdout_log": "leave_runtime-discover.stdout.log",
+        "stdout_sha256": "2b45bb83799e9d861a30b8cbc5817f9b759e3ccb0bd1040ba249b0eca4270686",
+        "stderr_log": "leave_runtime-discover.stderr.log",
+        "stderr_sha256": "2f29a557fd1944f17a3b0a59fe988ace6b073b0e988915b7ad5b22ff8b358968"
+      },
+      {
+        "name": "leave_runtime",
+        "command": [
+          "cargo",
+          "test",
+          "--locked",
+          "--offline",
+          "-p",
+          "console-leave-adapter-postgres",
+          "--test",
+          "leave_rls_surfaces_as_runtime_role",
+          "--",
+          "--test-threads=1",
+          "--format=pretty"
+        ],
+        "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/payroll-population-coverage/backend-fork/backend",
+        "status": "passed",
+        "exit_code": 0,
+        "stdout_log": "leave_runtime.stdout.log",
+        "stdout_sha256": "7af2a152f61a2b8b50f83c266bdd778492fd7331d082c5c0e4777fc2bbd07f82",
+        "stderr_log": "leave_runtime.stderr.log",
+        "stderr_sha256": "95f356f2ab5e753c956f7c5b107cac99d94b7b4ab6c85d7cb230ec51be176f81"
+      },
+      {
+        "name": "payroll_workflow-discover",
+        "command": [
+          "cargo",
+          "test",
+          "--locked",
+          "--offline",
+          "-p",
+          "console-workflow-runtime-adapter-postgres",
+          "--test",
+          "payroll_drain_period_lock",
+          "--",
+          "--list"
+        ],
+        "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/payroll-population-coverage/backend-fork/backend",
+        "status": "passed",
+        "exit_code": 0,
+        "stdout_log": "payroll_workflow-discover.stdout.log",
+        "stdout_sha256": "caeadc4845bc6a27560c05fbc6e14b1d18616d6f78ec3be9a947e77b0360c355",
+        "stderr_log": "payroll_workflow-discover.stderr.log",
+        "stderr_sha256": "6abeaa7d5856c6a4c351973fd057ec5d656803b379b08d6891b46c0858e98746"
+      },
+      {
+        "name": "payroll_workflow",
+        "command": [
+          "cargo",
+          "test",
+          "--locked",
+          "--offline",
+          "-p",
+          "console-workflow-runtime-adapter-postgres",
+          "--test",
+          "payroll_drain_period_lock",
+          "--",
+          "--test-threads=1",
+          "--format=pretty"
+        ],
+        "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/payroll-population-coverage/backend-fork/backend",
+        "status": "passed",
+        "exit_code": 0,
+        "stdout_log": "payroll_workflow.stdout.log",
+        "stdout_sha256": "d28ea87168973ab26e56b59b328cb8810c3e8114871fe116a976e1a6e6b63ea2",
+        "stderr_log": "payroll_workflow.stderr.log",
+        "stderr_sha256": "d6a8e55ee7e73819396bca92eba0bbadb7667444ef537be2fa1351e2e05fe2f4"
+      },
+      {
+        "name": "postgres-stop",
+        "command": [
+          "/opt/homebrew/Cellar/postgresql@18/18.6/bin/pg_ctl",
+          "-D",
+          "/private/tmp/payroll-population-pg-gt6jnk15/data",
+          "-m",
+          "immediate",
+          "-w",
+          "stop"
+        ],
+        "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/payroll-population-coverage/backend-fork",
+        "status": "passed",
+        "exit_code": 0,
+        "stdout_log": "postgres-stop.stdout.log",
+        "stdout_sha256": "ca19178a35ab4153b75b494963b66ce8243e1b94c173107c87b44d09db23652d",
+        "stderr_log": "postgres-stop.stderr.log",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ],
+    "custody_source_count": 2749,
+    "postgres_tool_versions": {
+      "pg_config": "PostgreSQL 18.6 (Homebrew)",
+      "postgres": "postgres (PostgreSQL) 18.6 (Homebrew)",
+      "initdb": "initdb (PostgreSQL) 18.6 (Homebrew)",
+      "pg_ctl": "pg_ctl (PostgreSQL) 18.6 (Homebrew)",
+      "psql": "psql (PostgreSQL) 18.6 (Homebrew)"
+    },
+    "postgres_server_version": {
+      "server_version_num": 180006,
+      "version": "PostgreSQL 18.6 (Homebrew) on aarch64-apple-darwin25.6.0, compiled by Apple clang version 21.0.0 (clang-2100.1.1.101), 64-bit"
+    },
+    "rust_version": "rustc 1.98.1 (48a229cea 2026-09-01)",
+    "cargo_version": "cargo 1.98.1 (797e8a9bc 2026-08-05)",
+    "suites": [
+      {
+        "name": "payroll_unit",
+        "package": "console-payroll-adapter-postgres",
+        "target": "lib",
+        "status": "passed",
+        "discovered": 18,
+        "executed": 18,
+        "passed": 18,
+        "failed": 0,
+        "ignored": 0,
+        "measured": 0,
+        "filtered": 0,
+        "execution_complete": true,
+        "behavioral_red": {
+          "status": "passed",
+          "failures": [],
+          "issues": []
+        }
+      },
+      {
+        "name": "payroll_runtime",
+        "package": "console-payroll-adapter-postgres",
+        "target": "pay_run_port_as_runtime_role",
+        "status": "passed",
+        "discovered": 29,
+        "executed": 29,
+        "passed": 29,
+        "failed": 0,
+        "ignored": 0,
+        "measured": 0,
+        "filtered": 0,
+        "execution_complete": true,
+        "behavioral_red": {
+          "status": "passed",
+          "failures": [],
+          "issues": []
+        }
+      },
+      {
+        "name": "payroll_lifecycle_rls",
+        "package": "console-payroll-adapter-postgres",
+        "target": "payroll_lifecycle_rls_as_runtime_role",
+        "status": "passed",
+        "discovered": 4,
+        "executed": 4,
+        "passed": 4,
+        "failed": 0,
+        "ignored": 0,
+        "measured": 0,
+        "filtered": 0,
+        "execution_complete": true,
+        "behavioral_red": {
+          "status": "passed",
+          "failures": [],
+          "issues": []
+        }
+      },
+      {
+        "name": "payroll_roster",
+        "package": "console-payroll-adapter-postgres",
+        "target": "roster_materialisation",
+        "status": "passed",
+        "discovered": 7,
+        "executed": 7,
+        "passed": 7,
+        "failed": 0,
+        "ignored": 0,
+        "measured": 0,
+        "filtered": 0,
+        "execution_complete": true,
+        "behavioral_red": {
+          "status": "passed",
+          "failures": [],
+          "issues": []
+        }
+      },
+      {
+        "name": "payroll_rest",
+        "package": "console-payroll-rest",
+        "target": "run_lifecycle_api",
+        "status": "passed",
+        "discovered": 14,
+        "executed": 14,
+        "passed": 14,
+        "failed": 0,
+        "ignored": 0,
+        "measured": 0,
+        "filtered": 0,
+        "execution_complete": true,
+        "behavioral_red": {
+          "status": "passed",
+          "failures": [],
+          "issues": []
+        }
+      },
+      {
+        "name": "inbox_runtime",
+        "package": "console-inbox-adapter-postgres",
+        "target": "inbox_docs_rls_surfaces_as_runtime_role",
+        "status": "passed",
+        "discovered": 5,
+        "executed": 5,
+        "passed": 5,
+        "failed": 0,
+        "ignored": 0,
+        "measured": 0,
+        "filtered": 0,
+        "execution_complete": true,
+        "behavioral_red": {
+          "status": "passed",
+          "failures": [],
+          "issues": []
+        }
+      },
+      {
+        "name": "leave_runtime",
+        "package": "console-leave-adapter-postgres",
+        "target": "leave_rls_surfaces_as_runtime_role",
+        "status": "passed",
+        "discovered": 16,
+        "executed": 16,
+        "passed": 16,
+        "failed": 0,
+        "ignored": 0,
+        "measured": 0,
+        "filtered": 0,
+        "execution_complete": true,
+        "behavioral_red": {
+          "status": "passed",
+          "failures": [],
+          "issues": []
+        }
+      },
+      {
+        "name": "payroll_workflow",
+        "package": "console-workflow-runtime-adapter-postgres",
+        "target": "payroll_drain_period_lock",
+        "status": "passed",
+        "discovered": 7,
+        "executed": 7,
+        "passed": 7,
+        "failed": 0,
+        "ignored": 0,
+        "measured": 0,
+        "filtered": 0,
+        "execution_complete": true,
+        "behavioral_red": {
+          "status": "passed",
+          "failures": [],
+          "issues": []
+        }
+      }
+    ],
+    "totals": {
+      "discovered": 100,
+      "executed": 100,
+      "passed": 100,
+      "failed": 0,
+      "ignored": 0,
+      "measured": 0,
+      "filtered": 0
+    },
+    "source_revalidation": {
+      "status": "passed",
+      "candidate_head": "3c544ba3267d99d9e25917e7da0871fc8f7ef4e3",
+      "clean": true,
+      "red_expectations_unchanged": true
+    },
+    "cleanup": "postgres-stop exit0; no cleanup error or retained temp data",
+    "outer_exit_code": 0
+  },
+  "format": {
+    "path": ".artifacts/acceptance/payroll-population-coverage/format-3c544ba.json",
+    "sha256": "e08cca8b22eea84784f90ddc7b7d55e2157535bf1fdbeadea881426f0a31150f"
+  },
+  "strict_clippy": {
+    "path": ".artifacts/acceptance/payroll-population-coverage/clippy-3c544ba/report.json",
+    "sha256": "d8450150ad1e42ef1ef111aaab5ad3cead1d801a0bc5fa60d9b382394df1b743",
+    "candidate_head": "3c544ba3267d99d9e25917e7da0871fc8f7ef4e3",
+    "status": "passed",
+    "scope": "Strict selected owner/lib/regression targets; not runtime or full-workspace proof",
+    "environment": {
+      "SQLX_OFFLINE": "true",
+      "CARGO_BUILD_JOBS": "1",
+      "CARGO_TARGET_DIR": "/Users/jasonlee/Developer/frontend/.artifacts/cargo-target"
+    },
+    "commands": [
+      {
+        "name": "payroll",
+        "argv": [
+          "cargo",
+          "+1.98.1",
+          "clippy",
+          "--locked",
+          "--offline",
+          "-p",
+          "console-payroll-adapter-postgres",
+          "--lib",
+          "--test",
+          "pay_run_port_as_runtime_role",
+          "--test",
+          "roster_materialisation",
+          "--test",
+          "payroll_lifecycle_rls_as_runtime_role",
+          "--",
+          "-D",
+          "warnings"
+        ],
+        "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/payroll-population-coverage/backend-fork/backend",
+        "started_utc": "2026-10-01T10:17:15.129267+00:00",
+        "exit_code": 0,
+        "finished_utc": "2026-10-01T10:23:59.584274+00:00",
+        "log": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/payroll-population-coverage/clippy-3c544ba/payroll.log",
+        "log_sha256": "4b0a5671d6d334705db89992e0be03ffece9151d269126a08d3c69b1ca473026"
+      },
+      {
+        "name": "payroll-rest",
+        "argv": [
+          "cargo",
+          "+1.98.1",
+          "clippy",
+          "--locked",
+          "--offline",
+          "-p",
+          "console-payroll-rest",
+          "--lib",
+          "--test",
+          "run_lifecycle_api",
+          "--",
+          "-D",
+          "warnings"
+        ],
+        "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/payroll-population-coverage/backend-fork/backend",
+        "started_utc": "2026-10-01T10:23:59.584691+00:00",
+        "exit_code": 0,
+        "finished_utc": "2026-10-01T10:24:26.583614+00:00",
+        "log": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/payroll-population-coverage/clippy-3c544ba/payroll-rest.log",
+        "log_sha256": "29566e631f614f7fcdae729a9bd96db9868cdbe0d960f566a95f800bccd9f057"
+      },
+      {
+        "name": "inbox",
+        "argv": [
+          "cargo",
+          "+1.98.1",
+          "clippy",
+          "--locked",
+          "--offline",
+          "-p",
+          "console-inbox-adapter-postgres",
+          "--lib",
+          "--test",
+          "inbox_docs_rls_surfaces_as_runtime_role",
+          "--",
+          "-D",
+          "warnings"
+        ],
+        "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/payroll-population-coverage/backend-fork/backend",
+        "started_utc": "2026-10-01T10:24:26.584385+00:00",
+        "exit_code": 0,
+        "finished_utc": "2026-10-01T10:24:31.488573+00:00",
+        "log": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/payroll-population-coverage/clippy-3c544ba/inbox.log",
+        "log_sha256": "f8f52da65d68195e328da334c9666489d06c78aae639a80ca7242ac85976d7e7"
+      },
+      {
+        "name": "leave",
+        "argv": [
+          "cargo",
+          "+1.98.1",
+          "clippy",
+          "--locked",
+          "--offline",
+          "-p",
+          "console-leave-adapter-postgres",
+          "--lib",
+          "--test",
+          "leave_rls_surfaces_as_runtime_role",
+          "--",
+          "-D",
+          "warnings"
+        ],
+        "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/payroll-population-coverage/backend-fork/backend",
+        "started_utc": "2026-10-01T10:24:31.489167+00:00",
+        "exit_code": 0,
+        "finished_utc": "2026-10-01T10:24:54.232145+00:00",
+        "log": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/payroll-population-coverage/clippy-3c544ba/leave.log",
+        "log_sha256": "5a7cd241bd5d68d176c82cd98a558b51c3e6e125206f135f1acb0764bc76ee93"
+      },
+      {
+        "name": "workflow",
+        "argv": [
+          "cargo",
+          "+1.98.1",
+          "clippy",
+          "--locked",
+          "--offline",
+          "-p",
+          "console-workflow-runtime-adapter-postgres",
+          "--lib",
+          "--test",
+          "payroll_drain_period_lock",
+          "--",
+          "-D",
+          "warnings"
+        ],
+        "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/payroll-population-coverage/backend-fork/backend",
+        "started_utc": "2026-10-01T10:24:54.232825+00:00",
+        "exit_code": 0,
+        "finished_utc": "2026-10-01T10:25:16.051789+00:00",
+        "log": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/payroll-population-coverage/clippy-3c544ba/workflow.log",
+        "log_sha256": "0cc622c78faa34a48408d8c6b51777edcc9ebcd5ef11191e48810ff256bf56f1"
+      }
+    ],
+    "source_revalidation": {
+      "head": "3c544ba3267d99d9e25917e7da0871fc8f7ef4e3",
+      "clean": true
+    }
+  },
+  "independent_reviews": [
+    {
+      "path": ".artifacts/acceptance/payroll-population-coverage/tests-review-auth-adversary-final.json",
+      "sha256": "adff2f01fd2674b0e6af3750231ccbdcd4a5ebfcd522af64dbb1a9e34b102413"
+    },
+    {
+      "path": ".artifacts/acceptance/payroll-population-coverage/tests-review-auth-owner-final.json",
+      "sha256": "8c1d03c556c6dd743b4b0652959db1009d0a8e23cab36f011dac84e195af0482"
+    },
+    {
+      "path": ".artifacts/acceptance/payroll-population-coverage/red-admission-review.json",
+      "sha256": "9c3cf65bc2e7593961929ce4040ed5ec63f68c77909114140ace531e7b54fdd2"
+    },
+    {
+      "path": ".artifacts/acceptance/payroll-population-coverage/implementation-owner-3c544ba.json",
+      "sha256": "dd0479e4aca0b37772be55521f1df33a0235ff4ffd8f145c9a277e6e24ae725e"
+    },
+    {
+      "path": ".artifacts/acceptance/payroll-population-coverage/implementation-adversary-3c544ba.json",
+      "sha256": "0932e07c32bb94747b3a5bffef9d0911da0863b9114dc209f478fc78299a1b33"
+    },
+    {
+      "path": ".artifacts/acceptance/payroll-population-coverage/implementation-adversary-green-3c544ba.json",
+      "sha256": "11ed56991c21db16314289d39575c9c5109a134aab506d080b8a937dc11c656e"
+    },
+    {
+      "path": ".artifacts/acceptance/payroll-population-coverage/green-acceptance-review-3c544ba.json",
+      "sha256": "7d935073c2f0c28b199697af3a884b5f6ee8b8edb2e9e0d0f4bab3e32bb42ff6"
+    },
+    {
+      "path": ".artifacts/acceptance/payroll-population-coverage/final-16-lens-audit-3c544ba.json",
+      "sha256": "b3af4c5b4bc47a1ccdb9eb912b20223839870e54ba97f5ec81f19dfc23bd67c2"
+    }
+  ],
+  "audit": "16-lens source APPROVE; final revision/hosted merge verdict pending",
+  "product_and_CI_sha256": {
+    ".github/workflows/ci.yml": "5ed9edcd56e2c87a61d23ccc9865545016c357af8e65f138a3ce6b59a01d888e",
+    "backend-fork/backend/crates/inbox/adapter-postgres/src/lib.rs": "f000d7cc49c7741024fe17c73e9b259cc1b594df605e2104d017f8570b7a2cd0",
+    "backend-fork/backend/crates/payroll/adapter-postgres/src/lifecycle.rs": "b6f0bbcc614653f89b2c675087e2dc686b531abdf13372c36d4c9d3ff9f60559",
+    "backend-fork/backend/crates/payroll/rest/src/lifecycle.rs": "6322aa29304b10e592b879d51bc08d67bdf2b642495b46cdc3f4dd7dc4e7aa16"
+  },
+  "fork_delta_sha256": "e271602cbc8ca1b72d227626dc9d273b144432f89b2851c3fa6a95f95a1fa07d",
+  "invalid_attempts": [
+    {
+      "path": ".artifacts/acceptance/payroll-population-coverage/run-20261001T074405.411063Z/report.json",
+      "sha256": "441f7987c921bfb5deb029538c935996f9e78f21b7af65bd43ed62efbf6cec2e",
+      "status": "invalid_infrastructure_not_RED_or_GREEN",
+      "reported_status": "unreached",
+      "counts": {
+        "executed": 0,
+        "passed": 0,
+        "failed": 0
+      },
+      "note": "Preserved wrong census, unbound session fixtures, compiler/macro stalls or interruption; never admission or success."
+    },
+    {
+      "path": ".artifacts/acceptance/payroll-population-coverage/run-20261001T080456.081107Z/report.json",
+      "sha256": "af7621c1d9390991cc225a2b92bc74dd454590a250c1a26f9d965ee450a6b2c7",
+      "status": "invalid_infrastructure_not_RED_or_GREEN",
+      "reported_status": "unreached",
+      "counts": {
+        "executed": 77,
+        "passed": 60,
+        "failed": 17
+      },
+      "note": "Preserved wrong census, unbound session fixtures, compiler/macro stalls or interruption; never admission or success."
+    },
+    {
+      "path": ".artifacts/acceptance/payroll-population-coverage/run-20261001T084153.814097Z/report.json",
+      "sha256": "dd534fa0e95888d76551671978a20bb43d5cb4ee8335695219b75cb5f1c90987",
+      "status": "invalid_infrastructure_not_RED_or_GREEN",
+      "reported_status": "failed",
+      "counts": {
+        "executed": 58,
+        "passed": 57,
+        "failed": 1
+      },
+      "note": "Preserved wrong census, unbound session fixtures, compiler/macro stalls or interruption; never admission or success."
+    },
+    {
+      "path": ".artifacts/acceptance/payroll-population-coverage/run-20261001T094416.488783Z/report.json",
+      "sha256": "e88b70ce1b6b061812ff16bc982ed6b549984e2550fee060b8123cec4ee943c0",
+      "status": "invalid_infrastructure_not_RED_or_GREEN",
+      "reported_status": "unreached",
+      "counts": {
+        "executed": 18,
+        "passed": 18,
+        "failed": 0
+      },
+      "note": "Preserved wrong census, unbound session fixtures, compiler/macro stalls or interruption; never admission or success."
+    }
+  ],
+  "cache_repair": {
+    "path": ".artifacts/acceptance/payroll-population-coverage/cache-repair-zerovec.json",
+    "sha256": "4108bb09fd3e4b1ff3b905e5d00612b040d5a09cf0fb3b97686b623564cb2eb6"
+  },
+  "pre_mortem": "Count-only and mixed-version coverage, wrong recipients, immutable dedup collisions and per-document commits can falsely complete/disclose a partial payroll batch. Source countermeasures are exact one-snapshot coverage, owner locks/revalidation, raw artifact comparison and one existing Company transaction.",
+  "rollback": "Before deployment, source revert is reversible. After deployment retain coverage/recipient/dedup/atomicity safeguards or refuse affected operations; original unsafe code is not a compatible operational rollback. Preserve historical artifacts/identities and accepted effects. Persisted cross-build rollback remains unverified.",
+  "stop_conditions": [
+    "Source/test/manifest drift",
+    "Unchanged frozen GREEN incomplete or failed",
+    "Strict formatting/Clippy failure",
+    "Unsafe lock/partial-publication result",
+    "Changed arithmetic/authority/SoD/schema/API/dependency",
+    "Invalid source custody",
+    "Missing exact final-head independent review or protected CI/merge-group evidence"
+  ],
+  "limitations": [
+    "Existing staged person-grain roster only; legal Employment coverage, source/period provenance and exact approval binding remain unverified.",
+    "Atomic local Company PostgreSQL publication only; two-site durability/fencing, legal service/timing, bank/institution acceptance and persisted rollback remain open.",
+    "Owner-credential connections switch SET ROLE console_rt; real revocable ES256 in-process Router tests are not authenticated database-login, socket/browser or passkey-ceremony proof.",
+    "Different accounts are not verified different natural people; existing PAID/release gates remain and payment status is operator-attested.",
+    "Authenticated Next HR/Org/Payroll/Foundry UI, legal packs, full modules, capacity/restore/migration and release acceptance remain open.",
+    "Compromised runtime raw SQL is outside this established-owner lock-serialization proof.",
+    "Exact final metadata revision, hosted CI, independent COMMENT and protected queue/merge readback remain pending at this checkpoint. No deployment or live effects."
+  ],
+  "hosted_CI": {
+    "status": "pending_exact_final_metadata_revision",
+    "producer": ".github/workflows/ci.yml",
+    "required_context": "source-and-inquiry",
+    "queue": "main-merge-queue; no bypass"
+  },
+  "release_accepted": false,
+  "final_fork_custody": {
+    "path": ".artifacts/acceptance/payroll-population-coverage/final-custody.json",
+    "sha256": "2f442a3845252d84cf695d08fa60f27efd1f360a86304107acffa15f0625fe07",
+    "status": "passed",
+    "frozen_files": 4027,
+    "current_files": 4069
+  },
+  "metadata_tooling": {
+    "path": ".artifacts/acceptance/payroll-population-coverage/metadata-tooling-checks.json",
+    "sha256": "c37133aa77d360c19ea42dc857aa789203447d8bf8d20c7a84b2bd74d309a682",
+    "status": "passed",
+    "executed": 18
+  }
+}
