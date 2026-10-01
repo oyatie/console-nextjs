@@ -5,7 +5,7 @@
   "base": "7d84de6533a63a2ec1c3bc42ef0e9eca5418da03",
   "base_tree": "d0c69382c814171f018f06c51cd54fcb5777d98f",
   "owner": "root; sole repository writer",
-  "status": "implemented_identical_GREEN_pending",
+  "status": "implemented_corrected_tests_identical_GREEN_pending",
   "rounds": [
     {
       "round": 1,
@@ -95,17 +95,17 @@
   ],
   "test_source": {
     "paths_and_sha256": {
-      "backend-fork/backend/app/tests/hr_attendance_self_read.rs": "cb86a1087d714ccb91d41d2fae879be80f0d15fdb01161d229e27e88fcc398e2",
+      "backend-fork/backend/app/tests/hr_attendance_self_read.rs": "6df6bb948d342f2407cda917d6cf334d6b3c7080ccc32a984882b143ca29d987",
       "backend-fork/backend/app/tests/hr_attendance_manager_scope.rs": "410c328def6d4ccd33b2b2362ac13111276a35f4aabf878d3b1de8ce192c969b"
     },
     "reviews": [
       {
-        "reviewer": "/root/attendance_material_contract_trace",
-        "verdict": "ACCEPT"
+        "reviewer": "/root/attendance_material_adversary",
+        "verdict": "ACCEPT exact corrected sources"
       },
       {
-        "reviewer": "/root/attendance_material_adversary",
-        "verdict": "ACCEPT"
+        "reviewer": "/root/attendance_material_contract_trace",
+        "verdict": "ACCEPT exact corrected sources and test-only commit/custody"
       }
     ],
     "revisions": [
@@ -159,6 +159,34 @@
           "New EXECUTIVE fixture actor lacked leave-owner org-admin authority for home-branch setup."
         ],
         "disposition": "Sort actual key vectors while preserving exact-set checks; use genuine SUPER_ADMIN fixture steward, retaining original read actors. Both reviewers accepted corrected hashes; fresh RED required."
+      },
+      {
+        "approved_test_commit": "02c02c92f23c772370b79a883d5cfecf8000f0ba",
+        "paths_and_sha256": {
+          "backend-fork/backend/app/tests/hr_attendance_self_read.rs": "cb86a1087d714ccb91d41d2fae879be80f0d15fdb01161d229e27e88fcc398e2",
+          "backend-fork/backend/app/tests/hr_attendance_manager_scope.rs": "410c328def6d4ccd33b2b2362ac13111276a35f4aabf878d3b1de8ce192c969b"
+        },
+        "reviews": [
+          {
+            "reviewer": "/root/attendance_material_contract_trace",
+            "verdict": "ACCEPT"
+          },
+          {
+            "reviewer": "/root/attendance_material_adversary",
+            "verdict": "ACCEPT"
+          }
+        ],
+        "execution_verdict": "Actual RED accepted; initial GREEN rejected for misplaced fresh-session audit boundary",
+        "green_report": "run-20261001T020426.622013Z/report.json",
+        "green_report_sha256": "bd70ab5b78686030d5f8fd99d264a9d64e981e850852246463468e10bbab26ea",
+        "green_discovered": 35,
+        "green_executed": 30,
+        "green_passed": 29,
+        "green_failed": 1,
+        "green_filtered": 5,
+        "green_ignored": 0,
+        "finding": "Fresh bearer() legitimately writes one auth.refresh.issue audit. A global before/after GET comparison crossed that fixture mutation.",
+        "disposition": "Retain all business assertions and exact audit verification; assert every GET is write-free at its own boundary. Independently review corrected tests and run fresh matching-source RED/GREEN."
       }
     ],
     "expected_discovery": {
@@ -166,23 +194,25 @@
       "hr_attendance_manager_scope": 2
     },
     "limits": "Reviewed test sources only. Focused contract assertions, not general JSON-Schema validation or deterministic HTTP interleaving proof.",
-    "approved_test_commit": "02c02c92f23c772370b79a883d5cfecf8000f0ba"
+    "approved_test_commit": "d10ca2edf9f09d121ed765190f3afc4c15a083d3"
   },
   "implementation_admission": {
-    "source_base": "02c02c92f23c772370b79a883d5cfecf8000f0ba",
-    "command": "python3 tools/lanes/fanout.py admit --probe 'python3 /Users/jasonlee/Developer/frontend/.artifacts/acceptance/attendance-material-history/probe.py --approved-tests-head 02c02c92f23c772370b79a883d5cfecf8000f0ba'",
-    "report": "run-20261001T015144.713563Z/report.json",
-    "report_sha256": "7986b9ddcdb7164eb9e7f3b68e37b5b40fa805136af9f4749fba4a28677dc8d7",
+    "source_base": "d10ca2edf9f09d121ed765190f3afc4c15a083d3",
+    "command": "python3 tools/lanes/fanout.py admit --probe 'python3 /Users/jasonlee/Developer/frontend/.artifacts/acceptance/attendance-material-history/probe.py --approved-tests-head d10ca2edf9f09d121ed765190f3afc4c15a083d3'",
+    "report": "run-20261001T022124.942904Z/report.json",
+    "report_sha256": "a10667534e220e200eba657c664f116b5058a1c52af8e0d74e0c0e01853d35cb",
     "discovered": 35,
     "selected_and_executed": 30,
     "passed": 26,
     "failed": 4,
     "filtered": 5,
     "ignored": 0,
-    "classification": "Four genuine missing/malformed association/replay/contract failures. Every selected test executed; no infrastructure/fixture failure. Independent adversary verified logs and exact sources.",
+    "classification": "Four genuine wrong-reference, missing-reference replay and contract failures. All selected tests executed; no fixture or infrastructure failure. Cleanup and clean/source revalidation passed.",
     "reviewer": "/root/attendance_material_adversary",
-    "verdict": "ACCEPT actual RED evidence",
-    "limits": "Later assertions within failed tests remain unreached on RED; identical complete GREEN required."
+    "verdict": "ACCEPT complete corrected RED",
+    "review_receipt": "red-review-d10ca2e-adversary.json",
+    "review_receipt_sha256": "5ee529d58ba18351d36f15bf4befce5974a360bd94a22b0c620e4f20e311d705",
+    "limits": "Later assertions in failed tests remain unreached on RED; identical complete GREEN required."
   },
   "canonical_projection_reconciliation": {
     "scope": "Pre-existing storefront-media source/composed drift; full composer output retained.",
@@ -190,5 +220,29 @@
     "reviewer": "/root/attendance_material_contract_trace",
     "unchanged_fragment_sha256": "1b1df8d8236124af19f9558f238de7c73d02190ea99675b6400f9f97d2a58f83",
     "evidence": "Existing owner already enforces25MiB, supported raster types, no-store/nosniff and503. Neither storefront source nor fragment changed. Generated documentation now reflects those existing controls."
+  },
+  "previous_implementation_admissions": [
+    {
+      "source_base": "02c02c92f23c772370b79a883d5cfecf8000f0ba",
+      "command": "python3 tools/lanes/fanout.py admit --probe 'python3 /Users/jasonlee/Developer/frontend/.artifacts/acceptance/attendance-material-history/probe.py --approved-tests-head 02c02c92f23c772370b79a883d5cfecf8000f0ba'",
+      "report": "run-20261001T015144.713563Z/report.json",
+      "report_sha256": "7986b9ddcdb7164eb9e7f3b68e37b5b40fa805136af9f4749fba4a28677dc8d7",
+      "discovered": 35,
+      "selected_and_executed": 30,
+      "passed": 26,
+      "failed": 4,
+      "filtered": 5,
+      "ignored": 0,
+      "classification": "Four genuine missing/malformed association/replay/contract failures. Every selected test executed; no infrastructure/fixture failure. Independent adversary verified logs and exact sources.",
+      "reviewer": "/root/attendance_material_adversary",
+      "verdict": "ACCEPT actual RED evidence",
+      "limits": "Later assertions within failed tests remain unreached on RED; identical complete GREEN required."
+    }
+  ],
+  "corrected_test_merge": {
+    "merge_commit": "9251169495ed7540e8ab321ec4dce18a2d58fda4",
+    "preserved_implementation_commit": "69ee3e3fed9ccfca07d5931114f1a95abe74e238",
+    "approved_test_commit": "d10ca2edf9f09d121ed765190f3afc4c15a083d3",
+    "ancestry": "Non-fast-forward merge preserves both exact candidates; production code and contracts unchanged."
   }
 }
