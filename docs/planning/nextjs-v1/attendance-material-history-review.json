@@ -5,7 +5,7 @@
   "base": "7d84de6533a63a2ec1c3bc42ef0e9eca5418da03",
   "base_tree": "d0c69382c814171f018f06c51cd54fcb5777d98f",
   "owner": "root; sole repository writer",
-  "status": "design_and_test_sources_approved_RED_pending",
+  "status": "implemented_identical_GREEN_pending",
   "rounds": [
     {
       "round": 1,
@@ -165,6 +165,30 @@
       "hr_attendance_self_read": 10,
       "hr_attendance_manager_scope": 2
     },
-    "limits": "Reviewed test sources only. Focused contract assertions, not general JSON-Schema validation or deterministic HTTP interleaving proof."
+    "limits": "Reviewed test sources only. Focused contract assertions, not general JSON-Schema validation or deterministic HTTP interleaving proof.",
+    "approved_test_commit": "02c02c92f23c772370b79a883d5cfecf8000f0ba"
+  },
+  "implementation_admission": {
+    "source_base": "02c02c92f23c772370b79a883d5cfecf8000f0ba",
+    "command": "python3 tools/lanes/fanout.py admit --probe 'python3 /Users/jasonlee/Developer/frontend/.artifacts/acceptance/attendance-material-history/probe.py --approved-tests-head 02c02c92f23c772370b79a883d5cfecf8000f0ba'",
+    "report": "run-20261001T015144.713563Z/report.json",
+    "report_sha256": "7986b9ddcdb7164eb9e7f3b68e37b5b40fa805136af9f4749fba4a28677dc8d7",
+    "discovered": 35,
+    "selected_and_executed": 30,
+    "passed": 26,
+    "failed": 4,
+    "filtered": 5,
+    "ignored": 0,
+    "classification": "Four genuine missing/malformed association/replay/contract failures. Every selected test executed; no infrastructure/fixture failure. Independent adversary verified logs and exact sources.",
+    "reviewer": "/root/attendance_material_adversary",
+    "verdict": "ACCEPT actual RED evidence",
+    "limits": "Later assertions within failed tests remain unreached on RED; identical complete GREEN required."
+  },
+  "canonical_projection_reconciliation": {
+    "scope": "Pre-existing storefront-media source/composed drift; full composer output retained.",
+    "verdict": "ACCEPT artifact reconciliation, not material design change",
+    "reviewer": "/root/attendance_material_contract_trace",
+    "unchanged_fragment_sha256": "1b1df8d8236124af19f9558f238de7c73d02190ea99675b6400f9f97d2a58f83",
+    "evidence": "Existing owner already enforces25MiB, supported raster types, no-store/nosniff and503. Neither storefront source nor fragment changed. Generated documentation now reflects those existing controls."
   }
 }
