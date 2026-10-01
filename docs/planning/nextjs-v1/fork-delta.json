@@ -952,6 +952,20 @@
       "reason": "Document the required UUID/null association and LINKED/UNLINKED3.1 contract, with no payroll-success claim."
     },
     {
+      "path": "backend/crates/payroll/adapter-postgres/src/lib.rs",
+      "before": {
+        "sha256": "69e44f5c5aacde19e13254fc92d3b32b9298970e62c930de19dcb56a9b9bdec1",
+        "bytes": 23675,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "1b790dbcc72920245051d418738dfba6f07473184541641c520e31fc1db9db3d",
+        "bytes": 24682,
+        "mode": 420
+      },
+      "reason": "Use coherent Company-scoped payroll readiness snapshots, compose authenticated Account linkage and self page, and preserve audited mutation semantics; reviewed real PostgreSQL regression and session-family fixtures."
+    },
+    {
       "path": "backend/crates/payroll/adapter-postgres/src/lifecycle.rs",
       "before": {
         "sha256": "070c1da569abd4dab31326f2d21953b480dd39d59b21cd5eed3df92b4aa401ae",
@@ -1008,6 +1022,20 @@
       "reason": "Test-first payroll roster restage integrity R3: actual runtime-role owner preservation, canonical and workflow retry/recovery, refusal and concurrent close ordering. Test fixtures are isolated; no product source change. Add independently reviewed red-first malformed payroll source and exact runtime-role calculation-accounting regressions; production behavior remains unchanged in the test candidate. Reviewed staged-roster coverage and atomic local payslip publication at existing payroll/Inbox owners, immutable dedup replay and frozen real-session/runtime-role regressions. No full-module, legal, payment or two-site claim."
     },
     {
+      "path": "backend/crates/payroll/rest/src/lib.rs",
+      "before": {
+        "sha256": "664994055e852f400eabf7446d792e106cd9c3d5db2a647bef00bd531ea60f32",
+        "bytes": 20093,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "8838d60ffcad91e7391b7533d56e773b60e3dd7f4bff0ddcf5b7bf462e9d4108",
+        "bytes": 19857,
+        "mode": 420
+      },
+      "reason": "Use coherent Company-scoped payroll readiness snapshots, compose authenticated Account linkage and self page, and preserve audited mutation semantics; reviewed real PostgreSQL regression and session-family fixtures."
+    },
+    {
       "path": "backend/crates/payroll/rest/src/lifecycle.rs",
       "before": {
         "sha256": "49ad599ed56162070b9430a35cce3c34c4f2e18743767c6f5c28587aba834aed",
@@ -1015,11 +1043,35 @@
         "mode": 420
       },
       "after": {
-        "sha256": "6322aa29304b10e592b879d51bc08d67bdf2b642495b46cdc3f4dd7dc4e7aa16",
-        "bytes": 26591,
+        "sha256": "e8f868fcf54538de85f1eea5f2d7c05509aa88e975c8e78510a1e5dac9a737fb",
+        "bytes": 26813,
         "mode": 420
       },
-      "reason": "Reviewed staged-roster coverage and atomic local payslip publication at existing payroll/Inbox owners, immutable dedup replay and frozen real-session/runtime-role regressions. No full-module, legal, payment or two-site claim."
+      "reason": "Reviewed staged-roster coverage and atomic local payslip publication at existing payroll/Inbox owners, immutable dedup replay and frozen real-session/runtime-role regressions. No full-module, legal, payment or two-site claim. Use coherent Company-scoped payroll readiness snapshots, compose authenticated Account linkage and self page, and preserve audited mutation semantics; reviewed real PostgreSQL regression and session-family fixtures."
+    },
+    {
+      "path": "backend/crates/payroll/rest/tests/api.rs",
+      "before": {
+        "sha256": "2b8691e32e55b85d97524ec1f1eb9f25d64ae666da4e1b7b40effc7c9560cd8d",
+        "bytes": 31954,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "f9bf6dd90c2113b76054a7735c38e2a6e9fb7f0ca87f8d586b295b89c81b0009",
+        "bytes": 32429,
+        "mode": 420
+      },
+      "reason": "Use coherent Company-scoped payroll readiness snapshots, compose authenticated Account linkage and self page, and preserve audited mutation semantics; reviewed real PostgreSQL regression and session-family fixtures."
+    },
+    {
+      "path": "backend/crates/payroll/rest/tests/api/snapshot.rs",
+      "before": null,
+      "after": {
+        "sha256": "fa918ab318018bb9efe5226a7d8831f0d0a43d2c9f93bcf6ca437bbf8edb3cd8",
+        "bytes": 32416,
+        "mode": 420
+      },
+      "reason": "Use coherent Company-scoped payroll readiness snapshots, compose authenticated Account linkage and self page, and preserve audited mutation semantics; reviewed real PostgreSQL regression and session-family fixtures."
     },
     {
       "path": "backend/crates/payroll/rest/tests/run_lifecycle_api.rs",
@@ -1445,11 +1497,11 @@
         "mode": 420
       },
       "after": {
-        "sha256": "0db3bd37150a29603bba7de86a673f7fcf6b0ae88f6c20e820b879603e991fef",
-        "bytes": 39854,
+        "sha256": "60d4ab52d33d22593f6e80354d5304b0ddc999a27d5d591a5308c02730b2e1c6",
+        "bytes": 41145,
         "mode": 420
       },
-      "reason": "Add a tenant-scoped read-only repeatable-read transaction so multi-query owner reads use one PostgreSQL snapshot; retain the existing scoped read behavior."
+      "reason": "Add a tenant-scoped read-only repeatable-read transaction so multi-query owner reads use one PostgreSQL snapshot; retain the existing scoped read behavior. Use coherent Company-scoped payroll readiness snapshots, compose authenticated Account linkage and self page, and preserve audited mutation semantics; reviewed real PostgreSQL regression and session-family fixtures."
     },
     {
       "path": "backend/crates/platform/db/src/durability.rs",
@@ -1469,11 +1521,11 @@
         "mode": 420
       },
       "after": {
-        "sha256": "05d00e1d060e7ddddae491b573a2f528c9559dc3eb0d4e027420b20dc59027c1",
-        "bytes": 1731,
+        "sha256": "945a3649043a25dfc9bd7802357c60891a3c399e3ae598771e593b890b35ee67",
+        "bytes": 1754,
         "mode": 420
       },
-      "reason": "Expose the unarmed physical WAL-prefix observer module. Export the snapshot transaction helper for owning adapters."
+      "reason": "Expose the unarmed physical WAL-prefix observer module. Export the snapshot transaction helper for owning adapters. Use coherent Company-scoped payroll readiness snapshots, compose authenticated Account linkage and self page, and preserve audited mutation semantics; reviewed real PostgreSQL regression and session-family fixtures."
     },
     {
       "path": "backend/crates/platform/db/src/lifecycle.rs",
@@ -2191,13 +2243,15 @@
     "Audit attestation route inventory uses the same registered path constant; path coverage is proven, while path×method/response parity remains separate.",
     "Storefront listing order is now total under tied rank/time keys; count/items/media snapshot consistency and cross-request mutation remain separately unproved.",
     "Sales catalog count, rows and media now share one tenant-scoped repeatable-read snapshot; this does not establish two-site safe reads or cross-request consistency.",
-    "Sales inquiry raw text bounds now match persisted PostgreSQL constraints. Local Cargo harness proof passed; full original CI wrapper/preflight proof is unavailable because this frozen fork excludes its workflow and root Buck files."
+    "Sales inquiry raw text bounds now match persisted PostgreSQL constraints. Local Cargo harness proof passed; full original CI wrapper/preflight proof is unavailable because this frozen fork excludes its workflow and root Buck files.",
+    "Payroll run/readiness GET and standalone pages use one local snapshot. Emission authority, exact decimal transport, authenticated Next serving and two-site confirmation remain separate HOLDs."
   ],
   "frontend_changes": [
     "Pinned Next/React and Node LTS server runtime",
     "Removed static export, serve dependency and Nginx static configuration",
     "Added server redirect, dynamic responses, immutable server container image and isolation excludes",
     "Added reproducible source-freeze and acceptance tooling; launch gates remain unaccepted",
-    "Protected PR/merge-group CI retains every producer and adds complete Payroll REST, Inbox and leave targets plus strict Clippy for their existing owners."
+    "Protected PR/merge-group CI retains every producer and adds complete Payroll REST, Inbox and leave targets plus strict Clippy for their existing owners.",
+    "Protected CI retains every producer and adds Payroll REST api/lib, standalone payroll RLS and platform DB targets plus strict snapshot-owner Clippy."
   ]
 }

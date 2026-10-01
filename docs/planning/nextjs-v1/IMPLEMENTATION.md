@@ -720,3 +720,28 @@ Approved tests at `9641dbaf` were unchanged: complete RED discovered/executed100
 Earlier invalid census/auth-fixture and compiler-stall attempts remain diagnostics, never RED/GREEN. The stalled cached macro was selectively rebuilt without source, lockfile or OS security changes. Protected CI retains every producer and adds complete Payroll REST, Inbox and leave targets. Exact final-revision hosted CI, independent COMMENT and protected queue/merge readback remain pending at this checkpoint.
 
 This is staged-roster coverage and atomic local PostgreSQL publication. Legal Employment population/provenance, exact approval binding, verified natural-person independence, legal payslip timing, bank acceptance, authenticated Next HR/Org/Payroll/Foundry UI, two-site durability, load/restore and persisted rollback remain open. No deployment, institutional act or collection was performed. Full module and release acceptance remains unaccepted.
+
+
+## 2026-10-01 — coherent native payroll readiness reads
+
+Run list/detail, exceptions and payslip delivery now use one writable, audited
+REPEATABLE READ snapshot. Close-preflight and standalone list/detail/self/inbox
+readers reuse the existing read-only snapshot owner. The self-service route
+resolves the authenticated Account link and readiness page together, sharing
+the existing SQL and preserving legacy projections and pagination. Ordinary
+mutations and close-time recomputation keep their existing isolation and locks.
+
+Approved tests at `cdc6a0e` remained unchanged: genuine RED executed17
+(seven passes, ten exact concurrent-read failures); GREEN passes147/147 across
+13 complete targets with no filters/skips. Six strict locked/offline Clippy
+producers and formatting passed. Two independent source reviewers and a separate
+raw-evidence reviewer approved `beab86e`. Invalid compile/query-stage attempts
+remain diagnostics. [Evidence](payroll-read-snapshot-evidence.json) records
+commands, counts, hashes, limits and rollback. Final metadata review, exact-head
+hosted CI, independent COMMENT and protected queue admission remain pending.
+
+PR7 merged through the protected queue as `e3d85c1`, preserving its reviewed
+tree; its hosted merge-group audit passed100 payroll tests and all retained
+producers. This repair remains local read consistency: authenticated Next
+HR/Org/Payroll/Foundry UI, full legal payroll/Employment population, emission
+authority, two-site confirmation/fencing, full modules and release stay open.
