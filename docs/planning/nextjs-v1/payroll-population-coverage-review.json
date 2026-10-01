@@ -1,0 +1,38 @@
+{
+  "base_sha": "08cafb8588ca77b9b690a1442ec860d69e8a0283",
+  "design_sha256": "ee1fbf71298d76433d030fb4de0443818e9870625e211ca95f62107d65bb5a29",
+  "design_rounds": [
+    {
+      "round": 1,
+      "reviewer": "/root/live_owner_trace",
+      "verdict": "APPROVE",
+      "artifact": "design-round1-revised.json",
+      "artifact_sha256": "3a97b48024e15a62281ed697c23a960a2ec7359d19ca7eb0d0cdf45cc8d52e99"
+    },
+    {
+      "round": 2,
+      "reviewer": "/root/payroll_path_adversary",
+      "verdict": "APPROVE",
+      "artifact": "design-round2.json",
+      "artifact_sha256": "d4c50f7a7525e984174748cad7b29a630d6116835f2e39de60a1da76bf4c0913"
+    },
+    {
+      "round": 3,
+      "reviewer": "/root/live_ui_trace",
+      "verdict": "APPROVE",
+      "artifact": "design-round3.json",
+      "artifact_sha256": "06fcd0884d6a330cfdccdf3a51504dcad1339a39f92957875aee7a9185fe0ba0"
+    },
+    {
+      "round": 4,
+      "reviewer": "/root/live_owner_trace",
+      "verdict": "APPROVE",
+      "artifact": "design-round4.json",
+      "artifact_sha256": "5501bb28a9c9474f80e3688e701b2b50228d2f26568490e69fa5bbe69f6c72a2"
+    }
+  ],
+  "initial_design_sha256": "af2eebf1c6722aeb34783053d58e22d9ac766417831702b157ea1370338c647b",
+  "initial_verdict": "REVISE",
+  "resolved": "Duplicate employee representation, summary snapshot consistency, stable document/link locks and leave consumer target proof.",
+  "scope": "Existing staged payroll population and atomic local payslip publication only. No legal, UI, payment or release approval."
+}
