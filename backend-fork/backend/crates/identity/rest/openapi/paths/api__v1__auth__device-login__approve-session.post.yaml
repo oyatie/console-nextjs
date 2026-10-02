@@ -2,8 +2,9 @@ tags:
   - auth
 operationId: approveDeviceLoginSession
 summary: Approve a desktop QR login from an authenticated phone session
-description: Phone-side approval used after first-time QR enrollment. The phone has redeemed the handoff OTP and enrolled
-  a passkey; this authenticated call links that phone-registered passkey back to the waiting desktop poll token.
+description: Phone-side approval for a targeted enrollment QR requires an ordinary authenticated session after passkey
+  login. An OTP enrollment family cannot approve, even after registration or refresh. The phone may instead use the
+  signed passkey assertion approval endpoint without first minting a session.
 security:
 - bearerAuth: []
 requestBody:

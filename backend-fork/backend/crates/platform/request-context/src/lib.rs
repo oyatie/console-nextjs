@@ -309,6 +309,31 @@ pub async fn validate_current_claims(
     pool: &PgPool,
     claims: &AccessClaims,
 ) -> Result<(UserId, OrgId), RequestContextError> {
+    validate_claims(pool, claims, false).await
+}
+
+/// Admit direct own-Account enrollment and consent, including legacy OTP families.
+/// This exception must never authorize business work or delegated credentials.
+pub async fn validate_enrollment_capable_claims(
+    pool: &PgPool,
+    claims: &AccessClaims,
+) -> Result<(UserId, OrgId), RequestContextError> {
+    validate_claims(pool, claims, true).await
+}
+
+async fn validate_claims(
+    pool: &PgPool,
+    claims: &AccessClaims,
+    allow_enrollment: bool,
+) -> Result<(UserId, OrgId), RequestContextError> {
+    if allow_enrollment
+        && (claims.tenant_context.is_some()
+            || claims.actor_session.is_some()
+            || claims.view_as
+            || claims.read_only)
+    {
+        return Err(RequestContextError::InvalidToken);
+    }
     let user = UserId::from_str(&claims.sub).map_err(|_| RequestContextError::InvalidToken)?;
     let target = OrgId::from_str(&claims.org).map_err(|_| RequestContextError::InvalidToken)?;
     let roles = claims
@@ -363,16 +388,26 @@ pub async fn validate_current_claims(
     }
     let home = session.home_org;
     let row = with_org_conn::<_, _, DbError>(pool, home, |tx| Box::pin(async move {
-        sqlx::query_as::<_, (bool, Vec<String>, String, i64, i64)>(
-            "SELECT u.is_active, u.roles, o.status, COALESCE(v.version,0), COALESCE(v.session_generation,0) \
+        sqlx::query_as::<_, (bool, Vec<String>, String, i64, i64, i16, Option<uuid::Uuid>)>(
+            "SELECT u.is_active, u.roles, o.status, COALESCE(v.version,0), COALESCE(v.session_generation,0), f.provenance_version, s.user_id \
              FROM users u JOIN organizations o ON o.id=u.org_id \
              JOIN auth_refresh_token_families f ON f.user_id=u.id AND f.org_id=u.org_id AND f.id=$3 AND f.revoked_at IS NULL \
+             LEFT JOIN auth_legacy_otp_family_sources s ON s.family_id=f.id \
              LEFT JOIN subject_authz_versions v ON v.org_id=u.org_id AND v.user_id=u.id \
              WHERE u.id=$1 AND u.org_id=$2")
             .bind(*user.as_uuid()).bind(*home.as_uuid()).bind(session.family_id).fetch_optional(tx.as_mut()).await.map_err(DbError::Sqlx)
     })).await.map_err(|_| RequestContextError::EffectivePolicy("current account authority unavailable".into()))?
         .ok_or(RequestContextError::InvalidToken)?;
-    let (active, live_roles, status, subject_version, session_generation) = row;
+    let (active, live_roles, status, subject_version, session_generation, provenance, otp_user) =
+        row;
+    // Positive classification survives source consumption, expiry or removal.
+    // Marker absence preserves unclassified v0 compatibility, not proof of
+    // normal authentication. V1 has no serving release barrier yet.
+    if provenance != 0
+        || (otp_user.is_some() && (!allow_enrollment || otp_user != Some(*user.as_uuid())))
+    {
+        return Err(RequestContextError::InvalidToken);
+    }
     if !active
         || live_roles.is_empty()
         || (home != OrgId::platform() && status != "ACTIVE")

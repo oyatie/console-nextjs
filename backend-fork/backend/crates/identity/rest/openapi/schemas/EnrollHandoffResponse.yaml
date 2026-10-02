@@ -1,8 +1,8 @@
 type: object
 description: The minted single-use, short-lived passkey-enrollment code (returned once, only its hash is stored) plus
   the ready-to-encode enrollment URL the frontend renders as a QR. The phone opens `enroll_url`, redeems `otp` via the
-  first-sign-in path, enrolls a platform passkey, then approves the paired desktop poll token when `desktop_approve`
-  is present in the URL fragment.
+  first-sign-in path and enrolls a passkey. When `desktop_approve` is present, approval requires a fresh signed passkey
+  assertion or an ordinary session after passkey login; the OTP enrollment family cannot approve the desktop session.
 required:
 - otp
 - expires_at

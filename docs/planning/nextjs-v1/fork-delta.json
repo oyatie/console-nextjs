@@ -119,11 +119,11 @@
         "mode": 420
       },
       "after": {
-        "sha256": "53db39b5fd993e601909bfb34f40627a85497eee0c894a40623273d8e0939811",
-        "bytes": 167764,
+        "sha256": "4a97c87c81c035398430644ee1ae17647f18ce9d99f483dca2ccfffeddaf858c",
+        "bytes": 169333,
         "mode": 420
       },
-      "reason": "Keep signed device-login proof, source and scope regressions; prove refresh signing failure after rotation cannot commit an undisclosed replacement. Add a red signed HTTP regression showing an OTP-derived family's access and refresh cannot acquire business authority after its source is replaced. Bind newly redeemed legacy OTP families and passkey registration ceremonies to the exact live source in one owner transaction, recheck JWT expiry after lock waits, and retain red purpose-authority probes. This is unactivated version-0 containment, not a version-1 session cutover. Add real signed HTTP/runtime-role PostgreSQL credential reset session-revocation, isolation, interleaving and rollback regressions; preserve existing tests."
+      "reason": "Keep signed device-login proof, source and scope regressions; prove refresh signing failure after rotation cannot commit an undisclosed replacement. Add a red signed HTTP regression showing an OTP-derived family's access and refresh cannot acquire business authority after its source is replaced. Bind newly redeemed legacy OTP families and passkey registration ceremonies to the exact live source in one owner transaction, recheck JWT expiry after lock waits, and retain red purpose-authority probes. This is unactivated version-0 containment, not a version-1 session cutover. Add real signed HTTP/runtime-role PostgreSQL credential reset session-revocation, isolation, interleaving and rollback regressions; preserve existing tests. Restrict positively classified legacy OTP families at shared ordinary admission and locked device approval; preserve direct enrollment, v0 compatibility and dormant v1. Add genuine runtime-role regressions and correct QR approval descriptions."
     },
     {
       "path": "backend/app/tests/cedar_freshness_mint.rs",
@@ -241,7 +241,7 @@
         "bytes": 47596,
         "mode": 420
       },
-      "reason": "Remove the Intelligence bind exception from the production route census while preserving other route-contract assertions. Require the already registered audit attestation path in the configured route inventory. Require the served OpenAPI path × method response for the reachable unavailable-listing 409; preserve existing inventory assertions."
+      "reason": "Remove the Intelligence bind exception from the production route census while preserving other route-contract assertions. Require the already registered audit attestation path in the configured route inventory. Require the served OpenAPI path \u00d7 method response for the reachable unavailable-listing 409; preserve existing inventory assertions."
     },
     {
       "path": "backend/app/tests/platform_onboarding_e2e.rs",
@@ -1119,11 +1119,11 @@
         "mode": 420
       },
       "after": {
-        "sha256": "3acf1c0b1300c281d25e33dcf3b0a473d22ec80b86ec502baae44c8a33c4e2e6",
-        "bytes": 164216,
+        "sha256": "de1fa347587e3900947d0fae9b4e253512037457e5c2182809eabc53e6f72f45",
+        "bytes": 165433,
         "mode": 420
       },
-      "reason": "Revalidate device handoff after waits and keep refresh rotation, current authority and JWT signing in one transaction before a replacement is acknowledged. Bind newly redeemed legacy OTP families and passkey registration ceremonies to the exact live source in one owner transaction, recheck JWT expiry after lock waits, and retain red purpose-authority probes. This is unactivated version-0 containment, not a version-1 session cutover. Recheck the exact recorded approving key with Account and Company under the existing Account mutex before device-login consumption and issuance; preserve approval, clock, token/family and audit semantics."
+      "reason": "Revalidate device handoff after waits and keep refresh rotation, current authority and JWT signing in one transaction before a replacement is acknowledged. Bind newly redeemed legacy OTP families and passkey registration ceremonies to the exact live source in one owner transaction, recheck JWT expiry after lock waits, and retain red purpose-authority probes. This is unactivated version-0 containment, not a version-1 session cutover. Recheck the exact recorded approving key with Account and Company under the existing Account mutex before device-login consumption and issuance; preserve approval, clock, token/family and audit semantics. Restrict positively classified legacy OTP families at shared ordinary admission and locked device approval; preserve direct enrollment, v0 compatibility and dormant v1. Add genuine runtime-role regressions and correct QR approval descriptions."
     },
     {
       "path": "backend/crates/platform/auth-rest/tests/group_admin_tenant_context.rs",
@@ -1891,11 +1891,11 @@
         "mode": 420
       },
       "after": {
-        "sha256": "161457b5e4b94c2bf47fd9f7520f583aa2569c8c99bfdff6553ad98abcdb1624",
-        "bytes": 41944,
+        "sha256": "0e7dd3c084c1d65c32e9ec5bf3529c40ff5b6c1b5b3402db118a8a4607500c29",
+        "bytes": 43322,
         "mode": 420
       },
-      "reason": "Bind ordinary and delegated access to exact live refresh families; enforce strict source and absolute deadlines after lock waits. Preserve authentication assertions using real-family test fixtures."
+      "reason": "Bind ordinary and delegated access to exact live refresh families; enforce strict source and absolute deadlines after lock waits. Preserve authentication assertions using real-family test fixtures. Restrict positively classified legacy OTP families at shared ordinary admission and locked device approval; preserve direct enrollment, v0 compatibility and dormant v1. Add genuine runtime-role regressions and correct QR approval descriptions."
     },
     {
       "path": "backend/crates/platform/storage/Cargo.toml",
@@ -2107,11 +2107,11 @@
         "mode": 420
       },
       "after": {
-        "sha256": "4c3c42d8e22da32c734efe038008dcb54fb1a219d167bda3a78eb4aa50b51f58",
-        "bytes": 1215864,
+        "sha256": "f02d8ef0449d280ee751a25b9896040797f84c8a4c6c9a817a5ef7f17d5b075c",
+        "bytes": 1216035,
         "mode": 420
       },
-      "reason": "Describe stable outbound operation IDs, conflict and truthful UNKNOWN response; synchronize the mail HTTP contract. Publish the inquiry 409 in the served OpenAPI document without unrelated generated-media drift. Regenerate exact canonical composition including reviewed attendance contract and inherited storefront-media projection drift; no storefront owner/fragment change."
+      "reason": "Describe stable outbound operation IDs, conflict and truthful UNKNOWN response; synchronize the mail HTTP contract. Publish the inquiry 409 in the served OpenAPI document without unrelated generated-media drift. Regenerate exact canonical composition including reviewed attendance contract and inherited storefront-media projection drift; no storefront owner/fragment change. Restrict positively classified legacy OTP families at shared ordinary admission and locked device approval; preserve direct enrollment, v0 compatibility and dormant v1. Add genuine runtime-role regressions and correct QR approval descriptions."
     },
     {
       "path": "backend/openapi/shared/schemas/ErrorBody.yaml",
@@ -2239,11 +2239,11 @@
       "path": "backend/app/tests/auth_rest/reset_sessions.rs",
       "before": null,
       "after": {
-        "sha256": "68c0bbe780b4be7e63d82cd5151aebc7d8f17e66de814b5b8b80f46dc2a334c7",
-        "bytes": 29627,
+        "sha256": "657ae6f0ab6b8cb31c719162e17cda6be6a9834f8342720d1c98452ac0651d5e",
+        "bytes": 29660,
         "mode": 420
       },
-      "reason": "Add real signed HTTP/runtime-role PostgreSQL credential reset session-revocation, isolation, interleaving and rollback regressions; preserve existing tests."
+      "reason": "Add real signed HTTP/runtime-role PostgreSQL credential reset session-revocation, isolation, interleaving and rollback regressions; preserve existing tests. Restrict positively classified legacy OTP families at shared ordinary admission and locked device approval; preserve direct enrollment, v0 compatibility and dormant v1. Add genuine runtime-role regressions and correct QR approval descriptions."
     },
     {
       "path": "tools/lanes/pgtest.sh",
@@ -2258,6 +2258,44 @@
         "mode": 493
       },
       "reason": "Expose only generated runtime and force fixture password aliases to Cargo tests; preserve credential argv guard and owned disposable cleanup."
+    },
+    {
+      "path": "backend/app/tests/auth_rest/purpose.rs",
+      "before": null,
+      "after": {
+        "sha256": "5dad146972b03650dc13b3eb4901f7c296a032fbb6e32b43cabff59f650bc23c",
+        "bytes": 42877,
+        "mode": 420
+      },
+      "reason": "Restrict positively classified legacy OTP families at shared ordinary admission and locked device approval; preserve direct enrollment, v0 compatibility and dormant v1. Add genuine runtime-role regressions and correct QR approval descriptions."
+    },
+    {
+      "path": "backend/crates/identity/rest/openapi/paths/api__v1__auth__device-login__approve-session.post.yaml",
+      "before": {
+        "sha256": "16641b18a9fa293829278ff03d7d19f0fc9d6e105b7140ff5ecc1f3b842134be",
+        "bytes": 814,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "0fe6c3c4a8968d1f3ccebad26dd1de67db1fe9b4f926d6e38f73c080eca88ae5",
+        "bytes": 892,
+        "mode": 420
+      },
+      "reason": "Restrict positively classified legacy OTP families at shared ordinary admission and locked device approval; preserve direct enrollment, v0 compatibility and dormant v1. Add genuine runtime-role regressions and correct QR approval descriptions."
+    },
+    {
+      "path": "backend/crates/identity/rest/openapi/schemas/EnrollHandoffResponse.yaml",
+      "before": {
+        "sha256": "f9b52335b323d20d35d4a31f20c4fefb32666584cc4888e6b689702db481a29f",
+        "bytes": 1089,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "ad304a48f3b5d701e4df3505859758dd994b57c0a09b296efd9bcb78256457b6",
+        "bytes": 1176,
+        "mode": 420
+      },
+      "reason": "Restrict positively classified legacy OTP families at shared ordinary admission and locked device approval; preserve direct enrollment, v0 compatibility and dormant v1. Add genuine runtime-role regressions and correct QR approval descriptions."
     }
   ],
   "notes": [
@@ -2265,7 +2303,7 @@
     "Required embedded WASM, legacy deployment test inputs, and vendor license were added to the allowlist after discovery; no previously copied bytes changed.",
     "Legacy deployment inputs are retained only for reference and existing tests; they were not applied.",
     "No historical migration bytes/checksums changed. No assertions were weakened. Additive claim expectations and real account/family fixtures were updated; independent review approved replacing an obsolete foreign-Company200/empty-layout assertion with exact401 and strengthening the upload-limit error proof.",
-    "Historical migrations 1–225 are unchanged. Fresh installs execute baseline version 0; existing ledgers retain their original versions and records. No production database was migrated.",
+    "Historical migrations 1\u2013225 are unchanged. Fresh installs execute baseline version 0; existing ledgers retain their original versions and records. No production database was migrated.",
     "R4-reviewed title-exemption success assertions replaced by denial/state-preservation proofs; positive workflow advance uses a different actual approver. Historical results and migration bytes retained.",
     "WebAuthn contention correction preserves existing signatures, key/RP formats and every inherited assertion; new genuine-signature/PostgreSQL regressions cover expiry, key deletion, ordered counters, rollback and cancellation. Broader auth ownership/proofing remains required.",
     "0226 credential UPDATE guard is additive only; no new enrollment history or raw INSERT/DELETE isolation. All225 original migrations and baseline0 bytes remain frozen; complete auth/proofing/recovery and all R4 modules remain required.",
@@ -2274,7 +2312,7 @@
     "Account UUID allocation/retirement prerequisite in progress; exact tests-first review, named red, additive migration, actual interruption/retry and candidate review required. Accepted0227 and all previous migration bytes are preserved.",
     "Embedded migration build dependency correction: actual added-file red preserved; one shared native build script and authz path. Exact green and candidate review required. All migration/baseline/lock bytes preserved.",
     "Credential-removal evidence prerequisite in progress. OLD-only private AFTER DELETE capture, no reverse parent locks or authorization claims; all earlier migration bytes preserved. Exact tests and candidate review required.",
-    "Audit attestation route inventory uses the same registered path constant; path coverage is proven, while path×method/response parity remains separate.",
+    "Audit attestation route inventory uses the same registered path constant; path coverage is proven, while path\u00d7method/response parity remains separate.",
     "Storefront listing order is now total under tied rank/time keys; count/items/media snapshot consistency and cross-request mutation remain separately unproved.",
     "Sales catalog count, rows and media now share one tenant-scoped repeatable-read snapshot; this does not establish two-site safe reads or cross-request consistency.",
     "Sales inquiry raw text bounds now match persisted PostgreSQL constraints. Local Cargo harness proof passed; full original CI wrapper/preflight proof is unavailable because this frozen fork excludes its workflow and root Buck files.",

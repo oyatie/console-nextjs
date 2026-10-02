@@ -104,7 +104,12 @@
     "scope": "Exact complete test-only candidate, not compilation or executed GREEN. Both original purpose probes, raw OTP helper and nine reset behavior bodies retained."
   },
   "implementation": {
-    "status": "NOT_STARTED"
+    "status": "IN_PROGRESS",
+    "owners": [
+      "platform/request-context",
+      "platform/auth-rest"
+    ],
+    "scope": "No migration, dependency, identity, family rewrite, launch or live cutover."
   },
   "remaining_holds": [
     "historical unclassified version-0 proof and compromised legacy runtime SQL",
@@ -188,5 +193,26 @@
       "reason": "Two non-admissible fixture errors: missing family created_at and automatically existing Group membership. All evidence and cleanup retained.",
       "evidence": "External local admission/run-20261002T230029.011768Z/report.json"
     }
-  ]
+  ],
+  "admission": {
+    "status": "ADMITTED",
+    "candidate": "eb7c471e22826058fab6b2b02ebb93126715cd2c",
+    "tests_head": "058bcc44dde5df15b7322b717bc3d4f2d5982b1a",
+    "discovered": 51,
+    "executed": 51,
+    "passed": 37,
+    "failed": 14,
+    "ignored": 0,
+    "measured": 0,
+    "filtered": 0,
+    "all_failure_pins": "MATCHED",
+    "unchanged_product": true,
+    "custody_and_owned_cleanup": "PASSED",
+    "fanout_exit_code": 0,
+    "probe_exit_code": 1,
+    "runner_sha256": "20e62befe26e61a8e5908137f50bb0c9c08bf72a03ebd612e129717d75d32f48",
+    "probe_sha256": "5d9d6bd69f35c578e90343a5fdf485802f746943613fbf65157184cec0293e08",
+    "expectations_sha256": "421263bc8043fc5b96edcdaf72b655194c7e4aa8e5ed8849a39738a39ef479a2",
+    "evidence": "External local admission-r3/run-20261002T230925.502344Z/report.json"
+  }
 }
