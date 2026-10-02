@@ -346,36 +346,76 @@ async fn retained_marker_denies_consumed_expired_revoked_and_missing_source(owne
     .unwrap();
     assert!(consumed);
     let normal = usernameless_login(&f.router, &mut authenticator, &credential).await;
+    let before = auth_effects(&owner).await;
+    denied(
+        &get(&f, ATTENDANCE, &otp.access_token).await,
+        "retained consumed source",
+    );
+    assert_eq!(auth_effects(&owner).await, before);
+    // Fresh real handoff sources keep consumed=false; each variant is independent.
     for change in [
-        None,
-        Some(
-            "UPDATE auth_bootstrap_credentials SET issued_at=clock_timestamp()-interval '2 hours',expires_at=clock_timestamp()-interval '1 hour' WHERE id=$1",
-        ),
-        Some("UPDATE auth_bootstrap_credentials SET revoked_at=clock_timestamp() WHERE id=$1"),
-        Some("DELETE FROM auth_bootstrap_credentials WHERE id=$1"),
+        "UPDATE auth_bootstrap_credentials SET issued_at=clock_timestamp()-interval '2 hours',expires_at=clock_timestamp()-interval '1 hour' WHERE id=$1",
+        "UPDATE auth_bootstrap_credentials SET revoked_at=clock_timestamp() WHERE id=$1",
+        "DELETE FROM auth_bootstrap_credentials WHERE id=$1",
     ] {
-        if let Some(sql) = change {
-            sqlx::query(sql).bind(source).execute(&owner).await.unwrap();
-        }
+        let issue = BootstrapCredentialStore
+            .issue_self_enroll_handoff(
+                &f.runtime,
+                *f.user.as_uuid(),
+                OrgId::knl(),
+                OffsetDateTime::now_utc(),
+                Duration::minutes(5),
+            )
+            .await
+            .unwrap();
+        let pair: OtpRedeemResponse = post_json(
+            f.router.clone(),
+            "/api/v1/auth/otp/redeem",
+            None,
+            json!({"otp": issue.token.as_str()}),
+            StatusCode::OK,
+        )
+        .await;
+        assert!(!pair.requires_passkey_setup);
+        let family = f
+            .verifier
+            .verify_access_token(&pair.access_token)
+            .unwrap()
+            .session_family_id
+            .unwrap();
+        let source: Uuid = sqlx::query_scalar(
+            "SELECT source_id FROM auth_legacy_otp_family_sources WHERE family_id=$1",
+        )
+        .bind(family)
+        .fetch_one(&owner)
+        .await
+        .unwrap();
+        let fresh: (bool,bool,bool) = sqlx::query_as("SELECT consumed_at IS NULL,revoked_at IS NULL,expires_at>clock_timestamp() FROM auth_bootstrap_credentials WHERE id=$1").bind(source).fetch_one(&owner).await.unwrap();
+        assert_eq!(fresh, (true, true, true));
+        sqlx::query(change)
+            .bind(source)
+            .execute(&owner)
+            .await
+            .unwrap();
         let before = auth_effects(&owner).await;
         denied(
-            &get(&f, ATTENDANCE, &otp.access_token).await,
-            "retained classification independent of source state",
+            &get(&f, ATTENDANCE, &pair.access_token).await,
+            "retained unconsumed source classification",
         );
         assert_eq!(auth_effects(&owner).await, before);
         assert_eq!(
             get(&f, ATTENDANCE, &normal.access_token).await.status(),
             StatusCode::OK
         );
+        let retained: i64 = sqlx::query_scalar(
+            "SELECT count(*) FROM auth_legacy_otp_family_sources WHERE family_id=$1",
+        )
+        .bind(family)
+        .fetch_one(&owner)
+        .await
+        .unwrap();
+        assert_eq!(retained, 1);
     }
-    let retained: i64 = sqlx::query_scalar(
-        "SELECT count(*) FROM auth_legacy_otp_family_sources WHERE family_id=$1",
-    )
-    .bind(claims.session_family_id.unwrap())
-    .fetch_one(&owner)
-    .await
-    .unwrap();
-    assert_eq!(retained, 1);
 }
 
 #[sqlx::test(migrations = "../crates/platform/db/migrations")]
