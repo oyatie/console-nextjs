@@ -581,8 +581,9 @@ struct PrivacyConsentStatusResponse {
 /// transport (web) — the refresh token rides in the HttpOnly `console_refresh`
 /// cookie instead — and `Some` in the body transport (mobile). The access token
 /// is ALWAYS in the body: it stays a short-lived in-memory bearer token, never a
-/// cookie. `requires_passkey_setup` is true only for an ordinary session whose
-/// user still has zero passkeys, so a refresh cannot bypass initial enrollment.
+/// cookie. `requires_passkey_setup` reports key absence, not session purpose.
+/// False never grants ordinary authority: legacy OTP families remain enrollment
+/// only after registration and refresh; ordinary work requires a fresh login.
 /// A `dev-auth` build exempts only its authenticated synthetic role-switch
 /// personas; ordinary users keep this production behavior in the same binary.
 #[derive(Debug, Serialize)]
@@ -1267,8 +1268,9 @@ fn duration_to_std(ttl: Duration) -> std::time::Duration {
 ///
 /// Unauthenticated and rate-limited. Legacy OTP verification and its newly
 /// minted family are committed together for the OTP's pre-provisioned user;
-/// `requires_passkey_setup` tells the frontend to force passkey enrollment in
-/// initial settings. A wrong/expired/used OTP returns a single generic 401.
+/// The legacy code is consumed at successful registration, not redemption.
+/// `requires_passkey_setup` reports key absence; this family remains enrollment
+/// only even when false. A wrong/expired/used OTP returns a single generic 401.
 async fn redeem_otp(
     State(state): State<AuthRestState>,
     headers: HeaderMap,

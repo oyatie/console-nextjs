@@ -1991,10 +1991,12 @@ paths:
       tags:
         - auth
       summary: First sign-in by redeeming a one-time code
-      description: First sign-in for a pre-provisioned user. Redeems a single-use, expiring one-time code (admin-issued, or
-        the cold-start secret) and mints a normal session token pair. The code is consumed atomically on success only; a wrong
-        or expired code returns a single generic 401. Rate-limited per client (IP and optional device). `requires_passkey_setup`
-        is true when the user has no passkey yet, so the client should force passkey enrollment in initial settings.
+      description: First sign-in for a pre-provisioned user. Verifies a legacy expiring one-time code (admin-issued, or
+        the cold-start secret) and mints an enrollment-only token pair. The legacy code is consumed atomically at successful
+        passkey registration, not redemption. A wrong, expired or consumed code returns a single generic 401. Rate-limited
+        per client (IP and optional device). `requires_passkey_setup` reports key absence, not session purpose; false never
+        grants ordinary authority. The family remains enrollment-only after registration and refresh. Ordinary work
+        requires a fresh passkey login.
       requestBody:
         required: true
         content:
@@ -29001,7 +29003,8 @@ components:
           $ref: '#/components/schemas/Timestamp'
         requires_passkey_setup:
           type: boolean
-          description: True when the signed-in user has no passkey yet and should enroll one in initial settings.
+          description: Reports key absence, not session purpose. True means the user should enroll a passkey. False never
+            grants ordinary authority; this legacy OTP family remains enrollment-only after registration and refresh.
     OutsourceWorkSummary:
       type: object
       properties:
@@ -34493,9 +34496,9 @@ components:
           $ref: '#/components/schemas/Timestamp'
         requires_passkey_setup:
           type: boolean
-          description: True when the refreshed session belongs to an OTP-signed-in user who still has no passkey. Web clients
-            must keep routing this session to initial passkey enrollment after a reload; passkey-authenticated sessions return
-            false.
+          description: Reports key absence, not session purpose. True means the user should enroll a passkey. False never
+            grants ordinary authority; legacy OTP families remain enrollment-only after registration and refresh.
+            Ordinary work requires a fresh passkey login.
     TransitionLifecycleRequest:
       type: object
       required:

@@ -241,7 +241,7 @@
         "bytes": 47596,
         "mode": 420
       },
-      "reason": "Remove the Intelligence bind exception from the production route census while preserving other route-contract assertions. Require the already registered audit attestation path in the configured route inventory. Require the served OpenAPI path \u00d7 method response for the reachable unavailable-listing 409; preserve existing inventory assertions."
+      "reason": "Remove the Intelligence bind exception from the production route census while preserving other route-contract assertions. Require the already registered audit attestation path in the configured route inventory. Require the served OpenAPI path × method response for the reachable unavailable-listing 409; preserve existing inventory assertions."
     },
     {
       "path": "backend/app/tests/platform_onboarding_e2e.rs",
@@ -1119,8 +1119,8 @@
         "mode": 420
       },
       "after": {
-        "sha256": "de1fa347587e3900947d0fae9b4e253512037457e5c2182809eabc53e6f72f45",
-        "bytes": 165433,
+        "sha256": "dc15874adefbe93e204e0a8290147c2caba79d825cf9581bd80c6c9cb61852ee",
+        "bytes": 165593,
         "mode": 420
       },
       "reason": "Revalidate device handoff after waits and keep refresh rotation, current authority and JWT signing in one transaction before a replacement is acknowledged. Bind newly redeemed legacy OTP families and passkey registration ceremonies to the exact live source in one owner transaction, recheck JWT expiry after lock waits, and retain red purpose-authority probes. This is unactivated version-0 containment, not a version-1 session cutover. Recheck the exact recorded approving key with Account and Company under the existing Account mutex before device-login consumption and issuance; preserve approval, clock, token/family and audit semantics. Restrict positively classified legacy OTP families at shared ordinary admission and locked device approval; preserve direct enrollment, v0 compatibility and dormant v1. Add genuine runtime-role regressions and correct QR approval descriptions."
@@ -2107,8 +2107,8 @@
         "mode": 420
       },
       "after": {
-        "sha256": "f02d8ef0449d280ee751a25b9896040797f84c8a4c6c9a817a5ef7f17d5b075c",
-        "bytes": 1216035,
+        "sha256": "f6849589ac69f31ef137155e2a71a89763f9cbd7d47f5c085c57e119348864de",
+        "bytes": 1216334,
         "mode": 420
       },
       "reason": "Describe stable outbound operation IDs, conflict and truthful UNKNOWN response; synchronize the mail HTTP contract. Publish the inquiry 409 in the served OpenAPI document without unrelated generated-media drift. Regenerate exact canonical composition including reviewed attendance contract and inherited storefront-media projection drift; no storefront owner/fragment change. Restrict positively classified legacy OTP families at shared ordinary admission and locked device approval; preserve direct enrollment, v0 compatibility and dormant v1. Add genuine runtime-role regressions and correct QR approval descriptions."
@@ -2296,6 +2296,48 @@
         "mode": 420
       },
       "reason": "Restrict positively classified legacy OTP families at shared ordinary admission and locked device approval; preserve direct enrollment, v0 compatibility and dormant v1. Add genuine runtime-role regressions and correct QR approval descriptions."
+    },
+    {
+      "path": "backend/crates/identity/rest/openapi/paths/api__v1__auth__otp__redeem.post.yaml",
+      "before": {
+        "sha256": "27492d680d23408fb1f34087afd1242a4720af421e10f7844a6d0ccac034ca38",
+        "bytes": 979,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "c212bf17be488ba065d8e387a2124fc3dcc6bd51d96abb4a42ccc8a26beea28b",
+        "bytes": 1118,
+        "mode": 420
+      },
+      "reason": "Correct legacy OTP enrollment-purpose and key-absence descriptions; no schema or authority change."
+    },
+    {
+      "path": "backend/crates/identity/rest/openapi/schemas/OtpRedeemResponse.yaml",
+      "before": {
+        "sha256": "a0bc4722c1fad416f1f0a3e48d6f555629bd812470dccfaf2b64c7a2b5bea54a",
+        "bytes": 666,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "39f8f9de5c307b02bd798b1460991cbd28f167e87103323e1e74468c97e8b77f",
+        "bytes": 786,
+        "mode": 420
+      },
+      "reason": "Correct legacy OTP enrollment-purpose and key-absence descriptions; no schema or authority change."
+    },
+    {
+      "path": "backend/crates/identity/rest/openapi/schemas/TokenPairResponse.yaml",
+      "before": {
+        "sha256": "fca1e015bfe199170bb2b566a533cfb7def3a13d7bf8c7038741941ebac71a12",
+        "bytes": 835,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "7ccf46d4f1a4cc72364d6bd380e5150bc4827eec9d915ba4e1377c522a58274e",
+        "bytes": 857,
+        "mode": 420
+      },
+      "reason": "Correct legacy OTP enrollment-purpose and key-absence descriptions; no schema or authority change."
     }
   ],
   "notes": [
@@ -2303,7 +2345,7 @@
     "Required embedded WASM, legacy deployment test inputs, and vendor license were added to the allowlist after discovery; no previously copied bytes changed.",
     "Legacy deployment inputs are retained only for reference and existing tests; they were not applied.",
     "No historical migration bytes/checksums changed. No assertions were weakened. Additive claim expectations and real account/family fixtures were updated; independent review approved replacing an obsolete foreign-Company200/empty-layout assertion with exact401 and strengthening the upload-limit error proof.",
-    "Historical migrations 1\u2013225 are unchanged. Fresh installs execute baseline version 0; existing ledgers retain their original versions and records. No production database was migrated.",
+    "Historical migrations 1–225 are unchanged. Fresh installs execute baseline version 0; existing ledgers retain their original versions and records. No production database was migrated.",
     "R4-reviewed title-exemption success assertions replaced by denial/state-preservation proofs; positive workflow advance uses a different actual approver. Historical results and migration bytes retained.",
     "WebAuthn contention correction preserves existing signatures, key/RP formats and every inherited assertion; new genuine-signature/PostgreSQL regressions cover expiry, key deletion, ordered counters, rollback and cancellation. Broader auth ownership/proofing remains required.",
     "0226 credential UPDATE guard is additive only; no new enrollment history or raw INSERT/DELETE isolation. All225 original migrations and baseline0 bytes remain frozen; complete auth/proofing/recovery and all R4 modules remain required.",
@@ -2312,7 +2354,7 @@
     "Account UUID allocation/retirement prerequisite in progress; exact tests-first review, named red, additive migration, actual interruption/retry and candidate review required. Accepted0227 and all previous migration bytes are preserved.",
     "Embedded migration build dependency correction: actual added-file red preserved; one shared native build script and authz path. Exact green and candidate review required. All migration/baseline/lock bytes preserved.",
     "Credential-removal evidence prerequisite in progress. OLD-only private AFTER DELETE capture, no reverse parent locks or authorization claims; all earlier migration bytes preserved. Exact tests and candidate review required.",
-    "Audit attestation route inventory uses the same registered path constant; path coverage is proven, while path\u00d7method/response parity remains separate.",
+    "Audit attestation route inventory uses the same registered path constant; path coverage is proven, while path×method/response parity remains separate.",
     "Storefront listing order is now total under tied rank/time keys; count/items/media snapshot consistency and cross-request mutation remain separately unproved.",
     "Sales catalog count, rows and media now share one tenant-scoped repeatable-read snapshot; this does not establish two-site safe reads or cross-request consistency.",
     "Sales inquiry raw text bounds now match persisted PostgreSQL constraints. Local Cargo harness proof passed; full original CI wrapper/preflight proof is unavailable because this frozen fork excludes its workflow and root Buck files.",
