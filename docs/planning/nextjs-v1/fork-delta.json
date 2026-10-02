@@ -119,11 +119,11 @@
         "mode": 420
       },
       "after": {
-        "sha256": "6c922d5e7b2fcb0bf70daffc38a83d83e5bf1f7defc9fb91f7f56c78fb61d7b1",
-        "bytes": 167703,
+        "sha256": "53db39b5fd993e601909bfb34f40627a85497eee0c894a40623273d8e0939811",
+        "bytes": 167764,
         "mode": 420
       },
-      "reason": "Keep signed device-login proof, source and scope regressions; prove refresh signing failure after rotation cannot commit an undisclosed replacement. Add a red signed HTTP regression showing an OTP-derived family's access and refresh cannot acquire business authority after its source is replaced. Bind newly redeemed legacy OTP families and passkey registration ceremonies to the exact live source in one owner transaction, recheck JWT expiry after lock waits, and retain red purpose-authority probes. This is unactivated version-0 containment, not a version-1 session cutover."
+      "reason": "Keep signed device-login proof, source and scope regressions; prove refresh signing failure after rotation cannot commit an undisclosed replacement. Add a red signed HTTP regression showing an OTP-derived family's access and refresh cannot acquire business authority after its source is replaced. Bind newly redeemed legacy OTP families and passkey registration ceremonies to the exact live source in one owner transaction, recheck JWT expiry after lock waits, and retain red purpose-authority probes. This is unactivated version-0 containment, not a version-1 session cutover. Add real signed HTTP/runtime-role PostgreSQL credential reset session-revocation, isolation, interleaving and rollback regressions; preserve existing tests."
     },
     {
       "path": "backend/app/tests/cedar_freshness_mint.rs",
@@ -2234,6 +2234,16 @@
         "mode": 420
       },
       "reason": "Add real-router PostgreSQL capture/freeze ordering, same-Account FK liveness, relink serialization and replay/Company/domain isolation regressions; disposable fixtures only."
+    },
+    {
+      "path": "backend/app/tests/auth_rest/reset_sessions.rs",
+      "before": null,
+      "after": {
+        "sha256": "7842f1f4f56abda65043e5c812d446bfb6c26e3306bc769c973d862623c98a2f",
+        "bytes": 24206,
+        "mode": 420
+      },
+      "reason": "Add real signed HTTP/runtime-role PostgreSQL credential reset session-revocation, isolation, interleaving and rollback regressions; preserve existing tests."
     }
   ],
   "notes": [

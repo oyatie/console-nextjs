@@ -1,0 +1,34 @@
+# Credential-reset session revocation — bounded design R3
+
+Base: `dc4a7bb35e4a829b71c3f32a72483765e060e321`. Root is the sole source, test, cache, contract, CI and evidence writer in the independent frontend worktree. The original Console is untouched. This is an authentication prerequisite for the real Next attendance journey, not browser acceptance or activation.
+
+## Observable outcome and owner
+
+A successful existing admin credential reset revokes every pre-reset refresh family and token for the target Account/Company in the same transaction that deletes passkeys, issues the replacement OTP and appends audits. All existing access JWTs, including delegated JWTs bound to those families, subsequently fail the shared current-session validator; refresh fails too. Other Accounts/Companies retain their sessions. Fresh primary authentication after completed recovery may issue a new family through the existing owner.
+
+Trace: the only production reset caller is `auth-rest::admin_credential_reset`; it delegates to `BootstrapCredentialStore::reset_credentials_for_user`. That transaction already locks the Account using `require_active_account_tx` before child writes. Refresh issuance, rotation, logout, passkey finish and Account lifecycle share that Account lock. The existing `revoke_legacy_otp_families_for_sources_tx` only revokes replaced OTP-source families and must remain unchanged: ordinary self-enrollment handoffs also use `IssueMode::ForceReset` and must preserve passkey sessions.
+
+## Mechanical change
+
+Extend only the existing provisioning reset transaction, immediately after its active-Account lock. Sample `authentication_time_tx` after waiting. Explicitly filter both family and token UPDATEs by target `user_id` AND `org_id`; update previously unrevoked families to `revoked_at=now, revoked_reason='admin_reset'`, and all unrevoked target tokens (including residue in already-revoked families) to `revoked_at=now`. Preserve every earlier timestamp/reason and every token/family identity, purpose, provenance and history. Propagate database errors. Do not delete session evidence, create another session store, or touch generic OTP replacement.
+
+Append one PII-light existing `auth.refresh.revoke_all` Account audit with target Account, Company, `actor=None` (the existing owner does not receive its verified initiating administrator), `revoked_family_count` and `revoked_token_count` of changed families/tokens and fixed reason. Include zero-count resets. This audit, key-removal audits and OTP issue commit together through `with_audits`. Do not invent attribution to the recovery subject. Existing passkey/OTP target-actor convention and authorization/independent-approval gaps are explicitly unchanged, not accepted. No credential/token/hash/OTP appears in the audit. This reuses the identity owner’s existing session-sweep action and fixed reason pattern without calling its private key-deletion helper or widening deactivation scope.
+
+No API, schema, historical migration, refresh semantics, generation, signing or browser-storage change. Update the fork-delta ledger with preserved before metadata. Tests and evidence use disposable PostgreSQL 18 and a non-owner, non-BYPASSRLS runtime role; no live credentials or effects.
+
+## Test-first acceptance
+
+1. Real signed passkey HTTP login produces at least two target families; reset via the actual authorized HTTP endpoint. Assert all target families and tokens revoked, exact pre-reset access JWTs denied on a real authenticated route, old refreshes denied, deleted key rejected, replacement OTP redeemable. Other Account and foreign Company passkey sessions remain usable; earlier revocation timestamps/reasons unchanged. Family and audit counts account for every target token, including used, unused, expired and previously revoked tokens. Recovery/enrollment must not silently resurrect old families.
+2. Genuine Account-lock interleavings: reset holds Account while rotation waits => rotation fails without replacement; rotation commits first while reset waits => its returned replacement/access are revoked by the completing reset. Witness PostgreSQL blockers/queries rather than treating sleep as order. Same reset owner must serialize with initial family issuance/passkey proof; existing Account-lock tests remain.
+3. Inject late OTP insertion and audit failure, and family/token storage failure. Verify full rollback of keys, families/tokens, bootstrap source/replacement and audits; before-reset sessions remain usable. A failed reset is never success. Include a deferred COMMIT fault. Lost COMMIT responses remain uncertain: the existing non-idempotent reset API has no status/replay protocol; never blindly retry or claim recovery of that result.
+4. Wrong/missing/inactive target or Company returns failure with no effects. Self-enrollment handoff and ordinary bootstrap OTP issuance preserve unrelated established families. Repeated reset creates no resurrection and audits zero newly revoked families appropriately.
+
+Four independent design rounds, exact test approval, genuine RED admitted via `fanout.py`, unchanged GREEN, strict owner/test Clippy, formatting, source-custody and nearest authentication/provisioning suites. Independent exact-candidate review and 16-lens audit precede protected queue admission. Record command/discovery/execution/failure hashes accurately; environment failures are not RED.
+
+## Pre-mortem, rollback and limits
+
+Missing the reset owner leaves alternate callers unsafe; widening generic ForceReset logs out valid handoffs. Family-only revocation leaves misleading live token residue; token-only revocation leaves old JWTs valid. A separate transaction permits partial recovery. Reset/refresh without the shared Account lock can issue a surviving replacement. Explicit Account+Company filters prevent cross-cell revocation; prior revocation metadata must survive.
+
+Before deployment, source-only rollback can revert this bounded change but reopens the recovery flaw; after deployment use a compatibility build retaining reset revocation and do not resurrect accepted revocations. No destructive rollback or live cutover occurs here. Stop for unexpected test failure, lock inversion, unscoped mutation, lost history or unsupported claims.
+
+Selected lenses: Red Team, Operability / Day-2, Blast-radius / cell-based, Zero-trust / defense-in-depth, Systems Thinking and Essentialism. Two-site confirmation/fencing, full purpose/private-generation admission, exact high-risk approval/recovery ceremony, real Next browser sessions/UI, effective Employment, legal payroll, full B/P acceptance and MVP release remain open. Request-boundary denial does not cancel an already-admitted domain operation or already-open realtime session; those retain their separate emission/execution revalidation requirements.
