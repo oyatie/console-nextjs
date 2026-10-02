@@ -1749,11 +1749,11 @@
       "path": "backend/crates/platform/provisioning/tests/account_identity.rs",
       "before": null,
       "after": {
-        "sha256": "212228b6fd3208738019ab8cb42b397549e223bff5744203beb82dcf67ac70b4",
-        "bytes": 43740,
+        "sha256": "0728175778a4cbaec42b545272f62ae7deb0a8eed2ea4d53ccc0cc062db24ec5",
+        "bytes": 45409,
         "mode": 420
       },
-      "reason": "Protected credential-removal evidence under accepted authentication design and mechanics652a3539. Exact tests-first red/green and candidate review tracked separately; full R4 incomplete."
+      "reason": "Preserve complete historical upgrade rows while explicitly accounting for 0230 provenance expansion; nonempty legacy OTP history and unchanged authenticated-login negatives."
     },
     {
       "path": "backend/crates/platform/provisioning/tests/account_locking.rs",
@@ -2244,6 +2244,20 @@
         "mode": 420
       },
       "reason": "Add real signed HTTP/runtime-role PostgreSQL credential reset session-revocation, isolation, interleaving and rollback regressions; preserve existing tests."
+    },
+    {
+      "path": "tools/lanes/pgtest.sh",
+      "before": {
+        "sha256": "4ba4364883f589370295bd31b9f610d9c8dadabf95f78fb3c7283310fb740370",
+        "bytes": 4082,
+        "mode": 493
+      },
+      "after": {
+        "sha256": "d0bf2cd1fa76571d3c569bd0ee6e1251c7f763e0e011a1c427d9d9c52537864f",
+        "bytes": 4169,
+        "mode": 493
+      },
+      "reason": "Expose only generated runtime and force fixture password aliases to Cargo tests; preserve credential argv guard and owned disposable cleanup."
     }
   ],
   "notes": [
