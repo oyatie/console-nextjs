@@ -4148,6 +4148,37 @@
         "Next HR/Org/Payroll/Foundry business routes remain production-excluded; complete modules and release acceptance remain open.",
         "No schema, migration, dependency, endpoint, arithmetic, payment, institution or deployment change."
       ]
+    },
+    {
+      "scope": "Common session/Company boundary and B04 native attendance: legacy OTP purpose admission",
+      "candidate_commit": "107c61583c8563e43df36a2da2f7184555bc5f4d",
+      "status": "bounded_owner_GREEN_226_Rust_plus18_tooling_strict_Clippy_final_evidence_hosted_review_pending",
+      "evidence": {
+        "path": "docs/planning/nextjs-v1/legacy-otp-purpose-admission-evidence.json",
+        "sha256": "94c7cadbef19330951276c786fea1585ba734b6d248da028f689e4c02ebe5941"
+      },
+      "tests": {
+        "rust_discovered": 226,
+        "rust_executed": 226,
+        "rust_passed": 226,
+        "rust_failed": 0,
+        "ignored": 0,
+        "measured": 0,
+        "filtered": 0,
+        "tooling_executed": 18,
+        "tooling_passed": 18
+      },
+      "limitations": [
+        "historical unclassified version-0 proof and compromised legacy runtime SQL",
+        "pre-change approved device handoff activation/reconciliation",
+        "source deadline and protected version-1 generation/admission cutover",
+        "genuine Next HR/Org/Payroll/Foundry browser and UI polish",
+        "attended identity/recovery and independent-person authority",
+        "two-site confirmation/fencing and full module/launch acceptance",
+        "Software WebAuthn and in-process runtime-role Router/PG tests are not a physical passkey, genuine Next browser or attended-human ceremony.",
+        "One disposable PostgreSQL site proves local behavior, not two-site confirmation/fencing, zero acknowledged-record loss or production readiness.",
+        "No applied migration, dependency, family/identity rewrite, live cutover, payment, institution, mail exposure or collection activation."
+      ]
     }
   ]
 }

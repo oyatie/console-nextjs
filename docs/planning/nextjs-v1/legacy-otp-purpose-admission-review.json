@@ -104,12 +104,14 @@
     "scope": "Exact complete test-only candidate, not compilation or executed GREEN. Both original purpose probes, raw OTP helper and nine reset behavior bodies retained."
   },
   "implementation": {
-    "status": "IN_PROGRESS",
+    "status": "LOCAL_SCOPED_VERIFIED",
     "owners": [
       "platform/request-context",
       "platform/auth-rest"
     ],
-    "scope": "No migration, dependency, identity, family rewrite, launch or live cutover."
+    "scope": "No migration, dependency, identity, family rewrite, launch or live cutover.",
+    "runtime_source_candidate": "107c61583c8563e43df36a2da2f7184555bc5f4d",
+    "evidence": "docs/planning/nextjs-v1/legacy-otp-purpose-admission-evidence.json"
   },
   "remaining_holds": [
     "historical unclassified version-0 proof and compromised legacy runtime SQL",
@@ -214,5 +216,34 @@
     "probe_sha256": "5d9d6bd69f35c578e90343a5fdf485802f746943613fbf65157184cec0293e08",
     "expectations_sha256": "421263bc8043fc5b96edcdaf72b655194c7e4aa8e5ed8849a39738a39ef479a2",
     "evidence": "External local admission-r3/run-20261002T230925.502344Z/report.json"
-  }
+  },
+  "implementation_reviews": [
+    {
+      "reviewer": "native_attendance_owner_trace",
+      "candidate_head": "107c61583c8563e43df36a2da2f7184555bc5f4d",
+      "verdict": "APPROVE",
+      "scope": "Full source/CI candidate, frozen tests/custody and sixteen-lens fix loop. Final evidence candidate reviewed separately."
+    },
+    {
+      "reviewer": "web_session_owner_v1",
+      "candidate_head": "107c61583c8563e43df36a2da2f7184555bc5f4d",
+      "verdict": "APPROVE",
+      "scope": "Full source/CI candidate, frozen tests/custody and sixteen-lens fix loop. Final evidence candidate reviewed separately."
+    }
+  ],
+  "evidence_reviews": [
+    {
+      "reviewer": "enrollment_probe_trace",
+      "verdict": "APPROVE",
+      "scope": "Exact R3 raw RED/GREEN and accounting-only nearby R2/strict Clippy adapters; final portable bundle review pending.",
+      "red_report_sha256": "ca0fb71cc7f5045e3178b99dd0cb42cf0e170788b58126bd167faa586f7a2753",
+      "green_report_sha256": "1b50bec43ed1bd439feae68b6c462d5b8f7a2303ed30270709c9750d6b173539"
+    }
+  ],
+  "implementation_findings": [
+    {
+      "finding": "OTP redeem and refresh/setup descriptions incorrectly implied ordinary authority or consumption at redemption.",
+      "disposition": "Corrected source, split schemas and generated OpenAPI without DTO/schema behavior changes; both reviewers approved107c."
+    }
+  ]
 }
