@@ -31,6 +31,9 @@ const ME_PATH: &str = "/api/v1/hr/attendance-records/me";
 const MY_EXCEPTIONS_PATH: &str = "/api/v1/attendance/me/exceptions";
 const MY_WEEK52_PATH: &str = "/api/v1/attendance/me/week52";
 
+#[path = "hr_attendance_self_read/freeze.rs"]
+mod freeze;
+
 struct Keys {
     private_pem: String,
     public_pem: String,
