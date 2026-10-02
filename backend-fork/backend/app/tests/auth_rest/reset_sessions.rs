@@ -394,7 +394,7 @@ async fn reset_with_no_keys_preserves_prior_revocation_and_sweeps_token_residue(
         .await
         .unwrap();
     sqlx::query(
-        "UPDATE auth_refresh_tokens SET expires_at=clock_timestamp()-interval '1 day' WHERE id=$1",
+        "UPDATE auth_refresh_tokens SET issued_at=clock_timestamp()-interval '2 days',expires_at=clock_timestamp()-interval '1 day' WHERE id=$1",
     )
     .bind(expired.token_id)
     .execute(&owner)
