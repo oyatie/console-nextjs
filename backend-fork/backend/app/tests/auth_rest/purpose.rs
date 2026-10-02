@@ -34,7 +34,8 @@ async fn fixture(owner: &PgPool, role: &str, home: OrgId, label: &str) -> Fixtur
         audience: TEST_AUDIENCE.into(),
         access_token_ttl: Duration::minutes(10),
     };
-    let issuer = JwtIssuer::from_es256_private_pem(settings.clone(), private.as_bytes()).unwrap();
+    let issuer =
+        JwtIssuer::from_es256_pem(settings.clone(), private.as_bytes(), public.as_bytes()).unwrap();
     let verifier = JwtVerifier::from_es256_public_pem(settings, public.as_bytes()).unwrap();
     let branch = seed_branch(
         owner,
@@ -45,8 +46,10 @@ async fn fixture(owner: &PgPool, role: &str, home: OrgId, label: &str) -> Fixtur
     let user = if home == OrgId::knl() {
         seed_user_with_branch(owner, "Purpose subject", "010-8900-0001", role, branch).await
     } else {
-        console_platform_test_support::seed_active_user(owner, *home.as_uuid(), role, "purpose")
-            .await
+        let user = UserId::new();
+        sqlx::query("INSERT INTO users(id,display_name,roles,org_id,is_active) VALUES($1,'Purpose platform subject',$2,$3,true)")
+            .bind(*user.as_uuid()).bind(vec![role]).bind(*home.as_uuid()).execute(owner).await.unwrap();
+        user
     };
     let rt = runtime(owner, label).await;
     let router = build_router(app_state(rt.clone(), private, public).unwrap());
