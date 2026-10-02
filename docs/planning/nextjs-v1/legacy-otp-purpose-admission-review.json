@@ -22,35 +22,90 @@
     }
   ],
   "historical_reviews": [
-    {"revision": "R1", "reviewer": "native_attendance_owner_trace", "round": 1, "verdict": "ACCEPT"},
-    {"revision": "R1", "reviewer": "native_attendance_owner_trace", "round": 2, "verdict": "ACCEPT"},
-    {"revision": "R1", "reviewer": "web_session_owner_v1", "round": 1, "verdict": "REVISE"}
+    {
+      "revision": "R1",
+      "reviewer": "native_attendance_owner_trace",
+      "round": 1,
+      "verdict": "ACCEPT"
+    },
+    {
+      "revision": "R1",
+      "reviewer": "native_attendance_owner_trace",
+      "round": 2,
+      "verdict": "ACCEPT"
+    },
+    {
+      "revision": "R1",
+      "reviewer": "web_session_owner_v1",
+      "round": 1,
+      "verdict": "REVISE"
+    }
   ],
   "design_reviews": [
     {
       "reviewer": "native_attendance_owner_trace",
       "design_sha256": "837387ea0df62359424bee6ac4c9cb3e9bbc2a622ac784e5362ecc957a51a284",
       "rounds": [
-        {"round": 1, "verdict": "ACCEPT"},
-        {"round": 2, "verdict": "ACCEPT"},
-        {"round": 3, "verdict": "ACCEPT"},
-        {"round": 4, "verdict": "ACCEPT"}
+        {
+          "round": 1,
+          "verdict": "ACCEPT"
+        },
+        {
+          "round": 2,
+          "verdict": "ACCEPT"
+        },
+        {
+          "round": 3,
+          "verdict": "ACCEPT"
+        },
+        {
+          "round": 4,
+          "verdict": "ACCEPT"
+        }
       ]
     },
     {
       "reviewer": "web_session_owner_v1",
       "design_sha256": "837387ea0df62359424bee6ac4c9cb3e9bbc2a622ac784e5362ecc957a51a284",
       "rounds": [
-        {"round": 1, "verdict": "ACCEPT"},
-        {"round": 2, "verdict": "ACCEPT"},
-        {"round": 3, "verdict": "ACCEPT"},
-        {"round": 4, "verdict": "ACCEPT"}
+        {
+          "round": 1,
+          "verdict": "ACCEPT"
+        },
+        {
+          "round": 2,
+          "verdict": "ACCEPT"
+        },
+        {
+          "round": 3,
+          "verdict": "ACCEPT"
+        },
+        {
+          "round": 4,
+          "verdict": "ACCEPT"
+        }
       ]
     }
   ],
   "scope": "Bounded legacy OTP HTTP/request admission; no version-1 activation or complete authentication/UI/launch acceptance.",
-  "tests": {"status": "NOT_YET_APPROVED"},
-  "implementation": {"status": "NOT_STARTED"},
+  "tests": {
+    "status": "APPROVED",
+    "head": "d305758cb765f587d36e495120af64de3a6931ec",
+    "reviewers": [
+      {
+        "reviewer": "native_attendance_owner_trace",
+        "verdict": "APPROVE"
+      },
+      {
+        "reviewer": "web_session_owner_v1",
+        "verdict": "APPROVE"
+      }
+    ],
+    "scope": "Exact complete test-only candidate, not compilation or executed GREEN. Both original purpose probes, raw OTP helper and nine reset behavior bodies retained."
+  },
+  "implementation": {
+    "status": "NOT_STARTED"
+  },
   "remaining_holds": [
     "historical unclassified version-0 proof and compromised legacy runtime SQL",
     "pre-change approved device handoff activation/reconciliation",
@@ -58,5 +113,45 @@
     "genuine Next HR/Org/Payroll/Foundry browser and UI polish",
     "attended identity/recovery and independent-person authority",
     "two-site confirmation/fencing and full module/launch acceptance"
-  ]
+  ],
+  "test_findings": [
+    {
+      "finding": "Nonexistent payroll_eligible field, unavailable fixture helper/issuer constructor, region name collisions",
+      "disposition": "Actual employee_id DTO, existing issuer constructor, explicit platform setup and distinct labels."
+    },
+    {
+      "finding": "No-effect snapshot omitted OTP sources and step-up ceremonies",
+      "disposition": "Both owner products included."
+    },
+    {
+      "finding": "Consumed source masked independent expired/revoked source cases",
+      "disposition": "Fresh genuine handoff sources and redeemed families per variant with asserted unconsumed/unrevoked/unexpired precondition."
+    }
+  ],
+  "baseline": {
+    "head": "67c228d0b5268178b7e5e54c1ca7973ab221cf0f",
+    "status": "FAILED_DIAGNOSTIC_NOT_ADMISSION",
+    "auth_rest": {
+      "discovered": 39,
+      "executed": 39,
+      "passed": 37,
+      "failed": 2,
+      "ignored": 0,
+      "filtered": 0
+    },
+    "provisioning": {
+      "discovered": 48,
+      "executed": 48,
+      "passed": 48,
+      "failed": 0,
+      "ignored": 0,
+      "filtered": 0
+    },
+    "failures": [
+      "otp_enrollment_session_cannot_create_business_work",
+      "otp_family_cannot_gain_business_authority_after_passkey_registration"
+    ],
+    "custody_and_owned_cleanup": "PASSED",
+    "evidence": "External local artifacts legacy-otp-purpose-admission/linux/baseline/run-20261002T222947.420719Z/report.json"
+  }
 }
