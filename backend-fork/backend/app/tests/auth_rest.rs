@@ -36,6 +36,9 @@ const TEST_ORIGIN: &str = "https://auth.example.com";
 #[path = "auth_rest/reset_sessions.rs"]
 mod reset_sessions;
 
+#[path = "auth_rest/purpose.rs"]
+mod purpose;
+
 #[derive(Debug, Deserialize)]
 struct RegisterStartResponse {
     ceremony_id: Uuid,
@@ -129,7 +132,7 @@ async fn otp_first_signin_then_passkey_enrollment_then_usernameless_login(pool: 
 
     // The admin first signs in (cold start in this test uses a directly-issued
     // OTP for the admin) and enrolls a passkey so it can call admin endpoints.
-    let admin_access = admin_session_via_otp(&service, &pool, admin_id).await;
+    let admin_access = authenticated_session(&service, &pool, admin_id).await;
 
     // Admin issues a one-time code for the new user.
     let issued: AdminIssueOtpResponse = post_json(
@@ -246,7 +249,7 @@ async fn otp_first_signin_then_passkey_enrollment_then_usernameless_login(pool: 
     assert_eq!(reuse.status(), StatusCode::UNAUTHORIZED);
 
     assert_audit_count(&pool, "auth.otp.signin", 2).await; // admin + new user
-    assert_audit_count(&pool, "auth.login", 1).await; // usernameless login
+    assert_audit_count(&pool, "auth.login", 2).await; // admin and user fresh login
 }
 
 /// If the family deadline passes after rotation starts, JWT signing must fail
@@ -573,6 +576,9 @@ async fn mobile_bound_step_up_start_gates_mobile_approval_and_poll_vote(pool: Pg
     let admin_access = admin_session_via_otp(&service, &pool, admin_id).await;
     let mut authenticator = WebauthnAuthenticator::new(SoftPasskey::new(true));
     let credential_id = enroll_passkey(&service, &mut authenticator, &admin_access).await;
+    let admin_access = usernameless_login(&service, &mut authenticator, &credential_id)
+        .await
+        .access_token;
 
     let approval_path = format!("/api/v1/mobile/work-orders/{work_order_id}/approve");
     let missing_approval = post_raw(
@@ -647,6 +653,13 @@ async fn mobile_bound_step_up_start_gates_mobile_approval_and_poll_vote(pool: Pg
     let mut executive_authenticator = WebauthnAuthenticator::new(SoftPasskey::new(true));
     let executive_credential_id =
         enroll_passkey(&service, &mut executive_authenticator, &executive_access).await;
+    let executive_access = usernameless_login(
+        &service,
+        &mut executive_authenticator,
+        &executive_credential_id,
+    )
+    .await
+    .access_token;
     let wrong_user_step_up = start_mobile_step_up_assertion(
         &service,
         &mut executive_authenticator,
@@ -890,6 +903,9 @@ async fn financial_purchase_sensitive_actions_require_fresh_passkey_step_up(pool
     let mut admin_authenticator = WebauthnAuthenticator::new(SoftPasskey::new(true));
     let admin_credential_id =
         enroll_passkey(&service, &mut admin_authenticator, &admin_access).await;
+    let admin_access = usernameless_login(&service, &mut admin_authenticator, &admin_credential_id)
+        .await
+        .access_token;
     let receptionist_access = admin_session_via_otp(&service, &pool, receptionist_id).await;
     let mut receptionist_authenticator = WebauthnAuthenticator::new(SoftPasskey::new(true));
     let receptionist_credential_id = enroll_passkey(
@@ -898,10 +914,24 @@ async fn financial_purchase_sensitive_actions_require_fresh_passkey_step_up(pool
         &receptionist_access,
     )
     .await;
+    let receptionist_access = usernameless_login(
+        &service,
+        &mut receptionist_authenticator,
+        &receptionist_credential_id,
+    )
+    .await
+    .access_token;
     let executive_access = admin_session_via_otp(&service, &pool, executive_id).await;
     let mut executive_authenticator = WebauthnAuthenticator::new(SoftPasskey::new(true));
     let executive_credential_id =
         enroll_passkey(&service, &mut executive_authenticator, &executive_access).await;
+    let executive_access = usernameless_login(
+        &service,
+        &mut executive_authenticator,
+        &executive_credential_id,
+    )
+    .await
+    .access_token;
 
     let admin_approve_purchase = submitted_financial_purchase(&pool, fixture, 900_000).await;
     let admin_approve_path =
@@ -1303,7 +1333,8 @@ async fn approve_session_rejects_generic_desktop_handoff_without_target(pool: Pg
     )
     .await;
     let mut authenticator = WebauthnAuthenticator::new(SoftPasskey::new(true));
-    enroll_passkey(&service, &mut authenticator, &redeem.access_token).await;
+    let credential = enroll_passkey(&service, &mut authenticator, &redeem.access_token).await;
+    let session = usernameless_login(&service, &mut authenticator, &credential).await;
 
     let handoff: DeviceLoginStartResponse = post_json(
         service.clone(),
@@ -1326,7 +1357,7 @@ async fn approve_session_rejects_generic_desktop_handoff_without_target(pool: Pg
     let response = post_raw(
         service.clone(),
         "/api/v1/auth/device-login/approve-session",
-        Some(&redeem.access_token),
+        Some(&session.access_token),
         json!({ "approve_token": approve_token }),
     )
     .await;
@@ -1948,7 +1979,7 @@ async fn otp_is_consumed_on_passkey_registration_not_on_redeem(pool: PgPool) {
         .unwrap(),
     );
 
-    let admin_access = admin_session_via_otp(&service, &pool, admin_id).await;
+    let admin_access = authenticated_session(&service, &pool, admin_id).await;
     let issued: AdminIssueOtpResponse = post_json(
         service.clone(),
         "/api/v1/auth/admin/otp/issue",
@@ -2976,8 +3007,8 @@ async fn admin_issue_otp_rejects_non_admin(pool: PgPool) {
         .unwrap(),
     );
 
-    // A mechanic signs in via OTP and tries to issue a code -> 403.
-    let mechanic_access = admin_session_via_otp(&service, &pool, mechanic_id).await;
+    // A mechanic enrolls and signs in afresh, then tries to issue a code -> 403.
+    let mechanic_access = authenticated_session(&service, &pool, mechanic_id).await;
     let forbidden = post_raw(
         service.clone(),
         "/api/v1/auth/admin/otp/issue",
@@ -3025,7 +3056,7 @@ async fn admin_issue_otp_rejects_cross_branch_target(pool: PgPool) {
         .unwrap(),
     );
 
-    let admin_access = admin_session_via_otp(&service, &pool, admin_a).await;
+    let admin_access = authenticated_session(&service, &pool, admin_a).await;
 
     // Even when the admin lies and passes its own branch_a as branch_id, the
     // target's REAL scope (branch B) is what is authorized against -> 403.
@@ -3090,7 +3121,7 @@ async fn admin_issue_otp_rejects_privileged_target(pool: PgPool) {
         .unwrap(),
     );
 
-    let admin_access = admin_session_via_otp(&service, &pool, admin_id).await;
+    let admin_access = authenticated_session(&service, &pool, admin_id).await;
 
     let super_admin_forbidden = post_raw(
         service.clone(),
@@ -3136,7 +3167,7 @@ async fn admin_issue_otp_allows_in_branch_subordinate(pool: PgPool) {
         .unwrap(),
     );
 
-    let admin_access = admin_session_via_otp(&service, &pool, admin_id).await;
+    let admin_access = authenticated_session(&service, &pool, admin_id).await;
 
     let issued: AdminIssueOtpResponse = post_json(
         service,
@@ -3186,7 +3217,7 @@ async fn admin_credential_reset_recovers_in_branch_subordinate(pool: PgPool) {
     let old_credential_id =
         enroll_passkey(&service, &mut old_authenticator, &subordinate_access).await;
 
-    let admin_access = admin_session_via_otp(&service, &pool, admin_id).await;
+    let admin_access = authenticated_session(&service, &pool, admin_id).await;
     let reset: AdminCredentialResetResponse = post_json(
         service.clone(),
         "/api/v1/auth/admin/credential-reset",
@@ -3758,6 +3789,17 @@ async fn admin_session_via_otp(service: &axum::Router, pool: &PgPool, user_id: U
     )
     .await;
     redeem.access_token
+}
+
+/// Ordinary-authority fixtures must finish enrollment and authenticate afresh.
+/// Keep the raw OTP helper separate so enrollment-negative probes stay genuine.
+async fn authenticated_session(service: &axum::Router, pool: &PgPool, user_id: UserId) -> String {
+    let enrollment = admin_session_via_otp(service, pool, user_id).await;
+    let mut authenticator = WebauthnAuthenticator::new(SoftPasskey::new(true));
+    let credential = enroll_passkey(service, &mut authenticator, &enrollment).await;
+    usernameless_login(service, &mut authenticator, &credential)
+        .await
+        .access_token
 }
 
 /// Enroll a passkey and return its credential id (base64url string).
