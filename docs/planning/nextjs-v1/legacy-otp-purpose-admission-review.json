@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "base": "67c228d0b5268178b7e5e54c1ca7973ab221cf0f",
+  "design": {
+    "revision": "R2",
+    "path": "legacy-otp-purpose-admission.md",
+    "sha256": "837387ea0df62359424bee6ac4c9cb3e9bbc2a622ac784e5362ecc957a51a284",
+    "status": "ACCEPTED"
+  },
+  "findings": [
+    {
+      "revision": "R1",
+      "reviewer": "web_session_owner_v1",
+      "finding": "Missing original source with retained marker must be distinguished from genuinely unmarked version-0 compatibility; unavailable classification must fail closed.",
+      "disposition": "R2 test contract explicitly separates all three cases."
+    },
+    {
+      "revision": "R1",
+      "reviewer": "web_session_owner_v1",
+      "finding": "Pre-change session-approved handoffs omit approving family/purpose and cannot be reclassified by the new approval guard.",
+      "disposition": "R2 clause8 retains activation/migration HOLD until safe expiry/drain or separately reviewed reconciliation."
+    }
+  ],
+  "historical_reviews": [
+    {"revision": "R1", "reviewer": "native_attendance_owner_trace", "round": 1, "verdict": "ACCEPT"},
+    {"revision": "R1", "reviewer": "native_attendance_owner_trace", "round": 2, "verdict": "ACCEPT"},
+    {"revision": "R1", "reviewer": "web_session_owner_v1", "round": 1, "verdict": "REVISE"}
+  ],
+  "design_reviews": [
+    {
+      "reviewer": "native_attendance_owner_trace",
+      "design_sha256": "837387ea0df62359424bee6ac4c9cb3e9bbc2a622ac784e5362ecc957a51a284",
+      "rounds": [
+        {"round": 1, "verdict": "ACCEPT"},
+        {"round": 2, "verdict": "ACCEPT"},
+        {"round": 3, "verdict": "ACCEPT"},
+        {"round": 4, "verdict": "ACCEPT"}
+      ]
+    },
+    {
+      "reviewer": "web_session_owner_v1",
+      "design_sha256": "837387ea0df62359424bee6ac4c9cb3e9bbc2a622ac784e5362ecc957a51a284",
+      "rounds": [
+        {"round": 1, "verdict": "ACCEPT"},
+        {"round": 2, "verdict": "ACCEPT"},
+        {"round": 3, "verdict": "ACCEPT"},
+        {"round": 4, "verdict": "ACCEPT"}
+      ]
+    }
+  ],
+  "scope": "Bounded legacy OTP HTTP/request admission; no version-1 activation or complete authentication/UI/launch acceptance.",
+  "tests": {"status": "NOT_YET_APPROVED"},
+  "implementation": {"status": "NOT_STARTED"},
+  "remaining_holds": [
+    "historical unclassified version-0 proof and compromised legacy runtime SQL",
+    "pre-change approved device handoff activation/reconciliation",
+    "source deadline and protected version-1 generation/admission cutover",
+    "genuine Next HR/Org/Payroll/Foundry browser and UI polish",
+    "attended identity/recovery and independent-person authority",
+    "two-site confirmation/fencing and full module/launch acceptance"
+  ]
+}
