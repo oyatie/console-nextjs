@@ -745,3 +745,14 @@ tree; its hosted merge-group audit passed100 payroll tests and all retained
 producers. This repair remains local read consistency: authenticated Next
 HR/Org/Payroll/Foundry UI, full legal payroll/Employment population, emission
 authority, two-site confirmation/fencing, full modules and release stay open.
+
+
+## 2026-10-02 — credential-reset session revocation
+
+The existing provisioning reset owner now revokes all target Account/Company refresh families and tokens under its Account lock, atomically with passkey deletion, replacement OTP and audits. Prior revocations and session identities/history remain; generic OTP handoffs keep their existing behavior. The session audit does not invent an initiating administrator identity.
+
+Approved reset tests at `7cbb78f` produced genuine reviewed RED (seven exact behavioral failures, two controls), then unchanged GREEN9/9 at `951ceed`. Full diagnostics exposed missing test-role credentials and an inherited whole-row assertion that omitted migration0230's expanded columns. The harness now passes its generated runtime/force passwords to tests; the upgrade proof compares complete historical rows plus exact expansion defaults and retained legacy OTP history. No migration changed.
+
+At `930a04d`, all87 diagnostic tests execute without skips/filters: provisioning48/48 passes and authentication remains FAILED37/39 at the two inherited OTP-purpose assertions. All9 reset tests pass in that complete run too. Strict Clippy, formatting, shell syntax,18tooling tests and4072-file source custody pass. Independent source/runtime/quality reviews approve the bounded fix. [Evidence](credential-reset-sessions-evidence.json), [reviews](credential-reset-sessions-review.json) and the [portable raw bundle](evidence/credential-reset-sessions/README.md) retain exact hashes and failed attempts. Final immutable-candidate approval, hosted checks and protected queue/readback remain separate delivery gates.
+
+This adds no Next screen, button or form. Full purpose admission, attended identity/recovery authority, independent-person approval, genuine HR/Org/Payroll/Foundry browser paths, two-site durability and launch acceptance remain open. No deployment or live institutional effect occurred.
