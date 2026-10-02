@@ -1739,11 +1739,11 @@
         "mode": 420
       },
       "after": {
-        "sha256": "873f185aae9a7ce8a58660173d7e3b9034ddbb11748f496fe4afa247114c1925",
-        "bytes": 123960,
+        "sha256": "a25878021c2e6b133736bdd67de997e9a2f319885b6efc44c9c68cb9aa572e6b",
+        "bytes": 126001,
         "mode": 420
       },
-      "reason": "Keep legacy version-0 OTP behavior while dormant version-1 first-enrollment redemption locks protected Account generation and consumes its exact source once inside the caller transaction; the verify-only wrapper rolls back version-1. Add a dormant source-bound first-enrollment command that atomically consumes proof, issues a restricted family, and records receipt and audit. Bind newly redeemed legacy OTP families and passkey registration ceremonies to the exact live source in one owner transaction, recheck JWT expiry after lock waits, and retain red purpose-authority probes. This is unactivated version-0 containment, not a version-1 session cutover."
+      "reason": "Keep legacy version-0 OTP behavior while dormant version-1 first-enrollment redemption locks protected Account generation and consumes its exact source once inside the caller transaction; the verify-only wrapper rolls back version-1. Add a dormant source-bound first-enrollment command that atomically consumes proof, issues a restricted family, and records receipt and audit. Bind newly redeemed legacy OTP families and passkey registration ceremonies to the exact live source in one owner transaction, recheck JWT expiry after lock waits, and retain red purpose-authority probes. This is unactivated version-0 containment, not a version-1 session cutover. Revoke all target Account/Company sessions atomically in the existing credential-reset owner, retaining previous revocations and auditing counts; preserve ordinary OTP and enrollment handoffs."
     },
     {
       "path": "backend/crates/platform/provisioning/tests/account_identity.rs",

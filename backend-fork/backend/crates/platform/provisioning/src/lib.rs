@@ -513,9 +513,8 @@ impl BootstrapCredentialStore {
         .await
     }
 
-    /// Admin account-recovery escape hatch: revoke ALL of a user's passkeys AND
-    /// mint a fresh single-use bootstrap OTP, ATOMICALLY and AUDITED, so a user who
-    /// lost their only passkey can re-enroll.
+    /// Admin account recovery: revoke ALL target sessions and passkeys, then
+    /// mint a fresh single-use bootstrap OTP, atomically and audited.
     ///
     /// The normal admin-OTP path ([`Self::issue_for_zero_credential_user`]) refuses
     /// a user who already has a passkey (returns [`ProvisioningError::UserAlreadyHasPasskey`]),
@@ -526,9 +525,10 @@ impl BootstrapCredentialStore {
     /// `with_audits`, so every FORCE-RLS read/write/delete on the target's
     /// `auth_webauthn_credentials` and `auth_bootstrap_credentials` is scoped to the
     /// caller's tenant — a user in another org is invisible and cannot be reset):
-    ///   1. DELETE every `auth_webauthn_credentials` row for `user_id`, each audited
+    ///   1. Revoke all target refresh families/tokens, preserving previous revocations.
+    ///   2. DELETE every `auth_webauthn_credentials` row for `user_id`, each audited
     ///      as `auth.passkey.admin_reset`. The old passkeys then fail login.
-    ///   2. Mint a fresh bootstrap OTP via [`issue_bootstrap_if_needed_tx`] in
+    ///   3. Mint a fresh bootstrap OTP via [`issue_bootstrap_if_needed_tx`] in
     ///      [`IssueMode::ForceReset`] (bypasses the now-stale passkey check and
     ///      revokes any leftover open code), audited as `auth.otp.issue`.
     ///
@@ -545,6 +545,31 @@ impl BootstrapCredentialStore {
         with_audits::<_, BootstrapCredentialIssue, ProvisioningError>(pool, org, |tx| {
             Box::pin(async move {
                 require_active_account_tx(tx, org, user_id).await?;
+                let now = authentication_time_tx(tx, now).await?;
+                // Recovery invalidates every existing session. Keep this out of
+                // generic ForceReset: self-enrollment handoffs retain sessions.
+                let revoked_families = sqlx::query(
+                    "UPDATE auth_refresh_token_families \
+                     SET revoked_at=$1, revoked_reason='admin_reset' \
+                     WHERE user_id=$2 AND org_id=$3 AND revoked_at IS NULL",
+                )
+                .bind(now)
+                .bind(user_id)
+                .bind(*org.as_uuid())
+                .execute(tx.as_mut())
+                .await?
+                .rows_affected();
+                // Include residual tokens under already-revoked families.
+                let revoked_tokens = sqlx::query(
+                    "UPDATE auth_refresh_tokens SET revoked_at=$1 \
+                     WHERE user_id=$2 AND org_id=$3 AND revoked_at IS NULL",
+                )
+                .bind(now)
+                .bind(user_id)
+                .bind(*org.as_uuid())
+                .execute(tx.as_mut())
+                .await?
+                .rows_affected();
                 // (1) Revoke ALL of the target's passkeys. RETURNING the row ids so
                 // each deletion is audited individually. The GUC armed by
                 // `with_audits` scopes this DELETE to the caller's tenant, so a user
@@ -561,7 +586,27 @@ impl BootstrapCredentialStore {
                 .fetch_all(tx.as_mut())
                 .await?;
 
-                let mut events = Vec::with_capacity(deleted.len() + 1);
+                let mut events = Vec::with_capacity(deleted.len() + 2);
+                events.push(
+                    AuditEvent::new(
+                        // This legacy owner does not receive the initiating admin.
+                        None,
+                        AuditAction::new("auth.refresh.revoke_all")?,
+                        "user",
+                        user_id.to_string(),
+                        TraceContext::generate(),
+                        now,
+                    )
+                    .with_org(org)
+                    .with_snapshots(
+                        None,
+                        Some(serde_json::json!({
+                            "reason": "admin_reset",
+                            "revoked_family_count": revoked_families,
+                            "revoked_token_count": revoked_tokens,
+                        })),
+                    ),
+                );
                 for row in deleted {
                     let credential_uuid: Uuid = row.try_get("id")?;
                     let credential_id: String = row.try_get("credential_id")?;
