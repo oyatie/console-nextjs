@@ -468,8 +468,8 @@ async fn dormant_v1_normal_family_is_denied_by_both_admission_paths(owner: PgPoo
     let normal = authenticated_session(&f.router, &f.runtime, f.user).await;
     let claims = f.verifier.verify_access_token(&normal).unwrap();
     let family = Uuid::new_v4();
-    sqlx::query("INSERT INTO auth_refresh_token_families(id,user_id,org_id,created_at,last_used_at,provenance_version,auth_generation,session_purpose,source_kind,source_operation_id) \
-        VALUES($1,$2,$3,clock_timestamp(),clock_timestamp(),1,1,'normal','passkey',$4)")
+    sqlx::query("INSERT INTO auth_refresh_token_families(id,user_id,org_id,created_at,provenance_version,auth_generation,session_purpose,source_kind,source_operation_id) \
+        VALUES($1,$2,$3,clock_timestamp(),1,1,'normal','passkey',$4)")
         .bind(family).bind(*f.user.as_uuid()).bind(*OrgId::knl().as_uuid()).bind(Uuid::new_v4()).execute(&owner).await.unwrap();
     let token = f
         .issuer
