@@ -1,0 +1,65 @@
+{
+  "design_sha256": "0a349df6f4032c70f545f5ba53411de50798d3a996271ff36119c2da9ad74271",
+  "base_head": "62a9c3b8f1b4f95e78583f32138dbc25704e29fb",
+  "test_source_path": "backend-fork/backend/crates/identity/rest/tests/authentication_locking.rs",
+  "test_source_sha256": "1a3224fb4cba7483c08927d6e3449089ad8031ba39df69c854cffb90b753604a",
+  "unchanged_prefix_sha256": "e8bbe1de13c08bcc8423b3f3c00ed183f52574a79be5f0b666c9fff0b90c4f54",
+  "existing_tests_byte_identical": true,
+  "existing_tests": 14,
+  "new_tests": 14,
+  "expected_discovery": [
+    "both_delete_aliases_serialize_before_keys_and_preserve_last_key",
+    "both_delete_aliases_recheck_active_account_after_wait",
+    "proof_and_session_handoff_approval_hold_account_before_handoff_row",
+    "session_handoff_rechecks_revoked_family_after_account_wait",
+    "bound_enrollment_creation_holds_account_through_insert",
+    "approved_handoff_poll_waits_before_consumption_and_issues_once",
+    "approved_handoff_poll_expired_during_wait_does_not_consume",
+    "approved_handoff_poll_inactive_during_wait_does_not_consume",
+    "approved_handoff_poll_changed_account_is_not_adopted",
+    "both_handoff_approval_paths_recheck_expiry_after_account_wait",
+    "both_handoff_approval_paths_deny_deactivation_during_wait",
+    "both_handoff_approval_paths_deny_changed_target_during_wait",
+    "approval_and_poll_recheck_expiry_after_last_handoff_row_wait",
+    "session_handoff_does_not_adopt_target_changed_to_caller",
+    "signed_handoff_removed_source_via_auth_denies",
+    "signed_handoff_removed_source_via_identity_denies",
+    "signed_handoff_source_removed_during_account_wait_denies",
+    "signed_handoff_null_source_denies",
+    "signed_handoff_foreign_account_source_denies",
+    "signed_handoff_foreign_company_source_denies",
+    "signed_handoff_retained_source_after_newer_key_issues_once",
+    "session_handoff_removed_source_via_auth_denies",
+    "session_handoff_removed_source_via_identity_denies",
+    "session_handoff_source_removed_during_account_wait_denies",
+    "session_handoff_null_source_denies",
+    "session_handoff_foreign_account_source_denies",
+    "session_handoff_foreign_company_source_denies",
+    "session_handoff_retained_source_after_newer_key_issues_once"
+  ],
+  "expected_unchanged_source": {
+    "passed": 16,
+    "failed": 12,
+    "failures": "Only reviewed 200-versus-401 status assertions, after successful approval and source mutation; other failure is invalid RED"
+  },
+  "reviewers": [
+    {
+      "task": "next_session_trace",
+      "verdict": "APPROVE"
+    },
+    {
+      "task": "session_owner_trace",
+      "verdict": "APPROVE"
+    },
+    {
+      "task": "pr8_delivery_audit",
+      "verdict": "APPROVE"
+    }
+  ],
+  "limitations": [
+    "Real in-process production routers and standard SoftPasskey signatures, not browser/passkey-device identity proofing",
+    "Runtime current_user console_rt through SET ROLE, not physical database-password separation",
+    "Bound session target and family-bearing bearer are test fixtures, not approved enrollment provenance",
+    "Single disposable database, not two-site durability or release acceptance"
+  ]
+}

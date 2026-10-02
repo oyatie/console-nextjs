@@ -36,6 +36,32 @@ jobs:
       - run: rustup component add clippy --toolchain 1.98.1
       - name: Rust build disk budget
         run: df -h .
+      - name: PostgreSQL device-login source revocation and authentication owners
+        env:
+          SQLX_OFFLINE: "true"
+        run: |
+          python3 - <<'PYCODE'
+          import os
+          import subprocess
+          import sys
+          harness = ["backend-fork/tools/lanes/pgtest.sh", os.environ["GITHUB_WORKSPACE"] + "/backend-fork"]
+          commands = [
+              harness + ["cargo", "test", "--locked", "--no-fail-fast", "-p", "console-identity-rest", "--lib", "--test", "authentication_locking", "--", "--test-threads=1"],
+              harness + ["cargo", "test", "--locked", "--no-fail-fast", "-p", "console-platform-auth-rest", "-p", "console-platform-auth", "--lib", "--", "--test-threads=1"],
+          ]
+          outcomes = [subprocess.run(command, check=False).returncode for command in commands]
+          sys.exit(1 if any(outcomes) else 0)
+          PYCODE
+      - name: Identity REST owner and device-login regression Clippy
+        env:
+          SQLX_OFFLINE: "true"
+        working-directory: backend-fork/backend
+        run: cargo clippy --locked -p console-identity-rest --lib --test authentication_locking -- -D warnings
+      - name: Authentication owners Clippy
+        env:
+          SQLX_OFFLINE: "true"
+        working-directory: backend-fork/backend
+        run: cargo clippy --locked -p console-platform-auth-rest -p console-platform-auth --lib -- -D warnings
       - name: PostgreSQL payroll source validation, roster and workflow recovery
         env:
           SQLX_OFFLINE: "true"
