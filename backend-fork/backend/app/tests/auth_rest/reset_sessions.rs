@@ -1,11 +1,13 @@
 //! Credential recovery must revoke real signed sessions, atomically and in one Company.
 use super::*;
-use console_platform_auth::{RefreshRotation, RefreshTokenStore};
+use console_platform_auth::RefreshTokenStore;
 use sqlx::{Postgres, Transaction, postgres::PgPoolOptions};
 use tokio::time::{sleep, timeout};
 
 const RESET: &str = "/api/v1/auth/admin/credential-reset";
 const WAIT: std::time::Duration = std::time::Duration::from_secs(10);
+const ACCOUNT_LOCK: &str =
+    "SELECT is_active FROM users WHERE id = $1 AND org_id = $2 FOR NO KEY UPDATE";
 
 struct Fixture {
     router: axum::Router,
@@ -169,10 +171,64 @@ async fn assert_dead(owner: &PgPool, f: &Fixture, session: &TokenPairResponse) {
     assert!(all_revoked, "every target family token must be revoked");
 }
 
+fn assert_session_history(before: &Value, after: &Value) {
+    for table in ["families", "tokens"] {
+        let historical = |state: &Value| {
+            state[table]
+                .as_array()
+                .unwrap()
+                .iter()
+                .map(|row| {
+                    let mut row = row.as_object().unwrap().clone();
+                    row.remove("revoked_at");
+                    row.remove("revoked_reason");
+                    row
+                })
+                .collect::<Vec<_>>()
+        };
+        assert_eq!(
+            historical(before),
+            historical(after),
+            "{table} history changed"
+        );
+        for row in before[table]
+            .as_array()
+            .unwrap()
+            .iter()
+            .filter(|row| !row["revoked_at"].is_null())
+        {
+            let retained = after[table]
+                .as_array()
+                .unwrap()
+                .iter()
+                .find(|new| new["id"] == row["id"])
+                .unwrap();
+            assert_eq!(retained, row, "prior token/family revocation changed");
+        }
+    }
+}
+
 #[sqlx::test(migrations = "../crates/platform/db/migrations")]
 async fn reset_revokes_signed_sessions_and_all_tokens_without_cross_account_effects(owner: PgPool) {
     let mut f = fixture(&owner, "reset-complete").await;
+    let group: Uuid = sqlx::query_scalar("SELECT group_id FROM organizations WHERE id=$1")
+        .bind(OrgId::knl().as_uuid())
+        .fetch_one(&owner)
+        .await
+        .unwrap();
+    sqlx::query("INSERT INTO group_role_grants(group_id,user_id,group_role,granted_by) VALUES($1,$2,'GROUP_ADMIN',NULL)")
+        .bind(group).bind(f.target.as_uuid()).execute(&owner).await.unwrap();
     let second = usernameless_login(&f.router, &mut f.authenticator, &f.credential).await;
+    let delegated: Value = post_json(
+        f.router.clone(),
+        "/api/v1/group-admin/tenant-context",
+        Some(&second.access_token),
+        json!({"org_id":OrgId::knl().as_uuid()}),
+        StatusCode::OK,
+    )
+    .await;
+    let delegated = delegated["access_token"].as_str().unwrap();
+    assert_eq!(access_status(&f.router, delegated).await, StatusCode::OK);
     let first_refresh = f.session.refresh_token.as_ref().unwrap();
     let rotated: TokenPairResponse = post_json(
         f.router.clone(),
@@ -224,6 +280,12 @@ async fn reset_revokes_signed_sessions_and_all_tokens_without_cross_account_effe
         );
         others.push(session);
     }
+    for session in [&f.session, &second, &rotated] {
+        assert_eq!(
+            access_status(&f.router, &session.access_token).await,
+            StatusCode::OK
+        );
+    }
     let before = snapshot(&owner).await;
     let response = reset(&f).await;
     assert_eq!(response.status(), StatusCode::OK);
@@ -233,6 +295,10 @@ async fn reset_revokes_signed_sessions_and_all_tokens_without_cross_account_effe
     assert_dead(&owner, &f, &f.session).await;
     assert_dead(&owner, &f, &second).await;
     assert_dead(&owner, &f, &rotated).await;
+    assert_eq!(
+        access_status(&f.router, delegated).await,
+        StatusCode::UNAUTHORIZED
+    );
     assert_eq!(access_status(&f.router, &f.admin).await, StatusCode::OK);
     for session in &others {
         assert_eq!(
@@ -241,6 +307,7 @@ async fn reset_revokes_signed_sessions_and_all_tokens_without_cross_account_effe
         );
     }
     let after = snapshot(&owner).await;
+    assert_session_history(&before, &after);
     for table in ["families", "tokens", "keys", "sources"] {
         let untouched = |state: &Value| {
             state[table]
@@ -265,8 +332,8 @@ async fn reset_revokes_signed_sessions_and_all_tokens_without_cross_account_effe
     .await
     .unwrap();
     assert_eq!(live, 0);
-    let audit: (Option<Uuid>, Value) = sqlx::query_as(
-        "SELECT actor,after_snap FROM audit_events \
+    let audit: (Option<Uuid>, Uuid, String, String, Value) = sqlx::query_as(
+        "SELECT actor,org_id,target_type,target_id,after_snap FROM audit_events \
         WHERE action='auth.refresh.revoke_all' AND target_id=$1",
     )
     .bind(f.target.to_string())
@@ -274,9 +341,13 @@ async fn reset_revokes_signed_sessions_and_all_tokens_without_cross_account_effe
     .await
     .unwrap();
     assert_eq!(audit.0, None);
-    assert_eq!(audit.1["reason"], "admin_reset");
-    assert_eq!(audit.1["revoked_family_count"], 3);
-    assert_eq!(audit.1["revoked_token_count"], 4);
+    assert_eq!(audit.1, *OrgId::knl().as_uuid());
+    assert_eq!(audit.2, "user");
+    assert_eq!(audit.3, f.target.to_string());
+    assert_eq!(
+        audit.4,
+        json!({"reason":"admin_reset","revoked_family_count":3,"revoked_token_count":4})
+    );
     let recovered: OtpRedeemResponse = post_json(
         f.router.clone(),
         "/api/v1/auth/otp/redeem",
@@ -312,7 +383,28 @@ async fn reset_with_no_keys_preserves_prior_revocation_and_sweeps_token_residue(
             .fetch_one(&owner)
             .await
             .unwrap();
+    let expired = RefreshTokenStore
+        .issue_family(
+            &f.runtime,
+            *f.target.as_uuid(),
+            OrgId::knl(),
+            OffsetDateTime::now_utc(),
+            Duration::minutes(5),
+        )
+        .await
+        .unwrap();
+    sqlx::query(
+        "UPDATE auth_refresh_tokens SET expires_at=clock_timestamp()-interval '1 day' WHERE id=$1",
+    )
+    .bind(expired.token_id)
+    .execute(&owner)
+    .await
+    .unwrap();
+    sqlx::query("UPDATE auth_refresh_tokens SET revoked_at=clock_timestamp()-interval '2 days' WHERE user_id=$1 AND family_id<>$2 AND family_id<>$3")
+        .bind(f.target.as_uuid()).bind(family).bind(expired.family_id).execute(&owner).await.unwrap();
+    let prior = snapshot(&owner).await;
     assert_eq!(reset(&f).await.status(), StatusCode::OK);
+    assert_session_history(&prior, &snapshot(&owner).await);
     let current: Value =
         sqlx::query_scalar("SELECT to_jsonb(f) FROM auth_refresh_token_families f WHERE id=$1")
             .bind(family)
@@ -345,16 +437,20 @@ async fn reset_with_no_keys_preserves_prior_revocation_and_sweeps_token_residue(
     .await
     .unwrap();
     assert_eq!(counts.len(), 2);
+    assert_eq!(
+        counts[0],
+        json!({"reason":"admin_reset","revoked_family_count":2,"revoked_token_count":2})
+    );
     assert_eq!(counts[1]["revoked_family_count"], 0);
     assert_eq!(counts[1]["revoked_token_count"], 0);
 }
 
-async fn waiting(owner: &PgPool, label: &str, blocker: i32) {
+async fn waiting(owner: &PgPool, label: &str, blocker: i32, query: &str) {
     timeout(WAIT, async {
         loop {
             let blocked: bool = sqlx::query_scalar("SELECT EXISTS(SELECT 1 FROM pg_stat_activity WHERE \
-                datname=current_database() AND application_name=$1 AND wait_event_type='Lock' AND $2=ANY(pg_blocking_pids(pid)))")
-                .bind(label).bind(blocker).fetch_one(owner).await.unwrap();
+                datname=current_database() AND application_name=$1 AND wait_event_type='Lock' AND $2=ANY(pg_blocking_pids(pid)) AND position($3 in query)>0)")
+                .bind(label).bind(blocker).bind(query).fetch_one(owner).await.unwrap();
             if blocked { break; }
             sleep(std::time::Duration::from_millis(5)).await;
         }
@@ -398,7 +494,13 @@ async fn reset_first_blocks_refresh_and_prevents_replacement(owner: PgPool) {
         )
         .await
     });
-    waiting(&owner, "reset-first", gate_pid).await;
+    waiting(
+        &owner,
+        "reset-first",
+        gate_pid,
+        "DELETE FROM auth_webauthn_credentials",
+    )
+    .await;
     let reset_pid: i32 = sqlx::query_scalar(
         "SELECT pid FROM pg_stat_activity WHERE datname=current_database() \
         AND application_name='reset-first' AND $1=ANY(pg_blocking_pids(pid))",
@@ -420,7 +522,7 @@ async fn reset_first_blocks_refresh_and_prevents_replacement(owner: PgPool) {
             )
             .await
     });
-    waiting(&owner, "refresh-after-reset", reset_pid).await;
+    waiting(&owner, "refresh-after-reset", reset_pid, ACCOUNT_LOCK).await;
     gate.commit().await.unwrap();
     assert_eq!(
         timeout(WAIT, task).await.unwrap().unwrap().status(),
@@ -440,21 +542,34 @@ async fn reset_first_blocks_refresh_and_prevents_replacement(owner: PgPool) {
 #[sqlx::test(migrations = "../crates/platform/db/migrations")]
 async fn rotation_first_replacement_is_revoked_by_waiting_reset(owner: PgPool) {
     let f = fixture(&owner, "reset-after-rotation").await;
-    let mut tx = f.runtime.begin().await.unwrap();
-    let rotated = RefreshTokenStore
-        .rotate_in_tx(
-            &mut tx,
-            f.session.refresh_token.as_ref().unwrap(),
-            OffsetDateTime::now_utc(),
-            Duration::minutes(10),
-            Duration::days(1),
-        )
+    sqlx::raw_sql("CREATE FUNCTION test_rotation_gate() RETURNS trigger LANGUAGE plpgsql AS $$ BEGIN         PERFORM pg_advisory_xact_lock(8294174); RETURN NEW; END $$;         CREATE TRIGGER test_rotation_gate BEFORE INSERT ON audit_events         FOR EACH ROW WHEN(NEW.action='auth.refresh') EXECUTE FUNCTION test_rotation_gate()")
+        .execute(&owner).await.unwrap();
+    let mut gate = owner.begin().await.unwrap();
+    sqlx::query("SELECT pg_advisory_xact_lock(8294174)")
+        .execute(gate.as_mut())
         .await
         .unwrap();
-    let RefreshRotation::Issued(rotated) = rotated else {
-        panic!("live rotation must issue");
-    };
-    let pid = transaction_pid(&mut tx).await;
+    let gate_pid = transaction_pid(&mut gate).await;
+    let router = f.router.clone();
+    let token = f.session.refresh_token.as_ref().unwrap().clone();
+    let rotation = tokio::spawn(async move {
+        post_raw(
+            router,
+            "/api/v1/auth/token/refresh",
+            None,
+            json!({"refresh_token":token}),
+        )
+        .await
+    });
+    waiting(
+        &owner,
+        "reset-after-rotation",
+        gate_pid,
+        "INSERT INTO audit_events",
+    )
+    .await;
+    let pid: i32 = sqlx::query_scalar("SELECT pid FROM pg_stat_activity WHERE datname=current_database() AND         application_name='reset-after-rotation' AND $1=ANY(pg_blocking_pids(pid)) AND position('INSERT INTO audit_events' in query)>0")
+        .bind(gate_pid).fetch_one(&owner).await.unwrap();
     let router = f.router.clone();
     let admin = f.admin.clone();
     let target = f.target;
@@ -467,24 +582,21 @@ async fn rotation_first_replacement_is_revoked_by_waiting_reset(owner: PgPool) {
         )
         .await
     });
-    waiting(&owner, "reset-after-rotation", pid).await;
-    tx.commit().await.unwrap();
+    waiting(&owner, "reset-after-rotation", pid, ACCOUNT_LOCK).await;
+    gate.commit().await.unwrap();
+    let response = timeout(WAIT, rotation).await.unwrap().unwrap();
+    assert_eq!(response.status(), StatusCode::OK);
+    let replacement: TokenPairResponse = serde_json::from_value(body_json(response).await).unwrap();
     assert_eq!(
         timeout(WAIT, task).await.unwrap().unwrap().status(),
         StatusCode::OK
     );
-    let response = post_raw(
-        f.router.clone(),
-        "/api/v1/auth/token/refresh",
-        None,
-        json!({"refresh_token":rotated.token.as_str()}),
-    )
-    .await;
     assert_eq!(
-        response.status(),
+        access_status(&f.router, &replacement.access_token).await,
         StatusCode::UNAUTHORIZED,
         "replacement committed before reset must be revoked"
     );
+    assert_dead(&owner, &f, &replacement).await;
     assert_dead(&owner, &f, &f.session).await;
 }
 
@@ -525,6 +637,24 @@ async fn token_storage_failure_rolls_back_reset(owner: PgPool) {
 #[sqlx::test(migrations = "../crates/platform/db/migrations")]
 async fn otp_audit_and_deferred_commit_failure_roll_back_sessions_and_keys(owner: PgPool) {
     let f = fixture(&owner, "reset-late-fault").await;
+    let handoff = BootstrapCredentialStore
+        .issue_self_enroll_handoff(
+            &f.runtime,
+            *f.target.as_uuid(),
+            OrgId::knl(),
+            OffsetDateTime::now_utc(),
+            Duration::minutes(5),
+        )
+        .await
+        .unwrap();
+    let _: OtpRedeemResponse = post_json(
+        f.router.clone(),
+        "/api/v1/auth/otp/redeem",
+        None,
+        json!({"otp":handoff.token.as_str()}),
+        StatusCode::OK,
+    )
+    .await;
     for (table, event, predicate, deferred) in [
         ("auth_bootstrap_credentials", "INSERT", "true", false),
         (

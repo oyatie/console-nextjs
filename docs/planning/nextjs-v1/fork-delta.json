@@ -2239,8 +2239,8 @@
       "path": "backend/app/tests/auth_rest/reset_sessions.rs",
       "before": null,
       "after": {
-        "sha256": "7842f1f4f56abda65043e5c812d446bfb6c26e3306bc769c973d862623c98a2f",
-        "bytes": 24206,
+        "sha256": "259aa789a06422d44f7a6a7b1976f512d543c1e9496e4ef5018f2e09530782bd",
+        "bytes": 29272,
         "mode": 420
       },
       "reason": "Add real signed HTTP/runtime-role PostgreSQL credential reset session-revocation, isolation, interleaving and rollback regressions; preserve existing tests."
