@@ -602,9 +602,14 @@ async fn rotation_first_replacement_is_revoked_by_waiting_reset(owner: PgPool) {
 
 async fn storage_fault(owner: &PgPool, table: &str) {
     let f = fixture(owner, "reset-storage-fault").await;
-    sqlx::raw_sql(&format!("CREATE FUNCTION test_reset_storage_fault() RETURNS trigger LANGUAGE plpgsql AS $$ \
+    assert!(matches!(
+        table,
+        "auth_refresh_token_families" | "auth_refresh_tokens"
+    ));
+    // Identifiers come only from the literal fault cases above.
+    sqlx::raw_sql(sqlx::AssertSqlSafe(format!("CREATE FUNCTION test_reset_storage_fault() RETURNS trigger LANGUAGE plpgsql AS $$ \
         BEGIN RAISE EXCEPTION 'reset_storage_failed'; END $$; CREATE TRIGGER test_reset_storage_fault \
-        BEFORE UPDATE ON {table} FOR EACH ROW EXECUTE FUNCTION test_reset_storage_fault()"))
+        BEFORE UPDATE ON {table} FOR EACH ROW EXECUTE FUNCTION test_reset_storage_fault()")))
         .execute(owner).await.unwrap();
     let before = snapshot(owner).await;
     let response = reset(&f).await;
@@ -677,10 +682,11 @@ async fn otp_audit_and_deferred_commit_failure_roll_back_sessions_and_keys(owner
         } else {
             ""
         };
-        sqlx::raw_sql(&format!("CREATE FUNCTION test_reset_late_fault() RETURNS trigger LANGUAGE plpgsql AS $$ \
+        // All DDL identifiers and predicates are local literal fault cases.
+        sqlx::raw_sql(sqlx::AssertSqlSafe(format!("CREATE FUNCTION test_reset_late_fault() RETURNS trigger LANGUAGE plpgsql AS $$ \
             BEGIN IF {predicate} THEN RAISE EXCEPTION 'reset_late_failed'; END IF; RETURN NEW; END $$; \
             CREATE {constraint}TRIGGER test_reset_late_fault {timing} {event} ON {table} {deferrable} \
-            FOR EACH ROW EXECUTE FUNCTION test_reset_late_fault()"))
+            FOR EACH ROW EXECUTE FUNCTION test_reset_late_fault()")))
             .execute(&owner).await.unwrap();
         let before = snapshot(&owner).await;
         assert_eq!(
@@ -693,9 +699,9 @@ async fn otp_audit_and_deferred_commit_failure_roll_back_sessions_and_keys(owner
             access_status(&f.router, &f.session.access_token).await,
             StatusCode::OK
         );
-        sqlx::raw_sql(&format!(
+        sqlx::raw_sql(sqlx::AssertSqlSafe(format!(
             "DROP TRIGGER test_reset_late_fault ON {table}; DROP FUNCTION test_reset_late_fault()"
-        ))
+        )))
         .execute(&owner)
         .await
         .unwrap();
