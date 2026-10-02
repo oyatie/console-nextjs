@@ -4155,7 +4155,7 @@
       "status": "bounded_owner_GREEN_226_Rust_plus18_tooling_strict_Clippy_final_evidence_hosted_review_pending",
       "evidence": {
         "path": "docs/planning/nextjs-v1/legacy-otp-purpose-admission-evidence.json",
-        "sha256": "94c7cadbef19330951276c786fea1585ba734b6d248da028f689e4c02ebe5941"
+        "sha256": "cdbade224f09872f165caadab76ef120a28e38e2e67254da7e8403bb2b232a40"
       },
       "tests": {
         "rust_discovered": 226,

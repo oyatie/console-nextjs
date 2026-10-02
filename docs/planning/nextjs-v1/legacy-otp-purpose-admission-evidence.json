@@ -6018,7 +6018,7 @@
     "Initial nearby run reported 175 test passes but returned126 because its parser included libtest should-panic annotations in execution names. Original FAILED report retained; independently reviewed one-regex correction then fresh complete175 GREEN.",
     "Docker formatting image lacked cargo-fmt; original failure retained. Existing host Rust1.98.1 rustfmt checked changed owners and recursive test modules; no full-workspace formatting claim.",
     "Initial manual custody import lacked tools on sys.path. Its18 passed tooling tests and unreached custody remain preserved; corrected invocation independently verified full4073-file fork custody.",
-    "Initial OpenAPI generator attempt before implementation commit omitted RUSTUP_TOOLCHAIN under network-none and ran no generator. Corrected generation and exact107c double idempotence passed."
+    "The earlier OpenAPI invocation reportedly failed toolchain resolution under network-none because RUSTUP_TOOLCHAIN was omitted. This is recovered session-summary information only: its original command/output bytes were not saved and are absent from the portable bundle. It provides no acceptance evidence. The archive retains the corrected generation and exact107c double-idempotence raw logs/reports."
   ],
   "limits": [
     "historical unclassified version-0 proof and compromised legacy runtime SQL",
@@ -6031,5 +6031,12 @@
     "One disposable PostgreSQL site proves local behavior, not two-site confirmation/fencing, zero acknowledged-record loss or production readiness.",
     "No applied migration, dependency, family/identity rewrite, live cutover, payment, institution, mail exposure or collection activation."
   ],
-  "delivery": "Local source/CI review and bounded gates complete at107c; final evidence-candidate review, independent COMMENT and protected main queue/readback pending."
+  "delivery": "Local source/CI review and bounded gates complete at107c; final evidence-candidate review, independent COMMENT and protected main queue/readback pending.",
+  "evidence_provenance": {
+    "raw_retained": "Only the files enumerated and hashed in the bundle manifest are retained raw artifacts.",
+    "session_summary_only": [
+      "Initial OpenAPI missing-toolchain invocation; original raw command/output unavailable."
+    ],
+    "no_reconstructed_logs": true
+  }
 }

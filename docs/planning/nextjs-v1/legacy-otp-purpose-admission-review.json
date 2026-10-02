@@ -244,6 +244,12 @@
     {
       "finding": "OTP redeem and refresh/setup descriptions incorrectly implied ordinary authority or consumption at redemption.",
       "disposition": "Corrected source, split schemas and generated OpenAPI without DTO/schema behavior changes; both reviewers approved107c."
+    },
+    {
+      "finding": "Bundle wording could imply raw retention of an initial OpenAPI failure that was captured only in session output and recovered through the session summary.",
+      "reviewer": "web_session_owner_v1",
+      "candidate_head": "08db4ff53706b8abe360338c094336ef472361a9",
+      "disposition": "Evidence and README now explicitly distinguish unavailable original bytes from the retained corrected/final raw generator logs. No reconstructed log, raw-retention claim or acceptance credit for that initial attempt."
     }
   ]
 }
