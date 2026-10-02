@@ -132,6 +132,8 @@ async fn auth_effects(owner: &PgPool) -> Value {
         'families',(SELECT jsonb_agg(to_jsonb(f) ORDER BY id) FROM auth_refresh_token_families f), \
         'tokens',(SELECT jsonb_agg(to_jsonb(t) ORDER BY id) FROM auth_refresh_tokens t), \
         'keys',(SELECT jsonb_agg(to_jsonb(c) ORDER BY id) FROM auth_webauthn_credentials c), \
+        'sources',(SELECT jsonb_agg(to_jsonb(b) ORDER BY id) FROM auth_bootstrap_credentials b), \
+        'ceremonies',(SELECT jsonb_agg(to_jsonb(w) ORDER BY id) FROM auth_webauthn_ceremonies w), \
         'audits',(SELECT jsonb_agg(to_jsonb(a) ORDER BY id) FROM audit_events a))",
     )
     .fetch_one(owner)
