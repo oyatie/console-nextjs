@@ -48,6 +48,8 @@ jobs:
           commands = [
               harness + ["cargo", "test", "--locked", "--no-fail-fast", "-p", "console-identity-rest", "--lib", "--test", "authentication_locking", "--", "--test-threads=1"],
               harness + ["cargo", "test", "--locked", "--no-fail-fast", "-p", "console-platform-auth-rest", "-p", "console-platform-auth", "--lib", "--", "--test-threads=1"],
+              harness + ["cargo", "test", "--locked", "-p", "console-app", "--test", "auth_rest", "reset_sessions::", "--", "--test-threads=1"],
+              harness + ["cargo", "test", "--locked", "--no-fail-fast", "-p", "console-platform-provisioning", "--test", "account_locking", "--test", "account_identity", "--test", "rls_auth_chain_as_runtime_role", "--", "--test-threads=1"],
           ]
           outcomes = [subprocess.run(command, check=False).returncode for command in commands]
           sys.exit(1 if any(outcomes) else 0)
@@ -62,6 +64,13 @@ jobs:
           SQLX_OFFLINE: "true"
         working-directory: backend-fork/backend
         run: cargo clippy --locked -p console-platform-auth-rest -p console-platform-auth --lib -- -D warnings
+      - name: Credential reset owner and regressions Clippy
+        env:
+          SQLX_OFFLINE: "true"
+        working-directory: backend-fork/backend
+        run: |
+          cargo clippy --locked -p console-app --lib --test auth_rest -- -D warnings
+          cargo clippy --locked -p console-platform-provisioning --lib --test account_locking --test account_identity --test rls_auth_chain_as_runtime_role -- -D warnings
       - name: PostgreSQL payroll source validation, roster and workflow recovery
         env:
           SQLX_OFFLINE: "true"

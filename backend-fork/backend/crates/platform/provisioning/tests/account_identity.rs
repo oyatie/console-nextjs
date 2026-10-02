@@ -578,6 +578,9 @@ async fn actual_0227_upgrade_preserves_every_account_key_and_family(owner: PgPoo
         )
         .await
         .unwrap();
+    // A retained pre-expansion OTP exercises preservation of real source history.
+    sqlx::query("INSERT INTO auth_bootstrap_credentials(user_id,token_hash,issued_at,expires_at,consumed_at,revoked_at,revoked_reason,org_id) VALUES($1,$2,now()-interval '2 hours',now()-interval '1 hour',now()-interval '90 minutes',now()-interval '80 minutes','historical_reset',$3)")
+        .bind(id).bind(vec![23_u8; 32]).bind(*OrgId::knl().as_uuid()).execute(&owner).await.unwrap();
     let snapshot = "SELECT jsonb_build_object('users',(SELECT jsonb_agg(to_jsonb(u) ORDER BY id) FROM users u),'keys',(SELECT jsonb_agg(to_jsonb(k) ORDER BY id) FROM auth_webauthn_credentials k),'families',(SELECT jsonb_agg(to_jsonb(f) ORDER BY id) FROM auth_refresh_token_families f),'bootstrap',(SELECT jsonb_agg(to_jsonb(b) ORDER BY id) FROM auth_bootstrap_credentials b))";
     let before: Value = sqlx::query_scalar(snapshot)
         .fetch_one(&owner)
@@ -588,7 +591,39 @@ async fn actual_0227_upgrade_preserves_every_account_key_and_family(owner: PgPoo
         .fetch_one(&owner)
         .await
         .unwrap();
-    assert_eq!(after, before);
+    let mut expected = before.clone();
+    // 0230 expands legacy rows without inferring generation, purpose or source.
+    for (table, defaults) in [
+        (
+            "families",
+            serde_json::json!({
+                "provenance_version": 0, "auth_generation": null, "session_purpose": null,
+                "source_kind": null, "source_operation_id": null
+            }),
+        ),
+        (
+            "bootstrap",
+            serde_json::json!({
+                "issuance_version": 0, "issued_generation": null, "issuance_purpose": null,
+                "source_operation_id": null
+            }),
+        ),
+    ] {
+        let rows = expected[table].as_array_mut().unwrap();
+        assert!(!rows.is_empty(), "{table} preservation must be non-vacuous");
+        for row in rows {
+            for (field, value) in defaults.as_object().unwrap() {
+                assert!(
+                    row.as_object_mut()
+                        .unwrap()
+                        .insert(field.clone(), value.clone())
+                        .is_none(),
+                    "{table}.{field} must be newly added; never overwrite history"
+                );
+            }
+        }
+    }
+    assert_eq!(after, expected);
     let matching: bool = sqlx::query_scalar("SELECT (SELECT array_agg(id ORDER BY id) FROM users)=(SELECT array_agg(account_id ORDER BY account_id) FROM auth_security.account_id_reservations WHERE NOT retired)").fetch_one(&owner).await.unwrap();
     assert!(matching);
     assert_eq!(retired(&owner, id).await, Some(false));
@@ -598,7 +633,7 @@ async fn actual_0227_upgrade_preserves_every_account_key_and_family(owner: PgPoo
             .fetch_one(&owner)
             .await
             .unwrap(),
-        before
+        after
     );
     let rotated = RefreshTokenStore
         .rotate(

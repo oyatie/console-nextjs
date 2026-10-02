@@ -74,6 +74,8 @@ bash "$repo_root/backend/ci/gates/writer-ownership/canonical-enforce.sh" \
 
 port="$(docker port "$name" 5432/tcp)"; port="${port##*:}"
 export DATABASE_URL="postgres://console_buck_admin:${admin}@127.0.0.1:${port}/${db}?options%5Bconsole.sqlx_test_bootstrap%5D=buck-sqlx-superuser-v1"
+export CONSOLE_TEST_RUNTIME_PASSWORD="$rt"
+export CONSOLE_TEST_FORCE_PASSWORD="$force"
 echo "postgres ready on ${port}"
 cd "$repo_root/backend"
 "$@"

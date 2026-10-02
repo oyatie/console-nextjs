@@ -119,11 +119,11 @@
         "mode": 420
       },
       "after": {
-        "sha256": "6c922d5e7b2fcb0bf70daffc38a83d83e5bf1f7defc9fb91f7f56c78fb61d7b1",
-        "bytes": 167703,
+        "sha256": "53db39b5fd993e601909bfb34f40627a85497eee0c894a40623273d8e0939811",
+        "bytes": 167764,
         "mode": 420
       },
-      "reason": "Keep signed device-login proof, source and scope regressions; prove refresh signing failure after rotation cannot commit an undisclosed replacement. Add a red signed HTTP regression showing an OTP-derived family's access and refresh cannot acquire business authority after its source is replaced. Bind newly redeemed legacy OTP families and passkey registration ceremonies to the exact live source in one owner transaction, recheck JWT expiry after lock waits, and retain red purpose-authority probes. This is unactivated version-0 containment, not a version-1 session cutover."
+      "reason": "Keep signed device-login proof, source and scope regressions; prove refresh signing failure after rotation cannot commit an undisclosed replacement. Add a red signed HTTP regression showing an OTP-derived family's access and refresh cannot acquire business authority after its source is replaced. Bind newly redeemed legacy OTP families and passkey registration ceremonies to the exact live source in one owner transaction, recheck JWT expiry after lock waits, and retain red purpose-authority probes. This is unactivated version-0 containment, not a version-1 session cutover. Add real signed HTTP/runtime-role PostgreSQL credential reset session-revocation, isolation, interleaving and rollback regressions; preserve existing tests."
     },
     {
       "path": "backend/app/tests/cedar_freshness_mint.rs",
@@ -1739,21 +1739,21 @@
         "mode": 420
       },
       "after": {
-        "sha256": "873f185aae9a7ce8a58660173d7e3b9034ddbb11748f496fe4afa247114c1925",
-        "bytes": 123960,
+        "sha256": "a25878021c2e6b133736bdd67de997e9a2f319885b6efc44c9c68cb9aa572e6b",
+        "bytes": 126001,
         "mode": 420
       },
-      "reason": "Keep legacy version-0 OTP behavior while dormant version-1 first-enrollment redemption locks protected Account generation and consumes its exact source once inside the caller transaction; the verify-only wrapper rolls back version-1. Add a dormant source-bound first-enrollment command that atomically consumes proof, issues a restricted family, and records receipt and audit. Bind newly redeemed legacy OTP families and passkey registration ceremonies to the exact live source in one owner transaction, recheck JWT expiry after lock waits, and retain red purpose-authority probes. This is unactivated version-0 containment, not a version-1 session cutover."
+      "reason": "Keep legacy version-0 OTP behavior while dormant version-1 first-enrollment redemption locks protected Account generation and consumes its exact source once inside the caller transaction; the verify-only wrapper rolls back version-1. Add a dormant source-bound first-enrollment command that atomically consumes proof, issues a restricted family, and records receipt and audit. Bind newly redeemed legacy OTP families and passkey registration ceremonies to the exact live source in one owner transaction, recheck JWT expiry after lock waits, and retain red purpose-authority probes. This is unactivated version-0 containment, not a version-1 session cutover. Revoke all target Account/Company sessions atomically in the existing credential-reset owner, retaining previous revocations and auditing counts; preserve ordinary OTP and enrollment handoffs."
     },
     {
       "path": "backend/crates/platform/provisioning/tests/account_identity.rs",
       "before": null,
       "after": {
-        "sha256": "212228b6fd3208738019ab8cb42b397549e223bff5744203beb82dcf67ac70b4",
-        "bytes": 43740,
+        "sha256": "0728175778a4cbaec42b545272f62ae7deb0a8eed2ea4d53ccc0cc062db24ec5",
+        "bytes": 45409,
         "mode": 420
       },
-      "reason": "Protected credential-removal evidence under accepted authentication design and mechanics652a3539. Exact tests-first red/green and candidate review tracked separately; full R4 incomplete."
+      "reason": "Preserve complete historical upgrade rows while explicitly accounting for 0230 provenance expansion; nonempty legacy OTP history and unchanged authenticated-login negatives."
     },
     {
       "path": "backend/crates/platform/provisioning/tests/account_locking.rs",
@@ -2234,6 +2234,30 @@
         "mode": 420
       },
       "reason": "Add real-router PostgreSQL capture/freeze ordering, same-Account FK liveness, relink serialization and replay/Company/domain isolation regressions; disposable fixtures only."
+    },
+    {
+      "path": "backend/app/tests/auth_rest/reset_sessions.rs",
+      "before": null,
+      "after": {
+        "sha256": "68c0bbe780b4be7e63d82cd5151aebc7d8f17e66de814b5b8b80f46dc2a334c7",
+        "bytes": 29627,
+        "mode": 420
+      },
+      "reason": "Add real signed HTTP/runtime-role PostgreSQL credential reset session-revocation, isolation, interleaving and rollback regressions; preserve existing tests."
+    },
+    {
+      "path": "tools/lanes/pgtest.sh",
+      "before": {
+        "sha256": "4ba4364883f589370295bd31b9f610d9c8dadabf95f78fb3c7283310fb740370",
+        "bytes": 4082,
+        "mode": 493
+      },
+      "after": {
+        "sha256": "d0bf2cd1fa76571d3c569bd0ee6e1251c7f763e0e011a1c427d9d9c52537864f",
+        "bytes": 4169,
+        "mode": 493
+      },
+      "reason": "Expose only generated runtime and force fixture password aliases to Cargo tests; preserve credential argv guard and owned disposable cleanup."
     }
   ],
   "notes": [
