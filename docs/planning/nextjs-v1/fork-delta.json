@@ -195,11 +195,11 @@
         "mode": 420
       },
       "after": {
-        "sha256": "6df6bb948d342f2407cda917d6cf334d6b3c7080ccc32a984882b143ca29d987",
-        "bytes": 52717,
+        "sha256": "3d97190ebf5fac583cd6f878880bcb3ff33d464c1126096d40506551040ab3d8",
+        "bytes": 52776,
         "mode": 420
       },
-      "reason": "Test retained own attendance history across exit/UNKNOWN/site closure and current Account/link/session revocation; preserve inherited assertions, actual console_rt RLS and unchanged mutation controls. Use real family-bound test sessions and owner-valid branch/material fixtures; no runtime business seeds. Prove raw attendance missing/malformed payroll linkage, exact scoped pages, real-family authority and write-free closed-period replay before the owner repair. Assert each history GET has no raw/ref/audit effects at its own boundary; independently verify the genuine fresh-session audit."
+      "reason": "Test retained own attendance history across exit/UNKNOWN/site closure and current Account/link/session revocation; preserve inherited assertions, actual console_rt RLS and unchanged mutation controls. Use real family-bound test sessions and owner-valid branch/material fixtures; no runtime business seeds. Prove raw attendance missing/malformed payroll linkage, exact scoped pages, real-family authority and write-free closed-period replay before the owner repair. Assert each history GET has no raw/ref/audit effects at its own boundary; independently verify the genuine fresh-session audit. Add real-router PostgreSQL capture/freeze ordering, same-Account FK liveness, relink serialization and replay/Company/domain isolation regressions; disposable fixtures only."
     },
     {
       "path": "backend/app/tests/hr_ingest_checklist_gate.rs",
@@ -241,7 +241,7 @@
         "bytes": 47596,
         "mode": 420
       },
-      "reason": "Remove the Intelligence bind exception from the production route census while preserving other route-contract assertions. Require the already registered audit attestation path in the configured route inventory. Require the served OpenAPI path \u00d7 method response for the reachable unavailable-listing 409; preserve existing inventory assertions."
+      "reason": "Remove the Intelligence bind exception from the production route census while preserving other route-contract assertions. Require the already registered audit attestation path in the configured route inventory. Require the served OpenAPI path × method response for the reachable unavailable-listing 409; preserve existing inventory assertions."
     },
     {
       "path": "backend/app/tests/platform_onboarding_e2e.rs",
@@ -2224,6 +2224,16 @@
         "mode": 420
       },
       "reason": "Regress the porcelain leading-space path truncation in the lane checker."
+    },
+    {
+      "path": "backend/app/tests/hr_attendance_self_read/freeze.rs",
+      "before": null,
+      "after": {
+        "sha256": "1a615bca9e115c1e6768943a687146802ff56f11ebadabb9c299ab9c64548322",
+        "bytes": 17377,
+        "mode": 420
+      },
+      "reason": "Add real-router PostgreSQL capture/freeze ordering, same-Account FK liveness, relink serialization and replay/Company/domain isolation regressions; disposable fixtures only."
     }
   ],
   "notes": [
@@ -2231,7 +2241,7 @@
     "Required embedded WASM, legacy deployment test inputs, and vendor license were added to the allowlist after discovery; no previously copied bytes changed.",
     "Legacy deployment inputs are retained only for reference and existing tests; they were not applied.",
     "No historical migration bytes/checksums changed. No assertions were weakened. Additive claim expectations and real account/family fixtures were updated; independent review approved replacing an obsolete foreign-Company200/empty-layout assertion with exact401 and strengthening the upload-limit error proof.",
-    "Historical migrations 1\u2013225 are unchanged. Fresh installs execute baseline version 0; existing ledgers retain their original versions and records. No production database was migrated.",
+    "Historical migrations 1–225 are unchanged. Fresh installs execute baseline version 0; existing ledgers retain their original versions and records. No production database was migrated.",
     "R4-reviewed title-exemption success assertions replaced by denial/state-preservation proofs; positive workflow advance uses a different actual approver. Historical results and migration bytes retained.",
     "WebAuthn contention correction preserves existing signatures, key/RP formats and every inherited assertion; new genuine-signature/PostgreSQL regressions cover expiry, key deletion, ordered counters, rollback and cancellation. Broader auth ownership/proofing remains required.",
     "0226 credential UPDATE guard is additive only; no new enrollment history or raw INSERT/DELETE isolation. All225 original migrations and baseline0 bytes remain frozen; complete auth/proofing/recovery and all R4 modules remain required.",
@@ -2240,7 +2250,7 @@
     "Account UUID allocation/retirement prerequisite in progress; exact tests-first review, named red, additive migration, actual interruption/retry and candidate review required. Accepted0227 and all previous migration bytes are preserved.",
     "Embedded migration build dependency correction: actual added-file red preserved; one shared native build script and authz path. Exact green and candidate review required. All migration/baseline/lock bytes preserved.",
     "Credential-removal evidence prerequisite in progress. OLD-only private AFTER DELETE capture, no reverse parent locks or authorization claims; all earlier migration bytes preserved. Exact tests and candidate review required.",
-    "Audit attestation route inventory uses the same registered path constant; path coverage is proven, while path\u00d7method/response parity remains separate.",
+    "Audit attestation route inventory uses the same registered path constant; path coverage is proven, while path×method/response parity remains separate.",
     "Storefront listing order is now total under tied rank/time keys; count/items/media snapshot consistency and cross-request mutation remain separately unproved.",
     "Sales catalog count, rows and media now share one tenant-scoped repeatable-read snapshot; this does not establish two-site safe reads or cross-request consistency.",
     "Sales inquiry raw text bounds now match persisted PostgreSQL constraints. Local Cargo harness proof passed; full original CI wrapper/preflight proof is unavailable because this frozen fork excludes its workflow and root Buck files.",

@@ -29,7 +29,20 @@
       "finding": "full ownership/liveness/rollback review, no remaining blocker"
     }
   ],
-  "test_review": "pending",
+  "test_review": {
+    "verdict": "APPROVE",
+    "reviewers": [
+      "native_attendance_owner_trace",
+      "next_vertical_trace"
+    ],
+    "inclusion_sha256": "3d97190ebf5fac583cd6f878880bcb3ff33d464c1126096d40506551040ab3d8",
+    "module_sha256": "1a615bca9e115c1e6768943a687146802ff56f11ebadabb9c299ab9c64548322",
+    "expected_behavioral_red": [
+      "freeze::same_account_freeze_first_refuses_capture_without_partial_effects",
+      "freeze::capture_first_freeze_waits_for_fact_reference_and_audits_to_commit"
+    ],
+    "disposition": "Fixed replacement fixture unique Account/employee linkage before approval; all inherited tests unchanged."
+  },
   "runtime_evidence": "unreached",
   "delivery": "unpublished",
   "holds": [
