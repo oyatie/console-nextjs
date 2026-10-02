@@ -1,0 +1,41 @@
+{
+  "base": "b370d1a9ea75d074285dc05b608e7379d5407b56",
+  "design_sha256": "e895fe5caa9a3cda5c85237f7df516b26e0a354e2051fe8dae15533753e3024a",
+  "initial_design_sha256": "a43f95bc4db7fc986d9d8114922e384d665c89b20bd6db441e066d35862d72f4",
+  "initial_disposition": "REVISE: capture FOR UPDATE conflicts with freeze actor FK KEY SHARE; retain same-Account actors and capture-specific audit baselines",
+  "rounds": [
+    {
+      "round": 1,
+      "reviewer": "native_attendance_owner_trace",
+      "verdict": "APPROVE",
+      "finding": "FOR NO KEY UPDATE retains link serialization and permits FK references; relink proof needs independent open period"
+    },
+    {
+      "round": 2,
+      "reviewer": "next_vertical_trace",
+      "verdict": "APPROVE",
+      "finding": "gate material-reference INSERT after actual open check; preserve replay and Company/domain isolation"
+    },
+    {
+      "round": 3,
+      "reviewer": "native_attendance_uiux_trace",
+      "verdict": "APPROVE",
+      "finding": "supersedes incorrect earlier no-cycle assumption; API refusal/retry stays honest, no browser acceptance"
+    },
+    {
+      "round": 4,
+      "reviewer": "native_attendance_owner_trace",
+      "verdict": "APPROVE",
+      "finding": "full ownership/liveness/rollback review, no remaining blocker"
+    }
+  ],
+  "test_review": "pending",
+  "runtime_evidence": "unreached",
+  "delivery": "unpublished",
+  "holds": [
+    "native roster/reconciled source coverage",
+    "Next HR/Payroll real UI and browser acceptance",
+    "two-site durability",
+    "legal/payment/exposure/MVP release"
+  ]
+}
