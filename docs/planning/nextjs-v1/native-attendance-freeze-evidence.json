@@ -1,0 +1,685 @@
+{
+  "version": 1,
+  "recorded_at": "2026-10-02T05:10:10.514700+00:00",
+  "scope": "B04 native capture/payroll-freeze serialization in the existing HR owner",
+  "base": "b370d1a9ea75d074285dc05b608e7379d5407b56",
+  "design_sha256": "e895fe5caa9a3cda5c85237f7df516b26e0a354e2051fe8dae15533753e3024a",
+  "approved_tests": "4887c2b7d487020c5b13b10fe9001e46b41229e9",
+  "implementation": "6fafa4a44f5e3c9ae5b0c8705c2c4523c41eb3d3",
+  "source_sha256": "54e124a34b6f07f3b22a21e1dd9de2bdfe1e4e4cd78f4ee1491605b600d8197d",
+  "unchanged_tests_sha256": {
+    "backend/app/tests/hr_attendance_self_read.rs": "3d97190ebf5fac583cd6f878880bcb3ff33d464c1126096d40506551040ab3d8",
+    "backend/app/tests/hr_attendance_self_read/freeze.rs": "5cf50ff57b4e4fd04e36eb3feb17a58bc495c2ff0d8b7ee12fc2c3945bf65c00"
+  },
+  "environment": {
+    "rust": "1.98.1",
+    "postgres": "18.4 Linux arm64",
+    "rust_image": "rust@sha256:218765d808d35e2e3fa1b12b2e1314e2bfdd427a3530de071398553a95743cba",
+    "postgres_image": "postgres:18.4@sha256:65f70a152846cf504dff86e807007e9aeac98c3aeb7b62541b2c55ab9d264e56",
+    "cargo_build_jobs": 1,
+    "cargo_incremental": 0,
+    "dev_and_test_debug": 0,
+    "network": "isolated internal PostgreSQL network; Clippy network disabled; no published PostgreSQL host ports"
+  },
+  "admission": {
+    "tool": "backend-fork/tools/lanes/fanout.py admit",
+    "exit_code": 0,
+    "independent_red_evidence_reviewer": "next_vertical_trace"
+  },
+  "red": {
+    "artifact": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/native-attendance-freeze/linux/run-20261002T043819.893768Z/report.json",
+    "sha256": "101f0c78e16251686d7fa51b6a0d93b4454ab3583bdbfc3d8d936c52e327a99a",
+    "candidate": "4887c2b7d487020c5b13b10fe9001e46b41229e9",
+    "status": "failed",
+    "runner_sha256": "cce7df241cb8d85a8261ae28672bbbce078173549a48953d701616924fd54c31",
+    "expectations_sha256": "6c934eb2e95d41779b421023e7d51bfb812bc3c431469d38b80dd00e5e51a4e3",
+    "source_count": 3402,
+    "source_revalidation": "passed",
+    "cleanup": "passed",
+    "suites": [
+      {
+        "name": "hr_attendance_self_read",
+        "discovered": 14,
+        "executed": 14,
+        "passed": 12,
+        "failed": 2,
+        "ignored": 0,
+        "filtered": 0,
+        "execution_complete": true,
+        "discovered_names": [
+          "admin_without_employee_link_reads_empty_self_attendance",
+          "former_member_retains_exact_own_history_after_exit_unknown_and_site_closure",
+          "freeze::capture_first_freeze_waits_for_fact_reference_and_audits_to_commit",
+          "freeze::capture_lock_preserves_employee_link_until_commit_then_resolves_new_link",
+          "freeze::replay_and_company_domain_isolation_do_not_wait_for_unrelated_freezes",
+          "freeze::same_account_freeze_first_refuses_capture_without_partial_effects",
+          "history_reads_preserve_existing_ack_subject_and_member_resolution_controls",
+          "linked_member_reads_only_own_attendance",
+          "linked_member_reads_only_own_attendance_console_data",
+          "normal_attendance_creation_and_replay_keep_real_link_and_single_audit_effect",
+          "raw_history_pages_preserve_missing_and_invalid_material_links",
+          "raw_record_replay_is_scoped_and_write_free_in_closed_payroll_period",
+          "retained_self_reads_respect_unlink_account_and_session_family_revocation",
+          "served_attendance_contract_requires_uuid_or_null_and_association_status"
+        ],
+        "behavioral_assertions": {
+          "status": "passed",
+          "failures": [
+            {
+              "test_name": "freeze::capture_first_freeze_waits_for_fact_reference_and_audits_to_commit",
+              "panic_path": "app/tests/hr_attendance_self_read/freeze.rs",
+              "line": 119,
+              "column": 5,
+              "panic_message": "freeze must wait for the capture transaction after its open check"
+            },
+            {
+              "test_name": "freeze::same_account_freeze_first_refuses_capture_without_partial_effects",
+              "panic_path": "app/tests/hr_attendance_self_read/freeze.rs",
+              "line": 56,
+              "column": 5,
+              "panic_message": "capture must serialize with the real freeze owner before checking its period"
+            }
+          ],
+          "issues": []
+        },
+        "commands": [
+          {
+            "argv": [
+              "cargo",
+              "test",
+              "--locked",
+              "--offline",
+              "-p",
+              "console-app",
+              "--test",
+              "hr_attendance_self_read",
+              "--",
+              "--list"
+            ],
+            "exit_code": 0,
+            "stdout_sha256": "563f1fdaf1a0b829657310af083b9bc5266aaa871cef55bfb6e555aeff92ad43",
+            "stderr_sha256": "2fb1cdd3ed7028e3728dd8d44628739485bb04bc9f687c65450ca7f4cb4a49af"
+          },
+          {
+            "argv": [
+              "cargo",
+              "test",
+              "--locked",
+              "--offline",
+              "-p",
+              "console-app",
+              "--test",
+              "hr_attendance_self_read",
+              "--",
+              "--test-threads=1",
+              "--format=pretty"
+            ],
+            "exit_code": 101,
+            "stdout_sha256": "c1996ca4defa2c0806606888be58a96a5063ab11b3c4a6854828eb7235851de9",
+            "stderr_sha256": "9f5e9864f8dda8d7fe320bd4eccaa45d5f9eaa920641bf3be1d1570c10e505c1"
+          }
+        ]
+      }
+    ]
+  },
+  "green": {
+    "artifact": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/native-attendance-freeze/linux/run-20261002T045025.641002Z/report.json",
+    "sha256": "0115a0a572f78c62a3985bc749b68abc7a08f6ffe0f90129090d6c5b9e51548b",
+    "candidate": "6fafa4a44f5e3c9ae5b0c8705c2c4523c41eb3d3",
+    "status": "passed",
+    "runner_sha256": "cce7df241cb8d85a8261ae28672bbbce078173549a48953d701616924fd54c31",
+    "expectations_sha256": "6c934eb2e95d41779b421023e7d51bfb812bc3c431469d38b80dd00e5e51a4e3",
+    "source_count": 3402,
+    "source_revalidation": "passed",
+    "cleanup": "passed",
+    "suites": [
+      {
+        "name": "hr_attendance_self_read",
+        "discovered": 14,
+        "executed": 14,
+        "passed": 14,
+        "failed": 0,
+        "ignored": 0,
+        "filtered": 0,
+        "execution_complete": true,
+        "discovered_names": [
+          "admin_without_employee_link_reads_empty_self_attendance",
+          "former_member_retains_exact_own_history_after_exit_unknown_and_site_closure",
+          "freeze::capture_first_freeze_waits_for_fact_reference_and_audits_to_commit",
+          "freeze::capture_lock_preserves_employee_link_until_commit_then_resolves_new_link",
+          "freeze::replay_and_company_domain_isolation_do_not_wait_for_unrelated_freezes",
+          "freeze::same_account_freeze_first_refuses_capture_without_partial_effects",
+          "history_reads_preserve_existing_ack_subject_and_member_resolution_controls",
+          "linked_member_reads_only_own_attendance",
+          "linked_member_reads_only_own_attendance_console_data",
+          "normal_attendance_creation_and_replay_keep_real_link_and_single_audit_effect",
+          "raw_history_pages_preserve_missing_and_invalid_material_links",
+          "raw_record_replay_is_scoped_and_write_free_in_closed_payroll_period",
+          "retained_self_reads_respect_unlink_account_and_session_family_revocation",
+          "served_attendance_contract_requires_uuid_or_null_and_association_status"
+        ],
+        "behavioral_assertions": {
+          "status": "passed",
+          "failures": [],
+          "issues": []
+        },
+        "commands": [
+          {
+            "argv": [
+              "cargo",
+              "test",
+              "--locked",
+              "--offline",
+              "-p",
+              "console-app",
+              "--test",
+              "hr_attendance_self_read",
+              "--",
+              "--list"
+            ],
+            "exit_code": 0,
+            "stdout_sha256": "563f1fdaf1a0b829657310af083b9bc5266aaa871cef55bfb6e555aeff92ad43",
+            "stderr_sha256": "9a531ff0d48278f2196eeb19044617461ba28d3eb40bf52ee550bb029687c51d"
+          },
+          {
+            "argv": [
+              "cargo",
+              "test",
+              "--locked",
+              "--offline",
+              "-p",
+              "console-app",
+              "--test",
+              "hr_attendance_self_read",
+              "--",
+              "--test-threads=1",
+              "--format=pretty"
+            ],
+            "exit_code": 0,
+            "stdout_sha256": "5791aa325ae9d536e5d3411bda773fa6c138fa4195e866c77cac76e2027c07d8",
+            "stderr_sha256": "de0b60024fa3f721fde4d3cb606c6ba6dd53b651383ddf8ec107be5ffd95e726"
+          }
+        ]
+      }
+    ]
+  },
+  "nearest_owner_checks": {
+    "artifact": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/native-attendance-freeze/linux/verification/run-20261002T050535.586853Z/report.json",
+    "sha256": "4c71971ebac75324fa1cce45f1b98caf9096991f1be75f32f90fd469c969ef69",
+    "candidate": "6fafa4a44f5e3c9ae5b0c8705c2c4523c41eb3d3",
+    "status": "passed",
+    "runner_sha256": "92ee63a933ccc96cfbcdb29c8f2c333ca9672bafc762cdaea77fc8abfcc0da3b",
+    "expectations_sha256": "ec7183aec133cb0c4a885cb5da3766e2d18fc0dab5f2626868645f7bdb6229a9",
+    "source_count": 3402,
+    "source_revalidation": "passed",
+    "cleanup": "passed",
+    "suites": [
+      {
+        "name": "hr_attendance_manager_scope",
+        "discovered": 2,
+        "executed": 2,
+        "passed": 2,
+        "failed": 0,
+        "ignored": 0,
+        "filtered": 0,
+        "execution_complete": true,
+        "discovered_names": [
+          "manager_attendance_branch_scope_is_explicit_and_nonleaking",
+          "manager_raw_history_pages_keep_scope_filters_and_unassigned_visibility"
+        ],
+        "behavioral_assertions": {
+          "status": "passed",
+          "failures": [],
+          "issues": []
+        },
+        "commands": [
+          {
+            "argv": [
+              "cargo",
+              "test",
+              "--locked",
+              "--offline",
+              "-p",
+              "console-app",
+              "--test",
+              "hr_attendance_manager_scope",
+              "--",
+              "--list"
+            ],
+            "exit_code": 0,
+            "stdout_sha256": "e4d476b03bb650091f64a52167fd5ff880b10bf6d619295cb1d71f6c960df9d5",
+            "stderr_sha256": "4dc2aa3cf7e86876237036600dd071007422e0cc2735b8ddbbf47114771d0e01"
+          },
+          {
+            "argv": [
+              "cargo",
+              "test",
+              "--locked",
+              "--offline",
+              "-p",
+              "console-app",
+              "--test",
+              "hr_attendance_manager_scope",
+              "--",
+              "--test-threads=1",
+              "--format=pretty"
+            ],
+            "exit_code": 0,
+            "stdout_sha256": "6f5afb8908d19d0cce97e0ce5eac131b94d8276194fbaf3801347b15ac249d40",
+            "stderr_sha256": "a5375afbba03cc5733817837b3b902859d467b4159b6699ceb202edd5e5387c6"
+          }
+        ]
+      },
+      {
+        "name": "hr_ingest_checklist_gate",
+        "discovered": 6,
+        "executed": 6,
+        "passed": 6,
+        "failed": 0,
+        "ignored": 0,
+        "filtered": 0,
+        "execution_complete": true,
+        "discovered_names": [
+          "apply_with_checklist_admits_and_applies",
+          "apply_without_checklist_denies_and_writes_nothing",
+          "attendance_ambiguous_headers_reject_without_writes",
+          "attendance_csv_source_coordinates_survive_preview_and_apply",
+          "attendance_legacy_coordinate_collision_preserves_evidence",
+          "attendance_xlsx_source_coordinates_survive_preview_and_apply"
+        ],
+        "behavioral_assertions": {
+          "status": "passed",
+          "failures": [],
+          "issues": []
+        },
+        "commands": [
+          {
+            "argv": [
+              "cargo",
+              "test",
+              "--locked",
+              "--offline",
+              "-p",
+              "console-app",
+              "--test",
+              "hr_ingest_checklist_gate",
+              "--",
+              "--list"
+            ],
+            "exit_code": 0,
+            "stdout_sha256": "fe5833515968756960316d396ff9fe7ab6130d8a7c72cb21965f2953f2b0e6d5",
+            "stderr_sha256": "beeca8d16b747ca291755e5ee9b649a713b7c70001fe86e3417b34c9c821525a"
+          },
+          {
+            "argv": [
+              "cargo",
+              "test",
+              "--locked",
+              "--offline",
+              "-p",
+              "console-app",
+              "--test",
+              "hr_ingest_checklist_gate",
+              "--",
+              "--test-threads=1",
+              "--format=pretty"
+            ],
+            "exit_code": 0,
+            "stdout_sha256": "caa8cea99217ad5b49ae95c96f05006585f4b46e7022609f6e2bf176afb97305",
+            "stderr_sha256": "7c19518e89d989bc72829e9e8290de06fc41e311698f119eeb2c6561fced6a6a"
+          }
+        ]
+      },
+      {
+        "name": "openapi_drift",
+        "discovered": 17,
+        "executed": 17,
+        "passed": 17,
+        "failed": 0,
+        "ignored": 0,
+        "filtered": 0,
+        "execution_complete": true,
+        "discovered_names": [
+          "ai_assist_action_constructors_are_absent_from_landable_http_surfaces",
+          "app_does_not_wire_intelligence_draft_dispatch_or_depend_on_the_seam_crate",
+          "audit_attestation_route_is_in_configured_inventory",
+          "bounded_generated_sections_reject_later_operation_or_enum_text",
+          "bounded_generated_sections_reject_missing_end_boundary",
+          "configured_route_inventory_covers_router_route_calls",
+          "configured_route_inventory_includes_each_configured_surface",
+          "intelligence_and_chat_http_surfaces_are_absent",
+          "internal_intelligence_bind_is_forbidden",
+          "openapi_documents_closed_inventory_movement_source_variants",
+          "openapi_documents_closed_month_as_year_month_not_calendar_date",
+          "openapi_documents_evidence_register_snapshot_and_evidentiary_contract",
+          "openapi_documents_hr_attendance_branch_scope_query",
+          "openapi_yaml_covers_configured_route_inventory",
+          "openapi_yaml_covers_platform_route_operations",
+          "platform_route_operation_gate_rejects_missing_contract_entry",
+          "storefront_inquiry_contract_documents_the_reachable_conflict"
+        ],
+        "behavioral_assertions": {
+          "status": "passed",
+          "failures": [],
+          "issues": []
+        },
+        "commands": [
+          {
+            "argv": [
+              "cargo",
+              "test",
+              "--locked",
+              "--offline",
+              "-p",
+              "console-app",
+              "--test",
+              "openapi_drift",
+              "--",
+              "--list"
+            ],
+            "exit_code": 0,
+            "stdout_sha256": "80abfd8519c5edd61247df91bbd352ba8e3cbc5cdaff14dacc485c2f7bbddfda",
+            "stderr_sha256": "6c5c9ad121ee98c640083e03b4c077a67df23dc5debdf5782335c0ee7508cba9"
+          },
+          {
+            "argv": [
+              "cargo",
+              "test",
+              "--locked",
+              "--offline",
+              "-p",
+              "console-app",
+              "--test",
+              "openapi_drift",
+              "--",
+              "--test-threads=1",
+              "--format=pretty"
+            ],
+            "exit_code": 0,
+            "stdout_sha256": "290222acdb7a8a6025904e3589abaa43d4397c6d5732d44fe2d34ae059131f42",
+            "stderr_sha256": "359b4de673d44bf84279f03ebb138dfebf08586249d07aa92345ea24c55ef7fb"
+          }
+        ]
+      },
+      {
+        "name": "self_service",
+        "discovered": 3,
+        "executed": 3,
+        "passed": 3,
+        "failed": 0,
+        "ignored": 0,
+        "filtered": 0,
+        "execution_complete": true,
+        "discovered_names": [
+          "retained_history_stays_company_scoped_and_cross_company_links_are_refused",
+          "retained_own_history_survives_exit_unknown_status_and_site_deactivation",
+          "self_service_reads_only_the_linked_employee_and_ignores_other_malformed_timelines"
+        ],
+        "behavioral_assertions": {
+          "status": "passed",
+          "failures": [],
+          "issues": []
+        },
+        "commands": [
+          {
+            "argv": [
+              "cargo",
+              "test",
+              "--locked",
+              "--offline",
+              "-p",
+              "console-attendance-adapter-postgres",
+              "--test",
+              "self_service",
+              "--",
+              "--list"
+            ],
+            "exit_code": 0,
+            "stdout_sha256": "0502cff821f864cbce4706a993c4f5a67d835d19de710eb4a88902545c560876",
+            "stderr_sha256": "75ab8d4ad50186f36c965b912bf8e9211640a3fab258a7471770411b116b645a"
+          },
+          {
+            "argv": [
+              "cargo",
+              "test",
+              "--locked",
+              "--offline",
+              "-p",
+              "console-attendance-adapter-postgres",
+              "--test",
+              "self_service",
+              "--",
+              "--test-threads=1",
+              "--format=pretty"
+            ],
+            "exit_code": 0,
+            "stdout_sha256": "29a80ca802278b61373a80d79732880ea46f4a3c2275dbe09de13eefb183b7c6",
+            "stderr_sha256": "bfd43db66f0a0c0aa54480825391bc3565b3574ec6a2a170111bc08efd14560c"
+          }
+        ]
+      }
+    ]
+  },
+  "quality": {
+    "clippy": {
+      "artifact": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/native-attendance-freeze/linux/quality/report.json",
+      "sha256": "d1f8be20c46422e226ba8a1938e56082f2cc0e726c4f1d674871d20f2280ab09",
+      "command": [
+        "cargo",
+        "clippy",
+        "--locked",
+        "--offline",
+        "-p",
+        "console-app",
+        "--lib",
+        "--test",
+        "hr_attendance_self_read",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "image": "sha256:1038295e936ce19587f8ced4ae29631ab1f0e548da45efbdf77d5087bd3ed9a2",
+      "status": "passed",
+      "exit_code": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "11f4ee3576d6cd69ad5b9884ff0b20a02752d41b6fdbe034874e02b760c01db7",
+      "source_revalidation": true,
+      "cleanup": true
+    },
+    "rustfmt": {
+      "command": "RUSTUP_TOOLCHAIN=1.98.1 rustfmt --check --edition 2024 app/src/hr.rs app/tests/hr_attendance_self_read.rs app/tests/hr_attendance_self_read/freeze.rs",
+      "cwd": "backend-fork/backend",
+      "exit_code": 0,
+      "environment": "native pinned Rust; Linux Clippy image lacked rustfmt and was not counted as a pass"
+    },
+    "source_closure": {
+      "command": "npm run test:source-closure",
+      "discovered": 18,
+      "executed": 18,
+      "passed": 18
+    },
+    "fork_custody": {
+      "command": "tools/acceptance.py::inspect_fork",
+      "status": "passed",
+      "discovered": 4071,
+      "migrations": "historical bytes and suffix226–240 unchanged"
+    },
+    "diff_check": {
+      "command": "git diff --check b370d1a9ea75d074285dc05b608e7379d5407b56 HEAD",
+      "exit_code": 0
+    }
+  },
+  "invalid_attempts": [
+    {
+      "artifact": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/native-attendance-freeze/run-20261002T031420.872650Z/report.json",
+      "sha256": "313d912d8b58eda2766ec91f5998a31951007e7faa2b71b1db5354114a6775d6",
+      "candidate": "203f28e239d936eaf947cd6e5d916dd4ff526b33",
+      "classification": "native discovery compilation timeout",
+      "executed": 0,
+      "behavioral_red": false,
+      "source_revalidation": "passed",
+      "postgres_stop": 0
+    },
+    {
+      "artifact": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/native-attendance-freeze/run-20261002T032157.614562Z/report.json",
+      "sha256": "77612ec6494a566c9a126b12a536dd817ddcba0ad1439708f56aba7c758ff2e7",
+      "candidate": "4887c2b7d487020c5b13b10fe9001e46b41229e9",
+      "classification": "native discovery compilation timeout",
+      "executed": 0,
+      "behavioral_red": false,
+      "source_revalidation": "passed",
+      "postgres_stop": 0
+    },
+    {
+      "artifact": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/native-attendance-freeze/run-20261002T033844.350073Z/report.json",
+      "sha256": "b302de295b24d027830798917f00bc3da9438ecd4ba3b6e9d1acf6ae5e09a373",
+      "candidate": "4887c2b7d487020c5b13b10fe9001e46b41229e9",
+      "classification": "native discovery compilation timeout",
+      "executed": 0,
+      "behavioral_red": false,
+      "source_revalidation": "passed",
+      "postgres_stop": 0
+    },
+    {
+      "artifact": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/native-attendance-freeze/run-20261002T043516.411488Z/report.json",
+      "sha256": "d4e2c328009a46e2ad182734e6d4237d83873a085ec6e1862fb8c193777cd451",
+      "candidate": "4887c2b7d487020c5b13b10fe9001e46b41229e9",
+      "classification": "native discovery interrupted",
+      "executed": 0,
+      "behavioral_red": false,
+      "source_revalidation": "passed",
+      "postgres_stop": 0
+    },
+    {
+      "artifact": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/native-attendance-freeze/linux/verification/run-20261002T045514.088177Z/report.json",
+      "sha256": "82dee32720128648e9beca2f9b7316d54f5694095a7f597db20446dcad7174d6",
+      "candidate": "6fafa4a44f5e3c9ae5b0c8705c2c4523c41eb3d3",
+      "classification": "nearest-suite inventory/parser evidence invalid; tests unchanged, superseded by complete 28-test proof",
+      "suites": [
+        {
+          "name": "hr_attendance_manager_scope",
+          "discovered": 2,
+          "executed": 2,
+          "passed": 2,
+          "failed": 0,
+          "execution_complete": true
+        },
+        {
+          "name": "hr_ingest_checklist_gate",
+          "discovered": 6,
+          "executed": 6,
+          "passed": 6,
+          "failed": 0,
+          "execution_complete": true
+        },
+        {
+          "name": "openapi_drift",
+          "discovered": null,
+          "executed": 0,
+          "passed": 0,
+          "failed": 0,
+          "execution_complete": false
+        },
+        {
+          "name": "self_service",
+          "discovered": 3,
+          "executed": 3,
+          "passed": 3,
+          "failed": 0,
+          "execution_complete": true
+        }
+      ],
+      "source_revalidation": "passed"
+    },
+    {
+      "artifact": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/native-attendance-freeze/linux/verification/run-20261002T050107.829269Z/report.json",
+      "sha256": "6237e48758c6eff1a03786ae226766766399ae3367ff4329e8c0d83726f6de0c",
+      "candidate": "6fafa4a44f5e3c9ae5b0c8705c2c4523c41eb3d3",
+      "classification": "nearest-suite inventory/parser evidence invalid; tests unchanged, superseded by complete 28-test proof",
+      "suites": [
+        {
+          "name": "hr_attendance_manager_scope",
+          "discovered": 2,
+          "executed": 2,
+          "passed": 2,
+          "failed": 0,
+          "execution_complete": true
+        },
+        {
+          "name": "hr_ingest_checklist_gate",
+          "discovered": 6,
+          "executed": 6,
+          "passed": 6,
+          "failed": 0,
+          "execution_complete": true
+        },
+        {
+          "name": "openapi_drift",
+          "discovered": 17,
+          "executed": 17,
+          "passed": 17,
+          "failed": 0,
+          "execution_complete": false
+        },
+        {
+          "name": "self_service",
+          "discovered": 3,
+          "executed": 3,
+          "passed": 3,
+          "failed": 0,
+          "execution_complete": true
+        }
+      ],
+      "source_revalidation": "passed"
+    }
+  ],
+  "independent_reviews": [
+    {
+      "reviewer": "native_attendance_owner_trace",
+      "candidate": "6fafa4a44f5e3c9ae5b0c8705c2c4523c41eb3d3",
+      "verdict": "APPROVE",
+      "scope": "owner/security/lock-order/16-lens audit; final gates and metadata required before protected submission"
+    },
+    {
+      "reviewer": "next_vertical_trace",
+      "candidate": "6fafa4a44f5e3c9ae5b0c8705c2c4523c41eb3d3",
+      "verdict": "ACCEPT",
+      "scope": "design/test coverage/simplicity; final gate evidence required before protected submission"
+    }
+  ],
+  "operational_limit": "Existing Company/payroll key serializes new captures; contention is unmeasured. Source-only rollback reintroduces the race.",
+  "ui_ux_followup": {
+    "status": "static review complete; real-browser acceptance unreached",
+    "journey": "passkey → authorized own history → native capture → same-key reconciliation/refresh → original event/payroll-source evidence",
+    "required_cases": [
+      "Owner-supported 출근/업무 외출/출장/복귀/퇴근 only; server/KST timing, optional note, truthful transition failure.",
+      "Differentiate genuine empty history, unlinked Account, denial and unavailable service; paginate and count the whole authorized set.",
+      "Preserve original Company/Account/Employee/payload/key for uncertain submission and refresh recovery; exact replay cannot assume current Employee is unchanged.",
+      "Show raw source linkage separately from reconciled time, calculation, approval and payment; provide actual payroll detail.",
+      "Keep Person/Employment/Company/source context and one-step return through Org and Foundry owner-backed objects.",
+      "Label fields/search and validation; preserve Korean IME; scope shortcuts; provide dialog focus and return.",
+      "Exercise360/390/768/1280/1440px, keyboard and screen-reader paths; labeled table scrolling and collapsed shell rails.",
+      "Run genuine authenticated browser cases for two users, revocation/relinking, invalid transitions, changed-payload replay, freeze and lost responses; no conditional skips."
+    ],
+    "known_prototype_gaps": [
+      "src/app/(console)/hr/attendance/page.tsx: fabricated correction defaults",
+      "src/components/ui/DataTable.tsx: global shortcuts/unlabeled search",
+      "src/components/ui/ConsequenceModal.tsx: focus/dialog semantics",
+      "src/components/shell/Sidebar.tsx and CommsRail.tsx: fixed widths on narrow screens",
+      "backend-fork/backend/crates/payroll/adapter-postgres/src/roster.rs: native counts/coverage not admitted"
+    ],
+    "dependency_gaps": [
+      "Existing Rust refresh-family owner needs a reviewed SSR web-session transport; parallel rotating refresh cannot be used blindly.",
+      "Private pending-capture recovery must retain original Employee binding.",
+      "Two-site confirmation remains unproved."
+    ]
+  },
+  "holds": [
+    "native roster/reconciled source/full payroll-population coverage",
+    "Next HR/Payroll/Org/Foundry real UI and browser acceptance",
+    "current-purpose auth/proofing and broader historical auth acceptance",
+    "two-site confirmation/capacity/restore/cutover",
+    "legal/payment/public-exposure/MVP release"
+  ],
+  "delivery": "awaiting final exact-candidate review and protected PR/merge queue; this record is local evidence"
+}

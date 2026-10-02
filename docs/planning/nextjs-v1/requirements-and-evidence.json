@@ -85,23 +85,27 @@
       "required_screens": "My shift/punch, roster, raw-event/break timeline, source comparison, corrections, period preview/close/reopen",
       "required_workflow_and_acceptance": "Schedule → exact actual intervals → reconciliation → confirmation → close → retro correction. Handle overnight/KST boundaries, missing/duplicate events, actual breaks/waiting, holidays, denied GPS/device/network, unapproved overtime and paid periods. No fabricated breaks/down-rounding. Recompute paid and billable consequences separately.",
       "implementation_owners": [
-        "console-app HR attendance import owner (backend-fork/backend/app/src/hr.rs)"
+        "console-app HR attendance import owner (backend-fork/backend/app/src/hr.rs)",
+        "console-app native capture owner and existing Company/payroll period-key helper"
       ],
       "contracts": [
         "CSV source_row is original record number, including blank records; quoted newline stays in one record.",
         "XLSX source_row retains Calamine worksheet range origin/gaps through preview, stored rows and applied keys.",
         "Duplicate normalized headers and aliases to one canonical field reject before persistence.",
         "Historical source-key lookup compares unchanged fact identity; differing fact blocks as source_coordinate_conflict without rewriting history.",
-        "Checklist-gated lineage_only_not_payable imports; no authoritative attendance or payroll effect."
+        "Checklist-gated lineage_only_not_payable imports; no authoritative attendance or payroll effect.",
+        "New native capture serializes with organization-wide payroll freeze after exact replay; Account NO KEY UPDATE preserves link and admits freeze actor FK KEY SHARE."
       ],
       "tests": [
         "cargo test --manifest-path backend/Cargo.toml --locked --offline -p console-app --lib hr::tests::attendance_import -- --test-threads=1",
-        "cargo test --locked --offline -p console-app --test hr_ingest_checklist_gate -- --test-threads=1 (disposable PostgreSQL, real console_rt sessions)"
+        "cargo test --locked --offline -p console-app --test hr_ingest_checklist_gate -- --test-threads=1 (disposable PostgreSQL, real console_rt sessions)",
+        "cargo test --locked --offline -p console-app --test hr_attendance_self_read -- --test-threads=1 (14 unchanged full-census PostgreSQL/router tests)"
       ],
       "evidence": [
-        "docs/planning/nextjs-v1/attendance-source-fidelity-evidence.json sha256:c3f2bbbf6e8183418e84f9d92d45bac16a119071b2ad50ce29ae80589f63943f"
+        "docs/planning/nextjs-v1/attendance-source-fidelity-evidence.json sha256:c3f2bbbf6e8183418e84f9d92d45bac16a119071b2ad50ce29ae80589f63943f",
+        "docs/planning/nextjs-v1/native-attendance-freeze-evidence.json sha256:896973fa3edf08fde1e330b5653e4ba8906646211ab285cd4cbc6bb4fbaa4530"
       ],
-      "status": "partial_attendance_source_fidelity_full_workflow_unverified"
+      "status": "partial_attendance_source_fidelity_and_native_freeze_ordering_verified_full_workflow_unverified"
     },
     {
       "id": "B05",

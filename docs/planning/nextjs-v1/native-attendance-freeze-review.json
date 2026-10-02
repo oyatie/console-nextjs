@@ -43,8 +43,16 @@
     ],
     "disposition": "Require finished HTTP outcomes before expected RED; distinguish proof deadlines from missing ordering; no inherited test weakening."
   },
-  "runtime_evidence": "unreached",
-  "delivery": "unpublished",
+  "runtime_evidence": {
+    "path": "docs/planning/nextjs-v1/native-attendance-freeze-evidence.json",
+    "sha256": "896973fa3edf08fde1e330b5653e4ba8906646211ab285cd4cbc6bb4fbaa4530",
+    "implementation": "6fafa4a44f5e3c9ae5b0c8705c2c4523c41eb3d3",
+    "red": "14executed/12passed/2exact approved ordering failures",
+    "green": "14/14 unchanged pass",
+    "nearest": "28/28 full-census pass",
+    "quality": "strict Clippy/rustfmt/source closure/fork custody passed"
+  },
+  "delivery": "awaiting final exact-candidate review and protected submission",
   "holds": [
     "native roster/reconciled source coverage",
     "Next HR/Payroll real UI and browser acceptance",
@@ -69,9 +77,147 @@
   ],
   "invalid_attempts": [
     {
+      "artifact": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/native-attendance-freeze/run-20261002T031420.872650Z/report.json",
+      "sha256": "313d912d8b58eda2766ec91f5998a31951007e7faa2b71b1db5354114a6775d6",
       "candidate": "203f28e239d936eaf947cd6e5d916dd4ff526b33",
-      "outcome": "compile timeout, -9, zero tests, NOT RED",
-      "cleanup": "PostgreSQL stop and source revalidation passed"
+      "classification": "native discovery compilation timeout",
+      "executed": 0,
+      "behavioral_red": false,
+      "source_revalidation": "passed",
+      "postgres_stop": 0
+    },
+    {
+      "artifact": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/native-attendance-freeze/run-20261002T032157.614562Z/report.json",
+      "sha256": "77612ec6494a566c9a126b12a536dd817ddcba0ad1439708f56aba7c758ff2e7",
+      "candidate": "4887c2b7d487020c5b13b10fe9001e46b41229e9",
+      "classification": "native discovery compilation timeout",
+      "executed": 0,
+      "behavioral_red": false,
+      "source_revalidation": "passed",
+      "postgres_stop": 0
+    },
+    {
+      "artifact": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/native-attendance-freeze/run-20261002T033844.350073Z/report.json",
+      "sha256": "b302de295b24d027830798917f00bc3da9438ecd4ba3b6e9d1acf6ae5e09a373",
+      "candidate": "4887c2b7d487020c5b13b10fe9001e46b41229e9",
+      "classification": "native discovery compilation timeout",
+      "executed": 0,
+      "behavioral_red": false,
+      "source_revalidation": "passed",
+      "postgres_stop": 0
+    },
+    {
+      "artifact": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/native-attendance-freeze/run-20261002T043516.411488Z/report.json",
+      "sha256": "d4e2c328009a46e2ad182734e6d4237d83873a085ec6e1862fb8c193777cd451",
+      "candidate": "4887c2b7d487020c5b13b10fe9001e46b41229e9",
+      "classification": "native discovery interrupted",
+      "executed": 0,
+      "behavioral_red": false,
+      "source_revalidation": "passed",
+      "postgres_stop": 0
+    },
+    {
+      "artifact": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/native-attendance-freeze/linux/verification/run-20261002T045514.088177Z/report.json",
+      "sha256": "82dee32720128648e9beca2f9b7316d54f5694095a7f597db20446dcad7174d6",
+      "candidate": "6fafa4a44f5e3c9ae5b0c8705c2c4523c41eb3d3",
+      "classification": "nearest-suite inventory/parser evidence invalid; tests unchanged, superseded by complete 28-test proof",
+      "suites": [
+        {
+          "name": "hr_attendance_manager_scope",
+          "discovered": 2,
+          "executed": 2,
+          "passed": 2,
+          "failed": 0,
+          "execution_complete": true
+        },
+        {
+          "name": "hr_ingest_checklist_gate",
+          "discovered": 6,
+          "executed": 6,
+          "passed": 6,
+          "failed": 0,
+          "execution_complete": true
+        },
+        {
+          "name": "openapi_drift",
+          "discovered": null,
+          "executed": 0,
+          "passed": 0,
+          "failed": 0,
+          "execution_complete": false
+        },
+        {
+          "name": "self_service",
+          "discovered": 3,
+          "executed": 3,
+          "passed": 3,
+          "failed": 0,
+          "execution_complete": true
+        }
+      ],
+      "source_revalidation": "passed"
+    },
+    {
+      "artifact": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/native-attendance-freeze/linux/verification/run-20261002T050107.829269Z/report.json",
+      "sha256": "6237e48758c6eff1a03786ae226766766399ae3367ff4329e8c0d83726f6de0c",
+      "candidate": "6fafa4a44f5e3c9ae5b0c8705c2c4523c41eb3d3",
+      "classification": "nearest-suite inventory/parser evidence invalid; tests unchanged, superseded by complete 28-test proof",
+      "suites": [
+        {
+          "name": "hr_attendance_manager_scope",
+          "discovered": 2,
+          "executed": 2,
+          "passed": 2,
+          "failed": 0,
+          "execution_complete": true
+        },
+        {
+          "name": "hr_ingest_checklist_gate",
+          "discovered": 6,
+          "executed": 6,
+          "passed": 6,
+          "failed": 0,
+          "execution_complete": true
+        },
+        {
+          "name": "openapi_drift",
+          "discovered": 17,
+          "executed": 17,
+          "passed": 17,
+          "failed": 0,
+          "execution_complete": false
+        },
+        {
+          "name": "self_service",
+          "discovered": 3,
+          "executed": 3,
+          "passed": 3,
+          "failed": 0,
+          "execution_complete": true
+        }
+      ],
+      "source_revalidation": "passed"
     }
-  ]
+  ],
+  "implementation_reviews": [
+    {
+      "reviewer": "native_attendance_owner_trace",
+      "candidate": "6fafa4a44f5e3c9ae5b0c8705c2c4523c41eb3d3",
+      "verdict": "APPROVE",
+      "scope": "owner/security/lock-order/16-lens audit; final gates and metadata required before protected submission"
+    },
+    {
+      "reviewer": "next_vertical_trace",
+      "candidate": "6fafa4a44f5e3c9ae5b0c8705c2c4523c41eb3d3",
+      "verdict": "ACCEPT",
+      "scope": "design/test coverage/simplicity; final gate evidence required before protected submission"
+    }
+  ],
+  "final_lens_audit": {
+    "reviewer": "native_attendance_owner_trace",
+    "candidate": "6fafa4a44f5e3c9ae5b0c8705c2c4523c41eb3d3",
+    "lens_count": 16,
+    "verdict": "APPROVE bounded repair",
+    "remaining_condition": "final exact-candidate metadata review and protected submission"
+  }
 }
