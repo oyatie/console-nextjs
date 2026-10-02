@@ -53,11 +53,11 @@
         "mode": 420
       },
       "after": {
-        "sha256": "4dcf4c3b910804f38494f4717190ef49a2462406ba2b9b4bea8f0adec944f374",
-        "bytes": 471071,
+        "sha256": "54e124a34b6f07f3b22a21e1dd9de2bdfe1e4e4cd78f4ee1491605b600d8197d",
+        "bytes": 471370,
         "mode": 420
       },
-      "reason": "Preserve attendance source coordinates and reject ambiguous headers before persistence; distinguish historical source-coordinate conflicts from duplicate facts, with real session-bound PostgreSQL tests. Fixture remains test-only. Preserve authorized raw work facts through LEFT matching payroll joins in all three readers, nullable association response and existing repeatable-read owner; retain writes/current authority/period checks."
+      "reason": "Preserve attendance source coordinates and reject ambiguous headers before persistence; distinguish historical source-coordinate conflicts from duplicate facts, with real session-bound PostgreSQL tests. Fixture remains test-only. Preserve authorized raw work facts through LEFT matching payroll joins in all three readers, nullable association response and existing repeatable-read owner; retain writes/current authority/period checks. Serialize new native capture with the existing Company/payroll period key after exact replay; retain the Account link with NO KEY UPDATE so freeze attestor FK KEY SHARE cannot deadlock. No schema/API/timestamp change."
     },
     {
       "path": "backend/app/src/lib.rs",

@@ -1824,6 +1824,14 @@ async fn create_my_attendance_record(
                 return Ok((existing, Vec::new()));
             }
 
+            // Order new capture with payroll freeze; exact replay stays write-free.
+            console_platform_db::lock_period_lock_key(
+                tx,
+                console_platform_db::PeriodLockDomain::Payroll,
+                *org.as_uuid(),
+            )
+            .await?;
+
             let previous_state: Option<String> = sqlx::query_scalar(
                 r#"
                 SELECT state_after
@@ -7671,7 +7679,7 @@ async fn load_linked_employee_for_user(
          AND e.org_id = u.org_id
         WHERE u.id = $1
           AND u.org_id = $2
-        FOR UPDATE OF u
+        FOR NO KEY UPDATE OF u
         "#
     } else {
         r#"
