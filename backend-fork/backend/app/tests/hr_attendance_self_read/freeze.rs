@@ -42,11 +42,21 @@ async fn same_account_freeze_first_refuses_capture_without_partial_effects(pool:
     gate.commit().await.unwrap();
     let closed = finish(close_task).await;
     let captured = finish(capture_task).await;
+    assert_eq!(closed.status, StatusCode::CREATED, "{:?}", closed.json);
+    assert_eq!(
+        captured.status,
+        if capture_waited {
+            StatusCode::CONFLICT
+        } else {
+            StatusCode::OK
+        },
+        "unexpected owner response is not missing-ordering RED: {:?}",
+        captured.json
+    );
     assert!(
         capture_waited,
         "capture must serialize with the real freeze owner before checking its period"
     );
-    assert_eq!(closed.status, StatusCode::CREATED, "{:?}", closed.json);
     assert_eq!(captured.status, StatusCode::CONFLICT, "{:?}", captured.json);
     assert_eq!(capture_counts(&pool).await, (0, 0, 0));
     assert_freeze(&pool, &closed.json).await;
@@ -104,12 +114,12 @@ async fn capture_first_freeze_waits_for_fact_reference_and_audits_to_commit(pool
     gate.commit().await.unwrap();
     let captured = finish(capture_task).await;
     let closed = finish(close_task).await;
+    assert_eq!(captured.status, StatusCode::OK, "{:?}", captured.json);
+    assert_eq!(closed.status, StatusCode::CREATED, "{:?}", closed.json);
     assert!(
         freeze_waited,
         "freeze must wait for the capture transaction after its open check"
     );
-    assert_eq!(captured.status, StatusCode::OK, "{:?}", captured.json);
-    assert_eq!(closed.status, StatusCode::CREATED, "{:?}", closed.json);
     assert_eq!(capture_counts(&pool).await, (1, 1, 2));
     let reference =
         Uuid::parse_str(captured.json["payroll_material_ref_id"].as_str().unwrap()).unwrap();
@@ -397,9 +407,13 @@ async fn wait_for_key<T>(
         if witnessed {
             return true;
         }
-        if task.is_finished() || tokio::time::Instant::now() >= deadline {
+        if task.is_finished() {
             return false;
         }
+        assert!(
+            tokio::time::Instant::now() < deadline,
+            "proof timeout observing advisory wait; not behavioral RED"
+        );
         tokio::time::sleep(std::time::Duration::from_millis(10)).await;
     }
 }
@@ -412,9 +426,13 @@ async fn wait_for_row<T>(pool: &PgPool, waiter: i32, holder: i32, task: &JoinHan
         if witnessed {
             return true;
         }
-        if task.is_finished() || tokio::time::Instant::now() >= deadline {
+        if task.is_finished() {
             return false;
         }
+        assert!(
+            tokio::time::Instant::now() < deadline,
+            "proof timeout observing Account row wait; not behavioral RED"
+        );
         tokio::time::sleep(std::time::Duration::from_millis(10)).await;
     }
 }

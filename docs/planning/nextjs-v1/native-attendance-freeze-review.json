@@ -32,16 +32,16 @@
   "test_review": {
     "verdict": "APPROVE",
     "reviewers": [
-      "native_attendance_owner_trace",
-      "next_vertical_trace"
+      "next_vertical_trace",
+      "native_attendance_uiux_trace"
     ],
     "inclusion_sha256": "3d97190ebf5fac583cd6f878880bcb3ff33d464c1126096d40506551040ab3d8",
-    "module_sha256": "1a615bca9e115c1e6768943a687146802ff56f11ebadabb9c299ab9c64548322",
+    "module_sha256": "5cf50ff57b4e4fd04e36eb3feb17a58bc495c2ff0d8b7ee12fc2c3945bf65c00",
     "expected_behavioral_red": [
       "freeze::same_account_freeze_first_refuses_capture_without_partial_effects",
       "freeze::capture_first_freeze_waits_for_fact_reference_and_audits_to_commit"
     ],
-    "disposition": "Fixed replacement fixture unique Account/employee linkage before approval; all inherited tests unchanged."
+    "disposition": "Require finished HTTP outcomes before expected RED; distinguish proof deadlines from missing ordering; no inherited test weakening."
   },
   "runtime_evidence": "unreached",
   "delivery": "unpublished",
@@ -50,5 +50,28 @@
     "Next HR/Payroll real UI and browser acceptance",
     "two-site durability",
     "legal/payment/exposure/MVP release"
+  ],
+  "superseded_test_reviews": [
+    {
+      "verdict": "APPROVE",
+      "reviewers": [
+        "native_attendance_owner_trace",
+        "next_vertical_trace"
+      ],
+      "inclusion_sha256": "3d97190ebf5fac583cd6f878880bcb3ff33d464c1126096d40506551040ab3d8",
+      "module_sha256": "1a615bca9e115c1e6768943a687146802ff56f11ebadabb9c299ab9c64548322",
+      "expected_behavioral_red": [
+        "freeze::same_account_freeze_first_refuses_capture_without_partial_effects",
+        "freeze::capture_first_freeze_waits_for_fact_reference_and_audits_to_commit"
+      ],
+      "disposition": "Fixed replacement fixture unique Account/employee linkage before approval; all inherited tests unchanged."
+    }
+  ],
+  "invalid_attempts": [
+    {
+      "candidate": "203f28e239d936eaf947cd6e5d916dd4ff526b33",
+      "outcome": "compile timeout, -9, zero tests, NOT RED",
+      "cleanup": "PostgreSQL stop and source revalidation passed"
+    }
   ]
 }

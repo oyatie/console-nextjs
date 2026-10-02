@@ -2229,8 +2229,8 @@
       "path": "backend/app/tests/hr_attendance_self_read/freeze.rs",
       "before": null,
       "after": {
-        "sha256": "1a615bca9e115c1e6768943a687146802ff56f11ebadabb9c299ab9c64548322",
-        "bytes": 17377,
+        "sha256": "5cf50ff57b4e4fd04e36eb3feb17a58bc495c2ff0d8b7ee12fc2c3945bf65c00",
+        "bytes": 17855,
         "mode": 420
       },
       "reason": "Add real-router PostgreSQL capture/freeze ordering, same-Account FK liveness, relink serialization and replay/Company/domain isolation regressions; disposable fixtures only."
