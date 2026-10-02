@@ -91,7 +91,7 @@
       }
     ],
     "evidence_path": "docs/planning/nextjs-v1/device-login-source-revocation-evidence.json",
-    "evidence_sha256": "bdce0343cf566e54cc107ce72fa4a501f093569453d70c32875c34e131c8d0b1"
+    "evidence_sha256": "a716db1c84ad094425bcae39b250b969143895f0871e3a83a4c1477c75d232c5"
   },
   "holds": [
     "Native authentication purpose/provenance",
@@ -99,5 +99,14 @@
     "Two-site confirmation and writer/egress fencing",
     "Next business sessions and production exposure",
     "Full HR/Org/Payroll/Foundry acceptance"
+  ],
+  "final_metadata_rounds": [
+    {
+      "reviewed_candidate": "7d652145b2a5a1054a8f7289930c2e40b5af0d5c",
+      "reviewer": "session_owner_trace",
+      "verdict": "REVISE",
+      "finding": "Two fork-delta after hashes retained pre-repair source/test identities.",
+      "disposition": "Updated only the two after identities and reasons; original before records unchanged. Frozen source verification now passes for all 4070 admitted files; 18 source/tooling tests pass. Runtime/CI bytes remain those of tested implementation c0cb98d."
+    }
   ]
 }

@@ -391,5 +391,38 @@
   "design": {
     "path": "docs/planning/nextjs-v1/device-login-source-revocation.md",
     "sha256": "0a349df6f4032c70f545f5ba53411de50798d3a996271ff36119c2da9ad74271"
+  },
+  "source_custody": {
+    "path": ".artifacts/acceptance/device-login-source-revocation/source-custody.json",
+    "sha256": "a16124aeffe8dbeea45980e4a7993d21712341b21f93348cd373bca8a5419c3a",
+    "status": "passed",
+    "discovered_files": 4070,
+    "migration_bytes_preserved": true
+  },
+  "tooling": {
+    "command": [
+      "npm",
+      "run",
+      "test:source-closure"
+    ],
+    "status": "passed",
+    "executed": 18,
+    "passed": 18,
+    "failed": 0,
+    "stdout": {
+      "path": ".artifacts/acceptance/device-login-source-revocation/source-closure.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "stderr": {
+      "path": ".artifacts/acceptance/device-login-source-revocation/source-closure.stderr.log",
+      "sha256": "6e05d71ffffdacb7119f7218e28e5eeb22e397279ab73afd15f8368f16bf8841"
+    }
+  },
+  "metadata_review_fix": {
+    "reviewed_candidate": "7d652145b2a5a1054a8f7289930c2e40b5af0d5c",
+    "reviewer": "session_owner_trace",
+    "verdict": "REVISE",
+    "finding": "Two fork-delta after hashes retained pre-repair source/test identities.",
+    "disposition": "Updated only the two after identities and reasons; original before records unchanged. Frozen source verification now passes for all 4070 admitted files; 18 source/tooling tests pass. Runtime/CI bytes remain those of tested implementation c0cb98d."
   }
 }
