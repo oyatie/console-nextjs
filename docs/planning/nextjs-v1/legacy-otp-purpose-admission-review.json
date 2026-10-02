@@ -90,7 +90,7 @@
   "scope": "Bounded legacy OTP HTTP/request admission; no version-1 activation or complete authentication/UI/launch acceptance.",
   "tests": {
     "status": "APPROVED",
-    "head": "d305758cb765f587d36e495120af64de3a6931ec",
+    "head": "058bcc44dde5df15b7322b717bc3d4f2d5982b1a",
     "reviewers": [
       {
         "reviewer": "native_attendance_owner_trace",
@@ -126,6 +126,10 @@
     {
       "finding": "Consumed source masked independent expired/revoked source cases",
       "disposition": "Fresh genuine handoff sources and redeemed families per variant with asserted unconsumed/unrevoked/unexpired precondition."
+    },
+    {
+      "finding": "Runtime caught two setup failures. An initial timestamp correction incorrectly added nonexistent family.last_used_at; one review approval was withdrawn.",
+      "disposition": "Before rerun, actual0004 family schema reviewed; final058bcc4 includes only required created_at and reference Group UPSERT, approved by both reviewers. No assertion weakening."
     }
   ],
   "baseline": {
@@ -153,5 +157,36 @@
     ],
     "custody_and_owned_cleanup": "PASSED",
     "evidence": "External local artifacts legacy-otp-purpose-admission/linux/baseline/run-20261002T222947.420719Z/report.json"
-  }
+  },
+  "test_review_history": [
+    {
+      "status": "APPROVED",
+      "head": "058bcc44dde5df15b7322b717bc3d4f2d5982b1a",
+      "reviewers": [
+        {
+          "reviewer": "native_attendance_owner_trace",
+          "verdict": "APPROVE"
+        },
+        {
+          "reviewer": "web_session_owner_v1",
+          "verdict": "APPROVE"
+        }
+      ],
+      "scope": "Exact complete test-only candidate, not compilation or executed GREEN. Both original purpose probes, raw OTP helper and nine reset behavior bodies retained."
+    }
+  ],
+  "test_execution_attempts": [
+    {
+      "candidate": "48e6216711db0cdf1ef39c4f1128f92148f07d6a",
+      "tests_head": "d305758cb765f587d36e495120af64de3a6931ec",
+      "exit_code": 126,
+      "discovered": 51,
+      "executed": 51,
+      "passed": 37,
+      "failed": 14,
+      "admission": false,
+      "reason": "Two non-admissible fixture errors: missing family created_at and automatically existing Group membership. All evidence and cleanup retained.",
+      "evidence": "External local admission/run-20261002T230029.011768Z/report.json"
+    }
+  ]
 }
