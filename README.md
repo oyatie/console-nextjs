@@ -2,6 +2,8 @@
 
 Implementation is incomplete. The [checkpoint](docs/planning/nextjs-v1/IMPLEMENTATION.md) records passing checks, the repaired clean-install gate, and the work still required before launch. The frontend still contains the inherited seeded prototype; its browser store is not a business authority.
 
+The [device-login revocation proof](docs/planning/nextjs-v1/device-login-source-revocation-evidence.json) records the bounded repair which rejects a QR login after its recorded approving passkey is removed. Its 55 scoped PostgreSQL/library tests and two strict Clippy checks pass; broader authentication, Next business sessions and launch acceptance remain on HOLD.
+
 Use Node **24.21.0**. The locked frontend runs Next.js **16.3.5** and React **19.3.0** as a server:
 
 ```sh

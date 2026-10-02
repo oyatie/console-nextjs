@@ -1,0 +1,395 @@
+{
+  "version": 1,
+  "scope": "Current recorded approving passkey at device-login poll consumption",
+  "base_sha": "62a9c3b8f1b4f95e78583f32138dbc25704e29fb",
+  "approved_tests_head": "d189942f85c3bac44119eb8a6a7f8a31ecd7e3f5",
+  "implementation_head": "c0cb98d920454a1a71a0b85d819e5db7c1ad7065",
+  "focused_RED": {
+    "path": ".artifacts/acceptance/device-login-source-revocation/linux/run-20261001T234606.549059Z/report.json",
+    "sha256": "9ab116bcac7ae6f1709a8ca4319a335a2a72f2f5759d46c0f683826dae30daf4",
+    "candidate_head": "d189942f85c3bac44119eb8a6a7f8a31ecd7e3f5",
+    "overall_status": "failed",
+    "suites": [
+      {
+        "name": "identity_auth",
+        "package": "console-identity-rest",
+        "target": "authentication_locking",
+        "status": "failed",
+        "discovered": 28,
+        "executed": 28,
+        "passed": 16,
+        "failed": 12,
+        "ignored": 0,
+        "filtered": 0,
+        "execution_complete": true
+      }
+    ],
+    "custody_source_count": 2750,
+    "source_revalidation": "passed",
+    "secret_files_removed": true,
+    "owned_cleanup": true,
+    "failure_explanation": "Exactly 12 independently reviewed 200-versus-401 assertions; 14 existing tests and 2 positive preservation tests passed. All tests ran; not an infrastructure failure."
+  },
+  "focused_GREEN": {
+    "path": ".artifacts/acceptance/device-login-source-revocation/linux/run-20261001T235653.679148Z/report.json",
+    "sha256": "95d1e09fa850745b250ce772ce66f903a2226c8ba2c6966ad10bee66df05495d",
+    "candidate_head": "c0cb98d920454a1a71a0b85d819e5db7c1ad7065",
+    "overall_status": "passed",
+    "suites": [
+      {
+        "name": "identity_auth",
+        "package": "console-identity-rest",
+        "target": "authentication_locking",
+        "status": "passed",
+        "discovered": 28,
+        "executed": 28,
+        "passed": 28,
+        "failed": 0,
+        "ignored": 0,
+        "filtered": 0,
+        "execution_complete": true
+      }
+    ],
+    "custody_source_count": 2750,
+    "source_revalidation": "passed",
+    "secret_files_removed": true,
+    "owned_cleanup": true,
+    "unchanged_approved_test_sha256": "1a3224fb4cba7483c08927d6e3449089ad8031ba39df69c854cffb90b753604a"
+  },
+  "adjacent_libraries": {
+    "path": ".artifacts/acceptance/device-login-source-revocation/linux/owner-gates/run-20261002T000519.362781Z/report.json",
+    "sha256": "b71b9333fe9868637e905c72ec15376baeada5f77dd2969613df5455b54de185",
+    "candidate_head": "c0cb98d920454a1a71a0b85d819e5db7c1ad7065",
+    "overall_status": "failed",
+    "suites": [
+      {
+        "name": "identity_lib",
+        "package": "console-identity-rest",
+        "target": "lib",
+        "status": "passed",
+        "discovered": 19,
+        "executed": 19,
+        "passed": 19,
+        "failed": 0,
+        "ignored": 0,
+        "filtered": 0,
+        "execution_complete": true
+      },
+      {
+        "name": "auth_rest_lib",
+        "package": "console-platform-auth-rest",
+        "target": "lib",
+        "status": "passed",
+        "discovered": 6,
+        "executed": 6,
+        "passed": 6,
+        "failed": 0,
+        "ignored": 0,
+        "filtered": 0,
+        "execution_complete": true
+      },
+      {
+        "name": "auth_lib",
+        "package": "console-platform-auth",
+        "target": "lib",
+        "status": "passed",
+        "discovered": 2,
+        "executed": 2,
+        "passed": 2,
+        "failed": 0,
+        "ignored": 0,
+        "filtered": 0,
+        "execution_complete": true
+      }
+    ],
+    "custody_source_count": 2750,
+    "source_revalidation": "passed",
+    "secret_files_removed": true,
+    "owned_cleanup": true,
+    "overall_status_explanation": "All 27 tests passed. This combined report exited 126 because the original pinned Rust image lacked cargo-clippy; the separate strict_clippy report completes both producers without rerunning or weakening tests."
+  },
+  "formatting": {
+    "path": ".artifacts/acceptance/device-login-source-revocation/formatting.json",
+    "sha256": "88ad9d3523cf850694d3b0efeca74d9dd4ab512f780fb074486ce6e462473373"
+  },
+  "invalid_native_attempts": {
+    "path": ".artifacts/acceptance/device-login-source-revocation/invalid-discovery-attempts.json",
+    "sha256": "5dbe0a9d8480e730a13ad377c10f67f7ec734979c5f5163df2c4dbb5112f1d93"
+  },
+  "frozen_runner": {
+    "path": ".artifacts/acceptance/device-login-source-revocation/linux/run_disposable_pg.py",
+    "sha256": "fbc2a40361cb6e2be9e4e7861b8111c531c1ebd2e00d6506a7a639edd9b74cf7"
+  },
+  "frozen_probe": {
+    "path": ".artifacts/acceptance/device-login-source-revocation/linux/probe.py",
+    "sha256": "11436ab63eded5e470c91d039faa16d0dc79a21360bdc1649054465b028db0dd"
+  },
+  "frozen_expectations": {
+    "path": ".artifacts/acceptance/device-login-source-revocation/expectations.json",
+    "sha256": "503387b84b8b545cb48c99b339865a5cbe5f5f6d856b99fe99e3d7152bde101c"
+  },
+  "adjacent_runner": {
+    "path": ".artifacts/acceptance/device-login-source-revocation/linux/owner-gates/run_disposable_pg.py",
+    "sha256": "a80c1ce4c0bea61e5e97920397d17779f2e5401e212793b7c7aac14aa0936d3e"
+  },
+  "adjacent_runner_diff": {
+    "path": ".artifacts/acceptance/device-login-source-revocation/linux/owner-gates/runner.diff",
+    "sha256": "941e45789e7111e8322eb660e64cdf956bcfc63c94504d80026e1adc54c8a99c"
+  },
+  "strict_clippy": {
+    "path": ".artifacts/acceptance/device-login-source-revocation/linux/strict-20261002T000924.458758Z/report.json",
+    "sha256": "7885e015019f81b9812579fbf62c9a61247de6ff2238eb2f1e996c685381e7e0",
+    "candidate_head": "c0cb98d920454a1a71a0b85d819e5db7c1ad7065",
+    "status": "passed",
+    "image_id": "sha256:1038295e936ce19587f8ced4ae29631ab1f0e548da45efbdf77d5087bd3ed9a2",
+    "runner": {
+      "path": ".artifacts/acceptance/device-login-source-revocation/linux/strict.py",
+      "sha256": "70b4b08aa35ffd049c437d75a13c6a648bc865b7769bb8e07022381593805a9a"
+    },
+    "commands": [
+      {
+        "name": "clippy-version",
+        "command": [
+          "docker",
+          "--context",
+          "colima-nextjs-v1-auth",
+          "run",
+          "--rm",
+          "--pull=never",
+          "--name",
+          "device-source-strict-9fdaa232008a4aa7",
+          "--label",
+          "console.device-source-strict=8887b7aaab425d2f",
+          "--network",
+          "none",
+          "--cap-drop",
+          "ALL",
+          "--mount",
+          "type=bind,source=/Users/jasonlee/Developer/frontend/.worktrees/device-login-source-revocation/backend-fork,target=/candidate,readonly",
+          "--mount",
+          "type=bind,source=/Users/jasonlee/Developer/frontend/.artifacts/acceptance/device-login-source-revocation/linux/cargo-home,target=/cargo-home",
+          "--mount",
+          "type=bind,source=/Users/jasonlee/Developer/frontend/.artifacts/acceptance/device-login-source-revocation/linux/target,target=/target",
+          "-e",
+          "CARGO_HOME=/cargo-home",
+          "-e",
+          "CARGO_TARGET_DIR=/target",
+          "-e",
+          "SQLX_OFFLINE=true",
+          "-e",
+          "RUSTUP_TOOLCHAIN=1.98.1",
+          "-e",
+          "CARGO_BUILD_JOBS=1",
+          "-e",
+          "CARGO_INCREMENTAL=0",
+          "-e",
+          "CARGO_PROFILE_DEV_DEBUG=0",
+          "-e",
+          "CARGO_PROFILE_TEST_DEBUG=0",
+          "--workdir",
+          "/candidate/backend",
+          "sha256:1038295e936ce19587f8ced4ae29631ab1f0e548da45efbdf77d5087bd3ed9a2",
+          "cargo",
+          "clippy",
+          "--version"
+        ],
+        "exit_code": 0,
+        "stdout_sha256": "5b2434a8299036c6e83749c249f2837c1689942551958368a628f5e06be5c21c",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "identity-clippy",
+        "command": [
+          "docker",
+          "--context",
+          "colima-nextjs-v1-auth",
+          "run",
+          "--rm",
+          "--pull=never",
+          "--name",
+          "device-source-strict-e457437be4cfe330",
+          "--label",
+          "console.device-source-strict=8887b7aaab425d2f",
+          "--network",
+          "none",
+          "--cap-drop",
+          "ALL",
+          "--mount",
+          "type=bind,source=/Users/jasonlee/Developer/frontend/.worktrees/device-login-source-revocation/backend-fork,target=/candidate,readonly",
+          "--mount",
+          "type=bind,source=/Users/jasonlee/Developer/frontend/.artifacts/acceptance/device-login-source-revocation/linux/cargo-home,target=/cargo-home",
+          "--mount",
+          "type=bind,source=/Users/jasonlee/Developer/frontend/.artifacts/acceptance/device-login-source-revocation/linux/target,target=/target",
+          "-e",
+          "CARGO_HOME=/cargo-home",
+          "-e",
+          "CARGO_TARGET_DIR=/target",
+          "-e",
+          "SQLX_OFFLINE=true",
+          "-e",
+          "RUSTUP_TOOLCHAIN=1.98.1",
+          "-e",
+          "CARGO_BUILD_JOBS=1",
+          "-e",
+          "CARGO_INCREMENTAL=0",
+          "-e",
+          "CARGO_PROFILE_DEV_DEBUG=0",
+          "-e",
+          "CARGO_PROFILE_TEST_DEBUG=0",
+          "--workdir",
+          "/candidate/backend",
+          "sha256:1038295e936ce19587f8ced4ae29631ab1f0e548da45efbdf77d5087bd3ed9a2",
+          "cargo",
+          "clippy",
+          "--locked",
+          "--offline",
+          "-p",
+          "console-identity-rest",
+          "--lib",
+          "--test",
+          "authentication_locking",
+          "--",
+          "-D",
+          "warnings"
+        ],
+        "exit_code": 0,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "027b21a9b8a818c17852e9d064b0ea455698a46d6f2b2a90404f06c2f1f239ee"
+      },
+      {
+        "name": "auth-clippy",
+        "command": [
+          "docker",
+          "--context",
+          "colima-nextjs-v1-auth",
+          "run",
+          "--rm",
+          "--pull=never",
+          "--name",
+          "device-source-strict-a762fa3c3c65e569",
+          "--label",
+          "console.device-source-strict=8887b7aaab425d2f",
+          "--network",
+          "none",
+          "--cap-drop",
+          "ALL",
+          "--mount",
+          "type=bind,source=/Users/jasonlee/Developer/frontend/.worktrees/device-login-source-revocation/backend-fork,target=/candidate,readonly",
+          "--mount",
+          "type=bind,source=/Users/jasonlee/Developer/frontend/.artifacts/acceptance/device-login-source-revocation/linux/cargo-home,target=/cargo-home",
+          "--mount",
+          "type=bind,source=/Users/jasonlee/Developer/frontend/.artifacts/acceptance/device-login-source-revocation/linux/target,target=/target",
+          "-e",
+          "CARGO_HOME=/cargo-home",
+          "-e",
+          "CARGO_TARGET_DIR=/target",
+          "-e",
+          "SQLX_OFFLINE=true",
+          "-e",
+          "RUSTUP_TOOLCHAIN=1.98.1",
+          "-e",
+          "CARGO_BUILD_JOBS=1",
+          "-e",
+          "CARGO_INCREMENTAL=0",
+          "-e",
+          "CARGO_PROFILE_DEV_DEBUG=0",
+          "-e",
+          "CARGO_PROFILE_TEST_DEBUG=0",
+          "--workdir",
+          "/candidate/backend",
+          "sha256:1038295e936ce19587f8ced4ae29631ab1f0e548da45efbdf77d5087bd3ed9a2",
+          "cargo",
+          "clippy",
+          "--locked",
+          "--offline",
+          "-p",
+          "console-platform-auth-rest",
+          "-p",
+          "console-platform-auth",
+          "--lib",
+          "--",
+          "-D",
+          "warnings"
+        ],
+        "exit_code": 0,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "a5406e1388c542f911b4822df37d1cb86ea5fffc638d15265cb0ab5048abf7c7"
+      }
+    ],
+    "source_revalidation": "passed",
+    "owned_cleanup": "passed"
+  },
+  "runtime": {
+    "docker_context": "colima-nextjs-v1-auth",
+    "rust": "rustc 1.98.1 (48a229cea 2026-09-01)",
+    "postgres": "PostgreSQL 18.4 Linux ARM64",
+    "rust_image": "rust@sha256:218765d808d35e2e3fa1b12b2e1314e2bfdd427a3530de071398553a95743cba",
+    "postgres_image": "postgres:18.4@sha256:65f70a152846cf504dff86e807007e9aeac98c3aeb7b62541b2c55ab9d264e56",
+    "network": "Internal disposable network, no host ports for PostgreSQL tests; none for strict Clippy",
+    "custody": "Readonly exact candidate; private task Cargo cache/target; random 0600 test credentials removed; immutable resource IDs/labels verified for cleanup"
+  },
+  "invalid_attempts": [
+    {
+      "path": ".artifacts/acceptance/device-login-source-revocation/linux/run-20261001T234350.936955Z/report.json",
+      "sha256": "5dd17fcfbac559dee4a60da12e5163726d08af83e5eb674ccd26051909a34196",
+      "reason": "Python Path.open opener misuse before PostgreSQL/test execution; infrastructure invalid, never behavioral RED."
+    },
+    {
+      "path": ".artifacts/acceptance/device-login-source-revocation/linux/owner-gates/run-20261002T000427.192912Z/report.json",
+      "sha256": "0c2cae57b95bae25db01e592876b3b4fb5e9a00a9b1edc55fd872dbe15e72415",
+      "reason": "Sandbox denied Docker socket before resource creation and test discovery; infrastructure invalid. No runtime resources or secrets were created."
+    }
+  ],
+  "admission": {
+    "method": "backend-fork/tools/lanes/fanout.py admit",
+    "result": "Approved genuine RED admitted before implementation",
+    "approved_tests_head": "d189942f85c3bac44119eb8a6a7f8a31ecd7e3f5"
+  },
+  "total_scoped_tests": {
+    "discovered": 55,
+    "executed": 55,
+    "passed": 55,
+    "failed": 0,
+    "ignored": 0,
+    "filtered": 0,
+    "composition": "28 authentication_locking +19 identity library +6 auth REST library +2 auth library"
+  },
+  "coverage": "Both signed and existing session approvals; both real self-removal aliases; null/foreign Account/foreign Company source; observed Account-lock race; repeated denial with no issuance/consumption audit deltas; retained B real signed login; recorded A valid after newer B; single consumption/replay.",
+  "source_review": [
+    {
+      "task": "session_owner_trace",
+      "candidate": "c0cb98d920454a1a71a0b85d819e5db7c1ad7065",
+      "verdict": "APPROVE SOURCE"
+    },
+    {
+      "task": "next_final_review",
+      "candidate": "c0cb98d920454a1a71a0b85d819e5db7c1ad7065",
+      "verdict": "APPROVE SOURCE/TESTS/CI"
+    },
+    {
+      "task": "pr8_delivery_audit",
+      "candidate": "c0cb98d920454a1a71a0b85d819e5db7c1ad7065",
+      "verdict": "APPROVE FOCUSED GREEN AND 27 ADJACENT TESTS; strict/final metadata review pending at record creation"
+    }
+  ],
+  "pre_mortem": "False RED from setup; wrong source key substitution; revocation during lock waits; unaccounted issuance; test/source drift. Exact assertions, observed Account lock and immutable custody detect these.",
+  "rollback": "Revert bounded source/CI change before deployment while preserving evidence; no schema/data rollback. This reintroduces stale-key acceptance and is not release readiness.",
+  "stop_conditions": [
+    "Material authentication semantic change",
+    "Test weakening, skipped required gates or source drift",
+    "Company/Account authority regression",
+    "Unsafe rollback or unavailable protected queue"
+  ],
+  "limits": [
+    "Real in-process production routers, standard SoftPasskey WebAuthn and PostgreSQL runtime SET ROLE proof; not physical password separation, attended identity or real browser ceremonies.",
+    "Single disposable PostgreSQL database; no two-site confirmation, safe-read/fencing or no-loss claim.",
+    "Full console-app auth_rest acceptance remains HOLD with two historical purpose failures; these 55 scoped passes do not clear it.",
+    "Next business sessions, HR/Org/Payroll/Foundry completeness and production exposure remain HOLD.",
+    "No schema, migration, dependency, DTO, approval producer, token/family, payment, institution or deployment change."
+  ],
+  "delivery_status": "Local source/runtime proof complete; final metadata review, hosted CI, independent revision-bound COMMENT, protected queue and merged readback remain separate gates.",
+  "design": {
+    "path": "docs/planning/nextjs-v1/device-login-source-revocation.md",
+    "sha256": "0a349df6f4032c70f545f5ba53411de50798d3a996271ff36119c2da9ad74271"
+  }
+}

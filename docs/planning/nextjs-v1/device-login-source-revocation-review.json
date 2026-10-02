@@ -74,7 +74,25 @@
     "source_custody_and_owned_cleanup": "passed",
     "scope": "Linux ARM64, actual PostgreSQL18.4 and Rust1.98.1, production in-process routers and standard SoftPasskey; no browser or two-site claim"
   },
-  "implementation": "Pending unchanged-test GREEN and exact-candidate review",
+  "implementation": {
+    "head": "c0cb98d920454a1a71a0b85d819e5db7c1ad7065",
+    "status": "Scoped GREEN 55 tests and 2 strict Clippy producers; final evidence review pending",
+    "test_source_sha256": "1a3224fb4cba7483c08927d6e3449089ad8031ba39df69c854cffb90b753604a",
+    "source_verdicts": [
+      {
+        "task": "session_owner_trace",
+        "candidate": "c0cb98d920454a1a71a0b85d819e5db7c1ad7065",
+        "verdict": "APPROVE SOURCE"
+      },
+      {
+        "task": "next_final_review",
+        "candidate": "c0cb98d920454a1a71a0b85d819e5db7c1ad7065",
+        "verdict": "APPROVE SOURCE/TESTS/CI"
+      }
+    ],
+    "evidence_path": "docs/planning/nextjs-v1/device-login-source-revocation-evidence.json",
+    "evidence_sha256": "bdce0343cf566e54cc107ce72fa4a501f093569453d70c32875c34e131c8d0b1"
+  },
   "holds": [
     "Native authentication purpose/provenance",
     "Operation and lost-response custody",
