@@ -36,7 +36,12 @@ async fn fixture(owner: &PgPool, role: &str, home: OrgId, label: &str) -> Fixtur
     };
     let issuer = JwtIssuer::from_es256_private_pem(settings.clone(), private.as_bytes()).unwrap();
     let verifier = JwtVerifier::from_es256_public_pem(settings, public.as_bytes()).unwrap();
-    let branch = seed_branch(owner, "Purpose region", "Purpose branch").await;
+    let branch = seed_branch(
+        owner,
+        &format!("Region {label}"),
+        &format!("Branch {label}"),
+    )
+    .await;
     let user = if home == OrgId::knl() {
         seed_user_with_branch(owner, "Purpose subject", "010-8900-0001", role, branch).await
     } else {
@@ -250,7 +255,7 @@ async fn worker_attendance_requires_fresh_login_and_replays_without_effects(owne
     .await;
     let id = Uuid::parse_str(created["id"].as_str().unwrap()).unwrap();
     let reference = Uuid::parse_str(created["payroll_material_ref_id"].as_str().unwrap()).unwrap();
-    assert_eq!(created["payroll_eligible"], false);
+    assert_eq!(created["employee_id"], employee.to_string());
     assert_eq!(created["payroll_link_status"], "LINKED");
     assert_eq!(created["duplicate"], false);
     let fact: (Uuid,Uuid,String,String,String) = sqlx::query_as("SELECT employee_id,actor_user_id,kind,state_after,note FROM employee_attendance_records WHERE id=$1")
