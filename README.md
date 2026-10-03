@@ -4,7 +4,7 @@ Implementation is incomplete. The [checkpoint](docs/planning/nextjs-v1/IMPLEMENT
 
 The [device-login revocation proof](docs/planning/nextjs-v1/device-login-source-revocation-evidence.json) records the bounded repair which rejects a QR login after its recorded approving passkey is removed. Its 55 scoped PostgreSQL/library tests and two strict Clippy checks pass; broader authentication, Next business sessions and launch acceptance remain on HOLD.
 
-Use Node **24.21.0**. The locked frontend runs Next.js **16.3.5** and React **19.3.0** as a server:
+Use Node **24.21.0**. The locked frontend runs Next.js **16.3.8** and React **19.3.0** as a server:
 
 ```sh
 npm ci
