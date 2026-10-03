@@ -1,0 +1,121 @@
+{
+  "schema_version": 1,
+  "scope": "Compatible Next security patch plus independently approved browser screenshot custody repair only",
+  "base": "f5a1141724d1fcef3609ed6125db3072c070ce2c",
+  "approved_design_sha256": "a4c001ce0b04f01cffd8c98a05ba3023cb9b0b497398c2ee217586d93ed6c3bb",
+  "original_probe_sha256": "6d9e17ca8bb21e5e874f7b263ddcef811d65fc0e8d3a3557d1bc33c20111db9f",
+  "amended_probe_sha256": "a3bb1332422e7e77e81091880a3a0e7aa78cd279b23a772e986d871104d5d728",
+  "runtime": {
+    "source_candidate": "703c1504de116a099af226f83070a78da5fd042a",
+    "approved_tests_commit": "c21364b8a676a933d901a1c3295a922dc67eb876",
+    "commands": [
+      {
+        "command": "fnm exec --using 24.21.0 npm ci",
+        "exit_code": 0,
+        "log": "npm-ci.log",
+        "sha256": "3538901465f85e6346b002e327425405ed3842300c020baa2b65263004d348a6"
+      },
+      {
+        "command": "fnm exec --using 24.21.0 npm run lint",
+        "exit_code": 0,
+        "log": "typecheck.log",
+        "meaning": "TypeScript checking, not ESLint",
+        "sha256": "3e98dcbd24835eb29288dab5790e519db6a485457e666a6774fdbce08459740e"
+      },
+      {
+        "command": "fnm exec --using 24.21.0 npm test",
+        "exit_code": 0,
+        "log": "unit.log",
+        "discovered": 105,
+        "executed": 105,
+        "passed": 105,
+        "failed": 0,
+        "skipped": 0,
+        "files": 8,
+        "sha256": "c0deaf0542e0ecb02220300185792619961bc7533db48aad5053f891255dd5e7"
+      },
+      {
+        "command": "fnm exec --using 24.21.0 npm run build",
+        "exit_code": 0,
+        "log": "build.log",
+        "sha256": "2bf01f8acbe13462aac2eb1f8805ce93432589f7d59d5d491b353212319d86d6"
+      },
+      {
+        "command": "fnm exec --using 24.21.0 npm run test:production-routes",
+        "exit_code": 0,
+        "log": "production-routes.log",
+        "prototype_routes_denied": 17,
+        "sha256": "512901c3a5e50a2917b8d01feb4f8538f69890debfe194f13904f75b1b739000"
+      },
+      {
+        "command": "fnm exec --using 24.21.0 npm audit --omit=dev --audit-level=high --json",
+        "exit_code": 0,
+        "log": "audit-after.json",
+        "vulnerabilities": 0,
+        "sha256": "62f647801681a2aa99efa199eed6391ed604322a885bb44afb9036e90e4c47ff"
+      },
+      {
+        "command": "fnm exec --using 24.21.0 npm audit --json",
+        "exit_code": 1,
+        "log": "audit-all-after.json",
+        "high_dev_entries": 5,
+        "moderate_dev_entries": 2,
+        "sha256": "3aa097445475f537948862f8d64960defa84442bb07f17cae27baa8271f5f811"
+      },
+      {
+        "command": "CI=1 PLAYWRIGHT_PORT=5298 fnm exec --using 24.21.0 npm run test:e2e",
+        "exit_code": 0,
+        "log": "e2e.log",
+        "discovered": 10,
+        "executed": 10,
+        "passed": 10,
+        "failed": 0,
+        "skipped": 0,
+        "files": 6,
+        "scope": "Development prototype regressions, not native business completion",
+        "sha256": "a3935552f9eab4ba390d105b306b050fa35c74b00edaf2babc396169e8a98b68"
+      },
+      {
+        "command": "fnm exec --using 24.21.0 npm run lint",
+        "exit_code": 0,
+        "log": "typecheck-final.log",
+        "meaning": "After reviewed screenshot amendment and generated type-file restoration",
+        "sha256": "3e98dcbd24835eb29288dab5790e519db6a485457e666a6774fdbce08459740e"
+      }
+    ],
+    "test_source_candidate": "1773ed31e2d33126c5b916a66f650790fd4b9032",
+    "limitations": [
+      "Five high and two moderate dev-dependency entries remain; production audit0 is not universal security clearance.",
+      "Dev prototype browser logs contain hydration/nested button warnings despite assertions passing; production17pages excluded; polish/native HR/Payroll/Foundry completion unproven.",
+      "No local Rust rebuild since backend unchanged; hosted required real-service inquiry and full existing backend checks pending.",
+      "Production build emits a missing media route_client-reference-manifest copy warning. Standalone route/media503 probe passes, but no warning-free packaging or deployment acceptance is claimed."
+    ],
+    "generated_drift": {
+      "path": "next-env.d.ts",
+      "cause": "next dev generates .next-e2e/dev type imports",
+      "restoration": "Only this generated file restored from exact committed1773ed31bytes",
+      "artifact": "generated-next-env-diff.patch"
+    }
+  },
+  "admission": {
+    "tool": "backend-fork/tools/lanes/fanout.py admit",
+    "probe": "fnm exec --using 24.21.0 npm audit --omit=dev --audit-level=high --json",
+    "approved_tests_commit": "c21364b8a676a933d901a1c3295a922dc67eb876",
+    "result": "admitted",
+    "raw_before_exit_code": 1,
+    "before_critical": 1,
+    "exact_advisory": "GHSA-vcvr-r3jv-pc5j",
+    "raw_before_and_admission_json_validated": true,
+    "same_probe_after_exit_code": 0,
+    "after_vulnerabilities": 0
+  },
+  "bundle": {
+    "archive": "evidence/next-security-patch/runtime-evidence.tar.gz",
+    "archive_sha256": "1e2627db0437519ee65bd0ffdbf2fe6f40fc36152fbb01fbae9046c7b7d56f56",
+    "manifest": "evidence/next-security-patch/manifest.json",
+    "manifest_sha256": "f6d086b991312a7d9147664b53c50c061192d0b43318c280d71fac5a0b45cb82",
+    "members": 22
+  },
+  "hosted_checks": "PENDING_PROTECTED_PR_AND_MERGE_GROUP",
+  "deployment": "HOLD; no exposure or live operations"
+}

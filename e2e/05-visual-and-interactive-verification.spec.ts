@@ -1,7 +1,5 @@
 import { test, expect } from "@playwright/test";
-import path from "path";
 
-const ARTIFACT_DIR = "/Users/jasonlee/.gemini/antigravity-cli/brain/b8f045cf-780f-4c34-976d-f4e326a24fae";
 
 test.describe("Visual & Interactive Verification Suite across Cockpit Modules", () => {
   test.beforeEach(async ({ page }) => {
@@ -22,7 +20,7 @@ test.describe("Visual & Interactive Verification Suite across Cockpit Modules", 
 
     // Capture main directory table
     await page.screenshot({
-      path: path.join(ARTIFACT_DIR, "visual_01_people_directory.png"),
+      path: test.info().outputPath("visual_01_people_directory.png"),
       fullPage: false,
     });
 
@@ -33,7 +31,7 @@ test.describe("Visual & Interactive Verification Suite across Cockpit Modules", 
 
     // Capture open 360° drawer
     await page.screenshot({
-      path: path.join(ARTIFACT_DIR, "visual_02_people_360_drawer.png"),
+      path: test.info().outputPath("visual_02_people_360_drawer.png"),
       fullPage: false,
     });
 
@@ -49,7 +47,7 @@ test.describe("Visual & Interactive Verification Suite across Cockpit Modules", 
 
     // Capture Attendance screen with Statutory indicators
     await page.screenshot({
-      path: path.join(ARTIFACT_DIR, "visual_03_attendance_cockpit.png"),
+      path: test.info().outputPath("visual_03_attendance_cockpit.png"),
       fullPage: false,
     });
   });
@@ -65,7 +63,7 @@ test.describe("Visual & Interactive Verification Suite across Cockpit Modules", 
 
     // Capture Connected Sheet formula grid
     await page.screenshot({
-      path: path.join(ARTIFACT_DIR, "visual_04_payroll_connected_sheet.png"),
+      path: test.info().outputPath("visual_04_payroll_connected_sheet.png"),
       fullPage: false,
     });
 
@@ -76,7 +74,7 @@ test.describe("Visual & Interactive Verification Suite across Cockpit Modules", 
 
     // Capture KFTC Firm Banking flat file protocol view
     await page.screenshot({
-      path: path.join(ARTIFACT_DIR, "visual_05_payroll_firm_banking.png"),
+      path: test.info().outputPath("visual_05_payroll_firm_banking.png"),
       fullPage: false,
     });
   });
@@ -92,7 +90,7 @@ test.describe("Visual & Interactive Verification Suite across Cockpit Modules", 
 
     // Capture Parking composer modal
     await page.screenshot({
-      path: path.join(ARTIFACT_DIR, "visual_06_approvals_parking_composer.png"),
+      path: test.info().outputPath("visual_06_approvals_parking_composer.png"),
       fullPage: false,
     });
 
@@ -105,7 +103,7 @@ test.describe("Visual & Interactive Verification Suite across Cockpit Modules", 
 
     // Capture Operations 5-Stage Kanban board
     await page.screenshot({
-      path: path.join(ARTIFACT_DIR, "visual_07_ops_work_orders_kanban.png"),
+      path: test.info().outputPath("visual_07_ops_work_orders_kanban.png"),
       fullPage: false,
     });
   });
@@ -122,7 +120,7 @@ test.describe("Visual & Interactive Verification Suite across Cockpit Modules", 
 
     // Capture cryptographic audit chain with SHA-256 blocks
     await page.screenshot({
-      path: path.join(ARTIFACT_DIR, "visual_08_gov_audit_worm_ledger.png"),
+      path: test.info().outputPath("visual_08_gov_audit_worm_ledger.png"),
       fullPage: false,
     });
 
@@ -132,7 +130,7 @@ test.describe("Visual & Interactive Verification Suite across Cockpit Modules", 
 
     // Capture Discord-style Layered Role Canvas
     await page.screenshot({
-      path: path.join(ARTIFACT_DIR, "visual_09_gov_access_discord_roles.png"),
+      path: test.info().outputPath("visual_09_gov_access_discord_roles.png"),
       fullPage: false,
     });
   });
