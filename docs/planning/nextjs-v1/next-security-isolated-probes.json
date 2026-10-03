@@ -1,0 +1,58 @@
+{
+  "base": "f5a1141724d1fcef3609ed6125db3072c070ce2c",
+  "design_sha256": "a4c001ce0b04f01cffd8c98a05ba3023cb9b0b497398c2ee217586d93ed6c3bb",
+  "probe": "fnm exec --using 24.21.0 npm audit --omit=dev --audit-level=high --json",
+  "files": {
+    ".github/workflows/ci.yml": "12edcf80fce5b311e974646194bb7a65793afbf6b08eac28b2d7e8a0bd08b60b",
+    "e2e/00-server-runtime.spec.ts": "9b791525be607e492712c12c457732019e645eec234e3b21874cc2d13ab2b2c3",
+    "e2e/01-corporate-governance-and-onboarding.spec.ts": "aaaa2e5e98ad1321a78e8f0fb25cbf6c2dacc8e51cc5677c36792b421000d330",
+    "e2e/02-attendance-labor-and-payroll-run.spec.ts": "93104fed09293dc598fd4a8cd3ebff4ef53a9ffa7eb14921ac58415f8b5d3861",
+    "e2e/03-approvals-cedar-and-workorders.spec.ts": "64df45a4949dd1cfbd862be2a78f3a0ec01b0b863187d484d36c27800e427625",
+    "e2e/04-audit-chain-and-governance.spec.ts": "73478354b7c7e856edc14e542441fa2a8ce645c4b693da04c186441a09d4575b",
+    "e2e/05-visual-and-interactive-verification.spec.ts": "cbd5c9b7471f123ab6a4482ff87815169f772429df3913555e35df6105aab4dc",
+    "playwright.config.ts": "54364be99a3344247f45fb417cd0c78426ad5f19aa41a8a228603a4d3a873229",
+    "tests/adversarial-fuzz.test.ts": "85ab3940af33281f2514f2099b9fc1b332e46dfc8f6d2e5b7e2588e955d2a0c4",
+    "tests/domain.test.ts": "31d8564a03214d8fbd1feef2287e47303f271a903e49aa7c060358ff1c944705",
+    "tests/integration-lifecycle.test.ts": "df05ef91da366b6279dfad54f804b3e74d9c3067bb8bd9cb82eda3ad02ddeb1e",
+    "tests/server-mutation-guard.test.ts": "be4214d6dcea388a4bcd7cea3e0a4fb63ca8baeda14c429fed23513c5e77aec0",
+    "tests/store-persistence.test.ts": "71b9248767c73a9f2e4a8230a8f2f5e95184fcb06040209c4af7e3e7be61198d",
+    "tests/storefront.test.ts": "ee050b33500d9398c352c1d48435370359edc22f5ce51f4fa2f19cfc8c8d7dbd",
+    "tests/ui-workflows.test.ts": "06915e88c86e29653e59a694635026bc2ee9d30c08edfdca120064a3fd9de890",
+    "tests/workflows.test.ts": "1cbb29227fe525e385d34c5599ddf826a11df49d6129c7ae8179014df60d2738",
+    "tools/test-production-routes.mjs": "41fccc4490c03508a60c8d254d660b68efac5e8db8177265d7a9fdfaf7fe9222",
+    "tools/test-storefront-form.mjs": "369a231e3022720f96766bcecc7ad10af5fd292f8bfb6f858a8d25821c7cbcc7",
+    "vitest.config.ts": "7905174961baa2b743569e1576c833038c653c3499d94e12d6d6d41465d0ff3b"
+  },
+  "required_commands": [
+    "fnm exec --using 24.21.0 npm ci",
+    "fnm exec --using 24.21.0 npm run lint",
+    "fnm exec --using 24.21.0 npm test",
+    "fnm exec --using 24.21.0 npm run build",
+    "fnm exec --using 24.21.0 npm run test:production-routes",
+    "PLAYWRIGHT_PORT=5298 fnm exec --using 24.21.0 npm run test:e2e"
+  ],
+  "baseline_audit": {
+    "exit_code": 1,
+    "sha256": "bbb71f80efdaf05de5752bf32ebca32c1662c4604ba733a6b5559ce1cf51017a",
+    "critical": 1,
+    "advisory": "GHSA-vcvr-r3jv-pc5j"
+  },
+  "execution_environment": {
+    "node": "24.21.0",
+    "CI": "1",
+    "PLAYWRIGHT_PORT": "5298",
+    "worktree": "/Users/jasonlee/Developer/frontend/.worktrees/next-security-patch"
+  },
+  "scope_amendment": {
+    "source_candidate": "703c1504de116a099af226f83070a78da5fd042a",
+    "path": "e2e/05-visual-and-interactive-verification.spec.ts",
+    "old_sha256": "4a60c6f442c242611890c529d41d38bb38249cefd2bf942d665a06eb13f3f504",
+    "change": "Remove unused path import/hardcoded outside-worktree artifact constant; replace exactly9 screenshot paths with same filenames via test.info().outputPath. Every assertion/interaction/test preserved.",
+    "plan_approved_by": [
+      "native_attendance_owner_trace",
+      "web_session_owner_v1"
+    ],
+    "new_test_bytes_status": "PENDING_EXACT_APPROVAL",
+    "product_design_change": false
+  }
+}

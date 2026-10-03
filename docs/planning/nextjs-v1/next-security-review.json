@@ -79,5 +79,26 @@
       "verdict": "APPROVE",
       "sha256": "6d9e17ca8bb21e5e874f7b263ddcef811d65fc0e8d3a3557d1bc33c20111db9f"
     }
-  ]
+  ],
+  "test_isolation_amendment": {
+    "status": "APPROVED_BEFORE_EXECUTION",
+    "basis": "Separately reviewed mechanical artifact-custody exception; no material product design change.",
+    "probe_inventory": "next-security-isolated-probes.json",
+    "probe_sha256": "a3bb1332422e7e77e81091880a3a0e7aa78cd279b23a772e986d871104d5d728",
+    "test_sha256": "cbd5c9b7471f123ab6a4482ff87815169f772429df3913555e35df6105aab4dc",
+    "reviewers": [
+      {
+        "reviewer": "native_attendance_owner_trace",
+        "planned_substitution": "APPROVE",
+        "exact_test_and_inventory": "APPROVE"
+      },
+      {
+        "reviewer": "web_session_owner_v1",
+        "planned_substitution": "APPROVE",
+        "exact_test_and_inventory": "APPROVE"
+      }
+    ],
+    "scope": "Exactly9 screenshot paths to Playwright test.info().outputPath, remove unused import/absolute constant; all assertions, cases, filenames, interactions preserved.",
+    "freeze_status_note": "PENDING_EXACT_APPROVAL in frozen inventory describes its creation point; this separate receipt records subsequent approval."
+  }
 }
