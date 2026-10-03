@@ -1,0 +1,290 @@
+{
+  "schema_version": 1,
+  "base": "9e6ddb687e2eaaf031beac4018bf568c37020090",
+  "design": {
+    "revision": "R1",
+    "path": "payroll-ssr-failure.md",
+    "sha256": "0b8f1d37228151cc8fc524e48b59a6a33c5784f13cd9e467b0458228cf629603",
+    "status": "ACCEPTED"
+  },
+  "design_reviews": [
+    {
+      "reviewer": "native_attendance_owner_trace",
+      "design_sha256": "0b8f1d37228151cc8fc524e48b59a6a33c5784f13cd9e467b0458228cf629603",
+      "rounds": [
+        {
+          "round": 1,
+          "verdict": "ACCEPT"
+        },
+        {
+          "round": 2,
+          "verdict": "ACCEPT"
+        },
+        {
+          "round": 3,
+          "verdict": "ACCEPT"
+        },
+        {
+          "round": 4,
+          "verdict": "ACCEPT"
+        }
+      ],
+      "final_design_verdict": "APPROVE"
+    },
+    {
+      "reviewer": "web_session_owner_v1",
+      "design_sha256": "0b8f1d37228151cc8fc524e48b59a6a33c5784f13cd9e467b0458228cf629603",
+      "rounds": [
+        {
+          "round": 1,
+          "verdict": "ACCEPT"
+        },
+        {
+          "round": 2,
+          "verdict": "ACCEPT"
+        },
+        {
+          "round": 3,
+          "verdict": "ACCEPT"
+        },
+        {
+          "round": 4,
+          "verdict": "ACCEPT"
+        }
+      ],
+      "final_design_verdict": "APPROVE"
+    }
+  ],
+  "review_attempts": [
+    {
+      "reviewer": "web_session_owner_v1",
+      "round": 3,
+      "status": "FAILED_UPSTREAM_502",
+      "acceptance_credit": false,
+      "disposition": "Same exact design round reissued; no tests/implementation admitted."
+    },
+    {
+      "reviewer": "enrollment_probe_trace",
+      "candidate": "116eb92774fd987c6f7be5f892e7b0acdd06eee8",
+      "status": "REVISE_METADATA",
+      "acceptance_credit": false,
+      "finding": "Archived guide incorrectly labeled executed R1 attempts UNREACHED.",
+      "disposition": "Corrected reached/unreached fields, preserve raw attempts, regenerate archive/manifest/evidence/index pins; no product or test changes."
+    }
+  ],
+  "findings": [],
+  "tests": {
+    "status": "APPROVED",
+    "source_path": "backend-fork/backend/app/tests/health_readiness.rs",
+    "sha256": "7fabdb7b5dc22f1865dbdcac10f7e869e5962e54ca270fde3030b7d7858221f3",
+    "expected_static_test_count": 15,
+    "original_tests_preserved": 9,
+    "new_tests": 6,
+    "runtime_discovery": "15 complete RED11/4 -> unchanged GREEN15/15; zero ignored/measured/filtered",
+    "reviewers": [
+      {
+        "reviewer": "native_attendance_owner_trace",
+        "verdict": "APPROVE",
+        "finding": "No material finding; real family/current-principal fixtures, exact action audit and SELECT faults, independently reached failure-state pin, denial/isolation/recovery; original assertions preserved."
+      },
+      {
+        "reviewer": "web_session_owner_v1",
+        "verdict": "APPROVE",
+        "finding": "No material finding; real family/current-principal fixtures, exact action audit and SELECT faults, independently reached failure-state pin, denial/isolation/recovery; original assertions preserved."
+      }
+    ],
+    "approved_commit": "f3117e680be2beaae9e3784a4bf1501af1cd5e6b"
+  },
+  "implementation": {
+    "status": "GREEN_SOURCE_APPROVED_PENDING_EXACT_HEAD_COMMENT_AND_PROTECTED_QUEUE",
+    "admission": "tools/lanes/fanout.py admit",
+    "red_report_sha256": "e716ed1292a79327cee70f3d83719cb77863cad3482bb345fc654ab4e18a6bdd",
+    "red_counts": {
+      "discovered": 15,
+      "executed": 15,
+      "passed": 11,
+      "failed": 4,
+      "ignored": 0,
+      "filtered": 0
+    },
+    "independent_red_review": {
+      "reviewer": "native_attendance_owner_trace",
+      "verdict": "CONFIRMED_GENUINE_EXPECTED_RED"
+    }
+  },
+  "scope": "Existing Rust SSR Payroll failure-state repair only; no complete Next/browser/Payroll/MVP or live-exposure acceptance.",
+  "adapter_reviews": [
+    {
+      "revision": "admission-r1",
+      "reviewer": "enrollment_probe_trace",
+      "verdict": "APPROVE",
+      "runner_sha256": "f392cbc8f27671a87ea840bcb44cce819b8fbc91504716c643b6b17edae62d55"
+    },
+    {
+      "revision": "admission-r1",
+      "reviewer": "native_attendance_owner_trace",
+      "verdict": "REVISE",
+      "finding": "Copied lock/blocker witness wording exceeds tested proof.",
+      "disposition": "Preserve original attempt without source-admission credit. Correct wording in admission-r2."
+    },
+    {
+      "revision": "admission-r2",
+      "reviewers": [
+        "native_attendance_owner_trace",
+        "enrollment_probe_trace"
+      ],
+      "verdict": "APPROVE",
+      "runner_sha256": "12707418ad409be8e721e4df8e60dcb4904c6727434a388b8725c68d7313f732",
+      "probe_sha256": "db335f72454e95ea41f8e5994887ca80daa0f26cff8863738986f4be70990483",
+      "expectations_sha256": "3eec9ed6aa87ab163797e13d58c20ababc17fb25b28ea8962b294df9e85ec557"
+    },
+    {
+      "revision": "nearby-r1",
+      "reviewer": "web_session_owner_v1",
+      "verdict": "APPROVE",
+      "runner_sha256": "f0d873facae55741a73aca6c95d4bdd87001baf6f74ac4c31281aa061f06e0ff"
+    },
+    {
+      "revision": "nearby-r1",
+      "verdict": "REJECTED_WHOLE_RUN",
+      "findings": [
+        "Incomplete4-test census; complete REST lib actually has10 tests.",
+        "Clippy absent from base image."
+      ],
+      "disposition": "Raw attempt retained; no test change or whole-run acceptance credit."
+    },
+    {
+      "revision": "nearby-r2",
+      "runner_sha256": "237e236c138360afb0304b0200723072cf02159d6832243c91b0e19579f6ed55",
+      "reviewers": [
+        "web_session_owner_v1",
+        "enrollment_probe_trace"
+      ],
+      "verdict": "APPROVE_NOT_EXECUTED_SUPERSEDED"
+    },
+    {
+      "revision": "nearby-r3",
+      "runner_sha256": "2f0805355ea294ff36bc8bc380c66535ded1879adce0bdea30c3f4cbfacf1f6c",
+      "reviewers": [
+        "web_session_owner_v1",
+        "enrollment_probe_trace"
+      ],
+      "verdict": "APPROVE",
+      "outcome": "34/34 complete GREEN; strict Clippy passed"
+    }
+  ],
+  "source_reviews": [
+    {
+      "reviewer": "native_attendance_owner_trace",
+      "candidate": "6d5f612736cc6d2f5e85bf9c3f5274f6317b7a86",
+      "verdict": "APPROVE",
+      "findings": []
+    },
+    {
+      "reviewer": "web_session_owner_v1",
+      "candidate": "6d5f612736cc6d2f5e85bf9c3f5274f6317b7a86",
+      "verdict": "APPROVE",
+      "findings": []
+    }
+  ],
+  "runtime_review": {
+    "reviewer": "native_attendance_owner_trace",
+    "candidate": "6d5f612736cc6d2f5e85bf9c3f5274f6317b7a86",
+    "verdict": "CONFIRMED_IDENTICAL_PROBE_GREEN",
+    "report_sha256": "251919406b07599488a93036a39e346a422c4a79dcdd60876489b8936d907f4e"
+  },
+  "sixteen_lens_audit": {
+    "reviewer": "enrollment_probe_trace",
+    "candidate": "6d5f612736cc6d2f5e85bf9c3f5274f6317b7a86",
+    "verdict": "APPROVE_BOUNDED_SOURCE_TEST_CI",
+    "findings": [],
+    "lenses": [
+      {
+        "id": 1,
+        "name": "Cartesian doubt",
+        "conclusion": "Exact intended RED and unchanged15-test GREEN verified; rejected attempts retained."
+      },
+      {
+        "id": 2,
+        "name": "Essentialism / YAGNI",
+        "conclusion": "Small outcome and shared helper; no new infrastructure."
+      },
+      {
+        "id": 3,
+        "name": "Chesterton's Fence",
+        "conclusion": "Current authority, RLS, audited snapshot and existing rendering preserved."
+      },
+      {
+        "id": 4,
+        "name": "Contrarian / outside-the-box",
+        "conclusion": "Query and audit faults independently refuse fabricated empty state."
+      },
+      {
+        "id": 5,
+        "name": "Socratic",
+        "conclusion": "Tests prove valid authority and REST refusal before SSR failure expectation."
+      },
+      {
+        "id": 6,
+        "name": "Pragmatism",
+        "conclusion": "Existing Korean failure copy and reload path realize the bounded repair."
+      },
+      {
+        "id": 7,
+        "name": "Red Team",
+        "conclusion": "Missing/invalid/revoked/wrong-tier and Company boundaries tested; no raw data/error/hydration on failure."
+      },
+      {
+        "id": 8,
+        "name": "Systems Thinking",
+        "conclusion": "Count/page/audit remain one coherent owner transaction; failed audit releases no rows."
+      },
+      {
+        "id": 9,
+        "name": "Operability / Day-2",
+        "conclusion": "Real faults, restoration and exact audit deltas execute in GREEN."
+      },
+      {
+        "id": 10,
+        "name": "Opportunity Cost",
+        "conclusion": "Repairs an actionable journey; broader Next/MVP obligations remain open."
+      },
+      {
+        "id": 11,
+        "name": "Blast-radius / cell-based",
+        "conclusion": "Two product files; no schema/dependency/calculation/other-domain/live-service changes."
+      },
+      {
+        "id": 12,
+        "name": "Constant-work / anti-fragility",
+        "conclusion": "First100 bound and unchanged total-count cost; no full-pagination/capacity claim."
+      },
+      {
+        "id": 13,
+        "name": "Shared-nothing / eventual consistency",
+        "conclusion": "Explicit Payroll outcome independent of unchanged Org/HR composition; no new coordination."
+      },
+      {
+        "id": 14,
+        "name": "FinOps / unit-cost",
+        "conclusion": "Existing owner/components/tool images; no added recurring services."
+      },
+      {
+        "id": 15,
+        "name": "Telemetry-first",
+        "conclusion": "Exact test accounting and rejected census/tool/evidence attempts remain visible."
+      },
+      {
+        "id": 16,
+        "name": "Zero-trust / defense-in-depth",
+        "conclusion": "Both helper callers establish current principal and PayrollRunRead; SSR carries no raw errors."
+      }
+    ],
+    "limits": [
+      "First100 SSR pagination remains incomplete.",
+      "Single-site real Router/PostgreSQL proof, not genuine Next/browser/passkey/identity-proofing acceptance.",
+      "Current authority at emission, two-site durability/fencing, full HR/Org/Payroll/Foundry, MVP and launch remain HOLD.",
+      "No live institutional execution, payment collection, deployment or exposure."
+    ]
+  }
+}

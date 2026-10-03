@@ -67,11 +67,11 @@
         "mode": 420
       },
       "after": {
-        "sha256": "7cbe1c68e981a70d5178cbdc9e787655591bb0c3e3fb819cffcc9db20487e0ee",
-        "bytes": 277663,
+        "sha256": "6600e8b123755e758f2d2693ef27bdb9fc4bcfb3e804e3cb52e13a49d7fb994a",
+        "bytes": 278013,
         "mode": 420
       },
-      "reason": "Coordinated authentication lock implementation from independently approved exact tests24f4a4: Account-first owners, exact locator revalidation, database validation clock, shared self-delete, sorted roster and additive0227 removal guard. Candidate pending verification/review. Retry SQLx migration advisory-lock waits in short transactions so concurrent CREATE INDEX CONCURRENTLY cannot deadlock a second migrator; restore required connection budgets after lock acquisition. Expose write_ready=false in readiness while fenced two-site write admission remains unimplemented; preserve existing availability status. Map new Employment read errors at the existing org-change composition seam: unreadable state to redacted Internal and unresolved reactivation to Conflict. Remove the inherited loopback Intelligence bind route from the v1 product; the R4 plan includes no AI/model feature. Reuse the middleware-resolved current Principal for both audit GETs, removing stale JWT branch reconstruction after revocation or scope narrowing. Keep the audit attestation registration and configured route inventory on one shared path constant."
+      "reason": "Coordinated authentication lock implementation from independently approved exact tests24f4a4: Account-first owners, exact locator revalidation, database validation clock, shared self-delete, sorted roster and additive0227 removal guard. Candidate pending verification/review. Retry SQLx migration advisory-lock waits in short transactions so concurrent CREATE INDEX CONCURRENTLY cannot deadlock a second migrator; restore required connection budgets after lock acquisition. Expose write_ready=false in readiness while fenced two-site write admission remains unimplemented; preserve existing availability status. Map new Employment read errors at the existing org-change composition seam: unreadable state to redacted Internal and unresolved reactivation to Conflict. Remove the inherited loopback Intelligence bind route from the v1 product; the R4 plan includes no AI/model feature. Reuse the middleware-resolved current Principal for both audit GETs, removing stale JWT branch reconstruction after revocation or scope narrowing. Keep the audit attestation registration and configured route inventory on one shared path constant. Map native Payroll SSR outcome directly to omitted, authorized empty/populated or failure; remove redundant Payroll floor only. Preserve Organization/HR composition and existing rendering/assets."
     },
     {
       "path": "backend/app/src/schema_install.rs",
@@ -1029,11 +1029,11 @@
         "mode": 420
       },
       "after": {
-        "sha256": "8838d60ffcad91e7391b7533d56e773b60e3dd7f4bff0ddcf5b7bf462e9d4108",
-        "bytes": 19857,
+        "sha256": "5a57f8f42a020749846c70b855a94a71498149a72722796702cfbd8c4f5ca214",
+        "bytes": 20630,
         "mode": 420
       },
-      "reason": "Use coherent Company-scoped payroll readiness snapshots, compose authenticated Account linkage and self page, and preserve audited mutation semantics; reviewed real PostgreSQL regression and session-family fixtures."
+      "reason": "Use coherent Company-scoped payroll readiness snapshots, compose authenticated Account linkage and self page, and preserve audited mutation semantics; reviewed real PostgreSQL regression and session-family fixtures. Share the existing audited snapshot/count/page read body between REST and SSR. Establish current PayrollRunRead before classifying subsequent read/audit failures; no REST contract, RLS, pagination, schema or monetary change."
     },
     {
       "path": "backend/crates/payroll/rest/src/lifecycle.rs",
@@ -2338,6 +2338,20 @@
         "mode": 420
       },
       "reason": "Correct legacy OTP enrollment-purpose and key-absence descriptions; no schema or authority change."
+    },
+    {
+      "path": "backend/app/tests/health_readiness.rs",
+      "before": {
+        "sha256": "4e615f972c23bcfc478ba34a06ff1f0a1006e4e683e542d4c3d4738704b60b08",
+        "bytes": 29186,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "7fabdb7b5dc22f1865dbdcac10f7e869e5962e54ca270fde3030b7d7858221f3",
+        "bytes": 42882,
+        "mode": 420
+      },
+      "reason": "Preserve all nine original tests and82 assertions with real session-family fixtures; add six real Router/PostgreSQL tests for audit/query failure and reload, authority omission and Company isolation on both SSR paths."
     }
   ],
   "notes": [

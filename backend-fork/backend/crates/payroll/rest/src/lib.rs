@@ -47,8 +47,8 @@ use axum::routing::{get, post};
 use axum::{Json, Router};
 use console_kernel_core::{AuditAction, AuditEvent, ErrorKind, KernelError, TraceContext};
 use console_payroll_adapter_postgres::{
-    PayrollRunDetail, PayrollRunPage, PayrollRunSummary, PgPayrollError, PgPayrollStore,
-    get_run_in_tx, list_runs_in_tx,
+    PayrollRunDetail, PayrollRunPage, PgPayrollError, PgPayrollStore, get_run_in_tx,
+    list_runs_in_tx,
 };
 use console_platform_auth::JwtVerifier;
 use console_platform_authz::{Action, Feature, Principal, authorize_org_wide};
@@ -110,6 +110,14 @@ pub struct PayrollRestState {
     jwt_verifier: Option<JwtVerifier>,
 }
 
+/// SSR listing outcome; failures are offered only after current read authority.
+#[derive(Debug)]
+pub enum PayrollRunListing {
+    Omitted,
+    Loaded(PayrollRunPage),
+    FailedAfterAuthorization,
+}
+
 impl std::fmt::Debug for PayrollRestState {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PayrollRestState")
@@ -127,13 +135,20 @@ impl PayrollRestState {
         }
     }
 
-    /// SSR composition helper: the same `PayrollRunRead` listing as GET `/runs`,
-    /// or an empty vec (omit) when the caller is unauthenticated, unauthorized,
-    /// or the listing fails. Never a 401/403 on the HTML shell.
-    pub async fn visible_run_summaries(&self, headers: &HeaderMap) -> Vec<PayrollRunSummary> {
-        match list_runs_page(
+    /// First-page SSR composition through the same audited owner as GET `/runs`.
+    /// Unavailable or denied authority omits the screen; subsequent read/audit
+    /// failure offers a sanitized failure state. SSR pagination remains open.
+    pub async fn visible_run_summaries(&self, headers: &HeaderMap) -> PayrollRunListing {
+        let principal = match principal_from_headers(self, headers).await {
+            Ok(principal) => principal,
+            Err(_) => return PayrollRunListing::Omitted,
+        };
+        if require_run_read(&principal).is_err() {
+            return PayrollRunListing::Omitted;
+        }
+        match list_authorized_runs_page(
             self,
-            headers,
+            &principal,
             PageParams {
                 limit: Some(100),
                 offset: Some(0),
@@ -141,8 +156,8 @@ impl PayrollRestState {
         )
         .await
         {
-            Ok(page) => page.items,
-            Err(_) => Vec::new(),
+            Ok(page) => PayrollRunListing::Loaded(page),
+            Err(_) => PayrollRunListing::FailedAfterAuthorization,
         }
     }
 }
@@ -220,7 +235,14 @@ async fn list_runs_page(
 ) -> Result<PayrollRunPage, RestError> {
     let principal = principal_from_headers(state, headers).await?;
     require_run_read(&principal)?;
+    list_authorized_runs_page(state, &principal, params).await
+}
 
+async fn list_authorized_runs_page(
+    state: &PayrollRestState,
+    principal: &Principal,
+    params: PageParams,
+) -> Result<PayrollRunPage, RestError> {
     let org = principal.org_id;
     let actor = principal.user_id;
     let pool = state.store.pool().clone();

@@ -1,0 +1,269 @@
+{
+  "schema_version": 1,
+  "recorded_at": "2026-10-03T05:37:27.278164+00:00",
+  "scope": "Existing Payroll SSR authorized failure-state repair only.",
+  "base": "9e6ddb687e2eaaf031beac4018bf568c37020090",
+  "runtime_source_candidate": "6d5f612736cc6d2f5e85bf9c3f5274f6317b7a86",
+  "design_sha256": "0b8f1d37228151cc8fc524e48b59a6a33c5784f13cd9e467b0458228cf629603",
+  "approved_tests_head": "f3117e680be2beaae9e3784a4bf1501af1cd5e6b",
+  "tests_sha256": "7fabdb7b5dc22f1865dbdcac10f7e869e5962e54ca270fde3030b7d7858221f3",
+  "bundle": {
+    "archive": "docs/planning/nextjs-v1/evidence/payroll-ssr-failure/runtime-evidence.tar.gz",
+    "sha256": "7b41cc5c5e479dbb1d8ea1325693c6e1a1085075cc0d4ad73e787453ba48dd0c",
+    "manifest": "docs/planning/nextjs-v1/evidence/payroll-ssr-failure/manifest.json",
+    "manifest_sha256": "abd72d84df1ed0bc14d9a3635ebd2b8f04f73a0eb5cc7fb6ec4f92059c7d30f7",
+    "regular_files": 481,
+    "verified": true
+  },
+  "red": {
+    "archive_member": "linux/admission-r2/run-20261003T051247.898587Z/report.json",
+    "sha256": "e716ed1292a79327cee70f3d83719cb77863cad3482bb345fc654ab4e18a6bdd",
+    "candidate_head": "f3117e680be2beaae9e3784a4bf1501af1cd5e6b",
+    "status": "failed",
+    "runner_sha256": "12707418ad409be8e721e4df8e60dcb4904c6727434a388b8725c68d7313f732",
+    "diagnostic_execution_complete": true,
+    "suites": [
+      {
+        "name": "health_readiness",
+        "discovered": 15,
+        "executed": 15,
+        "passed": 11,
+        "failed": 4,
+        "ignored": 0,
+        "measured": 0,
+        "filtered": 0
+      }
+    ]
+  },
+  "green": {
+    "archive_member": "linux/admission-r2/run-20261003T051812.587681Z/report.json",
+    "sha256": "251919406b07599488a93036a39e346a422c4a79dcdd60876489b8936d907f4e",
+    "candidate_head": "6d5f612736cc6d2f5e85bf9c3f5274f6317b7a86",
+    "status": "passed",
+    "runner_sha256": "12707418ad409be8e721e4df8e60dcb4904c6727434a388b8725c68d7313f732",
+    "diagnostic_execution_complete": true,
+    "suites": [
+      {
+        "name": "health_readiness",
+        "discovered": 15,
+        "executed": 15,
+        "passed": 15,
+        "failed": 0,
+        "ignored": 0,
+        "measured": 0,
+        "filtered": 0
+      }
+    ]
+  },
+  "nearby": {
+    "archive_member": "linux/nearby-r3/run-20261003T053104.213998Z/report.json",
+    "sha256": "ab4c8d888c216342c17b21eff621db15399a800caf1e24f7f37da229f5f5157b",
+    "candidate_head": "6d5f612736cc6d2f5e85bf9c3f5274f6317b7a86",
+    "status": "passed",
+    "runner_sha256": "2f0805355ea294ff36bc8bc380c66535ded1879adce0bdea30c3f4cbfacf1f6c",
+    "diagnostic_execution_complete": true,
+    "suites": [
+      {
+        "name": "payroll_rest_lib",
+        "discovered": 10,
+        "executed": 10,
+        "passed": 10,
+        "failed": 0,
+        "ignored": 0,
+        "measured": 0,
+        "filtered": 0
+      },
+      {
+        "name": "payroll_rest_api",
+        "discovered": 17,
+        "executed": 17,
+        "passed": 17,
+        "failed": 0,
+        "ignored": 0,
+        "measured": 0,
+        "filtered": 0
+      },
+      {
+        "name": "payroll_ui_lib",
+        "discovered": 7,
+        "executed": 7,
+        "passed": 7,
+        "failed": 0,
+        "ignored": 0,
+        "measured": 0,
+        "filtered": 0
+      }
+    ]
+  },
+  "quality": {
+    "source_tooling": {
+      "command": "python3 -m unittest discover -s tools -p 'test_*.py'",
+      "executed": 18,
+      "failed": 0,
+      "artifact": "source-tooling.log",
+      "sha256": "2a41930fad9edbbc95499e5ac79f65472c67bf24286ae7c4169017092e047404"
+    },
+    "source_custody": {
+      "status": "passed",
+      "artifact": "source-custody.json",
+      "sha256": "dff50719c4db35840db6cd44d5c351d293d6bf8855a61e4a56bce157482a55cb"
+    },
+    "format": {
+      "artifact": "host-format.json",
+      "sha256": "392c1fc1219472142017b61b5aaaf70d9dbefd6d7c2c889a7d94b87efa77bbc6",
+      "commands": [
+        {
+          "command": [
+            "rustfmt",
+            "+1.98.1",
+            "--version"
+          ],
+          "exit_code": 0,
+          "stdout": "rustfmt 1.9.0-stable (48a229ceae 2026-09-01)\n",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "rustfmt",
+            "+1.98.1",
+            "--edition",
+            "2024",
+            "--config",
+            "skip_children=true",
+            "--check",
+            "backend-fork/backend/crates/payroll/rest/src/lib.rs",
+            "backend-fork/backend/app/src/lib.rs",
+            "backend-fork/backend/app/tests/health_readiness.rs"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": ""
+        }
+      ]
+    },
+    "clippy": [
+      {
+        "name": "payroll-app-clippy",
+        "command": [
+          "docker",
+          "--context",
+          "colima-nextjs-v1-auth",
+          "run",
+          "--rm",
+          "--pull=never",
+          "--name",
+          "payroll-ssr-nearby-58fe8812879c-payroll-app-clippy",
+          "--label",
+          "console.payroll-ssr-nearby-run=58fe8812879c",
+          "--network",
+          "payroll-ssr-nearby-58fe8812879c",
+          "--env-file",
+          "/private/tmp/payroll-ssr-nearby-linux-b3997idq/tests.env",
+          "--mount",
+          "type=bind,source=/Users/jasonlee/Developer/frontend/.worktrees/payroll-ssr-failure/backend-fork,target=/candidate,readonly",
+          "--mount",
+          "type=bind,source=/Users/jasonlee/Developer/frontend/.artifacts/acceptance/device-login-source-revocation/linux/cargo-home,target=/cargo-home",
+          "--mount",
+          "type=bind,source=/Users/jasonlee/Developer/frontend/.artifacts/acceptance/device-login-source-revocation/linux/target,target=/target",
+          "--workdir",
+          "/candidate/backend",
+          "sha256:1038295e936ce19587f8ced4ae29631ab1f0e548da45efbdf77d5087bd3ed9a2",
+          "cargo",
+          "clippy",
+          "--locked",
+          "--offline",
+          "-p",
+          "console-app",
+          "--lib",
+          "--test",
+          "health_readiness",
+          "--",
+          "-D",
+          "warnings"
+        ],
+        "exit_code": 0
+      },
+      {
+        "name": "payroll-rest-ui-clippy",
+        "command": [
+          "docker",
+          "--context",
+          "colima-nextjs-v1-auth",
+          "run",
+          "--rm",
+          "--pull=never",
+          "--name",
+          "payroll-ssr-nearby-58fe8812879c-payroll-rest-ui-clippy",
+          "--label",
+          "console.payroll-ssr-nearby-run=58fe8812879c",
+          "--network",
+          "payroll-ssr-nearby-58fe8812879c",
+          "--env-file",
+          "/private/tmp/payroll-ssr-nearby-linux-b3997idq/tests.env",
+          "--mount",
+          "type=bind,source=/Users/jasonlee/Developer/frontend/.worktrees/payroll-ssr-failure/backend-fork,target=/candidate,readonly",
+          "--mount",
+          "type=bind,source=/Users/jasonlee/Developer/frontend/.artifacts/acceptance/device-login-source-revocation/linux/cargo-home,target=/cargo-home",
+          "--mount",
+          "type=bind,source=/Users/jasonlee/Developer/frontend/.artifacts/acceptance/device-login-source-revocation/linux/target,target=/target",
+          "--workdir",
+          "/candidate/backend",
+          "sha256:1038295e936ce19587f8ced4ae29631ab1f0e548da45efbdf77d5087bd3ed9a2",
+          "cargo",
+          "clippy",
+          "--locked",
+          "--offline",
+          "-p",
+          "console-payroll-rest",
+          "-p",
+          "console-payroll-ui",
+          "--lib",
+          "--",
+          "-D",
+          "warnings"
+        ],
+        "exit_code": 0
+      }
+    ],
+    "clippy_version": "clippy 0.1.98 (48a229ceae 2026-09-01)"
+  },
+  "retained_rejections": [
+    {
+      "attempt": "admission-r1",
+      "reason": "Unsupported copied lock/blocker evidence phrase; corrected in R2, no source-admission credit."
+    },
+    {
+      "attempt": "nearby-r1",
+      "reason": "Incomplete REST library census and absent Clippy; whole-run126, no whole-run acceptance credit."
+    },
+    {
+      "attempt": "nearby-r2",
+      "reason": "Reviewed but unexecuted; superseded to supply the existing pinned Clippy image."
+    },
+    {
+      "attempt": "source-custody-import-1",
+      "reason": "Import path error; no custody acceptance credit, corrected invocation passed."
+    },
+    {
+      "attempt": "final-candidate116eb927",
+      "reason": "Archived guide stale UNREACHED fields; corrected actual15/11/4 and API17/UI7 partial execution, raw logs unchanged. Previous bundle preserved in Git history."
+    }
+  ],
+  "proof_limits": [
+    "First100 SSR pagination remains incomplete.",
+    "Single-site real Router/PostgreSQL proof, not genuine Next/browser/passkey/identity-proofing acceptance.",
+    "Current authority at emission, two-site durability/fencing, full HR/Org/Payroll/Foundry, MVP and launch remain HOLD.",
+    "No live institutional execution, payment collection, deployment or exposure."
+  ],
+  "merge_status": "PENDING_EXACT_HEAD_COMMENT_AND_PROTECTED_QUEUE"
+}
