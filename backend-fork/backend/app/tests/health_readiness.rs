@@ -194,7 +194,8 @@ mod authorized {
     use console_ontology_canonical_domain::{CanonicalPort, CommandId, DispatchTarget};
     use console_payroll_adapter_postgres::pay_run::{PayRunCommand, PayRunQuery, PgPayRunPort};
     use console_platform_auth::{AccessTokenInput, JwtIssuer, JwtSettings};
-    use http::header;
+    use console_platform_test_support::{issue_session_token, seed_org_and_super_admin};
+    use http::{HeaderMap, header};
     use p256::ecdsa::SigningKey;
     use p256::elliptic_curve::rand_core::OsRng;
     use p256::pkcs8::{EncodePrivateKey, EncodePublicKey, LineEnding};
@@ -225,8 +226,8 @@ mod authorized {
         }
     }
 
-    fn bearer(keys: &Keys, org: OrgId, user: UserId, role: &str) -> String {
-        let issuer = JwtIssuer::from_es256_pem(
+    fn issuer(keys: &Keys) -> JwtIssuer {
+        JwtIssuer::from_es256_pem(
             JwtSettings {
                 issuer: TEST_ISSUER.to_owned(),
                 audience: TEST_AUDIENCE.to_owned(),
@@ -235,9 +236,14 @@ mod authorized {
             keys.private_pem.as_bytes(),
             keys.public_pem.as_bytes(),
         )
-        .unwrap();
-        issuer
-            .issue_access_token(AccessTokenInput {
+        .unwrap()
+    }
+
+    async fn bearer(pool: &PgPool, keys: &Keys, org: OrgId, user: UserId, role: &str) -> String {
+        issue_session_token(
+            pool,
+            &issuer(keys),
+            AccessTokenInput {
                 subject: user,
                 org_id: org,
                 roles: vec![role.to_owned()],
@@ -251,8 +257,11 @@ mod authorized {
                 authz_policy_version: 0,
                 session_generation: 0,
                 issued_at: OffsetDateTime::now_utc(),
-            })
-            .unwrap()
+            },
+            None,
+            Vec::new(),
+        )
+        .await
     }
 
     async fn runtime_role_pool(owner: &PgPool) -> PgPool {
@@ -371,8 +380,11 @@ mod authorized {
             "empty shell must not load WASM: {unauth}"
         );
 
-        let (status, member_html) =
-            get_ui(service.clone(), Some(&bearer(&keys, org, member, "MEMBER"))).await;
+        let (status, member_html) = get_ui(
+            service.clone(),
+            Some(&bearer(&pool, &keys, org, member, "MEMBER").await),
+        )
+        .await;
         assert_eq!(status, StatusCode::OK, "{member_html}");
         assert_eq!(member_html, console_payroll_ui::render_shell());
         assert!(
@@ -386,7 +398,7 @@ mod authorized {
 
         let (status, admin_html) = get_ui(
             service,
-            Some(&bearer(&keys, org, super_admin, "SUPER_ADMIN")),
+            Some(&bearer(&pool, &keys, org, super_admin, "SUPER_ADMIN").await),
         )
         .await;
         assert_eq!(status, StatusCode::OK, "{admin_html}");
@@ -406,6 +418,294 @@ mod authorized {
             "golden won leaked: {admin_html}"
         );
         assert!(!lowered.contains("payslip"), "payslip leaked: {admin_html}");
+    }
+
+    #[derive(Clone, Copy)]
+    enum ListingFault {
+        Audit,
+        Query,
+    }
+
+    async fn assert_payroll_fault_and_recovery(pool: PgPool, path: &str, fault: ListingFault) {
+        let keys = keys();
+        let org = OrgId::knl();
+        let actor = UserId::new();
+        seed_user(&pool, org, actor, "SUPER_ADMIN").await;
+        grant_group_viewer(&pool, org, actor).await;
+        let rt = runtime_role_pool(&pool).await;
+        let token = bearer(&rt, &keys, org, actor, "SUPER_ADMIN").await;
+        let service = build_router(jwt_app_state(rt, keys.public_pem.clone()));
+
+        let before = list_read_audits(&pool, actor).await;
+        let (status, empty) = get_ui_path(service.clone(), path, Some(&token)).await;
+        assert_eq!(status, StatusCode::OK, "{empty}");
+        assert!(empty.contains("data-screen=\"payroll\" data-state=\"empty\""));
+        assert!(empty.contains("표시할 급여 이력이 없습니다"));
+        assert!(empty.contains("href=\"/_ui/payroll\""));
+        assert!(!empty.contains("data-state=\"failure\"") && !empty.contains("/_ui/pkg/"));
+        assert_eq!(list_read_audits(&pool, actor).await, before + 1);
+
+        let run = seed_run(&pool, org, actor).await;
+        let source: String =
+            sqlx::query_scalar("SELECT source_label FROM payroll_draft_runs WHERE id=$1")
+                .bind(run)
+                .fetch_one(&pool)
+                .await
+                .unwrap();
+        let (status, populated) = get_ui_path(service.clone(), path, Some(&token)).await;
+        assert_eq!(status, StatusCode::OK, "{populated}");
+        assert!(populated.contains(&format!("data-run-id=\"{run}\"")));
+        assert!(populated.contains(&format!("href=\"/api/v1/payroll/runs/{run}\"")));
+        assert!(populated.contains("/_ui/pkg/console_payroll_ui.js"));
+        assert!(
+            !populated.contains("data-state=\"empty\"")
+                && !populated.contains("data-state=\"failure\"")
+        );
+        assert_eq!(list_read_audits(&pool, actor).await, before + 2);
+
+        match fault {
+            ListingFault::Audit => {
+                sqlx::raw_sql("CREATE FUNCTION reject_ui_payroll_audit() RETURNS trigger LANGUAGE plpgsql AS $$ BEGIN IF NEW.action = 'payroll_run.list_read' THEN RAISE EXCEPTION 'private payroll audit fault'; END IF; RETURN NEW; END $$; CREATE TRIGGER reject_ui_payroll_audit BEFORE INSERT ON audit_events FOR EACH ROW EXECUTE FUNCTION reject_ui_payroll_audit();")
+                    .execute(&pool).await.unwrap();
+            }
+            ListingFault::Query => {
+                let allowed: bool = sqlx::query_scalar(
+                    "SELECT has_table_privilege('console_rt','payroll_draft_runs','SELECT')",
+                )
+                .fetch_one(&pool)
+                .await
+                .unwrap();
+                assert!(
+                    allowed,
+                    "query-fault setup requires existing SELECT authority"
+                );
+                sqlx::query("REVOKE SELECT ON payroll_draft_runs FROM console_rt")
+                    .execute(&pool)
+                    .await
+                    .unwrap();
+                let allowed: bool = sqlx::query_scalar(
+                    "SELECT has_table_privilege('console_rt','payroll_draft_runs','SELECT')",
+                )
+                .fetch_one(&pool)
+                .await
+                .unwrap();
+                assert!(!allowed, "query-fault setup must actually revoke SELECT");
+            }
+        }
+
+        // The existing REST owner must genuinely refuse the same authorized read.
+        let (status, api_failure) =
+            get_ui_path(service.clone(), "/api/v1/payroll/runs", Some(&token)).await;
+        assert_eq!(
+            status,
+            StatusCode::INTERNAL_SERVER_ERROR,
+            "fault not reached: {api_failure}"
+        );
+        assert!(!api_failure.contains(&run.to_string()) && !api_failure.contains(&source));
+        assert_eq!(list_read_audits(&pool, actor).await, before + 2);
+
+        let (status, failure) = get_ui_path(service.clone(), path, Some(&token)).await;
+        assert_eq!(status, StatusCode::OK, "{failure}");
+        assert!(
+            failure.contains("data-screen=\"payroll\" data-state=\"failure\""),
+            "authorized payroll listing failure must render failure state"
+        );
+        assert!(failure.contains("목록을 불러오지 못했습니다"));
+        assert!(failure.contains("href=\"/_ui/payroll\""));
+        assert!(
+            !failure.contains("표시할 급여 이력이 없습니다")
+                && !failure.contains("data-state=\"empty\"")
+        );
+        assert!(!failure.contains(&run.to_string()) && !failure.contains(&source));
+        assert!(
+            !failure.contains("/_ui/pkg/")
+                && !failure.contains("private payroll")
+                && !failure.contains("permission denied")
+        );
+        assert_eq!(list_read_audits(&pool, actor).await, before + 2);
+        if path == "/_ui" {
+            assert!(
+                failure.contains("data-screen=\"organization\"")
+                    && failure.contains("data-screen=\"hr\"")
+            );
+            assert!(failure.contains(&format!("data-person-id=\"{}\"", actor.as_uuid())));
+        }
+
+        match fault {
+            ListingFault::Audit => {
+                sqlx::raw_sql("DROP TRIGGER reject_ui_payroll_audit ON audit_events; DROP FUNCTION reject_ui_payroll_audit();")
+                    .execute(&pool).await.unwrap();
+            }
+            ListingFault::Query => {
+                sqlx::query("GRANT SELECT ON payroll_draft_runs TO console_rt")
+                    .execute(&pool)
+                    .await
+                    .unwrap();
+            }
+        }
+        let (status, recovered) = get_ui_path(service, path, Some(&token)).await;
+        assert_eq!(status, StatusCode::OK, "{recovered}");
+        assert!(recovered.contains(&format!("data-run-id=\"{run}\"")));
+        assert!(recovered.contains(&format!("href=\"/api/v1/payroll/runs/{run}\"")));
+        assert!(recovered.contains("/_ui/pkg/console_payroll_ui.js"));
+        assert!(
+            !recovered.contains("data-state=\"failure\"")
+                && !recovered.contains("data-state=\"empty\"")
+        );
+        assert_eq!(list_read_audits(&pool, actor).await, before + 3);
+    }
+
+    #[sqlx::test(migrations = "../crates/platform/db/migrations")]
+    async fn ui_home_payroll_audit_failure_is_not_empty(pool: PgPool) {
+        assert_payroll_fault_and_recovery(pool, "/_ui", ListingFault::Audit).await;
+    }
+
+    #[sqlx::test(migrations = "../crates/platform/db/migrations")]
+    async fn ui_focused_payroll_audit_failure_is_not_empty(pool: PgPool) {
+        assert_payroll_fault_and_recovery(pool, "/_ui/payroll", ListingFault::Audit).await;
+    }
+
+    #[sqlx::test(migrations = "../crates/platform/db/migrations")]
+    async fn ui_home_payroll_query_failure_is_not_empty(pool: PgPool) {
+        assert_payroll_fault_and_recovery(pool, "/_ui", ListingFault::Query).await;
+    }
+
+    #[sqlx::test(migrations = "../crates/platform/db/migrations")]
+    async fn ui_focused_payroll_query_failure_is_not_empty(pool: PgPool) {
+        assert_payroll_fault_and_recovery(pool, "/_ui/payroll", ListingFault::Query).await;
+    }
+
+    #[sqlx::test(migrations = "../crates/platform/db/migrations")]
+    async fn ui_payroll_authority_and_company_boundaries(pool: PgPool) {
+        let keys = keys();
+        let org = OrgId::knl();
+        let actor = UserId::new();
+        let member = UserId::new();
+        seed_user(&pool, org, actor, "SUPER_ADMIN").await;
+        seed_user(&pool, org, member, "MEMBER").await;
+        let run = seed_run(&pool, org, actor).await;
+        let rt = runtime_role_pool(&pool).await;
+        let token = bearer(&rt, &keys, org, actor, "SUPER_ADMIN").await;
+        let member_token = bearer(&rt, &keys, org, member, "MEMBER").await;
+        let service = build_router(jwt_app_state(rt.clone(), keys.public_pem.clone()));
+
+        let foreign_org = OrgId::from_uuid(Uuid::new_v4());
+        let foreign = seed_org_and_super_admin(&pool, *foreign_org.as_uuid(), "SSR foreign").await;
+        let foreign_token = bearer(&rt, &keys, foreign_org, foreign, "SUPER_ADMIN").await;
+        for path in ["/_ui", "/_ui/payroll"] {
+            let (status, own) = get_ui_path(service.clone(), path, Some(&token)).await;
+            assert_eq!(status, StatusCode::OK);
+            assert!(own.contains(&format!("data-run-id=\"{run}\"")));
+            let (status, other) = get_ui_path(service.clone(), path, Some(&foreign_token)).await;
+            assert_eq!(status, StatusCode::OK, "{other}");
+            assert!(other.contains("data-screen=\"payroll\" data-state=\"empty\""));
+            assert!(!other.contains(&run.to_string()) && !other.contains(&org.to_string()));
+        }
+
+        let platform =
+            seed_org_and_super_admin(&pool, *OrgId::platform().as_uuid(), "SSR platform").await;
+        let platform_token = issue_session_token(
+            &rt,
+            &issuer(&keys),
+            AccessTokenInput {
+                subject: platform,
+                org_id: OrgId::platform(),
+                roles: vec!["SUPER_ADMIN".to_owned()],
+                branches: Vec::new(),
+                platform: true,
+                view_as: false,
+                read_only: false,
+                display_name: None,
+                feature_grants: Vec::new(),
+                authz_subject_version: 0,
+                authz_policy_version: 0,
+                session_generation: 0,
+                issued_at: OffsetDateTime::now_utc(),
+            },
+            None,
+            Vec::new(),
+        )
+        .await;
+        let verifier = console_platform_auth::JwtVerifier::from_es256_public_pem(
+            JwtSettings {
+                issuer: TEST_ISSUER.to_owned(),
+                audience: TEST_AUDIENCE.to_owned(),
+                access_token_ttl: time::Duration::minutes(15),
+            },
+            keys.public_pem.as_bytes(),
+        )
+        .unwrap();
+        let mut headers = HeaderMap::new();
+        headers.insert(
+            header::AUTHORIZATION,
+            format!("Bearer {platform_token}").parse().unwrap(),
+        );
+        let principal =
+            console_platform_request_context::resolve_platform_principal(&verifier, &rt, &headers)
+                .await
+                .unwrap();
+        assert_eq!(
+            principal.user_id, platform,
+            "wrong-tier fixture must have valid current platform authority"
+        );
+
+        let revoked = sqlx::query(
+            "UPDATE auth_refresh_token_families SET revoked_at=clock_timestamp() WHERE user_id=$1",
+        )
+        .bind(*actor.as_uuid())
+        .execute(&pool)
+        .await
+        .unwrap();
+        assert_eq!(revoked.rows_affected(), 1);
+        let before = list_read_audits(&pool, actor).await;
+        for path in ["/_ui", "/_ui/payroll"] {
+            for denied in [
+                None,
+                Some("invalid-token"),
+                Some(member_token.as_str()),
+                Some(token.as_str()),
+                Some(platform_token.as_str()),
+            ] {
+                let (status, html) = get_ui_path(service.clone(), path, denied).await;
+                assert_eq!(status, StatusCode::OK, "{path}: {html}");
+                assert_eq!(html, console_payroll_ui::render_shell(), "{path}: {html}");
+                assert!(
+                    !html.contains(&run.to_string()) && !html.contains("data-screen=\"payroll\"")
+                );
+                assert!(!html.contains("/_ui/pkg/"));
+            }
+        }
+        assert_eq!(list_read_audits(&pool, actor).await, before);
+        assert_eq!(list_read_audits(&pool, member).await, 0);
+        assert_eq!(list_read_audits(&pool, platform).await, 0);
+    }
+
+    #[sqlx::test(migrations = "../crates/platform/db/migrations")]
+    async fn ui_payroll_unavailable_current_authority_is_omitted(pool: PgPool) {
+        let keys = keys();
+        let org = OrgId::knl();
+        let actor = UserId::new();
+        seed_user(&pool, org, actor, "SUPER_ADMIN").await;
+        let run = seed_run(&pool, org, actor).await;
+        let rt = runtime_role_pool(&pool).await;
+        let token = bearer(&rt, &keys, org, actor, "SUPER_ADMIN").await;
+        let service = build_router(jwt_app_state(rt.clone(), keys.public_pem.clone()));
+        let (status, before) = get_ui_path(service.clone(), "/_ui/payroll", Some(&token)).await;
+        assert_eq!(status, StatusCode::OK);
+        assert!(before.contains(&format!("data-run-id=\"{run}\"")));
+        let audits = list_read_audits(&pool, actor).await;
+        rt.close().await;
+        assert!(
+            rt.is_closed(),
+            "authority-fault setup must close the actual runtime pool"
+        );
+        for path in ["/_ui", "/_ui/payroll"] {
+            let (status, html) = get_ui_path(service.clone(), path, Some(&token)).await;
+            assert_eq!(status, StatusCode::OK);
+            assert_eq!(html, console_payroll_ui::render_shell());
+            assert!(!html.contains(&run.to_string()) && !html.contains("data-state=\"failure\""));
+        }
+        assert_eq!(list_read_audits(&pool, actor).await, audits);
     }
 
     async fn grant_group_viewer(pool: &PgPool, org: OrgId, user: UserId) {
@@ -435,8 +735,8 @@ mod authorized {
             runtime_role_pool(&pool).await,
             keys.public_pem.clone(),
         ));
-        let admin = bearer(&keys, org, super_admin, "SUPER_ADMIN");
-        let member_tok = bearer(&keys, org, member, "MEMBER");
+        let admin = bearer(&pool, &keys, org, super_admin, "SUPER_ADMIN").await;
+        let member_tok = bearer(&pool, &keys, org, member, "MEMBER").await;
 
         for uri in ["/_ui", "/_ui/organization", "/_ui/hr", "/_ui/payroll"] {
             let (status, html) = get_ui_path(service.clone(), uri, Some(&member_tok)).await;
@@ -558,11 +858,11 @@ mod authorized {
             runtime_role_pool(&pool).await,
             keys.public_pem.clone(),
         ));
-        let member_tok = bearer(&keys, org, member, "MEMBER");
-        let admin_tok = bearer(&keys, org, admin, "ADMIN");
-        let exec_tok = bearer(&keys, org, executive, "EXECUTIVE");
-        let super_tok = bearer(&keys, org, super_admin, "SUPER_ADMIN");
-        let foreign_tok = bearer(&keys, other_org, foreign, "SUPER_ADMIN");
+        let member_tok = bearer(&pool, &keys, org, member, "MEMBER").await;
+        let admin_tok = bearer(&pool, &keys, org, admin, "ADMIN").await;
+        let exec_tok = bearer(&pool, &keys, org, executive, "EXECUTIVE").await;
+        let super_tok = bearer(&pool, &keys, org, super_admin, "SUPER_ADMIN").await;
+        let foreign_tok = bearer(&pool, &keys, other_org, foreign, "SUPER_ADMIN").await;
         let routes = ["/_ui", "/_ui/organization", "/_ui/hr", "/_ui/payroll"];
         let org_id = org.as_uuid().to_string();
         let run_id = run.to_string();
