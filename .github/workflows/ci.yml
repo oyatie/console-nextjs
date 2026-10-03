@@ -71,7 +71,7 @@ jobs:
           SQLX_OFFLINE: "true"
         working-directory: backend-fork/backend
         run: |
-          cargo clippy --locked -p console-app --lib --test auth_rest -- -D warnings
+          cargo clippy --locked -p console-app --lib --test auth_rest --test health_readiness -- -D warnings
           cargo clippy --locked -p console-platform-provisioning --lib --test account_locking --test account_identity --test rls_auth_chain_as_runtime_role -- -D warnings
       - name: PostgreSQL payroll source validation, roster and workflow recovery
         env:
@@ -86,6 +86,8 @@ jobs:
               harness + ["cargo", "test", "--locked", "--no-fail-fast", "-p", "console-payroll-adapter-postgres", "--lib", "--test", "pay_run_port_as_runtime_role", "--test", "roster_materialisation", "--test", "payroll_lifecycle_rls_as_runtime_role", "--test", "payroll_rls_surfaces_as_runtime_role", "--", "--test-threads=1"],
               harness + ["cargo", "test", "--locked", "-p", "console-workflow-runtime-adapter-postgres", "--test", "payroll_drain_period_lock", "--", "--test-threads=1"],
               harness + ["cargo", "test", "--locked", "--no-fail-fast", "-p", "console-payroll-rest", "--lib", "--test", "run_lifecycle_api", "--test", "api", "--", "--test-threads=1"],
+              harness + ["cargo", "test", "--locked", "-p", "console-app", "--test", "health_readiness", "--", "--test-threads=1"],
+              harness + ["cargo", "test", "--locked", "-p", "console-payroll-ui", "--lib", "--", "--test-threads=1"],
               harness + ["cargo", "test", "--locked", "-p", "console-inbox-adapter-postgres", "--test", "inbox_docs_rls_surfaces_as_runtime_role", "--", "--test-threads=1"],
               harness + ["cargo", "test", "--locked", "-p", "console-leave-adapter-postgres", "--test", "leave_rls_surfaces_as_runtime_role", "--", "--test-threads=1"],
               harness + ["cargo", "test", "--locked", "--no-fail-fast", "-p", "console-platform-db", "--lib", "--test", "rls_isolation", "--", "--test-threads=1"],
@@ -108,11 +110,13 @@ jobs:
           SQLX_OFFLINE: "true"
         working-directory: backend-fork/backend
         run: cargo clippy --locked -p console-workflow-runtime-adapter-postgres --lib --test payroll_drain_period_lock -- -D warnings
-      - name: Payroll REST owner and regression Clippy
+      - name: Payroll REST and UI owners and regression Clippy
         env:
           SQLX_OFFLINE: "true"
         working-directory: backend-fork/backend
-        run: cargo clippy --locked -p console-payroll-rest --lib --test run_lifecycle_api --test api -- -D warnings
+        run: |
+          cargo clippy --locked -p console-payroll-rest --lib --test run_lifecycle_api --test api -- -D warnings
+          cargo clippy --locked -p console-payroll-ui --lib -- -D warnings
       - name: Inbox owner and regression Clippy
         env:
           SQLX_OFFLINE: "true"

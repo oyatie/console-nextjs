@@ -72,7 +72,7 @@
     "expected_static_test_count": 15,
     "original_tests_preserved": 9,
     "new_tests": 6,
-    "runtime_discovery": "NOT_EXECUTED",
+    "runtime_discovery": "15 discovered/executed; approved RED11pass4expected failures,0ignored/measured/filtered",
     "reviewers": [
       {
         "reviewer": "native_attendance_owner_trace",
@@ -84,10 +84,57 @@
         "verdict": "APPROVE",
         "finding": "No material finding; real family/current-principal fixtures, exact action audit and SELECT faults, independently reached failure-state pin, denial/isolation/recovery; original assertions preserved."
       }
-    ]
+    ],
+    "approved_commit": "f3117e680be2beaae9e3784a4bf1501af1cd5e6b"
   },
   "implementation": {
-    "status": "NOT_ADMITTED"
+    "status": "ADMITTED_PENDING_GREEN_AND_SOURCE_REVIEW",
+    "admission": "tools/lanes/fanout.py admit",
+    "red_report_sha256": "e716ed1292a79327cee70f3d83719cb77863cad3482bb345fc654ab4e18a6bdd",
+    "red_counts": {
+      "discovered": 15,
+      "executed": 15,
+      "passed": 11,
+      "failed": 4,
+      "ignored": 0,
+      "filtered": 0
+    },
+    "independent_red_review": {
+      "reviewer": "native_attendance_owner_trace",
+      "verdict": "CONFIRMED_GENUINE_EXPECTED_RED"
+    }
   },
-  "scope": "Existing Rust SSR Payroll failure-state repair only; no complete Next/browser/Payroll/MVP or live-exposure acceptance."
+  "scope": "Existing Rust SSR Payroll failure-state repair only; no complete Next/browser/Payroll/MVP or live-exposure acceptance.",
+  "adapter_reviews": [
+    {
+      "revision": "admission-r1",
+      "reviewer": "enrollment_probe_trace",
+      "verdict": "APPROVE",
+      "runner_sha256": "f392cbc8f27671a87ea840bcb44cce819b8fbc91504716c643b6b17edae62d55"
+    },
+    {
+      "revision": "admission-r1",
+      "reviewer": "native_attendance_owner_trace",
+      "verdict": "REVISE",
+      "finding": "Copied lock/blocker witness wording exceeds tested proof.",
+      "disposition": "Preserve original attempt without source-admission credit. Correct wording in admission-r2."
+    },
+    {
+      "revision": "admission-r2",
+      "reviewers": [
+        "native_attendance_owner_trace",
+        "enrollment_probe_trace"
+      ],
+      "verdict": "APPROVE",
+      "runner_sha256": "12707418ad409be8e721e4df8e60dcb4904c6727434a388b8725c68d7313f732",
+      "probe_sha256": "db335f72454e95ea41f8e5994887ca80daa0f26cff8863738986f4be70990483",
+      "expectations_sha256": "3eec9ed6aa87ab163797e13d58c20ababc17fb25b28ea8962b294df9e85ec557"
+    },
+    {
+      "revision": "nearby-r1",
+      "reviewer": "web_session_owner_v1",
+      "verdict": "APPROVE",
+      "runner_sha256": "f0d873facae55741a73aca6c95d4bdd87001baf6f74ac4c31281aa061f06e0ff"
+    }
+  ]
 }

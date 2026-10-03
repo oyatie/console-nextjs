@@ -3619,7 +3619,7 @@ async fn compose_ui_screens(
         _ => (
             Vec::new(),
             Vec::new(),
-            Vec::new(),
+            console_payroll_rest::PayrollRunListing::Omitted,
             UiListingFloors::denied(),
         ),
     };
@@ -3632,17 +3632,26 @@ async fn compose_ui_screens(
             people.iter().map(ui_person).collect(),
             floors.hr,
         ),
-        runs: console_payroll_ui::ScreenSection::from_authorized_listing(
-            runs.iter().map(ui_run_summary).collect(),
-            floors.payroll,
-        ),
+        runs: match runs {
+            console_payroll_rest::PayrollRunListing::Omitted => {
+                console_payroll_ui::ScreenSection::Omitted
+            }
+            console_payroll_rest::PayrollRunListing::Loaded(page) => {
+                console_payroll_ui::ScreenSection::from_authorized_listing(
+                    page.items.iter().map(ui_run_summary).collect(),
+                    true,
+                )
+            }
+            console_payroll_rest::PayrollRunListing::FailedAfterAuthorization => {
+                console_payroll_ui::ScreenSection::Failure
+            }
+        },
     }
 }
 
 struct UiListingFloors {
     org: bool,
     hr: bool,
-    payroll: bool,
 }
 
 impl UiListingFloors {
@@ -3650,15 +3659,14 @@ impl UiListingFloors {
         Self {
             org: false,
             hr: false,
-            payroll: false,
         }
     }
 }
 
 /// Same listing floors as the existing GETs those screens already use.
-/// `visible_*` still collapse errors to `[]`; this only distinguishes authorized
-/// empty from omit. Listing failure stays collapsed until those helpers return
-/// a Result (rest crates are outside this lane).
+/// Organization/HR helpers still collapse errors to `[]`; these floors only
+/// distinguish authorized empty from omission for those two listings.
+/// Payroll carries its own authority and failure outcome from its read owner.
 async fn ui_listing_floors(
     verifier: &JwtVerifier,
     pool: &PgPool,
@@ -3675,7 +3683,6 @@ async fn ui_listing_floors(
             .iter()
             .any(|role| matches!(role, Role::Admin | Role::Executive | Role::SuperAdmin)),
         hr: ui_directory_listing_ok(&principal),
-        payroll: authorize_org_wide(&principal, Action::new(Feature::PayrollRunRead)).is_ok(),
     }
 }
 
