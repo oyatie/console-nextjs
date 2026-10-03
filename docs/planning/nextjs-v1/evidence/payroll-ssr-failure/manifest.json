@@ -1,0 +1,2413 @@
+{
+  "schema_version": 1,
+  "archive_sha256": "0e6acf7aa1e198bfd8ad684a6613bc29ad8599eb3cfb4dd00788e07f5e9372bf",
+  "regular_files": 481,
+  "bytes": 8469203,
+  "members": [
+    {
+      "path": "host-format.json",
+      "sha256": "392c1fc1219472142017b61b5aaaf70d9dbefd6d7c2c889a7d94b87efa77bbc6",
+      "bytes": 856
+    },
+    {
+      "path": "linux/admission-r1/fanout-admission.log",
+      "sha256": "1b17e00a63157d432ce33e580048e9d2ff467b7d5caa7b51c5199c79ecf1d861",
+      "bytes": 48
+    },
+    {
+      "path": "linux/admission-r1/probe.py",
+      "sha256": "db335f72454e95ea41f8e5994887ca80daa0f26cff8863738986f4be70990483",
+      "bytes": 1978
+    },
+    {
+      "path": "linux/admission-r1/red-expectations.json",
+      "sha256": "3eec9ed6aa87ab163797e13d58c20ababc17fb25b28ea8962b294df9e85ec557",
+      "bytes": 3115
+    },
+    {
+      "path": "linux/admission-r1/run-20261003T050630.369176Z/cargo-version.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r1/run-20261003T050630.369176Z/cargo-version.stdout.log",
+      "sha256": "9950bbb2d5c3417b1a068f0e81f6d3cac991a363193bdf2a22d447f5acf8b503",
+      "bytes": 36
+    },
+    {
+      "path": "linux/admission-r1/run-20261003T050630.369176Z/cleanup-container-0-lookup.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r1/run-20261003T050630.369176Z/cleanup-container-0-lookup.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r1/run-20261003T050630.369176Z/cleanup-container-1-lookup.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r1/run-20261003T050630.369176Z/cleanup-container-1-lookup.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r1/run-20261003T050630.369176Z/cleanup-container-2-lookup.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r1/run-20261003T050630.369176Z/cleanup-container-2-lookup.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r1/run-20261003T050630.369176Z/cleanup-container-3-lookup.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r1/run-20261003T050630.369176Z/cleanup-container-3-lookup.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r1/run-20261003T050630.369176Z/cleanup-container-4-lookup.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r1/run-20261003T050630.369176Z/cleanup-container-4-lookup.stdout.log",
+      "sha256": "c9e1c31b6b772b3eecc53ce310e9782e3f447b91264e7e05659dd6dc73d07b6e",
+      "bytes": 65
+    },
+    {
+      "path": "linux/admission-r1/run-20261003T050630.369176Z/cleanup-container-4-owner.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r1/run-20261003T050630.369176Z/cleanup-container-4-owner.stdout.log",
+      "sha256": "ac6febace19476d629144b0017b07e74cfb24e8b49bd433aa0be4e04ff2415c7",
+      "bytes": 13
+    },
+    {
+      "path": "linux/admission-r1/run-20261003T050630.369176Z/cleanup-container-4-readback.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r1/run-20261003T050630.369176Z/cleanup-container-4-readback.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r1/run-20261003T050630.369176Z/cleanup-container-4.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r1/run-20261003T050630.369176Z/cleanup-container-4.stdout.log",
+      "sha256": "c9e1c31b6b772b3eecc53ce310e9782e3f447b91264e7e05659dd6dc73d07b6e",
+      "bytes": 65
+    },
+    {
+      "path": "linux/admission-r1/run-20261003T050630.369176Z/cleanup-network-lookup.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r1/run-20261003T050630.369176Z/cleanup-network-lookup.stdout.log",
+      "sha256": "43ecc8e267d7776b16b18c0ebf360fa8e767c592b3801cda5e5646265fcb70c4",
+      "bytes": 65
+    },
+    {
+      "path": "linux/admission-r1/run-20261003T050630.369176Z/cleanup-network-owner.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r1/run-20261003T050630.369176Z/cleanup-network-owner.stdout.log",
+      "sha256": "ac6febace19476d629144b0017b07e74cfb24e8b49bd433aa0be4e04ff2415c7",
+      "bytes": 13
+    },
+    {
+      "path": "linux/admission-r1/run-20261003T050630.369176Z/cleanup-network-readback.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r1/run-20261003T050630.369176Z/cleanup-network-readback.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r1/run-20261003T050630.369176Z/cleanup-network.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r1/run-20261003T050630.369176Z/cleanup-network.stdout.log",
+      "sha256": "43ecc8e267d7776b16b18c0ebf360fa8e767c592b3801cda5e5646265fcb70c4",
+      "bytes": 65
+    },
+    {
+      "path": "linux/admission-r1/run-20261003T050630.369176Z/cleanup-pg-mounts-lookup.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r1/run-20261003T050630.369176Z/cleanup-pg-mounts-lookup.stdout.log",
+      "sha256": "c9e1c31b6b772b3eecc53ce310e9782e3f447b91264e7e05659dd6dc73d07b6e",
+      "bytes": 65
+    },
+    {
+      "path": "linux/admission-r1/run-20261003T050630.369176Z/cleanup-pg-mounts-owner.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r1/run-20261003T050630.369176Z/cleanup-pg-mounts-owner.stdout.log",
+      "sha256": "ac6febace19476d629144b0017b07e74cfb24e8b49bd433aa0be4e04ff2415c7",
+      "bytes": 13
+    },
+    {
+      "path": "linux/admission-r1/run-20261003T050630.369176Z/cleanup-pg-mounts.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r1/run-20261003T050630.369176Z/cleanup-pg-mounts.stdout.log",
+      "sha256": "04052debf8cc1ffa3889cbfd7a8c16f470cf26345cd42587d013ded07bc69dcf",
+      "bytes": 290
+    },
+    {
+      "path": "linux/admission-r1/run-20261003T050630.369176Z/cleanup-volume-0-readback.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r1/run-20261003T050630.369176Z/cleanup-volume-0-readback.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r1/run-20261003T050630.369176Z/health_readiness-discover.stderr.log",
+      "sha256": "a097b4697e4b197fcf1af3d1fa6798cd1d0bad150a523cd445352bf9afad4aa8",
+      "bytes": 15356
+    },
+    {
+      "path": "linux/admission-r1/run-20261003T050630.369176Z/health_readiness-discover.stdout.log",
+      "sha256": "17545688f89abc9d011bc2963f9d0e366643f08a604d622074d098f7a8b17723",
+      "bytes": 868
+    },
+    {
+      "path": "linux/admission-r1/run-20261003T050630.369176Z/health_readiness.stderr.log",
+      "sha256": "62bb4341bd7795678e6505aec33e71733a11c7f30cdb26c10ca86ec3e51b6461",
+      "bytes": 485
+    },
+    {
+      "path": "linux/admission-r1/run-20261003T050630.369176Z/health_readiness.stdout.log",
+      "sha256": "2ee51be19640eb7aefc383337464a9aeab0ae1bec2e077ca7fea66eac27bb6c6",
+      "bytes": 2437
+    },
+    {
+      "path": "linux/admission-r1/run-20261003T050630.369176Z/initdb-version.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r1/run-20261003T050630.369176Z/initdb-version.stdout.log",
+      "sha256": "92dc0890e5904c720cf72ea1c03b035685bb5119a7701379952fe46ef611de23",
+      "bytes": 50
+    },
+    {
+      "path": "linux/admission-r1/run-20261003T050630.369176Z/network-create.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r1/run-20261003T050630.369176Z/network-create.stdout.log",
+      "sha256": "43ecc8e267d7776b16b18c0ebf360fa8e767c592b3801cda5e5646265fcb70c4",
+      "bytes": 65
+    },
+    {
+      "path": "linux/admission-r1/run-20261003T050630.369176Z/network-readback.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r1/run-20261003T050630.369176Z/network-readback.stdout.log",
+      "sha256": "a17fcf0a2f50e2d495e4f90ce263410edc183add6c62699a2facbccf60410f74",
+      "bytes": 5
+    },
+    {
+      "path": "linux/admission-r1/run-20261003T050630.369176Z/pg_config-version.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r1/run-20261003T050630.369176Z/pg_config-version.stdout.log",
+      "sha256": "a7ef27d16bcc7522217b95daf47033145dec303a04a45c5c8c4b6ea6ef451f90",
+      "bytes": 41
+    },
+    {
+      "path": "linux/admission-r1/run-20261003T050630.369176Z/pg_ctl-version.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r1/run-20261003T050630.369176Z/pg_ctl-version.stdout.log",
+      "sha256": "3038c887e82fb6c2a637ef69025e30833accd881029c0b88cec2cfd3700182ad",
+      "bytes": 50
+    },
+    {
+      "path": "linux/admission-r1/run-20261003T050630.369176Z/postgres-image.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r1/run-20261003T050630.369176Z/postgres-image.stdout.log",
+      "sha256": "cb6563d4032cc2003d55a9e762b4980350c495c5ed945421fbe00a07b6ceabd6",
+      "bytes": 97
+    },
+    {
+      "path": "linux/admission-r1/run-20261003T050630.369176Z/postgres-log.stderr.log",
+      "sha256": "10b559c7c97954cfeab3ab5f095ae1f62b50be39262c7805a67c47cb4082c20d",
+      "bytes": 6733
+    },
+    {
+      "path": "linux/admission-r1/run-20261003T050630.369176Z/postgres-log.stdout.log",
+      "sha256": "59b86733edf13d736b84b3950efd5a882623bc4de69ccb75e5a9b9b1b2b3410b",
+      "bytes": 2375
+    },
+    {
+      "path": "linux/admission-r1/run-20261003T050630.369176Z/postgres-mounts-lookup.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r1/run-20261003T050630.369176Z/postgres-mounts-lookup.stdout.log",
+      "sha256": "c9e1c31b6b772b3eecc53ce310e9782e3f447b91264e7e05659dd6dc73d07b6e",
+      "bytes": 65
+    },
+    {
+      "path": "linux/admission-r1/run-20261003T050630.369176Z/postgres-mounts-owner.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r1/run-20261003T050630.369176Z/postgres-mounts-owner.stdout.log",
+      "sha256": "ac6febace19476d629144b0017b07e74cfb24e8b49bd433aa0be4e04ff2415c7",
+      "bytes": 13
+    },
+    {
+      "path": "linux/admission-r1/run-20261003T050630.369176Z/postgres-mounts.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r1/run-20261003T050630.369176Z/postgres-mounts.stdout.log",
+      "sha256": "04052debf8cc1ffa3889cbfd7a8c16f470cf26345cd42587d013ded07bc69dcf",
+      "bytes": 290
+    },
+    {
+      "path": "linux/admission-r1/run-20261003T050630.369176Z/postgres-port-readback.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r1/run-20261003T050630.369176Z/postgres-port-readback.stdout.log",
+      "sha256": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+      "bytes": 3
+    },
+    {
+      "path": "linux/admission-r1/run-20261003T050630.369176Z/postgres-ready-10.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r1/run-20261003T050630.369176Z/postgres-ready-10.stdout.log",
+      "sha256": "f65a06d12c78be4ce11dc662c4ebf525a1da13786331065f0fe973c6df5ddd29",
+      "bytes": 39
+    },
+    {
+      "path": "linux/admission-r1/run-20261003T050630.369176Z/postgres-ready-9.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r1/run-20261003T050630.369176Z/postgres-ready-9.stdout.log",
+      "sha256": "16ee3d174b642b39bda2af4b9be5ba53306922e073f3f9750a7f4b458cdfde1a",
+      "bytes": 29
+    },
+    {
+      "path": "linux/admission-r1/run-20261003T050630.369176Z/postgres-server-version.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r1/run-20261003T050630.369176Z/postgres-server-version.stdout.log",
+      "sha256": "4a84089ec1777d9c3b92740dad9f27e195d3f92ab1740454c0533c97d2f404b0",
+      "bytes": 128
+    },
+    {
+      "path": "linux/admission-r1/run-20261003T050630.369176Z/postgres-start.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r1/run-20261003T050630.369176Z/postgres-start.stdout.log",
+      "sha256": "c9e1c31b6b772b3eecc53ce310e9782e3f447b91264e7e05659dd6dc73d07b6e",
+      "bytes": 65
+    },
+    {
+      "path": "linux/admission-r1/run-20261003T050630.369176Z/postgres-version.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r1/run-20261003T050630.369176Z/postgres-version.stdout.log",
+      "sha256": "ad40f03acb43257bcbd4bfe635f26287e96e95802a4b9f2f44ebae30b3b87222",
+      "bytes": 52
+    },
+    {
+      "path": "linux/admission-r1/run-20261003T050630.369176Z/psql-version.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r1/run-20261003T050630.369176Z/psql-version.stdout.log",
+      "sha256": "2a61b5323d1612d65e01f1d81294015373bdc01b3e4f35217d8e454149cd947e",
+      "bytes": 48
+    },
+    {
+      "path": "linux/admission-r1/run-20261003T050630.369176Z/report.json",
+      "sha256": "f79f7f0772b07eb263ff4ff37d5c792496bc89667d06ef4d987d8e6c2cf42012",
+      "bytes": 1615619
+    },
+    {
+      "path": "linux/admission-r1/run-20261003T050630.369176Z/role-topology.stderr.log",
+      "sha256": "0d3b9f5d44b25649ac035d2d98430aff35d74d46e5e94f94c14d5abf33dba76a",
+      "bytes": 130
+    },
+    {
+      "path": "linux/admission-r1/run-20261003T050630.369176Z/role-topology.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r1/run-20261003T050630.369176Z/rust-image.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r1/run-20261003T050630.369176Z/rust-image.stdout.log",
+      "sha256": "001c7e302d95d3ba73bf855569d67ceb3757740241093076dabb6dbc0e7ecb85",
+      "bytes": 93
+    },
+    {
+      "path": "linux/admission-r1/run-20261003T050630.369176Z/rust-version.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r1/run-20261003T050630.369176Z/rust-version.stdout.log",
+      "sha256": "2073de5abf149185c2f4d7473dc833bc921b99135560d24ae7b2293f33a9c376",
+      "bytes": 36
+    },
+    {
+      "path": "linux/admission-r1/run-20261003T050630.369176Z/topology-copy.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r1/run-20261003T050630.369176Z/topology-copy.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r1/run-20261003T050630.369176Z/topology-env-copy.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r1/run-20261003T050630.369176Z/topology-env-copy.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r1/run_disposable_pg.py",
+      "sha256": "f392cbc8f27671a87ea840bcb44cce819b8fbc91504716c643b6b17edae62d55",
+      "bytes": 46057
+    },
+    {
+      "path": "linux/admission-r2/fanout-admission.log",
+      "sha256": "1b17e00a63157d432ce33e580048e9d2ff467b7d5caa7b51c5199c79ecf1d861",
+      "bytes": 48
+    },
+    {
+      "path": "linux/admission-r2/green-probe.log",
+      "sha256": "488668502b9d58ed0a2d407bcb0543fabf87723bdc3208baec55dd7219128141",
+      "bytes": 136
+    },
+    {
+      "path": "linux/admission-r2/probe.py",
+      "sha256": "db335f72454e95ea41f8e5994887ca80daa0f26cff8863738986f4be70990483",
+      "bytes": 1978
+    },
+    {
+      "path": "linux/admission-r2/red-expectations.json",
+      "sha256": "3eec9ed6aa87ab163797e13d58c20ababc17fb25b28ea8962b294df9e85ec557",
+      "bytes": 3115
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051247.898587Z/cargo-version.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051247.898587Z/cargo-version.stdout.log",
+      "sha256": "9950bbb2d5c3417b1a068f0e81f6d3cac991a363193bdf2a22d447f5acf8b503",
+      "bytes": 36
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051247.898587Z/cleanup-container-0-lookup.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051247.898587Z/cleanup-container-0-lookup.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051247.898587Z/cleanup-container-1-lookup.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051247.898587Z/cleanup-container-1-lookup.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051247.898587Z/cleanup-container-2-lookup.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051247.898587Z/cleanup-container-2-lookup.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051247.898587Z/cleanup-container-3-lookup.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051247.898587Z/cleanup-container-3-lookup.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051247.898587Z/cleanup-container-4-lookup.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051247.898587Z/cleanup-container-4-lookup.stdout.log",
+      "sha256": "ed246f78c1a97657b695376d4438cf567993ee3b79b92c1913c5cadd80a86925",
+      "bytes": 65
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051247.898587Z/cleanup-container-4-owner.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051247.898587Z/cleanup-container-4-owner.stdout.log",
+      "sha256": "ba3c74e5d52fc451a94096756b5e5f2245b69713026e855908ba95f54c4fa0a5",
+      "bytes": 13
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051247.898587Z/cleanup-container-4-readback.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051247.898587Z/cleanup-container-4-readback.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051247.898587Z/cleanup-container-4.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051247.898587Z/cleanup-container-4.stdout.log",
+      "sha256": "ed246f78c1a97657b695376d4438cf567993ee3b79b92c1913c5cadd80a86925",
+      "bytes": 65
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051247.898587Z/cleanup-network-lookup.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051247.898587Z/cleanup-network-lookup.stdout.log",
+      "sha256": "c1b709f63da83b8875d53d047d3295baa80a7fa0ff050ddea87766dcaf6af0db",
+      "bytes": 65
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051247.898587Z/cleanup-network-owner.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051247.898587Z/cleanup-network-owner.stdout.log",
+      "sha256": "ba3c74e5d52fc451a94096756b5e5f2245b69713026e855908ba95f54c4fa0a5",
+      "bytes": 13
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051247.898587Z/cleanup-network-readback.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051247.898587Z/cleanup-network-readback.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051247.898587Z/cleanup-network.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051247.898587Z/cleanup-network.stdout.log",
+      "sha256": "c1b709f63da83b8875d53d047d3295baa80a7fa0ff050ddea87766dcaf6af0db",
+      "bytes": 65
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051247.898587Z/cleanup-pg-mounts-lookup.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051247.898587Z/cleanup-pg-mounts-lookup.stdout.log",
+      "sha256": "ed246f78c1a97657b695376d4438cf567993ee3b79b92c1913c5cadd80a86925",
+      "bytes": 65
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051247.898587Z/cleanup-pg-mounts-owner.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051247.898587Z/cleanup-pg-mounts-owner.stdout.log",
+      "sha256": "ba3c74e5d52fc451a94096756b5e5f2245b69713026e855908ba95f54c4fa0a5",
+      "bytes": 13
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051247.898587Z/cleanup-pg-mounts.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051247.898587Z/cleanup-pg-mounts.stdout.log",
+      "sha256": "3392f00217e34bdeb35d18edd36ec3bf036c119ee6e81bbbdd94a24b9088e879",
+      "bytes": 290
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051247.898587Z/cleanup-volume-0-readback.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051247.898587Z/cleanup-volume-0-readback.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051247.898587Z/health_readiness-discover.stderr.log",
+      "sha256": "c700632740c3688899bdb7805e722e92b9b867021d46041b2b85682a053eab58",
+      "bytes": 410
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051247.898587Z/health_readiness-discover.stdout.log",
+      "sha256": "17545688f89abc9d011bc2963f9d0e366643f08a604d622074d098f7a8b17723",
+      "bytes": 868
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051247.898587Z/health_readiness.stderr.log",
+      "sha256": "a6bdceebffa20f8145fc661cbe9b5f8afe6a928dc4a4540743aa0781c46d4d8f",
+      "bytes": 485
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051247.898587Z/health_readiness.stdout.log",
+      "sha256": "4b1270837df5466e35ed1f602568746822caea0969e39846b84f3effac0f87ca",
+      "bytes": 2437
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051247.898587Z/initdb-version.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051247.898587Z/initdb-version.stdout.log",
+      "sha256": "92dc0890e5904c720cf72ea1c03b035685bb5119a7701379952fe46ef611de23",
+      "bytes": 50
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051247.898587Z/network-create.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051247.898587Z/network-create.stdout.log",
+      "sha256": "c1b709f63da83b8875d53d047d3295baa80a7fa0ff050ddea87766dcaf6af0db",
+      "bytes": 65
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051247.898587Z/network-readback.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051247.898587Z/network-readback.stdout.log",
+      "sha256": "a17fcf0a2f50e2d495e4f90ce263410edc183add6c62699a2facbccf60410f74",
+      "bytes": 5
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051247.898587Z/pg_config-version.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051247.898587Z/pg_config-version.stdout.log",
+      "sha256": "a7ef27d16bcc7522217b95daf47033145dec303a04a45c5c8c4b6ea6ef451f90",
+      "bytes": 41
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051247.898587Z/pg_ctl-version.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051247.898587Z/pg_ctl-version.stdout.log",
+      "sha256": "3038c887e82fb6c2a637ef69025e30833accd881029c0b88cec2cfd3700182ad",
+      "bytes": 50
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051247.898587Z/postgres-image.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051247.898587Z/postgres-image.stdout.log",
+      "sha256": "cb6563d4032cc2003d55a9e762b4980350c495c5ed945421fbe00a07b6ceabd6",
+      "bytes": 97
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051247.898587Z/postgres-log.stderr.log",
+      "sha256": "79127f6af6f10907dd263e4b1d5042aad47f17b15786519d136df1cad600e760",
+      "bytes": 6356
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051247.898587Z/postgres-log.stdout.log",
+      "sha256": "986614cea2873a38bff4a04be9f3dbb4c93be5cccc0c665b007fffce5e9eae1d",
+      "bytes": 2375
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051247.898587Z/postgres-mounts-lookup.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051247.898587Z/postgres-mounts-lookup.stdout.log",
+      "sha256": "ed246f78c1a97657b695376d4438cf567993ee3b79b92c1913c5cadd80a86925",
+      "bytes": 65
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051247.898587Z/postgres-mounts-owner.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051247.898587Z/postgres-mounts-owner.stdout.log",
+      "sha256": "ba3c74e5d52fc451a94096756b5e5f2245b69713026e855908ba95f54c4fa0a5",
+      "bytes": 13
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051247.898587Z/postgres-mounts.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051247.898587Z/postgres-mounts.stdout.log",
+      "sha256": "3392f00217e34bdeb35d18edd36ec3bf036c119ee6e81bbbdd94a24b9088e879",
+      "bytes": 290
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051247.898587Z/postgres-port-readback.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051247.898587Z/postgres-port-readback.stdout.log",
+      "sha256": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+      "bytes": 3
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051247.898587Z/postgres-ready-10.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051247.898587Z/postgres-ready-10.stdout.log",
+      "sha256": "f65a06d12c78be4ce11dc662c4ebf525a1da13786331065f0fe973c6df5ddd29",
+      "bytes": 39
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051247.898587Z/postgres-ready-9.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051247.898587Z/postgres-ready-9.stdout.log",
+      "sha256": "16ee3d174b642b39bda2af4b9be5ba53306922e073f3f9750a7f4b458cdfde1a",
+      "bytes": 29
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051247.898587Z/postgres-server-version.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051247.898587Z/postgres-server-version.stdout.log",
+      "sha256": "4a84089ec1777d9c3b92740dad9f27e195d3f92ab1740454c0533c97d2f404b0",
+      "bytes": 128
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051247.898587Z/postgres-start.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051247.898587Z/postgres-start.stdout.log",
+      "sha256": "ed246f78c1a97657b695376d4438cf567993ee3b79b92c1913c5cadd80a86925",
+      "bytes": 65
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051247.898587Z/postgres-version.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051247.898587Z/postgres-version.stdout.log",
+      "sha256": "ad40f03acb43257bcbd4bfe635f26287e96e95802a4b9f2f44ebae30b3b87222",
+      "bytes": 52
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051247.898587Z/psql-version.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051247.898587Z/psql-version.stdout.log",
+      "sha256": "2a61b5323d1612d65e01f1d81294015373bdc01b3e4f35217d8e454149cd947e",
+      "bytes": 48
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051247.898587Z/report.json",
+      "sha256": "e716ed1292a79327cee70f3d83719cb77863cad3482bb345fc654ab4e18a6bdd",
+      "bytes": 1615668
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051247.898587Z/role-topology.stderr.log",
+      "sha256": "0d3b9f5d44b25649ac035d2d98430aff35d74d46e5e94f94c14d5abf33dba76a",
+      "bytes": 130
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051247.898587Z/role-topology.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051247.898587Z/rust-image.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051247.898587Z/rust-image.stdout.log",
+      "sha256": "001c7e302d95d3ba73bf855569d67ceb3757740241093076dabb6dbc0e7ecb85",
+      "bytes": 93
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051247.898587Z/rust-version.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051247.898587Z/rust-version.stdout.log",
+      "sha256": "2073de5abf149185c2f4d7473dc833bc921b99135560d24ae7b2293f33a9c376",
+      "bytes": 36
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051247.898587Z/topology-copy.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051247.898587Z/topology-copy.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051247.898587Z/topology-env-copy.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051247.898587Z/topology-env-copy.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051812.587681Z/cargo-version.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051812.587681Z/cargo-version.stdout.log",
+      "sha256": "9950bbb2d5c3417b1a068f0e81f6d3cac991a363193bdf2a22d447f5acf8b503",
+      "bytes": 36
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051812.587681Z/cleanup-container-0-lookup.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051812.587681Z/cleanup-container-0-lookup.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051812.587681Z/cleanup-container-1-lookup.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051812.587681Z/cleanup-container-1-lookup.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051812.587681Z/cleanup-container-2-lookup.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051812.587681Z/cleanup-container-2-lookup.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051812.587681Z/cleanup-container-3-lookup.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051812.587681Z/cleanup-container-3-lookup.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051812.587681Z/cleanup-container-4-lookup.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051812.587681Z/cleanup-container-4-lookup.stdout.log",
+      "sha256": "ed6c5b84ad107cd1090d49bf6650948b1081998771fff91681f2b486ae9eac94",
+      "bytes": 65
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051812.587681Z/cleanup-container-4-owner.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051812.587681Z/cleanup-container-4-owner.stdout.log",
+      "sha256": "416768cef16fff64de23f0e8ba94902542f679b0c2c8cfdd76bacf1157d4ce67",
+      "bytes": 13
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051812.587681Z/cleanup-container-4-readback.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051812.587681Z/cleanup-container-4-readback.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051812.587681Z/cleanup-container-4.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051812.587681Z/cleanup-container-4.stdout.log",
+      "sha256": "ed6c5b84ad107cd1090d49bf6650948b1081998771fff91681f2b486ae9eac94",
+      "bytes": 65
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051812.587681Z/cleanup-network-lookup.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051812.587681Z/cleanup-network-lookup.stdout.log",
+      "sha256": "f6b143016bdf6102b75fa8a6e8d0b119a981a13ccf31aff67835085dbacff08a",
+      "bytes": 65
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051812.587681Z/cleanup-network-owner.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051812.587681Z/cleanup-network-owner.stdout.log",
+      "sha256": "416768cef16fff64de23f0e8ba94902542f679b0c2c8cfdd76bacf1157d4ce67",
+      "bytes": 13
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051812.587681Z/cleanup-network-readback.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051812.587681Z/cleanup-network-readback.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051812.587681Z/cleanup-network.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051812.587681Z/cleanup-network.stdout.log",
+      "sha256": "f6b143016bdf6102b75fa8a6e8d0b119a981a13ccf31aff67835085dbacff08a",
+      "bytes": 65
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051812.587681Z/cleanup-pg-mounts-lookup.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051812.587681Z/cleanup-pg-mounts-lookup.stdout.log",
+      "sha256": "ed6c5b84ad107cd1090d49bf6650948b1081998771fff91681f2b486ae9eac94",
+      "bytes": 65
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051812.587681Z/cleanup-pg-mounts-owner.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051812.587681Z/cleanup-pg-mounts-owner.stdout.log",
+      "sha256": "416768cef16fff64de23f0e8ba94902542f679b0c2c8cfdd76bacf1157d4ce67",
+      "bytes": 13
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051812.587681Z/cleanup-pg-mounts.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051812.587681Z/cleanup-pg-mounts.stdout.log",
+      "sha256": "070734840ac60d4b8bb54641af8eba46d0b872194d876479f1d6846ef411840f",
+      "bytes": 290
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051812.587681Z/cleanup-volume-0-readback.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051812.587681Z/cleanup-volume-0-readback.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051812.587681Z/health_readiness-discover.stderr.log",
+      "sha256": "f826356be0754a5f05658a010f1889b044b85a8386612730959b72697f09b25b",
+      "bytes": 550
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051812.587681Z/health_readiness-discover.stdout.log",
+      "sha256": "17545688f89abc9d011bc2963f9d0e366643f08a604d622074d098f7a8b17723",
+      "bytes": 868
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051812.587681Z/health_readiness.stderr.log",
+      "sha256": "cde26e22df02f10b7dfb189ac92cf2c02e4dab497acd14f933d5871bdb3cfcd1",
+      "bytes": 410
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051812.587681Z/health_readiness.stdout.log",
+      "sha256": "6b2618464e86f12e2950cfc83a886eab59e1d0077da1d0d6389cc62da9b748c2",
+      "bytes": 1050
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051812.587681Z/initdb-version.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051812.587681Z/initdb-version.stdout.log",
+      "sha256": "92dc0890e5904c720cf72ea1c03b035685bb5119a7701379952fe46ef611de23",
+      "bytes": 50
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051812.587681Z/network-create.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051812.587681Z/network-create.stdout.log",
+      "sha256": "f6b143016bdf6102b75fa8a6e8d0b119a981a13ccf31aff67835085dbacff08a",
+      "bytes": 65
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051812.587681Z/network-readback.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051812.587681Z/network-readback.stdout.log",
+      "sha256": "a17fcf0a2f50e2d495e4f90ce263410edc183add6c62699a2facbccf60410f74",
+      "bytes": 5
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051812.587681Z/pg_config-version.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051812.587681Z/pg_config-version.stdout.log",
+      "sha256": "a7ef27d16bcc7522217b95daf47033145dec303a04a45c5c8c4b6ea6ef451f90",
+      "bytes": 41
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051812.587681Z/pg_ctl-version.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051812.587681Z/pg_ctl-version.stdout.log",
+      "sha256": "3038c887e82fb6c2a637ef69025e30833accd881029c0b88cec2cfd3700182ad",
+      "bytes": 50
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051812.587681Z/postgres-image.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051812.587681Z/postgres-image.stdout.log",
+      "sha256": "cb6563d4032cc2003d55a9e762b4980350c495c5ed945421fbe00a07b6ceabd6",
+      "bytes": 97
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051812.587681Z/postgres-log.stderr.log",
+      "sha256": "e2a3fd9964aec5b2557c598802d4666b832cb8ad67e9152f0b003b28ae58010a",
+      "bytes": 7934
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051812.587681Z/postgres-log.stdout.log",
+      "sha256": "fd8779501765f9deb04212b58206321956406ae1fe5061dbbb4d669bb29f9cbb",
+      "bytes": 2375
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051812.587681Z/postgres-mounts-lookup.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051812.587681Z/postgres-mounts-lookup.stdout.log",
+      "sha256": "ed6c5b84ad107cd1090d49bf6650948b1081998771fff91681f2b486ae9eac94",
+      "bytes": 65
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051812.587681Z/postgres-mounts-owner.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051812.587681Z/postgres-mounts-owner.stdout.log",
+      "sha256": "416768cef16fff64de23f0e8ba94902542f679b0c2c8cfdd76bacf1157d4ce67",
+      "bytes": 13
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051812.587681Z/postgres-mounts.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051812.587681Z/postgres-mounts.stdout.log",
+      "sha256": "070734840ac60d4b8bb54641af8eba46d0b872194d876479f1d6846ef411840f",
+      "bytes": 290
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051812.587681Z/postgres-port-readback.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051812.587681Z/postgres-port-readback.stdout.log",
+      "sha256": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+      "bytes": 3
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051812.587681Z/postgres-ready-10.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051812.587681Z/postgres-ready-10.stdout.log",
+      "sha256": "f65a06d12c78be4ce11dc662c4ebf525a1da13786331065f0fe973c6df5ddd29",
+      "bytes": 39
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051812.587681Z/postgres-ready-9.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051812.587681Z/postgres-ready-9.stdout.log",
+      "sha256": "16ee3d174b642b39bda2af4b9be5ba53306922e073f3f9750a7f4b458cdfde1a",
+      "bytes": 29
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051812.587681Z/postgres-server-version.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051812.587681Z/postgres-server-version.stdout.log",
+      "sha256": "4a84089ec1777d9c3b92740dad9f27e195d3f92ab1740454c0533c97d2f404b0",
+      "bytes": 128
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051812.587681Z/postgres-start.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051812.587681Z/postgres-start.stdout.log",
+      "sha256": "ed6c5b84ad107cd1090d49bf6650948b1081998771fff91681f2b486ae9eac94",
+      "bytes": 65
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051812.587681Z/postgres-version.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051812.587681Z/postgres-version.stdout.log",
+      "sha256": "ad40f03acb43257bcbd4bfe635f26287e96e95802a4b9f2f44ebae30b3b87222",
+      "bytes": 52
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051812.587681Z/psql-version.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051812.587681Z/psql-version.stdout.log",
+      "sha256": "2a61b5323d1612d65e01f1d81294015373bdc01b3e4f35217d8e454149cd947e",
+      "bytes": 48
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051812.587681Z/report.json",
+      "sha256": "251919406b07599488a93036a39e346a422c4a79dcdd60876489b8936d907f4e",
+      "bytes": 1614503
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051812.587681Z/role-topology.stderr.log",
+      "sha256": "0d3b9f5d44b25649ac035d2d98430aff35d74d46e5e94f94c14d5abf33dba76a",
+      "bytes": 130
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051812.587681Z/role-topology.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051812.587681Z/rust-image.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051812.587681Z/rust-image.stdout.log",
+      "sha256": "001c7e302d95d3ba73bf855569d67ceb3757740241093076dabb6dbc0e7ecb85",
+      "bytes": 93
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051812.587681Z/rust-version.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051812.587681Z/rust-version.stdout.log",
+      "sha256": "2073de5abf149185c2f4d7473dc833bc921b99135560d24ae7b2293f33a9c376",
+      "bytes": 36
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051812.587681Z/topology-copy.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051812.587681Z/topology-copy.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051812.587681Z/topology-env-copy.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r2/run-20261003T051812.587681Z/topology-env-copy.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/admission-r2/run_disposable_pg.py",
+      "sha256": "12707418ad409be8e721e4df8e60dcb4904c6727434a388b8725c68d7313f732",
+      "bytes": 46105
+    },
+    {
+      "path": "linux/nearby-r1/run-20261003T052322.869370Z/cargo-version.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r1/run-20261003T052322.869370Z/cargo-version.stdout.log",
+      "sha256": "9950bbb2d5c3417b1a068f0e81f6d3cac991a363193bdf2a22d447f5acf8b503",
+      "bytes": 36
+    },
+    {
+      "path": "linux/nearby-r1/run-20261003T052322.869370Z/cleanup-container-0-lookup.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r1/run-20261003T052322.869370Z/cleanup-container-0-lookup.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r1/run-20261003T052322.869370Z/cleanup-container-1-lookup.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r1/run-20261003T052322.869370Z/cleanup-container-1-lookup.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r1/run-20261003T052322.869370Z/cleanup-container-2-lookup.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r1/run-20261003T052322.869370Z/cleanup-container-2-lookup.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r1/run-20261003T052322.869370Z/cleanup-container-3-lookup.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r1/run-20261003T052322.869370Z/cleanup-container-3-lookup.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r1/run-20261003T052322.869370Z/cleanup-container-4-lookup.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r1/run-20261003T052322.869370Z/cleanup-container-4-lookup.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r1/run-20261003T052322.869370Z/cleanup-container-5-lookup.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r1/run-20261003T052322.869370Z/cleanup-container-5-lookup.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r1/run-20261003T052322.869370Z/cleanup-container-6-lookup.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r1/run-20261003T052322.869370Z/cleanup-container-6-lookup.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r1/run-20261003T052322.869370Z/cleanup-container-7-lookup.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r1/run-20261003T052322.869370Z/cleanup-container-7-lookup.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r1/run-20261003T052322.869370Z/cleanup-container-8-lookup.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r1/run-20261003T052322.869370Z/cleanup-container-8-lookup.stdout.log",
+      "sha256": "6b9032bc3efdaa1debdf03666cd4ad26007a5b24c11de0602292c1d29fae3a5c",
+      "bytes": 65
+    },
+    {
+      "path": "linux/nearby-r1/run-20261003T052322.869370Z/cleanup-container-8-owner.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r1/run-20261003T052322.869370Z/cleanup-container-8-owner.stdout.log",
+      "sha256": "c9a7ca8002a5e69179697f543d8448638596e83b8b42acec38d5773871e8681a",
+      "bytes": 13
+    },
+    {
+      "path": "linux/nearby-r1/run-20261003T052322.869370Z/cleanup-container-8-readback.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r1/run-20261003T052322.869370Z/cleanup-container-8-readback.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r1/run-20261003T052322.869370Z/cleanup-container-8.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r1/run-20261003T052322.869370Z/cleanup-container-8.stdout.log",
+      "sha256": "6b9032bc3efdaa1debdf03666cd4ad26007a5b24c11de0602292c1d29fae3a5c",
+      "bytes": 65
+    },
+    {
+      "path": "linux/nearby-r1/run-20261003T052322.869370Z/cleanup-network-lookup.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r1/run-20261003T052322.869370Z/cleanup-network-lookup.stdout.log",
+      "sha256": "807d612fdcd2f11f7f2aa8b3b94ccfab4b035ae96706c2b0c20c1a611ddab5f3",
+      "bytes": 65
+    },
+    {
+      "path": "linux/nearby-r1/run-20261003T052322.869370Z/cleanup-network-owner.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r1/run-20261003T052322.869370Z/cleanup-network-owner.stdout.log",
+      "sha256": "c9a7ca8002a5e69179697f543d8448638596e83b8b42acec38d5773871e8681a",
+      "bytes": 13
+    },
+    {
+      "path": "linux/nearby-r1/run-20261003T052322.869370Z/cleanup-network-readback.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r1/run-20261003T052322.869370Z/cleanup-network-readback.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r1/run-20261003T052322.869370Z/cleanup-network.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r1/run-20261003T052322.869370Z/cleanup-network.stdout.log",
+      "sha256": "807d612fdcd2f11f7f2aa8b3b94ccfab4b035ae96706c2b0c20c1a611ddab5f3",
+      "bytes": 65
+    },
+    {
+      "path": "linux/nearby-r1/run-20261003T052322.869370Z/cleanup-pg-mounts-lookup.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r1/run-20261003T052322.869370Z/cleanup-pg-mounts-lookup.stdout.log",
+      "sha256": "6b9032bc3efdaa1debdf03666cd4ad26007a5b24c11de0602292c1d29fae3a5c",
+      "bytes": 65
+    },
+    {
+      "path": "linux/nearby-r1/run-20261003T052322.869370Z/cleanup-pg-mounts-owner.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r1/run-20261003T052322.869370Z/cleanup-pg-mounts-owner.stdout.log",
+      "sha256": "c9a7ca8002a5e69179697f543d8448638596e83b8b42acec38d5773871e8681a",
+      "bytes": 13
+    },
+    {
+      "path": "linux/nearby-r1/run-20261003T052322.869370Z/cleanup-pg-mounts.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r1/run-20261003T052322.869370Z/cleanup-pg-mounts.stdout.log",
+      "sha256": "8c4a2acf04c0bc9b8efc01437d31ca27f06eca50a04289e8e54e81415256dc14",
+      "bytes": 290
+    },
+    {
+      "path": "linux/nearby-r1/run-20261003T052322.869370Z/cleanup-volume-0-readback.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r1/run-20261003T052322.869370Z/cleanup-volume-0-readback.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r1/run-20261003T052322.869370Z/initdb-version.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r1/run-20261003T052322.869370Z/initdb-version.stdout.log",
+      "sha256": "92dc0890e5904c720cf72ea1c03b035685bb5119a7701379952fe46ef611de23",
+      "bytes": 50
+    },
+    {
+      "path": "linux/nearby-r1/run-20261003T052322.869370Z/network-create.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r1/run-20261003T052322.869370Z/network-create.stdout.log",
+      "sha256": "807d612fdcd2f11f7f2aa8b3b94ccfab4b035ae96706c2b0c20c1a611ddab5f3",
+      "bytes": 65
+    },
+    {
+      "path": "linux/nearby-r1/run-20261003T052322.869370Z/network-readback.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r1/run-20261003T052322.869370Z/network-readback.stdout.log",
+      "sha256": "a17fcf0a2f50e2d495e4f90ce263410edc183add6c62699a2facbccf60410f74",
+      "bytes": 5
+    },
+    {
+      "path": "linux/nearby-r1/run-20261003T052322.869370Z/payroll-app-clippy.stderr.log",
+      "sha256": "131d39e92f2d4c960a2dc8ba77cbcdc7c29067e107f69684a6834b1d433f9cb2",
+      "bytes": 147
+    },
+    {
+      "path": "linux/nearby-r1/run-20261003T052322.869370Z/payroll-app-clippy.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r1/run-20261003T052322.869370Z/payroll_rest_api-discover.stderr.log",
+      "sha256": "dcd65a11ac4aa939c97783461696135bc7d087f1df6014a18d09d319e6e96dea",
+      "bytes": 212
+    },
+    {
+      "path": "linux/nearby-r1/run-20261003T052322.869370Z/payroll_rest_api-discover.stdout.log",
+      "sha256": "24b1d17485df617ae2bb2943454e6384a2ab0c43bae13a63b24a5efdca2ae923",
+      "bytes": 1089
+    },
+    {
+      "path": "linux/nearby-r1/run-20261003T052322.869370Z/payroll_rest_api.stderr.log",
+      "sha256": "c5eb137ccbdf2f6dbeb89ca6e5ddca96089ee6667494ca3d1e4aa0a809db7558",
+      "bytes": 129
+    },
+    {
+      "path": "linux/nearby-r1/run-20261003T052322.869370Z/payroll_rest_api.stdout.log",
+      "sha256": "5bdc940ec87ab889650f11a0d86d3d3ce634c3ee6bff5d2a985902edcfb5b11f",
+      "bytes": 1283
+    },
+    {
+      "path": "linux/nearby-r1/run-20261003T052322.869370Z/payroll_rest_lib-discover.stderr.log",
+      "sha256": "2e9e30128ddd17d6adb267423e0333d82b7c64bf577e93368c2a6f5b4e9813ee",
+      "bytes": 1651
+    },
+    {
+      "path": "linux/nearby-r1/run-20261003T052322.869370Z/payroll_rest_lib-discover.stdout.log",
+      "sha256": "731efac763eeeca7fd23bb36abb3cfa989fee0efeedafb9d02d2eb1cdb1c4ecb",
+      "bytes": 714
+    },
+    {
+      "path": "linux/nearby-r1/run-20261003T052322.869370Z/payroll_ui_lib-discover.stderr.log",
+      "sha256": "932f452aebbd024a724512914de52e9e5d89a7dedc346ed145007eb879e1c3a6",
+      "bytes": 2960
+    },
+    {
+      "path": "linux/nearby-r1/run-20261003T052322.869370Z/payroll_ui_lib-discover.stdout.log",
+      "sha256": "f1258efda57630c68adcdff5f39628fb4b17db430abbc51a32b3075073236dea",
+      "bytes": 497
+    },
+    {
+      "path": "linux/nearby-r1/run-20261003T052322.869370Z/payroll_ui_lib.stderr.log",
+      "sha256": "d9b550583a423bad087e61237836767f254e5249d19a4640e6f922e26608d945",
+      "bytes": 407
+    },
+    {
+      "path": "linux/nearby-r1/run-20261003T052322.869370Z/payroll_ui_lib.stdout.log",
+      "sha256": "a6954ec7632c552d36862ced5a8cb73ba3c3254f5a95ffc792c405d98dc7bbf9",
+      "bytes": 629
+    },
+    {
+      "path": "linux/nearby-r1/run-20261003T052322.869370Z/pg_config-version.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r1/run-20261003T052322.869370Z/pg_config-version.stdout.log",
+      "sha256": "a7ef27d16bcc7522217b95daf47033145dec303a04a45c5c8c4b6ea6ef451f90",
+      "bytes": 41
+    },
+    {
+      "path": "linux/nearby-r1/run-20261003T052322.869370Z/pg_ctl-version.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r1/run-20261003T052322.869370Z/pg_ctl-version.stdout.log",
+      "sha256": "3038c887e82fb6c2a637ef69025e30833accd881029c0b88cec2cfd3700182ad",
+      "bytes": 50
+    },
+    {
+      "path": "linux/nearby-r1/run-20261003T052322.869370Z/postgres-image.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r1/run-20261003T052322.869370Z/postgres-image.stdout.log",
+      "sha256": "cb6563d4032cc2003d55a9e762b4980350c495c5ed945421fbe00a07b6ceabd6",
+      "bytes": 97
+    },
+    {
+      "path": "linux/nearby-r1/run-20261003T052322.869370Z/postgres-log.stderr.log",
+      "sha256": "96173924ec0ed0e448b6699541fb4f8af39a436125249fda043af98a3501389e",
+      "bytes": 11793
+    },
+    {
+      "path": "linux/nearby-r1/run-20261003T052322.869370Z/postgres-log.stdout.log",
+      "sha256": "9efa9633a447a7b0ffc32829006b0ed23740bae5e0549a750a7afe81ff6da7a6",
+      "bytes": 2375
+    },
+    {
+      "path": "linux/nearby-r1/run-20261003T052322.869370Z/postgres-mounts-lookup.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r1/run-20261003T052322.869370Z/postgres-mounts-lookup.stdout.log",
+      "sha256": "6b9032bc3efdaa1debdf03666cd4ad26007a5b24c11de0602292c1d29fae3a5c",
+      "bytes": 65
+    },
+    {
+      "path": "linux/nearby-r1/run-20261003T052322.869370Z/postgres-mounts-owner.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r1/run-20261003T052322.869370Z/postgres-mounts-owner.stdout.log",
+      "sha256": "c9a7ca8002a5e69179697f543d8448638596e83b8b42acec38d5773871e8681a",
+      "bytes": 13
+    },
+    {
+      "path": "linux/nearby-r1/run-20261003T052322.869370Z/postgres-mounts.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r1/run-20261003T052322.869370Z/postgres-mounts.stdout.log",
+      "sha256": "8c4a2acf04c0bc9b8efc01437d31ca27f06eca50a04289e8e54e81415256dc14",
+      "bytes": 290
+    },
+    {
+      "path": "linux/nearby-r1/run-20261003T052322.869370Z/postgres-port-readback.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r1/run-20261003T052322.869370Z/postgres-port-readback.stdout.log",
+      "sha256": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+      "bytes": 3
+    },
+    {
+      "path": "linux/nearby-r1/run-20261003T052322.869370Z/postgres-ready-10.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r1/run-20261003T052322.869370Z/postgres-ready-10.stdout.log",
+      "sha256": "f65a06d12c78be4ce11dc662c4ebf525a1da13786331065f0fe973c6df5ddd29",
+      "bytes": 39
+    },
+    {
+      "path": "linux/nearby-r1/run-20261003T052322.869370Z/postgres-ready-9.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r1/run-20261003T052322.869370Z/postgres-ready-9.stdout.log",
+      "sha256": "16ee3d174b642b39bda2af4b9be5ba53306922e073f3f9750a7f4b458cdfde1a",
+      "bytes": 29
+    },
+    {
+      "path": "linux/nearby-r1/run-20261003T052322.869370Z/postgres-server-version.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r1/run-20261003T052322.869370Z/postgres-server-version.stdout.log",
+      "sha256": "4a84089ec1777d9c3b92740dad9f27e195d3f92ab1740454c0533c97d2f404b0",
+      "bytes": 128
+    },
+    {
+      "path": "linux/nearby-r1/run-20261003T052322.869370Z/postgres-start.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r1/run-20261003T052322.869370Z/postgres-start.stdout.log",
+      "sha256": "6b9032bc3efdaa1debdf03666cd4ad26007a5b24c11de0602292c1d29fae3a5c",
+      "bytes": 65
+    },
+    {
+      "path": "linux/nearby-r1/run-20261003T052322.869370Z/postgres-version.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r1/run-20261003T052322.869370Z/postgres-version.stdout.log",
+      "sha256": "ad40f03acb43257bcbd4bfe635f26287e96e95802a4b9f2f44ebae30b3b87222",
+      "bytes": 52
+    },
+    {
+      "path": "linux/nearby-r1/run-20261003T052322.869370Z/psql-version.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r1/run-20261003T052322.869370Z/psql-version.stdout.log",
+      "sha256": "2a61b5323d1612d65e01f1d81294015373bdc01b3e4f35217d8e454149cd947e",
+      "bytes": 48
+    },
+    {
+      "path": "linux/nearby-r1/run-20261003T052322.869370Z/report.json",
+      "sha256": "c45ca5b78703016ac2eb20aa9fc76c6224cd9f4118bc3aee552faa14a4ffa11c",
+      "bytes": 1623920
+    },
+    {
+      "path": "linux/nearby-r1/run-20261003T052322.869370Z/role-topology.stderr.log",
+      "sha256": "0d3b9f5d44b25649ac035d2d98430aff35d74d46e5e94f94c14d5abf33dba76a",
+      "bytes": 130
+    },
+    {
+      "path": "linux/nearby-r1/run-20261003T052322.869370Z/role-topology.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r1/run-20261003T052322.869370Z/rust-image.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r1/run-20261003T052322.869370Z/rust-image.stdout.log",
+      "sha256": "001c7e302d95d3ba73bf855569d67ceb3757740241093076dabb6dbc0e7ecb85",
+      "bytes": 93
+    },
+    {
+      "path": "linux/nearby-r1/run-20261003T052322.869370Z/rust-version.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r1/run-20261003T052322.869370Z/rust-version.stdout.log",
+      "sha256": "2073de5abf149185c2f4d7473dc833bc921b99135560d24ae7b2293f33a9c376",
+      "bytes": 36
+    },
+    {
+      "path": "linux/nearby-r1/run-20261003T052322.869370Z/topology-copy.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r1/run-20261003T052322.869370Z/topology-copy.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r1/run-20261003T052322.869370Z/topology-env-copy.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r1/run-20261003T052322.869370Z/topology-env-copy.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r1/run_disposable_pg.py",
+      "sha256": "f0d873facae55741a73aca6c95d4bdd87001baf6f74ac4c31281aa061f06e0ff",
+      "bytes": 36915
+    },
+    {
+      "path": "linux/nearby-r1/verification.log",
+      "sha256": "d9f9b9cad94cdcf2b1237062c04d9b93e97754a1d77431ab4651780ff3df5d1b",
+      "bytes": 133
+    },
+    {
+      "path": "linux/nearby-r2/run_disposable_pg.py",
+      "sha256": "237e236c138360afb0304b0200723072cf02159d6832243c91b0e19579f6ed55",
+      "bytes": 37054
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/cargo-version.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/cargo-version.stdout.log",
+      "sha256": "9950bbb2d5c3417b1a068f0e81f6d3cac991a363193bdf2a22d447f5acf8b503",
+      "bytes": 36
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/cleanup-container-0-lookup.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/cleanup-container-0-lookup.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/cleanup-container-1-lookup.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/cleanup-container-1-lookup.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/cleanup-container-10-lookup.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/cleanup-container-10-lookup.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/cleanup-container-11-lookup.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/cleanup-container-11-lookup.stdout.log",
+      "sha256": "cda0ce3c038d3cf06e89da472e43739ee0e9978cda1e8766ced825060c78e723",
+      "bytes": 65
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/cleanup-container-11-owner.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/cleanup-container-11-owner.stdout.log",
+      "sha256": "2ca3cbd466b83c872774877bd1286c04392e525eebb9972ee55dd873d7590d1b",
+      "bytes": 13
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/cleanup-container-11-readback.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/cleanup-container-11-readback.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/cleanup-container-11.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/cleanup-container-11.stdout.log",
+      "sha256": "cda0ce3c038d3cf06e89da472e43739ee0e9978cda1e8766ced825060c78e723",
+      "bytes": 65
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/cleanup-container-2-lookup.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/cleanup-container-2-lookup.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/cleanup-container-3-lookup.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/cleanup-container-3-lookup.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/cleanup-container-4-lookup.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/cleanup-container-4-lookup.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/cleanup-container-5-lookup.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/cleanup-container-5-lookup.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/cleanup-container-6-lookup.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/cleanup-container-6-lookup.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/cleanup-container-7-lookup.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/cleanup-container-7-lookup.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/cleanup-container-8-lookup.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/cleanup-container-8-lookup.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/cleanup-container-9-lookup.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/cleanup-container-9-lookup.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/cleanup-network-lookup.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/cleanup-network-lookup.stdout.log",
+      "sha256": "3ee580f3d1b6206858151169091895da5fb0ecfe8c033568a1c87a440f6f02ef",
+      "bytes": 65
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/cleanup-network-owner.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/cleanup-network-owner.stdout.log",
+      "sha256": "2ca3cbd466b83c872774877bd1286c04392e525eebb9972ee55dd873d7590d1b",
+      "bytes": 13
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/cleanup-network-readback.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/cleanup-network-readback.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/cleanup-network.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/cleanup-network.stdout.log",
+      "sha256": "3ee580f3d1b6206858151169091895da5fb0ecfe8c033568a1c87a440f6f02ef",
+      "bytes": 65
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/cleanup-pg-mounts-lookup.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/cleanup-pg-mounts-lookup.stdout.log",
+      "sha256": "cda0ce3c038d3cf06e89da472e43739ee0e9978cda1e8766ced825060c78e723",
+      "bytes": 65
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/cleanup-pg-mounts-owner.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/cleanup-pg-mounts-owner.stdout.log",
+      "sha256": "2ca3cbd466b83c872774877bd1286c04392e525eebb9972ee55dd873d7590d1b",
+      "bytes": 13
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/cleanup-pg-mounts.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/cleanup-pg-mounts.stdout.log",
+      "sha256": "eb453f120e9c875ec19895badc09a0dbf0a81af5f7d17bbed48fd156764eaebd",
+      "bytes": 290
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/cleanup-volume-0-readback.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/cleanup-volume-0-readback.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/clippy-image.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/clippy-image.stdout.log",
+      "sha256": "fd2365c7e7ddf75e0b93b6dba7a24f8df9bb2be409a80f780a550f06f1cfae4b",
+      "bytes": 84
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/clippy-version.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/clippy-version.stdout.log",
+      "sha256": "5b2434a8299036c6e83749c249f2837c1689942551958368a628f5e06be5c21c",
+      "bytes": 38
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/initdb-version.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/initdb-version.stdout.log",
+      "sha256": "92dc0890e5904c720cf72ea1c03b035685bb5119a7701379952fe46ef611de23",
+      "bytes": 50
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/network-create.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/network-create.stdout.log",
+      "sha256": "3ee580f3d1b6206858151169091895da5fb0ecfe8c033568a1c87a440f6f02ef",
+      "bytes": 65
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/network-readback.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/network-readback.stdout.log",
+      "sha256": "a17fcf0a2f50e2d495e4f90ce263410edc183add6c62699a2facbccf60410f74",
+      "bytes": 5
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/payroll-app-clippy.stderr.log",
+      "sha256": "bc206b19e1a941c15c76062febd4bba192ff2f6b6125e3995be1776b1aa70f46",
+      "bytes": 15261
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/payroll-app-clippy.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/payroll-rest-ui-clippy.stderr.log",
+      "sha256": "e0721f9f37288795f1802b7c57b4fd993a5e1da53d4649783051382811418354",
+      "bytes": 3360
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/payroll-rest-ui-clippy.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/payroll_rest_api-discover.stderr.log",
+      "sha256": "1966927d014b49f0732a1b292acc9401aeed4a19b0549ba9300578622a2bfb3f",
+      "bytes": 129
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/payroll_rest_api-discover.stdout.log",
+      "sha256": "24b1d17485df617ae2bb2943454e6384a2ab0c43bae13a63b24a5efdca2ae923",
+      "bytes": 1089
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/payroll_rest_api.stderr.log",
+      "sha256": "dfc64e029e183e6f1876917e68162f077a0f54fe73cbe549d6ca3976d6d16229",
+      "bytes": 129
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/payroll_rest_api.stdout.log",
+      "sha256": "8864886e77df7ebb647a3f55c579ab9d81e138b77d5b968bc1d78175c8a8c487",
+      "bytes": 1283
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/payroll_rest_lib-discover.stderr.log",
+      "sha256": "758f7e1b0a53adc2dbfbcf3eb4295ba9ede3acaf96d093b67dfc7b5966773b34",
+      "bytes": 154
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/payroll_rest_lib-discover.stdout.log",
+      "sha256": "731efac763eeeca7fd23bb36abb3cfa989fee0efeedafb9d02d2eb1cdb1c4ecb",
+      "bytes": 714
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/payroll_rest_lib.stderr.log",
+      "sha256": "a0841e4570b2b9de17bc16acf875fda8b784f9f4cb61b1486b4b4ec3812630da",
+      "bytes": 154
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/payroll_rest_lib.stdout.log",
+      "sha256": "1da90d1649db26aedfdacfdecc484a8121176de02d095f1b8ae65504d4857c42",
+      "bytes": 865
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/payroll_ui_lib-discover.stderr.log",
+      "sha256": "0bf34f2085dfc40619bf3b1351e4739b4c78ef10eafcb1c0f55358a1bc102293",
+      "bytes": 407
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/payroll_ui_lib-discover.stdout.log",
+      "sha256": "f1258efda57630c68adcdff5f39628fb4b17db430abbc51a32b3075073236dea",
+      "bytes": 497
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/payroll_ui_lib.stderr.log",
+      "sha256": "651965884d823a290161bee481e410ac86d2582340876d53b5b57c35915379e9",
+      "bytes": 407
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/payroll_ui_lib.stdout.log",
+      "sha256": "a6954ec7632c552d36862ced5a8cb73ba3c3254f5a95ffc792c405d98dc7bbf9",
+      "bytes": 629
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/pg_config-version.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/pg_config-version.stdout.log",
+      "sha256": "a7ef27d16bcc7522217b95daf47033145dec303a04a45c5c8c4b6ea6ef451f90",
+      "bytes": 41
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/pg_ctl-version.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/pg_ctl-version.stdout.log",
+      "sha256": "3038c887e82fb6c2a637ef69025e30833accd881029c0b88cec2cfd3700182ad",
+      "bytes": 50
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/postgres-image.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/postgres-image.stdout.log",
+      "sha256": "cb6563d4032cc2003d55a9e762b4980350c495c5ed945421fbe00a07b6ceabd6",
+      "bytes": 97
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/postgres-log.stderr.log",
+      "sha256": "fdc3da4034a28ea0827fde2f3f7f970813df35c212f2a4941f92e44dbb0dd9ef",
+      "bytes": 11794
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/postgres-log.stdout.log",
+      "sha256": "3247257f923da44073e9d87a03892cc9694074e2f654085d7fa010e429a38b19",
+      "bytes": 2375
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/postgres-mounts-lookup.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/postgres-mounts-lookup.stdout.log",
+      "sha256": "cda0ce3c038d3cf06e89da472e43739ee0e9978cda1e8766ced825060c78e723",
+      "bytes": 65
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/postgres-mounts-owner.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/postgres-mounts-owner.stdout.log",
+      "sha256": "2ca3cbd466b83c872774877bd1286c04392e525eebb9972ee55dd873d7590d1b",
+      "bytes": 13
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/postgres-mounts.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/postgres-mounts.stdout.log",
+      "sha256": "eb453f120e9c875ec19895badc09a0dbf0a81af5f7d17bbed48fd156764eaebd",
+      "bytes": 290
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/postgres-port-readback.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/postgres-port-readback.stdout.log",
+      "sha256": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+      "bytes": 3
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/postgres-ready-10.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/postgres-ready-10.stdout.log",
+      "sha256": "16ee3d174b642b39bda2af4b9be5ba53306922e073f3f9750a7f4b458cdfde1a",
+      "bytes": 29
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/postgres-ready-11.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/postgres-ready-11.stdout.log",
+      "sha256": "f65a06d12c78be4ce11dc662c4ebf525a1da13786331065f0fe973c6df5ddd29",
+      "bytes": 39
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/postgres-server-version.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/postgres-server-version.stdout.log",
+      "sha256": "4a84089ec1777d9c3b92740dad9f27e195d3f92ab1740454c0533c97d2f404b0",
+      "bytes": 128
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/postgres-start.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/postgres-start.stdout.log",
+      "sha256": "cda0ce3c038d3cf06e89da472e43739ee0e9978cda1e8766ced825060c78e723",
+      "bytes": 65
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/postgres-version.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/postgres-version.stdout.log",
+      "sha256": "ad40f03acb43257bcbd4bfe635f26287e96e95802a4b9f2f44ebae30b3b87222",
+      "bytes": 52
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/psql-version.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/psql-version.stdout.log",
+      "sha256": "2a61b5323d1612d65e01f1d81294015373bdc01b3e4f35217d8e454149cd947e",
+      "bytes": 48
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/report.json",
+      "sha256": "ab4c8d888c216342c17b21eff621db15399a800caf1e24f7f37da229f5f5157b",
+      "bytes": 1636285
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/role-topology.stderr.log",
+      "sha256": "0d3b9f5d44b25649ac035d2d98430aff35d74d46e5e94f94c14d5abf33dba76a",
+      "bytes": 130
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/role-topology.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/rust-image.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/rust-image.stdout.log",
+      "sha256": "001c7e302d95d3ba73bf855569d67ceb3757740241093076dabb6dbc0e7ecb85",
+      "bytes": 93
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/rust-version.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/rust-version.stdout.log",
+      "sha256": "2073de5abf149185c2f4d7473dc833bc921b99135560d24ae7b2293f33a9c376",
+      "bytes": 36
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/topology-copy.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/topology-copy.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/topology-env-copy.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r3/run-20261003T053104.213998Z/topology-env-copy.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "linux/nearby-r3/run_disposable_pg.py",
+      "sha256": "2f0805355ea294ff36bc8bc380c66535ded1879adce0bdea30c3f4cbfacf1f6c",
+      "bytes": 37928
+    },
+    {
+      "path": "linux/nearby-r3/verification.log",
+      "sha256": "55337a14e9081c58393b20d92164aaaeed67c3ed11ff1835f5116a9c9ae4169a",
+      "bytes": 133
+    },
+    {
+      "path": "make-evidence.py",
+      "sha256": "109912c98d0a0902ab31e0175619f525d97c6cb369af868ec38c92ffb68892a0",
+      "bytes": 11596
+    },
+    {
+      "path": "mechanical-guide.json",
+      "sha256": "af9a3d382a95e77096d41834e170d9981ca6b05dbf9ae74295260289fa65b84f",
+      "bytes": 4419
+    },
+    {
+      "path": "source-custody.json",
+      "sha256": "dff50719c4db35840db6cd44d5c351d293d6bf8855a61e4a56bce157482a55cb",
+      "bytes": 3339
+    },
+    {
+      "path": "source-tooling.log",
+      "sha256": "2a41930fad9edbbc95499e5ac79f65472c67bf24286ae7c4169017092e047404",
+      "bytes": 117
+    },
+    {
+      "path": "verification-attempts.json",
+      "sha256": "58ad5bf1fe33eae287d20f357cff3109efbef094ec268b33420e3bab7a8ad279",
+      "bytes": 566
+    }
+  ]
+}

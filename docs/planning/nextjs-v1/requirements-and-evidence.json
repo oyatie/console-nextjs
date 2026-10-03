@@ -141,20 +141,25 @@
         "console_workflow_runtime_adapter_postgres::drain_payroll_job_outbox",
         "console_payroll_adapter_postgres::lifecycle",
         "console_payroll_rest::lifecycle::issue_payslips",
-        "console_inbox_adapter_postgres::PgInboxStore::emit_inbox_doc_in_tx"
+        "console_inbox_adapter_postgres::PgInboxStore::emit_inbox_doc_in_tx",
+        "console_payroll_rest::PayrollRestState::visible_run_summaries",
+        "console_app::compose_ui_screens"
       ],
       "contracts": [
         "Bounded existing payroll.create_run / PayrollDraftStaging owner paths: exact Company/run/period; pre-close refresh; known frozen no-op; locked-existing acknowledgment without refresh. Full module contract unverified.",
-        "Bounded staged-roster exact current-version coverage at submission/APPROVE; captured recipients, immutable Inbox replay and independent final artifact validation in one local Company transaction. Full legal/approval/payment/UI/durability contract unverified."
+        "Bounded staged-roster exact current-version coverage at submission/APPROVE; captured recipients, immutable Inbox replay and independent final artifact validation in one local Company transaction. Full legal/approval/payment/UI/durability contract unverified.",
+        "Bounded SSR omission/authorized empty/populated/failure outcome through existing audited PayrollRunRead owner; same REST contract, no raw error or rows/hydration after failure. First100 pagination and full module remain incomplete."
       ],
       "tests": [
         "pay_run_port_as_runtime_role: 25 real PostgreSQL cases",
         "payroll_drain_period_lock: 7 real PostgreSQL cases",
-        "Frozen payroll population probe:100/100 across8 complete owner/Router/Inbox/leave/workflow targets, zero filters/skips; strict locked/offline Clippy passed5 owner/lib/selected-target checks."
+        "Frozen payroll population probe:100/100 across8 complete owner/Router/Inbox/leave/workflow targets, zero filters/skips; strict locked/offline Clippy passed5 owner/lib/selected-target checks.",
+        "Payroll SSR complete health_readiness15/15; neighboring REST lib10/API17/UIlib7 all passed, zero skips/filters; strict relevant Clippy. Real single-site PostgreSQL/Router proof only."
       ],
       "evidence": [
         "payroll-roster-restage-evidence.json: source b0a017a; 32/32 native pass; 11 intended red failures; independent code approval. Full module/GUI/rollback/two-site acceptance remains unverified.",
-        "payroll-population-coverage-evidence.json sha256:1cec6ddbe5e09c3093e187acf4a3e0a5e5eb586b44db0c9a39abbd6077820578; source 3c544ba3267d99d9e25917e7da0871fc8f7ef4e3; unchanged approved tests RED100/87pass/13reviewed failures -> GREEN100/100. Module status stays unverified."
+        "payroll-population-coverage-evidence.json sha256:1cec6ddbe5e09c3093e187acf4a3e0a5e5eb586b44db0c9a39abbd6077820578; source 3c544ba3267d99d9e25917e7da0871fc8f7ef4e3; unchanged approved tests RED100/87pass/13reviewed failures -> GREEN100/100. Module status stays unverified.",
+        "payroll-ssr-failure-evidence.json sha256:217d4e80f171ddedbdee5fe5dd0f6a0763b81c4b6706dd4413621732bed855f5; runtime source 6d5f612736cc6d2f5e85bf9c3f5274f6317b7a86; independently reviewed intended RED4/15 -> unchanged GREEN15/15. Full module status stays unverified."
       ],
       "status": "unverified"
     },
