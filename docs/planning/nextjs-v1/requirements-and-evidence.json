@@ -159,7 +159,7 @@
       "evidence": [
         "payroll-roster-restage-evidence.json: source b0a017a; 32/32 native pass; 11 intended red failures; independent code approval. Full module/GUI/rollback/two-site acceptance remains unverified.",
         "payroll-population-coverage-evidence.json sha256:1cec6ddbe5e09c3093e187acf4a3e0a5e5eb586b44db0c9a39abbd6077820578; source 3c544ba3267d99d9e25917e7da0871fc8f7ef4e3; unchanged approved tests RED100/87pass/13reviewed failures -> GREEN100/100. Module status stays unverified.",
-        "payroll-ssr-failure-evidence.json sha256:217d4e80f171ddedbdee5fe5dd0f6a0763b81c4b6706dd4413621732bed855f5; runtime source 6d5f612736cc6d2f5e85bf9c3f5274f6317b7a86; independently reviewed intended RED4/15 -> unchanged GREEN15/15. Full module status stays unverified."
+        "payroll-ssr-failure-evidence.json sha256:63d0b54c5bc5d02f1371853d8e4f7c4e4062c2192066500e3058fdd3d2b60a53; runtime source6d5f612736cc6d2f5e85bf9c3f5274f6317b7a86; independently reviewed intended RED4/15 -> unchanged GREEN15/15. Full module status stays unverified."
       ],
       "status": "unverified"
     },

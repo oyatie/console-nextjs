@@ -62,6 +62,14 @@
       "status": "FAILED_UPSTREAM_502",
       "acceptance_credit": false,
       "disposition": "Same exact design round reissued; no tests/implementation admitted."
+    },
+    {
+      "reviewer": "enrollment_probe_trace",
+      "candidate": "116eb92774fd987c6f7be5f892e7b0acdd06eee8",
+      "status": "REVISE_METADATA",
+      "acceptance_credit": false,
+      "finding": "Archived guide incorrectly labeled executed R1 attempts UNREACHED.",
+      "disposition": "Corrected reached/unreached fields, preserve raw attempts, regenerate archive/manifest/evidence/index pins; no product or test changes."
     }
   ],
   "findings": [],

@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "archive_sha256": "0e6acf7aa1e198bfd8ad684a6613bc29ad8599eb3cfb4dd00788e07f5e9372bf",
+  "archive_sha256": "7b41cc5c5e479dbb1d8ea1325693c6e1a1085075cc0d4ad73e787453ba48dd0c",
   "regular_files": 481,
-  "bytes": 8469203,
+  "bytes": 8471156,
   "members": [
     {
       "path": "host-format.json",
@@ -2391,8 +2391,8 @@
     },
     {
       "path": "mechanical-guide.json",
-      "sha256": "af9a3d382a95e77096d41834e170d9981ca6b05dbf9ae74295260289fa65b84f",
-      "bytes": 4419
+      "sha256": "f87c9549df2072bb8c9f70975a56f8ecc24923485e95951a23a9941cf1fc443e",
+      "bytes": 6372
     },
     {
       "path": "source-custody.json",

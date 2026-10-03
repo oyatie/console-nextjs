@@ -9,9 +9,9 @@
   "tests_sha256": "7fabdb7b5dc22f1865dbdcac10f7e869e5962e54ca270fde3030b7d7858221f3",
   "bundle": {
     "archive": "docs/planning/nextjs-v1/evidence/payroll-ssr-failure/runtime-evidence.tar.gz",
-    "sha256": "0e6acf7aa1e198bfd8ad684a6613bc29ad8599eb3cfb4dd00788e07f5e9372bf",
+    "sha256": "7b41cc5c5e479dbb1d8ea1325693c6e1a1085075cc0d4ad73e787453ba48dd0c",
     "manifest": "docs/planning/nextjs-v1/evidence/payroll-ssr-failure/manifest.json",
-    "manifest_sha256": "4c29a8900c61477ae675af9a7ab94b6cc8c7493426a23233ba1fdcb04acf256f",
+    "manifest_sha256": "abd72d84df1ed0bc14d9a3635ebd2b8f04f73a0eb5cc7fb6ec4f92059c7d30f7",
     "regular_files": 481,
     "verified": true
   },
@@ -253,6 +253,10 @@
     {
       "attempt": "source-custody-import-1",
       "reason": "Import path error; no custody acceptance credit, corrected invocation passed."
+    },
+    {
+      "attempt": "final-candidate116eb927",
+      "reason": "Archived guide stale UNREACHED fields; corrected actual15/11/4 and API17/UI7 partial execution, raw logs unchanged. Previous bundle preserved in Git history."
     }
   ],
   "proof_limits": [
