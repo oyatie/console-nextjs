@@ -1,0 +1,83 @@
+{
+  "design_sha256": "a4c001ce0b04f01cffd8c98a05ba3023cb9b0b497398c2ee217586d93ed6c3bb",
+  "rounds": [
+    {
+      "reviewer": "native_attendance_owner_trace",
+      "round": 1,
+      "verdict": "ACCEPT",
+      "scope": "Design only"
+    },
+    {
+      "reviewer": "native_attendance_owner_trace",
+      "round": 2,
+      "verdict": "ACCEPT",
+      "scope": "Design only"
+    },
+    {
+      "reviewer": "web_session_owner_v1",
+      "round": 1,
+      "verdict": "ACCEPT",
+      "scope": "Design only"
+    },
+    {
+      "reviewer": "web_session_owner_v1",
+      "round": 2,
+      "verdict": "ACCEPT",
+      "scope": "Design only"
+    },
+    {
+      "reviewer": "native_attendance_owner_trace",
+      "round": 3,
+      "verdict": "ACCEPT",
+      "scope": "Design only"
+    },
+    {
+      "reviewer": "web_session_owner_v1",
+      "round": 3,
+      "verdict": "ACCEPT",
+      "scope": "Design only"
+    },
+    {
+      "reviewer": "native_attendance_owner_trace",
+      "round": 4,
+      "verdict": "ACCEPT",
+      "scope": "Design only; final exact-design APPROVE"
+    },
+    {
+      "reviewer": "web_session_owner_v1",
+      "round": 4,
+      "verdict": "ACCEPT",
+      "scope": "Design only; final exact-design APPROVE"
+    }
+  ],
+  "findings": [
+    "npm run lint executes tsc, not ESLint; label evidence accordingly.",
+    "Validate audit exit1/JSON genuine finding independently of broad fanout exit rules.",
+    "Run E2E with CI=1 and isolated port to prohibit reuse of old dev server.",
+    "Inherited e2e visual screenshot destination is absolute outside the worktree; no unauthorized writes or test edits are approved."
+  ],
+  "environment_checks": [
+    {
+      "check": "localhost isolated port bind in sandbox",
+      "result": "unavailable; permission error; no acceptance credit"
+    },
+    {
+      "check": "elevated localhost5298 bind",
+      "result": "passed; port free"
+    }
+  ],
+  "status": "DESIGN_AND_UNCHANGED_PROBES_APPROVED_IMPLEMENTATION_PENDING",
+  "probe_sha256": "6d9e17ca8bb21e5e874f7b263ddcef811d65fc0e8d3a3557d1bc33c20111db9f",
+  "probe_approvals": [
+    {
+      "reviewer": "native_attendance_owner_trace",
+      "verdict": "APPROVE",
+      "sha256": "6d9e17ca8bb21e5e874f7b263ddcef811d65fc0e8d3a3557d1bc33c20111db9f"
+    },
+    {
+      "reviewer": "web_session_owner_v1",
+      "verdict": "APPROVE",
+      "sha256": "6d9e17ca8bb21e5e874f7b263ddcef811d65fc0e8d3a3557d1bc33c20111db9f"
+    }
+  ]
+}
