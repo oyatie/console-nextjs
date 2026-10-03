@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "base": "9e6ddb687e2eaaf031beac4018bf568c37020090",
+  "design": {
+    "revision": "R1",
+    "path": "payroll-ssr-failure.md",
+    "sha256": "0b8f1d37228151cc8fc524e48b59a6a33c5784f13cd9e467b0458228cf629603",
+    "status": "ACCEPTED"
+  },
+  "design_reviews": [
+    {
+      "reviewer": "native_attendance_owner_trace",
+      "design_sha256": "0b8f1d37228151cc8fc524e48b59a6a33c5784f13cd9e467b0458228cf629603",
+      "rounds": [
+        {
+          "round": 1,
+          "verdict": "ACCEPT"
+        },
+        {
+          "round": 2,
+          "verdict": "ACCEPT"
+        },
+        {
+          "round": 3,
+          "verdict": "ACCEPT"
+        },
+        {
+          "round": 4,
+          "verdict": "ACCEPT"
+        }
+      ],
+      "final_design_verdict": "APPROVE"
+    },
+    {
+      "reviewer": "web_session_owner_v1",
+      "design_sha256": "0b8f1d37228151cc8fc524e48b59a6a33c5784f13cd9e467b0458228cf629603",
+      "rounds": [
+        {
+          "round": 1,
+          "verdict": "ACCEPT"
+        },
+        {
+          "round": 2,
+          "verdict": "ACCEPT"
+        },
+        {
+          "round": 3,
+          "verdict": "ACCEPT"
+        },
+        {
+          "round": 4,
+          "verdict": "ACCEPT"
+        }
+      ],
+      "final_design_verdict": "APPROVE"
+    }
+  ],
+  "review_attempts": [
+    {
+      "reviewer": "web_session_owner_v1",
+      "round": 3,
+      "status": "FAILED_UPSTREAM_502",
+      "acceptance_credit": false,
+      "disposition": "Same exact design round reissued; no tests/implementation admitted."
+    }
+  ],
+  "findings": [],
+  "tests": {
+    "status": "AUTHORING_AUTHORIZED_NOT_APPROVED"
+  },
+  "implementation": {
+    "status": "NOT_ADMITTED"
+  },
+  "scope": "Existing Rust SSR Payroll failure-state repair only; no complete Next/browser/Payroll/MVP or live-exposure acceptance."
+}
