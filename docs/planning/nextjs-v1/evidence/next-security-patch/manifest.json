@@ -1,0 +1,97 @@
+{
+  "schema_version": 1,
+  "product_source_candidate": "703c1504de116a099af226f83070a78da5fd042a",
+  "test_source_candidate": "1773ed31e2d33126c5b916a66f650790fd4b9032",
+  "archive_sha256": "1e2627db0437519ee65bd0ffdbf2fe6f40fc36152fbb01fbae9046c7b7d56f56",
+  "members": {
+    "upstream-advisory.json": {
+      "sha256": "0990d297715a48a3bd243c8c9d7bee66bda147277cd69a8f628c846bbf8795ee",
+      "bytes": 4548
+    },
+    "upstream-release.json": {
+      "sha256": "cf3d2d48439ea6b96a7f182c57ec5b911a083eacf1fc9b9bdb2bbb06ab087c86",
+      "bytes": 3165
+    },
+    "npm-next.json": {
+      "sha256": "af9c977254f20a2dc733ce78f6c1e6c599205cb431e78ebec1981705ab53a9a4",
+      "bytes": 259
+    },
+    "npm-eslint-config-next.json": {
+      "sha256": "ee3a92294c92573d74fab8b9c0630d74f3a5aa2f6c950e4c5228690382a11c5e",
+      "bytes": 529
+    },
+    "audit-before.json": {
+      "sha256": "bbb71f80efdaf05de5752bf32ebca32c1662c4604ba733a6b5559ce1cf51017a",
+      "bytes": 1185
+    },
+    "audit-admission.json": {
+      "sha256": "bbb71f80efdaf05de5752bf32ebca32c1662c4604ba733a6b5559ce1cf51017a",
+      "bytes": 1185
+    },
+    "admission.log": {
+      "sha256": "1b17e00a63157d432ce33e580048e9d2ff467b7d5caa7b51c5199c79ecf1d861",
+      "bytes": 48
+    },
+    "audit-after.json": {
+      "sha256": "62f647801681a2aa99efa199eed6391ed604322a885bb44afb9036e90e4c47ff",
+      "bytes": 365
+    },
+    "audit-all-before.json": {
+      "sha256": "e6a46c3f20fbde6f6b0c21e5b0fd59ac1f89a54d8fbf373b3acf2d059ee54940",
+      "bytes": 5719
+    },
+    "audit-all-after.json": {
+      "sha256": "3aa097445475f537948862f8d64960defa84442bb07f17cae27baa8271f5f811",
+      "bytes": 4901
+    },
+    "lock-closure.json": {
+      "sha256": "6bfa673fc4646aa95f49aae830639077e9943696cc4c92e101dc4f27ef1e67d6",
+      "bytes": 1104
+    },
+    "lock-update.log": {
+      "sha256": "5ef246b64ff9a71eedde6233609c2c4f3895d4f66c5fadbfd9b2cedbab771c59",
+      "bytes": 259
+    },
+    "npm-ci.log": {
+      "sha256": "3538901465f85e6346b002e327425405ed3842300c020baa2b65263004d348a6",
+      "bytes": 872
+    },
+    "typecheck.log": {
+      "sha256": "3e98dcbd24835eb29288dab5790e519db6a485457e666a6774fdbce08459740e",
+      "bytes": 42
+    },
+    "typecheck-final.log": {
+      "sha256": "3e98dcbd24835eb29288dab5790e519db6a485457e666a6774fdbce08459740e",
+      "bytes": 42
+    },
+    "unit.log": {
+      "sha256": "c0deaf0542e0ecb02220300185792619961bc7533db48aad5053f891255dd5e7",
+      "bytes": 701
+    },
+    "build.log": {
+      "sha256": "2bf01f8acbe13462aac2eb1f8805ce93432589f7d59d5d491b353212319d86d6",
+      "bytes": 1603
+    },
+    "production-routes.log": {
+      "sha256": "512901c3a5e50a2917b8d01feb4f8538f69890debfe194f13904f75b1b739000",
+      "bytes": 212
+    },
+    "e2e-discovery-before.txt": {
+      "sha256": "1e2458dc0806d8f450bca47438781aadaf7053c5ad4de37f478df6ff4329bb65",
+      "bytes": 2081
+    },
+    "e2e.log": {
+      "sha256": "a3935552f9eab4ba390d105b306b050fa35c74b00edaf2babc396169e8a98b68",
+      "bytes": 47912
+    },
+    "generated-next-env-diff.patch": {
+      "sha256": "a71a5f56d816c7ea16f84809c568bd99e908d91a8428b652b898baa560315ae4",
+      "bytes": 519
+    },
+    "execution-progress.json": {
+      "sha256": "74e53dbf94a34a39c27c4d7103f8f661e3c7dfc6076243b83eecbe62445bad4d",
+      "bytes": 3689
+    }
+  },
+  "custody": "Explicitly allowlisted public upstream and exact-command captures produced for this lane; no screenshots, secret credentials, external local artifacts or arbitrary runtime files imported."
+}
