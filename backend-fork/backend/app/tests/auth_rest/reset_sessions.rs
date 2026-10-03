@@ -19,7 +19,7 @@ struct Fixture {
     credential: String,
 }
 
-async fn runtime(owner: &PgPool, label: &str) -> PgPool {
+pub(super) async fn runtime(owner: &PgPool, label: &str) -> PgPool {
     let pool = PgPoolOptions::new()
         .max_connections(4)
         .after_connect(|conn, _| {
@@ -77,7 +77,7 @@ async fn fixture(owner: &PgPool, label: &str) -> Fixture {
         branch,
     )
     .await;
-    let admin = admin_session_via_otp(&router, &rt, admin).await;
+    let admin = authenticated_session(&router, &rt, admin).await;
     let bootstrap = admin_session_via_otp(&router, &rt, target).await;
     let mut authenticator = WebauthnAuthenticator::new(SoftPasskey::new(true));
     let credential = enroll_passkey(&router, &mut authenticator, &bootstrap).await;
@@ -445,7 +445,7 @@ async fn reset_with_no_keys_preserves_prior_revocation_and_sweeps_token_residue(
     assert_eq!(counts[1]["revoked_token_count"], 0);
 }
 
-async fn waiting(owner: &PgPool, label: &str, blocker: i32, query: &str) {
+pub(super) async fn waiting(owner: &PgPool, label: &str, blocker: i32, query: &str) {
     timeout(WAIT, async {
         loop {
             let blocked: bool = sqlx::query_scalar("SELECT EXISTS(SELECT 1 FROM pg_stat_activity WHERE \
@@ -457,7 +457,7 @@ async fn waiting(owner: &PgPool, label: &str, blocker: i32, query: &str) {
     }).await.expect("real owner must wait on the specified transaction");
 }
 
-async fn transaction_pid(tx: &mut Transaction<'_, Postgres>) -> i32 {
+pub(super) async fn transaction_pid(tx: &mut Transaction<'_, Postgres>) -> i32 {
     sqlx::query_scalar("SELECT pg_backend_pid()")
         .fetch_one(tx.as_mut())
         .await

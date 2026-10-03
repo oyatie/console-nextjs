@@ -47,8 +47,10 @@ jobs:
           harness = ["backend-fork/tools/lanes/pgtest.sh", os.environ["GITHUB_WORKSPACE"] + "/backend-fork"]
           commands = [
               harness + ["cargo", "test", "--locked", "--no-fail-fast", "-p", "console-identity-rest", "--lib", "--test", "authentication_locking", "--", "--test-threads=1"],
-              harness + ["cargo", "test", "--locked", "--no-fail-fast", "-p", "console-platform-auth-rest", "-p", "console-platform-auth", "--lib", "--", "--test-threads=1"],
-              harness + ["cargo", "test", "--locked", "-p", "console-app", "--test", "auth_rest", "reset_sessions::", "--", "--test-threads=1"],
+              harness + ["cargo", "test", "--locked", "--no-fail-fast", "-p", "console-platform-auth-rest", "-p", "console-platform-auth", "-p", "console-platform-request-context", "--lib", "--", "--test-threads=1"],
+              harness + ["cargo", "test", "--locked", "-p", "console-app", "--test", "auth_rest", "--", "--test-threads=1"],
+              harness + ["cargo", "test", "--locked", "--no-fail-fast", "-p", "console-platform-auth", "--test", "refresh_tokens", "--test", "session_locking", "--test", "webauthn_ceremony_replay", "--test", "webauthn_registration_deactivated_user", "--", "--test-threads=1"],
+              harness + ["cargo", "test", "--locked", "-p", "console-platform-auth-rest", "--test", "group_admin_tenant_context", "--", "--test-threads=1"],
               harness + ["cargo", "test", "--locked", "--no-fail-fast", "-p", "console-platform-provisioning", "--test", "account_locking", "--test", "account_identity", "--test", "rls_auth_chain_as_runtime_role", "--", "--test-threads=1"],
           ]
           outcomes = [subprocess.run(command, check=False).returncode for command in commands]
@@ -63,7 +65,7 @@ jobs:
         env:
           SQLX_OFFLINE: "true"
         working-directory: backend-fork/backend
-        run: cargo clippy --locked -p console-platform-auth-rest -p console-platform-auth --lib -- -D warnings
+        run: cargo clippy --locked -p console-platform-auth-rest -p console-platform-auth -p console-platform-request-context --lib -- -D warnings
       - name: Credential reset owner and regressions Clippy
         env:
           SQLX_OFFLINE: "true"

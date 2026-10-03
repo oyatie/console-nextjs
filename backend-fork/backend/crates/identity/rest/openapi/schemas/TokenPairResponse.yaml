@@ -20,6 +20,6 @@ properties:
     $ref: '#/components/schemas/Timestamp'
   requires_passkey_setup:
     type: boolean
-    description: True when the refreshed session belongs to an OTP-signed-in user who still has no passkey. Web clients
-      must keep routing this session to initial passkey enrollment after a reload; passkey-authenticated sessions return
-      false.
+    description: Reports key absence, not session purpose. True means the user should enroll a passkey. False never
+      grants ordinary authority; legacy OTP families remain enrollment-only after registration and refresh.
+      Ordinary work requires a fresh passkey login.

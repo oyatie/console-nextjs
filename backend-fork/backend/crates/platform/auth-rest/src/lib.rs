@@ -424,8 +424,8 @@ struct OtpRedeemRequest {
     otp: String,
 }
 
-/// OTP first sign-in result: a normal session token pair plus a flag telling the
-/// frontend to force passkey enrollment in initial settings.
+/// OTP first sign-in result: an enrollment-only token pair plus a key-absence
+/// presentation flag. Registration does not grant this family business authority.
 ///
 /// `refresh_token` is `null` in the cookie transport (web): the token is set as
 /// an HttpOnly cookie instead and must never reach web JS. It is `Some` in the
@@ -501,7 +501,8 @@ struct EnrollHandoffResponse {
     expires_at: OffsetDateTime,
     enroll_url: String,
     /// Desktop poll token paired to this phone-enrollment QR. Present so the PC
-    /// can finish its own session after the phone registers/authenticates.
+    /// can finish its own session after signed passkey approval or ordinary
+    /// phone login. Registration alone does not approve the desktop session.
     poll_token: String,
 }
 
@@ -580,8 +581,9 @@ struct PrivacyConsentStatusResponse {
 /// transport (web) — the refresh token rides in the HttpOnly `console_refresh`
 /// cookie instead — and `Some` in the body transport (mobile). The access token
 /// is ALWAYS in the body: it stays a short-lived in-memory bearer token, never a
-/// cookie. `requires_passkey_setup` is true only for an ordinary session whose
-/// user still has zero passkeys, so a refresh cannot bypass initial enrollment.
+/// cookie. `requires_passkey_setup` reports key absence, not session purpose.
+/// False never grants ordinary authority: legacy OTP families remain enrollment
+/// only after registration and refresh; ordinary work requires a fresh login.
 /// A `dev-auth` build exempts only its authenticated synthetic role-switch
 /// personas; ordinary users keep this production behavior in the same binary.
 #[derive(Debug, Serialize)]
@@ -841,7 +843,7 @@ async fn start_registration(
     Json(body): Json<RegisterStartRequest>,
 ) -> Result<Json<RegisterStartResponse>, RestError> {
     let services = state.services()?;
-    let (user_id, org_id) = authenticated_user_context(&state.pool, services, &headers).await?;
+    let (user_id, org_id) = enrollment_user_context(&state.pool, services, &headers).await?;
     let user = load_user_auth_context_in_org(&state.pool, org_id, user_id).await?;
 
     // Step-up gate: an already-enrolled user MUST assert an existing passkey (UV)
@@ -990,7 +992,7 @@ async fn finish_registration(
     Json(body): Json<RegisterFinishRequest>,
 ) -> Result<(StatusCode, Json<RegisterFinishResponse>), RestError> {
     let services = state.services()?;
-    let (user_id, org_id) = authenticated_user_context(&state.pool, services, &headers).await?;
+    let (user_id, org_id) = enrollment_user_context(&state.pool, services, &headers).await?;
     let family_id = session_family_from_headers(services, &headers)?;
     ensure_registration_ceremony_owner(&state.pool, body.ceremony_id, user_id).await?;
     let existing_passkeys = services
@@ -1266,8 +1268,9 @@ fn duration_to_std(ttl: Duration) -> std::time::Duration {
 ///
 /// Unauthenticated and rate-limited. Legacy OTP verification and its newly
 /// minted family are committed together for the OTP's pre-provisioned user;
-/// `requires_passkey_setup` tells the frontend to force passkey enrollment in
-/// initial settings. A wrong/expired/used OTP returns a single generic 401.
+/// The legacy code is consumed at successful registration, not redemption.
+/// `requires_passkey_setup` reports key absence; this family remains enrollment
+/// only even when false. A wrong/expired/used OTP returns a single generic 401.
 async fn redeem_otp(
     State(state): State<AuthRestState>,
     headers: HeaderMap,
@@ -1592,7 +1595,7 @@ async fn list_self_passkeys(
     headers: HeaderMap,
 ) -> Result<Json<Vec<PasskeySummary>>, RestError> {
     let services = state.services()?;
-    let (user_id, org_id) = authenticated_user_context(&state.pool, services, &headers).await?;
+    let (user_id, org_id) = enrollment_user_context(&state.pool, services, &headers).await?;
 
     let summaries =
         with_org_conn::<_, Vec<PasskeySummary>, RestError>(&state.pool, org_id, move |tx| {
@@ -1689,7 +1692,7 @@ async fn enroll_handoff(
 ) -> Result<Json<EnrollHandoffResponse>, RestError> {
     let services = state.services()?;
     // SELF-ONLY: user + org are taken from the verified token, never the body.
-    let (user_id, org_id) = authenticated_user_context(&state.pool, services, &headers).await?;
+    let (user_id, org_id) = enrollment_user_context(&state.pool, services, &headers).await?;
 
     // Step-up gate: an already-enrolled user MUST assert an existing passkey (UV)
     // before a fresh enrollment handoff is minted; a user with zero passkeys is
@@ -2207,8 +2210,8 @@ async fn approve_device_login_session(
         .session_family_id
         .ok_or_else(|| RestError::unauthorized("missing session family"))?;
     let current_user = load_user_auth_context_tx(&mut tx, user_id).await?;
-    let live_family: Option<bool> = sqlx::query_scalar(
-        "SELECT true FROM auth_refresh_token_families WHERE id=$1 AND user_id=$2 AND org_id=$3 AND revoked_at IS NULL FOR SHARE",
+    let live_family: Option<i16> = sqlx::query_scalar(
+        "SELECT provenance_version FROM auth_refresh_token_families WHERE id=$1 AND user_id=$2 AND org_id=$3 AND revoked_at IS NULL FOR SHARE",
     )
     .bind(family_id)
     .bind(user_id)
@@ -2216,7 +2219,7 @@ async fn approve_device_login_session(
     .fetch_optional(tx.as_mut())
     .await
     .map_err(DbError::Sqlx)?;
-    if live_family != Some(true)
+    if live_family != Some(0)
         || current_user.authz_subject_version != claims.authz_subject_version
         || current_user.session_generation != claims.session_generation
         || claims
@@ -2225,6 +2228,20 @@ async fn approve_device_login_session(
             .any(|role| !current_user.roles.contains(role))
     {
         return Err(RestError::unauthorized("session authority changed"));
+    }
+    // Read classification after acquiring the family lock so a pre-wait
+    // statement snapshot cannot hide a committed purpose correction.
+    let otp_bound: bool = sqlx::query_scalar(
+        "SELECT EXISTS(SELECT 1 FROM auth_legacy_otp_family_sources WHERE family_id=$1)",
+    )
+    .bind(family_id)
+    .fetch_one(tx.as_mut())
+    .await
+    .map_err(DbError::Sqlx)?;
+    if otp_bound {
+        return Err(RestError::unauthorized(
+            "enrollment session cannot approve desktop login",
+        ));
     }
     let latest_passkey_id: Option<Uuid> = sqlx::query_scalar(
         "SELECT id FROM auth_webauthn_credentials WHERE user_id=$1 AND org_id=$2 ORDER BY created_at DESC, id DESC LIMIT 1")
@@ -2301,7 +2318,7 @@ async fn privacy_consent_status(
     headers: HeaderMap,
 ) -> Result<Json<PrivacyConsentStatusResponse>, RestError> {
     let services = state.services()?;
-    let (user_id, org_id) = authenticated_user_context(&state.pool, services, &headers).await?;
+    let (user_id, org_id) = enrollment_user_context(&state.pool, services, &headers).await?;
     let accepted_at = required_privacy_consent_accepted_at(&state.pool, org_id, user_id).await?;
     Ok(Json(PrivacyConsentStatusResponse {
         policy_version: REQUIRED_PRIVACY_TERMS_VERSION,
@@ -2319,7 +2336,7 @@ async fn accept_privacy_consent(
     Json(body): Json<PrivacyConsentAcceptRequest>,
 ) -> Result<Json<PrivacyConsentStatusResponse>, RestError> {
     let services = state.services()?;
-    let (user_id, org_id) = authenticated_user_context(&state.pool, services, &headers).await?;
+    let (user_id, org_id) = enrollment_user_context(&state.pool, services, &headers).await?;
     if body.policy_version != REQUIRED_PRIVACY_TERMS_VERSION {
         return Err(RestError::bad_request(
             "unsupported privacy consent version",
@@ -3281,6 +3298,23 @@ async fn authenticated_user_context(
     services: &AuthServices,
     headers: &HeaderMap,
 ) -> Result<(Uuid, OrgId), RestError> {
+    authenticated_context(pool, services, headers, false).await
+}
+
+async fn enrollment_user_context(
+    pool: &PgPool,
+    services: &AuthServices,
+    headers: &HeaderMap,
+) -> Result<(Uuid, OrgId), RestError> {
+    authenticated_context(pool, services, headers, true).await
+}
+
+async fn authenticated_context(
+    pool: &PgPool,
+    services: &AuthServices,
+    headers: &HeaderMap,
+    allow_enrollment: bool,
+) -> Result<(Uuid, OrgId), RestError> {
     let token = bearer_token(headers)?;
     let claims = services
         .jwt_verifier
@@ -3295,9 +3329,12 @@ async fn authenticated_user_context(
             "delegated sessions cannot manage account credentials or consent",
         ));
     }
-    let (user, org) = console_platform_request_context::validate_current_claims(pool, &claims)
-        .await
-        .map_err(rest_error_from_request_context)?;
+    let current = if allow_enrollment {
+        console_platform_request_context::validate_enrollment_capable_claims(pool, &claims).await
+    } else {
+        console_platform_request_context::validate_current_claims(pool, &claims).await
+    };
+    let (user, org) = current.map_err(rest_error_from_request_context)?;
     Ok((*user.as_uuid(), org))
 }
 

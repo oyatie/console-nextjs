@@ -1,10 +1,12 @@
 tags:
   - auth
 summary: First sign-in by redeeming a one-time code
-description: First sign-in for a pre-provisioned user. Redeems a single-use, expiring one-time code (admin-issued, or
-  the cold-start secret) and mints a normal session token pair. The code is consumed atomically on success only; a wrong
-  or expired code returns a single generic 401. Rate-limited per client (IP and optional device). `requires_passkey_setup`
-  is true when the user has no passkey yet, so the client should force passkey enrollment in initial settings.
+description: First sign-in for a pre-provisioned user. Verifies a legacy expiring one-time code (admin-issued, or
+  the cold-start secret) and mints an enrollment-only token pair. The legacy code is consumed atomically at successful
+  passkey registration, not redemption. A wrong, expired or consumed code returns a single generic 401. Rate-limited
+  per client (IP and optional device). `requires_passkey_setup` reports key absence, not session purpose; false never
+  grants ordinary authority. The family remains enrollment-only after registration and refresh. Ordinary work
+  requires a fresh passkey login.
 requestBody:
   required: true
   content:

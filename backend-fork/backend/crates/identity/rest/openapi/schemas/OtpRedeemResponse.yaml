@@ -18,4 +18,5 @@ properties:
     $ref: '#/components/schemas/Timestamp'
   requires_passkey_setup:
     type: boolean
-    description: True when the signed-in user has no passkey yet and should enroll one in initial settings.
+    description: Reports key absence, not session purpose. True means the user should enroll a passkey. False never
+      grants ordinary authority; this legacy OTP family remains enrollment-only after registration and refresh.

@@ -1,0 +1,255 @@
+{
+  "schema_version": 1,
+  "base": "67c228d0b5268178b7e5e54c1ca7973ab221cf0f",
+  "design": {
+    "revision": "R2",
+    "path": "legacy-otp-purpose-admission.md",
+    "sha256": "837387ea0df62359424bee6ac4c9cb3e9bbc2a622ac784e5362ecc957a51a284",
+    "status": "ACCEPTED"
+  },
+  "findings": [
+    {
+      "revision": "R1",
+      "reviewer": "web_session_owner_v1",
+      "finding": "Missing original source with retained marker must be distinguished from genuinely unmarked version-0 compatibility; unavailable classification must fail closed.",
+      "disposition": "R2 test contract explicitly separates all three cases."
+    },
+    {
+      "revision": "R1",
+      "reviewer": "web_session_owner_v1",
+      "finding": "Pre-change session-approved handoffs omit approving family/purpose and cannot be reclassified by the new approval guard.",
+      "disposition": "R2 clause8 retains activation/migration HOLD until safe expiry/drain or separately reviewed reconciliation."
+    }
+  ],
+  "historical_reviews": [
+    {
+      "revision": "R1",
+      "reviewer": "native_attendance_owner_trace",
+      "round": 1,
+      "verdict": "ACCEPT"
+    },
+    {
+      "revision": "R1",
+      "reviewer": "native_attendance_owner_trace",
+      "round": 2,
+      "verdict": "ACCEPT"
+    },
+    {
+      "revision": "R1",
+      "reviewer": "web_session_owner_v1",
+      "round": 1,
+      "verdict": "REVISE"
+    }
+  ],
+  "design_reviews": [
+    {
+      "reviewer": "native_attendance_owner_trace",
+      "design_sha256": "837387ea0df62359424bee6ac4c9cb3e9bbc2a622ac784e5362ecc957a51a284",
+      "rounds": [
+        {
+          "round": 1,
+          "verdict": "ACCEPT"
+        },
+        {
+          "round": 2,
+          "verdict": "ACCEPT"
+        },
+        {
+          "round": 3,
+          "verdict": "ACCEPT"
+        },
+        {
+          "round": 4,
+          "verdict": "ACCEPT"
+        }
+      ]
+    },
+    {
+      "reviewer": "web_session_owner_v1",
+      "design_sha256": "837387ea0df62359424bee6ac4c9cb3e9bbc2a622ac784e5362ecc957a51a284",
+      "rounds": [
+        {
+          "round": 1,
+          "verdict": "ACCEPT"
+        },
+        {
+          "round": 2,
+          "verdict": "ACCEPT"
+        },
+        {
+          "round": 3,
+          "verdict": "ACCEPT"
+        },
+        {
+          "round": 4,
+          "verdict": "ACCEPT"
+        }
+      ]
+    }
+  ],
+  "scope": "Bounded legacy OTP HTTP/request admission; no version-1 activation or complete authentication/UI/launch acceptance.",
+  "tests": {
+    "status": "APPROVED",
+    "head": "058bcc44dde5df15b7322b717bc3d4f2d5982b1a",
+    "reviewers": [
+      {
+        "reviewer": "native_attendance_owner_trace",
+        "verdict": "APPROVE"
+      },
+      {
+        "reviewer": "web_session_owner_v1",
+        "verdict": "APPROVE"
+      }
+    ],
+    "scope": "Exact complete test-only candidate, not compilation or executed GREEN. Both original purpose probes, raw OTP helper and nine reset behavior bodies retained."
+  },
+  "implementation": {
+    "status": "LOCAL_SCOPED_VERIFIED",
+    "owners": [
+      "platform/request-context",
+      "platform/auth-rest"
+    ],
+    "scope": "No migration, dependency, identity, family rewrite, launch or live cutover.",
+    "runtime_source_candidate": "107c61583c8563e43df36a2da2f7184555bc5f4d",
+    "evidence": "docs/planning/nextjs-v1/legacy-otp-purpose-admission-evidence.json"
+  },
+  "remaining_holds": [
+    "historical unclassified version-0 proof and compromised legacy runtime SQL",
+    "pre-change approved device handoff activation/reconciliation",
+    "source deadline and protected version-1 generation/admission cutover",
+    "genuine Next HR/Org/Payroll/Foundry browser and UI polish",
+    "attended identity/recovery and independent-person authority",
+    "two-site confirmation/fencing and full module/launch acceptance"
+  ],
+  "test_findings": [
+    {
+      "finding": "Nonexistent payroll_eligible field, unavailable fixture helper/issuer constructor, region name collisions",
+      "disposition": "Actual employee_id DTO, existing issuer constructor, explicit platform setup and distinct labels."
+    },
+    {
+      "finding": "No-effect snapshot omitted OTP sources and step-up ceremonies",
+      "disposition": "Both owner products included."
+    },
+    {
+      "finding": "Consumed source masked independent expired/revoked source cases",
+      "disposition": "Fresh genuine handoff sources and redeemed families per variant with asserted unconsumed/unrevoked/unexpired precondition."
+    },
+    {
+      "finding": "Runtime caught two setup failures. An initial timestamp correction incorrectly added nonexistent family.last_used_at; one review approval was withdrawn.",
+      "disposition": "Before rerun, actual0004 family schema reviewed; final058bcc4 includes only required created_at and reference Group UPSERT, approved by both reviewers. No assertion weakening."
+    }
+  ],
+  "baseline": {
+    "head": "67c228d0b5268178b7e5e54c1ca7973ab221cf0f",
+    "status": "FAILED_DIAGNOSTIC_NOT_ADMISSION",
+    "auth_rest": {
+      "discovered": 39,
+      "executed": 39,
+      "passed": 37,
+      "failed": 2,
+      "ignored": 0,
+      "filtered": 0
+    },
+    "provisioning": {
+      "discovered": 48,
+      "executed": 48,
+      "passed": 48,
+      "failed": 0,
+      "ignored": 0,
+      "filtered": 0
+    },
+    "failures": [
+      "otp_enrollment_session_cannot_create_business_work",
+      "otp_family_cannot_gain_business_authority_after_passkey_registration"
+    ],
+    "custody_and_owned_cleanup": "PASSED",
+    "evidence": "External local artifacts legacy-otp-purpose-admission/linux/baseline/run-20261002T222947.420719Z/report.json"
+  },
+  "test_review_history": [
+    {
+      "status": "APPROVED",
+      "head": "d305758cb765f587d36e495120af64de3a6931ec",
+      "reviewers": [
+        {
+          "reviewer": "native_attendance_owner_trace",
+          "verdict": "APPROVE"
+        },
+        {
+          "reviewer": "web_session_owner_v1",
+          "verdict": "APPROVE"
+        }
+      ],
+      "scope": "Exact complete test-only candidate, not compilation or executed GREEN. Both original purpose probes, raw OTP helper and nine reset behavior bodies retained."
+    }
+  ],
+  "test_execution_attempts": [
+    {
+      "candidate": "48e6216711db0cdf1ef39c4f1128f92148f07d6a",
+      "tests_head": "d305758cb765f587d36e495120af64de3a6931ec",
+      "exit_code": 126,
+      "discovered": 51,
+      "executed": 51,
+      "passed": 37,
+      "failed": 14,
+      "admission": false,
+      "reason": "Two non-admissible fixture errors: missing family created_at and automatically existing Group membership. All evidence and cleanup retained.",
+      "evidence": "External local admission/run-20261002T230029.011768Z/report.json"
+    }
+  ],
+  "admission": {
+    "status": "ADMITTED",
+    "candidate": "eb7c471e22826058fab6b2b02ebb93126715cd2c",
+    "tests_head": "058bcc44dde5df15b7322b717bc3d4f2d5982b1a",
+    "discovered": 51,
+    "executed": 51,
+    "passed": 37,
+    "failed": 14,
+    "ignored": 0,
+    "measured": 0,
+    "filtered": 0,
+    "all_failure_pins": "MATCHED",
+    "unchanged_product": true,
+    "custody_and_owned_cleanup": "PASSED",
+    "fanout_exit_code": 0,
+    "probe_exit_code": 1,
+    "runner_sha256": "20e62befe26e61a8e5908137f50bb0c9c08bf72a03ebd612e129717d75d32f48",
+    "probe_sha256": "5d9d6bd69f35c578e90343a5fdf485802f746943613fbf65157184cec0293e08",
+    "expectations_sha256": "421263bc8043fc5b96edcdaf72b655194c7e4aa8e5ed8849a39738a39ef479a2",
+    "evidence": "External local admission-r3/run-20261002T230925.502344Z/report.json"
+  },
+  "implementation_reviews": [
+    {
+      "reviewer": "native_attendance_owner_trace",
+      "candidate_head": "107c61583c8563e43df36a2da2f7184555bc5f4d",
+      "verdict": "APPROVE",
+      "scope": "Full source/CI candidate, frozen tests/custody and sixteen-lens fix loop. Final evidence candidate reviewed separately."
+    },
+    {
+      "reviewer": "web_session_owner_v1",
+      "candidate_head": "107c61583c8563e43df36a2da2f7184555bc5f4d",
+      "verdict": "APPROVE",
+      "scope": "Full source/CI candidate, frozen tests/custody and sixteen-lens fix loop. Final evidence candidate reviewed separately."
+    }
+  ],
+  "evidence_reviews": [
+    {
+      "reviewer": "enrollment_probe_trace",
+      "verdict": "APPROVE",
+      "scope": "Exact R3 raw RED/GREEN and accounting-only nearby R2/strict Clippy adapters; final portable bundle review pending.",
+      "red_report_sha256": "ca0fb71cc7f5045e3178b99dd0cb42cf0e170788b58126bd167faa586f7a2753",
+      "green_report_sha256": "1b50bec43ed1bd439feae68b6c462d5b8f7a2303ed30270709c9750d6b173539"
+    }
+  ],
+  "implementation_findings": [
+    {
+      "finding": "OTP redeem and refresh/setup descriptions incorrectly implied ordinary authority or consumption at redemption.",
+      "disposition": "Corrected source, split schemas and generated OpenAPI without DTO/schema behavior changes; both reviewers approved107c."
+    },
+    {
+      "finding": "Bundle wording could imply raw retention of an initial OpenAPI failure that was captured only in session output and recovered through the session summary.",
+      "reviewer": "web_session_owner_v1",
+      "candidate_head": "08db4ff53706b8abe360338c094336ef472361a9",
+      "disposition": "Evidence and README now explicitly distinguish unavailable original bytes from the retained corrected/final raw generator logs. No reconstructed log, raw-retention claim or acceptance credit for that initial attempt."
+    }
+  ]
+}
