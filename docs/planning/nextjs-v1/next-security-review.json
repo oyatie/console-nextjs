@@ -66,7 +66,7 @@
       "result": "passed; port free"
     }
   ],
-  "status": "DESIGN_AND_UNCHANGED_PROBES_APPROVED_IMPLEMENTATION_PENDING",
+  "status": "LOCAL_GATES_AND_BOUNDED_SOURCE_APPROVED_EXACT_HEAD_COMMENT_AND_PROTECTED_HOSTED_CHECKS_PENDING",
   "probe_sha256": "6d9e17ca8bb21e5e874f7b263ddcef811d65fc0e8d3a3557d1bc33c20111db9f",
   "probe_approvals": [
     {
@@ -100,5 +100,104 @@
     ],
     "scope": "Exactly9 screenshot paths to Playwright test.info().outputPath, remove unused import/absolute constant; all assertions, cases, filenames, interactions preserved.",
     "freeze_status_note": "PENDING_EXACT_APPROVAL in frozen inventory describes its creation point; this separate receipt records subsequent approval."
-  }
+  },
+  "source_candidate": "68dcb7fa77c6e29711fb9401b705c9233f01f1d3",
+  "source_reviews": [
+    {
+      "reviewer": "native_attendance_owner_trace",
+      "candidate": "68dcb7fa77c6e29711fb9401b705c9233f01f1d3",
+      "verdict": "APPROVE",
+      "scope": "Source/security/simplification and22-member evidence custody; hosted checks and queue pending."
+    },
+    {
+      "reviewer": "enrollment_probe_trace",
+      "candidate": "68dcb7fa77c6e29711fb9401b705c9233f01f1d3",
+      "verdict": "APPROVE",
+      "scope": "Source/coverage/security/simplification, evidence custody and sixteen-lens audit."
+    },
+    {
+      "reviewer": "web_session_owner_v1",
+      "candidate": "68dcb7fa77c6e29711fb9401b705c9233f01f1d3",
+      "verdict": "APPROVE",
+      "scope": "Source/security/compatibility and exact22-member runtime evidence; hosted checks and queue pending."
+    }
+  ],
+  "sixteen_lens_audit": {
+    "reviewer": "enrollment_probe_trace",
+    "candidate": "68dcb7fa77c6e29711fb9401b705c9233f01f1d3",
+    "verdict": "APPROVE_BOUNDED_SOURCE_AND_EVIDENCE",
+    "lenses": [
+      {
+        "id": 1,
+        "conclusion": "Raw evidence verified; audit transport failure is not counted as RED."
+      },
+      {
+        "id": 2,
+        "conclusion": "Targeted patch; no unnecessary tests or infrastructure."
+      },
+      {
+        "id": 3,
+        "conclusion": "Existing contracts, owners and production exclusions preserved."
+      },
+      {
+        "id": 4,
+        "conclusion": "Green assertions distinguished from hydration errors and packaging warnings."
+      },
+      {
+        "id": 5,
+        "conclusion": "Evidence supports dependency repair, not workflow maturity."
+      },
+      {
+        "id": 6,
+        "conclusion": "Existing checks and exact pins provide bounded regression proof."
+      },
+      {
+        "id": 7,
+        "conclusion": "Production exclusion and genuine advisory removal verified."
+      },
+      {
+        "id": 8,
+        "conclusion": "Lockfile, companion edges and installed versions agree."
+      },
+      {
+        "id": 9,
+        "conclusion": "Raw warnings and unresolved development findings retained."
+      },
+      {
+        "id": 10,
+        "conclusion": "No unrelated upgrades or domain expansion."
+      },
+      {
+        "id": 11,
+        "conclusion": "Dependency closure, documentation and screenshot custody only."
+      },
+      {
+        "id": 12,
+        "conclusion": "No runtime workload change; capacity remains unproven."
+      },
+      {
+        "id": 13,
+        "conclusion": "No new coordination or transactional behavior."
+      },
+      {
+        "id": 14,
+        "conclusion": "No added services or recurring costs."
+      },
+      {
+        "id": 15,
+        "conclusion": "Counts, hashes, warnings and pending hosted checks recorded."
+      },
+      {
+        "id": 16,
+        "conclusion": "Registry/integrity evidence checked; no universal security clearance claimed."
+      }
+    ]
+  },
+  "limits": [
+    "Seven development vulnerability entries remain.",
+    "Development browser logs have four hydration errors; source is unchanged but baseline runtime comparison was not performed.",
+    "Build retains missing traced-media-manifest copy warning; standalone routes pass but deployment readiness is not established.",
+    "Hosted required checks and exact-head comment/protected queue pending.",
+    "Native browser sessions, two-site durability, full HR/Org/Payroll/Foundry, MVP and launch remain HOLD."
+  ]
 }
