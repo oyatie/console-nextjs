@@ -1,0 +1,37 @@
+# Native discoverable passkey prerequisite — C1
+
+Status: proposed focused companion; no implementation admission yet.
+Base: `9296d1d9660c9ec44a157456b949429092d4a252`.
+Owner/writer: root, isolated `fix/native-discoverable-passkeys` worktree.
+
+## Outcome and evidence
+
+Native enrollment currently asks for `residentKey: discouraged` / `requireResidentKey: false`, while native usernameless login has an empty allowlist and conditional mediation. Two genuine Chromium-created and natively accepted credentials were observed as nonresident; both conditional attempts returned `NotAllowedError`. This proves their compatibility gap, not universal hardware failure or the sole cause of rejection.
+
+This companion provides an explicit native choice for future discoverable enrollment and ordinary modal usernameless login, through existing auth owners. It does not claim browser-business-session R6 acceptance, HR/payroll completion, physical-passkey conformance, production activation or two-site durability.
+
+## Exact contract and owners
+
+Extend existing authenticated `POST /api/v1/auth/passkey/register/start` with optional JSON boolean `require_discoverable`, default `false`. Omitted/false preserves existing generated challenge semantics. True invokes named `PasskeyService::start_discoverable_registration`; both public start methods share a private helper. Use installed webauthn-rs 0.5.5 to generate its unchanged challenge and state, then set the typed challenge's `authenticator_selection.resident_key` to `Required` and `require_resident_key` to `true` before `persist_ceremony` and before returning it. No browser option override, credential injection, private state codec edit or dependency change. Preserve RP/origins, UV, exclusions, signatures, attestation and the existing finish verifier. Residence is a browser/authenticator selection requirement, not a server-certified device property; attestations do not universally prove residence.
+
+Reuse the entire current registration handler: current Account/Company/session, privacy terms, existing-key UV step-up, locked key-count drift, family/source binding and expiry checks remain. Opt-in changes authenticator selection only; it grants no enrollment authority. Existing `PasskeyRegistrationStart` Rust input shape remains compatible.
+
+Add bodyless `POST /api/v1/auth/passkey/login/explicit/start` using `PasskeyService::start_explicit_authentication`. Preserve bodyless conditional `/login/start` unchanged. Both share one REST helper and the same `RateLimitEndpoint::LoginStart` counter/trusted-IP handling; both owner methods share a private helper. Generate the installed library's discoverable challenge/state, set typed `challenge.mediation = None` only for explicit start, then persist/return. Omission uses ordinary browser default optional mediation; do not fabricate an enum variant or remove JSON client-side. Both keep an empty allowlist, required UV, null ceremony subject and the current expiry. Existing `/login/finish` resolves exact credential Account/Company and retains all transactional proof/session/audit effects and replay/revocation checks.
+
+Register the real route in `AUTH_ROUTE_PATHS` and router. Update identity-owned OpenAPI fragments/manifest and generated composition through existing generators. Verify actual path × method and response/options against that contract; schema-only proof is insufficient. No migration, new credential/session class, lookup by mutable email, automatic retries or silent fallback.
+
+## Compatibility, limits and rollback
+
+Do not retrofit old nonresident credentials or force resident selection on legacy enrollments. Existing software-authenticator tests reject required resident creation; their original legacy option path stays unchanged. Existing nonresident-only users cannot gain discoverability from a server flag. Their authorized add-device transition remains the separately recorded action-bound add-device/recovery work in `add-device-proof-handoff-design.md`; no unbound account/allowlist/step-up shortcut is added here. This is a prerequisite for newly enrolled users, not a claim that existing-user transition is complete. Next consumer selection follows only in the separately admitted R6 implementation; no Next UI is published by this companion.
+
+Rollback the source route/flag addition without rewriting credentials, ceremonies, RP IDs, families or historical records. Previously enrolled discoverable keys remain valid native credentials. Old clients keep original behavior; clients selecting the new route require the matching backend and receive a visible failure when unavailable. Production rollout/exposure remains HOLD.
+
+## Executable acceptance and delivery
+
+Retain the two enrollment/metadata diagnostics and their evidence. Add strict genuine-browser acceptance using server-issued opt-in creation and explicit request options unchanged: two separate Accounts/Companies, genuinely created resident credentials, successful empty-allowlist assertions, signed native login, exact credential/user/Company/family/token/counter/audit/ceremony effects and unchanged custody on registration/login replay. Browser rejection must fail this acceptance. Use the existing production Next build only as a real secure RP origin, not as product-sign-in proof. Require same stored/returned challenge and ordinary subject-null ceremonies.
+
+Add real native REST checks: omitted/false legacy creation; true selection and exclusion preservation; malformed boolean/auth/consent/add-device without UV denial; conditional and explicit bodyless starts; required UV/empty allowlist/RP/expiry; shared rate limit; route/method/OpenAPI coverage. Preserve all legacy native replay/revocation/contention tests. Do not run inherited unfinished R6 probes as if this companion implemented them; discovery and execution counts must identify filtered tests explicitly.
+
+Root alone writes source, contracts, generated files, evidence and shared Cargo cache. Reviewers are read-only. Before implementation: four independent exact-hash design rounds, independently approved executable artifact, clean test commit and real compiled behavioral RED through `tools/lanes/fanout.py admit`. After implementation: targeted green, applicable contracts/format/security checks, independent adversarial review/fix, 16-lens audit, exact-candidate COMMENT, protected queue and hosted readback. No attribution trailers.
+
+Premortem/blast radius: wrong residence or mediation breaks sign-in; duplicated rate-limit buckets permit abuse; route/schema drift hides client failures; bypassed shared registration gates permits stolen-session enrollment. Detect each with native/browser/contract negatives. Stop on changed authority, weakened legacy guards, unsafe rollback, missing real service proof or required test failure. Red Team, Operability/Day-2, cell containment and zero trust apply. This companion clears none of the broader v1/provenance/durability/recovery/legal/launch HOLDs.

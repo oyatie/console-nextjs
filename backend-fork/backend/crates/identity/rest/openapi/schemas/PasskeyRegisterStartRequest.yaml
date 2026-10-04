@@ -5,6 +5,12 @@ description: Optional overrides for the authenticated session user's passkey reg
   `step_up` assertion of an existing passkey (user verification required), or register/start returns 401 — so a stolen
   session cannot silently add a credential.
 properties:
+  require_discoverable:
+    type: boolean
+    default: false
+    description: Request residentKey required and requireResidentKey true for usernameless sign-in. Omitted or false
+      preserves legacy selection. This does not certify credential residence. Consumers must verify both returned
+      residence requirements and required user verification before credential creation; reject mismatched options.
   username:
     type: string
   display_name:

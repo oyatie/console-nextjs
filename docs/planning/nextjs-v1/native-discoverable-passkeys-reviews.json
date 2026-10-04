@@ -1,0 +1,203 @@
+{
+  "status": "DESIGN_TEST_AND_IMPLEMENTATION_SOURCE_APPROVED_LOCAL_NATIVE_GREEN_PENDING_FINAL_GATES",
+  "base": "86f3e1eaa0436a698bf1478f339a015cb1c68361",
+  "revisions": [
+    {
+      "revision": "C1",
+      "sha256": "c0ce5f8f6e3c78faf7d11f3958d6b120ae4753de22c4bd30fa9320b38c9d3fba",
+      "status": "SUPERSEDED",
+      "finding": "Old servers ignore the opt-in flag; require mode guard before credential creation."
+    },
+    {
+      "revision": "C2",
+      "sha256": "4982ab12fb8beaff3b86c6f691912b0985821a993a230204c60482be65f2a28d",
+      "status": "APPROVED_DESIGN_ONLY",
+      "reviews": [
+        {
+          "reviewer": "enrollment_probe_trace",
+          "round": 1,
+          "verdict": "ACCEPT",
+          "sha256": "4982ab12fb8beaff3b86c6f691912b0985821a993a230204c60482be65f2a28d",
+          "scope": "Focused native new-key prerequisite design only"
+        },
+        {
+          "reviewer": "enrollment_probe_trace",
+          "round": 2,
+          "verdict": "ACCEPT",
+          "sha256": "4982ab12fb8beaff3b86c6f691912b0985821a993a230204c60482be65f2a28d",
+          "scope": "Focused native new-key prerequisite design only"
+        },
+        {
+          "reviewer": "enrollment_probe_trace",
+          "round": 3,
+          "verdict": "ACCEPT",
+          "sha256": "4982ab12fb8beaff3b86c6f691912b0985821a993a230204c60482be65f2a28d",
+          "scope": "Focused native new-key prerequisite design only"
+        },
+        {
+          "reviewer": "enrollment_probe_trace",
+          "round": 4,
+          "verdict": "ACCEPT",
+          "sha256": "4982ab12fb8beaff3b86c6f691912b0985821a993a230204c60482be65f2a28d",
+          "scope": "Focused native new-key prerequisite design only"
+        },
+        {
+          "reviewer": "remaining_native_probe_inventory",
+          "round": 1,
+          "verdict": "ACCEPT",
+          "sha256": "4982ab12fb8beaff3b86c6f691912b0985821a993a230204c60482be65f2a28d",
+          "scope": "Focused native new-key prerequisite design only"
+        },
+        {
+          "reviewer": "remaining_native_probe_inventory",
+          "round": 2,
+          "verdict": "ACCEPT",
+          "sha256": "4982ab12fb8beaff3b86c6f691912b0985821a993a230204c60482be65f2a28d",
+          "scope": "Focused native new-key prerequisite design only"
+        },
+        {
+          "reviewer": "remaining_native_probe_inventory",
+          "round": 3,
+          "verdict": "ACCEPT",
+          "sha256": "4982ab12fb8beaff3b86c6f691912b0985821a993a230204c60482be65f2a28d",
+          "scope": "Focused native new-key prerequisite design only"
+        },
+        {
+          "reviewer": "remaining_native_probe_inventory",
+          "round": 4,
+          "verdict": "ACCEPT",
+          "sha256": "4982ab12fb8beaff3b86c6f691912b0985821a993a230204c60482be65f2a28d",
+          "scope": "Focused native new-key prerequisite design only"
+        }
+      ]
+    }
+  ],
+  "holds": [
+    "Existing nonresident key upgrade/action-bound step-up",
+    "Browser session R6",
+    "Product UI and HR/payroll/Org/Foundry completion",
+    "Two-site durability/fencing",
+    "Production/legal/physical-key acceptance"
+  ],
+  "test_artifact": {
+    "sha256": "118d4442a38e8f236385bd5990d308ac7f9daf8a2621a2af6b760186a6cf964e",
+    "source_manifest": {
+      "status": "PREPARED_NOT_TEST_APPROVED",
+      "base": "86f3e1eaa0436a698bf1478f339a015cb1c68361",
+      "design_sha256": "4982ab12fb8beaff3b86c6f691912b0985821a993a230204c60482be65f2a28d",
+      "files": [
+        {
+          "path": ".github/workflows/ci.yml",
+          "sha256": "d5a399a398a93e06395a19a4a53919c02d3dee3e32af35ddecf9b7acedfbbca2",
+          "bytes": 10440
+        },
+        {
+          "path": "backend-fork/backend/app/Cargo.toml",
+          "sha256": "0420df6df3fb421be5204e8e3c44606d20a3148594d29349117661ea04352c1f",
+          "bytes": 8908
+        },
+        {
+          "path": "backend-fork/backend/app/tests/auth_rest.rs",
+          "sha256": "c3c9e8a388ba69c9b9c082bf1e1dcae23f2cb658e93c8792d8e22b600b37cfcf",
+          "bytes": 169429
+        },
+        {
+          "path": "backend-fork/backend/app/tests/auth_rest/genuine_browser.rs",
+          "sha256": "35651335a4c0fb9272907c1ab343e2fea8654601286a7ce740db0c132eeb49dc",
+          "bytes": 43106
+        },
+        {
+          "path": "tools/test-native-browser-enrollment.mjs",
+          "sha256": "ee4a15f37f0b359e251e8b78f2833e7645a753167266b882b1be905b8cd6163a",
+          "bytes": 13448
+        },
+        {
+          "path": "tools/test-native-browser-enrollment.test.mjs",
+          "sha256": "2a50f7b8f7708338f5da0ef8f4d3c7297792b5b46007e5317578eb83e2ccb55c",
+          "bytes": 5360
+        },
+        {
+          "path": "backend-fork/backend/app/tests/openapi_drift.rs",
+          "sha256": "655916e8fcba6b8c2ddfebe1482cf2d195ed7dd613f698c55f128a6098afd247",
+          "bytes": 49092
+        }
+      ],
+      "expected_selected_tests": 5,
+      "runner_fault_tests": 10,
+      "genuine_product_ui_acceptance": false,
+      "expected_openapi_new_tests": 1
+    },
+    "reviews": [
+      {
+        "reviewer": "enrollment_probe_trace",
+        "verdict": "APPROVE_TEST_ARTIFACT",
+        "scope": "Source only; compile/discovery/behavior RED not yet executed"
+      },
+      {
+        "reviewer": "remaining_native_probe_inventory",
+        "verdict": "APPROVE_TEST_ARTIFACT",
+        "scope": "Source only; compile/discovery/behavior RED not yet executed"
+      }
+    ],
+    "prior_findings": [
+      "Signed/stored counter and refresh hash not bound",
+      "Shared trusted-IP/device quota unproved",
+      "Wrong-kind/version/sequence faults masked by unrelated guard",
+      "Optional flag/property isolation and actual global cap unproved"
+    ],
+    "disposition": "Fixed in frozen test-r4; prior artifacts retained outside production source"
+  },
+  "implementation": {
+    "manifest_sha256": "b6e43d67767d10f0163d54d39ae6552355e12d0ea991be9326eb9effc9654b4d",
+    "reviews": [
+      {
+        "reviewer": "enrollment_probe_trace",
+        "verdict": "APPROVE_IMPLEMENTATION_SOURCE"
+      },
+      {
+        "reviewer": "remaining_native_probe_inventory",
+        "verdict": "APPROVE_SOURCE_R2"
+      }
+    ],
+    "delivery_record": "native-discoverable-passkeys-delivery.json"
+  },
+  "fixture_followup": {
+    "design_unchanged": true,
+    "source_manifest_sha256": "1877e2c790230d764fb65640d0ec42dc0dfb3f9d52da10506c421f21a208a0cf",
+    "candidate_before_fix": "dee06d24296908c5b73ae98bb543930779f11ee8",
+    "files": [
+      {
+        "path": ".github/workflows/ci.yml",
+        "sha256": "5de150b213df0651695b050b07029d3cdc3de8eae38790eab44389af5d32fc62",
+        "bytes": 10473
+      },
+      {
+        "path": "backend-fork/backend/crates/platform/auth/tests/credential_identity.rs",
+        "sha256": "ed7eb4f3882ff446bd61abee69eabfb98acacde2faa46307983a6e4148ae7f03",
+        "bytes": 20579
+      }
+    ],
+    "unchanged_original_test_files": [
+      "backend-fork/backend/app/Cargo.toml",
+      "backend-fork/backend/app/tests/auth_rest.rs",
+      "backend-fork/backend/app/tests/auth_rest/genuine_browser.rs",
+      "tools/test-native-browser-enrollment.mjs",
+      "tools/test-native-browser-enrollment.test.mjs",
+      "backend-fork/backend/app/tests/openapi_drift.rs"
+    ],
+    "reviews": [
+      {
+        "reviewer": "baseline_fixture_trace",
+        "verdict": "APPROVE_SETUP_TEST_SUPPLEMENT",
+        "scope": "Design-preserving disposable ownership setup and CI reachability; runtime and exact-head merge verdict pending"
+      },
+      {
+        "reviewer": "native_candidate_adversarial_review",
+        "verdict": "APPROVE_SETUP_TEST_SUPPLEMENT",
+        "scope": "Design-preserving disposable ownership setup and CI reachability; runtime and exact-head merge verdict pending"
+      }
+    ],
+    "admission": "Same baseline upgrade probe reproduced auth_owner_drift232 on protected base and clean candidate; admitted via fanout before correction",
+    "preservation": "All original credential assertions, baseline/migration bytes and production guards retained; CI adds credential_identity only"
+  }
+}

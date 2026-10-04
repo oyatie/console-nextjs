@@ -1,0 +1,18 @@
+tags:
+  - auth
+summary: Start explicit usernameless passkey login
+description: Starts a discoverable authentication ceremony with ordinary browser mediation (mediation omitted).
+  No request body is required. The challenge requires user verification and has an empty allowCredentials list;
+  the user and Company are resolved only from the verified credential at finish. Uses the same trusted-IP, device
+  and global rate-limit buckets as conditional login start. Finish through /api/v1/auth/passkey/login/finish.
+responses:
+  '200':
+    description: Authentication ceremony challenge.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/PasskeyLoginStartResponse'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '429':
+    $ref: '#/components/responses/TooManyRequests'

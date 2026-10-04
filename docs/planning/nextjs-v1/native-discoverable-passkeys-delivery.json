@@ -1,0 +1,404 @@
+{
+  "status": "LOCAL_NATIVE_GREEN_PENDING_OWNER_REGRESSIONS_CLIPPY_AND_FINAL_REVIEW",
+  "base": "86f3e1eaa0436a698bf1478f339a015cb1c68361",
+  "approved_test_commit": "4c1576ac90ac794db43a39facf9676281ac31b19",
+  "design_sha256": "4982ab12fb8beaff3b86c6f691912b0985821a993a230204c60482be65f2a28d",
+  "test_manifest_sha256": "118d4442a38e8f236385bd5990d308ac7f9daf8a2621a2af6b760186a6cf964e",
+  "behavioral_red": {
+    "environment": "PostgreSQL 18.6 Homebrew/aarch64; fsync=on; max_prepared_transactions=0; SCRAM; migrated 20-table ownership census",
+    "controller_sha256": "20fbf908d010130e938ac3bda04df2876b5e7100dd351227bef2784c67d6a1f2",
+    "controller_review": {
+      "reviewer": "remaining_native_probe_inventory",
+      "verdict": "APPROVE_EXECUTION_CONTROLLER"
+    },
+    "native": {
+      "log_sha256": "f575c3f7694b12b32c858119bf72f86907a0dbc037a14aee3ebef2615ed7b2f2",
+      "executed": 5,
+      "passed": 2,
+      "failed": 3,
+      "ignored": 0,
+      "filtered": 51,
+      "duration_seconds": 14.39,
+      "behavioral_failures": [
+        "explicit login start: 404 instead of 200",
+        "malformed discoverable flag: ignored and consent denial 403 instead of typed request rejection 422"
+      ],
+      "strict_browser_failure": "Stopped before native progress; generic infrastructure message does not establish cause or successful strict enrollment/login.",
+      "cleanup": "Task-owned process/socket/directory removed",
+      "independent_review": {
+        "reviewer": "remaining_native_probe_inventory",
+        "verdict": "APPROVE_BEHAVIORAL_RED_ADMISSION"
+      }
+    },
+    "openapi": {
+      "log_sha256": "d59298b464d60e70b7c70e523ade74ee92f8160a372629f0672193295d474a73",
+      "executed": 1,
+      "passed": 0,
+      "failed": 1,
+      "filtered": 17,
+      "failure": "Actual required JSON body documented as optional"
+    }
+  },
+  "infrastructure_failures": [
+    {
+      "attempt": "execution-r1",
+      "native_tests_executed": 0,
+      "admission": false,
+      "failure": "Docker RWLayer unexpectedly nil"
+    },
+    {
+      "attempt": "execution-r2",
+      "native_tests_executed": 0,
+      "admission": false,
+      "failure": "Docker RWLayer unexpectedly nil"
+    }
+  ],
+  "remaining_holds": [
+    "Existing nonresident key upgrade/action-bound step-up",
+    "Browser session R6",
+    "Product UI and HR/payroll/Org/Foundry completion",
+    "Two-site durability/fencing",
+    "Production/legal/physical-key acceptance"
+  ],
+  "verification": [
+    {
+      "name": "full_auth_and_openapi",
+      "log_sha256": "8c42cf420da8c94d535e7e833033b23cf349d2d2eb96d37dff8c8f5c62baa45c",
+      "exit": 0,
+      "discovered": 74,
+      "executed": 74,
+      "passed": 74,
+      "failed": 0,
+      "ignored": 0,
+      "filtered": 0,
+      "suites": [
+        {
+          "name": "auth_rest",
+          "passed": 56,
+          "duration_seconds": 91.19
+        },
+        {
+          "name": "openapi_drift",
+          "passed": 18,
+          "duration_seconds": 0.12
+        }
+      ]
+    },
+    {
+      "name": "native_selected",
+      "log_sha256": "1dac2de69d7374ba649afd2b3e46c76f290eda6000ef67dd8f690515a9b51186",
+      "exit": 0,
+      "executed": 5,
+      "passed": 5,
+      "failed": 0,
+      "filtered": 51,
+      "duration_seconds": 14.91
+    },
+    {
+      "name": "runner_faults",
+      "log_sha256": "095390ab98c7d72ac462ef18dadfb26fbfbdb51353081c39340b7816b0c36e89",
+      "exit": 0,
+      "executed": 10,
+      "passed": 10,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "name": "frontend_unit",
+      "log_sha256": "f3ec777518ecb8c2b8e273c6c7f165a9bd0e7e763dd7e10ac6994f1569311392",
+      "exit": 0,
+      "files": 8,
+      "executed": 105,
+      "passed": 105,
+      "failed": 0
+    },
+    {
+      "name": "contract_tool_tests",
+      "log_sha256": "0b640670bc2b8cb54f1d69fd2796dabfac51216cb21914c0db16b7a083dc1874",
+      "exit": 0,
+      "executed": 103,
+      "passed": 103,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "name": "request_body_gate",
+      "log_sha256": "fa2392737e3fee9fb0428146d1476f3186ef8af03ce365ce853ee11dad3b4097",
+      "exit": 0,
+      "resolved": 53,
+      "undecidable": 238,
+      "census": 291,
+      "enum_resolved": 7,
+      "enum_undecidable": 15
+    },
+    {
+      "name": "openapi_references",
+      "log_sha256": "2116692188a86dad8309b7830f4b90c3a64a461774243a98a752a768769c3663",
+      "exit": 0,
+      "references": 5009,
+      "mappings": 27,
+      "findings": 0
+    },
+    {
+      "name": "prototype_lookup_census",
+      "log_sha256": "837aead61077b5e74486c31f0c0ef3a3eacef8d57f26a07d89b96380c9f74430",
+      "exit": 0,
+      "scanned": 54,
+      "registered_residuals": 3
+    },
+    {
+      "name": "npm_ci",
+      "log_sha256": "0e3a408a79788a330efadc0b862e9580c7826bc625554e8ff492666285944aaa",
+      "exit": 0
+    },
+    {
+      "name": "frontend_lint",
+      "log_sha256": "3e98dcbd24835eb29288dab5790e519db6a485457e666a6774fdbce08459740e",
+      "exit": 0
+    },
+    {
+      "name": "frontend_build",
+      "log_sha256": "d0ff5832116612393667c572ec7a0bc80ded87e7051730993b87942977be729d",
+      "exit": 0
+    },
+    {
+      "name": "production_routes",
+      "log_sha256": "512901c3a5e50a2917b8d01feb4f8538f69890debfe194f13904f75b1b739000",
+      "exit": 0
+    }
+  ],
+  "native_scope": "Real Chromium virtual-authenticator enrollment/assertion/native finish for two separate Accounts/Companies on secure production Next RP origin; not physical-passkey or product UI sign-in acceptance.",
+  "source_reviews": [
+    {
+      "reviewer": "enrollment_probe_trace",
+      "verdict": "APPROVE_IMPLEMENTATION_SOURCE"
+    },
+    {
+      "reviewer": "remaining_native_probe_inventory",
+      "verdict": "APPROVE_SOURCE_R2"
+    }
+  ],
+  "implementation_manifest_sha256": "b6e43d67767d10f0163d54d39ae6552355e12d0ea991be9326eb9effc9654b4d",
+  "verification_limits": [
+    "The native execution controller uses installed PostgreSQL 18.6 instead of pinned Docker 18.4; hosted checks still require the pinned container.",
+    "Legacy development-preview E2E is not product/native business-session acceptance and was not executed for this companion.",
+    "npm reports inherited development-only dependency advisories (5 high, 2 moderate); no runtime Next dependency advisory reported. No dependency or force-audit mutation performed.",
+    "Next production build succeeds with a missing media route client-reference-manifest tracing warning; production route checks pass.",
+    "Local linker reports large unwind-table warning; Rust compilation succeeds."
+  ],
+  "record_stage": "Candidate preparation snapshot; subsequent exact-head runtime/review/hosted results belong to protected PR evidence.",
+  "commands": {
+    "environment": {
+      "SQLX_OFFLINE": "true",
+      "CARGO_BUILD_JOBS": "1",
+      "CARGO_INCREMENTAL": "0",
+      "CARGO_PROFILE_DEV_DEBUG": "0",
+      "CARGO_PROFILE_TEST_DEBUG": "0",
+      "FRONTEND_ROOT": "candidate root for full run; preserved browser-business-session build for first selected baseline"
+    },
+    "behavioral_admission": "python3 backend-fork/tools/lanes/fanout.py admit --probe \"bash <reviewed native-pgtest.sh> <backend-fork> cargo +1.98.1 test --locked --offline --features frontend-e2e -p console-app --test auth_rest genuine_browser:: -- --test-threads=1 --nocapture\"",
+    "full_authentication_and_contract": "bash <reviewed native-pgtest.sh> <backend-fork> cargo +1.98.1 test --locked --offline --features frontend-e2e --no-fail-fast -p console-app --test auth_rest --test openapi_drift -- --test-threads=1 --nocapture",
+    "generator": "cargo +1.98.1 run --locked --offline -p console-contracts --bin console-openapi-gen",
+    "runner": "fnm exec --using=24.21.0 node --test tools/test-native-browser-enrollment.test.mjs",
+    "frontend": [
+      "npm ci",
+      "npm run lint",
+      "npm test",
+      "npm run build",
+      "npm run test:production-routes"
+    ],
+    "contract_tools": [
+      "node --test scripts/check-request-body-contract.test.mjs scripts/check-openapi-refs.test.mjs scripts/check-prototype-chain-lookups.test.mjs",
+      "node scripts/check-request-body-contract.mjs",
+      "node scripts/check-openapi-refs.mjs",
+      "node scripts/check-prototype-chain-lookups.mjs"
+    ]
+  },
+  "sixteen_lens_audit": [
+    {
+      "lens": "Cartesian doubt",
+      "conclusion": "Strict new-key native proof is distinct from diagnostic nonresident rejection, UI acceptance and physical-key evidence."
+    },
+    {
+      "lens": "Essentialism / YAGNI",
+      "conclusion": "Extend existing start owners and shared helpers; no new service, credential model, schema or dependency."
+    },
+    {
+      "lens": "Chesterton's Fence",
+      "conclusion": "Preserve enrollment consent, UV, Account/family/source locks, finish transactions and legacy options."
+    },
+    {
+      "lens": "Contrarian / outside-the-box",
+      "conclusion": "Reviewed isolated native PostgreSQL controller avoids destructive shared Docker repair; divergence is disclosed."
+    },
+    {
+      "lens": "Socratic",
+      "conclusion": "Requests choose residence and mediation only; they cannot name a login subject or supply an allowlist."
+    },
+    {
+      "lens": "Pragmatism",
+      "conclusion": "Two real browser-created keys and native signed logins pass; future R6 UI can consume these contracts."
+    },
+    {
+      "lens": "Red Team",
+      "conclusion": "Malformed flag, auth/consent/UV denial, replay and shared trusted-IP/device/global cap probes pass."
+    },
+    {
+      "lens": "Systems Thinking",
+      "conclusion": "Route, both generated registries, fragment manifest and aggregate agree; owner finish remains canonical."
+    },
+    {
+      "lens": "Operability / Day-2",
+      "conclusion": "Bounded ceremony expiry and existing rate counters retained; unavailable new route stays a visible client failure."
+    },
+    {
+      "lens": "Opportunity Cost",
+      "conclusion": "Fix the observed sign-in prerequisite before deeper HR/payroll screens; no speculative UI shell shipped."
+    },
+    {
+      "lens": "Blast-radius / cell-based",
+      "conclusion": "Opt-in preserves legacy enrollments; Company/Account/credential identity and transactional scopes unchanged."
+    },
+    {
+      "lens": "Constant-work / anti-fragility",
+      "conclusion": "Selection changes are constant-size; both start paths reuse capped rate buckets and existing exclusions."
+    },
+    {
+      "lens": "Shared-nothing / eventual consistency",
+      "conclusion": "No new cross-account coordination or storage; existing Account and ceremony locking owns concurrency."
+    },
+    {
+      "lens": "FinOps / unit-cost",
+      "conclusion": "Reuse pinned installed libraries, PostgreSQL and browser runner; no paid platform or added runtime."
+    },
+    {
+      "lens": "Telemetry-first",
+      "conclusion": "Exact source/log hashes and discovery/execution/filter counts recorded; infrastructure failures are not behavioral RED."
+    },
+    {
+      "lens": "Zero-trust / defense-in-depth",
+      "conclusion": "New consumers verify required residence and UV before creation; no browser override, private state edit, account shortcut or fallback."
+    }
+  ],
+  "merge_gate": "Exact candidate independent COMMENT and protected source-and-inquiry/merge-group checks required; queue entry and hosted readback are not yet established.",
+  "fixture_followup": {
+    "record_stage": "Append-only followup to the preparation snapshot; subsequent exact-head results remain protected PR evidence",
+    "status": "OWNER_REGRESSIONS_GREEN_REST_CONTEXT_LIBRARIES_CUSTODY_CLIPPY_AND_EXACT_HEAD_REVIEW_PENDING",
+    "source_manifest_sha256": "1877e2c790230d764fb65640d0ec42dc0dfb3f9d52da10506c421f21a208a0cf",
+    "source_and_setup_reviews": [
+      {
+        "reviewer": "baseline_fixture_trace",
+        "verdict": "APPROVE_SETUP_TEST_SUPPLEMENT",
+        "scope": "Design-preserving disposable ownership setup and CI reachability; runtime and exact-head merge verdict pending"
+      },
+      {
+        "reviewer": "native_candidate_adversarial_review",
+        "verdict": "APPROVE_SETUP_TEST_SUPPLEMENT",
+        "scope": "Design-preserving disposable ownership setup and CI reachability; runtime and exact-head merge verdict pending"
+      }
+    ],
+    "cause": "Frozen baseline restores console_app-owned auth tables while inherited test admin executed the suffix; production owner drift rejection was correct",
+    "change": "Guarded disposable database and SQLx-ledger ownership handoff; separate canonical console_app current-role pool for suffix; no password-separation claim; unchanged historical path and credential assertions",
+    "superseded_required_owner_failure": {
+      "log_sha256": "b988c8479ca4a1de3afee93e4ec8e95a8d266ebc5b2531aa7dffbd3f02d0194a",
+      "passed": 54,
+      "failed": 1,
+      "failing_test": "baseline_upgrade_preserves_keys_and_denies_unknown_codec"
+    },
+    "behavioral_red": [
+      {
+        "path": "fixture-r1/protected-base-red-scram.log",
+        "sha256": "805cbfd0ae2921260f08ec497702c5a7993c77834b397a526a3ce403bc24ad9b",
+        "executed": 1,
+        "passed": 0,
+        "failed": 1,
+        "filtered": 9,
+        "failure": "SQLSTATE42501 auth_owner_drift migration232"
+      },
+      {
+        "path": "fixture-r1/candidate-red.log",
+        "sha256": "412b800875fce70563cac12a4103e52fa53ec1fde2ba93c10f59e655b59bdd27",
+        "executed": 1,
+        "passed": 0,
+        "failed": 1,
+        "filtered": 9,
+        "failure": "SQLSTATE42501 auth_owner_drift migration232"
+      }
+    ],
+    "verification": [
+      {
+        "name": "same_admitted_fixture_probe",
+        "log_sha256": "77bc5c5ebf052fcc986b074580e60659a50b69ddbc3bb63e18a8babcb2717c21",
+        "exit": 0,
+        "executed": 1,
+        "passed": 1,
+        "failed": 0,
+        "ignored": 0,
+        "filtered": 9
+      },
+      {
+        "name": "full_auth_owner",
+        "log_sha256": "5c72cae5d89dc6259f6d1916d790e884fc643811a5a57278003c7157f2b1616a",
+        "exit": 0,
+        "executed": 55,
+        "passed": 55,
+        "failed": 0,
+        "ignored": 0,
+        "filtered": 0
+      }
+    ],
+    "commands": [
+      {
+        "name": "auth-owner",
+        "command": [
+          "bash",
+          "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/native-discoverable-passkeys/execution-r3/native-pgtest.sh",
+          "/Users/jasonlee/Developer/frontend/.worktrees/native-discoverable-passkeys/backend-fork",
+          "cargo",
+          "+1.98.1",
+          "test",
+          "--locked",
+          "--offline",
+          "--no-fail-fast",
+          "-p",
+          "console-platform-auth",
+          "--lib",
+          "--test",
+          "credential_identity",
+          "--test",
+          "refresh_tokens",
+          "--test",
+          "session_locking",
+          "--test",
+          "webauthn_ceremony",
+          "--test",
+          "webauthn_ceremony_replay",
+          "--test",
+          "webauthn_contention",
+          "--test",
+          "webauthn_registration_deactivated_user",
+          "--",
+          "--test-threads=1",
+          "--nocapture"
+        ],
+        "exit": 0,
+        "seconds": 245.64
+      }
+    ],
+    "audit_followup": {
+      "Cartesian doubt": "Inherited cause independently traced and reproduced on protected base",
+      "Red Team": "Missing marker/identity/DB-name/owner fails before handoff; credential negatives remain intact",
+      "Operability / Day-2": "Formerly unreached credential upgrade test joins existing protected PR/merge-group invocation",
+      "Blast-radius / cell-based": "Only disposable test database/ledger and isolated suffix-pool role change",
+      "Telemetry-first": "Superseded failure and exact GREEN counts preserved separately",
+      "Zero-trust / defense-in-depth": "Production ownership guards unchanged; current-role proof distinguished from independent credential login"
+    },
+    "remaining_holds": [
+      "Existing nonresident key upgrade/action-bound step-up",
+      "Browser session R6",
+      "Product UI and HR/payroll/Org/Foundry completion",
+      "Two-site durability/fencing",
+      "Production/legal/physical-key acceptance"
+    ]
+  }
+}

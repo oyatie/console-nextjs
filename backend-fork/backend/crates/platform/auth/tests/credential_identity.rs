@@ -349,7 +349,62 @@ async fn preserve_upgrade(owner: PgPool, baseline: bool) {
         }),
         ..sqlx::migrate::Migrator::DEFAULT
     };
-    migrator.run(&owner).await.unwrap();
+    let suffix_owner = if baseline {
+        // The dump restores console_app ownership; the suffix must use that
+        // same owner. Only hand off this disposable database and SQLx ledger.
+        sqlx::raw_sql(
+            r#"
+            DO $handoff$
+            BEGIN
+                IF CURRENT_USER <> 'console_buck_admin'
+                   OR SESSION_USER <> CURRENT_USER
+                   OR current_setting('console.sqlx_test_bootstrap', true)
+                      IS DISTINCT FROM 'buck-sqlx-superuser-v1'
+                   OR CURRENT_DATABASE() !~ '^_sqlx_test_[A-Za-z0-9_]{52}$'
+                   OR (SELECT pg_get_userbyid(datdba) FROM pg_database
+                       WHERE datname = CURRENT_DATABASE()) <> CURRENT_USER
+                THEN
+                    RAISE EXCEPTION 'credential_upgrade.disposable_owner_required'
+                        USING ERRCODE = '42501';
+                END IF;
+                EXECUTE format('ALTER DATABASE %I OWNER TO console_app', CURRENT_DATABASE());
+                ALTER TABLE public._sqlx_migrations OWNER TO console_app;
+            END
+            $handoff$;
+            "#,
+        )
+        .execute(&owner)
+        .await
+        .unwrap();
+        // This isolates current-role state, not password separation.
+        let suffix = PgPoolOptions::new()
+            .max_connections(1)
+            .after_connect(|conn, _| {
+                Box::pin(async move {
+                    sqlx::query("SET ROLE console_app").execute(conn).await?;
+                    Ok(())
+                })
+            })
+            .connect_with(owner.connect_options().as_ref().clone())
+            .await
+            .unwrap();
+        let identity: (String, String, bool, bool) = sqlx::query_as(
+            "SELECT current_user::text,session_user::text,rolsuper,rolbypassrls FROM pg_roles WHERE rolname=current_user",
+        ).fetch_one(&suffix).await.unwrap();
+        assert_eq!(
+            identity,
+            (
+                "console_app".into(),
+                "console_buck_admin".into(),
+                false,
+                true
+            )
+        );
+        suffix
+    } else {
+        owner.clone()
+    };
+    migrator.run(&suffix_owner).await.unwrap();
     let version: i64 = sqlx::query_scalar("SELECT max(version) FROM _sqlx_migrations")
         .fetch_one(&owner)
         .await

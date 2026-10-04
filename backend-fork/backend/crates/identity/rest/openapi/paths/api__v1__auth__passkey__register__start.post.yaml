@@ -4,11 +4,13 @@ summary: Start passkey registration (authenticated)
 description: Starts a passkey registration ceremony for the authenticated session user. Used during initial-settings
   passkey enrollment after an OTP first sign-in, or to add a device later. Requires a bearer token. Adding a passkey
   when the user already has one requires a fresh `step_up` assertion of an existing passkey (user verification required);
-  omitting it returns 401. Initial enrollment (zero existing passkeys) needs no step-up.
+  omitting it returns 401. Initial enrollment (zero existing passkeys) needs no step-up. Optional require_discoverable
+  requests a resident credential without changing enrollment authority. Supply a JSON object, including an empty
+  object for defaults. Initial enrollment requires current privacy consent; delegated sessions cannot enroll.
 security:
 - bearerAuth: []
 requestBody:
-  required: false
+  required: true
   content:
     application/json:
       schema:
@@ -21,8 +23,26 @@ responses:
         schema:
           $ref: '#/components/schemas/PasskeyRegisterStartResponse'
   '400':
-    $ref: '#/components/responses/ValidationError'
+    description: Malformed JSON request.
+    content:
+      text/plain:
+        schema:
+          type: string
   '401':
     $ref: '#/components/responses/Unauthorized'
+  '403':
+    $ref: '#/components/responses/Forbidden'
   '409':
     $ref: '#/components/responses/Conflict'
+  '415':
+    description: Missing or unsupported JSON content type.
+    content:
+      text/plain:
+        schema:
+          type: string
+  '422':
+    description: JSON does not match the registration request types.
+    content:
+      text/plain:
+        schema:
+          type: string

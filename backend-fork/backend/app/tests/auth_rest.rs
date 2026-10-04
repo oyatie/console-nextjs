@@ -39,6 +39,10 @@ mod reset_sessions;
 #[path = "auth_rest/purpose.rs"]
 mod purpose;
 
+#[cfg(feature = "frontend-e2e")]
+#[path = "auth_rest/genuine_browser.rs"]
+mod genuine_browser;
+
 #[derive(Debug, Deserialize)]
 struct RegisterStartResponse {
     ceremony_id: Uuid,
