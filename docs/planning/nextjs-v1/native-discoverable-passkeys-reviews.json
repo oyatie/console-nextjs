@@ -160,5 +160,44 @@
       }
     ],
     "delivery_record": "native-discoverable-passkeys-delivery.json"
+  },
+  "fixture_followup": {
+    "design_unchanged": true,
+    "source_manifest_sha256": "1877e2c790230d764fb65640d0ec42dc0dfb3f9d52da10506c421f21a208a0cf",
+    "candidate_before_fix": "dee06d24296908c5b73ae98bb543930779f11ee8",
+    "files": [
+      {
+        "path": ".github/workflows/ci.yml",
+        "sha256": "5de150b213df0651695b050b07029d3cdc3de8eae38790eab44389af5d32fc62",
+        "bytes": 10473
+      },
+      {
+        "path": "backend-fork/backend/crates/platform/auth/tests/credential_identity.rs",
+        "sha256": "ed7eb4f3882ff446bd61abee69eabfb98acacde2faa46307983a6e4148ae7f03",
+        "bytes": 20579
+      }
+    ],
+    "unchanged_original_test_files": [
+      "backend-fork/backend/app/Cargo.toml",
+      "backend-fork/backend/app/tests/auth_rest.rs",
+      "backend-fork/backend/app/tests/auth_rest/genuine_browser.rs",
+      "tools/test-native-browser-enrollment.mjs",
+      "tools/test-native-browser-enrollment.test.mjs",
+      "backend-fork/backend/app/tests/openapi_drift.rs"
+    ],
+    "reviews": [
+      {
+        "reviewer": "baseline_fixture_trace",
+        "verdict": "APPROVE_SETUP_TEST_SUPPLEMENT",
+        "scope": "Design-preserving disposable ownership setup and CI reachability; runtime and exact-head merge verdict pending"
+      },
+      {
+        "reviewer": "native_candidate_adversarial_review",
+        "verdict": "APPROVE_SETUP_TEST_SUPPLEMENT",
+        "scope": "Design-preserving disposable ownership setup and CI reachability; runtime and exact-head merge verdict pending"
+      }
+    ],
+    "admission": "Same baseline upgrade probe reproduced auth_owner_drift232 on protected base and clean candidate; admitted via fanout before correction",
+    "preservation": "All original credential assertions, baseline/migration bytes and production guards retained; CI adds credential_identity only"
   }
 }

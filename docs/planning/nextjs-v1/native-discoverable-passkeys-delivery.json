@@ -280,5 +280,125 @@
       "conclusion": "New consumers verify required residence and UV before creation; no browser override, private state edit, account shortcut or fallback."
     }
   ],
-  "merge_gate": "Exact candidate independent COMMENT and protected source-and-inquiry/merge-group checks required; queue entry and hosted readback are not yet established."
+  "merge_gate": "Exact candidate independent COMMENT and protected source-and-inquiry/merge-group checks required; queue entry and hosted readback are not yet established.",
+  "fixture_followup": {
+    "record_stage": "Append-only followup to the preparation snapshot; subsequent exact-head results remain protected PR evidence",
+    "status": "OWNER_REGRESSIONS_GREEN_REST_CONTEXT_LIBRARIES_CUSTODY_CLIPPY_AND_EXACT_HEAD_REVIEW_PENDING",
+    "source_manifest_sha256": "1877e2c790230d764fb65640d0ec42dc0dfb3f9d52da10506c421f21a208a0cf",
+    "source_and_setup_reviews": [
+      {
+        "reviewer": "baseline_fixture_trace",
+        "verdict": "APPROVE_SETUP_TEST_SUPPLEMENT",
+        "scope": "Design-preserving disposable ownership setup and CI reachability; runtime and exact-head merge verdict pending"
+      },
+      {
+        "reviewer": "native_candidate_adversarial_review",
+        "verdict": "APPROVE_SETUP_TEST_SUPPLEMENT",
+        "scope": "Design-preserving disposable ownership setup and CI reachability; runtime and exact-head merge verdict pending"
+      }
+    ],
+    "cause": "Frozen baseline restores console_app-owned auth tables while inherited test admin executed the suffix; production owner drift rejection was correct",
+    "change": "Guarded disposable database and SQLx-ledger ownership handoff; separate canonical console_app current-role pool for suffix; no password-separation claim; unchanged historical path and credential assertions",
+    "superseded_required_owner_failure": {
+      "log_sha256": "b988c8479ca4a1de3afee93e4ec8e95a8d266ebc5b2531aa7dffbd3f02d0194a",
+      "passed": 54,
+      "failed": 1,
+      "failing_test": "baseline_upgrade_preserves_keys_and_denies_unknown_codec"
+    },
+    "behavioral_red": [
+      {
+        "path": "fixture-r1/protected-base-red-scram.log",
+        "sha256": "805cbfd0ae2921260f08ec497702c5a7993c77834b397a526a3ce403bc24ad9b",
+        "executed": 1,
+        "passed": 0,
+        "failed": 1,
+        "filtered": 9,
+        "failure": "SQLSTATE42501 auth_owner_drift migration232"
+      },
+      {
+        "path": "fixture-r1/candidate-red.log",
+        "sha256": "412b800875fce70563cac12a4103e52fa53ec1fde2ba93c10f59e655b59bdd27",
+        "executed": 1,
+        "passed": 0,
+        "failed": 1,
+        "filtered": 9,
+        "failure": "SQLSTATE42501 auth_owner_drift migration232"
+      }
+    ],
+    "verification": [
+      {
+        "name": "same_admitted_fixture_probe",
+        "log_sha256": "77bc5c5ebf052fcc986b074580e60659a50b69ddbc3bb63e18a8babcb2717c21",
+        "exit": 0,
+        "executed": 1,
+        "passed": 1,
+        "failed": 0,
+        "ignored": 0,
+        "filtered": 9
+      },
+      {
+        "name": "full_auth_owner",
+        "log_sha256": "5c72cae5d89dc6259f6d1916d790e884fc643811a5a57278003c7157f2b1616a",
+        "exit": 0,
+        "executed": 55,
+        "passed": 55,
+        "failed": 0,
+        "ignored": 0,
+        "filtered": 0
+      }
+    ],
+    "commands": [
+      {
+        "name": "auth-owner",
+        "command": [
+          "bash",
+          "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/native-discoverable-passkeys/execution-r3/native-pgtest.sh",
+          "/Users/jasonlee/Developer/frontend/.worktrees/native-discoverable-passkeys/backend-fork",
+          "cargo",
+          "+1.98.1",
+          "test",
+          "--locked",
+          "--offline",
+          "--no-fail-fast",
+          "-p",
+          "console-platform-auth",
+          "--lib",
+          "--test",
+          "credential_identity",
+          "--test",
+          "refresh_tokens",
+          "--test",
+          "session_locking",
+          "--test",
+          "webauthn_ceremony",
+          "--test",
+          "webauthn_ceremony_replay",
+          "--test",
+          "webauthn_contention",
+          "--test",
+          "webauthn_registration_deactivated_user",
+          "--",
+          "--test-threads=1",
+          "--nocapture"
+        ],
+        "exit": 0,
+        "seconds": 245.64
+      }
+    ],
+    "audit_followup": {
+      "Cartesian doubt": "Inherited cause independently traced and reproduced on protected base",
+      "Red Team": "Missing marker/identity/DB-name/owner fails before handoff; credential negatives remain intact",
+      "Operability / Day-2": "Formerly unreached credential upgrade test joins existing protected PR/merge-group invocation",
+      "Blast-radius / cell-based": "Only disposable test database/ledger and isolated suffix-pool role change",
+      "Telemetry-first": "Superseded failure and exact GREEN counts preserved separately",
+      "Zero-trust / defense-in-depth": "Production ownership guards unchanged; current-role proof distinguished from independent credential login"
+    },
+    "remaining_holds": [
+      "Existing nonresident key upgrade/action-bound step-up",
+      "Browser session R6",
+      "Product UI and HR/payroll/Org/Foundry completion",
+      "Two-site durability/fencing",
+      "Production/legal/physical-key acceptance"
+    ]
+  }
 }
