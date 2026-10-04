@@ -3349,6 +3349,7 @@ const IDENTITY_FRAGMENT_EXTERNAL: &[&str] = &[
     "ErrorBody",
     "MobilePasskeyStepUpBinding",
     "MobileStepUpActionKind",
+    "OrgChangeDetail",
     "PasskeyStepUpAssertion",
     "Timestamp",
     "Uuid",
@@ -3595,6 +3596,15 @@ const IDENTITY_FRAGMENT_PATHS: &[PathItem] = &[
             method: "post",
             body: include_str!(
                 "../../identity/rest/openapi/paths/api__v1__auth__passkey__enroll-handoff.post.yaml"
+            ),
+        }],
+    },
+    PathItem {
+        path: "/api/v1/auth/passkey/login/explicit/start",
+        operations: &[Operation {
+            method: "post",
+            body: include_str!(
+                "../../identity/rest/openapi/paths/api__v1__auth__passkey__login__explicit__start.post.yaml"
             ),
         }],
     },

@@ -66,6 +66,7 @@ pub const SIGNUP_PATH: &str = "/api/v1/auth/signup";
 pub const PASSKEY_REGISTER_START_PATH: &str = "/api/v1/auth/passkey/register/start";
 pub const PASSKEY_REGISTER_FINISH_PATH: &str = "/api/v1/auth/passkey/register/finish";
 pub const PASSKEY_LOGIN_START_PATH: &str = "/api/v1/auth/passkey/login/start";
+pub const PASSKEY_LOGIN_EXPLICIT_START_PATH: &str = "/api/v1/auth/passkey/login/explicit/start";
 pub const PASSKEY_LOGIN_FINISH_PATH: &str = "/api/v1/auth/passkey/login/finish";
 pub const PASSKEY_STEP_UP_START_PATH: &str = "/api/v1/auth/passkey/step-up/start";
 pub const OTP_REDEEM_PATH: &str = "/api/v1/auth/otp/redeem";
@@ -94,6 +95,7 @@ pub const AUTH_ROUTE_PATHS: &[&str] = &[
     PASSKEY_REGISTER_START_PATH,
     PASSKEY_REGISTER_FINISH_PATH,
     PASSKEY_LOGIN_START_PATH,
+    PASSKEY_LOGIN_EXPLICIT_START_PATH,
     PASSKEY_LOGIN_FINISH_PATH,
     PASSKEY_STEP_UP_START_PATH,
     OTP_REDEEM_PATH,
@@ -295,6 +297,10 @@ pub fn router(state: AuthRestState) -> Router {
         .route(PASSKEY_REGISTER_START_PATH, post(start_registration))
         .route(PASSKEY_REGISTER_FINISH_PATH, post(finish_registration))
         .route(PASSKEY_LOGIN_START_PATH, post(start_login))
+        .route(
+            PASSKEY_LOGIN_EXPLICIT_START_PATH,
+            post(start_explicit_login),
+        )
         .route(PASSKEY_LOGIN_FINISH_PATH, post(finish_login))
         .route(PASSKEY_STEP_UP_START_PATH, post(start_mobile_step_up))
         .route(OTP_REDEEM_PATH, post(redeem_otp))
@@ -332,6 +338,8 @@ pub fn router(state: AuthRestState) -> Router {
 struct RegisterStartRequest {
     username: Option<String>,
     display_name: Option<String>,
+    #[serde(default)]
+    require_discoverable: bool,
     /// Fresh step-up assertion of an EXISTING passkey, REQUIRED when the
     /// authenticated user already has one or more passkeys (self-service
     /// add-device). Omitted only for initial enrollment (the user has zero
@@ -874,19 +882,23 @@ async fn start_registration(
             .map_err(|err| RestError::unauthorized(err.to_string()))?;
     }
 
-    let ceremony = services
-        .passkeys
-        .start_registration(
-            &state.pool,
-            org_id,
-            PasskeyRegistrationStart {
-                user_id,
-                username: body.username.unwrap_or(user.username),
-                display_name: body.display_name.unwrap_or(user.display_name),
-            },
-        )
-        .await
-        .map_err(|err| RestError::internal(err.to_string()))?;
+    let input = PasskeyRegistrationStart {
+        user_id,
+        username: body.username.unwrap_or(user.username),
+        display_name: body.display_name.unwrap_or(user.display_name),
+    };
+    let ceremony = if body.require_discoverable {
+        services
+            .passkeys
+            .start_discoverable_registration(&state.pool, org_id, input)
+            .await
+    } else {
+        services
+            .passkeys
+            .start_registration(&state.pool, org_id, input)
+            .await
+    }
+    .map_err(|err| RestError::internal(err.to_string()))?;
 
     let family_id = session_family_from_headers(services, &headers)?;
     let mut tx = state.pool.begin().await.map_err(DbError::Sqlx)?;
@@ -1092,6 +1104,23 @@ async fn start_login(
     headers: HeaderMap,
     trusted_client_ip: Option<Extension<TrustedClientIp>>,
 ) -> Result<Json<LoginStartResponse>, RestError> {
+    start_login_with_mediation(state, headers, trusted_client_ip, false).await
+}
+
+async fn start_explicit_login(
+    State(state): State<AuthRestState>,
+    headers: HeaderMap,
+    trusted_client_ip: Option<Extension<TrustedClientIp>>,
+) -> Result<Json<LoginStartResponse>, RestError> {
+    start_login_with_mediation(state, headers, trusted_client_ip, true).await
+}
+
+async fn start_login_with_mediation(
+    state: AuthRestState,
+    headers: HeaderMap,
+    trusted_client_ip: Option<Extension<TrustedClientIp>>,
+    explicit: bool,
+) -> Result<Json<LoginStartResponse>, RestError> {
     let services = state.services()?;
     rate_limit(
         &state.pool,
@@ -1104,11 +1133,15 @@ async fn start_login(
     // Usernameless discoverable authentication: the challenge has an empty
     // allowCredentials and the user is resolved at finish from the asserted
     // credential. No user_id is taken from the client.
-    let ceremony = services
-        .passkeys
-        .start_authentication(&state.pool)
-        .await
-        .map_err(|err| RestError::unauthorized(err.to_string()))?;
+    let ceremony = if explicit {
+        services
+            .passkeys
+            .start_explicit_authentication(&state.pool)
+            .await
+    } else {
+        services.passkeys.start_authentication(&state.pool).await
+    }
+    .map_err(|err| RestError::unauthorized(err.to_string()))?;
 
     Ok(Json(LoginStartResponse {
         ceremony_id: ceremony.ceremony_id,

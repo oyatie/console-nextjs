@@ -229,6 +229,15 @@ const PATHS: &[PathItem] = &[
         }],
     },
     PathItem {
+        path: "/api/v1/auth/passkey/login/explicit/start",
+        operations: &[Operation {
+            method: "post",
+            body: include_str!(
+                "../openapi/paths/api__v1__auth__passkey__login__explicit__start.post.yaml"
+            ),
+        }],
+    },
+    PathItem {
         path: "/api/v1/auth/passkey/login/finish",
         operations: &[Operation {
             method: "post",

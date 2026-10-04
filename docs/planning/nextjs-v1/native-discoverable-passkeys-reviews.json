@@ -1,5 +1,5 @@
 {
-  "status": "DESIGN_AND_EXECUTABLE_ARTIFACT_APPROVED_NOT_IMPLEMENTED",
+  "status": "DESIGN_TEST_AND_IMPLEMENTATION_SOURCE_APPROVED_LOCAL_NATIVE_GREEN_PENDING_FINAL_GATES",
   "base": "86f3e1eaa0436a698bf1478f339a015cb1c68361",
   "revisions": [
     {
@@ -146,5 +146,19 @@
       "Optional flag/property isolation and actual global cap unproved"
     ],
     "disposition": "Fixed in frozen test-r4; prior artifacts retained outside production source"
+  },
+  "implementation": {
+    "manifest_sha256": "b6e43d67767d10f0163d54d39ae6552355e12d0ea991be9326eb9effc9654b4d",
+    "reviews": [
+      {
+        "reviewer": "enrollment_probe_trace",
+        "verdict": "APPROVE_IMPLEMENTATION_SOURCE"
+      },
+      {
+        "reviewer": "remaining_native_probe_inventory",
+        "verdict": "APPROVE_SOURCE_R2"
+      }
+    ],
+    "delivery_record": "native-discoverable-passkeys-delivery.json"
   }
 }

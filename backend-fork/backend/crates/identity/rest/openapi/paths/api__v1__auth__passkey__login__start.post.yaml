@@ -3,7 +3,8 @@ tags:
 summary: Start usernameless passkey login
 description: Starts a discoverable (usernameless) authentication ceremony. No request body is required; the challenge
   has an empty allowCredentials list and the user is resolved from the asserted credential at finish. Rate-limited per
-  client.
+  client, sharing the same trusted-IP, device and global buckets with explicit login start. Returns conditional
+  mediation; clients seeking ordinary browser mediation use /api/v1/auth/passkey/login/explicit/start.
 responses:
   '200':
     description: Authentication ceremony challenge.

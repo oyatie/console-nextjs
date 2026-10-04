@@ -2046,6 +2046,26 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         '409':
           $ref: '#/components/responses/Conflict'
+  /api/v1/auth/passkey/login/explicit/start:
+    post:
+      tags:
+        - auth
+      summary: Start explicit usernameless passkey login
+      description: Starts a discoverable authentication ceremony with ordinary browser mediation (mediation omitted).
+        No request body is required. The challenge requires user verification and has an empty allowCredentials list;
+        the user and Company are resolved only from the verified credential at finish. Uses the same trusted-IP, device
+        and global rate-limit buckets as conditional login start. Finish through /api/v1/auth/passkey/login/finish.
+      responses:
+        '200':
+          description: Authentication ceremony challenge.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PasskeyLoginStartResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
   /api/v1/auth/passkey/login/finish:
     post:
       tags:
@@ -2074,7 +2094,8 @@ paths:
       summary: Start usernameless passkey login
       description: Starts a discoverable (usernameless) authentication ceremony. No request body is required; the challenge
         has an empty allowCredentials list and the user is resolved from the asserted credential at finish. Rate-limited per
-        client.
+        client, sharing the same trusted-IP, device and global buckets with explicit login start. Returns conditional
+        mediation; clients seeking ordinary browser mediation use /api/v1/auth/passkey/login/explicit/start.
       responses:
         '200':
           description: Authentication ceremony challenge.
@@ -2119,11 +2140,13 @@ paths:
       description: Starts a passkey registration ceremony for the authenticated session user. Used during initial-settings
         passkey enrollment after an OTP first sign-in, or to add a device later. Requires a bearer token. Adding a passkey
         when the user already has one requires a fresh `step_up` assertion of an existing passkey (user verification required);
-        omitting it returns 401. Initial enrollment (zero existing passkeys) needs no step-up.
+        omitting it returns 401. Initial enrollment (zero existing passkeys) needs no step-up. Optional require_discoverable
+        requests a resident credential without changing enrollment authority. Supply a JSON object, including an empty
+        object for defaults. Initial enrollment requires current privacy consent; delegated sessions cannot enroll.
       security:
       - bearerAuth: []
       requestBody:
-        required: false
+        required: true
         content:
           application/json:
             schema:
@@ -2136,11 +2159,29 @@ paths:
               schema:
                 $ref: '#/components/schemas/PasskeyRegisterStartResponse'
         '400':
-          $ref: '#/components/responses/ValidationError'
+          description: Malformed JSON request.
+          content:
+            text/plain:
+              schema:
+                type: string
         '401':
           $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
         '409':
           $ref: '#/components/responses/Conflict'
+        '415':
+          description: Missing or unsupported JSON content type.
+          content:
+            text/plain:
+              schema:
+                type: string
+        '422':
+          description: JSON does not match the registration request types.
+          content:
+            text/plain:
+              schema:
+                type: string
   /api/v1/auth/passkey/step-up/start:
     post:
       tags:
@@ -29286,6 +29327,12 @@ components:
         `step_up` assertion of an existing passkey (user verification required), or register/start returns 401 — so a stolen
         session cannot silently add a credential.
       properties:
+        require_discoverable:
+          type: boolean
+          default: false
+          description: Request residentKey required and requireResidentKey true for usernameless sign-in. Omitted or false
+            preserves legacy selection. This does not certify credential residence. Consumers must verify both returned
+            residence requirements and required user verification before credential creation; reject mismatched options.
         username:
           type: string
         display_name:

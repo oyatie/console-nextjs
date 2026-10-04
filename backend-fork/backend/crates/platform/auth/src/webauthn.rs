@@ -331,6 +331,29 @@ impl PasskeyService {
         org: OrgId,
         input: PasskeyRegistrationStart,
     ) -> Result<RegistrationCeremony, AuthError> {
+        self.start_registration_with_discoverability(pool, org, input, false)
+            .await
+    }
+
+    /// Request a resident credential for future usernameless sign-in.
+    /// This selection does not certify the authenticator's storage properties.
+    pub async fn start_discoverable_registration(
+        &self,
+        pool: &PgPool,
+        org: OrgId,
+        input: PasskeyRegistrationStart,
+    ) -> Result<RegistrationCeremony, AuthError> {
+        self.start_registration_with_discoverability(pool, org, input, true)
+            .await
+    }
+
+    async fn start_registration_with_discoverability(
+        &self,
+        pool: &PgPool,
+        org: OrgId,
+        input: PasskeyRegistrationStart,
+        require_discoverable: bool,
+    ) -> Result<RegistrationCeremony, AuthError> {
         // Authenticated path: `org` comes from the verified JWT's `org` claim.
         // `load_user_passkeys` reads the FORCE-RLS `auth_webauthn_credentials`, so
         // the org is armed inside it to avoid an empty exclude-credentials list
@@ -346,12 +369,26 @@ impl PasskeyService {
             Some(exclude_credentials)
         };
 
-        let (challenge, state) = self.webauthn.start_passkey_registration(
+        let (mut challenge, state) = self.webauthn.start_passkey_registration(
             input.user_id,
             &input.username,
             &input.display_name,
             exclude_credentials,
         )?;
+        if require_discoverable {
+            let selection = challenge
+                .public_key
+                .authenticator_selection
+                .as_mut()
+                .ok_or_else(|| {
+                    AuthError::InvalidStoredData(
+                        "registration challenge has no authenticator selection".to_owned(),
+                    )
+                })?;
+            // webauthn-rs does not re-export this public field's enum.
+            selection.resident_key = Some(serde_json::from_str("\"required\"")?);
+            selection.require_resident_key = true;
+        }
         let ceremony_id = Uuid::new_v4();
         let now = OffsetDateTime::now_utc();
         let expires_at = now + self.ceremony_ttl;
@@ -631,7 +668,26 @@ impl PasskeyService {
         &self,
         pool: &PgPool,
     ) -> Result<AuthenticationCeremony, AuthError> {
-        let (challenge, state) = self.webauthn.start_discoverable_authentication()?;
+        self.start_authentication_with_mediation(pool, false).await
+    }
+
+    /// Start usernameless sign-in with ordinary browser mediation.
+    pub async fn start_explicit_authentication(
+        &self,
+        pool: &PgPool,
+    ) -> Result<AuthenticationCeremony, AuthError> {
+        self.start_authentication_with_mediation(pool, true).await
+    }
+
+    async fn start_authentication_with_mediation(
+        &self,
+        pool: &PgPool,
+        explicit: bool,
+    ) -> Result<AuthenticationCeremony, AuthError> {
+        let (mut challenge, state) = self.webauthn.start_discoverable_authentication()?;
+        if explicit {
+            challenge.mediation = None;
+        }
         let ceremony_id = Uuid::new_v4();
         let now = OffsetDateTime::now_utc();
         let expires_at = now + self.ceremony_ttl;
