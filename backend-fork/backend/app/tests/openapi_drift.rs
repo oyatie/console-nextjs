@@ -515,6 +515,46 @@ fn openapi_yaml_covers_configured_route_inventory() {
 }
 
 #[test]
+fn openapi_documents_native_discoverable_passkey_modes() {
+    let registration =
+        openapi_operation_body(OPENAPI_YAML, "/api/v1/auth/passkey/register/start", "post");
+    assert!(
+        registration.contains("requestBody:\n        required: true"),
+        "native Json requires a body"
+    );
+    assert!(registration.contains("'422':") && registration.contains("'415':"));
+    let schema = openapi_schema_body(OPENAPI_YAML, "PasskeyRegisterStartRequest");
+    assert!(
+        !schema
+            .lines()
+            .any(|line| line.starts_with("      required:")),
+        "registration request properties remain optional"
+    );
+    let property = schema
+        .split_once("        require_discoverable:\n")
+        .expect("new typed optional flag")
+        .1;
+    let property = property
+        .lines()
+        .take_while(|line| line.starts_with("          ") || line.trim().is_empty())
+        .collect::<Vec<_>>()
+        .join("\n");
+    assert!(property.contains("type: boolean") && property.contains("default: false"));
+    for path in [
+        "/api/v1/auth/passkey/login/start",
+        "/api/v1/auth/passkey/login/explicit/start",
+    ] {
+        let operation = openapi_operation_body(OPENAPI_YAML, path, "post");
+        assert!(
+            !operation.contains("requestBody:"),
+            "login start stays bodyless"
+        );
+        assert!(operation.contains("PasskeyLoginStartResponse"));
+        assert!(operation.contains("'429':"));
+    }
+}
+
+#[test]
 fn storefront_inquiry_contract_documents_the_reachable_conflict() {
     let operation = openapi_operation_body(OPENAPI_YAML, "/api/v1/storefront/inquiries", "post");
     assert!(

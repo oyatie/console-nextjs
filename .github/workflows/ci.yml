@@ -32,6 +32,7 @@ jobs:
       - run: npm run build
       - run: npm run test:production-routes
       - run: npx playwright install --with-deps chromium
+      - run: node --test tools/test-native-browser-enrollment.test.mjs
       - run: rustup toolchain install 1.98.1 --profile minimal
       - run: rustup component add clippy --toolchain 1.98.1
       - name: Rust build disk budget
@@ -39,6 +40,7 @@ jobs:
       - name: PostgreSQL device-login source revocation and authentication owners
         env:
           SQLX_OFFLINE: "true"
+          FRONTEND_ROOT: ${{ github.workspace }}
         run: |
           python3 - <<'PYCODE'
           import os
@@ -48,7 +50,7 @@ jobs:
           commands = [
               harness + ["cargo", "test", "--locked", "--no-fail-fast", "-p", "console-identity-rest", "--lib", "--test", "authentication_locking", "--", "--test-threads=1"],
               harness + ["cargo", "test", "--locked", "--no-fail-fast", "-p", "console-platform-auth-rest", "-p", "console-platform-auth", "-p", "console-platform-request-context", "--lib", "--", "--test-threads=1"],
-              harness + ["cargo", "test", "--locked", "-p", "console-app", "--test", "auth_rest", "--", "--test-threads=1"],
+              harness + ["cargo", "test", "--locked", "--features", "frontend-e2e", "-p", "console-app", "--test", "auth_rest", "--", "--test-threads=1"],
               harness + ["cargo", "test", "--locked", "--no-fail-fast", "-p", "console-platform-auth", "--test", "refresh_tokens", "--test", "session_locking", "--test", "webauthn_ceremony_replay", "--test", "webauthn_registration_deactivated_user", "--", "--test-threads=1"],
               harness + ["cargo", "test", "--locked", "-p", "console-platform-auth-rest", "--test", "group_admin_tenant_context", "--", "--test-threads=1"],
               harness + ["cargo", "test", "--locked", "--no-fail-fast", "-p", "console-platform-provisioning", "--test", "account_locking", "--test", "account_identity", "--test", "rls_auth_chain_as_runtime_role", "--", "--test-threads=1"],

@@ -27,6 +27,8 @@ path = "src/lib.rs"
 # Enables the inline PostgreSQL integration suite. This is intentionally inert
 # by default so normal unit tests need no database topology.
 test-postgres = []
+# Genuine browser probes require a built frontend and isolated PostgreSQL.
+frontend-e2e = []
 # Local role-switch dev-auth endpoint. NOT in `default` (there is no `default`
 # key here, so cargo's implicit default feature set is empty) and MUST NEVER be
 # added to one — `console-gate-dev-auth-absence` asserts this via `cargo metadata`
