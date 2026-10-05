@@ -1,0 +1,152 @@
+{
+  "version": 1,
+  "base": "7bbb48cc24952ec1639c393767e11bc0de6cc63c",
+  "tree": "d55ebc8cab2197f872c117146ead47f81df54c2a",
+  "status": "DESIGN_APPROVED_TEST_PREPARATION_PENDING",
+  "source_writer": "root only, feat/browser-business-session-r7",
+  "implementation_admitted": false,
+  "new_tests_executed": 0,
+  "prior_revisions": [
+    {
+      "version": "R7a",
+      "design_sha256": "30ea55553a05c1c93045d908b2ae43b961b596684cb86b75297c5df63ba3ad32",
+      "status": "REVISE",
+      "recorded_at": "2026-10-05T09:10:33.486440+00:00",
+      "reviewers": [
+        {
+          "reviewer": "r6_transport_readiness",
+          "round": 1,
+          "verdict": "ACCEPT_DESIGN_ROUND_1",
+          "scope": "Complete R7a design only, including independent crypto vectors"
+        },
+        {
+          "reviewer": "session_ui_path_trace",
+          "round": 1,
+          "verdict": "ACCEPT_DESIGN_ROUND_1",
+          "scope": "Complete R7a design only"
+        },
+        {
+          "reviewer": "session_ui_path_trace",
+          "round": 2,
+          "verdict": "REVISE",
+          "finding": "Missing authenticated browser-to-Next original-client-IP ingress contract. Next preserves supplied XFF and exposes no socket IP. Dynamic/no-store alone does not prove browser Back/BFCache safety."
+        }
+      ],
+      "implementation_admitted": false,
+      "tests_executed": 0,
+      "prior_r6_approval_counted": false
+    },
+    {
+      "version": "R7b",
+      "design_sha256": "c8b64aaa7b9e9bf987c1fdd9f0a4b4c6698788cf8786866b94d9b7b3dd5792b8",
+      "status": "REVISE",
+      "reviews": [
+        {
+          "reviewer": "r6_transport_readiness",
+          "round": 1,
+          "verdict": "ACCEPT_DESIGN_ROUND_1"
+        },
+        {
+          "reviewer": "session_ui_path_trace",
+          "round": 1,
+          "verdict": "ACCEPT_DESIGN_ROUND_1"
+        },
+        {
+          "reviewer": "r6_transport_readiness",
+          "round": 2,
+          "verdict": "REVISE",
+          "findings": [
+            "Specify same-transaction fresh consumption coupled to native AuthenticationOutcome; discoverable ceremony has NULL user_id, so it does not prove identity itself.",
+            "Distinguish SQL/production-helper invalid-shape rejection from shape-valid lookup corruption; no guards disabled or accepted mappings rewritten."
+          ]
+        },
+        {
+          "reviewer": "session_ui_path_trace",
+          "round": 2,
+          "verdict": "REVISE",
+          "findings": [
+            "Require same issuer-transaction ceremony consumption/new family freshness and explicit native outcome/locked credential Account/source binding; preserve v0 limitation."
+          ]
+        }
+      ],
+      "tests_executed": 0,
+      "implementation_admitted": false
+    }
+  ],
+  "current_revision": {
+    "version": "R7c",
+    "sha256": "8ef4ad7d85602c94aac05acfe0edf163b5ee3ede819d9e3cbb1e3c6d8b99b2ad",
+    "status": "DESIGN_APPROVED",
+    "reviews": [
+      {
+        "reviewer": "r6_transport_readiness",
+        "round": 1,
+        "verdict": "ACCEPT_DESIGN_ROUND_1",
+        "scope": "Complete exact-hash design only"
+      },
+      {
+        "reviewer": "session_ui_path_trace",
+        "round": 1,
+        "verdict": "ACCEPT_DESIGN_ROUND_1",
+        "scope": "Complete exact-hash design only"
+      },
+      {
+        "reviewer": "r6_transport_readiness",
+        "round": 2,
+        "verdict": "ACCEPT_DESIGN_ROUND_2",
+        "scope": "Complete unchanged exact-hash design only"
+      },
+      {
+        "reviewer": "session_ui_path_trace",
+        "round": 2,
+        "verdict": "ACCEPT_DESIGN_ROUND_2",
+        "scope": "Complete unchanged exact-hash design only"
+      },
+      {
+        "reviewer": "r6_transport_readiness",
+        "round": 3,
+        "verdict": "ACCEPT_DESIGN_ROUND_3",
+        "scope": "Complete unchanged exact-hash design only"
+      },
+      {
+        "reviewer": "session_ui_path_trace",
+        "round": 3,
+        "verdict": "ACCEPT_DESIGN_ROUND_3",
+        "scope": "Complete unchanged exact-hash design only"
+      },
+      {
+        "reviewer": "session_ui_path_trace",
+        "round": 4,
+        "verdict": "ACCEPT_DESIGN_ROUND_4",
+        "scope": "Complete unchanged exact-hash design only; DESIGN_APPROVED"
+      },
+      {
+        "reviewer": "r6_transport_readiness",
+        "round": 4,
+        "verdict": "ACCEPT_DESIGN_ROUND_4",
+        "scope": "Complete unchanged exact-hash design only; DESIGN_APPROVED"
+      }
+    ],
+    "implementation_caveats": [
+      "xmin establishes the latest tuple writer, not cryptographic proof; native successful outcome and original locks/call order remain authority within explicit v0 limitation",
+      "Fully qualify SQL built-in types including pg_catalog.xid; pg_temp remains an adversarial test boundary",
+      "Invalid shape is rejected by SQL and production helper; persisted lookup faults must remain shape-valid with all guards intact",
+      "Proof cleanup remains live when browser routes/keys are disabled; rollback must not strand custody",
+      "Witness a real pageshow.persisted; synthetic dispatch alone is not BFCache proof",
+      "Never prohibit the legitimate standard signed WebAuthn assertion in login-finish while excluding JWT/refresh/opaque session handle from browser-visible bodies/storage"
+    ]
+  },
+  "inherited_custody": {
+    "r6_design_sha256": "be0beee7817e051b597d32758df76aabeb967258aaa21d82a29c8d71ebf11ed3",
+    "old_dirty_worktree_preserved": true,
+    "prior_acceptances_counted_as_current": false
+  },
+  "acceptance_limits": [
+    "Current frontend baseline105 tests do not prove new production sign-in/attendance path",
+    "No tests approved or RED lane admitted yet",
+    "No product code or applied migration modified",
+    "No release, legal, physical-passkey, two-site durability or full-module acceptance"
+  ],
+  "test_approval": null,
+  "red_lane_admission": null
+}
