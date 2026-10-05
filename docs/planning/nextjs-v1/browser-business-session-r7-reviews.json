@@ -2,10 +2,10 @@
   "version": 1,
   "base": "7bbb48cc24952ec1639c393767e11bc0de6cc63c",
   "tree": "d55ebc8cab2197f872c117146ead47f81df54c2a",
-  "status": "DESIGN_AND_TESTS_APPROVED_RED_ADMISSION_PENDING",
+  "status": "APPROVED_REVISED_TEST_SET",
   "source_writer": "root only, feat/browser-business-session-r7",
   "implementation_admitted": false,
-  "new_tests_executed": 0,
+  "new_tests_executed": 3,
   "prior_revisions": [
     {
       "version": "R7a",
@@ -143,20 +143,247 @@
   },
   "acceptance_limits": [
     "Current frontend baseline105 tests do not prove new production sign-in/attendance path",
-    "Exact test source approved; no behavioral RED lane admitted yet",
+    "Revised16source set independently approved and native prerequisite passed; exact corrected-commit RED required before product implementation",
     "No product code or applied migration modified",
     "No release, legal, physical-passkey, two-site durability or full-module acceptance"
   ],
   "test_approval": {
-    "status": "APPROVED_TEST_SET",
-    "source_sha256": "6ee942541e07d6d316d667f31fb75eb8b30fe1cd1671455760f892b065521f36",
+    "status": "APPROVED_REVISED_TEST_SET",
+    "source_sha256": "e15430ba74a40b2f8138e688b7933ed7de534134c319462c384591248d6041a6",
     "test_manifest": "browser-business-session-r7-tests.json",
     "reviewer": "r7_browser_test_review",
     "compiled": true,
-    "discovered_auth_rest": 117,
+    "discovered_auth_rest": 118,
     "discovered_openapi": 19,
-    "behavioral_executed": 0,
-    "implementation_admitted": false
+    "behavioral_executed": 1,
+    "behavioral_passed": 1,
+    "implementation_admitted": false,
+    "approval": {
+      "reviewer": "r7_browser_test_review",
+      "verdict": "APPROVED_TEST_SET",
+      "scope": "Exact revised test-only commit and subsequent named genuine behavioral RED; no implementation or merge approval",
+      "design_sha256": "8ef4ad7d85602c94aac05acfe0edf163b5ee3ede819d9e3cbb1e3c6d8b99b2ad",
+      "test_source_sha256": "e15430ba74a40b2f8138e688b7933ed7de534134c319462c384591248d6041a6",
+      "candidate_manifest_sha256": "67db8b9745f0b2daa7665fb25a9e776e964b58e03f36d20c4eb83e535ebcc63b",
+      "recorded_at": "2026-10-05T13:22:40.896051+00:00",
+      "execution_approval": false,
+      "merge_approval": false
+    }
   },
-  "red_lane_admission": null
+  "red_lane_admission": {
+    "head": "a3f1698d5ef8ef4e942cfd131a333cd58ea5c6ca",
+    "command": [
+      "bash",
+      "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/tools/lanes/pgtest.sh",
+      "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork",
+      "/Users/jasonlee/.cargo/bin/cargo",
+      "+1.98.1",
+      "test",
+      "--locked",
+      "--offline",
+      "-p",
+      "console-app",
+      "--features",
+      "frontend-e2e",
+      "--test",
+      "auth_rest",
+      "browser_sessions::browser_ingress_configuration_and_debug_never_expose_service_credentials",
+      "--",
+      "--exact",
+      "--test-threads=1",
+      "--nocapture"
+    ],
+    "docker_adapter_sha256": "bbc6894539e90f37863e3f27e139aa98d36db83ac1e5c71bb117060a8ac988fe",
+    "recorded_at": "2026-10-05T12:45:25.392085+00:00",
+    "duration_seconds": 10.157256709062494,
+    "process_exit_code": 101,
+    "probe_exit_code": 1,
+    "behavioral_executed": 1,
+    "missing_route_failure": true,
+    "green": false,
+    "cleanup_reported": true,
+    "log_sha256": "8ec0a22034317ce63d0275a4e78e884f45cd877e43c223076608c80329af089e",
+    "tool": "backend-fork/tools/lanes/fanout.py admit",
+    "fanout_exit_code": 0,
+    "implementation_admitted": false,
+    "reason": "Resident fixture correction requires renewed test approval and exact corrected test commit before implementation",
+    "container": {
+      "name": "console-conformance-26282",
+      "id": "f62fee7636dc852c5c9e9d0321d99de97af4b47cccb3a17550279a7ed6a51152",
+      "destroy_event_observed": true,
+      "absent_after_run": true
+    }
+  },
+  "test_fixture_findings": [
+    {
+      "test_commit": "a3f1698d5ef8ef4e942cfd131a333cd58ea5c6ca",
+      "test": "browser_sessions::browser_login_binds_original_proof_and_parallel_resolution_never_rotates",
+      "finding": "Installed SoftPasskey rejects requireResidentKey=true before creating a registration proof; this run is not missing-route RED",
+      "executed": 1,
+      "failed": 1,
+      "disposition": "Replace native-only test authenticator with real Chromium resident WebAuthn; preserve required enrollment and native owners; independently reapprove revised sources",
+      "fixture_direction_reviewer": "r7_browser_test_review",
+      "fixture_direction_verdict": "APPROVED_FIXTURE_DIRECTION_ONLY"
+    }
+  ],
+  "test_approval_history": [
+    {
+      "status": "CORRECTION_REQUIRED_AFTER_EXECUTION",
+      "source_sha256": "6ee942541e07d6d316d667f31fb75eb8b30fe1cd1671455760f892b065521f36",
+      "test_manifest": "browser-business-session-r7-tests.json",
+      "reviewer": "r7_browser_test_review",
+      "compiled": true,
+      "discovered_auth_rest": 117,
+      "discovered_openapi": 19,
+      "behavioral_executed": 0,
+      "implementation_admitted": false
+    }
+  ],
+  "resident_fixture_source_review": {
+    "reviewer": "r7_browser_test_review",
+    "verdict": "ACCEPT_FIXTURE_SOURCE",
+    "rust_sha256": "9d3b7f6bd7badf4d152e832933ca8d9ca558300861a1d8ce21ff41e406e9a1b6",
+    "node_sha256": "3fed2df601a952073775f00397d692de20a2413c0387629f6ba36ded3db901fe",
+    "corrections": [
+      "Bounded drain of late replies; drop receiver before worker joins",
+      "5-second browser launch; 12-second Node cleanup; 15-second Rust cleanup",
+      "Eager one-item input prefetch observes startup EOF",
+      "Native positive prerequisite passes cookie token value, preserving actual header contract"
+    ],
+    "scope": "Source import/compile/fixture prerequisite only; no implementation or merge authority"
+  },
+  "resident_fixture_prerequisite": {
+    "compile": {
+      "head": "a3f1698d5ef8ef4e942cfd131a333cd58ea5c6ca",
+      "command": [
+        "/Users/jasonlee/.cargo/bin/cargo",
+        "+1.98.1",
+        "test",
+        "--locked",
+        "--offline",
+        "-p",
+        "console-app",
+        "--features",
+        "frontend-e2e",
+        "--test",
+        "auth_rest",
+        "--test",
+        "openapi_drift",
+        "--no-run"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 28.072303249966353,
+      "log_sha256": "974fb21a07b7652e2d77ec54d9196012025c18839c666170fef4aed9863e3478",
+      "recorded_at": "2026-10-05T13:15:06.725954+00:00"
+    },
+    "discovery": {
+      "head": "a3f1698d5ef8ef4e942cfd131a333cd58ea5c6ca",
+      "command": [
+        "/Users/jasonlee/.cargo/bin/cargo",
+        "+1.98.1",
+        "test",
+        "--locked",
+        "--offline",
+        "-p",
+        "console-app",
+        "--features",
+        "frontend-e2e",
+        "--test",
+        "auth_rest",
+        "--test",
+        "openapi_drift",
+        "--",
+        "--list"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 0.71625983400736,
+      "log_sha256": "066ee50c7111852a8e71b952a51ad4e0796b306925b4f913e9b64a1e64d41a20",
+      "recorded_at": "2026-10-05T13:15:43.462268+00:00"
+    },
+    "prerequisite": {
+      "head": "a3f1698d5ef8ef4e942cfd131a333cd58ea5c6ca",
+      "command": [
+        "bash",
+        "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/tools/lanes/pgtest.sh",
+        "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork",
+        "/Users/jasonlee/.cargo/bin/cargo",
+        "+1.98.1",
+        "test",
+        "--locked",
+        "--offline",
+        "-p",
+        "console-app",
+        "--features",
+        "frontend-e2e",
+        "--test",
+        "auth_rest",
+        "browser_sessions::resident_fixture_preserves_real_native_login_and_exact_family_logout",
+        "--",
+        "--exact",
+        "--test-threads=1",
+        "--nocapture"
+      ],
+      "docker_adapter_sha256": "bbc6894539e90f37863e3f27e139aa98d36db83ac1e5c71bb117060a8ac988fe",
+      "recorded_at": "2026-10-05T13:15:53.857097+00:00",
+      "duration_seconds": 12.30997204198502,
+      "process_exit_code": 0,
+      "probe_exit_code": 0,
+      "behavioral_executed": 1,
+      "missing_route_failure": false,
+      "green": true,
+      "cleanup_reported": true,
+      "infrastructure_error": false,
+      "log_sha256": "bc7173455b769682f4bca582b8342883610cebd950fd2ff525c01f9cd2ce1bc6"
+    },
+    "resource_readback": {
+      "command": [
+        "/opt/homebrew/bin/docker",
+        "--context",
+        "colima-nextjs-v1-auth",
+        "events",
+        "--since",
+        "2026-10-05T13:15:40Z",
+        "--until",
+        "2026-10-05T13:16:10Z",
+        "--filter",
+        "type=container",
+        "--filter",
+        "container=console-conformance-58269",
+        "--format",
+        "{{json .}}"
+      ],
+      "events": [
+        {
+          "action": "create",
+          "id": "5f5cc30fedd067ad7ad037a83ab5f6b99e5b52487f9327fc8e70e74fd82acbeb",
+          "time": 1791206141,
+          "name": "console-conformance-58269"
+        },
+        {
+          "action": "destroy",
+          "id": "5f5cc30fedd067ad7ad037a83ab5f6b99e5b52487f9327fc8e70e74fd82acbeb",
+          "time": 1791206153,
+          "name": "console-conformance-58269"
+        }
+      ],
+      "container_absent": true
+    },
+    "source_set_sha256": "e15430ba74a40b2f8138e688b7933ed7de534134c319462c384591248d6041a6",
+    "working_tree_source_bound": true,
+    "static_fixture_document_only": true,
+    "production_ui_proof": false,
+    "two_site_or_disk_durability_proof": false
+  },
+  "execution_totals": {
+    "native_executed": 3,
+    "native_passed": 1,
+    "native_failed": 2,
+    "fixture_failure": 1,
+    "preliminary_missing_route_red": 1,
+    "revised_missing_route_red": 0,
+    "crypto_executed": 0,
+    "ts_boundary_executed": 0,
+    "production_browser_scenarios_executed": 0,
+    "merge_approval": false
+  }
 }

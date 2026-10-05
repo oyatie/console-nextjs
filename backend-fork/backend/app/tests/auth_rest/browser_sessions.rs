@@ -2,9 +2,12 @@
 //! Design SHA: 8ef4ad7d85602c94aac05acfe0edf163b5ee3ede819d9e3cbb1e3c6d8b99b2ad.
 //! Real signatures and nonowner PostgreSQL; literal missing routes yield behavior RED.
 use super::*;
+#[path = "resident_authenticator.rs"]
+mod resident_authenticator;
 use base64::{Engine as _, engine::general_purpose::URL_SAFE_NO_PAD};
 use console_platform_auth::{JwtSettings, JwtVerifier};
 use p256::elliptic_curve::rand_core::RngCore;
+use resident_authenticator::ResidentAuthenticator;
 use sha2::{Digest, Sha256};
 use sqlx::postgres::PgPoolOptions;
 use tokio::time::{sleep, timeout};
@@ -32,7 +35,7 @@ struct Actor {
     org: OrgId,
     source: Uuid,
     credential: String,
-    authenticator: WebauthnAuthenticator<SoftPasskey>,
+    authenticator: ResidentAuthenticator,
 }
 
 fn storage_key() -> String {
@@ -119,7 +122,7 @@ async fn post_raw(
 
 async fn enroll_discoverable_passkey(
     service: &axum::Router,
-    authenticator: &mut WebauthnAuthenticator<SoftPasskey>,
+    authenticator: &mut ResidentAuthenticator,
     access_token: &str,
 ) -> String {
     accept_required_privacy_consent(service, access_token).await;
@@ -254,7 +257,7 @@ async fn actor_in_org(owner: &PgPool, f: &Fixture, name: &str, org: OrgId) -> Ac
         StatusCode::OK,
     )
     .await;
-    let mut authenticator = WebauthnAuthenticator::new(SoftPasskey::new(true));
+    let mut authenticator = ResidentAuthenticator::new().expect("resident browser fixture");
     let credential =
         enroll_discoverable_passkey(&f.router, &mut authenticator, &enrollment.access_token).await;
     let source: Uuid = sqlx::query_scalar(
@@ -283,7 +286,7 @@ async fn assertion(f: &Fixture, a: &mut Actor) -> (Uuid, Value) {
         .await
         .unwrap();
     let start: LoginStartResponse = response.into_json(StatusCode::OK).await;
-    let challenge = inject_allow_credential(start.challenge, &a.credential);
+    let challenge = start.challenge;
     let proof = a
         .authenticator
         .do_authentication(Url::parse(TEST_ORIGIN).unwrap(), challenge)
@@ -292,6 +295,49 @@ async fn assertion(f: &Fixture, a: &mut Actor) -> (Uuid, Value) {
         start.ceremony_id,
         json!({"ceremony_id":start.ceremony_id,"credential":proof}),
     )
+}
+
+// Native transport setup uses the original challenge and owners. The browser
+// fixture chooses modal WebAuthn UI for conditional starts, as the old software
+// authenticator ignored presentation. This is not conditional-browser proof;
+// the unchanged C2 production prerequisite owns that evidence.
+async fn resident_native_login(
+    service: &axum::Router,
+    actor: &mut Actor,
+    cookie: bool,
+) -> http::Response<Body> {
+    let start: LoginStartResponse = post_json(
+        service.clone(),
+        "/api/v1/auth/passkey/login/start",
+        None,
+        json!({}),
+        StatusCode::OK,
+    )
+    .await;
+    let assertion = actor
+        .authenticator
+        .do_authentication(Url::parse(TEST_ORIGIN).unwrap(), start.challenge)
+        .unwrap();
+    let assertion = serde_json::to_value(assertion).unwrap();
+    assert_eq!(assertion["id"], actor.credential);
+    let body = json!({"ceremony_id":start.ceremony_id,"credential":assertion});
+    if cookie {
+        post_cookie_mode(
+            service.clone(),
+            "/api/v1/auth/passkey/login/finish",
+            None,
+            body,
+        )
+        .await
+    } else {
+        post_raw(
+            service.clone(),
+            "/api/v1/auth/passkey/login/finish",
+            None,
+            body,
+        )
+        .await
+    }
 }
 
 async fn login(f: &Fixture, a: &mut Actor) -> Value {
@@ -560,6 +606,83 @@ async fn add_passkey(f: &Fixture, a: &mut Actor, bearer: &str) {
     .await;
 }
 
+// Positive prerequisite independent of the missing browser-session routes.
+// Native owners must accept actual resident browser signatures and retain their
+// body/cookie contracts before a missing-route RED can authorize implementation.
+#[sqlx::test(migrations = "../crates/platform/db/migrations")]
+async fn resident_fixture_preserves_real_native_login_and_exact_family_logout(pool: PgPool) {
+    let f = fixture(&pool, "resident-native-prerequisite").await;
+    let mut a = actor(&pool, &f, "실제 상주 키").await;
+    let first: TokenPairResponse = resident_native_login(&f.router, &mut a, false)
+        .await
+        .into_json(StatusCode::OK)
+        .await;
+    let claims = f.verifier.verify_access_token(&first.access_token).unwrap();
+    assert_eq!(claims.sub, a.user.to_string());
+    assert_eq!(claims.org, a.org.to_string());
+    assert!(first.refresh_token.is_some());
+    assert_eq!(
+        get(&f, "/api/v1/hr/attendance-records/me", &first.access_token)
+            .await
+            .status(),
+        StatusCode::OK
+    );
+
+    let second = resident_native_login(&f.router, &mut a, true).await;
+    assert_eq!(second.status(), StatusCode::OK);
+    let cookies = set_cookie_values(&second);
+    assert_eq!(cookies.len(), 1);
+    let cookie_pair = cookies[0].split(';').next().unwrap();
+    let (name, cookie) = cookie_pair.split_once('=').unwrap();
+    assert_eq!(name, "console_refresh");
+    assert!(!cookie.is_empty());
+    let cookie = cookie.to_owned();
+    let second: TokenPairResponse = second.into_json(StatusCode::OK).await;
+    assert!(second.refresh_token.is_none());
+    let second_claims = f
+        .verifier
+        .verify_access_token(&second.access_token)
+        .unwrap();
+    assert_ne!(claims.session_family_id, second_claims.session_family_id);
+    assert_eq!(
+        get(&f, "/api/v1/hr/attendance-records/me", &second.access_token)
+            .await
+            .status(),
+        StatusCode::OK
+    );
+    let logout = post_cookie_mode(
+        f.router.clone(),
+        "/api/v1/auth/logout",
+        Some(&cookie),
+        json!({}),
+    )
+    .await;
+    assert_eq!(logout.status(), StatusCode::NO_CONTENT);
+    assert_eq!(
+        get(&f, "/api/v1/hr/attendance-records/me", &second.access_token)
+            .await
+            .status(),
+        StatusCode::UNAUTHORIZED
+    );
+    assert_eq!(
+        get(&f, "/api/v1/hr/attendance-records/me", &first.access_token)
+            .await
+            .status(),
+        StatusCode::OK
+    );
+    let audits: i64 = sqlx::query_scalar(
+        "SELECT count(*) FROM audit_events WHERE action='auth.logout' AND org_id=$1",
+    )
+    .bind(*a.org.as_uuid())
+    .fetch_one(&pool)
+    .await
+    .unwrap();
+    assert_eq!(audits, 1);
+    a.authenticator
+        .close()
+        .expect("confirmed resident fixture cleanup");
+}
+
 #[sqlx::test(migrations = "../crates/platform/db/migrations")]
 async fn browser_login_binds_original_proof_and_parallel_resolution_never_rotates(pool: PgPool) {
     let f = fixture(&pool, "browser-stable").await;
@@ -791,7 +914,8 @@ async fn missing_malformed_and_replaced_browser_key_never_weaken_original_native
         );
         assert_eq!(effects(&pool).await, before);
         // Missing browser transport configuration must not disable native passkeys.
-        usernameless_login(&router, &mut a.authenticator, &a.credential).await;
+        let native = resident_native_login(&router, &mut a, false).await;
+        let _: TokenPairResponse = native.into_json(StatusCode::OK).await;
     }
 
     let different = storage_key();
@@ -2494,8 +2618,7 @@ async fn native_browser_routes_never_take_authority_from_ambient_cookie_or_beare
     let mut b = actor(&pool, &f, "무관한 주변 자격 증명").await;
     let other = login(&f, &mut b).await;
     let other_bearer = private_original_proof(&pool, &f, &other).await;
-    let native =
-        cookie_mode_usernameless_login(&f.router, &mut b.authenticator, &b.credential).await;
+    let native = resident_native_login(&f.router, &mut b, true).await;
     assert_eq!(native.status(), StatusCode::OK);
     let cookie = set_cookie_values(&native)
         .into_iter()
@@ -2675,7 +2798,7 @@ async fn actual_0240_populated_upgrade_preserves_native_identity_and_sessions(po
         StatusCode::OK,
     )
     .await;
-    let challenge = inject_allow_credential(start.challenge, &a.credential);
+    let challenge = start.challenge;
     let credential = a
         .authenticator
         .do_authentication(Url::parse(TEST_ORIGIN).unwrap(), challenge)
@@ -5182,7 +5305,7 @@ mod r7_native_additions {
             StatusCode::OK,
         )
         .await;
-        let challenge = inject_allow_credential(start.challenge, &a.credential);
+        let challenge = start.challenge;
         let credential = a
             .authenticator
             .do_authentication(Url::parse(TEST_ORIGIN).unwrap(), challenge)
@@ -5387,7 +5510,7 @@ mod r7_native_additions {
     async fn assertion_ip(f: &Fixture, a: &mut Actor, ip: &str) -> (Uuid, Value) {
         let response = raw_browser_ip(f, START, vec![], ip).await;
         let start: LoginStartResponse = response.into_json(StatusCode::OK).await;
-        let challenge = inject_allow_credential(start.challenge, &a.credential);
+        let challenge = start.challenge;
         let proof = a
             .authenticator
             .do_authentication(Url::parse(TEST_ORIGIN).unwrap(), challenge)
@@ -5910,7 +6033,7 @@ mod r7_native_additions {
             )
             .await
             .unwrap();
-        let mut authenticator = WebauthnAuthenticator::new(SoftPasskey::new(true));
+        let mut authenticator = ResidentAuthenticator::new().expect("resident browser fixture");
         let credential = authenticator
             .do_registration(Url::parse(TEST_ORIGIN).unwrap(), registration.challenge)
             .unwrap();
