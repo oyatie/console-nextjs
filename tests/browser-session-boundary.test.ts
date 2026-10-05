@@ -120,10 +120,25 @@ describe("native browser boundary", () => {
     expect(browserCookieAdmission(`${preauth}; ${ids.slice(0, 7).map((id) => sessionCookie(id)).join("; ")}`, "finish", true)).toBe(true);
   });
 
+  it("rejects native calendar dates that JavaScript would silently normalize", () => {
+    const data = nativeHistory();
+    for (const expires_at of ["2027-02-31T08:05:59Z", "2027-02-29T08:05:59Z", "2027-01-15T24:00:00Z"]) {
+      expect(() => decodeOwnAttendance({ ...data, expires_at }, context)).toThrow();
+    }
+    for (const work_date of ["2027-02-31", "2027-02-29"]) {
+      expect(() => decodeOwnAttendance({ ...data, history: { ...data.history,
+        items: [{ ...data.history.items[0], work_date }] } }, context)).toThrow();
+    }
+    expect(decodeOwnAttendance({ ...data, expires_at: "2028-02-29T23:59:59.123456789+09:00" }, context).expires_at)
+      .toBe("2028-02-29T23:59:59.123456789+09:00");
+  });
+
   it("validates the actual nine-item timestamps and exact authorized own projection", () => {
     const data = nativeHistory();
     expect(decodeOwnAttendance(data, context)).toEqual(data);
     expect(formatAttendanceInstant(data.history.items[0].occurred_at)).toBe("2024-03-01 08:59:59 (KST)");
+    const lastYear = decodeOwnAttendance(nativeHistory([9999, 365, 23, 59, 59, 0, 0, 0, 0]), context);
+    expect(formatAttendanceInstant(lastYear.history.items[0].occurred_at)).toBe("+010000-01-01 08:59:59 (KST)");
     for (const timestamp of [
       [2023, 366, 0, 0, 0, 0, 0, 0, 0], [2024, 0, 0, 0, 0, 0, 0, 0, 0],
       [2024, 60, 24, 0, 0, 0, 0, 0, 0], [2024, 60, 0, 60, 0, 0, 0, 0, 0],

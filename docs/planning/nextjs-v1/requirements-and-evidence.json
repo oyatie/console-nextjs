@@ -4184,6 +4184,40 @@
         "One disposable PostgreSQL site proves local behavior, not two-site confirmation/fencing, zero acknowledged-record loss or production readiness.",
         "No applied migration, dependency, family/identity rewrite, live cutover, payment, institution, mail exposure or collection activation."
       ]
+    },
+    {
+      "scope": "R7 passkey sign-in, current-authority own-attendance SSR/pagination/reload, exact-family logout and denied reads",
+      "status": "bounded_local_runtime_accepted_final_immutable_head_hosted_CI_and_queue_pending",
+      "evidence": {
+        "path": "docs/planning/nextjs-v1/browser-business-session-r7-evidence.json",
+        "sha256": "f6b43de7c4a51c9e21fe21d4d00ad0cf0651ab2f8f7d78b296a45a2c6c9a6b88"
+      },
+      "native": {
+        "discovered": 121,
+        "executed": 121,
+        "passed": 121,
+        "failed": 0,
+        "skipped": 0,
+        "filtered": 0
+      },
+      "embedded_browser": {
+        "discovered": 17,
+        "executed": 17,
+        "passed": 17,
+        "failed": 0,
+        "skipped": 0,
+        "unreached": 0
+      },
+      "interpretation": "The 17 browser scenarios are inside one of the 121 native tests; they are not 17 additional native tests. Retained 285 native configuration executions are separately scoped and may overlap requirements.",
+      "remaining_holds": [
+        "Physical passkeys and attended identity/recovery",
+        "Verified natural-person independent approval",
+        "Current-at-emission authority serialization",
+        "Two-site confirmation, fencing and safe reads",
+        "Linux hosted compatibility until required CI passes",
+        "Complete HR/Org/Payroll/Foundry and all B/P launch workflows",
+        "Capacity, restore, migration and full release acceptance"
+      ]
     }
   ]
 }

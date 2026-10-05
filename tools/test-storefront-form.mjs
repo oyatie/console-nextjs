@@ -7,6 +7,11 @@ import { createServer as createHttpServer } from "node:http";
 import { createServer as createTcpServer } from "node:net";
 import { setTimeout as delay } from "node:timers/promises";
 import { chromium, expect } from "@playwright/test";
+import { mkdtemp, rm } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+import { stageProductionRuntime } from "./production-runtime.mjs";
 
 let inquiryStatus = 500;
 let inquiryPosts = 0;
@@ -50,23 +55,29 @@ const api = createHttpServer(async (request, response) => {
     response.writeHead(404).end();
   }
 });
-api.listen(0, "127.0.0.1");
-await once(api, "listening");
-const apiPort = api.address().port;
-
-const reservation = createTcpServer().listen(0, "127.0.0.1");
-await once(reservation, "listening");
-const sitePort = reservation.address().port;
-await new Promise((resolve) => reservation.close(resolve));
-const next = spawn(process.execPath, ["node_modules/next/dist/bin/next", "start", "-p", String(sitePort)], {
-  cwd: new URL("..", import.meta.url).pathname,
-  env: { ...process.env, HOSTNAME: "127.0.0.1", CONSOLE_BACKEND_ORIGIN: `http://127.0.0.1:${apiPort}` },
-  stdio: ["ignore", "pipe", "pipe"],
-});
-let serverOutput = "";
-for (const stream of [next.stdout, next.stderr]) stream.on("data", (chunk) => { serverOutput += chunk; });
+let reservation;
+let owned;
+let next;
 let browser;
+let serverOutput = "";
 try {
+  api.listen(0, "127.0.0.1");
+  await once(api, "listening");
+  const apiPort = api.address().port;
+
+  reservation = createTcpServer().listen(0, "127.0.0.1");
+  await once(reservation, "listening");
+  const sitePort = reservation.address().port;
+  await new Promise((resolve) => reservation.close(resolve));
+  owned = await mkdtemp(path.join(tmpdir(), "storefront-form-runtime-"));
+  const runtime = path.join(owned, "runtime");
+  await stageProductionRuntime({ sourceRoot: path.resolve(path.dirname(fileURLToPath(import.meta.url)), ".."), destination: runtime });
+  next = spawn(process.execPath, [path.join(runtime, "server.mjs")], {
+    cwd: runtime,
+    env: { ...process.env, NODE_ENV: "production", PORT: String(sitePort), HOSTNAME: "127.0.0.1", CONSOLE_BACKEND_ORIGIN: `http://127.0.0.1:${apiPort}` },
+    stdio: ["ignore", "pipe", "pipe"],
+  });
+  for (const stream of [next.stdout, next.stderr]) stream.on("data", (chunk) => { serverOutput += chunk; });
   const url = `http://127.0.0.1:${sitePort}/storefront`;
   let ready = false;
   for (let attempt = 0; attempt < 80; attempt += 1) {
@@ -135,12 +146,27 @@ try {
   assert.ok(!("listing_id" in inquiryBodies.at(-1)), "General inquiry must omit the former listing ID");
   console.log("Storefront browser fixture: uncertain input, pending receipt, SSR retry, and explicit listing-conflict recovery passed.");
 } finally {
-  await browser?.close();
-  next.kill();
-  if (next.exitCode === null && next.signalCode === null) {
-    const force = setTimeout(() => next.kill("SIGKILL"), 2000);
-    await once(next, "exit");
-    clearTimeout(force);
+  const released = await Promise.allSettled([
+    (async () => { await browser?.close(); })(),
+    (async () => {
+      if (!next) return;
+      next.kill();
+      if (next.exitCode === null && next.signalCode === null) {
+        const force = setTimeout(() => next.kill("SIGKILL"), 2000);
+        try { await once(next, "exit"); } finally { clearTimeout(force); }
+      }
+    })(),
+    (async () => {
+      if (reservation?.listening) await new Promise((resolve) => reservation.close(resolve));
+    })(),
+    (async () => {
+      if (api.listening) await new Promise((resolve) => api.close(resolve));
+    })(),
+  ]);
+  try {
+    const failed = released.find((result) => result.status === "rejected");
+    if (failed) throw failed.reason;
+  } finally {
+    if (owned) await rm(owned, { recursive: true, force: true });
   }
-  await new Promise((resolve) => api.close(resolve));
 }

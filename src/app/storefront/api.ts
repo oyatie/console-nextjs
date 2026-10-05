@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { backendRequest } from "@/lib/server/backend";
 
 const mediaSchema = z.object({
   id: z.string().uuid(),
@@ -57,32 +58,9 @@ export class StorefrontApiError extends Error {
   }
 }
 
-function backendUrl(path: string): URL {
-  const configured = process.env.CONSOLE_BACKEND_ORIGIN?.trim();
-  if (!configured) throw new StorefrontApiError(503);
-  try {
-    const origin = new URL(configured);
-    if (
-      !["http:", "https:"].includes(origin.protocol) ||
-      origin.username || origin.password || origin.pathname !== "/" ||
-      origin.search || origin.hash
-    ) {
-      throw new Error("Invalid backend origin");
-    }
-    return new URL(path, origin);
-  } catch {
-    throw new StorefrontApiError(503);
-  }
-}
-
 async function request(path: string, options?: RequestInit): Promise<Response> {
   try {
-    return await fetch(backendUrl(path), {
-      ...options,
-      cache: "no-store",
-      redirect: "error",
-      signal: options?.signal ?? AbortSignal.timeout(5000),
-    });
+    return await backendRequest(path, options);
   } catch (error) {
     if (error instanceof StorefrontApiError) throw error;
     throw new StorefrontApiError(503);

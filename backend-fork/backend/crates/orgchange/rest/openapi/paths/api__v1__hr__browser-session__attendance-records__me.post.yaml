@@ -1,0 +1,27 @@
+tags:
+  - hr
+summary: Read own attendance through browser custody
+description: Resolves current native authority and reads Company name, Account display, employee linkage, count and history in one authorized snapshot. No Account, Company or employee selector is accepted.
+security:
+- BrowserIngress: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/BrowserSessionAttendanceRequest'
+responses:
+  '200':
+    description: Authorized native response.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/BrowserSessionAttendanceResponse'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '503':
+    $ref: '#/components/responses/ServiceUnavailable'
+  '422':
+    $ref: '#/components/responses/ValidationError'
+  '413':
+    description: Identity and pagination body exceeds 4 KiB.

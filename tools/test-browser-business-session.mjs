@@ -381,15 +381,19 @@ async function cookieSnapshot() {
 
 async function pendingFailure(actor) {
   const page = actors.get(actor).page;
-  await page.waitForFunction(() => document.querySelector('[role="alert"]')?.textContent?.trim().length > 0,
-    undefined, { timeout: PHASE_MS });
-  const text = await page.getByRole("alert").innerText();
+  // Next's shadow-DOM route announcer has its own alert outside main.
+  const notice = page.getByRole("main").getByRole("alert");
+  await notice.waitFor({ state: "visible", timeout: PHASE_MS });
+  assert.equal(await notice.count(), 1);
+  const text = await notice.innerText();
+  assert.ok(text.trim().length > 0);
   assert.ok(!/완료|성공/.test(text)); assertNoProof(text);
+  return text;
 }
 
 function proposalHarness() {
   return { actors, sessions, paths: PRODUCT_PATHS, native: PRODUCT_NATIVE, begin, pass, resume, defer, assertNoProof,
-    checkTable, signIn, logout, checkpoint, control, startRuntime, restartRuntime, runtimeReady, rateBudget,
+    checkTable, signIn, logout, withCapturedResponse, assertNoContentResponse, checkpoint, verifyCookieDeadline, control, startRuntime, restartRuntime, runtimeReady, rateBudget,
     rawPublic, startCeremony, assertion, sessionCsrf, absent, cookieSnapshot, pendingFailure,
     holdResponse, holdNextRead: ({ context }) => holdResponse(PRODUCT_NATIVE.history, context),
     tls: { origin: productRuntimeConfig.origin, caPem: productRuntimeConfig.caPem },
@@ -458,6 +462,7 @@ const actors = new Map();
 let activeScenario;
 let failureClass;
 let runtimeDigest;
+let captureFailure; // Fatal observer faults cannot be accepted as intentional lost responses.
 class InfrastructureError extends Error {
   constructor(message = "product infrastructure unavailable") { super(message); this.code = "R7_BROWSER_PREREQUISITE"; }
 }
@@ -468,6 +473,7 @@ function begin(id) {
   activeScenario = id;
 }
 function pass(id) {
+  if (captureFailure) throw captureFailure;
   const item = scenarios.find((item) => item.id === id);
   assert.equal(item.status, "running");
   item.status = "passed";
@@ -554,7 +560,142 @@ async function checkTable(actor, expected) {
   assertNoProof(storage);
   assert.deepEqual(storage, { local: [], session: [], indexed: [], cache: [], service_workers: 0 });
 }
+function verifyCookieDeadline(reply, cookie, response, headers) {
+  assert.equal(reply.context_id, cookie.name.slice("__Host-console-session-".length));
+  const sessionHeaders = headers.filter((header) => header.name.toLowerCase() === "set-cookie"
+    && header.value.startsWith(`${cookie.name}=`));
+  assert.equal(sessionHeaders.length, 1);
+  const expiry = sessionHeaders[0].value.split(";").map((part) => part.trim())
+    .filter((part) => part.toLowerCase().startsWith("expires="));
+  assert.equal(expiry.length, 1);
+  const wireDate = expiry[0].slice("expires=".length);
+  const cookieExpires = Date.parse(wireDate) / 1000;
+  assert.ok(Number.isSafeInteger(cookieExpires));
+  assert.equal(new Date(cookieExpires * 1000).toUTCString(), wireDate);
+  assert.equal(cookieExpires, Math.floor(Date.parse(reply.expires_at) / 1000));
+  assert.ok(cookieExpires > Date.now() / 1000);
+  // Chromium may adjust expiry using the server Date and local receipt clock.
+  // Preserve the observed jar deadline separately; never round it into custody.
+  assert.ok(Number.isFinite(cookie.expires) && cookie.expires > Date.now() / 1000);
+  const dates = headers.filter((header) => header.name.toLowerCase() === "date");
+  assert.equal(dates.length, 1);
+  const serverSeconds = Date.parse(dates[0].value) / 1000;
+  assert.ok(Number.isSafeInteger(serverSeconds));
+  assert.equal(new Date(serverSeconds * 1000).toUTCString(), dates[0].value);
+  const requestMilliseconds = response.request().timing().startTime;
+  const observedMilliseconds = Date.now();
+  assert.ok(Number.isFinite(requestMilliseconds) && requestMilliseconds > 0 && requestMilliseconds <= observedMilliseconds);
+  const adjustment = cookie.expires - cookieExpires;
+  assert.ok(adjustment === 0 || (adjustment >= requestMilliseconds / 1000 - serverSeconds
+    && adjustment <= observedMilliseconds / 1000 - serverSeconds), "browser deadline must be explained by actual Date/request/receipt clocks");
+  return cookieExpires;
+}
+async function withCapturedResponse(actor, pathname, operation) {
+  if (captureFailure) throw captureFailure;
+  const entry = actors.get(actor);
+  // Navigation can drop no-store body handles; unread fetch bodies can also
+  // defer Chromium completion. Capture real bytes while paused, then continue
+  // without overrides. This observer pause supplies no untouched-latency proof.
+  const captured = Promise.withResolvers();
+  void captured.promise.catch(() => {});
+  const captures = [];
+  let captureCount = 0;
+  let closingCapture = false;
+  let setupSettled = false;
+  const bounded = async (promise, milliseconds = 2000) => {
+    let timer;
+    try {
+      return await Promise.race([promise, new Promise((_, reject) => {
+        timer = setTimeout(() => reject(new InfrastructureError("response observer command deadline")), milliseconds);
+      })]);
+    } finally { clearTimeout(timer); }
+  };
+  const observe = (event) => {
+    const task = (async () => {
+      try {
+        captureCount += 1;
+        if (closingCapture) return; // Release late pauses, without starting another body command.
+        assert.equal(captureCount, 1);
+        assert.equal(event.request.url, `${entry.origin}${pathname}`);
+        assert.equal(event.request.method, "POST");
+        assert.ok(!event.responseErrorReason);
+        const wire = await entry.cdp.send("Fetch.getResponseBody", { requestId: event.requestId });
+        assert.ok(Buffer.byteLength(wire.body) <= MAX_FRAME * 2);
+        const bytes = Buffer.from(wire.body, wire.base64Encoded ? "base64" : "utf8");
+        assert.ok(bytes.length <= MAX_FRAME);
+        const body = new TextDecoder("utf-8", { fatal: true }).decode(bytes);
+        // Every captured body is checked, including a later browser abort.
+        assertNoProof(body);
+        return { body, postData: event.request.postData, status: event.responseStatusCode };
+      } finally {
+        await entry.cdp.send("Fetch.continueResponse", { requestId: event.requestId });
+      }
+    })();
+    captures.push(task);
+    void task.then(captured.resolve, captured.reject);
+  };
+  entry.cdp.on("Fetch.requestPaused", observe);
+  const captureDeadline = setTimeout(() => {
+    // Missing responses are expected in fault scenarios; keep the healthy
+    // authenticator alive. Cleanup detaches only actually stuck commands.
+    captured.reject(new InfrastructureError("actual response capture deadline"));
+  }, PHASE_MS);
+  let result;
+  let requiredCapture = false;
+  let primaryError;
+  try {
+    const setup = entry.cdp.send("Fetch.enable", { patterns: [{
+      urlPattern: `${entry.origin}${pathname}`, requestStage: "Response",
+    }] }).finally(() => { setupSettled = true; });
+    await bounded(setup, PHASE_MS);
+    result = await operation(() => { requiredCapture = true; return captured.promise; });
+  } catch (error) { primaryError = error; }
+  finally {
+    closingCapture = true;
+    clearTimeout(captureDeadline);
+    let drained = false;
+    let disabled = false;
+    try {
+      // A setup timeout cannot race a later enable success and look cleaned.
+      assert.ok(setupSettled);
+      await bounded(Promise.allSettled(captures));
+      drained = true; // No getResponseBody can start after closingCapture.
+      if (entry.page.isClosed()) {
+        // P10 witnesses closing this page before the held response's headers.
+        // The closed target owns teardown; it must have had no body commands.
+        assert.equal(captures.length, 0);
+        disabled = true;
+      } else {
+        await bounded(entry.cdp.send("Fetch.disable"));
+        disabled = true;
+      }
+      // Keep the handler through disable so late pauses are released unchanged
+      // and counted. Check every task, including those after first resolution.
+      const results = await bounded(Promise.allSettled(captures));
+      assert.ok(results.every((result) => result.status === "fulfilled"));
+      assert.ok(captureCount <= 1);
+      if (!primaryError && requiredCapture) assert.equal(captureCount, 1);
+    } catch (error) {
+      captureFailure ??= new InfrastructureError("response observer cleanup failed");
+      captureFailure.cause = error;
+      if (!drained || !disabled) {
+        // Pending setup/body/disable needs positive teardown, never a competing
+        // disable during getResponseBody. This is fatal to the whole matrix.
+        try {
+          await bounded(entry.cdp.detach());
+          await bounded(Promise.allSettled(captures));
+        } catch (detachError) { captureFailure.detachCause = detachError; }
+      }
+      if (primaryError) primaryError.observerFailure = captureFailure;
+    } finally { entry.cdp.off("Fetch.requestPaused", observe); }
+  }
+  if (primaryError) throw primaryError;
+  if (captureFailure) throw captureFailure;
+  return result;
+}
+
 async function signIn(actor) {
+  if (captureFailure) throw captureFailure;
   await rateBudget();
   const entry = actors.get(actor);
   const response = await entry.page.goto(`${entry.origin}${PRODUCT_PATHS.login}`, { timeout: PHASE_MS });
@@ -565,16 +706,26 @@ async function signIn(actor) {
   const finished = entry.page.waitForResponse((r) => new URL(r.url()).pathname === PRODUCT_PATHS.finish
     && r.request().method() === "POST", { timeout: PHASE_MS });
   const navigated = entry.page.waitForURL((url) => ATTENDANCE.test(url.pathname), { timeout: PHASE_MS });
-  // Navigation/page-close can reject one wait before its sibling actual
-  // response arrives. Own every rejection immediately; each is still awaited
-  // below, preserving the checked failure rather than an unhandled rejection.
+  // Own every wait before the first asynchronous observer setup.
   for (const pending of [started, finished, navigated]) void pending.catch(() => {});
-  await entry.page.getByRole("button", { name: "패스키로 로그인", exact: true }).click();
-  const start = await started; assert.equal(start.status(), 200);
-  const startBody = await start.json(); assertNoProof(startBody);
-  assert.match(startBody.ceremony_id, new RegExp(`^${UUID}$`));
-  const finish = await finished; assert.equal(finish.status(), 200);
-  assertNoProof(await finish.text());
+  let startBody;
+  let finish;
+  let finishReply;
+  await withCapturedResponse(actor, PRODUCT_PATHS.finish, async (getResponse) => {
+    await entry.page.getByRole("button", { name: "패스키로 로그인", exact: true }).click();
+    const start = await started; assert.equal(start.status(), 200);
+    startBody = await start.json(); assertNoProof(startBody);
+    assert.match(startBody.ceremony_id, new RegExp(`^${UUID}$`));
+    finish = await finished; assert.equal(finish.status(), 200);
+    const wire = await getResponse();
+    assert.equal(wire.status, finish.status());
+    assert.equal(wire.postData, finish.request().postData());
+    assert.equal(JSON.parse(wire.postData).ceremony_id, startBody.ceremony_id);
+    assertNoProof(wire.body);
+    finishReply = JSON.parse(wire.body);
+    assert.deepEqual(Object.keys(finishReply).sort(), ["context_id", "expires_at"]);
+    assert.equal(finishReply.context_id, startBody.ceremony_id);
+  });
   const request = finish.request().postDataJSON();
   assert.equal(request.ceremony_id, startBody.ceremony_id);
   assert.equal(request.credential.id, entry.credentialId);
@@ -585,25 +736,41 @@ async function signIn(actor) {
   assert.ok(cookie && cookie.httpOnly && cookie.secure && cookie.path === "/" && cookie.sameSite === "Strict");
   assert.match(cookie.value, /^bs1\.[A-Za-z0-9_-]{43}$/);
   assert.equal(Buffer.from(cookie.value.slice(4), "base64url").length, 32);
-  assert.ok(Number.isSafeInteger(cookie.expires) && cookie.expires > Date.now() / 1000);
-  const cookieHeaders = (await finish.headersArray()).filter((header) => header.name.toLowerCase() === "set-cookie");
+  const finishHeaders = await finish.headersArray();
+  const cookieExpires = verifyCookieDeadline(finishReply, cookie, finish, finishHeaders);
+  const cookieHeaders = finishHeaders.filter((header) => header.name.toLowerCase() === "set-cookie");
   const sessionHeader = cookieHeaders.find((header) => header.value.startsWith(`__Host-console-session-${context}=`));
   assert.ok(sessionHeader && !/;\s*Domain=/i.test(sessionHeader.value));
   const signedData = Buffer.from(request.credential.response.authenticatorData, "base64url");
   assert.ok(signedData.length >= 37 && signedData.length <= MAX_FRAME);
   const signedCounter = signedData.readUInt32BE(33);
-  sessions.set(actor, { context, token: cookie.value, cookieExpires: cookie.expires, signedCounter });
-  await checkpoint(actor, context, cookie.value, "open", cookie.expires, signedCounter);
+  sessions.set(actor, { context, token: cookie.value, cookieExpires, browserCookieExpires: cookie.expires, signedCounter });
+  await checkpoint(actor, context, cookie.value, "open", cookieExpires, signedCounter);
   await checkTable(actor, entry.facts.first_page);
+}
+async function assertNoContentResponse(response) {
+  // HTTP 204 ends at its headers. Playwright's finished() never resolves for
+  // post-header RequestFailed; actual framing, navigation and native closure
+  // are checked independently rather than draining a nonexistent body.
+  assert.equal(response.status(), 204);
+  const headers = await response.allHeaders();
+  assert.equal(headers["content-length"], undefined);
+  assert.equal(headers["transfer-encoding"], undefined);
+  assert.equal(headers["content-type"], undefined);
 }
 async function logout(actor) {
   const entry = actors.get(actor); const session = sessions.get(actor);
-  const finished = entry.page.waitForResponse((r) => new URL(r.url()).pathname === PRODUCT_PATHS.logout
-    && r.request().method() === "POST", { timeout: PHASE_MS });
-  void finished.catch(() => {}); // Own rejection if the preceding actual click fails; original remains awaited.
+  const receipt = entry.page.waitForResponse((r) => new URL(r.url()).origin === entry.origin
+    && new URL(r.url()).pathname === PRODUCT_PATHS.logout && r.request().method() === "POST"
+    && r.request().postDataJSON()?.browser_context === session.context, { timeout: PHASE_MS })
+    .then(assertNoContentResponse);
+  const navigated = entry.page.waitForURL((url) => url.origin === entry.origin
+    && url.pathname === PRODUCT_PATHS.login, { timeout: PHASE_MS });
+  // Own both observers before the actual click; their original results remain required.
+  void receipt.catch(() => {}); void navigated.catch(() => {});
   await entry.page.getByRole("button", { name: "로그아웃", exact: true }).click();
-  const response = await finished;
-  assert.equal(response.status(), 204); assert.equal((await response.body()).length, 0);
+  await Promise.all([receipt, navigated]);
+  await entry.page.getByRole("heading", { name: "패스키 로그인", exact: true }).waitFor({ timeout: PHASE_MS });
   assert.ok(!(await entry.context.cookies()).some((c) => c.name === `__Host-console-session-${session.context}`));
   await checkpoint(actor, session.context, session.token, "closed", session.cookieExpires, session.signedCounter);
   const denied = await entry.page.goto(`${entry.origin}/me/${session.context}/attendance/`, { timeout: PHASE_MS });
@@ -657,7 +824,7 @@ try {
     preauth: randomBytes(32).toString("base64url"), certFile, keyFile, caPem: configure.tls_cert_pem };
   configure.tls_key_pem = ""; configure.ingress_key = "";
   const initialRuntime = await startRuntime({ main: true }); await runtimeReady(initialRuntime);
-  startup = chromium.launchServer({ env: cleanEnv,
+  startup = chromium.launchServer({ channel: "chromium", env: cleanEnv,
     ignoreDefaultArgs: ["--disable-back-forward-cache"] }).then((server) => { browserServer = server; });
   await startup; assert.ok(!closing); browser = await chromium.connect(browserServer.wsEndpoint());
   await writeFrame({ kind: "ready", origin, runtime_digest: runtimeDigest });

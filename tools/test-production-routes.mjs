@@ -1,26 +1,37 @@
 import assert from "node:assert/strict";
 import { spawn } from "node:child_process";
 import { once } from "node:events";
-import { readFile, readdir } from "node:fs/promises";
+import { mkdir, readFile, readdir, rm } from "node:fs/promises";
 import { createServer } from "node:net";
 import path from "node:path";
 import { setTimeout as delay } from "node:timers/promises";
 import { fileURLToPath } from "node:url";
+import { stageProductionRuntime } from "./production-runtime.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+// Retain this owned staged closure for the acceptance runner's same-run scan.
+const runtime = path.join(root, ".artifacts/production-runtime");
+await mkdir(path.dirname(runtime), { recursive: true });
+await rm(runtime, { recursive: true, force: true });
+await stageProductionRuntime({ sourceRoot: root, destination: runtime });
 const expectedRoutes = [
   "/_global-error/page",
   "/_not-found/page",
+  "/api/browser-session/login/route",
+  "/api/browser-session/logout/route",
+  "/api/browser-session/start/route",
+  "/login/page",
+  "/me/[context]/attendance/page",
   "/page",
   "/storefront/[id]/media/[mediaId]/route",
   "/storefront/[id]/page",
   "/storefront/page",
 ];
-for (const file of [".next/server/app-paths-manifest.json", ".next/standalone/.next/server/app-paths-manifest.json"]) {
+for (const file of [".next/server/app-paths-manifest.json", ".artifacts/production-runtime/.next/server/app-paths-manifest.json"]) {
   const manifest = JSON.parse(await readFile(path.join(root, file), "utf8"));
   assert.deepEqual(Object.keys(manifest).sort(), expectedRoutes, `Unexpected production routes in ${file}`);
 }
-for (const directory of [".next/static/chunks", ".next/server", ".next/standalone/.next/server"]) {
+for (const directory of [".next/static/chunks", ".next/server", ".artifacts/production-runtime/.next/static/chunks", ".artifacts/production-runtime/.next/server"]) {
   const absolute = path.join(root, directory);
   for (const file of await readdir(absolute, { recursive: true })) {
     assert.ok(!file.includes("(console)"), `Prototype chunk in ${directory}: ${file}`);
@@ -36,9 +47,10 @@ await once(listener, "listening");
 const port = listener.address().port;
 await new Promise((resolve, reject) => listener.close((error) => error ? reject(error) : resolve()));
 
-const server = spawn(process.execPath, [path.join(root, ".next/standalone/server.js")], {
-  cwd: root,
-  env: { ...process.env, HOSTNAME: "127.0.0.1", PORT: String(port), NODE_ENV: "production", CONSOLE_BACKEND_ORIGIN: "" },
+const server = spawn(process.execPath, [path.join(runtime, "server.mjs")], {
+  cwd: runtime,
+  env: { ...process.env, HOSTNAME: "127.0.0.1", PORT: String(port), NODE_ENV: "production", CONSOLE_BACKEND_ORIGIN: "",
+    CONSOLE_PUBLIC_ORIGIN: `http://127.0.0.1:${port}`, CONSOLE_BROWSER_ALLOW_LOOPBACK_HTTP: "true" },
   stdio: ["ignore", "pipe", "pipe"],
 });
 let output = "";

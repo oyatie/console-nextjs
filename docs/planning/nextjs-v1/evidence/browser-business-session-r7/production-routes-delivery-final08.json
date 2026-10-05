@@ -1,0 +1,24 @@
+{
+  "id": "production-routes-delivery-final08",
+  "command": [
+    "npm",
+    "run",
+    "test:production-routes"
+  ],
+  "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+  "exit_code": 1,
+  "timed_out": false,
+  "duration_seconds": 4.874449249939062,
+  "discovered": null,
+  "counts": {
+    "passed": 0,
+    "failed": 0,
+    "skipped": 0,
+    "filtered": 0,
+    "executed": 0
+  },
+  "log_sha256": "75a155bc0dfd1cc81811dd4e489c2b184d523930fe2c299d842bf1f1b37aab60",
+  "cleanup_reported": false,
+  "inputs_sha256": "f78a5d44ecf060f2dba4a2d36f6fa89e342c8d6702d9143af2470af03d18e5e5",
+  "inputs_unchanged": true
+}

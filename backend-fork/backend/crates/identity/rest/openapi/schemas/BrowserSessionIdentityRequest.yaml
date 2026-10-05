@@ -1,0 +1,13 @@
+type: object
+additionalProperties: false
+required: [session_token, browser_context]
+properties:
+  session_token:
+    type: string
+    minLength: 47
+    maxLength: 47
+    pattern: '^bs1\.[A-Za-z0-9_-]{42}[AEIMQUYcgkosw048]$'
+  browser_context:
+    type: string
+    format: uuid
+    pattern: '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'

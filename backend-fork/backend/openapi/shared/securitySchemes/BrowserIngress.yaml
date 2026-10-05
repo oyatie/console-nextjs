@@ -1,0 +1,4 @@
+type: apiKey
+in: header
+name: x-console-browser-ingress
+description: Purpose-scoped bi1 service credential, separately requiring the native ingress owner to verify one canonical forwarded client IP from a configured trusted socket peer. A browser handle or bearer does not waive ingress.

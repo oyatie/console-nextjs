@@ -315,10 +315,10 @@ impl ResidentAuthenticator {
         if count > 1_048_576 || acknowledgement["kind"] != "cleaned" {
             return Err("infrastructure: resident cleanup acknowledgement");
         }
-        if let Some(pid) = self.browser_pid {
-            if acknowledgement["browser_pid"] != pid || acknowledgement["browser_exited"] != true {
-                return Err("infrastructure: resident browser cleanup identity");
-            }
+        if let Some(pid) = self.browser_pid
+            && (acknowledgement["browser_pid"] != pid || acknowledgement["browser_exited"] != true)
+        {
+            return Err("infrastructure: resident browser cleanup identity");
         }
         let expected = match acknowledgement["outcome"].as_str() {
             Some("completed") if done => 0,

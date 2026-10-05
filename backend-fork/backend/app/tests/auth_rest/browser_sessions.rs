@@ -2,6 +2,8 @@
 //! Design SHA: 8ef4ad7d85602c94aac05acfe0edf163b5ee3ede819d9e3cbb1e3c6d8b99b2ad.
 //! Real signatures and nonowner PostgreSQL; literal missing routes yield behavior RED.
 use super::*;
+#[path = "browser_logout_review.rs"]
+mod browser_logout_review;
 #[path = "resident_authenticator.rs"]
 mod resident_authenticator;
 use base64::{Engine as _, engine::general_purpose::URL_SAFE_NO_PAD};
@@ -274,6 +276,33 @@ async fn actor_in_org(owner: &PgPool, f: &Fixture, name: &str, org: OrgId) -> Ac
     }
 }
 
+// Recovery requires a real Company-owned branch scope before authentication.
+// Keep ordinary unassigned actor fixtures unchanged.
+async fn give_recovery_subject_branch(owner: &PgPool, subject: &Actor) {
+    let region: Uuid =
+        sqlx::query_scalar("INSERT INTO regions(name,org_id) VALUES($1,$2) RETURNING id")
+            .bind(format!("recovery-{}", Uuid::new_v4()))
+            .bind(*subject.org.as_uuid())
+            .fetch_one(owner)
+            .await
+            .unwrap();
+    let branch: Uuid = sqlx::query_scalar(
+        "INSERT INTO branches(region_id,name,org_id) VALUES($1,'복구 대상 지점',$2) RETURNING id",
+    )
+    .bind(region)
+    .bind(*subject.org.as_uuid())
+    .fetch_one(owner)
+    .await
+    .unwrap();
+    sqlx::query("INSERT INTO user_branches(user_id,branch_id,org_id) VALUES($1,$2,$3)")
+        .bind(*subject.user.as_uuid())
+        .bind(branch)
+        .bind(*subject.org.as_uuid())
+        .execute(owner)
+        .await
+        .unwrap();
+}
+
 async fn assertion(f: &Fixture, a: &mut Actor) -> (Uuid, Value) {
     let response = f
         .router
@@ -455,7 +484,19 @@ async fn history_raw(f: &Fixture, session: &Value, pagination: Value) -> http::R
 // original-family bearer revocation and audit-leak assertions.
 async fn private_original_proof(owner: &PgPool, f: &Fixture, session: &Value) -> String {
     use openssl::symm::{Cipher, decrypt_aead};
-    let row: (Uuid,Uuid,Uuid,Uuid,Uuid,OffsetDateTime,i32,Vec<u8>,Vec<u8>,Vec<u8>) = sqlx::query_as(
+    type OriginalProofRow = (
+        Uuid,
+        Uuid,
+        Uuid,
+        Uuid,
+        Uuid,
+        OffsetDateTime,
+        i32,
+        Vec<u8>,
+        Vec<u8>,
+        Vec<u8>,
+    );
+    let row: OriginalProofRow = sqlx::query_as(
         "SELECT account_id,company_id,family_id,source_credential_id,context_id,expires_at,codec_version,ciphertext,nonce,tag FROM auth_security.browser_sessions WHERE context_id=$1")
         .bind(Uuid::parse_str(session["context_id"].as_str().unwrap()).unwrap()).fetch_one(owner).await.unwrap();
     assert_eq!(row.6, 1);
@@ -2147,6 +2188,7 @@ async fn original_short_family_deadline_expires_during_lookup_wait_without_slidi
 async fn recovery_revokes_browser_family_without_revoking_another_person(pool: PgPool) {
     let f = fixture(&pool, "browser-recovery").await;
     let mut subject = actor(&pool, &f, "복구 대상").await;
+    give_recovery_subject_branch(&pool, &subject).await;
     let mut admin = actor_in_org(&pool, &f, "복구 담당자", subject.org).await;
     sqlx::query("UPDATE users SET roles=ARRAY['SUPER_ADMIN'] WHERE id=$1")
         .bind(*admin.user.as_uuid())
@@ -2880,6 +2922,7 @@ async fn witnessed_login_reset_winners_never_leave_pre_reset_browser_authority(p
     for login_wins in [true, false] {
         let f = fixture(&pool, "browser-login-reset-winner").await;
         let mut subject = actor(&pool, &f, "경쟁 복구 대상").await;
+        give_recovery_subject_branch(&pool, &subject).await;
         let mut admin = actor_in_org(&pool, &f, "경쟁 복구 담당자", subject.org).await;
         sqlx::query("UPDATE users SET roles=ARRAY['SUPER_ADMIN'] WHERE id=$1")
             .bind(*admin.user.as_uuid())
@@ -4248,6 +4291,7 @@ async fn failed_guarded_removal_restores_custody_before_waiting_logout_commits(p
 async fn failed_browser_login_rolls_back_before_waiting_credential_reset_commits(pool: PgPool) {
     let f = fixture(&pool, "browser-login-rollback-owner").await;
     let mut subject = actor(&pool, &f, "로그인 롤백과 기다리는 복구").await;
+    give_recovery_subject_branch(&pool, &subject).await;
     let existing = login(&f, &mut subject).await;
     let mut admin = actor_in_org(&pool, &f, "독립 복구 담당자", subject.org).await;
     sqlx::query("UPDATE users SET roles=ARRAY['SUPER_ADMIN'] WHERE id=$1")
@@ -5076,6 +5120,26 @@ async fn browser_start_is_bodyless_explicit_and_shares_legacy_limits(pool: PgPoo
 
 #[sqlx::test(migrations = "../crates/platform/db/migrations")]
 async fn browser_ingress_configuration_and_debug_never_expose_service_credentials(pool: PgPool) {
+    async fn assert_unmatched(router: &axum::Router) {
+        for path in [
+            "/api/v1/auth/browser-session/not-a-route",
+            "/api/v1/hr/browser-session/not-a-route",
+        ] {
+            let response = router
+                .clone()
+                .oneshot(
+                    Request::builder()
+                        .method("POST")
+                        .uri(path)
+                        .body(Body::empty())
+                        .unwrap(),
+                )
+                .await
+                .unwrap();
+            assert_eq!(response.status(), StatusCode::NOT_FOUND);
+            assert!(set_cookie_values(&response).is_empty());
+        }
+    }
     let f = fixture(&pool, "browser-ingress-configuration").await;
     let wire = browser_ingress_key();
     let raw = &wire[4..];
@@ -5104,6 +5168,7 @@ async fn browser_ingress_configuration_and_debug_never_expose_service_credential
     let valid = build_router(
         AppState::new(config, DatabaseDependency::Postgres(f.runtime.clone())).unwrap(),
     );
+    assert_unmatched(&valid).await;
     let response = valid
         .oneshot(ingress_probe(
             START,
@@ -5141,6 +5206,7 @@ async fn browser_ingress_configuration_and_debug_never_expose_service_credential
         let router = build_router(
             AppState::new(config, DatabaseDependency::Postgres(f.runtime.clone())).unwrap(),
         );
+        assert_unmatched(&router).await;
         for path in [START, LOGIN, LOGOUT, HISTORY] {
             let body = if path == START {
                 &[][..]
@@ -5255,7 +5321,20 @@ mod r7_native_additions {
 
     async fn stored(owner: &PgPool, session: &Value) -> ProofRow {
         let context = Uuid::parse_str(session["context_id"].as_str().unwrap()).unwrap();
-        let row: (Uuid,Uuid,Uuid,Uuid,Uuid,OffsetDateTime,Vec<u8>,i32,Vec<u8>,Vec<u8>,Vec<u8>) =
+        type StoredMutationRow = (
+            Uuid,
+            Uuid,
+            Uuid,
+            Uuid,
+            Uuid,
+            OffsetDateTime,
+            Vec<u8>,
+            i32,
+            Vec<u8>,
+            Vec<u8>,
+            Vec<u8>,
+        );
+        let row: StoredMutationRow =
             sqlx::query_as("SELECT account_id,company_id,family_id,source_credential_id,context_id,expires_at,token_hash,codec_version,ciphertext,nonce,tag FROM auth_security.browser_sessions WHERE context_id=$1")
                 .bind(context).fetch_one(owner).await.unwrap();
         ProofRow {
@@ -6006,8 +6085,14 @@ mod r7_native_additions {
         // consumption is now after its recorded expiry. No accepted mapping or
         // guard is changed, and both xmin values still belong to this tx.
         let (mut tx, expired, _) = fresh_fixture(&pool, &f, &mut a, &old_claims).await;
-        sqlx::query("UPDATE public.auth_webauthn_ceremonies SET expires_at=consumed_at-interval '1 second' WHERE id=$1")
+        sqlx::query("UPDATE public.auth_webauthn_ceremonies SET created_at=consumed_at-interval '2 seconds',expires_at=consumed_at-interval '1 second' WHERE id=$1")
             .bind(expired.context).execute(tx.as_mut()).await.unwrap();
+        let fresh_expired: bool = sqlx::query_scalar("SELECT c.created_at<c.expires_at AND c.expires_at<c.consumed_at AND c.xmin=pg_current_xact_id()::xid AND f.xmin=pg_current_xact_id()::xid FROM auth_webauthn_ceremonies c JOIN auth_refresh_token_families f ON f.id=$2 WHERE c.id=$1")
+            .bind(expired.context).bind(expired.family).fetch_one(tx.as_mut()).await.unwrap();
+        assert!(
+            fresh_expired,
+            "genuine fresh consumed ceremony must isolate expiry without violating its creation constraint"
+        );
         deny_scoped_insert(tx, &expired).await;
 
         // Actual registration proof consumed in the same transaction as the

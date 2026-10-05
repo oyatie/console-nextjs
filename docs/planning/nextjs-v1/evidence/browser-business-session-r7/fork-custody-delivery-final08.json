@@ -1,0 +1,24 @@
+{
+  "id": "fork-custody-delivery-final08",
+  "command": [
+    "python3",
+    "-c",
+    "import sys,json;sys.path.insert(0,\"tools\");import acceptance;result=acceptance.inspect_fork();print(json.dumps(result,indent=2));raise SystemExit(result[\"status\"]!=\"passed\")"
+  ],
+  "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+  "exit_code": 0,
+  "timed_out": false,
+  "duration_seconds": 0.5026341669727117,
+  "discovered": null,
+  "counts": {
+    "passed": 0,
+    "failed": 0,
+    "skipped": 0,
+    "filtered": 0,
+    "executed": 0
+  },
+  "log_sha256": "ab7186404fa5c4f825a75033f723a99494cbdf539a009b03d80ec3539aac2068",
+  "cleanup_reported": false,
+  "inputs_sha256": "f78a5d44ecf060f2dba4a2d36f6fa89e342c8d6702d9143af2470af03d18e5e5",
+  "inputs_unchanged": true
+}

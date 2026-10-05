@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { randomBytes } from "node:crypto";
 import { setTimeout as delay } from "node:timers/promises";
+import { focusByKeyboard } from "./browser-business-boundary.mjs";
 
 // Every arm holds an actual owner response before Next receives its headers.
 // Cookies are only observed, never fabricated or manually expired here.
@@ -59,7 +60,7 @@ function assertConservativeAbsent(text) {
 }
 
 async function elapsedDeadline(h, deadlineSeconds) {
-  assert.ok(Number.isSafeInteger(deadlineSeconds));
+  assert.ok(Number.isFinite(deadlineSeconds) && deadlineSeconds > 0);
   const bound = Date.now() + 10000;
   while (Date.now() <= deadlineSeconds * 1000 + 200) {
     assert.ok(Date.now() < bound, "real short-family deadline exceeded the bounded proof budget");
@@ -81,38 +82,42 @@ async function genuineCancellationAndInvalidResponse(h) {
   let asserted = 0;
   const assertedListener = (event) => { if (event.authenticatorId === a.authenticatorId) asserted += 1; };
   a.cdp.on("WebAuthn.credentialAsserted", assertedListener);
-  await a.cdp.send("WebAuthn.setAutomaticPresenceSimulation", { authenticatorId: a.authenticatorId, enabled: false });
   try {
-    await h.rateBudget();
-    const start = a.page.waitForResponse((response) => new URL(response.url()).pathname === h.paths.start
-      && response.request().method() === "POST");
-    void start.catch(() => {}); // Own rejection if the actual click fails; the original observer remains awaited.
-    await a.page.getByRole("button", { name: "패스키로 로그인", exact: true }).click();
-    const response = await start;
-    assert.equal(response.status(), 200); h.assertNoProof(await response.text());
-    afterActualStart = await h.control({ op: "effects" });
-    afterStartCookies = await h.cookieSnapshot();
-    // Invoke the actual pending product handler. No navigator stub, fabricated
-    // AbortError, injected credentials or fake provider response is accepted.
-    const cancel = a.page.getByRole("button", { name: /(?:로그인|인증).*취소|^취소$/ });
-    assert.equal(await cancel.count(), 1);
-    await cancel.click();
-    const notice = a.page.getByRole("status").or(a.page.getByRole("alert")).filter({ hasText: /취소/ });
-    await notice.waitFor({ state: "visible", timeout: 20000 });
-    assert.equal(await notice.count(), 1);
-    assert.match(await notice.innerText(), /취소/);
-    assert.equal(await a.page.getByRole("button", { name: "패스키로 로그인", exact: true }).isEnabled(), true);
-    assert.equal(finishRequests.length, 0, "cancelled actual credential wait must not submit an assertion");
-    assert.equal((await h.control({ op: "effects" })).digest, afterActualStart.digest);
-    assert.deepEqual(await h.cookieSnapshot(), afterStartCookies,
-      "cancellation may not issue or clear another generation cookie");
-  } finally {
-    await a.cdp.send("WebAuthn.setAutomaticPresenceSimulation", { authenticatorId: a.authenticatorId, enabled: true });
-  }
-  // Re-enabled actual authenticator presence would resolve any uncancelled
-  // lingering browser wait. Observe the actual CDP assertion event and network,
-  // without replacing navigator.credentials or fabricating a rejection.
-  try {
+    try {
+      await a.cdp.send("WebAuthn.setAutomaticPresenceSimulation", { authenticatorId: a.authenticatorId, enabled: false });
+      await h.rateBudget();
+      const start = a.page.waitForResponse((response) => new URL(response.url()).pathname === h.paths.start
+        && response.request().method() === "POST");
+      void start.catch(() => {}); // Own rejection if the actual click fails; the original observer remains awaited.
+      await focusByKeyboard(a.page, "button", "패스키로 로그인");
+      await a.page.getByRole("button", { name: "패스키로 로그인", exact: true }).click();
+      const response = await start;
+      assert.equal(response.status(), 200); h.assertNoProof(await response.text());
+      afterActualStart = await h.control({ op: "effects" });
+      afterStartCookies = await h.cookieSnapshot();
+      // Invoke the actual pending product handler. No navigator stub, fabricated
+      // AbortError, injected credentials or fake provider response is accepted.
+      const cancel = a.page.getByRole("button", { name: /(?:로그인|인증).*취소|^취소$/ });
+      assert.equal(await cancel.count(), 1);
+      await focusByKeyboard(a.page, "button", "로그인 인증 취소");
+      await cancel.click();
+      const notice = a.page.getByRole("main").getByRole("alert")
+        .filter({ hasText: /^로그인 인증을 취소했습니다\. 다시 시작할 수 있습니다\.$/ });
+      await notice.waitFor({ state: "visible", timeout: 20000 });
+      assert.equal(await notice.count(), 1);
+      assert.match(await notice.innerText(), /취소/);
+      assert.equal(await a.page.getByRole("button", { name: "패스키로 로그인", exact: true }).isEnabled(), true);
+      assert.equal(await cancel.count(), 0, "terminal cancellation must remove the pending cancel control");
+      assert.equal(finishRequests.length, 0, "cancelled actual credential wait must not submit an assertion");
+      assert.equal((await h.control({ op: "effects" })).digest, afterActualStart.digest);
+      assert.deepEqual(await h.cookieSnapshot(), afterStartCookies,
+        "cancellation may not issue or clear another generation cookie");
+    } finally {
+      await a.cdp.send("WebAuthn.setAutomaticPresenceSimulation", { authenticatorId: a.authenticatorId, enabled: true });
+    }
+    // Re-enabled actual authenticator presence would resolve any uncancelled
+    // lingering browser wait. Observe the actual CDP assertion event and network,
+    // without replacing navigator.credentials or fabricating a rejection.
     await delay(1000);
     assert.equal(asserted, 0, "cancelled actual browser wait must remain aborted when presence returns");
     assert.equal(finishRequests.length, 0);
@@ -186,7 +191,7 @@ async function currentAuthorityAndExpiry(h) {
   await h.restartRuntime({ CONSOLE_BACKEND_ORIGIN: h.runtime.shortBackend });
   await h.signIn("a"); const expiring = { ...h.sessions.get("a") };
   assert.ok(expiring.cookieExpires - Date.now() / 1000 <= 6 && expiring.cookieExpires > Date.now() / 1000);
-  await elapsedDeadline(h, expiring.cookieExpires);
+  await elapsedDeadline(h, Math.max(expiring.cookieExpires, expiring.browserCookieExpires));
   assert.ok(!ownCookie(await h.cookieSnapshot(), expiring.context));
   const expiredState = await h.control({ op: "effects" });
   await h.absent("a", expiring.context);
@@ -283,6 +288,9 @@ export async function runTemporalScenarios(h) {
     assert.deepEqual(ownCookie(await h.cookieSnapshot(), newB.context), protectedCookie);
     await stable(h, "b", newB);
     if (variant === "intact") await h.logout("a");
+    // Retain the observed 20-second/header race above, then finish the bounded
+    // old observer lifecycle before another attempt reuses this same page.
+    await attempt.settled;
     await h.logout("b");
   }
   // The required page-close variant runs last after P17 so closing the actual
@@ -348,36 +356,48 @@ export async function runTemporalScenarios(h) {
   await h.signIn("a"); const short = { ...h.sessions.get("a") };
   assert.ok(short.cookieExpires - Date.now() / 1000 <= 6 && short.cookieExpires > Date.now() / 1000);
   const logoutGate = await h.holdResponse(h.native.logout, short.context);
-  const shortLogout = await logoutClick(h, "a");
-  const heldLogout = await logoutGate.wait(); assert.equal(heldLogout.status, 204);
-  assert.equal(heldLogout.committed.mapping_open, false);
-  await elapsedDeadline(h, short.cookieExpires);
-  assert.ok(!ownCookie(await h.cookieSnapshot(), short.context), "genuine original cookie deadline elapsed");
-  await h.pendingFailure("a");
-  const uncertain = await h.actors.get("a").page.getByRole("alert").innerText();
-  assert.match(uncertain, /확인.*(?:할 수 없|못|필요)|불확실|UNKNOWN|결과.*(?:알 수 없|확인)|재시도/,
-    "lost logout result must remain explicitly uncertain before hard refresh");
-  assert.ok(!/완료|성공/.test(uncertain));
+  let heldLogout;
+  let observedLoss;
+  await h.withCapturedResponse("a", h.paths.logout, async (getResponse) => {
+    const shortLogout = await logoutClick(h, "a");
+    heldLogout = await logoutGate.wait(); assert.equal(heldLogout.status, 204);
+    assert.equal(heldLogout.committed.mapping_open, false);
+    await elapsedDeadline(h, Math.max(short.cookieExpires, short.browserCookieExpires));
+    assert.ok(!ownCookie(await h.cookieSnapshot(), short.context), "genuine original cookie deadline elapsed");
+    const uncertain = await h.pendingFailure("a");
+    assert.match(uncertain, /확인.*(?:할 수 없|못|필요)|불확실|UNKNOWN|결과.*(?:알 수 없|확인)|재시도/,
+      "lost logout result must remain explicitly uncertain before hard refresh");
+    assert.ok(!/완료|성공/.test(uncertain));
+    // This variant is a real unconfirmed-result/expired-access proof. An already
+    // failed or cancelled initiating request cannot also prove late headers.
+    // Capture original failure bytes before unchanged continuation; validate
+    // their request binding before recovery navigation. An unread no-store
+    // fetch body can defer Chromium/Playwright completion. The observer pause
+    // supplies no untouched-latency proof.
+    const lostOutcome = await shortLogout.settled;
+    if (lostOutcome.passed) {
+      const failureResponse = await shortLogout.promise;
+      assert.equal(failureResponse.url(), `${h.actors.get("a").origin}${h.paths.logout}`);
+      assert.equal(failureResponse.request().method(), "POST");
+      assert.ok(failureResponse.status() >= 400, "lost result must not have received an exact logout204 receipt");
+      const wire = await getResponse();
+      assert.equal(wire.status, failureResponse.status());
+      assert.equal(wire.postData, failureResponse.request().postData());
+      assert.equal(JSON.parse(wire.postData).browser_context, short.context);
+      h.assertNoProof(wire.body);
+      observedLoss = { kind: "http-failure", status: failureResponse.status() };
+    } else {
+      assert.equal(shortLogout.failures.length, 1, "missing response needs exact observed request failure evidence");
+      const failed = shortLogout.failures[0];
+      assert.equal(failed.context, short.context);
+      assert.match(failed.error, /ERR_ABORTED|ERR_FAILED|CANCEL|ABORT|CONNECTION|DISCONNECTED/i);
+      observedLoss = { kind: "request-failure", error: failed.error };
+    }
+  });
   await h.absent("a", short.context);
   await h.actors.get("a").page.reload();
   const absentText=await h.actors.get("a").page.locator("body").innerText();
   assertConservativeAbsent(absentText);
-  // This variant is a real unconfirmed-result/expired-access proof. An already
-  // failed or cancelled initiating request cannot also prove late headers.
-  const lostOutcome = await shortLogout.settled;
-  let observedLoss;
-  if (lostOutcome.passed) {
-    const failureResponse = await shortLogout.promise;
-    assert.ok(failureResponse.status() >= 400, "lost result must not have received an exact logout204 receipt");
-    h.assertNoProof(await failureResponse.text());
-    observedLoss = { kind: "http-failure", status: failureResponse.status() };
-  } else {
-    assert.equal(shortLogout.failures.length, 1, "missing response needs exact observed request failure evidence");
-    const failed = shortLogout.failures[0];
-    assert.equal(failed.context, short.context);
-    assert.match(failed.error, /ERR_ABORTED|ERR_FAILED|CANCEL|ABORT|CONNECTION|DISCONNECTED/i);
-    observedLoss = { kind: "request-failure", error: failed.error };
-  }
   assert.equal(h.runtime.instance, originalSender);
   assert.equal(originalSender.child.exitCode, null); assert.equal(originalSender.child.signalCode, null);
   await h.signIn("b"); const replacement = { ...h.sessions.get("b") };
@@ -407,7 +427,7 @@ export async function runTemporalScenarios(h) {
   const originalLogout = await logoutClick(h, "a");
   const heldIntact = await intactGate.wait();
   assert.equal(heldIntact.status, 204); assert.equal(heldIntact.committed.mapping_open, false);
-  await elapsedDeadline(h, lateA.cookieExpires);
+  await elapsedDeadline(h, Math.max(lateA.cookieExpires, lateA.browserCookieExpires));
   assert.ok(!ownCookie(await h.cookieSnapshot(), lateA.context));
   assert.equal(originalLogout.state.settled, false, "original request must still await its actual headers at expiry");
   const originalPage = h.actors.get("a").page;
@@ -430,9 +450,14 @@ export async function runTemporalScenarios(h) {
     assert.ok(protectedB);
     assert.equal(originalLogout.state.settled, false,
       "B's actual cookie must exist before the original old logout headers arrive");
+    const returned = originalPage.waitForURL((url) => url.origin === h.actors.get("a").origin
+      && url.pathname === h.paths.login);
+    const receipt = originalLogout.promise.then(h.assertNoContentResponse);
+    void returned.catch(() => {}); void receipt.catch(() => {});
     await release(intactGate);
     const exactOriginal = await originalLogout.promise;
-    assert.equal(exactOriginal.status(), 204); assert.equal((await exactOriginal.body()).length, 0);
+    await Promise.all([receipt, returned]);
+    await originalPage.getByRole("heading", { name: "패스키 로그인", exact: true }).waitFor();
     assert.equal(new URL(exactOriginal.url()).pathname, h.paths.logout);
     assert.equal(exactOriginal.request().method(), "POST");
     assert.equal(exactOriginal.request().postDataJSON().browser_context, lateA.context);
@@ -509,13 +534,25 @@ export async function runUnavailableScenarios(h) {
   await h.signIn("a"); const session = { ...h.sessions.get("a") };
   const before = await h.control({ op: "effects" });
   await h.restartRuntime({ CONSOLE_BACKEND_ORIGIN: "http://127.0.0.1:1" });
-  const response = await h.actors.get("a").page.goto(`${h.actors.get("a").origin}/me/${session.context}/attendance/`);
+  const page = h.actors.get("a").page;
+  const retryPath = `/me/${session.context}/attendance/?page=2`;
+  const response = await page.goto(`${h.actors.get("a").origin}${retryPath}`);
   const html = await response.text(); h.assertNoProof(html);
   assert.equal(await h.actors.get("a").page.getByRole("table").count(), 0);
   assert.ok(!html.includes(h.actors.get("a").facts.account_name));
-  assert.equal(await h.actors.get("a").page.getByRole("alert").count(), 1, "unavailable source needs a visible honest failure");
+  const unavailable = h.actors.get("a").page.getByRole("main").getByRole("alert");
+  assert.equal(await unavailable.count(), 1, "unavailable source needs a visible honest failure");
+  assert.equal(await unavailable.isVisible(), true);
+  assert.equal(await page.getByRole("heading", { name: "기록을 불러올 수 없습니다", exact: true }).count(), 1);
+  const retry = page.getByRole("link", { name: "다시 불러오기", exact: true });
+  assert.equal(await retry.count(), 1); assert.equal(await retry.isVisible(), true);
+  assert.equal(await retry.getAttribute("href"), retryPath, "retry preserves the authorized context and requested page");
+  await retry.click();
+  assert.equal(await unavailable.isVisible(), true, "retry during the real outage remains unavailable");
+  assert.equal(await page.getByRole("table").count(), 0);
   assert.equal((await h.control({ op: "effects" })).digest, before.digest);
   await h.restartRuntime({ CONSOLE_BACKEND_ORIGIN: h.runtime.normalBackend });
+  await retry.click(); await h.checkTable("a", h.actors.get("a").facts.second_page);
   await stable(h, "a", session);
   for (const action of ["malformed-json", "malformed-clock"]) {
     const gate = await h.holdResponse(h.native.history, session.context);
@@ -524,7 +561,14 @@ export async function runUnavailableScenarios(h) {
     await release(gate, action); const rendered = await pending.promise;
     h.assertNoProof(await rendered.text());
     assert.equal(await h.actors.get("a").page.getByRole("table").count(), 0);
-    assert.equal(await h.actors.get("a").page.getByRole("alert").count(), 1, "malformed owner bytes must fail visibly");
+    const invalid = h.actors.get("a").page.getByRole("main").getByRole("alert");
+    assert.equal(await invalid.count(), 1, "malformed owner bytes must fail visibly");
+    assert.equal(await invalid.isVisible(), true);
+    assert.equal(await page.getByRole("heading", { name: "기록을 불러올 수 없습니다", exact: true }).count(), 1);
+    const repair = page.getByRole("link", { name: "다시 불러오기", exact: true });
+    assert.equal(await repair.count(), 1); assert.equal(await repair.isVisible(), true);
+    assert.equal(await repair.getAttribute("href"), `/me/${session.context}/attendance/`);
+    await repair.click(); await h.checkTable("a", h.actors.get("a").facts.first_page);
     await stable(h, "a", session);
   }
   await h.logout("a"); h.pass("P17");

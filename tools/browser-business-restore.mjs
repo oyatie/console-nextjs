@@ -113,11 +113,15 @@ async function installProbe(page, selector, facts, queueLogout, observeReact = f
         onCommitFiberRoot() { state.reactCommits += 1; if (state.restored) report("react-commit"); },
       };
     }
-    addEventListener("pagehide", (event) => {
-      // The production listener must hide synchronously in this event task.
-      // Sampling its result in the microtask avoids listener registration order.
-      queueMicrotask(() => report("pagehide", event));
-    });
+    // Arm while the original Document is active, after its parser guard ran.
+    // Native listener callbacks can checkpoint microtasks between listeners;
+    // registration after the production listener permits a synchronous sample.
+    state.armPagehide = (original) => {
+      if (state.document !== original || state.pagehideArmed) return false;
+      state.pagehideArmed = true;
+      addEventListener("pagehide", (event) => report("pagehide", event));
+      return true;
+    };
     addEventListener("pageshow", (event) => {
       if (event.isTrusted && event.persisted) {
         state.restored = true;
@@ -133,7 +137,12 @@ async function installProbe(page, selector, facts, queueLogout, observeReact = f
       .observe(document, { subtree: true, childList: true, attributes: true });
   }, { selector, names: [facts.company_name, facts.account_name,
     ...facts.first_page.items.map((item) => item.note)], queueLogout, observeReact, key: PROBE, prefix: PREFIX });
-  return { events, errors, remove() { page.off("console", listener); } };
+  return { events, errors,
+    async armPagehide(original) {
+      assert.equal(await page.evaluate(({ key, original }) => window[key].armPagehide(original),
+        { key: PROBE, original }), true, "arm departure observation once in the original active Document");
+    },
+    remove() { page.off("console", listener); } };
 }
 
 async function assertPrivateHidden(page, actor, h) {
@@ -187,7 +196,9 @@ async function backNavigation(page, start, h, original, probe, requireCache) {
   // A real cached Document's guard may supersede Back with its hard reload.
   // Only the known superseding navigation error is tolerated, with fresh-request
   // and private-denial evidence still mandatory at the caller.
-  const result = page.goBack({ waitUntil: "domcontentloaded", timeout: h.phaseMs ?? 20000 })
+  // Cached restoration commits without a new DOMContentLoaded event. Actual
+  // original-Document pageshow and current-owner reload/denial remain required.
+  const result = page.goBack({ waitUntil: "commit", timeout: h.phaseMs ?? 20000 })
     .then((response) => ({ response }), (error) => {
       if (!/ERR_ABORTED|interrupted by another navigation/i.test(error.message)) throw error;
       return { superseded: true };
@@ -212,6 +223,8 @@ async function ordinaryLogoutBack(h) {
   try {
     await page.goto(`${actor.origin}/me/${session.context}/attendance/`);
     await page.getByRole("table").waitFor({ state: "visible", timeout: h.phaseMs ?? 20000 });
+    const original = await page.evaluate((key) => window[key].document, PROBE);
+    await probe.armPagehide(original);
     await page.goto(`${actor.origin}${LOGIN}`);
     await h.logout("a"); // Real visible product action, exact receipt, native effects and cookie removal.
     const restored = await page.goBack({ waitUntil: "domcontentloaded", timeout: h.phaseMs ?? 20000 })
@@ -245,7 +258,10 @@ async function cacheVariant(h, mode) {
   const requestListener = (request) => {
     if (request.isNavigationRequest() && request.frame() === page.mainFrame()) documents.push(request.url());
   };
-  const failureListener = (request) => failedRequests.push(request.failure()?.errorText ?? "");
+  const failureListener = (request) => {
+    if (request.isNavigationRequest() && request.frame() === page.mainFrame() && request.url() === url)
+      failedRequests.push(request.failure()?.errorText ?? "");
+  };
   page.on("request", requestListener); page.on("requestfailed", failureListener);
   const intercept = async (route) => {
     const request = route.request();
@@ -323,11 +339,11 @@ async function cacheVariant(h, mode) {
     if (mode === "delayed-bundles" && heldScripts.length === 0) {
       if (!await until(() => heldScripts.length > 0, h.phaseMs ?? 20000)) throw new Unreached("no real bundle response was delayed");
     }
+    const departureStart = probe.events.length;
+    await probe.armPagehide(original);
     await page.goto(`${actor.origin}${LOGIN}`, { waitUntil: mode === "delayed-bundles" ? "commit" : "domcontentloaded" });
-    const hiddenEvent = await until(() => probe.events.find((event) => event.document === original
-      && event.event === "pagehide" && event.trusted), h.phaseMs ?? 20000);
-    if (!hiddenEvent) throw new Unreached("trusted pagehide observation unavailable");
-    assert.equal(hiddenEvent.hidden, true); assert.equal(hiddenEvent.private_visible, false);
+    // Chromium may deliver cached-context console records only on restoration.
+    // The trusted departure sample remains required after the real Back below.
     await revokeWithoutCookieChange(h, actor, session);
     if (["delayed-bundles", "queued-react-css"].includes(mode)) {
       if (typeof h.holdNextRead !== "function") throw new Unreached("actual native response gate adapter required");
@@ -336,9 +352,11 @@ async function cacheVariant(h, mode) {
     if (mode === "offline") await actor.context.setOffline(true);
     const eventStart = probe.events.length; const requestStart = documents.length;
     if (queued) {
-      queuedResponse = page.waitForResponse((result) => new URL(result.url()).pathname === LOGOUT
-        && result.request().method() === "POST", { timeout: h.phaseMs ?? 20000 }).then(async (result) => {
-        assert.equal(result.status(), 204); assert.equal((await result.body()).length, 0);
+      queuedResponse = page.waitForResponse((result) => new URL(result.url()).origin === actor.origin
+        && new URL(result.url()).pathname === LOGOUT && result.request().method() === "POST"
+        && result.request().postDataJSON()?.browser_context === session.context,
+      { timeout: h.phaseMs ?? 20000 }).then(async (result) => {
+        await h.assertNoContentResponse(result);
         return true;
       });
       void queuedResponse.catch(() => {}); // Preserve checked failure while owning the outstanding promise.
@@ -355,7 +373,14 @@ async function cacheVariant(h, mode) {
       assert.deepEqual(probe.errors, []);
       throw new Unreached("actual BFCache restoration unavailable for this fault; no-store not weakened");
     }
-    assertRestored(probe.events.slice(eventStart), original);
+    const restored = assertRestored(probe.events.slice(eventStart), original);
+    // A later departure caused by the guard's reload cannot satisfy this check.
+    const hiddenEvent = probe.events.slice(departureStart, probe.events.indexOf(restored))
+      .find((event) => event.document === original && event.event === "pagehide"
+        && event.trusted && !event.restored);
+    if (!hiddenEvent) throw new Unreached("trusted original departure observation unavailable before restoration");
+    assert.equal(hiddenEvent.persisted, true);
+    assert.equal(hiddenEvent.hidden, true); assert.equal(hiddenEvent.private_visible, false);
     if (readGate) {
       await readGate.wait();
       if (mode === "delayed-bundles") {
@@ -379,9 +404,9 @@ async function cacheVariant(h, mode) {
     await back;
     assertRestored(probe.events.slice(eventStart), original);
     if (!["missing-guard", "thrown-guard"].includes(mode)) {
-      assert.equal(documents.slice(requestStart).filter((document) => document === url).length, 1,
-        "persisted restore must initiate exactly one real hard reload");
-      if (mode === "offline") assert.ok(failedRequests.some((text) => /INTERNET_DISCONNECTED/.test(text)), "real offline request failure required");
+      if (mode === "offline") assert.ok(await until(() =>
+        failedRequests.some((text) => /INTERNET_DISCONNECTED/.test(text)), h.phaseMs ?? 20000),
+      "real offline failure of the exact main-frame reload required");
       else {
         const freshDocument = await until(async () => {
           try {
@@ -394,6 +419,8 @@ async function cacheVariant(h, mode) {
         }, h.phaseMs ?? 20000);
         assert.ok(freshDocument, "fresh native denial must replace the cached Document");
       }
+      assert.equal(documents.slice(requestStart).filter((document) => document === url).length, 1,
+        "persisted restore must initiate exactly one real hard reload");
     } else {
       const link = await assertRecovery(page, h, mode);
       await link.click();

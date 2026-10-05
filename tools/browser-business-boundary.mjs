@@ -186,7 +186,11 @@ async function genuineAssertion(h, actor, start) {
 async function finishPublic(h, actor, start, signed, { rawBody } = {}) {
   const entry = h.actors.get(actor);
   const before = await actualCookies(entry);
+  const observed = entry.page.waitForResponse((response) => response.url() === `${entry.origin}${h.paths.finish}`
+    && response.request().method() === "POST" && response.request().postDataJSON()?.ceremony_id === start.ceremony_id);
+  void observed.catch(() => {}); // Own rejection if the actual browser mutation fails.
   const result = await browserMutation(h, actor, h.paths.finish, { csrf: start.csrf_token, body: signed, rawBody });
+  const response = await observed;
   assert.equal(result.status, 200);
   const reply = JSON.parse(result.text);
   assert.deepEqual(Object.keys(reply).sort(), ["context_id", "expires_at"]);
@@ -194,14 +198,14 @@ async function finishPublic(h, actor, start, signed, { rawBody } = {}) {
   const cookies = await actualCookies(entry);
   const cookie = sessionCookie(cookies, reply.context_id);
   assert.ok(cookie.httpOnly && cookie.secure && cookie.sameSite === "Strict" && cookie.path === "/");
-  assert.equal(cookie.expires, Math.floor(Date.parse(reply.expires_at) / 1000));
+  const cookieExpires = h.verifyCookieDeadline(reply, cookie, response, await response.headersArray());
   for (const old of before.filter((c) => SESSION.test(c.name))) {
     assert.ok(cookies.some((c) => c.name === old.name && c.value === old.value && c.expires === old.expires),
       "finishing an admitted ceremony must preserve every older session cookie");
   }
   const data = Buffer.from(signed.credential.response.authenticatorData, "base64url");
   assert.ok(data.length >= 37);
-  const session = { context: reply.context_id, token: cookie.value, cookieExpires: cookie.expires,
+  const session = { context: reply.context_id, token: cookie.value, cookieExpires, browserCookieExpires: cookie.expires,
     signedCounter: data.readUInt32BE(33) };
   await h.checkpoint(actor, session.context, session.token, "open", session.cookieExpires, session.signedCounter);
   return session;
@@ -290,6 +294,7 @@ export async function historyVariants(h) {
   const original = entry.facts;
   const before = await digest(h);
   await entry.page.goto(`${entry.origin}/me/${session.context}/attendance/?page=3`, { waitUntil: "domcontentloaded" });
+  await h.checkTable("a", { ...original.first_page, items: [] });
   const out = await entry.page.locator("body").innerText();
   assert.match(out, new RegExp(`총\\s*${original.first_page.total}\\s*건`));
   assert.ok(!out.includes("총 0건") && !out.includes("기록이 없습니다"));
@@ -306,9 +311,10 @@ export async function historyVariants(h) {
       assert.equal(facts.first_page.total, 0); assert.deepEqual(facts.first_page.items, []);
       entry.facts = facts;
       await entry.page.goto(`${entry.origin}/me/${session.context}/attendance/`, { waitUntil: "domcontentloaded" });
+      await h.checkTable("a", facts.first_page);
       const text = await entry.page.locator("body").innerText();
       assert.ok(text.includes(facts.company_name) && text.includes(facts.account_name));
-      assert.match(text, mode === "linked-empty" ? /근태 기록이 없습니다/ : /직원.*연결.*(?:없|되지)/);
+      assert.match(text, mode === "linked-empty" ? /근태 기록이 없습니다/ : /계정에 연결된 직원 정보가 없습니다/);
       assert.ok(await entry.page.getByRole("table").locator("tbody tr").count() === 0);
       h.assertNoProof(await entry.page.content());
       await h.checkpoint("a", session.context, session.token, "open", session.cookieExpires, session.signedCounter);
@@ -321,7 +327,7 @@ export async function historyVariants(h) {
   await h.checkTable("b", h.actors.get("b").facts.first_page);
 }
 
-async function focusByKeyboard(page, role, name) {
+export async function focusByKeyboard(page, role, name) {
   const target = page.getByRole(role, { name, exact: true });
   assert.equal(await target.count(), 1);
   for (let attempt = 0; attempt < 60; attempt++) {
@@ -331,6 +337,15 @@ async function focusByKeyboard(page, role, name) {
         return (style.outlineStyle !== "none" && parseFloat(style.outlineWidth) > 0) || style.boxShadow !== "none";
       });
       assert.ok(focus, "keyboard focus must have a visible indicator");
+      if (role === "button") {
+        const outline = await target.evaluate((element) => {
+          const style = getComputedStyle(element);
+          return { style: style.outlineStyle, width: style.outlineWidth, color: style.outlineColor, offset: style.outlineOffset };
+        });
+        assert.equal(outline.style, "solid");
+        assert.ok(parseFloat(outline.width) >= 3 && parseFloat(outline.offset) >= 3);
+        assert.equal(outline.color, "rgb(14, 116, 144)", "button focus outline contrasts at least 3:1 with both actual light surfaces");
+      }
       return;
     }
     await page.keyboard.press("Tab");
@@ -340,7 +355,7 @@ async function focusByKeyboard(page, role, name) {
 
 export async function responsiveRecovery(h) {
   const entry = h.actors.get("a"); const session = h.sessions.get("a");
-  for (const width of [360, 390, 768, 1280]) {
+  for (const width of [360, 390, 768, 1280, 1440]) {
     await entry.page.setViewportSize({ width, height: 900 });
     await entry.page.goto(`${entry.origin}/me/${session.context}/attendance/`);
     await h.checkTable("a", entry.facts.first_page);
@@ -349,6 +364,7 @@ export async function responsiveRecovery(h) {
     assert.equal(await entry.page.getByRole("table", { name: /근태.*기록/ }).count(), 1);
     const fits = await entry.page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1);
     assert.ok(fits, "history scrolling must remain within its labeled region");
+    await focusByKeyboard(entry.page, "button", "로그아웃");
     await focusByKeyboard(entry.page, "link", "다음");
     const navigated = entry.page.waitForNavigation({ waitUntil: "domcontentloaded" });
     void navigated.catch(() => {});
@@ -492,14 +508,25 @@ export async function publicBoundaries(h) {
     const before = await digest(h);
     const denied = await directRequest(h.tls, pathname, { headers: { cookie: raw } });
     noSetCookie(denied); noPrivateFacts(h, denied.body);
+    const deniedHtml = denied.body.toString("utf8");
+    assert.ok(!deniedHtml.includes("페이지 번호 또는 주소가 올바르지 않습니다"), "malformed access cookies are distinct from invalid pagination");
+    assert.ok(!deniedHtml.includes("처음 페이지로 이동"), "first-page navigation cannot repair malformed access cookies");
     assert.equal(await digest(h), before);
   }
   for (const query of ["page=0", "page=-1", "page=01", "page=1.0", "page=1e2", "page=", "page=%201", "page=9007199254740992", "page=1&page=2"]) {
     const before = await digest(h);
     const denied = await directRequest(h.tls, `${pathname}?${query}`, { headers: { cookie: header } });
     noSetCookie(denied); noPrivateFacts(h, denied.body);
+    assert.match(denied.body.toString("utf8"), /페이지 번호 또는 주소가 올바르지 않습니다/);
+    assert.ok(!denied.body.toString("utf8").includes("다시 로그인하세요"), "invalid pagination must not be presented as expired authority");
     assert.equal(await digest(h), before);
   }
+  await a.page.goto(`${a.origin}${pathname}?page=01`);
+  await a.page.getByRole("heading", { name: "입력 정보를 확인하세요", exact: true }).waitFor({ state: "visible" });
+  noPrivateFacts(h, await a.page.content());
+  await focusByKeyboard(a.page, "link", "처음 페이지로 이동");
+  await a.page.keyboard.press("Enter");
+  await h.checkTable("a", a.facts.first_page);
   for (const otherContext of [two.context, one.context.toUpperCase()]) {
     const response = await directRequest(h.tls, `/me/${otherContext}/attendance/`, { headers: { cookie: `${selected.name}=${selected.value}` } });
     noPrivateFacts(h, response.body);
@@ -529,7 +556,10 @@ async function concurrentAdmissionBoundaries(h) {
     for (const gate of heldStarts) assert.equal((await gate.wait()).status, 200);
     assert.equal((await actualCookies(entry)).filter((cookie) => PREAUTH.test(cookie.name)).length, 7,
       "both real requests must enter before either actual response admits its cookie");
-    for (const gate of heldStarts) await gate.release();
+    while (heldStarts.length) {
+      await heldStarts[0].release();
+      heldStarts.shift(); // Only unreleased gates remain owned by cleanup.
+    }
     pending.push(...await Promise.all(requests));
     const cookies = await actualCookies(entry);
     assert.equal(new Set(pending.map((start) => start.ceremony_id)).size, 9);
@@ -567,7 +597,10 @@ async function concurrentAdmissionBoundaries(h) {
     }
     assert.equal((await actualCookies(entry)).filter((cookie) => SESSION.test(cookie.name)).length, 7,
       "both native owners must commit while their actual response headers are still held");
-    for (const gate of gates) await gate.release();
+    while (gates.length) {
+      await gates[0].release();
+      gates.shift(); // Only unreleased gates remain owned by cleanup.
+    }
     const completed = await Promise.all(finishing);
     created.push({ actor: "a", session: completed[0] }, { actor: "b", session: completed[1] });
     const cookies = await actualCookies(entry);

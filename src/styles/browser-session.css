@@ -1,0 +1,25 @@
+.browser-shell { max-width: 1120px; margin: 0 auto; padding: 24px 16px; }
+.browser-shell h1 { font-size: 1.75rem; font-weight: 650; margin: 16px 0; }
+.browser-shell h2 { font-size: 1.15rem; font-weight: 650; margin-bottom: 12px; }
+.browser-shell p { margin: 12px 0; line-height: 1.65; }
+.browser-shell a { color: #155e75; text-decoration: underline; text-underline-offset: 3px; }
+.browser-shell a:focus-visible, .browser-table-region:focus-visible, .browser-button:focus-visible { outline: 3px solid #0e7490; outline-offset: 3px; }
+.browser-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin-top: 20px; }
+.browser-header { display: flex; align-items: start; justify-content: space-between; gap: 24px; }
+.browser-context { display: flex; flex-wrap: wrap; gap: 20px 48px; }
+.browser-context dt, .browser-muted { color: var(--steel); font-size: .875rem; }
+.browser-context dd { margin-top: 4px; }
+.browser-controls { display: flex; flex-wrap: wrap; align-items: start; gap: 12px; }
+/* Focus outlines must appear immediately. */
+.browser-button { min-height: 44px; transition-property: color, background-color, border-color; }
+.browser-notice { flex-basis: 100%; max-width: 560px; }
+.browser-header .browser-controls { max-width: 360px; }
+.browser-table-region { max-width: 100%; overflow-x: auto; margin: 20px 0; }
+.browser-table-region table { width: 100%; border-collapse: collapse; font-size: .875rem; min-width: 840px; }
+.browser-table-region th { background: var(--muted); text-align: left; font-weight: 600; }
+.browser-table-region th, .browser-table-region td { padding: 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+.browser-table-region td:nth-child(5) { max-width: 300px; overflow-wrap: anywhere; }
+.browser-pagination { display: flex; flex-wrap: wrap; align-items: center; gap: 16px; }
+.browser-pagination a { padding: 12px 8px; }
+html[data-console-browser-blocked="1"] #console-browser-private-region { display: none !important; visibility: hidden !important; }
+@media (max-width: 600px) { .browser-header { flex-direction: column; gap: 0; } .browser-card { padding: 16px; } }

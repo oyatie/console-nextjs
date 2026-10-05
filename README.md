@@ -2,7 +2,7 @@
 
 Implementation is incomplete. The [checkpoint](docs/planning/nextjs-v1/IMPLEMENTATION.md) records passing checks, the repaired clean-install gate, and the work still required before launch. The frontend still contains the inherited seeded prototype; its browser store is not a business authority.
 
-The [device-login revocation proof](docs/planning/nextjs-v1/device-login-source-revocation-evidence.json) records the bounded repair which rejects a QR login after its recorded approving passkey is removed. Its 55 scoped PostgreSQL/library tests and two strict Clippy checks pass; broader authentication, Next business sessions and launch acceptance remain on HOLD.
+The [device-login revocation proof](docs/planning/nextjs-v1/device-login-source-revocation-evidence.json) records the bounded repair which rejects a QR login after its recorded approving passkey is removed. Its 55 scoped PostgreSQL/library tests and two strict Clippy checks pass. The [R7 browser-session proof](docs/planning/nextjs-v1/browser-business-session-r7-evidence.json) now covers passkey sign-in, authorized own-attendance SSR/pagination/reload and exact-family logout: 121 native tests, including all 17 production-browser scenarios, pass locally. Broader authentication, complete business workflows and launch acceptance remain on HOLD.
 
 Use Node **24.21.0**. The locked frontend runs Next.js **16.3.8** and React **19.3.0** as a server:
 
@@ -15,7 +15,11 @@ npm run test:e2e
 npm start
 ```
 
-`npm start` serves port 5173. Docker uses the standalone server output and an immutable Node 24 image. It no longer serves `out/`; the old output directory is excluded from builds.
+`npm start` serves port 5173 through the checked-in Node socket-owning server. Docker and browser checks use the same `tools/production-runtime.mjs` packager with normal `.next` output and an immutable Node 24 image. Staging runs locked `npm ci --omit=dev --omit=optional --ignore-scripts`; source builds/tests retain full `npm ci`. This prevents Next's optional Playwright peer from entering deployment. It no longer serves `out/`.
+
+The bounded `/login/` → `/me/<context>/attendance/` journey uses an existing discoverable passkey and native own-history owner. Configure canonical `CONSOLE_PUBLIC_ORIGIN`, `CONSOLE_BACKEND_ORIGIN`, independent 32-byte unpadded base64url `CONSOLE_BROWSER_PREAUTH_KEY` and `CONSOLE_BROWSER_INGRESS_KEY`. Native also needs its separate `CONSOLE_BROWSER_SESSION_KEY_HEX` storage key and matching ingress key. Configure one trusted BFF hop with only the actual Next egress addresses. These secrets stay server-side. Public HTTPS terminates directly in `server.mjs` using mounted `CONSOLE_TLS_CERT_FILE`/`CONSOLE_TLS_KEY_FILE`; only explicit actual-loopback tests may set `CONSOLE_BROWSER_ALLOW_LOOPBACK_HTTP=true`. Generic proxies and `next start` cannot supply authenticated browser ingress. Missing browser configuration leaves storefront available and browser access closed.
+
+Each sign-in has a separate HttpOnly context cookie with its original fixed deadline. Reads never rotate tokens. Logout clears only that cookie after native confirmation; missing/expired access is not a logout receipt. Restored attendance documents hide private content and reload for fresh authorization. This source slice does not authorize deployment or clear the full HR/Org/Payroll/Foundry, two-site durability, physical-passkey or launch HOLDs.
 
 The public `/storefront` pages require `CONSOLE_BACKEND_ORIGIN` at runtime, set to the Rust server origin (`https://host[:port]`, without a path or credentials). Next fetches the live public catalog and submits inquiries server-side. A missing or unavailable backend shows an error; no fixture listings are served.
 

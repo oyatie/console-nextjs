@@ -30,11 +30,19 @@ jobs:
       - run: npm run lint
       - run: npm test
       - run: npm run build
+      - run: npm run test:source-closure
+      - name: Frozen source and fork custody
+        run: |
+          PYTHONPATH=tools python3 -c 'import json,acceptance; result=acceptance.inspect_fork(); print(json.dumps(result,indent=2)); raise SystemExit(result["status"] != "passed")'
       - run: npm run test:production-routes
+      - run: node --test tools/test-production-runtime.test.mjs
       - run: npx playwright install --with-deps chromium
       - run: node --test tools/test-native-browser-enrollment.test.mjs
       - run: rustup toolchain install 1.98.1 --profile minimal
-      - run: rustup component add clippy --toolchain 1.98.1
+      - run: rustup component add clippy rustfmt --toolchain 1.98.1
+      - name: Rust format
+        working-directory: backend-fork/backend
+        run: cargo fmt --all -- --check
       - name: Rust build disk budget
         run: df -h .
       - name: PostgreSQL device-login source revocation and authentication owners
@@ -51,8 +59,10 @@ jobs:
               harness + ["cargo", "test", "--locked", "--no-fail-fast", "-p", "console-identity-rest", "--lib", "--test", "authentication_locking", "--", "--test-threads=1"],
               harness + ["cargo", "test", "--locked", "--no-fail-fast", "-p", "console-platform-auth-rest", "-p", "console-platform-auth", "-p", "console-platform-request-context", "--lib", "--", "--test-threads=1"],
               harness + ["cargo", "test", "--locked", "--features", "frontend-e2e", "-p", "console-app", "--test", "auth_rest", "--", "--test-threads=1"],
-              harness + ["cargo", "test", "--locked", "--no-fail-fast", "-p", "console-platform-auth", "--test", "credential_identity", "--test", "refresh_tokens", "--test", "session_locking", "--test", "webauthn_ceremony_replay", "--test", "webauthn_registration_deactivated_user", "--", "--test-threads=1"],
-              harness + ["cargo", "test", "--locked", "-p", "console-platform-auth-rest", "--test", "group_admin_tenant_context", "--", "--test-threads=1"],
+              harness + ["cargo", "test", "--locked", "--no-fail-fast", "-p", "console-platform-auth", "--test", "credential_identity", "--test", "refresh_tokens", "--test", "session_locking", "--test", "webauthn_ceremony_replay", "--test", "webauthn_registration_deactivated_user", "--test", "webauthn_contention", "--test", "webauthn_ceremony", "--", "--test-threads=1"],
+              harness + ["cargo", "test", "--locked", "-p", "console-platform-auth-rest", "--test", "group_admin_tenant_context", "--test", "dev_auth_absence", "--", "--test-threads=1"],
+              harness + ["cargo", "test", "--locked", "-p", "console-platform-auth-rest", "--features", "dev-auth", "--lib", "--test", "dev_auth_session", "--", "--test-threads=1"],
+              harness + ["cargo", "test", "--locked", "--no-fail-fast", "-p", "console-platform-db", "--test", "auth_security_state", "--test", "auth_command_role", "--", "--test-threads=1"],
               harness + ["cargo", "test", "--locked", "--no-fail-fast", "-p", "console-platform-provisioning", "--test", "account_locking", "--test", "account_identity", "--test", "rls_auth_chain_as_runtime_role", "--", "--test-threads=1"],
           ]
           outcomes = [subprocess.run(command, check=False).returncode for command in commands]
@@ -68,12 +78,22 @@ jobs:
           SQLX_OFFLINE: "true"
         working-directory: backend-fork/backend
         run: cargo clippy --locked -p console-platform-auth-rest -p console-platform-auth -p console-platform-request-context --lib -- -D warnings
+      - name: Browser session compatible owners and regressions Clippy
+        env:
+          SQLX_OFFLINE: "true"
+        working-directory: backend-fork/backend
+        run: |
+          cargo clippy --locked -p console-platform-auth --test credential_identity --test refresh_tokens --test session_locking --test webauthn_ceremony_replay --test webauthn_registration_deactivated_user --test webauthn_contention --test webauthn_ceremony -- -D warnings
+          cargo clippy --locked -p console-platform-auth-rest --test group_admin_tenant_context --test dev_auth_absence -- -D warnings
+          cargo clippy --locked -p console-platform-auth-rest --features dev-auth --lib --test dev_auth_session -- -D warnings
+          cargo clippy --locked -p console-platform-db --test auth_security_state --test auth_command_role -- -D warnings
+          cargo clippy --locked -p console-contracts -p console-orgchange-rest --lib -- -D warnings
       - name: Credential reset owner and regressions Clippy
         env:
           SQLX_OFFLINE: "true"
         working-directory: backend-fork/backend
         run: |
-          cargo clippy --locked -p console-app --lib --test auth_rest --test health_readiness -- -D warnings
+          cargo clippy --locked -p console-app --features frontend-e2e --lib --test auth_rest --test health_readiness --test current_authority -- -D warnings
           cargo clippy --locked -p console-platform-provisioning --lib --test account_locking --test account_identity --test rls_auth_chain_as_runtime_role -- -D warnings
       - name: PostgreSQL payroll source validation, roster and workflow recovery
         env:
@@ -155,7 +175,7 @@ jobs:
       - name: PostgreSQL HR attendance source fidelity, import gates and scoped raw history
         env:
           SQLX_OFFLINE: "true"
-        run: backend-fork/tools/lanes/pgtest.sh "$GITHUB_WORKSPACE/backend-fork" cargo test --locked -p console-app --test hr_ingest_checklist_gate --test hr_attendance_self_read --test hr_attendance_manager_scope --test openapi_drift -- --test-threads=1
+        run: backend-fork/tools/lanes/pgtest.sh "$GITHUB_WORKSPACE/backend-fork" cargo test --locked -p console-app --test current_authority --test hr_ingest_checklist_gate --test hr_attendance_self_read --test hr_attendance_manager_scope --test openapi_drift -- --test-threads=1
       - name: PostgreSQL authorized read snapshot
         env:
           SQLX_OFFLINE: "true"

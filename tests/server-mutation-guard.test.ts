@@ -16,6 +16,15 @@ describe("session mutation provenance", () => {
     expect(hasTrustedMutationProvenance(headers(origin, csrf), origin, csrf)).toBe(true);
   });
 
+  it("accepts canonical IPv4 and IPv6 loopback HTTP origins and rejects nearby hosts", () => {
+    for (const configured of ["http://localhost:5173", "http://127.0.0.1:5173", "http://[::1]:5173"]) {
+      expect(hasTrustedMutationProvenance(headers(configured, csrf), configured, csrf)).toBe(true);
+    }
+    for (const configured of ["http://[::2]:5173", "http://127.0.0.2:5173", "http://localhost.example.test:5173"]) {
+      expect(hasTrustedMutationProvenance(headers(configured, csrf), configured, csrf)).toBe(false);
+    }
+  });
+
   it("rejects missing, sibling, null and malformed origins regardless of Host", () => {
     for (const from of [null, "https://other.example.test", "null", `${origin}/path`]) {
       expect(hasTrustedMutationProvenance(headers(from, csrf), origin, csrf)).toBe(false);

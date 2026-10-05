@@ -1,0 +1,24 @@
+{
+  "id": "tooling-delivery-final06",
+  "command": [
+    "npm",
+    "run",
+    "test:source-closure"
+  ],
+  "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+  "exit_code": 0,
+  "timed_out": false,
+  "duration_seconds": 0.35793612501583993,
+  "discovered": null,
+  "counts": {
+    "passed": 0,
+    "failed": 0,
+    "skipped": 0,
+    "filtered": 0,
+    "executed": 0
+  },
+  "log_sha256": "4b3f790506726989c27fe32acd70342b79b8468f4bc9fd2bbb824461ae52c4bb",
+  "cleanup_reported": false,
+  "inputs_sha256": "f78a5d44ecf060f2dba4a2d36f6fa89e342c8d6702d9143af2470af03d18e5e5",
+  "inputs_unchanged": true
+}

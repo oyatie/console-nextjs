@@ -9,7 +9,7 @@ export function hasTrustedMutationProvenance(
   if (!publicOrigin || !expectedCsrfToken) return false;
   try {
     const configured = new URL(publicOrigin);
-    const loopback = configured.hostname === "localhost" || configured.hostname === "127.0.0.1";
+    const loopback = ["localhost", "127.0.0.1", "[::1]"].includes(configured.hostname);
     if (
       configured.origin !== publicOrigin ||
       (configured.protocol !== "https:" && !(loopback && configured.protocol === "http:"))

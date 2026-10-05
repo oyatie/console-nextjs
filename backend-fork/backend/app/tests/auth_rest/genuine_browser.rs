@@ -281,6 +281,11 @@ async fn native_post(
     }
     let mut response = request.send().await.map_err(|_| "native: request failed")?;
     if response.status() != status {
+        eprintln!(
+            "NATIVE_BROWSER_HTTP_STATUS expected={} actual={}",
+            status.as_u16(),
+            response.status().as_u16()
+        );
         return Err("native: unexpected status");
     }
     let mut bytes = Vec::new();
@@ -516,6 +521,16 @@ async fn registration_probe_inner(
         .timeout(StdDuration::from_secs(10))
         .build()
         .map_err(|_| "fixture: HTTP client")?;
+    let product_context = ProductProbeContext {
+        owner,
+        runtime,
+        verifier: &verifier,
+        storage_key: &storage_key,
+        client: &client,
+        native_origin: &native_origin,
+        ingress_key: &ingress_key,
+        faults: &faults,
+    };
     let mut observations = Vec::new();
     let mut product_actors = Vec::new();
     for actor in ["a", "b"] {
@@ -537,6 +552,12 @@ async fn registration_probe_inner(
         .execute(owner)
         .await
         .map_err(|_| "fixture: Account insert")?;
+        if product {
+            // Establish fixture authority before native issuance; a later bump
+            // correctly invalidates the original signed access proof.
+            sqlx::query("INSERT INTO subject_authz_versions(user_id,org_id,version,session_generation) VALUES($1,$2,1,1) ON CONFLICT(org_id,user_id) DO NOTHING")
+                .bind(user).bind(org).execute(owner).await.map_err(|_|"fixture: actual authority-version baseline")?;
+        }
         let issue = BootstrapCredentialStore
             .issue_for_zero_credential_user(
                 runtime,
@@ -811,16 +832,16 @@ async fn registration_probe_inner(
             if product {
                 product_actors.push(
                     product_facts(
-                        owner,
-                        &client,
-                        &native_origin,
+                        &product_context,
                         browser,
-                        actor,
-                        user,
-                        org,
-                        passkey_id,
-                        credential_id,
-                        token,
+                        ProductEnrollment {
+                            actor,
+                            user,
+                            org,
+                            source: passkey_id,
+                            credential: credential_id,
+                            token,
+                        },
                     )
                     .await?,
                 );
@@ -867,21 +888,7 @@ async fn registration_probe_inner(
                 else { "Exact-options diagnostic on not-found RP origin; not product sign-in acceptance" }}));
     }
     if product {
-        observations.push(
-            product_protocol(
-                owner,
-                runtime,
-                browser,
-                &mut product_actors,
-                &verifier,
-                &storage_key,
-                &client,
-                &native_origin,
-                &ingress_key,
-                &faults,
-            )
-            .await?,
-        );
+        observations.push(product_protocol(&product_context, browser, &mut product_actors).await?);
     } else {
         browser.write(json!({"kind":"done"})).await?;
     }
@@ -1607,16 +1614,40 @@ async fn product_committed_observation(owner: &PgPool, context: Uuid) -> ProbeRe
     )
 }
 
+struct ProductProbeContext<'a> {
+    owner: &'a PgPool,
+    runtime: &'a PgPool,
+    verifier: &'a console_platform_auth::JwtVerifier,
+    storage_key: &'a [u8; 32],
+    client: &'a reqwest::Client,
+    native_origin: &'a str,
+    ingress_key: &'a str,
+    faults: &'a ProductFaults,
+}
+
+struct ProductEnrollment<'a> {
+    actor: &'a str,
+    user: Uuid,
+    org: Uuid,
+    source: Uuid,
+    credential: &'a str,
+    token: &'a str,
+}
+
 async fn product_control(
-    owner: &PgPool,
-    runtime: &PgPool,
-    faults: &ProductFaults,
+    context: &ProductProbeContext<'_>,
     actors: &mut [ProductActor],
     request: &Value,
-    client: &reqwest::Client,
-    native_origin: &str,
-    ingress_key: &str,
 ) -> ProbeResult<Value> {
+    let ProductProbeContext {
+        owner,
+        runtime,
+        faults,
+        client,
+        native_origin,
+        ingress_key,
+        ..
+    } = *context;
     let _id = product_control_uuid(request, "id")?;
     let op = request["op"]
         .as_str()
@@ -2221,17 +2252,24 @@ async fn product_legacy_page(
 }
 
 async fn product_facts(
-    owner: &PgPool,
-    client: &reqwest::Client,
-    native_origin: &str,
+    context: &ProductProbeContext<'_>,
     browser: &mut Browser,
-    actor: &str,
-    user: Uuid,
-    org: Uuid,
-    source: Uuid,
-    credential: &str,
-    token: &str,
+    enrollment: ProductEnrollment<'_>,
 ) -> ProbeResult<ProductActor> {
+    let ProductProbeContext {
+        owner,
+        client,
+        native_origin,
+        ..
+    } = *context;
+    let ProductEnrollment {
+        actor,
+        user,
+        org,
+        source,
+        credential,
+        token,
+    } = enrollment;
     let employee = Uuid::new_v4();
     sqlx::query("INSERT INTO employees(id,org_id,company,name,source_filename,source_sheet,source_row,source_key,raw_row,source_metadata) VALUES($1,$2,'테스트',$3,'browser-test.xlsx','직원',2,$4,'{}','{}')")
         .bind(employee).bind(org).bind(format!("브라우저 {actor} 사용자"))
@@ -2244,8 +2282,6 @@ async fn product_facts(
         .execute(owner)
         .await
         .map_err(|_| "fixture: Account employee link")?;
-    sqlx::query("INSERT INTO subject_authz_versions(user_id,org_id,version,session_generation) VALUES($1,$2,1,1) ON CONFLICT(org_id,user_id) DO NOTHING")
-        .bind(user).bind(org).execute(owner).await.map_err(|_|"fixture: actual authority-version baseline")?;
     let count: i64 = if actor == "a" { 29 } else { 2 };
     let kinds = [
         "CLOCK_IN",
@@ -2298,15 +2334,19 @@ async fn product_facts(
 }
 
 async fn product_checkpoint(
-    owner: &PgPool,
-    verifier: &console_platform_auth::JwtVerifier,
-    storage_key: &[u8; 32],
+    context: &ProductProbeContext<'_>,
     actors: &[ProductActor],
     request: &Value,
     remembered: &mut std::collections::BTreeMap<Uuid, (Uuid, String, i64)>,
-    client: &reqwest::Client,
-    native_origin: &str,
 ) -> ProbeResult<()> {
+    let ProductProbeContext {
+        owner,
+        verifier,
+        storage_key,
+        client,
+        native_origin,
+        ..
+    } = *context;
     use openssl::symm::{Cipher, decrypt_aead};
     let expected = [
         "actor",
@@ -2471,49 +2511,22 @@ async fn product_checkpoint(
 }
 
 async fn product_protocol(
-    owner: &PgPool,
-    runtime: &PgPool,
+    context: &ProductProbeContext<'_>,
     browser: &mut Browser,
     actors: &mut [ProductActor],
-    verifier: &console_platform_auth::JwtVerifier,
-    storage_key: &[u8; 32],
-    client: &reqwest::Client,
-    native_origin: &str,
-    ingress_key: &str,
-    faults: &ProductFaults,
 ) -> ProbeResult<Value> {
     let mut remembered = std::collections::BTreeMap::new();
     loop {
         let frame = browser.read_product().await?;
         if frame["kind"] == "control" {
-            let result = product_control(
-                owner,
-                runtime,
-                faults,
-                actors,
-                &frame,
-                client,
-                native_origin,
-                ingress_key,
-            )
-            .await?;
+            let result = product_control(context, actors, &frame).await?;
             browser
                 .write(
                     json!({"kind":"controlled","id":frame["id"],"op":frame["op"],"result":result}),
                 )
                 .await?;
         } else if frame["kind"] == "checkpoint" {
-            product_checkpoint(
-                owner,
-                verifier,
-                storage_key,
-                actors,
-                &frame,
-                &mut remembered,
-                client,
-                native_origin,
-            )
-            .await?;
+            product_checkpoint(context, actors, &frame, &mut remembered).await?;
             browser.write(json!({"kind":"checked","actor":frame["actor"],"context":frame["context"],"phase":frame["phase"]})).await?;
         } else if frame["kind"] == "report" {
             let items = frame["scenarios"]
@@ -2579,6 +2592,9 @@ async fn run_product_probe(pool: &PgPool) -> ProbeResult<Vec<Value>> {
                 && report["counts"]["unreached"] == 0
                 && report["counts"]["skipped"] == 0
         });
+    if let Err(reason) = &result {
+        eprintln!("PRODUCT_BROWSER_NATIVE_FAILURE {reason}");
+    }
     browser.reap_product(result.is_ok(), all_passed).await?;
     result
 }
