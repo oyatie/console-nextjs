@@ -9,6 +9,7 @@ import { tmpdir } from "node:os";
 import path from "node:path";
 import { setTimeout as delay } from "node:timers/promises";
 import { chromium } from "@playwright/test";
+import { browserFailureLocation } from "./browser-business-failure.mjs";
 
 const MAX_FRAME = 65536;
 const MAX_FRAMES = 2048; // Product-only bounded control/rate-window census.
@@ -923,6 +924,8 @@ try {
   if (activeScenario) {
     const item = scenarios.find((item) => item.id === activeScenario);
     item.status = failureClass === "infrastructure" ? "unreached" : "failed"; item.reason = failureClass === "infrastructure" ? "required real-service prerequisite unavailable" : "actual assertion or required journey failed";
+    const location = browserFailureLocation(error);
+    if (location) item.failure_location = location;
   }
   process.stderr.write(`product browser proposal ${failureClass} failure\n`);
 } finally {

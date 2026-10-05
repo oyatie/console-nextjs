@@ -3168,6 +3168,64 @@
         }
       ],
       "disposition": "Fresh metadata/custody/routes pass with unchanged2953inputs. Exact immutable-head review, hosted CI and protected queue/readback pending; no full product/release claim."
+    },
+    {
+      "recorded_at": "2026-10-05T22:39:09.895306+00:00",
+      "scope": "Hosted exact-head PR16 acceptance failure and privacy-safe diagnostic response",
+      "candidate": "e24dac928d1e53967ac9ff23959d25ab464a089a",
+      "verdict": "REVISE_hosted_acceptance_diagnostics_SOURCE_ACCEPT",
+      "evidence": "https://github.com/oyatie/console-nextjs/actions/runs/37375753030/job/111983951062",
+      "raw_log_sha256": "a5ab3f3e87d31aa82af446f00149f738ba4b1cb039dd6ec2f0840a7073148998",
+      "native": {
+        "executed": 121,
+        "passed": 120,
+        "failed": 1,
+        "ignored": 0,
+        "filtered": 0
+      },
+      "browser": {
+        "passed": 12,
+        "failed": 1,
+        "unreached": 4,
+        "skipped": 0
+      },
+      "diagnostic_review": {
+        "reviewer": "p14_diagnostic_review",
+        "verdict": "ACCEPT_for_execution_and_publication",
+        "helper_sha256": "682407048049f4ff76df89c5fa9af836f1985fddb36e4f8e7c8adcb34d9052e3",
+        "tests_sha256": "e9ae841c59edfbc47344af9a2df2fde9cffc84f9abd059699fe6d031a525cd34"
+      },
+      "disposition": "Disabled automatic merging after required hosted RED. Exact P14 assertion absent from original report. Corrected diagnostic parser excludes complete multiline message and inherited getters, emits only fixed basename and bounded line/column to report. Assertions, phase budgets, journeys and counts unchanged. Five diagnostic unit tests pass; full canonical local execution started and hosted localization pending; no product cause established.",
+      "diagnostic_unit": {
+        "path": "docs/planning/nextjs-v1/evidence/browser-business-session-r7/hosted-diagnostic-unit01.json",
+        "sha256": "cc6c6675c920050274a216141f6399bd8e78babfa10bbee07e47fd8c7644bc20",
+        "actual_counts": {
+          "discovered": 5,
+          "executed": 5,
+          "passed": 5,
+          "failed": 0,
+          "skipped": 0,
+          "cancelled": 0
+        }
+      },
+      "diagnostic_tooling": {
+        "path": "docs/planning/nextjs-v1/evidence/browser-business-session-r7/hosted-diagnostic-tooling01.json",
+        "sha256": "08cea8a186665742cbd2f97aa5836f867fe31f6bc1485258e35416627f832638",
+        "actual_counts": {
+          "executed": 18,
+          "passed": 18,
+          "failed": 0
+        }
+      },
+      "publication_review": {
+        "reviewer": "p14_diagnostic_review",
+        "verdict": "ACCEPT_diagnostic_only_publication",
+        "pre_receipt_changed_file_manifest_sha256": "f2654319e23d324b54b4b568c788a68a1b47835ffe42a9fd93ef6b5c60a43f35",
+        "files": 12,
+        "verified_evidence_refs": 33,
+        "source_inputs": 2955,
+        "scope": "Human-attributed commit/push for hosted P14 localization; original hosted RED still blocks queue. This receipt alone added after exact-diff review."
+      }
     }
   ],
   "execution_totals_scope": "Historical red-lane admission checkpoint; current runtime/source evidence is recorded in implementation_followups and remains incomplete.",

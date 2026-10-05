@@ -1,0 +1,190 @@
+{
+  "version": 1,
+  "recorded_at": "2026-10-05T22:39:09.895306+00:00",
+  "repository": "oyatie/console-nextjs",
+  "pr": 16,
+  "candidate": "e24dac928d1e53967ac9ff23959d25ab464a089a",
+  "tree": "676a5ad23aeb093f54d58a34e3058c9f66b14d4c",
+  "run": 37375753030,
+  "job": 111983951062,
+  "check": "source-and-inquiry",
+  "url": "https://github.com/oyatie/console-nextjs/actions/runs/37375753030/job/111983951062",
+  "status": "REVISE_required_hosted_CI_failed_queue_disabled",
+  "raw_log": {
+    "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/hosted-pr16/job-111983951062.log",
+    "bytes": 524746,
+    "sha256": "a5ab3f3e87d31aa82af446f00149f738ba4b1cb039dd6ec2f0840a7073148998"
+  },
+  "steps": {
+    "passed": [
+      1,
+      17
+    ],
+    "failed": [
+      18
+    ],
+    "skipped": [
+      19,
+      37
+    ],
+    "always_disk_readback_passed": 38,
+    "range_semantics": "inclusive"
+  },
+  "authentication_owners": {
+    "binaries": 22,
+    "passed": 319,
+    "failed": 1,
+    "ignored": 0,
+    "filtered": 0
+  },
+  "auth_rest": {
+    "executed": 121,
+    "passed": 120,
+    "failed": 1,
+    "ignored": 0,
+    "filtered": 0
+  },
+  "embedded_browser": {
+    "v": 1,
+    "seq": 383,
+    "kind": "report",
+    "discovered": 17,
+    "executed": 13,
+    "counts": {
+      "passed": 12,
+      "failed": 1,
+      "unreached": 4,
+      "skipped": 0
+    },
+    "failure_class": "behavior",
+    "scenarios": [
+      {
+        "id": "P01",
+        "name": "runtime/exclusion/launcher/config negatives",
+        "status": "passed"
+      },
+      {
+        "id": "P02",
+        "name": "two genuine product sign-ins and native family logout",
+        "status": "passed"
+      },
+      {
+        "id": "P03",
+        "name": "real own-history count, rows, pagination and reload",
+        "status": "passed"
+      },
+      {
+        "id": "P04",
+        "name": "responsive keyboard and inaccessible-script recovery",
+        "status": "passed"
+      },
+      {
+        "id": "P05",
+        "name": "two actual source peers and ingress spoofing negatives",
+        "status": "passed"
+      },
+      {
+        "id": "P06",
+        "name": "Origin/CSRF/context/duplicate-cookie/body boundaries",
+        "status": "passed"
+      },
+      {
+        "id": "P07",
+        "name": "eight-preauth/eight-session admission boundaries",
+        "status": "passed"
+      },
+      {
+        "id": "P08",
+        "name": "independent tabs, stable reads and no context fallback",
+        "status": "passed"
+      },
+      {
+        "id": "P09",
+        "name": "reversed actual start responses",
+        "status": "passed"
+      },
+      {
+        "id": "P10",
+        "name": "reversed actual finish/header-arrival responses",
+        "status": "unreached",
+        "reason": "scenario prerequisites did not complete"
+      },
+      {
+        "id": "P11",
+        "name": "reversed logout versus a new independent login",
+        "status": "passed"
+      },
+      {
+        "id": "P12",
+        "name": "lost committed login result and consumed-assertion handling",
+        "status": "passed"
+      },
+      {
+        "id": "P13",
+        "name": "lost logout across genuine short-family expiry",
+        "status": "passed",
+        "checks": [
+          {
+            "id": "lost-result-expired-access",
+            "status": "passed",
+            "evidence": {
+              "observed": {
+                "kind": "http-failure",
+                "status": 503
+              },
+              "native_owner_status": 204,
+              "actual_cookie_expired": true,
+              "unknown_before_refresh": true,
+              "conservative_absent_after_refresh": true,
+              "same_sender_alive": true,
+              "late_header_claim": false
+            }
+          },
+          {
+            "id": "near-expiry-intact-late-headers",
+            "status": "passed",
+            "evidence": {
+              "native_owner_status": 204,
+              "original_public_status": 204,
+              "empty_body": true,
+              "actual_cookie_expired": true,
+              "recovery_document_refreshed": true,
+              "original_request_pending_until_b_cookie": true,
+              "exact_original_generation_headers": true,
+              "same_sender_alive": true,
+              "newer_b_cookie_and_reads_preserved": true
+            }
+          }
+        ]
+      },
+      {
+        "id": "P14",
+        "name": "current authority, key replacement and cleanup restart",
+        "status": "failed",
+        "reason": "actual assertion or required journey failed"
+      },
+      {
+        "id": "P15",
+        "name": "logout Back and witnessed real BFCache restore",
+        "status": "unreached",
+        "reason": "not started"
+      },
+      {
+        "id": "P16",
+        "name": "actual restore before hydration with CSS/React/offline faults",
+        "status": "unreached",
+        "reason": "not started"
+      },
+      {
+        "id": "P17",
+        "name": "real unavailable/malformed service and failure cleanup",
+        "status": "unreached",
+        "reason": "not started"
+      }
+    ]
+  },
+  "failure_detail": "P14 actual assertion is not localized in original hosted log; JS generic report is not a diagnosis. No product cause is established.",
+  "merge_queue_admitted": false,
+  "auto_merge_request": null,
+  "scope": "Local acceptance remains historical local proof; this hosted RED blocks delivery. No deployment or full product acceptance."
+}

@@ -1,0 +1,35 @@
+{
+  "id": "hosted-diagnostic-tooling01",
+  "command": [
+    "python3",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tools",
+    "-p",
+    "test_*.py"
+  ],
+  "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+  "exit_code": 0,
+  "timed_out": false,
+  "duration_seconds": 1.6238446249626577,
+  "discovered": null,
+  "counts": {
+    "passed": 0,
+    "failed": 0,
+    "skipped": 0,
+    "filtered": 0,
+    "executed": 0
+  },
+  "log_sha256": "58a51a86a325c1717d1dfe5cdea8157f90176d4512ff8b8dad1466148db71f28",
+  "cleanup_reported": false,
+  "inputs_sha256": "681caf0b0532e9874d7219741e1aac9d14115e08fa2f688687cb3fe155edcd9e",
+  "inputs_unchanged": true,
+  "actual_python_tests": {
+    "executed": 18,
+    "passed": 18,
+    "failed": 0
+  },
+  "scope": "Source/evidence tooling; not native/browser acceptance"
+}

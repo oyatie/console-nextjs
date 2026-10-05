@@ -2,7 +2,7 @@
   "version": 1,
   "recorded_at": "2026-10-05T21:21:10.606381+00:00",
   "scope": "R7 passkey sign-in, current-authority own-attendance SSR/pagination/reload, exact-family logout and denied reads",
-  "status": "bounded_local_runtime_accepted_final_immutable_head_hosted_CI_and_queue_pending",
+  "status": "bounded_local_runtime_accepted_hosted_CI_failed_P14_delivery_REVISE",
   "branch": "feat/browser-business-session-r7",
   "base": "7bbb48cc24952ec1639c393767e11bc0de6cc63c",
   "preimplementation_test_head": "e033ff0f1630b3f53116a71a6c3c362bdaf25ae2",
@@ -717,5 +717,12 @@
       "actual_tests": null,
       "classification": "passed"
     }
-  ]
+  ],
+  "hosted_delivery": {
+    "path": "docs/planning/nextjs-v1/evidence/browser-business-session-r7/hosted-pr16-failure.json",
+    "sha256": "9cdaced7e9f40b2d3eae15dd926980f85d2d101242945dd059d8951ea4df5212",
+    "status": "REVISE_required_hosted_CI_failed_queue_disabled",
+    "auto_merge_request": null,
+    "merge_queue_admitted": false
+  }
 }

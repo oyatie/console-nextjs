@@ -36,6 +36,7 @@ jobs:
           PYTHONPATH=tools python3 -c 'import json,acceptance; result=acceptance.inspect_fork(); print(json.dumps(result,indent=2)); raise SystemExit(result["status"] != "passed")'
       - run: npm run test:production-routes
       - run: node --test tools/test-production-runtime.test.mjs
+      - run: node --test tools/browser-business-failure.test.mjs
       - run: npx playwright install --with-deps chromium
       - run: node --test tools/test-native-browser-enrollment.test.mjs
       - run: rustup toolchain install 1.98.1 --profile minimal
