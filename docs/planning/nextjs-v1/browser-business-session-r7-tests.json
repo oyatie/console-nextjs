@@ -1,0 +1,186 @@
+{
+  "version": 1,
+  "recorded_at": "2026-10-05T12:21:13.371303+00:00",
+  "candidate_base_sha": "b3bb420d96fa6fb5cec2de4dc9261e5b9f546047",
+  "design_sha256": "8ef4ad7d85602c94aac05acfe0edf163b5ee3ede819d9e3cbb1e3c6d8b99b2ad",
+  "test_source_sha256": "6ee942541e07d6d316d667f31fb75eb8b30fe1cd1671455760f892b065521f36",
+  "source_files": [
+    {
+      "path": "backend-fork/backend/Cargo.lock",
+      "sha256": "fcc3babe468e7ab667fb63cf4ec5c248afe576a14b05bc42c7bcfeee87b9096e",
+      "git_blob_sha1": "aef220304268ac3e99b6ed7a793b5e24cdf4cd42"
+    },
+    {
+      "path": "backend-fork/backend/app/Cargo.toml",
+      "sha256": "b624085d1307f553d127d91cf8c74a60401cb4a12ebd411e0959477cad18c6b8",
+      "git_blob_sha1": "6bef27f0bade88df5521652ebb480485d90d0b9a"
+    },
+    {
+      "path": "backend-fork/backend/app/tests/auth_rest.rs",
+      "sha256": "f487dc4a7ca6f944ca0eab32bf2d9b30a703ff142cda7fbd4430032dadabc4dd",
+      "git_blob_sha1": "bdacd58522ecf6854764dd38609c1a15f535c947"
+    },
+    {
+      "path": "backend-fork/backend/app/tests/auth_rest/browser_sessions.rs",
+      "sha256": "6a8811f358d5d1773d2f2a62ea98a5d814056d2fa02f62726546b3c09acaeffb",
+      "git_blob_sha1": "d3d98e9d29a23bc316a6bf7d79ddc0469cb02e4b"
+    },
+    {
+      "path": "backend-fork/backend/app/tests/auth_rest/genuine_browser.rs",
+      "sha256": "b6cb36f7e6f445e1e68dbf851a012659224c4eb9bd5a9e6f78bf8d1b7e2c693b",
+      "git_blob_sha1": "06cbc8d8e5d2d3efa463a230f3c1e10816e51f58"
+    },
+    {
+      "path": "backend-fork/backend/app/tests/openapi_drift.rs",
+      "sha256": "902392bb6fa0e180398d0fc67e63c43c30b0f2d8c273771c8b14857e2f6119ee",
+      "git_blob_sha1": "87ae9ffa04789010cfbf5c86bf311fba9dde90d8"
+    },
+    {
+      "path": "backend-fork/backend/crates/platform/auth/src/browser_session/tests.rs",
+      "sha256": "eca11bb4780eba96b7149143e96f0eeb1b9461cba45eb6d768a95abb26a426e5",
+      "git_blob_sha1": "385fd52fa27397e0ff759c684bbea710aafb1a9b"
+    },
+    {
+      "path": "tests/browser-session-boundary.test.ts",
+      "sha256": "3152f80eb3f1e0cd1a3e758098ded26dcc89bffcc86987c70fba4eed1d2ed2e7",
+      "git_blob_sha1": "864c94e50447ad47feb9b5714c9a2f80d2445d3d"
+    },
+    {
+      "path": "tools/browser-business-boundary.mjs",
+      "sha256": "2ad30c4f165ff67793ade0203198899b51ab3693d8cbeb940a2629cd4f2b2650",
+      "git_blob_sha1": "6f6bb7a472b853d8747c0be04860d27fed82b9bf"
+    },
+    {
+      "path": "tools/browser-business-restore.mjs",
+      "sha256": "b4d4bd5a2837906e34a0b275e2feda68a6baa491f1d61679ef5f1139cb17ed0d",
+      "git_blob_sha1": "a47dc592d59dc982b5a821ae13fca9d1fb5d865b"
+    },
+    {
+      "path": "tools/browser-business-temporal.mjs",
+      "sha256": "c7c0fd6207e78aebb14b23d10af205e01afe389153a38df7c23fe140260fdff1",
+      "git_blob_sha1": "3e08e2db2764ff83438495163bfdd856e5e15ba9"
+    },
+    {
+      "path": "tools/test-browser-business-session.mjs",
+      "sha256": "09fce485fcd89af6c9d10106a0c166c8f1a43f0e80b9924e95c0c5375113b52d",
+      "git_blob_sha1": "ec469cbe95bca3c994a2699ff15159421e136d47"
+    },
+    {
+      "path": "tools/test-native-browser-enrollment.mjs",
+      "sha256": "b0a4ef6f86493df99c10efaddebd735043d8226774d253dd41d90431008defa4",
+      "git_blob_sha1": "b185ad60411d3518b49cc8969472c393af2f36e9"
+    },
+    {
+      "path": "tools/test-production-runtime.test.mjs",
+      "sha256": "006c9a108f5a63ac0ae2bef407e24a846f57edad2f9fe9232b67faf1aff7be4a",
+      "git_blob_sha1": "de332f5b3eef6e4be08da192cffabd9177250ac9"
+    }
+  ],
+  "proposal_manifest_sha256": "59414b57e4ffb81eada4e1cf659c47e8a86eb51529566a7ae4e879fb2c1194eb",
+  "commands": [
+    [
+      "/Users/jasonlee/.cargo/bin/cargo",
+      "+1.98.1",
+      "test",
+      "--locked",
+      "--offline",
+      "-p",
+      "console-app",
+      "--features",
+      "frontend-e2e",
+      "--test",
+      "auth_rest",
+      "--test",
+      "openapi_drift",
+      "--no-run"
+    ],
+    [
+      "/Users/jasonlee/.cargo/bin/cargo",
+      "+1.98.1",
+      "test",
+      "--locked",
+      "--offline",
+      "-p",
+      "console-app",
+      "--features",
+      "frontend-e2e",
+      "--test",
+      "auth_rest",
+      "--test",
+      "openapi_drift",
+      "--",
+      "--list"
+    ]
+  ],
+  "proof": {
+    "compile_exit_code": 0,
+    "discovery_exit_code": 0,
+    "auth_rest_discovered": 117,
+    "openapi_discovered": 19,
+    "browser_cases_discovered": 60,
+    "genuine_browser_discovered": 6,
+    "behavioral_executed": 0,
+    "crypto_child_authored": 4,
+    "crypto_child_discovered": 0,
+    "ts_boundary_authored": 5,
+    "ts_boundary_executed": 0,
+    "runtime_tests_authored": 2,
+    "runtime_tests_executed": 0,
+    "browser_scenarios_authored": 17,
+    "browser_scenarios_executed": 0,
+    "node_syntax_files": 6,
+    "rust_format_exit_code": 0,
+    "diff_check_exit_code": 0
+  },
+  "evidence": [
+    {
+      "path": "compile-complete-browser-closure-r3.json",
+      "sha256": "adaac56b212e6199ba7a90efe9bce7b69c9489f51fd18dca12cc17d31a9887a4"
+    },
+    {
+      "path": "compile-complete-browser-closure-r3.log",
+      "sha256": "6ee66a0fda4fb763ad479ad3ce7ae2b03f7edd89f6f0667f9e1c3a84198014e5"
+    },
+    {
+      "path": "compile-complete-browser-closure-r4.json",
+      "sha256": "8e557b32de0333231792af57e24946f8df1e193192704eed21eb5c18401fa9a1"
+    },
+    {
+      "path": "compile-complete-browser-closure-r4.log",
+      "sha256": "3562e0e8a2a731c9e9b37674c846c8b1096809fc4b3a518db4b1f4a74922d8ed"
+    },
+    {
+      "path": "discovery-complete-browser-closure-r4.json",
+      "sha256": "f487d33bcaf0f18f001817af5bd2db74cb5abb23352d1ce4ad6d0f405e1f45a2"
+    },
+    {
+      "path": "discovery-complete-browser-closure-r4.log",
+      "sha256": "fdd317d8351fd9c9e8fb0d26cbbb9773495bbf2b13b1f776b1e00843d5967fd6"
+    }
+  ],
+  "limitations": [
+    "Crypto child registration and TS/runtime dependencies await implementation",
+    "Compilation and discovery do not establish behavior",
+    "No behavioral RED admission or product implementation yet"
+  ],
+  "status": "APPROVED_TEST_SET",
+  "approval": {
+    "reviewer": "r7_browser_test_review",
+    "verdict": "APPROVED_TEST_SET",
+    "scope": "Exact test-first commit and subsequent named behavioral RED admission",
+    "design_sha256": "8ef4ad7d85602c94aac05acfe0edf163b5ee3ede819d9e3cbb1e3c6d8b99b2ad",
+    "test_source_sha256": "6ee942541e07d6d316d667f31fb75eb8b30fe1cd1671455760f892b065521f36",
+    "candidate_manifest_sha256": "524e5cde9db3abf02a3d3e34c5ebcc9b0d3727e077f39f48ec561e7da175f25a",
+    "execution_approval": false,
+    "merge_approval": false
+  },
+  "remaining_gates": [
+    "Commit exact approved tests",
+    "Named genuine missing-route RED via fanout.py admit",
+    "Product implementation",
+    "Native and production-browser GREEN checks",
+    "Independent adversarial fix/review",
+    "16-lens audit and exact-head independent COMMENT",
+    "Protected PR queue and hosted readback"
+  ]
+}

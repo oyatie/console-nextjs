@@ -33,6 +33,9 @@ const TEST_ISSUER: &str = "console-platform-auth";
 const TEST_AUDIENCE: &str = "console-api";
 const TEST_ORIGIN: &str = "https://auth.example.com";
 
+#[path = "auth_rest/browser_sessions.rs"]
+mod browser_sessions;
+
 #[path = "auth_rest/reset_sessions.rs"]
 mod reset_sessions;
 

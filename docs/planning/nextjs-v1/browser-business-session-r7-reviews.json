@@ -2,7 +2,7 @@
   "version": 1,
   "base": "7bbb48cc24952ec1639c393767e11bc0de6cc63c",
   "tree": "d55ebc8cab2197f872c117146ead47f81df54c2a",
-  "status": "DESIGN_APPROVED_TEST_PREPARATION_PENDING",
+  "status": "DESIGN_AND_TESTS_APPROVED_RED_ADMISSION_PENDING",
   "source_writer": "root only, feat/browser-business-session-r7",
   "implementation_admitted": false,
   "new_tests_executed": 0,
@@ -143,10 +143,20 @@
   },
   "acceptance_limits": [
     "Current frontend baseline105 tests do not prove new production sign-in/attendance path",
-    "No tests approved or RED lane admitted yet",
+    "Exact test source approved; no behavioral RED lane admitted yet",
     "No product code or applied migration modified",
     "No release, legal, physical-passkey, two-site durability or full-module acceptance"
   ],
-  "test_approval": null,
+  "test_approval": {
+    "status": "APPROVED_TEST_SET",
+    "source_sha256": "6ee942541e07d6d316d667f31fb75eb8b30fe1cd1671455760f892b065521f36",
+    "test_manifest": "browser-business-session-r7-tests.json",
+    "reviewer": "r7_browser_test_review",
+    "compiled": true,
+    "discovered_auth_rest": 117,
+    "discovered_openapi": 19,
+    "behavioral_executed": 0,
+    "implementation_admitted": false
+  },
   "red_lane_admission": null
 }

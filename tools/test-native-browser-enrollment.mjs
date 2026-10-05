@@ -3,7 +3,7 @@
 import assert from "node:assert/strict";
 import { spawn } from "node:child_process";
 import { once } from "node:events";
-import { cp, mkdtemp, readdir, rm } from "node:fs/promises";
+import { mkdtemp, rm } from "node:fs/promises";
 import { createServer } from "node:net";
 import { tmpdir } from "node:os";
 import path from "node:path";
@@ -74,10 +74,12 @@ let closing = false;
 let finalization;
 let startup = Promise.resolve();
 let creationAttempts = 0;
+const runtimeStagingAbort = new AbortController();
 async function stop() {
   stopPromise ??= (async () => {
     // An EOF can race an asynchronous launch. Wait for its returned owner before
     // acknowledging cleanup; closing prevents starting another resource.
+    runtimeStagingAbort.abort();
     await startup.catch(() => {});
     // Playwright launches a separate browser process group. Close its owner,
     // rather than assume that terminating this Node process reaps Chromium.
@@ -139,19 +141,16 @@ let outcome = "failed";
 let exitCode = 1;
 
 try {
-  const standalone = path.resolve(".next/standalone");
-  // Next loads dotenv files at startup; no inherited source-tree dotenv file
-  // belongs in this isolated service. Reject one instead of silently using it.
-  const entries = await readdir(standalone, { recursive: true });
-  assert.ok(!entries.some((entry) => path.basename(entry).startsWith(".env")));
+  const sourceRoot = path.resolve();
+  const { stageProductionRuntime, verifyProductionRuntime } = await import("./production-runtime.mjs");
   assert.ok(!closing);
   startup = (async () => {
     stage = await mkdtemp(path.join(tmpdir(), "console-native-browser-"));
-    await cp(standalone, stage, { recursive: true });
-    await cp(path.resolve(".next/static"), path.join(stage, ".next/static"), { recursive: true });
+    const destination = path.join(stage, "runtime");
+    await stageProductionRuntime({ sourceRoot, destination, signal: runtimeStagingAbort.signal });
+    assert.equal((await verifyProductionRuntime(destination)).version, 1);
   })();
   await startup;
-  // No public asset is needed for this browser-origin prerequisite.
   assert.ok(!closing);
   reservation = createServer();
   startup = once(reservation, "listening");
@@ -165,9 +164,10 @@ try {
   assert.ok(!closing);
   await new Promise((resolve) => reservation.close(resolve));
   assert.ok(!closing);
-  next = spawn(process.execPath, [path.join(stage, "server.js")], {
-    cwd: stage,
-    env: { ...cleanEnv, NODE_ENV: "production", HOSTNAME: "127.0.0.1", PORT: String(port) },
+  next = spawn(process.execPath, [path.join(stage, "runtime/server.mjs")], {
+    cwd: path.join(stage, "runtime"),
+    env: { ...cleanEnv, NODE_ENV: "production", HOSTNAME: "127.0.0.1", PORT: String(port),
+      CONSOLE_PUBLIC_ORIGIN: origin, CONSOLE_BROWSER_ALLOW_LOOPBACK_HTTP: "true" },
     stdio: ["ignore", "pipe", "pipe"],
   });
   for (const stream of [next.stdout, next.stderr]) stream.on("data", (bytes) => {
