@@ -36,6 +36,60 @@ fn es256_issuer() -> JwtIssuer {
 }
 
 #[test]
+fn expiry_uses_trusted_time_and_preserves_delegated_deadline() {
+    let issuer = es256_issuer();
+    let token = issuer
+        .issue_access_token(AccessTokenInput {
+            subject: UserId::new(),
+            org_id: OrgId::knl(),
+            roles: vec!["MEMBER".to_owned()],
+            branches: vec![],
+            platform: false,
+            view_as: false,
+            read_only: false,
+            display_name: None,
+            feature_grants: vec![],
+            authz_subject_version: 0,
+            authz_policy_version: 0,
+            session_generation: 0,
+            issued_at: OffsetDateTime::now_utc(),
+        })
+        .unwrap();
+    let mut claims = issuer.verify_access_token(&token).unwrap();
+    let deadline = OffsetDateTime::from_unix_timestamp(claims.exp).unwrap();
+    assert!(
+        claims
+            .validate_expiry_at(deadline - Duration::seconds(1))
+            .is_ok()
+    );
+    assert!(claims.validate_expiry_at(deadline).is_err());
+    assert!(
+        claims
+            .validate_expiry_at(deadline + Duration::seconds(1))
+            .is_err()
+    );
+    claims.actor_session = Some(console_platform_auth::ActorSession {
+        family_id: uuid::Uuid::new_v4(),
+        expires_at: claims.exp,
+        home_org: OrgId::platform(),
+        subject_version: 0,
+        session_generation: 0,
+    });
+    assert!(
+        claims
+            .validate_expiry_at(deadline - Duration::seconds(1))
+            .is_ok()
+    );
+    assert!(claims.validate_expiry_at(deadline).is_err());
+    claims.exp += 1;
+    assert!(
+        claims
+            .validate_expiry_at(deadline - Duration::seconds(1))
+            .is_err()
+    );
+}
+
+#[test]
 fn es256_access_token_round_trips_with_expected_claims() {
     let issuer = es256_issuer();
 

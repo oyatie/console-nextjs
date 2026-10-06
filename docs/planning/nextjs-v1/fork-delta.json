@@ -1667,11 +1667,11 @@
         "mode": 420
       },
       "after": {
-        "sha256": "97ad35e42eb125a9ea200bb90ec3ef70d1703c8e81fddbb27425ba1306f07af1",
-        "bytes": 28045,
+        "sha256": "1bd63f06013affd308d7bc9fe3f82e26e9774c2b2094636960b7d920a71fa20c",
+        "bytes": 29730,
         "mode": 420
       },
-      "reason": "Bind ordinary and delegated access to exact live refresh families; enforce strict source and absolute deadlines after lock waits. Preserve authentication assertions using real-family test fixtures. Test-first JWT provider migration proof: generated original-provider signed test vectors, independent OpenSSL verification and unchanged rejected key-format behavior; no runtime dependency or identity changes. Use standard expect_err for unchanged rejection assertion; preserve strict Clippy without lint exceptions."
+      "reason": "Bind ordinary and delegated access to exact live refresh families; enforce strict source and absolute deadlines after lock waits. Preserve authentication assertions using real-family test fixtures. Test-first JWT provider migration proof: generated original-provider signed test vectors, independent OpenSSL verification and unchanged rejected key-format behavior; no runtime dependency or identity changes. Use standard expect_err for unchanged rejection assertion; preserve strict Clippy without lint exceptions. PR17 test-first trusted-time JWT expiry boundary and unchanged delegated ceiling regression."
     },
     {
       "path": "backend/crates/platform/auth/tests/session_locking.rs",
