@@ -1096,6 +1096,20 @@
       "reason": "Reviewed staged-roster coverage and atomic local payslip publication at existing payroll/Inbox owners, immutable dedup replay and frozen real-session/runtime-role regressions. No full-module, legal, payment or two-site claim. Preserve recipient/Company/filter and owned chronological anchors while terminating exact-full Inbox pages using bounded authorized lookahead; test-first real PostgreSQL cursor, clamp and immutable-read regressions."
     },
     {
+      "path": "backend/crates/inbox/rest/tests/api.rs",
+      "before": {
+        "sha256": "449c7052c90f05931ad3d82e4f696bc4b43b114fe9b823ac9f14a108ddc272f2",
+        "bytes": 25425,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "d62ba4cb6abcc5b28bb50c46b9d4afbdd964e8f3a668a68068afa8a4a6227a7d",
+        "bytes": 25635,
+        "mode": 420
+      },
+      "reason": "Restore existing recipient/receipt HTTP assertions using real family-bound sessions through the existing test-support owner; preserve every assertion and runtime authentication. Add missing required CI API and Clippy producers."
+    },
+    {
       "path": "backend/crates/kernel/core/src/validation.rs",
       "before": {
         "sha256": "9cf99318cf7fa70f992df4bf11476873fcd0889bc03ad0924234f108545f0188",
@@ -1636,6 +1650,16 @@
       "reason": "Enforce immutable credential row/key identity and pinned WebAuthn V5 UPDATE codec without Account locks, preserving original key JSON and allowed monotonic counter/backup transitions. Add genuine signature, malformed-state and upgrade preservation tests. C2/R7c approved actual WebAuthn/PostgreSQL/native/browser regressions, private custody and exact-family owner failures, compatibility and current-authority constructor fields. Preserve inherited assertions; reviewed prerequisite correction and whitespace-only formatting. Record inherited merged PR #15 provenance at exact base 7bbb48cc24952ec1639c393767e11bc0de6cc63c after matching regular Git blobs; repair prior stale/missing metadata only, not new runtime code."
     },
     {
+      "path": "backend/crates/platform/auth/tests/fixtures/jwt_provider_compatibility.json",
+      "before": null,
+      "after": {
+        "sha256": "67e240e27f388ecd81dd379a491773c5f62a999e1ae5ef12b55808a8fb76ef50",
+        "bytes": 10583,
+        "mode": 420
+      },
+      "reason": "Test-first JWT provider migration proof: generated original-provider signed test vectors, independent OpenSSL verification and unchanged rejected key-format behavior; no runtime dependency or identity changes."
+    },
+    {
       "path": "backend/crates/platform/auth/tests/jwt_es256.rs",
       "before": {
         "sha256": "3c91384d6f602f7ad6828d0579007644fd56451a6def89836959c9da063a292d",
@@ -1643,11 +1667,11 @@
         "mode": 420
       },
       "after": {
-        "sha256": "f01a8fb2538db6cb3a68400a0f012fa4ca1c2696dace478e7fe85d937e0e366b",
-        "bytes": 18505,
+        "sha256": "97ad35e42eb125a9ea200bb90ec3ef70d1703c8e81fddbb27425ba1306f07af1",
+        "bytes": 28045,
         "mode": 420
       },
-      "reason": "Bind ordinary and delegated access to exact live refresh families; enforce strict source and absolute deadlines after lock waits. Preserve authentication assertions using real-family test fixtures."
+      "reason": "Bind ordinary and delegated access to exact live refresh families; enforce strict source and absolute deadlines after lock waits. Preserve authentication assertions using real-family test fixtures. Test-first JWT provider migration proof: generated original-provider signed test vectors, independent OpenSSL verification and unchanged rejected key-format behavior; no runtime dependency or identity changes. Use standard expect_err for unchanged rejection assertion; preserve strict Clippy without lint exceptions."
     },
     {
       "path": "backend/crates/platform/auth/tests/session_locking.rs",
@@ -2692,20 +2716,6 @@
         "mode": 493
       },
       "reason": "Expose only generated runtime and force fixture password aliases to Cargo tests; preserve credential argv guard and owned disposable cleanup. R7c reviewed test prerequisite: export only generated console_app owner password alias for actual bounded cleanup worker startup; preserve argv guard and owned disposable cleanup."
-    },
-    {
-      "path": "backend/crates/inbox/rest/tests/api.rs",
-      "before": {
-        "sha256": "449c7052c90f05931ad3d82e4f696bc4b43b114fe9b823ac9f14a108ddc272f2",
-        "bytes": 25425,
-        "mode": 420
-      },
-      "after": {
-        "sha256": "d62ba4cb6abcc5b28bb50c46b9d4afbdd964e8f3a668a68068afa8a4a6227a7d",
-        "bytes": 25635,
-        "mode": 420
-      },
-      "reason": "Restore existing recipient/receipt HTTP assertions using real family-bound sessions through the existing test-support owner; preserve every assertion and runtime authentication. Add missing required CI API and Clippy producers."
     }
   ],
   "notes": [

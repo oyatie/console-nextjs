@@ -1,0 +1,122 @@
+{
+  "cases": [
+    {
+      "algorithm": "ES256",
+      "claims": {
+        "alg": "ES256",
+        "aud": "offline-jwt-compatibility",
+        "exp": 4102444800,
+        "iat": 1735689600,
+        "iss": "console-provider-compatibility",
+        "jti": "ES256-PKCS8",
+        "nbf": 1735689600,
+        "org": "11111111-1111-4111-8111-111111111111",
+        "roles": [
+          "MEMBER"
+        ],
+        "sub": "dedicated-test-fixture"
+      },
+      "header": {
+        "alg": "ES256",
+        "kid": "ES256-PKCS8",
+        "typ": "JWT"
+      },
+      "name": "ES256-PKCS8",
+      "private_pem": "-----BEGIN PRIVATE KEY-----\nMIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQgnOrlSOveie70CxMC\nQx5tRSGfMLGw/1k7Gm6YZXFLmcGhRANCAAQcnx/EmmbLN1+6BFNqxLj57Z+IvPXz\nmBX+BtthUYkiciml/8qH6Wcj2IGI9SyFrgqfUP4wYBb3E+bMAKQDClsA\n-----END PRIVATE KEY-----\n",
+      "public_pem": "-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEHJ8fxJpmyzdfugRTasS4+e2fiLz1\n85gV/gbbYVGJInIppf/Kh+lnI9iBiPUsha4Kn1D+MGAW9xPmzACkAwpbAA==\n-----END PUBLIC KEY-----\n",
+      "secret": "",
+      "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NiIsImtpZCI6IkVTMjU2LVBLQ1M4In0.eyJhbGciOiJFUzI1NiIsImF1ZCI6Im9mZmxpbmUtand0LWNvbXBhdGliaWxpdHkiLCJleHAiOjQxMDI0NDQ4MDAsImlhdCI6MTczNTY4OTYwMCwiaXNzIjoiY29uc29sZS1wcm92aWRlci1jb21wYXRpYmlsaXR5IiwianRpIjoiRVMyNTYtUEtDUzgiLCJuYmYiOjE3MzU2ODk2MDAsIm9yZyI6IjExMTExMTExLTExMTEtNDExMS04MTExLTExMTExMTExMTExMSIsInJvbGVzIjpbIk1FTUJFUiJdLCJzdWIiOiJkZWRpY2F0ZWQtdGVzdC1maXh0dXJlIn0.iB7fxEWrct1iJw21f1osAfq1Akfa9dFKEk_0Dwab3ekX-TfeCwMqkXoU_DqZw4esTAdE4VURRDzbVGYOW_HI-g"
+    },
+    {
+      "algorithm": "RS256",
+      "claims": {
+        "alg": "RS256",
+        "aud": "offline-jwt-compatibility",
+        "exp": 4102444800,
+        "iat": 1735689600,
+        "iss": "console-provider-compatibility",
+        "jti": "RS256-PKCS8",
+        "nbf": 1735689600,
+        "org": "11111111-1111-4111-8111-111111111111",
+        "roles": [
+          "MEMBER"
+        ],
+        "sub": "dedicated-test-fixture"
+      },
+      "header": {
+        "alg": "RS256",
+        "kid": "RS256-PKCS8",
+        "typ": "JWT"
+      },
+      "name": "RS256-PKCS8",
+      "private_pem": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDlAULVALDd7Osn\nDoXkR0AfPASuKcU3v/Uvj7Wnj4Cbcf2xIFC9VU3DxMuOh3unCim6ZQ2mEnasG5qv\nBOo8pQvlErvaNaTH53DIWjS4Euax+J36LoIXXOVp2oY+f33K1dRf3bQWaKvkaX4x\nQefazmCNkDAuLjRmoVPeW0pIOYIMt1ksKztvxv9bn2I5USL87qumbaDNZep2MhMV\nTQJy6kYTKLH6D9wniXlmpJ3qelRvfOr+0MdtluVdEoMVZZQbwUbaIeHgizvQheAb\n+I2d/jloCeSJ8SAHa6q6IeK8B3KLGIgft137eh4ZYQFDjmgKks0Au8HnVdufLKqc\naHPo8JcpAgMBAAECggEAIJ1PB7JN04gpbr+PwWowWgJx5t1bZsw3lCrTGTvDz4pV\nh4NtsaP+K50nIckZNY9UpWTno7j0ySAz+yx9Bl651J8YEpoZ5L/efSTzuyozTDIh\n9ak9V9cgHopDx4+KuneSWTDkXrNQ6nqSbAYnNNoNlZEX0OE9ufF3VgS0Y0LldaqQ\n1dcL+PVigN9w/XDyk92w4tQIND65i7xk7iW/WSXDBF+iHjJO6rZURIjVRbyJk8XX\n2x/7TAvuTCO5F5t6ZtZkbREAx9kCzeATl7mVL1VdZWLm1NuN/q2s2NZQSgjWhRrD\nx/RFNnmpjOkwZo98BDgaehK/9xnNMx/M7PTDiyt2HQKBgQD2c8vUDtCq3pMMh3KS\n2plt0htKmExxz+n8Ca1yddV5Q5zgA5EiBdQPNYjTrbDVNEFbJMiTxYGS1Tb73Zge\n8U+w71gUjIXARYINWcG587Awflvz+US5MKWEMz8J35YwWxpJDX+fC7N10HvDO3IC\n3sOoChjA8ZxllemC+8v6fTCrJwKBgQDt4G3otXdKgcRqCkeEzW/tHTCZlIyp7J3i\nL8zLlR5XH9YZUNt052QOVNgMlAxywvgsYb+LLWAI7Bh+TdkM10Lu5eBJqV0PLgLg\nvjbNRuRkInlM2Og5r873v7GCs5S5ukZ3Y0F4CxQ7JM7TTwOvdlqj68A7OrO9HxOO\nsqPBnwxdLwKBgDLbanB0LjNUgtvPB6GuYoL7HI6kJwJFeW99P8Gi905y2WiQ095F\nfaE11up3qUoV4nbAfHOiCj8WqKYI8F9SRLOqcG6tINywe0nt/8AzvWQEb01FXx0o\nIL/LI3MSJJgN9LqmgnN7oqjpQODk334gIhgHHVyTf0anTOyusUUbmHN5AoGAevy6\nVsLb9m25e4ntCECfSdz5r64aPBDWYIeOPwPOOAWB0Hz5uiuYk8BSI8630O31Gh0/\nx1mieXp3/3WIbxcsyA+aMvuZ3atQWZp/AwtQMmWQiabsCkdXnshBou3uS0h//mIX\nC1XPE/Un6iDEKwfqPS46qWTkYTecCP9bo1P0NIkCgYEA7LtdH/Ena2j8hbpgFIZP\nsS9alCcODzIoVRQvgUqqXx0XFjzvHeF7/BDOL2b0aGYBLfCadcb1h3woKRkhA7+R\nMwYZURaAoMPqz6SdlzDPkxK+MZH1QPZfZOydN7T6sAG+Yf+0yb8nXBePYSIpmMDF\nyKaRjXzLsBQiQVjA20mr2vQ=\n-----END PRIVATE KEY-----\n",
+      "public_pem": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA5QFC1QCw3ezrJw6F5EdA\nHzwErinFN7/1L4+1p4+Am3H9sSBQvVVNw8TLjod7pwopumUNphJ2rBuarwTqPKUL\n5RK72jWkx+dwyFo0uBLmsfid+i6CF1zladqGPn99ytXUX920Fmir5Gl+MUHn2s5g\njZAwLi40ZqFT3ltKSDmCDLdZLCs7b8b/W59iOVEi/O6rpm2gzWXqdjITFU0CcupG\nEyix+g/cJ4l5ZqSd6npUb3zq/tDHbZblXRKDFWWUG8FG2iHh4Is70IXgG/iNnf45\naAnkifEgB2uquiHivAdyixiIH7dd+3oeGWEBQ45oCpLNALvB51XbnyyqnGhz6PCX\nKQIDAQAB\n-----END PUBLIC KEY-----\n",
+      "secret": "",
+      "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6IlJTMjU2LVBLQ1M4In0.eyJhbGciOiJSUzI1NiIsImF1ZCI6Im9mZmxpbmUtand0LWNvbXBhdGliaWxpdHkiLCJleHAiOjQxMDI0NDQ4MDAsImlhdCI6MTczNTY4OTYwMCwiaXNzIjoiY29uc29sZS1wcm92aWRlci1jb21wYXRpYmlsaXR5IiwianRpIjoiUlMyNTYtUEtDUzgiLCJuYmYiOjE3MzU2ODk2MDAsIm9yZyI6IjExMTExMTExLTExMTEtNDExMS04MTExLTExMTExMTExMTExMSIsInJvbGVzIjpbIk1FTUJFUiJdLCJzdWIiOiJkZWRpY2F0ZWQtdGVzdC1maXh0dXJlIn0.idIDu0jA5TmDj7BLgsCqS78Cwe7xeZVR7yTQeL8qooYz7EZJ2rnx1uMyjuMBCH9yuPKECMRwhGcJMozsZWeXuJPLyIa2q_Y8RCiiBUG79g7M4RBb_uLCTZYCBhPk2UHDDVKWlnFyW0KvdBkVnbzJcxCwlP1fkjLby10ahBWikUywlemTcM0A-VoE1hsYa15xGZsQOVPFLdAVEqqon-lH8oCYt2wXlfPnhlhoyzTQXy7z9wuvQCanE4Uv3zOkKlt5-wee2HtWbGSegb_pBliMySD4a5ao-Jiuyy1c2GdhE2FO-7sao2BAIDjfxM6W3W0PQDS8R0LgBNzlzIyWFHUL1w"
+    },
+    {
+      "algorithm": "RS256",
+      "claims": {
+        "alg": "RS256",
+        "aud": "offline-jwt-compatibility",
+        "exp": 4102444800,
+        "iat": 1735689600,
+        "iss": "console-provider-compatibility",
+        "jti": "RS256-PKCS1",
+        "nbf": 1735689600,
+        "org": "11111111-1111-4111-8111-111111111111",
+        "roles": [
+          "MEMBER"
+        ],
+        "sub": "dedicated-test-fixture"
+      },
+      "header": {
+        "alg": "RS256",
+        "kid": "RS256-PKCS1",
+        "typ": "JWT"
+      },
+      "name": "RS256-PKCS1",
+      "private_pem": "-----BEGIN RSA PRIVATE KEY-----\nMIIEowIBAAKCAQEA5QFC1QCw3ezrJw6F5EdAHzwErinFN7/1L4+1p4+Am3H9sSBQ\nvVVNw8TLjod7pwopumUNphJ2rBuarwTqPKUL5RK72jWkx+dwyFo0uBLmsfid+i6C\nF1zladqGPn99ytXUX920Fmir5Gl+MUHn2s5gjZAwLi40ZqFT3ltKSDmCDLdZLCs7\nb8b/W59iOVEi/O6rpm2gzWXqdjITFU0CcupGEyix+g/cJ4l5ZqSd6npUb3zq/tDH\nbZblXRKDFWWUG8FG2iHh4Is70IXgG/iNnf45aAnkifEgB2uquiHivAdyixiIH7dd\n+3oeGWEBQ45oCpLNALvB51XbnyyqnGhz6PCXKQIDAQABAoIBACCdTweyTdOIKW6/\nj8FqMFoCcebdW2bMN5Qq0xk7w8+KVYeDbbGj/iudJyHJGTWPVKVk56O49MkgM/ss\nfQZeudSfGBKaGeS/3n0k87sqM0wyIfWpPVfXIB6KQ8ePirp3klkw5F6zUOp6kmwG\nJzTaDZWRF9DhPbnxd1YEtGNC5XWqkNXXC/j1YoDfcP1w8pPdsOLUCDQ+uYu8ZO4l\nv1klwwRfoh4yTuq2VESI1UW8iZPF19sf+0wL7kwjuRebembWZG0RAMfZAs3gE5e5\nlS9VXWVi5tTbjf6trNjWUEoI1oUaw8f0RTZ5qYzpMGaPfAQ4GnoSv/cZzTMfzOz0\nw4srdh0CgYEA9nPL1A7Qqt6TDIdyktqZbdIbSphMcc/p/AmtcnXVeUOc4AORIgXU\nDzWI062w1TRBWyTIk8WBktU2+92YHvFPsO9YFIyFwEWCDVnBufOwMH5b8/lEuTCl\nhDM/Cd+WMFsaSQ1/nwuzddB7wztyAt7DqAoYwPGcZZXpgvvL+n0wqycCgYEA7eBt\n6LV3SoHEagpHhM1v7R0wmZSMqeyd4i/My5UeVx/WGVDbdOdkDlTYDJQMcsL4LGG/\niy1gCOwYfk3ZDNdC7uXgSaldDy4C4L42zUbkZCJ5TNjoOa/O97+xgrOUubpGd2NB\neAsUOyTO008Dr3Zao+vAOzqzvR8TjrKjwZ8MXS8CgYAy22pwdC4zVILbzwehrmKC\n+xyOpCcCRXlvfT/BovdOctlokNPeRX2hNdbqd6lKFeJ2wHxzogo/FqimCPBfUkSz\nqnBurSDcsHtJ7f/AM71kBG9NRV8dKCC/yyNzEiSYDfS6poJze6Ko6UDg5N9+ICIY\nBx1ck39Gp0zsrrFFG5hzeQKBgHr8ulbC2/ZtuXuJ7QhAn0nc+a+uGjwQ1mCHjj8D\nzjgFgdB8+bormJPAUiPOt9Dt9RodP8dZonl6d/91iG8XLMgPmjL7md2rUFmafwML\nUDJlkImm7ApHV57IQaLt7ktIf/5iFwtVzxP1J+ogxCsH6j0uOqlk5GE3nAj/W6NT\n9DSJAoGBAOy7XR/xJ2to/IW6YBSGT7EvWpQnDg8yKFUUL4FKql8dFxY87x3he/wQ\nzi9m9GhmAS3wmnXG9Yd8KCkZIQO/kTMGGVEWgKDD6s+knZcwz5MSvjGR9UD2X2Ts\nnTe0+rABvmH/tMm/J1wXj2EiKZjAxcimkY18y7AUIkFYwNtJq9r0\n-----END RSA PRIVATE KEY-----\n",
+      "public_pem": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA5QFC1QCw3ezrJw6F5EdA\nHzwErinFN7/1L4+1p4+Am3H9sSBQvVVNw8TLjod7pwopumUNphJ2rBuarwTqPKUL\n5RK72jWkx+dwyFo0uBLmsfid+i6CF1zladqGPn99ytXUX920Fmir5Gl+MUHn2s5g\njZAwLi40ZqFT3ltKSDmCDLdZLCs7b8b/W59iOVEi/O6rpm2gzWXqdjITFU0CcupG\nEyix+g/cJ4l5ZqSd6npUb3zq/tDHbZblXRKDFWWUG8FG2iHh4Is70IXgG/iNnf45\naAnkifEgB2uquiHivAdyixiIH7dd+3oeGWEBQ45oCpLNALvB51XbnyyqnGhz6PCX\nKQIDAQAB\n-----END PUBLIC KEY-----\n",
+      "secret": "",
+      "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6IlJTMjU2LVBLQ1MxIn0.eyJhbGciOiJSUzI1NiIsImF1ZCI6Im9mZmxpbmUtand0LWNvbXBhdGliaWxpdHkiLCJleHAiOjQxMDI0NDQ4MDAsImlhdCI6MTczNTY4OTYwMCwiaXNzIjoiY29uc29sZS1wcm92aWRlci1jb21wYXRpYmlsaXR5IiwianRpIjoiUlMyNTYtUEtDUzEiLCJuYmYiOjE3MzU2ODk2MDAsIm9yZyI6IjExMTExMTExLTExMTEtNDExMS04MTExLTExMTExMTExMTExMSIsInJvbGVzIjpbIk1FTUJFUiJdLCJzdWIiOiJkZWRpY2F0ZWQtdGVzdC1maXh0dXJlIn0.zP-NwsrsuLAb9g5MIcuGOi6DVBVJvjn8adm8D3wnNQwnrn5hcquFtWTlcvnje4HmCZbg-secQ5uK5svkJqjlp4usCwCsk8tvDZOrVnafgXpiQfwt1O6zPiurHwD76CJ1i-cBISNXx9vawnrkl1Lq4Smx7Z7UiheFdAvekA6Vn8_hj8-1P8uglQZv1D-ci4qoRunJQEIuQkpEY-sLAcTOavNZJy39iGFol_tfZhWPbQgWodEUEqDkwUeCrMErDTLdZRhUN2pQB2Mvr5_vZvyHgupkjFZSMnDWnfgZDYXi81kleUw1C_1BIykDtAlvaEF-oP9KAnMgGOZDjLSDSwcyZw"
+    },
+    {
+      "algorithm": "HS256",
+      "claims": {
+        "alg": "HS256",
+        "aud": "offline-jwt-compatibility",
+        "exp": 4102444800,
+        "iat": 1735689600,
+        "iss": "console-provider-compatibility",
+        "jti": "HS256",
+        "nbf": 1735689600,
+        "org": "11111111-1111-4111-8111-111111111111",
+        "roles": [
+          "MEMBER"
+        ],
+        "sub": "dedicated-test-fixture"
+      },
+      "header": {
+        "alg": "HS256",
+        "kid": "HS256",
+        "typ": "JWT"
+      },
+      "name": "HS256",
+      "private_pem": "",
+      "public_pem": "",
+      "secret": "offline-only-fixture-secret-not-a-service-credential",
+      "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiIsImtpZCI6IkhTMjU2In0.eyJhbGciOiJIUzI1NiIsImF1ZCI6Im9mZmxpbmUtand0LWNvbXBhdGliaWxpdHkiLCJleHAiOjQxMDI0NDQ4MDAsImlhdCI6MTczNTY4OTYwMCwiaXNzIjoiY29uc29sZS1wcm92aWRlci1jb21wYXRpYmlsaXR5IiwianRpIjoiSFMyNTYiLCJuYmYiOjE3MzU2ODk2MDAsIm9yZyI6IjExMTExMTExLTExMTEtNDExMS04MTExLTExMTExMTExMTExMSIsInJvbGVzIjpbIk1FTUJFUiJdLCJzdWIiOiJkZWRpY2F0ZWQtdGVzdC1maXh0dXJlIn0.N1YH1qtdlK8ihTnDp3lnAWbTu_DYnBlZ-q2K7VLBizQ"
+    }
+  ],
+  "producer": "jsonwebtoken10.4.0/rust_crypto before provider migration at1350c7d4a0312efb53589ac1db0a171be097f95a",
+  "purpose": "Dedicated offline interoperability test vectors; never real accounts or service credentials. Expiry in2100 keeps fixture validation enabled; actual issuer TTL remains unchanged.",
+  "rejected_cases": [
+    {
+      "algorithm": "ES256",
+      "error_kind": "InvalidKeyFormat",
+      "name": "ES256-SEC1",
+      "private_pem": "-----BEGIN EC PRIVATE KEY-----\nMHcCAQEEIJzq5Ujr3onu9AsTAkMebUUhnzCxsP9ZOxpumGVxS5nBoAoGCCqGSM49\nAwEHoUQDQgAEHJ8fxJpmyzdfugRTasS4+e2fiLz185gV/gbbYVGJInIppf/Kh+ln\nI9iBiPUsha4Kn1D+MGAW9xPmzACkAwpbAA==\n-----END EC PRIVATE KEY-----\n"
+    }
+  ]
+}

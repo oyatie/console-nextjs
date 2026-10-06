@@ -29,6 +29,11 @@ SOURCE_EXTENSIONS = {
     ".rs", ".toml", ".lock", ".sql", ".json", ".yaml", ".yml", ".md",
     ".mjs", ".js", ".cjs", ".ts", ".py", ".sh", ".bzl", ".txt", ".version", ".tf", ".tofu",
 }
+# Reviewed public offline test keys, never account or service credentials.
+REVIEWED_TEST_KEYS = {
+    "backend/crates/platform/auth/tests/fixtures/jwt_provider_compatibility.json":
+        "67e240e27f388ecd81dd379a491773c5f62a999e1ae5ef12b55808a8fb76ef50",
+}
 
 
 def digest(data):
@@ -79,7 +84,8 @@ def read_file(source, name):
         b"-----BEGIN PRIVATE KEY-----", b"-----BEGIN RSA PRIVATE KEY-----",
         b"-----BEGIN OPENSSH PRIVATE KEY-----", b"-----BEGIN EC PRIVATE KEY-----",
     )):
-        raise ValueError(f"private-key marker requires source review: {name}")
+        if REVIEWED_TEST_KEYS.get(name) != digest(data):
+            raise ValueError(f"private-key marker requires source review: {name}")
     return data, stat.S_IMODE(metadata.st_mode)
 
 
