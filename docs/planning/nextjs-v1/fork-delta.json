@@ -352,6 +352,16 @@
       "reason": "Preserve explicit hierarchy scope in family-bound access and use real family/account fixtures under runtime RLS. Strengthen reviewed foreign-Company denial and actual upload-limit/error assertions; retain existing branch and same-Company isolation proof."
     },
     {
+      "path": "backend/app/tests/policy_bulk_admission_api.rs",
+      "before": null,
+      "after": {
+        "sha256": "bac7f697d2c2bce9de12f9de925c96247b0fd2c40f96353d85a698624688ba1b",
+        "bytes": 6797,
+        "mode": 420
+      },
+      "reason": "PR17 test-first security regressions for actual bulk admission, source-parser bounds, private artifact publication and CLI errors; synthetic local-only inputs."
+    },
+    {
       "path": "backend/app/tests/realtime_authority.rs",
       "before": null,
       "after": {
@@ -2646,6 +2656,50 @@
         "mode": 420
       },
       "reason": "Register the sales REST PostgreSQL test in the existing wrapper contract; full workflow verification remains unavailable in the frozen fork."
+    },
+    {
+      "path": "scripts/check-request-body-contract.test.mjs",
+      "before": {
+        "sha256": "7e392ee362d274357ad38e93faf9bc7e7cb10d22572b2e6d44e3f8ec0d4f4668",
+        "bytes": 79505,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "37630a2d398a6b7a1c45ec66c531d74ec17507bf4cada380b95cc989c3350ff3",
+        "bytes": 80560,
+        "mode": 420
+      },
+      "reason": "PR17 test-first security regressions for actual bulk admission, source-parser bounds, private artifact publication and CLI errors; synthetic local-only inputs."
+    },
+    {
+      "path": "scripts/importer-test-requirements.txt",
+      "before": null,
+      "after": {
+        "sha256": "37f0a32126a83e853d26ae9935da12e833861b600af43f92a9b37c0d9e2c047e",
+        "bytes": 192,
+        "mode": 420
+      },
+      "reason": "PR17 test-first security regressions for actual bulk admission, source-parser bounds, private artifact publication and CLI errors; synthetic local-only inputs."
+    },
+    {
+      "path": "scripts/korean-connectivity/local-certificate-agent.test.mjs",
+      "before": null,
+      "after": {
+        "sha256": "699c62c45f9c0d975fe413ddcce0d6bdba4f0e1ee49066ac60687af4a848e68e",
+        "bytes": 4410,
+        "mode": 420
+      },
+      "reason": "PR17 test-first security regressions for actual bulk admission, source-parser bounds, private artifact publication and CLI errors; synthetic local-only inputs."
+    },
+    {
+      "path": "scripts/test_private_import_artifacts.py",
+      "before": null,
+      "after": {
+        "sha256": "c9c7c7c7129739cf54e08bc94e699288f08be63a5a167c13a4e3c9691b6e56a0",
+        "bytes": 11611,
+        "mode": 420
+      },
+      "reason": "PR17 test-first security regressions for actual bulk admission, source-parser bounds, private artifact publication and CLI errors; synthetic local-only inputs."
     },
     {
       "path": "tools/buck/gen_first_party.py",
