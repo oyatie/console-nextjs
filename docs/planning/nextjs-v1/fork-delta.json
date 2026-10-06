@@ -39,11 +39,11 @@
         "mode": 420
       },
       "after": {
-        "sha256": "d4e5f76a00ccafeab820c2d9fc1cf0edcd588fad9755fdc08c44e5ff6d0f4ed0",
-        "bytes": 8815,
+        "sha256": "0420df6df3fb421be5204e8e3c44606d20a3148594d29349117661ea04352c1f",
+        "bytes": 8908,
         "mode": 420
       },
-      "reason": "Bind ordinary and delegated access to exact live refresh families; enforce strict source and absolute deadlines after lock waits. Preserve authentication assertions using real-family test fixtures."
+      "reason": "Bind ordinary and delegated access to exact live refresh families; enforce strict source and absolute deadlines after lock waits. Preserve authentication assertions using real-family test fixtures. Record inherited merged PR #15 provenance at exact base 7bbb48cc24952ec1639c393767e11bc0de6cc63c after matching regular Git blobs; repair prior stale/missing metadata only, not new runtime code."
     },
     {
       "path": "backend/app/src/hr.rs",
@@ -119,11 +119,11 @@
         "mode": 420
       },
       "after": {
-        "sha256": "4a97c87c81c035398430644ee1ae17647f18ce9d99f483dca2ccfffeddaf858c",
-        "bytes": 169333,
+        "sha256": "c3c9e8a388ba69c9b9c082bf1e1dcae23f2cb658e93c8792d8e22b600b37cfcf",
+        "bytes": 169429,
         "mode": 420
       },
-      "reason": "Keep signed device-login proof, source and scope regressions; prove refresh signing failure after rotation cannot commit an undisclosed replacement. Add a red signed HTTP regression showing an OTP-derived family's access and refresh cannot acquire business authority after its source is replaced. Bind newly redeemed legacy OTP families and passkey registration ceremonies to the exact live source in one owner transaction, recheck JWT expiry after lock waits, and retain red purpose-authority probes. This is unactivated version-0 containment, not a version-1 session cutover. Add real signed HTTP/runtime-role PostgreSQL credential reset session-revocation, isolation, interleaving and rollback regressions; preserve existing tests. Restrict positively classified legacy OTP families at shared ordinary admission and locked device approval; preserve direct enrollment, v0 compatibility and dormant v1. Add genuine runtime-role regressions and correct QR approval descriptions."
+      "reason": "Keep signed device-login proof, source and scope regressions; prove refresh signing failure after rotation cannot commit an undisclosed replacement. Add a red signed HTTP regression showing an OTP-derived family's access and refresh cannot acquire business authority after its source is replaced. Bind newly redeemed legacy OTP families and passkey registration ceremonies to the exact live source in one owner transaction, recheck JWT expiry after lock waits, and retain red purpose-authority probes. This is unactivated version-0 containment, not a version-1 session cutover. Add real signed HTTP/runtime-role PostgreSQL credential reset session-revocation, isolation, interleaving and rollback regressions; preserve existing tests. Restrict positively classified legacy OTP families at shared ordinary admission and locked device approval; preserve direct enrollment, v0 compatibility and dormant v1. Add genuine runtime-role regressions and correct QR approval descriptions. Record inherited merged PR #15 provenance at exact base 7bbb48cc24952ec1639c393767e11bc0de6cc63c after matching regular Git blobs; repair prior stale/missing metadata only, not new runtime code."
     },
     {
       "path": "backend/app/tests/cedar_freshness_mint.rs",
@@ -237,11 +237,11 @@
         "mode": 420
       },
       "after": {
-        "sha256": "5fcaae61c492d46f3a7ea557e2dd714a70400ba99680b2b195ec7cb92b011441",
-        "bytes": 47596,
+        "sha256": "655916e8fcba6b8c2ddfebe1482cf2d195ed7dd613f698c55f128a6098afd247",
+        "bytes": 49092,
         "mode": 420
       },
-      "reason": "Remove the Intelligence bind exception from the production route census while preserving other route-contract assertions. Require the already registered audit attestation path in the configured route inventory. Require the served OpenAPI path × method response for the reachable unavailable-listing 409; preserve existing inventory assertions."
+      "reason": "Remove the Intelligence bind exception from the production route census while preserving other route-contract assertions. Require the already registered audit attestation path in the configured route inventory. Require the served OpenAPI path × method response for the reachable unavailable-listing 409; preserve existing inventory assertions. Record inherited merged PR #15 provenance at exact base 7bbb48cc24952ec1639c393767e11bc0de6cc63c after matching regular Git blobs; repair prior stale/missing metadata only, not new runtime code."
     },
     {
       "path": "backend/app/tests/platform_onboarding_e2e.rs",
@@ -1119,11 +1119,11 @@
         "mode": 420
       },
       "after": {
-        "sha256": "dc15874adefbe93e204e0a8290147c2caba79d825cf9581bd80c6c9cb61852ee",
-        "bytes": 165593,
+        "sha256": "1f0a1bf343ed67e3fdc67a1a00a7f6df140b09e1064cea3d4e87196b014a4576",
+        "bytes": 166746,
         "mode": 420
       },
-      "reason": "Revalidate device handoff after waits and keep refresh rotation, current authority and JWT signing in one transaction before a replacement is acknowledged. Bind newly redeemed legacy OTP families and passkey registration ceremonies to the exact live source in one owner transaction, recheck JWT expiry after lock waits, and retain red purpose-authority probes. This is unactivated version-0 containment, not a version-1 session cutover. Recheck the exact recorded approving key with Account and Company under the existing Account mutex before device-login consumption and issuance; preserve approval, clock, token/family and audit semantics. Restrict positively classified legacy OTP families at shared ordinary admission and locked device approval; preserve direct enrollment, v0 compatibility and dormant v1. Add genuine runtime-role regressions and correct QR approval descriptions."
+      "reason": "Revalidate device handoff after waits and keep refresh rotation, current authority and JWT signing in one transaction before a replacement is acknowledged. Bind newly redeemed legacy OTP families and passkey registration ceremonies to the exact live source in one owner transaction, recheck JWT expiry after lock waits, and retain red purpose-authority probes. This is unactivated version-0 containment, not a version-1 session cutover. Recheck the exact recorded approving key with Account and Company under the existing Account mutex before device-login consumption and issuance; preserve approval, clock, token/family and audit semantics. Restrict positively classified legacy OTP families at shared ordinary admission and locked device approval; preserve direct enrollment, v0 compatibility and dormant v1. Add genuine runtime-role regressions and correct QR approval descriptions. Record inherited merged PR #15 provenance at exact base 7bbb48cc24952ec1639c393767e11bc0de6cc63c after matching regular Git blobs; repair prior stale/missing metadata only, not new runtime code."
     },
     {
       "path": "backend/crates/platform/auth-rest/tests/group_admin_tenant_context.rs",
@@ -1199,21 +1199,21 @@
         "mode": 420
       },
       "after": {
-        "sha256": "9cdaba369a942a9e6d96e5dc9fec7c79987a57e9f0ce49fd888ab2d7f06c5390",
-        "bytes": 38173,
+        "sha256": "0c2125b6c29bb354594915c30b3cb6d286c90a56ff1437712f865edfad4c71ab",
+        "bytes": 40172,
         "mode": 420
       },
-      "reason": "Expose transaction-taking signed passkey authentication so proof consumption and session issuance can commit together; preserve existing WebAuthn verification, Account-first locks and owner wrapper."
+      "reason": "Expose transaction-taking signed passkey authentication so proof consumption and session issuance can commit together; preserve existing WebAuthn verification, Account-first locks and owner wrapper. Record inherited merged PR #15 provenance at exact base 7bbb48cc24952ec1639c393767e11bc0de6cc63c after matching regular Git blobs; repair prior stale/missing metadata only, not new runtime code."
     },
     {
       "path": "backend/crates/platform/auth/tests/credential_identity.rs",
       "before": null,
       "after": {
-        "sha256": "a0f71ab3de5e9cbd92e28e442e9f8f88d469c02f1554fc7ee5eb9666f6584106",
-        "bytes": 18388,
+        "sha256": "ed7eb4f3882ff446bd61abee69eabfb98acacde2faa46307983a6e4148ae7f03",
+        "bytes": 20579,
         "mode": 420
       },
-      "reason": "Enforce immutable credential row/key identity and pinned WebAuthn V5 UPDATE codec without Account locks, preserving original key JSON and allowed monotonic counter/backup transitions. Add genuine signature, malformed-state and upgrade preservation tests."
+      "reason": "Enforce immutable credential row/key identity and pinned WebAuthn V5 UPDATE codec without Account locks, preserving original key JSON and allowed monotonic counter/backup transitions. Add genuine signature, malformed-state and upgrade preservation tests. Record inherited merged PR #15 provenance at exact base 7bbb48cc24952ec1639c393767e11bc0de6cc63c after matching regular Git blobs; repair prior stale/missing metadata only, not new runtime code."
     },
     {
       "path": "backend/crates/platform/auth/tests/jwt_es256.rs",
@@ -2107,11 +2107,11 @@
         "mode": 420
       },
       "after": {
-        "sha256": "f6849589ac69f31ef137155e2a71a89763f9cbd7d47f5c085c57e119348864de",
-        "bytes": 1216334,
+        "sha256": "cafdea31891f67c49957cbcafa4bad838a7db22192d70e9b5f2e45f6768e7302",
+        "bytes": 1218744,
         "mode": 420
       },
-      "reason": "Describe stable outbound operation IDs, conflict and truthful UNKNOWN response; synchronize the mail HTTP contract. Publish the inquiry 409 in the served OpenAPI document without unrelated generated-media drift. Regenerate exact canonical composition including reviewed attendance contract and inherited storefront-media projection drift; no storefront owner/fragment change. Restrict positively classified legacy OTP families at shared ordinary admission and locked device approval; preserve direct enrollment, v0 compatibility and dormant v1. Add genuine runtime-role regressions and correct QR approval descriptions."
+      "reason": "Describe stable outbound operation IDs, conflict and truthful UNKNOWN response; synchronize the mail HTTP contract. Publish the inquiry 409 in the served OpenAPI document without unrelated generated-media drift. Regenerate exact canonical composition including reviewed attendance contract and inherited storefront-media projection drift; no storefront owner/fragment change. Restrict positively classified legacy OTP families at shared ordinary admission and locked device approval; preserve direct enrollment, v0 compatibility and dormant v1. Add genuine runtime-role regressions and correct QR approval descriptions. Record inherited merged PR #15 provenance at exact base 7bbb48cc24952ec1639c393767e11bc0de6cc63c after matching regular Git blobs; repair prior stale/missing metadata only, not new runtime code."
     },
     {
       "path": "backend/openapi/shared/schemas/ErrorBody.yaml",
@@ -2352,6 +2352,110 @@
         "mode": 420
       },
       "reason": "Preserve all nine original tests and82 assertions with real session-family fixtures; add six real Router/PostgreSQL tests for audit/query failure and reload, authority omission and Company isolation on both SSR paths."
+    },
+    {
+      "path": "backend/app/tests/auth_rest/genuine_browser.rs",
+      "before": null,
+      "after": {
+        "sha256": "35651335a4c0fb9272907c1ab343e2fea8654601286a7ce740db0c132eeb49dc",
+        "bytes": 43106,
+        "mode": 420
+      },
+      "reason": "Record inherited merged PR #15 provenance at exact base 7bbb48cc24952ec1639c393767e11bc0de6cc63c after matching regular Git blobs; repair prior stale/missing metadata only, not new runtime code."
+    },
+    {
+      "path": "backend/crates/contracts/src/gen_registry.rs",
+      "before": {
+        "sha256": "e3748d84a1e19ef629d210de1a9d7d54cb6f1e483a4ec6f7b5b663b1dbf733ad",
+        "bytes": 351605,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "77a2961260cee1116b66365c90eb239e4f536ff4db9a0a9e4ce9623e82fe63db",
+        "bytes": 351939,
+        "mode": 420
+      },
+      "reason": "Record inherited merged PR #15 provenance at exact base 7bbb48cc24952ec1639c393767e11bc0de6cc63c after matching regular Git blobs; repair prior stale/missing metadata only, not new runtime code."
+    },
+    {
+      "path": "backend/crates/identity/rest/openapi/manifest.json",
+      "before": {
+        "sha256": "a72544fceeaa8cf5622e0ee761ee3180bf77add5ac027c7dcac957dcf1b3fd3c",
+        "bytes": 9121,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "cbcbf017cfda57eccdf3e73156bafe007a07fe69039ae7aca6559ab0a60fe505",
+        "bytes": 9192,
+        "mode": 420
+      },
+      "reason": "Record inherited merged PR #15 provenance at exact base 7bbb48cc24952ec1639c393767e11bc0de6cc63c after matching regular Git blobs; repair prior stale/missing metadata only, not new runtime code."
+    },
+    {
+      "path": "backend/crates/identity/rest/openapi/paths/api__v1__auth__passkey__login__explicit__start.post.yaml",
+      "before": null,
+      "after": {
+        "sha256": "e36bc86a7ec634a435ec4309421dd8457e6ca304bb75499674fbe67568c3c710",
+        "bytes": 821,
+        "mode": 420
+      },
+      "reason": "Record inherited merged PR #15 provenance at exact base 7bbb48cc24952ec1639c393767e11bc0de6cc63c after matching regular Git blobs; repair prior stale/missing metadata only, not new runtime code."
+    },
+    {
+      "path": "backend/crates/identity/rest/openapi/paths/api__v1__auth__passkey__login__start.post.yaml",
+      "before": {
+        "sha256": "c5b5dea5e772c46028c473d923b436841169fac19d8499cba0faf20741ccdf37",
+        "bytes": 611,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "9a7fc79ab22fa9bb966d3a186325f8ecc86d2eff354b2d08de1f98b74bc80adf",
+        "bytes": 816,
+        "mode": 420
+      },
+      "reason": "Record inherited merged PR #15 provenance at exact base 7bbb48cc24952ec1639c393767e11bc0de6cc63c after matching regular Git blobs; repair prior stale/missing metadata only, not new runtime code."
+    },
+    {
+      "path": "backend/crates/identity/rest/openapi/paths/api__v1__auth__passkey__register__start.post.yaml",
+      "before": {
+        "sha256": "c224dfc1798fcac8608445c185c85e712ce3718391ce6ec9beadceadcea72b4f",
+        "bytes": 1043,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "38b1edab96734f2864d958a516bdbc0296e108c9dedf6e6c676216b96d13d5e2",
+        "bytes": 1695,
+        "mode": 420
+      },
+      "reason": "Record inherited merged PR #15 provenance at exact base 7bbb48cc24952ec1639c393767e11bc0de6cc63c after matching regular Git blobs; repair prior stale/missing metadata only, not new runtime code."
+    },
+    {
+      "path": "backend/crates/identity/rest/openapi/schemas/PasskeyRegisterStartRequest.yaml",
+      "before": {
+        "sha256": "eb3897c626d3a07d5cf8a424778d2ec3c3a8243bf393a1e3da0441813f9a6422",
+        "bytes": 681,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "acce1569743cc3ab8ef01734fe1048a7c61e5235183fb57c6bddb51341026ff9",
+        "bytes": 1088,
+        "mode": 420
+      },
+      "reason": "Record inherited merged PR #15 provenance at exact base 7bbb48cc24952ec1639c393767e11bc0de6cc63c after matching regular Git blobs; repair prior stale/missing metadata only, not new runtime code."
+    },
+    {
+      "path": "backend/crates/identity/rest/src/openapi.rs",
+      "before": {
+        "sha256": "7a50a4672556c3ca2ae2cc0d5b2cbe8bcf553197e4e1df78f40377b4ce8d70a9",
+        "bytes": 42246,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "2163a3ed83ea1c56b124a5870b193e7e545771745789164ed60fabc91a3a672e",
+        "bytes": 42540,
+        "mode": 420
+      },
+      "reason": "Record inherited merged PR #15 provenance at exact base 7bbb48cc24952ec1639c393767e11bc0de6cc63c after matching regular Git blobs; repair prior stale/missing metadata only, not new runtime code."
     }
   ],
   "notes": [
