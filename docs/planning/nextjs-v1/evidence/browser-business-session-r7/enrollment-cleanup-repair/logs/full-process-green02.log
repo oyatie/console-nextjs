@@ -1,0 +1,205 @@
+TAP version 13
+# Subtest: slow prerequisite startup does not spend the requested cleanup budget
+ok 1 - slow prerequisite startup does not spend the requested cleanup budget
+  ---
+  duration_ms: 0.97275
+  type: 'test'
+  ...
+# Subtest: a ready runner that fails to exit still triggers the cleanup fallback
+ok 2 - a ready runner that fails to exit still triggers the cleanup fallback
+  ---
+  duration_ms: 0.52675
+  type: 'test'
+  ...
+# Subtest: never-ready startup has one absolute bounded termination deadline
+ok 3 - never-ready startup has one absolute bounded termination deadline
+  ---
+  duration_ms: 0.229625
+  type: 'test'
+  ...
+# Subtest: a second fault cannot reset an already running cleanup deadline
+ok 4 - a second fault cannot reset an already running cleanup deadline
+  ---
+  duration_ms: 0.122959
+  type: 'test'
+  ...
+# Subtest: late cleanup cannot erase evidence of forced intervention
+ok 5 - late cleanup cannot erase evidence of forced intervention
+  ---
+  duration_ms: 0.14
+  type: 'test'
+  ...
+# Subtest: natural completion disposes both clocks and cannot rearm them
+ok 6 - natural completion disposes both clocks and cannot rearm them
+  ---
+  duration_ms: 0.124666
+  type: 'test'
+  ...
+# Subtest: enrollment runner confirms cleanup after eof-before-origin
+ok 7 - enrollment runner confirms cleanup after eof-before-origin
+  ---
+  duration_ms: 207.822667
+  type: 'test'
+  ...
+# Subtest: enrollment runner confirms cleanup after partial-eof-before-origin
+ok 8 - enrollment runner confirms cleanup after partial-eof-before-origin
+  ---
+  duration_ms: 173.217291
+  type: 'test'
+  ...
+# Subtest: enrollment runner confirms cleanup after frame-eof-before-origin
+ok 9 - enrollment runner confirms cleanup after frame-eof-before-origin
+  ---
+  duration_ms: 176.279042
+  type: 'test'
+  ...
+# Subtest: enrollment runner confirms cleanup after signal-after-origin
+ok 10 - enrollment runner confirms cleanup after signal-after-origin
+  ---
+  duration_ms: 7433.312625
+  type: 'test'
+  ...
+# Subtest: enrollment runner confirms cleanup after eof-after-ready
+ok 11 - enrollment runner confirms cleanup after eof-after-ready
+  ---
+  duration_ms: 8967.890917
+  type: 'test'
+  ...
+# Subtest: enrollment runner confirms cleanup after oversized
+ok 12 - enrollment runner confirms cleanup after oversized
+  ---
+  duration_ms: 9636.168584
+  type: 'test'
+  ...
+# Subtest: enrollment runner confirms cleanup after wrong-version
+ok 13 - enrollment runner confirms cleanup after wrong-version
+  ---
+  duration_ms: 9117.734042
+  type: 'test'
+  ...
+# Subtest: enrollment runner confirms cleanup after wrong-sequence
+ok 14 - enrollment runner confirms cleanup after wrong-sequence
+  ---
+  duration_ms: 9026.668042
+  type: 'test'
+  ...
+# Subtest: enrollment runner confirms cleanup after wrong-kind
+ok 15 - enrollment runner confirms cleanup after wrong-kind
+  ---
+  duration_ms: 8801.163
+  type: 'test'
+  ...
+# Subtest: enrollment runner confirms cleanup after legacy-selection
+ok 16 - enrollment runner confirms cleanup after legacy-selection
+  ---
+  duration_ms: 8993.086916
+  type: 'test'
+  ...
+# Subtest: enrollment runner confirms cleanup after missing-selection
+ok 17 - enrollment runner confirms cleanup after missing-selection
+  ---
+  duration_ms: 8928.22425
+  type: 'test'
+  ...
+# Subtest: enrollment runner confirms cleanup after malformed-selection
+ok 18 - enrollment runner confirms cleanup after malformed-selection
+  ---
+  duration_ms: 9325.357125
+  type: 'test'
+  ...
+# Subtest: enrollment runner confirms cleanup after weak-uv
+ok 19 - enrollment runner confirms cleanup after weak-uv
+  ---
+  duration_ms: 8900.880375
+  type: 'test'
+  ...
+# Subtest: business runner confirms cleanup after eof-before-origin
+not ok 20 - business runner confirms cleanup after eof-before-origin
+  ---
+  duration_ms: 172.674625
+  type: 'test'
+  location: '/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/tools/test-native-browser-enrollment.test.mjs:27:3'
+  failureType: 'testCodeFailure'
+  error: |-
+    runner must release its owned temporary resources before parent cleanup
+    + actual - expected
+    
+    + [
+    +   'console-product-browser-hTMKKm'
+    + ]
+    - []
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual:
+    0: 'console-product-browser-hTMKKm'
+  operator: 'deepStrictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/tools/test-native-browser-enrollment.test.mjs:116:14)
+    async Test.run (node:internal/test_runner/test:1409:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+  ...
+# Subtest: business runner confirms cleanup after partial-eof-before-origin
+not ok 21 - business runner confirms cleanup after partial-eof-before-origin
+  ---
+  duration_ms: 168.961958
+  type: 'test'
+  location: '/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/tools/test-native-browser-enrollment.test.mjs:27:3'
+  failureType: 'testCodeFailure'
+  error: |-
+    runner must release its owned temporary resources before parent cleanup
+    + actual - expected
+    
+    + [
+    +   'console-product-browser-mK4G6N'
+    + ]
+    - []
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual:
+    0: 'console-product-browser-mK4G6N'
+  operator: 'deepStrictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/tools/test-native-browser-enrollment.test.mjs:116:14)
+    async Test.run (node:internal/test_runner/test:1409:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+  ...
+# Subtest: business runner confirms cleanup after frame-eof-before-origin
+not ok 22 - business runner confirms cleanup after frame-eof-before-origin
+  ---
+  duration_ms: 167.872209
+  type: 'test'
+  location: '/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/tools/test-native-browser-enrollment.test.mjs:27:3'
+  failureType: 'testCodeFailure'
+  error: |-
+    runner must release its owned temporary resources before parent cleanup
+    + actual - expected
+    
+    + [
+    +   'console-product-browser-buIK0E'
+    + ]
+    - []
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual:
+    0: 'console-product-browser-buIK0E'
+  operator: 'deepStrictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/tools/test-native-browser-enrollment.test.mjs:116:14)
+    async Test.run (node:internal/test_runner/test:1409:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+  ...
+1..22
+# tests 22
+# suites 0
+# pass 19
+# fail 3
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 90229.582458

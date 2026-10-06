@@ -1,0 +1,12 @@
+diff --git a/tsconfig.json b/tsconfig.json
+index 2842f7f..cd1fde2 100644
+--- a/tsconfig.json
++++ b/tsconfig.json
+@@ -41,6 +41,7 @@
+     "node_modules",
+     "backend-fork",
+     ".artifacts",
++    "docs/planning/nextjs-v1/evidence",
+     "out"
+   ]
+ }

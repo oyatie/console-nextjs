@@ -1,0 +1,15 @@
+{
+  "command": [
+    "fnm",
+    "exec",
+    "--using",
+    "24.21.0",
+    "npm",
+    "run",
+    "lint"
+  ],
+  "exit": 2,
+  "duration_seconds": 2.161,
+  "log_sha256": "b3b8ab64709e11b1c945928d01790b6995dafff61c90d21e422fa8feb26a49fe",
+  "assertion": "Reproduced exact archived-snippet missing-module failure locally."
+}

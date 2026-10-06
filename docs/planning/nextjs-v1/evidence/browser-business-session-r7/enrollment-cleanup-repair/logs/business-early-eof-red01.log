@@ -1,0 +1,35 @@
+TAP version 13
+# Subtest: business runner confirms cleanup after eof-before-origin
+not ok 1 - business runner confirms cleanup after eof-before-origin
+  ---
+  duration_ms: 16012.32975
+  type: 'test'
+  location: '/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/tools/test-native-browser-enrollment.test.mjs:22:3'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + 'origin'
+    - 'cleaned'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'cleaned'
+  actual: 'origin'
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/tools/test-native-browser-enrollment.test.mjs:98:14)
+    process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    async Test.run (node:internal/test_runner/test:1409:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3)
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 0
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 16061.866375

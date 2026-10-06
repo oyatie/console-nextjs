@@ -1,0 +1,124 @@
+NOTICE:  topology.canonical_enforcement: examined 0 canonical tables []
+topology: eight application roles reconciled and verified
+NOTICE:  database "canonical_probe_25151" does not exist, skipping
+NOTICE:  topology.canonical_enforcement: examined 0 canonical tables []
+topology: eight application roles reconciled and verified
+psql:/canonical-migrations/0023_coldstart_revoke_fixed_seed.sql:29: NOTICE:  extension "pgcrypto" already exists, skipping
+psql:/canonical-migrations/0118_search_trgm_indexes.sql:7: NOTICE:  extension "pg_trgm" already exists, skipping
+psql:/canonical-migrations/0193_maintenance_gaps.sql:136: NOTICE:  identifier "equipment_maintenance_history_evidence_require_verified_snapshot" will be truncated to "equipment_maintenance_history_evidence_require_verified_snapsho"
+psql:/canonical-migrations/0193_maintenance_gaps.sql:167: NOTICE:  identifier "equipment_maintenance_history_evidence_require_verified_snapshot" will be truncated to "equipment_maintenance_history_evidence_require_verified_snapsho"
+psql:/canonical-migrations/0207_create_erasure_ledger.sql:131: NOTICE:  extension "pgcrypto" already exists, skipping
+NOTICE:  topology.canonical_enforcement: examined 20 canonical tables [company_revisions,employee_person_bindings,employees,employment_heads,employment_revisions,employment_source_bindings,job_position_revisions,job_positions,org_unit_revisions,org_unit_source_bindings,org_units,organizations,payroll_disbursements,payroll_draft_lines,payroll_draft_runs,payroll_line_calculations,payroll_payslip_deliveries,payroll_run_exceptions,person_revisions,persons]
+topology: eight application roles reconciled and verified
+canonical-enforce: enforced on canonical_probe_25151, examined 20 tables [company_revisions,employee_person_bindings,employees,employment_heads,employment_revisions,employment_source_bindings,job_position_revisions,job_positions,org_unit_revisions,org_unit_source_bindings,org_units,organizations,payroll_disbursements,payroll_draft_lines,payroll_draft_runs,payroll_line_calculations,payroll_payslip_deliveries,payroll_run_exceptions,person_revisions,persons]
+postgres ready on 33389
+   Compiling console-platform-db v0.1.0 (/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend/crates/platform/db)
+   Compiling console-platform-authz v0.1.0 (/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend/crates/platform/authz)
+   Compiling console-platform-auth v0.1.0 (/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend/crates/platform/auth)
+   Compiling console-platform-group v0.1.0 (/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend/crates/platform/group)
+   Compiling console-attendance-adapter-postgres v0.1.0 (/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend/crates/attendance/adapter-postgres)
+   Compiling console-platform-request-context v0.1.0 (/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend/crates/platform/request-context)
+   Compiling console-platform-storage v0.1.0 (/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend/crates/platform/storage)
+   Compiling console-governance-adapter-postgres v0.0.0 (/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend/crates/governance/adapter-postgres)
+   Compiling console-inbox-adapter-postgres v0.1.0 (/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend/crates/inbox/adapter-postgres)
+   Compiling console-dispatch-adapter-postgres v0.1.0 (/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend/crates/dispatch/adapter-postgres)
+   Compiling console-messenger-adapter-postgres v0.1.0 (/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend/crates/messenger/adapter-postgres)
+   Compiling console-notifications-adapter-postgres v0.1.0 (/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend/crates/notifications/adapter-postgres)
+   Compiling console-platform-provisioning v0.1.0 (/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend/crates/platform/provisioning)
+   Compiling console-leave-adapter-postgres v0.1.0 (/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend/crates/leave/adapter-postgres)
+   Compiling console-todos-adapter-postgres v0.1.0 (/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend/crates/todos/adapter-postgres)
+   Compiling console-compliance-adapter-postgres v0.1.0 (/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend/crates/compliance/adapter-postgres)
+   Compiling console-identity-adapter-postgres v0.1.0 (/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend/crates/identity/adapter-postgres)
+   Compiling console-evaluation-adapter-postgres v0.1.0 (/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend/crates/evaluation/adapter-postgres)
+   Compiling console-logistics-adapter-postgres v0.1.0 (/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend/crates/logistics/adapter-postgres)
+   Compiling console-payroll-adapter-postgres v0.1.0 (/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend/crates/payroll/adapter-postgres)
+   Compiling console-reporting-adapter-postgres v0.1.0 (/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend/crates/reporting/adapter-postgres)
+   Compiling console-platform-authz-rest v0.0.0 (/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend/crates/platform/authz-rest)
+   Compiling console-benefit-adapter-postgres v0.1.0 (/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend/crates/benefit/adapter-postgres)
+   Compiling console-support-adapter-postgres v0.1.0 (/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend/crates/support/adapter-postgres)
+   Compiling console-notices-adapter-postgres v0.1.0 (/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend/crates/notices/adapter-postgres)
+   Compiling console-inspection-adapter-postgres v0.0.0 (/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend/crates/inspection/adapter-postgres)
+   Compiling console-equipment-adapter-postgres v0.1.0 (/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend/crates/equipment/adapter-postgres)
+   Compiling console-recruiting-adapter-postgres v0.1.0 (/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend/crates/recruiting/adapter-postgres)
+   Compiling console-inventory-adapter-postgres v0.1.0 (/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend/crates/inventory/adapter-postgres)
+   Compiling console-workorder-adapter-postgres v0.1.0 (/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend/crates/workorder/adapter-postgres)
+   Compiling console-registry-adapter-postgres v0.1.0 (/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend/crates/registry/adapter-postgres)
+   Compiling console-sales-adapter-postgres v0.1.0 (/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend/crates/sales/adapter-postgres)
+   Compiling console-docs-adapter-postgres v0.1.0 (/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend/crates/docs/adapter-postgres)
+   Compiling console-ontology-adapter-postgres v0.0.0 (/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend/crates/ontology/adapter-postgres)
+   Compiling console-orgchange-adapter-postgres v0.1.0 (/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend/crates/orgchange/adapter-postgres)
+   Compiling console-comms-adapter-postgres v0.1.0 (/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend/crates/comms/adapter-postgres)
+   Compiling console-financial-adapter-postgres v0.0.0 (/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend/crates/financial/adapter-postgres)
+   Compiling console-finance-gl-adapter-postgres v0.0.0 (/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend/crates/finance-gl/adapter-postgres)
+   Compiling console-workflow-runtime-adapter-postgres v0.1.0 (/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend/crates/workflow/adapter-postgres)
+   Compiling console-workflow-runtime v0.1.0 (/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend/crates/workflow/runtime)
+   Compiling console-analytics-quant-rest v0.1.0 (/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend/crates/analytics-quant/rest)
+   Compiling console-comms-rest v0.1.0 (/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend/crates/comms/rest)
+   Compiling console-workorder-rest v0.1.0 (/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend/crates/workorder/rest)
+   Compiling console-financial-rest v0.0.0 (/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend/crates/financial/rest)
+   Compiling console-platform-auth-rest v0.1.0 (/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend/crates/platform/auth-rest)
+   Compiling console-ontology-rest v0.0.0 (/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend/crates/ontology/rest)
+   Compiling console-finance-gl-rest v0.0.0 (/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend/crates/finance-gl/rest)
+   Compiling console-orgchange-rest v0.1.0 (/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend/crates/orgchange/rest)
+   Compiling console-docs-rest v0.0.0 (/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend/crates/docs/rest)
+   Compiling console-sales-rest v0.1.0 (/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend/crates/sales/rest)
+   Compiling console-registry-rest v0.1.0 (/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend/crates/registry/rest)
+   Compiling console-inventory-rest v0.1.0 (/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend/crates/inventory/rest)
+   Compiling console-recruiting-rest v0.1.0 (/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend/crates/recruiting/rest)
+   Compiling console-equipment-rest v0.1.0 (/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend/crates/equipment/rest)
+   Compiling console-inspection-rest v0.0.0 (/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend/crates/inspection/rest)
+   Compiling console-notices-rest v0.1.0 (/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend/crates/notices/rest)
+   Compiling console-support-rest v0.1.0 (/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend/crates/support/rest)
+   Compiling console-benefit-rest v0.1.0 (/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend/crates/benefit/rest)
+   Compiling console-reporting-rest v0.1.0 (/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend/crates/reporting/rest)
+   Compiling console-payroll-rest v0.1.0 (/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend/crates/payroll/rest)
+   Compiling console-logistics-rest v0.1.0 (/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend/crates/logistics/rest)
+   Compiling console-evaluation-rest v0.1.0 (/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend/crates/evaluation/rest)
+   Compiling console-identity-rest v0.1.0 (/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend/crates/identity/rest)
+   Compiling console-compliance-rest v0.1.0 (/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend/crates/compliance/rest)
+   Compiling console-todos-rest v0.1.0 (/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend/crates/todos/rest)
+   Compiling console-platform-rest v0.1.0 (/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend/crates/platform/platform-rest)
+   Compiling console-leave-rest v0.1.0 (/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend/crates/leave/rest)
+   Compiling console-notifications-rest v0.1.0 (/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend/crates/notifications/rest)
+   Compiling console-platform-realtime v0.1.0 (/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend/crates/platform/realtime)
+   Compiling console-messenger-rest v0.1.0 (/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend/crates/messenger/rest)
+   Compiling console-dispatch-worker v0.1.0 (/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend/crates/dispatch/worker)
+   Compiling console-dispatch-rest v0.1.0 (/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend/crates/dispatch/rest)
+   Compiling console-inbox-rest v0.1.0 (/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend/crates/inbox/rest)
+   Compiling console-governance-rest v0.0.0 (/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend/crates/governance/rest)
+   Compiling console-integrity v0.1.0 (/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend/crates/compliance/integrity)
+   Compiling console-ontology-canonical-adapter-postgres v0.1.0 (/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend/crates/ontology/canonical-adapter-postgres)
+   Compiling console-production-rest v0.0.0 (/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend/crates/production/rest)
+   Compiling console-attendance-rest v0.1.0 (/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend/crates/attendance/rest)
+   Compiling console-consulting-rest v0.1.0 (/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend/crates/consulting/rest)
+   Compiling console-facilities-rest v0.1.0 (/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend/crates/facilities/rest)
+   Compiling console-platform-audit-chain v0.1.0 (/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend/crates/platform/audit-chain)
+   Compiling console-platform-test-support v0.1.0 (/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend/crates/platform/test-support)
+   Compiling console-app v0.1.0 (/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend/app)
+warning: linker stderr: ld: __eh_frame section too large (max 16MB) to encode dwarf unwind offsets in compact unwind table, performance of exception handling might be affected
+  |
+  = note: `#[warn(linker_messages)]` on by default
+
+warning: `console-app` (bin "console-app") generated 1 warning
+warning: `console-app` (test "auth_rest") generated 1 warning (1 duplicate)
+    Finished `test` profile [unoptimized] target(s) in 10m 21s
+warning: the following packages contain code that will be rejected by a future version of Rust: proc-macro-error2 v2.0.1
+note: to see what the problems were, use the option `--future-incompat-report`, or run `cargo report future-incompatibilities --id 1`
+     Running tests/auth_rest.rs (/Users/jasonlee/Developer/frontend/.artifacts/cargo-target/debug/deps/auth_rest-873c64fd11cbdfcc)
+
+running 1 test
+test genuine_browser::genuine_browser_discoverable_enrollment_requires_two_native_logins ... 
+thread 'genuine_browser::genuine_browser_discoverable_enrollment_requires_two_native_logins' (84754223) panicked at app/tests/auth_rest/genuine_browser.rs:1003:10:
+strict native new-key sign-in: "infrastructure: cleanup unconfirmed; possible orphan"
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+FAILED
+
+failures:
+
+failures:
+    genuine_browser::genuine_browser_discoverable_enrollment_requires_two_native_logins
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 120 filtered out; finished in 42.86s
+
+error: test failed, to rerun pass `-p console-app --test auth_rest`
+clean: console-conformance-25151 removed with its volume

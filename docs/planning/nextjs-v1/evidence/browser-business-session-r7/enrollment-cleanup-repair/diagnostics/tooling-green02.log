@@ -1,0 +1,9 @@
+
+> console-web@1.0.0 test:source-closure
+> python3 -m unittest discover -s tools -p 'test_*.py'
+
+..................
+----------------------------------------------------------------------
+Ran 18 tests in 0.614s
+
+OK

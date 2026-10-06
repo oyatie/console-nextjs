@@ -4218,7 +4218,7 @@
         "Complete HR/Org/Payroll/Foundry and all B/P launch workflows",
         "Capacity, restore, migration and full release acceptance"
       ],
-      "hosted_delivery": "prior_f5c29cc_PR_green_merge_group_rejected_current_required_local_gates_RED_no_publication_or_queue",
+      "hosted_delivery": "894ae36 published; hostedCI37461335987 failed at lint on an archived source snippet. Configuration-only fix verified locally; new exact-head hostedCI and normal protected queue remain pending.",
       "current_repair_native": {
         "executed": 125,
         "passed": 124,
@@ -4787,6 +4787,18 @@
         "preserved_prior_assets": 205,
         "limits": "One-way runtime/source/review/evidence chain; metadata/index excluded from runtime bindings. External postseal review is a separate publication gate recorded at postseal_review_path. Exact-head hostedCI/normal queue are separate and remain pending at this checkpoint; no release approval.",
         "postseal_review_path": "docs/planning/nextjs-v1/evidence/browser-business-session-r7/enrollment-cleanup-repair/postseal-review.json"
+      },
+      "typescript_discovery_repair": {
+        "evidence_index": "docs/planning/nextjs-v1/evidence/browser-business-session-r7/typescript-discovery-repair/index.json",
+        "independent_review_path": "docs/planning/nextjs-v1/evidence/browser-business-session-r7/typescript-discovery-repair/independent-review.json",
+        "baseline_hosted_run": 37461335987,
+        "baseline_head": "894ae36e7170245b027d0688b26b6e46da461c13",
+        "baseline_outcome": "FAILED_LINT_LATER_REQUIRED_GATES_UNREACHED",
+        "candidate_configuration_sha256": "ccf246d7611d18b133521c0db25ad40448d2f4706a8b84ed6d313415b09d1ee8",
+        "local_outcome": "compiler_discovery_import_negative_lint_build_production_custody_pass",
+        "scope": "Only three archived TS/TSX roots/program files excluded. All other roots/imports retained. Original native125/embedded17/process22 remain scoped to prior configuration. Generated build manifest replacement separately recorded. New hostedCI/queue pending; no full product or launch acceptance.",
+        "git_publication_review_path": "docs/planning/nextjs-v1/evidence/browser-business-session-r7/typescript-discovery-repair/git-publication-review.json",
+        "publication_correction": "First894ae36 publication omitted78 reviewed original assets via ignore rules. Exact original bytes explicitly staged in follow-up; all evidence assets must be present in Git index before commit. Seal/source unchanged; final staged custody review required."
       }
     }
   ]

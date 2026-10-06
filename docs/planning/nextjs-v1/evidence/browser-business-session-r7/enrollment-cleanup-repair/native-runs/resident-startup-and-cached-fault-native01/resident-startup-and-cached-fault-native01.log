@@ -1,0 +1,50 @@
+NOTICE:  topology.canonical_enforcement: examined 0 canonical tables []
+topology: eight application roles reconciled and verified
+NOTICE:  database "canonical_probe_93181" does not exist, skipping
+NOTICE:  topology.canonical_enforcement: examined 0 canonical tables []
+topology: eight application roles reconciled and verified
+psql:/canonical-migrations/0023_coldstart_revoke_fixed_seed.sql:29: NOTICE:  extension "pgcrypto" already exists, skipping
+psql:/canonical-migrations/0118_search_trgm_indexes.sql:7: NOTICE:  extension "pg_trgm" already exists, skipping
+psql:/canonical-migrations/0193_maintenance_gaps.sql:136: NOTICE:  identifier "equipment_maintenance_history_evidence_require_verified_snapshot" will be truncated to "equipment_maintenance_history_evidence_require_verified_snapsho"
+psql:/canonical-migrations/0193_maintenance_gaps.sql:167: NOTICE:  identifier "equipment_maintenance_history_evidence_require_verified_snapshot" will be truncated to "equipment_maintenance_history_evidence_require_verified_snapsho"
+psql:/canonical-migrations/0207_create_erasure_ledger.sql:131: NOTICE:  extension "pgcrypto" already exists, skipping
+NOTICE:  topology.canonical_enforcement: examined 20 canonical tables [company_revisions,employee_person_bindings,employees,employment_heads,employment_revisions,employment_source_bindings,job_position_revisions,job_positions,org_unit_revisions,org_unit_source_bindings,org_units,organizations,payroll_disbursements,payroll_draft_lines,payroll_draft_runs,payroll_line_calculations,payroll_payslip_deliveries,payroll_run_exceptions,person_revisions,persons]
+topology: eight application roles reconciled and verified
+canonical-enforce: enforced on canonical_probe_93181, examined 20 tables [company_revisions,employee_person_bindings,employees,employment_heads,employment_revisions,employment_source_bindings,job_position_revisions,job_positions,org_unit_revisions,org_unit_source_bindings,org_units,organizations,payroll_disbursements,payroll_draft_lines,payroll_draft_runs,payroll_line_calculations,payroll_payslip_deliveries,payroll_run_exceptions,person_revisions,persons]
+postgres ready on 33404
+warning: linker stderr: ld: __eh_frame section too large (max 16MB) to encode dwarf unwind offsets in compact unwind table, performance of exception handling might be affected
+  |
+  = note: `#[warn(linker_messages)]` on by default
+
+warning: `console-app` (bin "console-app") generated 1 warning
+   Compiling console-app v0.1.0 (/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend/app)
+warning: `console-app` (test "auth_rest") generated 1 warning (1 duplicate)
+    Finished `test` profile [unoptimized] target(s) in 2m 23s
+warning: the following packages contain code that will be rejected by a future version of Rust: proc-macro-error2 v2.0.1
+note: to see what the problems were, use the option `--future-incompat-report`, or run `cargo report future-incompatibilities --id 1`
+     Running tests/auth_rest.rs (/Users/jasonlee/Developer/frontend/.artifacts/cargo-target/debug/deps/auth_rest-873c64fd11cbdfcc)
+
+running 4 tests
+test browser_sessions::resident_authenticator::failed_close_is_cached_without_restarting_cleanup_and_normal_drop_stays_failing ... RESIDENT_CLEANUP_FAILURE reason=infrastructure: resident stdout closed exit_status=Some(ExitStatus(unix_wait_status(512))) stderr_bytes=0 sent_before=0 checked_frames_before=1 sent=0 checked_frames=1 done=false failed=true panicking=false owner_age_ms=952 ceremony_idle_ms=None constructing=false forced=false node_reaped=true workers_settled=true
+
+thread 'browser_sessions::resident_authenticator::failed_close_is_cached_without_restarting_cleanup_and_normal_drop_stays_failing' (89442722) panicked at app/tests/auth_rest/resident_authenticator.rs:586:17:
+infrastructure: resident stdout closed
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+RESIDENT_CACHED_FAILURE_PROBE real_node_reaped=true created_workers_joined_successfully=true forced=false phase_deadlines_exceeded=false cleanup_attempts=1 repeated_error_preserved=true normal_drop_expected_panic=true browser_custody=UNKNOWN
+ok
+test browser_sessions::resident_authenticator::injected_reader_setup_failure_preserves_constructor_error_and_resource_custody ... RESIDENT_CLEANUP_FAILURE reason=infrastructure: resident startup workers incomplete exit_status=Some(ExitStatus(unix_wait_status(768))) stderr_bytes=0 sent_before=0 checked_frames_before=0 sent=0 checked_frames=0 done=false failed=true panicking=false owner_age_ms=3 ceremony_idle_ms=None constructing=true forced=false node_reaped=true workers_settled=true
+infrastructure: resident startup workers incomplete
+RESIDENT_STARTUP_PROBE fault=Reader simulated_setup_error=true node_reaped=true created_workers_joined_successfully=true forced=false phase_deadlines_exceeded=false browser_custody=UNKNOWN
+ok
+test browser_sessions::resident_authenticator::injected_stderr_setup_failure_preserves_constructor_error_and_resource_custody ... RESIDENT_CLEANUP_FAILURE reason=infrastructure: resident startup workers incomplete exit_status=Some(ExitStatus(unix_wait_status(768))) stderr_bytes=0 sent_before=0 checked_frames_before=0 sent=0 checked_frames=0 done=false failed=true panicking=false owner_age_ms=4 ceremony_idle_ms=None constructing=true forced=false node_reaped=true workers_settled=true
+infrastructure: resident startup workers incomplete
+RESIDENT_STARTUP_PROBE fault=Stderr simulated_setup_error=true node_reaped=true created_workers_joined_successfully=true forced=false phase_deadlines_exceeded=false browser_custody=UNKNOWN
+ok
+test browser_sessions::resident_authenticator::injected_writer_setup_failure_preserves_constructor_error_and_resource_custody ... RESIDENT_CLEANUP_FAILURE reason=infrastructure: resident startup workers incomplete exit_status=Some(ExitStatus(unix_wait_status(768))) stderr_bytes=0 sent_before=0 checked_frames_before=0 sent=0 checked_frames=0 done=false failed=true panicking=false owner_age_ms=1 ceremony_idle_ms=None constructing=true forced=false node_reaped=true workers_settled=true
+infrastructure: resident startup workers incomplete
+RESIDENT_STARTUP_PROBE fault=Writer simulated_setup_error=true node_reaped=true created_workers_joined_successfully=true forced=false phase_deadlines_exceeded=false browser_custody=UNKNOWN
+ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 121 filtered out; finished in 3.27s
+
+clean: console-conformance-93181 removed with its volume

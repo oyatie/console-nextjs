@@ -1,0 +1,19 @@
+{
+  "command": [
+    "fnm",
+    "exec",
+    "--using",
+    "24.21.0",
+    "node",
+    "tools/production-runtime.mjs",
+    ".",
+    "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/pr16-publication/typescript-discovery-repair/verified-production-runtime"
+  ],
+  "exit": 0,
+  "owner": "tools/production-runtime.mjs",
+  "staged_manifest_files": 15798,
+  "source_build_custody_verified": true,
+  "staged_runtime_closure_verified": true,
+  "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "scope": "Production closure owner checks; no browser/business test bodies executed."
+}
