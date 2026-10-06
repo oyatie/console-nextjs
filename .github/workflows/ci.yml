@@ -91,6 +91,7 @@ jobs:
               harness + ["cargo", "test", "--locked", "-p", "console-app", "--test", "health_readiness", "--", "--test-threads=1"],
               harness + ["cargo", "test", "--locked", "-p", "console-payroll-ui", "--lib", "--", "--test-threads=1"],
               harness + ["cargo", "test", "--locked", "-p", "console-inbox-adapter-postgres", "--test", "inbox_docs_rls_surfaces_as_runtime_role", "--", "--test-threads=1"],
+              harness + ["cargo", "test", "--locked", "-p", "console-inbox-rest", "--test", "api", "--", "--test-threads=1"],
               harness + ["cargo", "test", "--locked", "-p", "console-leave-adapter-postgres", "--test", "leave_rls_surfaces_as_runtime_role", "--", "--test-threads=1"],
               harness + ["cargo", "test", "--locked", "--no-fail-fast", "-p", "console-platform-db", "--lib", "--test", "rls_isolation", "--", "--test-threads=1"],
           ]
@@ -123,7 +124,9 @@ jobs:
         env:
           SQLX_OFFLINE: "true"
         working-directory: backend-fork/backend
-        run: cargo clippy --locked -p console-inbox-adapter-postgres --lib --test inbox_docs_rls_surfaces_as_runtime_role -- -D warnings
+        run: |
+          cargo clippy --locked -p console-inbox-adapter-postgres --lib --test inbox_docs_rls_surfaces_as_runtime_role -- -D warnings
+          cargo clippy --locked -p console-inbox-rest --lib --test api -- -D warnings
       - name: Leave consumer and regression Clippy
         env:
           SQLX_OFFLINE: "true"
