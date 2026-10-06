@@ -114,6 +114,30 @@ class PrivateTextOutputTests(unittest.TestCase):
         self.assertEqual(sorted(path.name for path in self.root.iterdir()),
                          ["destination.sql", "existing.sql", "symlink.sql"])
 
+    def test_writable_output_parent_is_rejected_without_publishing(self) -> None:
+        from private_artifact_output import private_text_output
+
+        unsafe = self.root / "unsafe"
+        unsafe.mkdir()
+        unsafe.chmod(0o777)
+        with self.assertRaises(PermissionError):
+            with private_text_output(unsafe / "out.sql") as out:
+                out.write("synthetic content")
+        self.assertEqual(list(unsafe.iterdir()), [])
+
+    def test_writable_ancestor_is_rejected_without_publishing(self) -> None:
+        from private_artifact_output import private_text_output
+
+        unsafe = self.root / "unsafe-ancestor"
+        unsafe.mkdir()
+        unsafe.chmod(0o777)
+        parent = unsafe / "private"
+        parent.mkdir(mode=0o700)
+        with self.assertRaises(PermissionError):
+            with private_text_output(parent / "out.sql") as out:
+                out.write("synthetic content")
+        self.assertEqual(list(parent.iterdir()), [])
+
     def test_partial_write_leaves_no_published_or_staged_file(self) -> None:
         from private_artifact_output import private_text_output
 
@@ -199,6 +223,7 @@ class ImporterCliTests(unittest.TestCase):
         self.assertEqual(summary["mode"], "dry-run")
         self.assertFalse("output" in summary)
         self.assertFalse("workbook" in summary)
+        self.assertFalse("sha256" in summary)
         self.assertFalse(str(source) in result.stdout or str(source) in result.stderr)
         self.assertFalse(str(output) in result.stdout or str(output) in result.stderr)
 
@@ -240,7 +265,7 @@ class ImporterCliTests(unittest.TestCase):
         self.assertEqual(cli["files"], 1)
         self.assertFalse("summary_path" in cli)
         self.assertFalse("sql_path" in cli)
-        self.assertTrue(parsed["source_root"] == str(source))
+        self.assertTrue(parsed["source_root"] == str(source.resolve()))
         self.assertFalse(str(source) in result.stdout or str(source) in result.stderr)
         self.assertFalse(str(summary) in result.stdout or str(summary) in result.stderr)
         self.assertFalse(str(sql) in result.stdout or str(sql) in result.stderr)
@@ -257,6 +282,15 @@ class ImporterCliTests(unittest.TestCase):
         self.assertNotEqual(result.returncode, 0)
         self.assertEqual(sql.read_text(encoding="utf-8"), "existing synthetic artifact")
         self.assertFalse(summary.exists())
+
+    def test_importers_do_not_create_missing_output_directories(self) -> None:
+        missing = self.output / "missing"
+        result = run_cli(EQUIPMENT, *self.equipment_args(self.equipment_workbook(), missing / "a.sql"))
+        self.assertNotEqual(result.returncode, 0)
+        self.assertFalse(missing.exists())
+        result = run_cli(COSS, *self.coss_args(self.coss_source(), missing / "b.json", missing / "b.sql"))
+        self.assertNotEqual(result.returncode, 0)
+        self.assertFalse(missing.exists())
 
     def test_coss_argument_errors_do_not_echo_private_values(self) -> None:
         valid_source = self.coss_source()

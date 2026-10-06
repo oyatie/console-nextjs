@@ -355,11 +355,11 @@
       "path": "backend/app/tests/policy_bulk_admission_api.rs",
       "before": null,
       "after": {
-        "sha256": "bac7f697d2c2bce9de12f9de925c96247b0fd2c40f96353d85a698624688ba1b",
-        "bytes": 6797,
+        "sha256": "6dfe012c3def845aa0fd21ecaa76836bd80955a0e0d0c8e853917e7fe164a0b7",
+        "bytes": 7622,
         "mode": 420
       },
-      "reason": "PR17 test-first security regressions for actual bulk admission, source-parser bounds, private artifact publication and CLI errors; synthetic local-only inputs."
+      "reason": "PR17 test-first security regressions for actual bulk admission, source-parser bounds, private artifact publication and CLI errors; synthetic local-only inputs. Review-driven media-type evidence and directory trust regression corrections preserve all prior predicates; source_root uses existing canonical resolution."
     },
     {
       "path": "backend/app/tests/realtime_authority.rs",
@@ -2685,21 +2685,21 @@
       "path": "scripts/korean-connectivity/local-certificate-agent.test.mjs",
       "before": null,
       "after": {
-        "sha256": "699c62c45f9c0d975fe413ddcce0d6bdba4f0e1ee49066ac60687af4a848e68e",
-        "bytes": 4410,
+        "sha256": "eb83c846e8a2b7dc140b770abd09753f4f2bc54b593f7e8422480b704f50899f",
+        "bytes": 5381,
         "mode": 420
       },
-      "reason": "PR17 test-first security regressions for actual bulk admission, source-parser bounds, private artifact publication and CLI errors; synthetic local-only inputs."
+      "reason": "PR17 test-first security regressions for actual bulk admission, source-parser bounds, private artifact publication and CLI errors; synthetic local-only inputs. Adversarial test-first directory trust and private-only source fingerprint regressions; no raw output diagnostics. Review-driven media-type evidence and directory trust regression corrections preserve all prior predicates; source_root uses existing canonical resolution."
     },
     {
       "path": "scripts/test_private_import_artifacts.py",
       "before": null,
       "after": {
-        "sha256": "7704a18593e7cec035039ba28e540ffa4a928f33f43784affd99c36b8732bb82",
-        "bytes": 11708,
+        "sha256": "3dcdf043307bad1b1745d3fd2856593546737d95b54e05c84418013df440f7c4",
+        "bytes": 13258,
         "mode": 420
       },
-      "reason": "PR17 test-first security regressions for actual bulk admission, source-parser bounds, private artifact publication and CLI errors; synthetic local-only inputs. Private CLI regression diagnostics compare booleans and retain no raw response/paths on assertion failure."
+      "reason": "PR17 test-first security regressions for actual bulk admission, source-parser bounds, private artifact publication and CLI errors; synthetic local-only inputs. Private CLI regression diagnostics compare booleans and retain no raw response/paths on assertion failure. Adversarial test-first directory trust and private-only source fingerprint regressions; no raw output diagnostics. Review-driven media-type evidence and directory trust regression corrections preserve all prior predicates; source_root uses existing canonical resolution."
     },
     {
       "path": "tools/buck/gen_first_party.py",

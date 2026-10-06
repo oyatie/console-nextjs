@@ -57,7 +57,7 @@ fn payload(org: OrgId, user: UserId, count: usize) -> Value {
     })
 }
 
-async fn post(service: &Router, bearer: Option<&str>, body: Value) -> (StatusCode, Value) {
+async fn post(service: &Router, bearer: Option<&str>, body: Value) -> (StatusCode, Value, String) {
     let mut request = Request::builder()
         .method("POST")
         .uri(PATH)
@@ -71,11 +71,15 @@ async fn post(service: &Router, bearer: Option<&str>, body: Value) -> (StatusCod
         .await
         .unwrap();
     let status = response.status();
+    let content_type = response.headers()[header::CONTENT_TYPE]
+        .to_str()
+        .unwrap()
+        .to_owned();
     let bytes = to_bytes(response.into_body(), RESPONSE_LIMIT)
         .await
         .unwrap();
     let body = serde_json::from_slice(&bytes).unwrap_or(Value::Null);
-    (status, body)
+    (status, body, content_type)
 }
 
 async fn effects(owner: &PgPool) -> (i64, i64, i64) {
@@ -126,39 +130,49 @@ async fn real_bulk_policy_admission_preserves_auth_empty_and_exact_batch_coverag
     let admin_token = token(&runtime, &issuer, admin, org, "SUPER_ADMIN").await;
     let member_token = token(&runtime, &issuer, member, org, "MEMBER").await;
     let service = router(CedarPolicyRestState::new(
-        PgCedarPolicyStore::new(runtime),
+        PgCedarPolicyStore::new(runtime.clone()),
         Some(verifier),
     ));
     let before = effects(&owner).await;
+    let unavailable = router(CedarPolicyRestState::new(
+        PgCedarPolicyStore::new(runtime),
+        None,
+    ));
+    let response = post(&unavailable, Some(&admin_token), payload(org, admin, 0)).await;
+    assert_eq!(response.0, StatusCode::SERVICE_UNAVAILABLE);
+    assert_eq!(response.2, "text/plain; charset=utf-8");
+    assert_eq!(effects(&owner).await, before);
 
-    assert_eq!(
-        post(&service, None, payload(org, admin, 201)).await.0,
-        StatusCode::UNAUTHORIZED
-    );
+    let missing = post(&service, None, payload(org, admin, 201)).await;
+    assert_eq!(missing.0, StatusCode::UNAUTHORIZED);
+    assert_eq!(missing.2, "text/plain; charset=utf-8");
     assert_eq!(effects(&owner).await, before);
-    assert_eq!(
-        post(&service, Some(&member_token), payload(org, member, 201))
-            .await
-            .0,
-        StatusCode::FORBIDDEN
-    );
+    let denied = post(&service, Some(&member_token), payload(org, member, 201)).await;
+    assert_eq!(denied.0, StatusCode::FORBIDDEN);
+    assert_eq!(denied.2, "application/json");
     assert_eq!(effects(&owner).await, before);
-    let (status, empty) = post(&service, Some(&admin_token), payload(org, admin, 0)).await;
+    let (status, empty, content_type) =
+        post(&service, Some(&admin_token), payload(org, admin, 0)).await;
     assert_eq!(status, StatusCode::OK);
     assert_eq!(empty, json!({ "decisions": [] }));
+    assert_eq!(content_type, "application/json");
     assert_eq!(effects(&owner).await, before);
 
-    let (status, oversized) = post(&service, Some(&admin_token), payload(org, admin, 201)).await;
+    let (status, oversized, content_type) =
+        post(&service, Some(&admin_token), payload(org, admin, 201)).await;
     assert_eq!(status, StatusCode::UNPROCESSABLE_ENTITY);
     assert_eq!(oversized["error"]["code"], "validation");
+    assert_eq!(content_type, "application/json");
     assert_eq!(
         effects(&owner).await,
         before,
         "rejected batch must write no decisions, audit, or outbox rows"
     );
 
-    let (status, accepted) = post(&service, Some(&admin_token), payload(org, admin, 200)).await;
+    let (status, accepted, content_type) =
+        post(&service, Some(&admin_token), payload(org, admin, 200)).await;
     assert_eq!(status, StatusCode::OK);
+    assert_eq!(content_type, "application/json");
     let decisions = accepted["decisions"].as_array().unwrap();
     assert_eq!(
         decisions.len(),

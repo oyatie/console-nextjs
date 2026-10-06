@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
 import { generateKeyPairSync } from 'node:crypto';
 import {
-  lstatSync, mkdtempSync, readFileSync, readdirSync, rmSync,
+  chmodSync, lstatSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync,
   statSync, symlinkSync, writeFileSync,
 } from 'node:fs';
 import { tmpdir } from 'node:os';
@@ -100,4 +100,30 @@ test('wrong local fixture-key password fails privately without publishing proof'
   ], { SYNTHETIC_CERT_PASSWORD: `wrong-${sentinel}` });
   assertFailureIsPrivate(result);
   assert.deepEqual(readdirSync(root).sort(), ['private.der', 'public.der']);
+});
+
+test('writable output parent is rejected without publishing proof', (t) => {
+  const root = sandbox(t);
+  const unsafe = join(root, 'unsafe');
+  mkdirSync(unsafe);
+  chmodSync(unsafe, 0o777);
+  assertFailureIsPrivate(run(['--out', join(unsafe, 'proof.json')]));
+  assert.deepEqual(readdirSync(unsafe), []);
+});
+
+test('writable output ancestor is rejected without publishing proof', (t) => {
+  const root = sandbox(t);
+  const unsafe = join(root, 'unsafe-ancestor');
+  mkdirSync(unsafe);
+  chmodSync(unsafe, 0o777);
+  const parent = join(unsafe, 'private');
+  mkdirSync(parent, { mode: 0o700 });
+  assertFailureIsPrivate(run(['--out', join(parent, 'proof.json')]));
+  assert.deepEqual(readdirSync(parent), []);
+});
+
+test('missing output parent is rejected without creating directories', (t) => {
+  const root = sandbox(t);
+  assertFailureIsPrivate(run(['--out', join(root, 'missing', 'proof.json')]));
+  assert.deepEqual(readdirSync(root), []);
 });
