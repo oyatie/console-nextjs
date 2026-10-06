@@ -2456,6 +2456,20 @@
         "mode": 420
       },
       "reason": "Record inherited merged PR #15 provenance at exact base 7bbb48cc24952ec1639c393767e11bc0de6cc63c after matching regular Git blobs; repair prior stale/missing metadata only, not new runtime code."
+    },
+    {
+      "path": "backend/crates/inbox/rest/tests/api.rs",
+      "before": {
+        "sha256": "449c7052c90f05931ad3d82e4f696bc4b43b114fe9b823ac9f14a108ddc272f2",
+        "bytes": 25425,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "d62ba4cb6abcc5b28bb50c46b9d4afbdd964e8f3a668a68068afa8a4a6227a7d",
+        "bytes": 25635,
+        "mode": 420
+      },
+      "reason": "Restore existing recipient/receipt HTTP assertions using real family-bound sessions through the existing test-support owner; preserve every assertion and runtime authentication. Add missing required CI API and Clippy producers."
     }
   ],
   "notes": [
@@ -2484,6 +2498,7 @@
     "Added server redirect, dynamic responses, immutable server container image and isolation excludes",
     "Added reproducible source-freeze and acceptance tooling; launch gates remain unaccepted",
     "Protected PR/merge-group CI retains every producer and adds complete Payroll REST, Inbox and leave targets plus strict Clippy for their existing owners.",
-    "Protected CI retains every producer and adds Payroll REST api/lib, standalone payroll RLS and platform DB targets plus strict snapshot-owner Clippy."
+    "Protected CI retains every producer and adds Payroll REST api/lib, standalone payroll RLS and platform DB targets plus strict snapshot-owner Clippy.",
+    "Add the existing Inbox REST api2 and strict Clippy to required CI without removing commands or changing frontend behavior."
   ]
 }

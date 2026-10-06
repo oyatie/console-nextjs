@@ -1,0 +1,825 @@
+{
+  "version": 1,
+  "scope": "B06 recipient Inbox metadata pagination and existing Inbox receipt/self-service HTTP regression coverage; full Payroll and product remain unverified",
+  "base": "7bbb48cc24952ec1639c393767e11bc0de6cc63c",
+  "source_writer": "root_only",
+  "design": {
+    "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/inbox-terminal-cursor/design03.json",
+    "sha256": "180bffdcfcad8603e9809c22ce5794c1dbcfb5af53434fd055ac4ea1e2bc7014"
+  },
+  "design_history": [
+    {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/inbox-terminal-cursor/design01.json",
+      "sha256": "955dba694d322a916ef252ce1b3f040b14b7e9c819a7f7b132905fbd1592234f"
+    },
+    {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/inbox-terminal-cursor/design02.json",
+      "sha256": "94a202661ba04900e5c21d9a25693f7cbd47c9fc5605cf30991a922ece306e43"
+    }
+  ],
+  "approved_test_commit": "3613fb26356424e8db95562e70bc30548047a49d",
+  "owner_commit": "f0a1723fc051da73f79ac486a5f3052a8b18dd7d",
+  "fixture_and_CI_commit": "2bfb22b06929c0a71a002dcfedf6c4540aa872c0",
+  "source_hashes": {
+    "backend-fork/backend/crates/inbox/adapter-postgres/src/lib.rs": "1ed3378ac948a68f9ccead84150a574eb8b45e7480f65438960d988bc197ba6a",
+    "backend-fork/backend/crates/inbox/adapter-postgres/tests/inbox_docs_rls_surfaces_as_runtime_role.rs": "90a3e04921997e825dc025e3c6f2c54210cc8bc956b238027e62b5e21eafa06c",
+    "backend-fork/backend/crates/inbox/rest/tests/api.rs": "d62ba4cb6abcc5b28bb50c46b9d4afbdd964e8f3a668a68068afa8a4a6227a7d",
+    ".github/workflows/ci.yml": "81efd40ecd7e33276ffa5919f2a7f31ee01e6dc86414e27c23688c133e3185fc"
+  },
+  "requirement": {
+    "source": "PLAN.md",
+    "id": "B06",
+    "owner": "console_inbox_adapter_postgres::PgInboxStore::list",
+    "contract": "InboxDocPage.next_cursor is None at the end; chronological owned anchors remain valid across filters. List metadata never carries payload."
+  },
+  "behavior": "Fetch at most clamped1..200 plus one eligible row within the unchanged recipient/RLS/filter query. Return only requested page; next cursor is last returned ID only when actual eligible lookahead exists.",
+  "test_names": [
+    "concurrent_dedup_collision_revalidates_the_committed_document",
+    "dedup_redelivery_requires_every_immutable_field_and_preserves_the_receipt",
+    "filters_and_dedup_idempotency",
+    "foreign_cursors_fail_closed_and_owned_chronological_anchors_survive_filter_changes",
+    "full_terminal_page_ignores_other_recipients_companies_and_kinds",
+    "legal_notice_lock_confirm_and_cross_user_isolation",
+    "maximum_page_size_is_bounded_and_exact_full_tail_terminates",
+    "payslip_is_frictionless_and_never_receipt_confirmed",
+    "tied_timestamps_page_without_gaps_duplicates_or_phantom_next"
+  ],
+  "proof": {
+    "native_discovery": {
+      "report": {
+        "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/inbox-terminal-cursor/discovery-20261006T012811Z-32289.json",
+        "sha256": "0692152fc6635d43c2f98da09bd9510e1c6cca939333b7e5434ce8841fd9d225"
+      },
+      "result": {
+        "id": "discovery-20261006T012811Z-32289",
+        "command": [
+          "bash",
+          "/Users/jasonlee/Developer/frontend/.worktrees/inbox-terminal-cursor/backend-fork/tools/lanes/pgtest.sh",
+          "/Users/jasonlee/Developer/frontend/.worktrees/inbox-terminal-cursor/backend-fork",
+          "/Users/jasonlee/.cargo/bin/cargo",
+          "+1.98.1",
+          "test",
+          "--locked",
+          "--offline",
+          "--no-fail-fast",
+          "-p",
+          "console-inbox-adapter-postgres",
+          "--test",
+          "inbox_docs_rls_surfaces_as_runtime_role",
+          "--",
+          "--list"
+        ],
+        "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/inbox-terminal-cursor",
+        "exit_code": 0,
+        "timed_out": false,
+        "duration_seconds": 78.06263912504073,
+        "discovered": 9,
+        "counts": {
+          "passed": 0,
+          "failed": 0,
+          "skipped": 0,
+          "filtered": 0,
+          "executed": 0
+        },
+        "log_sha256": "0f6f04a494239f3446f3d658a9be322275f4fad3889058d97a91cb9afc54d53d",
+        "cleanup_reported": true,
+        "inputs_sha256": "f178127a62e8d9d494cc5e774a5b1f5ff2de79f3816d795bc2529de819915e22",
+        "inputs_unchanged": true
+      }
+    },
+    "native_RED": {
+      "report": {
+        "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/inbox-terminal-cursor/probe-20261006T012940Z-39817.json",
+        "sha256": "b29c0383921c5f96c6578c9816d8596cfe04394e19f67dfbddd8bbb6307f0ba5"
+      },
+      "result": {
+        "id": "probe-20261006T012940Z-39817",
+        "command": [
+          "bash",
+          "/Users/jasonlee/Developer/frontend/.worktrees/inbox-terminal-cursor/backend-fork/tools/lanes/pgtest.sh",
+          "/Users/jasonlee/Developer/frontend/.worktrees/inbox-terminal-cursor/backend-fork",
+          "/Users/jasonlee/.cargo/bin/cargo",
+          "+1.98.1",
+          "test",
+          "--locked",
+          "--offline",
+          "--no-fail-fast",
+          "-p",
+          "console-inbox-adapter-postgres",
+          "--test",
+          "inbox_docs_rls_surfaces_as_runtime_role",
+          "--",
+          "--test-threads=1"
+        ],
+        "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/inbox-terminal-cursor",
+        "exit_code": 101,
+        "timed_out": false,
+        "duration_seconds": 59.86716241692193,
+        "discovered": null,
+        "counts": {
+          "passed": 6,
+          "failed": 3,
+          "skipped": 0,
+          "filtered": 0,
+          "executed": 9
+        },
+        "log_sha256": "0121a479a1ffbbcdade1eebca9f2521a664b1217c9343e54629b5f39c362ab55",
+        "cleanup_reported": true,
+        "inputs_sha256": "f178127a62e8d9d494cc5e774a5b1f5ff2de79f3816d795bc2529de819915e22",
+        "inputs_unchanged": true
+      }
+    },
+    "native_admission": {
+      "report": {
+        "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/inbox-terminal-cursor/admission01.json",
+        "sha256": "5293c53de1dd5afe18cec35d85d7ca2520993293bc554cd87bcd03ff244cca14"
+      },
+      "result": {
+        "head": "3613fb26356424e8db95562e70bc30548047a49d",
+        "command": [
+          "python3",
+          "/Users/jasonlee/Developer/frontend/.worktrees/inbox-terminal-cursor/backend-fork/tools/lanes/fanout.py",
+          "admit",
+          "--probe",
+          "python3 /Users/jasonlee/Developer/frontend/.artifacts/acceptance/inbox-terminal-cursor/run-gate.py probe test -p console-inbox-adapter-postgres --test inbox_docs_rls_surfaces_as_runtime_role -- --test-threads=1"
+        ],
+        "probe": [
+          "python3",
+          "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/inbox-terminal-cursor/run-gate.py",
+          "probe",
+          "test",
+          "-p",
+          "console-inbox-adapter-postgres",
+          "--test",
+          "inbox_docs_rls_surfaces_as_runtime_role",
+          "--",
+          "--test-threads=1"
+        ],
+        "exit_code": 0,
+        "duration_seconds": 48.87954270793125,
+        "log_sha256": "1b17e00a63157d432ce33e580048e9d2ff467b7d5caa7b51c5199c79ecf1d861",
+        "head_after": "3613fb26356424e8db95562e70bc30548047a49d",
+        "status_after": ""
+      }
+    },
+    "native_admission_RED": {
+      "report": {
+        "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/inbox-terminal-cursor/probe-20261006T013138Z-47330.json",
+        "sha256": "c5f2ff9517d5a4a1668eb9b1e283e87a9c677984b29cc6613a696ea4c79f842b"
+      },
+      "result": {
+        "id": "probe-20261006T013138Z-47330",
+        "command": [
+          "bash",
+          "/Users/jasonlee/Developer/frontend/.worktrees/inbox-terminal-cursor/backend-fork/tools/lanes/pgtest.sh",
+          "/Users/jasonlee/Developer/frontend/.worktrees/inbox-terminal-cursor/backend-fork",
+          "/Users/jasonlee/.cargo/bin/cargo",
+          "+1.98.1",
+          "test",
+          "--locked",
+          "--offline",
+          "--no-fail-fast",
+          "-p",
+          "console-inbox-adapter-postgres",
+          "--test",
+          "inbox_docs_rls_surfaces_as_runtime_role",
+          "--",
+          "--test-threads=1"
+        ],
+        "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/inbox-terminal-cursor",
+        "exit_code": 101,
+        "timed_out": false,
+        "duration_seconds": 48.260710624977946,
+        "discovered": null,
+        "counts": {
+          "passed": 6,
+          "failed": 3,
+          "skipped": 0,
+          "filtered": 0,
+          "executed": 9
+        },
+        "log_sha256": "a414616662886a67e52f41200557f1fa9e200a544a34c6d55f07ca41d44734aa",
+        "cleanup_reported": true,
+        "inputs_sha256": "f178127a62e8d9d494cc5e774a5b1f5ff2de79f3816d795bc2529de819915e22",
+        "inputs_unchanged": true
+      }
+    },
+    "native_GREEN": {
+      "report": {
+        "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/inbox-terminal-cursor/probe-20261006T013257Z-49382.json",
+        "sha256": "d0a0a9b72bcbf1f15b41317b7db9366096a82481c2e3188a5a3ff15c35e9fa71"
+      },
+      "result": {
+        "id": "probe-20261006T013257Z-49382",
+        "command": [
+          "bash",
+          "/Users/jasonlee/Developer/frontend/.worktrees/inbox-terminal-cursor/backend-fork/tools/lanes/pgtest.sh",
+          "/Users/jasonlee/Developer/frontend/.worktrees/inbox-terminal-cursor/backend-fork",
+          "/Users/jasonlee/.cargo/bin/cargo",
+          "+1.98.1",
+          "test",
+          "--locked",
+          "--offline",
+          "--no-fail-fast",
+          "-p",
+          "console-inbox-adapter-postgres",
+          "--test",
+          "inbox_docs_rls_surfaces_as_runtime_role",
+          "--",
+          "--test-threads=1"
+        ],
+        "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/inbox-terminal-cursor",
+        "exit_code": 0,
+        "timed_out": false,
+        "duration_seconds": 33.993343292037025,
+        "discovered": null,
+        "counts": {
+          "passed": 9,
+          "failed": 0,
+          "skipped": 0,
+          "filtered": 0,
+          "executed": 9
+        },
+        "log_sha256": "a57ec7df94ef79205f8e757e11030f5106ab26d475aefc988948c21f9b744b98",
+        "cleanup_reported": true,
+        "inputs_sha256": "3cf8b3731756ed1000e6d30a23c22e66dd3ea9717df37cd66fa231bb2d5cd2ef",
+        "inputs_unchanged": true
+      }
+    },
+    "HTTP_initial_failure": {
+      "report": {
+        "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/inbox-terminal-cursor/nearest-rest-20261006T013403Z-53633.json",
+        "sha256": "88252fe2c1cfd4cd7da271af8b483beb028adb1c527db9961c8402acad648cf7"
+      },
+      "result": {
+        "id": "nearest-rest-20261006T013403Z-53633",
+        "command": [
+          "bash",
+          "/Users/jasonlee/Developer/frontend/.worktrees/inbox-terminal-cursor/backend-fork/tools/lanes/pgtest.sh",
+          "/Users/jasonlee/Developer/frontend/.worktrees/inbox-terminal-cursor/backend-fork",
+          "/Users/jasonlee/.cargo/bin/cargo",
+          "+1.98.1",
+          "test",
+          "--locked",
+          "--offline",
+          "--no-fail-fast",
+          "-p",
+          "console-inbox-rest",
+          "--test",
+          "api",
+          "--",
+          "--test-threads=1"
+        ],
+        "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/inbox-terminal-cursor",
+        "exit_code": 101,
+        "timed_out": false,
+        "duration_seconds": 110.02637099998537,
+        "discovered": null,
+        "counts": {
+          "passed": 0,
+          "failed": 2,
+          "skipped": 0,
+          "filtered": 0,
+          "executed": 2
+        },
+        "log_sha256": "65acf088b43a4859d95e3e22a236716c0a09caacfc11465291a2621fc9607c03",
+        "cleanup_reported": true,
+        "inputs_sha256": "3cf8b3731756ed1000e6d30a23c22e66dd3ea9717df37cd66fa231bb2d5cd2ef",
+        "inputs_unchanged": true
+      }
+    },
+    "HTTP_clean_base_failure": {
+      "report": {
+        "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/inbox-terminal-cursor/control/baseline-rest-20261006T013835Z-67393.json",
+        "sha256": "0d83876e3e96e38b54b7d4aac6521aa915a678e473921119f6bff63ac1dbd0f6"
+      },
+      "result": {
+        "id": "baseline-rest-20261006T013835Z-67393",
+        "command": [
+          "bash",
+          "/Users/jasonlee/Developer/frontend/.worktrees/inbox-terminal-control/backend-fork/tools/lanes/pgtest.sh",
+          "/Users/jasonlee/Developer/frontend/.worktrees/inbox-terminal-control/backend-fork",
+          "/Users/jasonlee/.cargo/bin/cargo",
+          "+1.98.1",
+          "test",
+          "--locked",
+          "--offline",
+          "--no-fail-fast",
+          "-p",
+          "console-inbox-rest",
+          "--test",
+          "api",
+          "--",
+          "--test-threads=1"
+        ],
+        "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/inbox-terminal-control",
+        "exit_code": 101,
+        "timed_out": false,
+        "duration_seconds": 108.39223025005776,
+        "discovered": null,
+        "counts": {
+          "passed": 0,
+          "failed": 2,
+          "skipped": 0,
+          "filtered": 0,
+          "executed": 2
+        },
+        "log_sha256": "584301e468512d75c37c3ae898fc28573b966a0e1e748c5f4722b8ccc1e73bd4",
+        "cleanup_reported": true,
+        "inputs_sha256": "06333b72d7cad28573e34f7e01a39f27c1f1494a1ec2c4cdc763aae528312c35",
+        "inputs_unchanged": true
+      }
+    },
+    "HTTP_admission": {
+      "report": {
+        "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/inbox-terminal-cursor/rest-admission01.json",
+        "sha256": "ce41242b6fed238820aa7fa70fbbd82af1deeb2416a5beb221f9c2c90e96c419"
+      },
+      "result": {
+        "head": "db1dca26b732fa19adb61c9cbc6e0d23dcc1e97b",
+        "command": [
+          "python3",
+          "/Users/jasonlee/Developer/frontend/.worktrees/inbox-terminal-cursor/backend-fork/tools/lanes/fanout.py",
+          "admit",
+          "--probe",
+          "python3 /Users/jasonlee/Developer/frontend/.artifacts/acceptance/inbox-terminal-cursor/run-gate.py nearest-rest test -p console-inbox-rest --test api -- --test-threads=1"
+        ],
+        "probe": [
+          "python3",
+          "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/inbox-terminal-cursor/run-gate.py",
+          "nearest-rest",
+          "test",
+          "-p",
+          "console-inbox-rest",
+          "--test",
+          "api",
+          "--",
+          "--test-threads=1"
+        ],
+        "exit_code": 0,
+        "duration_seconds": 18.457050999975763,
+        "log_sha256": "1b17e00a63157d432ce33e580048e9d2ff467b7d5caa7b51c5199c79ecf1d861",
+        "head_after": "db1dca26b732fa19adb61c9cbc6e0d23dcc1e97b",
+        "status_after": ""
+      }
+    },
+    "HTTP_GREEN": {
+      "report": {
+        "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/inbox-terminal-cursor/nearest-rest-20261006T014653Z-66181.json",
+        "sha256": "9cd5e102815bab031c6943df0af088d3d88ab3e3a61df27b1205a4501f259fad"
+      },
+      "result": {
+        "id": "nearest-rest-20261006T014653Z-66181",
+        "command": [
+          "bash",
+          "/Users/jasonlee/Developer/frontend/.worktrees/inbox-terminal-cursor/backend-fork/tools/lanes/pgtest.sh",
+          "/Users/jasonlee/Developer/frontend/.worktrees/inbox-terminal-cursor/backend-fork",
+          "/Users/jasonlee/.cargo/bin/cargo",
+          "+1.98.1",
+          "test",
+          "--locked",
+          "--offline",
+          "--no-fail-fast",
+          "-p",
+          "console-inbox-rest",
+          "--test",
+          "api",
+          "--",
+          "--test-threads=1"
+        ],
+        "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/inbox-terminal-cursor",
+        "exit_code": 0,
+        "timed_out": false,
+        "duration_seconds": 41.36453691602219,
+        "discovered": null,
+        "counts": {
+          "passed": 2,
+          "failed": 0,
+          "skipped": 0,
+          "filtered": 0,
+          "executed": 2
+        },
+        "log_sha256": "d8bb9c364d4b8e555d5f89527fbe714c36c96a973042e22c43607d877f2c012a",
+        "cleanup_reported": true,
+        "inputs_sha256": "261a38285dcf20267f20234405c10a31e8dc1d8f000ed67487fc7b381c2dd1f8",
+        "inputs_unchanged": true
+      }
+    },
+    "library_GREEN": {
+      "report": {
+        "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/inbox-terminal-cursor/library-20261006T015034Z-8973.json",
+        "sha256": "22caa4d8096be2904105dc72d1a12763adba7651e753a303e62cc00b49ab32c0"
+      },
+      "result": {
+        "id": "library-20261006T015034Z-8973",
+        "command": [
+          "/Users/jasonlee/.cargo/bin/cargo",
+          "+1.98.1",
+          "test",
+          "--locked",
+          "--offline",
+          "-p",
+          "console-inbox-domain",
+          "-p",
+          "console-inbox-application",
+          "--lib",
+          "--",
+          "--test-threads=1"
+        ],
+        "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/inbox-terminal-cursor/backend-fork/backend",
+        "exit_code": 0,
+        "timed_out": false,
+        "duration_seconds": 95.64136216696352,
+        "discovered": null,
+        "counts": {
+          "passed": 6,
+          "failed": 0,
+          "skipped": 0,
+          "filtered": 0,
+          "executed": 6
+        },
+        "log_sha256": "2b024cc8ff131364f0f3e6cd98c9168a7815bc6cb0339841fcc05022d05fb912",
+        "cleanup_reported": false,
+        "inputs_sha256": "261a38285dcf20267f20234405c10a31e8dc1d8f000ed67487fc7b381c2dd1f8",
+        "inputs_unchanged": true
+      }
+    },
+    "strict_Clippy": {
+      "report": {
+        "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/inbox-terminal-cursor/clippy-20261006T014829Z-81372.json",
+        "sha256": "e9fb3f8ad42fb673efeb07f17cf3e6c2e688450fc689a6a7f4bb41614cf209fc"
+      },
+      "result": {
+        "id": "clippy-20261006T014829Z-81372",
+        "command": [
+          "/Users/jasonlee/.cargo/bin/cargo",
+          "+1.98.1",
+          "clippy",
+          "--locked",
+          "--offline",
+          "-p",
+          "console-inbox-adapter-postgres",
+          "-p",
+          "console-inbox-rest",
+          "--lib",
+          "--test",
+          "inbox_docs_rls_surfaces_as_runtime_role",
+          "--test",
+          "api",
+          "--",
+          "-D",
+          "warnings"
+        ],
+        "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/inbox-terminal-cursor/backend-fork/backend",
+        "exit_code": 0,
+        "timed_out": false,
+        "duration_seconds": 96.11110295797698,
+        "discovered": null,
+        "counts": {
+          "passed": 0,
+          "failed": 0,
+          "skipped": 0,
+          "filtered": 0,
+          "executed": 0
+        },
+        "log_sha256": "71acda57f5d95cc13259947991baf96d8ca4a9eb547239f841f438159b3b679a",
+        "cleanup_reported": false,
+        "inputs_sha256": "261a38285dcf20267f20234405c10a31e8dc1d8f000ed67487fc7b381c2dd1f8",
+        "inputs_unchanged": true
+      }
+    },
+    "format": {
+      "report": {
+        "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/inbox-terminal-cursor/format-20261006T015035Z-9239.json",
+        "sha256": "097a38168f20d8e3b7ecd90121fa7e6e7de26b411dc09d674dd7a55674800319"
+      },
+      "result": {
+        "id": "format-20261006T015035Z-9239",
+        "command": [
+          "/Users/jasonlee/.cargo/bin/rustfmt",
+          "+1.98.1",
+          "--edition",
+          "2024",
+          "--check",
+          "backend-fork/backend/crates/inbox/adapter-postgres/src/lib.rs",
+          "backend-fork/backend/crates/inbox/adapter-postgres/tests/inbox_docs_rls_surfaces_as_runtime_role.rs",
+          "backend-fork/backend/crates/inbox/rest/tests/api.rs"
+        ],
+        "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/inbox-terminal-cursor",
+        "exit_code": 0,
+        "timed_out": false,
+        "duration_seconds": 0.09202524996362627,
+        "discovered": null,
+        "counts": {
+          "passed": 0,
+          "failed": 0,
+          "skipped": 0,
+          "filtered": 0,
+          "executed": 0
+        },
+        "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "cleanup_reported": false,
+        "inputs_sha256": "261a38285dcf20267f20234405c10a31e8dc1d8f000ed67487fc7b381c2dd1f8",
+        "inputs_unchanged": true
+      }
+    },
+    "tooling": {
+      "execution": {
+        "report": {
+          "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/inbox-terminal-cursor/tooling-20261006T014735Z-73654.json",
+          "sha256": "b1279b1074df92381eb5d7be2ff49c0a2511b111ddc56e3875ba76aef230b3db"
+        },
+        "result": {
+          "id": "tooling-20261006T014735Z-73654",
+          "command": [
+            "python3",
+            "-m",
+            "unittest",
+            "discover",
+            "-s",
+            "tools",
+            "-p",
+            "test_*.py"
+          ],
+          "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/inbox-terminal-cursor",
+          "exit_code": 0,
+          "timed_out": false,
+          "duration_seconds": 0.3380637919763103,
+          "discovered": null,
+          "counts": {
+            "passed": 0,
+            "failed": 0,
+            "skipped": 0,
+            "filtered": 0,
+            "executed": 0
+          },
+          "log_sha256": "150dd4f609aad2ab40955b98e7b66be72e1c15dd811414d56745d778ba2d6054",
+          "cleanup_reported": false,
+          "inputs_sha256": "261a38285dcf20267f20234405c10a31e8dc1d8f000ed67487fc7b381c2dd1f8",
+          "inputs_unchanged": true
+        }
+      },
+      "counts_scope": "Runner parser counts Rust summaries only; native0 in this generic-command report is not the unittest execution count. Raw unittest log reports18 tests and OK.",
+      "executed": 18,
+      "passed": 18,
+      "failed": 0
+    },
+    "final_custody": {
+      "report": {
+        "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/inbox-terminal-cursor/final-custody-20261006T015122Z-21165.json",
+        "sha256": "43c39b19df2941155dbcb816f97b8c88fabf70f5f718f6b835dd6d98cc3eee33"
+      },
+      "result": {
+        "id": "final-custody-20261006T015122Z-21165",
+        "command": [
+          "python3",
+          "-c",
+          "import json,sys; sys.path.insert(0,\"tools\"); import acceptance; r=acceptance.inspect_fork(); print(json.dumps(r)); raise SystemExit(0 if r[\"status\"]==\"passed\" else 1)"
+        ],
+        "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/inbox-terminal-cursor",
+        "exit_code": 0,
+        "timed_out": false,
+        "duration_seconds": 1.007695166976191,
+        "discovered": null,
+        "counts": {
+          "passed": 0,
+          "failed": 0,
+          "skipped": 0,
+          "filtered": 0,
+          "executed": 0
+        },
+        "log_sha256": "1bbde5b4461401857465d3aed681b69f16ce00422793cb16e28a512eaba2422e",
+        "cleanup_reported": false,
+        "inputs_sha256": "261a38285dcf20267f20234405c10a31e8dc1d8f000ed67487fc7b381c2dd1f8",
+        "inputs_unchanged": true
+      }
+    },
+    "HTTP_admission_RED": {
+      "report": {
+        "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/inbox-terminal-cursor/nearest-rest-20261006T014431Z-27709.json",
+        "sha256": "0c52a2254fcb79ff22184c507d0122b081bb39c66ff850ac8508249c6033b5cd"
+      },
+      "result": {
+        "id": "nearest-rest-20261006T014431Z-27709",
+        "command": [
+          "bash",
+          "/Users/jasonlee/Developer/frontend/.worktrees/inbox-terminal-cursor/backend-fork/tools/lanes/pgtest.sh",
+          "/Users/jasonlee/Developer/frontend/.worktrees/inbox-terminal-cursor/backend-fork",
+          "/Users/jasonlee/.cargo/bin/cargo",
+          "+1.98.1",
+          "test",
+          "--locked",
+          "--offline",
+          "--no-fail-fast",
+          "-p",
+          "console-inbox-rest",
+          "--test",
+          "api",
+          "--",
+          "--test-threads=1"
+        ],
+        "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/inbox-terminal-cursor",
+        "exit_code": 101,
+        "timed_out": false,
+        "duration_seconds": 17.308043042081408,
+        "discovered": null,
+        "counts": {
+          "passed": 0,
+          "failed": 2,
+          "skipped": 0,
+          "filtered": 0,
+          "executed": 2
+        },
+        "log_sha256": "3c2d34f6b869d8f14775ed3bf7868bdc4312bac1c1e04582025192b45e10594d",
+        "cleanup_reported": true,
+        "inputs_sha256": "3cf8b3731756ed1000e6d30a23c22e66dd3ea9717df37cd66fa231bb2d5cd2ef",
+        "inputs_unchanged": true
+      }
+    }
+  },
+  "inherited_gaps": {
+    "HTTP_fixture": "Both unchanged HTTP cases failed401 at clean base before Inbox dispatch. Plain issuer.issue_access_token has no family binding; current request context requires one. Existing issue_session_token creates real family and signs bound access with identical roles/grants/scope. Every original assertion is preserved.",
+    "CI": "Existing Inbox REST api2 was absent from the required producer. Added test and matching strict Clippy; all existing commands preserved.",
+    "custody": {
+      "evidence": {
+        "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/inbox-terminal-cursor/inherited-custody-mismatches01.json",
+        "sha256": "89ba8e862e8497986126a4b466183862e44468c731383715c7aeb4028500eea8"
+      },
+      "finding": "BasePR15 had2 unrecorded additions and13 expected metadata mismatches (7 existing delta-after entries and6 originally frozen paths needing new deltas). All15 current regular blobs matched exactbase7bbb48cc. Metadata-only reconciliation preserves original manifest/before bytes and migrations.",
+      "failed_attempts": "Initial custody import failed because tools was absent from sys.path; corrected import exposed inherited metadata mismatch. First reconciliation attempt assumed every recorded mismatch already had a delta entry and stopped before writing; subsequent complete reconciliation passed. Failed reports retained.",
+      "failed_execution_reports": [
+        {
+          "report": {
+            "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/inbox-terminal-cursor/source-custody-20261006T013605Z-58032.json",
+            "sha256": "6bee871cc2736fe6f6319bf155e82c32623d0dc56e0bec8843b9575854b71ca9"
+          },
+          "result": {
+            "id": "source-custody-20261006T013605Z-58032",
+            "command": [
+              "python3",
+              "-c",
+              "import json,importlib.util,pathlib; p=pathlib.Path(\"tools/acceptance.py\"); s=importlib.util.spec_from_file_location(\"acceptance\",p); m=importlib.util.module_from_spec(s); s.loader.exec_module(m); r=m.inspect_fork(); print(json.dumps(r)); raise SystemExit(0 if r[\"status\"]==\"passed\" else 1)"
+            ],
+            "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/inbox-terminal-cursor",
+            "exit_code": 1,
+            "timed_out": false,
+            "duration_seconds": 0.12509441596921533,
+            "discovered": null,
+            "counts": {
+              "passed": 0,
+              "failed": 0,
+              "skipped": 0,
+              "filtered": 0,
+              "executed": 0
+            },
+            "log_sha256": "189d4a74b5019e0d7b243a03ac553672768d0567c1203c01d02951a7715749af",
+            "cleanup_reported": false,
+            "inputs_sha256": "3cf8b3731756ed1000e6d30a23c22e66dd3ea9717df37cd66fa231bb2d5cd2ef",
+            "inputs_unchanged": true
+          }
+        },
+        {
+          "report": {
+            "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/inbox-terminal-cursor/source-custody-20261006T013630Z-59063.json",
+            "sha256": "b0b3f8201788e522e0327ecd8df370b2da6298b18421b4e5f613cb55f6489d32"
+          },
+          "result": {
+            "id": "source-custody-20261006T013630Z-59063",
+            "command": [
+              "python3",
+              "-c",
+              "import json,sys; sys.path.insert(0,\"tools\"); import acceptance; r=acceptance.inspect_fork(); print(json.dumps(r)); raise SystemExit(0 if r[\"status\"]==\"passed\" else 1)"
+            ],
+            "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/inbox-terminal-cursor",
+            "exit_code": 1,
+            "timed_out": false,
+            "duration_seconds": 0.6400869160424918,
+            "discovered": null,
+            "counts": {
+              "passed": 0,
+              "failed": 0,
+              "skipped": 0,
+              "filtered": 0,
+              "executed": 0
+            },
+            "log_sha256": "3ecf5cc54898f182cc23cd21d34c4ee92aa08c2a8588720facd047212e8f10f5",
+            "cleanup_reported": false,
+            "inputs_sha256": "3cf8b3731756ed1000e6d30a23c22e66dd3ea9717df37cd66fa231bb2d5cd2ef",
+            "inputs_unchanged": true
+          }
+        },
+        {
+          "report": {
+            "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/inbox-terminal-cursor/source-custody-20261006T014255Z-3920.json",
+            "sha256": "0728a5991795903a55546d52279a0182d7634a2def4fefa9ba4f28bceb5b874c"
+          },
+          "result": {
+            "id": "source-custody-20261006T014255Z-3920",
+            "command": [
+              "python3",
+              "-c",
+              "import json,sys; sys.path.insert(0,\"tools\"); import acceptance; r=acceptance.inspect_fork(); print(json.dumps(r)); raise SystemExit(0 if r[\"status\"]==\"passed\" else 1)"
+            ],
+            "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/inbox-terminal-cursor",
+            "exit_code": 1,
+            "timed_out": false,
+            "duration_seconds": 1.0133954579941928,
+            "discovered": null,
+            "counts": {
+              "passed": 0,
+              "failed": 0,
+              "skipped": 0,
+              "filtered": 0,
+              "executed": 0
+            },
+            "log_sha256": "3ecf5cc54898f182cc23cd21d34c4ee92aa08c2a8588720facd047212e8f10f5",
+            "cleanup_reported": false,
+            "inputs_sha256": "3cf8b3731756ed1000e6d30a23c22e66dd3ea9717df37cd66fa231bb2d5cd2ef",
+            "inputs_unchanged": true
+          }
+        }
+      ],
+      "reconciliation_observation": "The first metadata reconciliation assertion was observed in tool output, with no separate raw report; it stopped before writing. Native/HTTP failure and custody-command logs are separately hashed above."
+    }
+  },
+  "reviews": [
+    {
+      "reviewer": "/root/next_vertical_path_audit",
+      "accepted": [
+        "design01",
+        "design02",
+        "design03",
+        "native_test90a3e049",
+        "native_behavioral_RED",
+        "native_GREEN",
+        "HTTP_and_CI_exact_bytes",
+        "HTTP_GREEN"
+      ],
+      "scope": "Exact source/evidence review; final publication candidate review pending."
+    },
+    {
+      "reviewer": "/root/p14_trace_review",
+      "accepted": [
+        "design01",
+        "design02",
+        "design03",
+        "native_test90a3e049",
+        "runner38378f34",
+        "owner1ed3378a",
+        "HTTP_and_CI_exact_bytes",
+        "HTTP_GREEN",
+        "inherited_custody_proof"
+      ],
+      "scope": "Exact source/evidence review; final publication candidate review pending."
+    }
+  ],
+  "risk_and_rollback": {
+    "pre_mortem": [
+      "Unrelated rows incorrectly signal more data.",
+      "Lookahead returned or used as cursor skips/duplicates rows.",
+      "Filter-constrained cursor anchor breaks paging after confirmation.",
+      "Unbound auth fixtures prevent intended assertions from executing."
+    ],
+    "detection": "Complete9 native tests including exactfull1/200, ties, clamps, foreign/unknown/ownedanchors, immutable document+audit snapshots;2 complete real-router HTTP cases; exact source custody and additiveCI review.",
+    "rollback": "Corrective commit restoring prior pagination behavior; no schema/data/receipt mutation. Real-family test setup and additiveCI can remain. Do not rewrite frozen source history or accepted artifacts.",
+    "stop_conditions": [
+      "Any required acceptance failure",
+      "Runtime auth/RLS/filter/receipt/payload change",
+      "Test weakening or missing execution",
+      "Migration/lockfile drift",
+      "Changed exact candidate or stale requiredCI"
+    ]
+  },
+  "audit_lenses": {
+    "Cartesian doubt": "Separated observed defect, inherited failures and proof limits.",
+    "Essentialism": "Existing owner query and helper reused; no new engine/interface/dependency.",
+    "Chesterton fence": "Owned chronological anchor and receipt boundaries preserved.",
+    "Contrarian": "Clean base and unrelated rows test competing failure explanations.",
+    "Socratic": "Validated premises through owner source and real probes.",
+    "Pragmatism": "Correct terminal paging with bounded query.",
+    "Red Team": "Foreign/unknown cursors, filtered lookahead and recipient denials tested.",
+    "Systems Thinking": "API, current sessions, owner query and requiredCI traced.",
+    "Operability": "Durable reports and failure artifacts retained.",
+    "Opportunity Cost": "Narrow owner fix and missing recurrence gates.",
+    "Blast Radius": "Separate checkout; frozenR7 and Console untouched.",
+    "Constant Work": "At most201 fetched rows; unchanged page ceiling200.",
+    "Shared Nothing": "No new coordination/store/state.",
+    "FinOps": "No new service or dependency.",
+    "Telemetry First": "Exact commands/counts/hashes; partial metadata remains unknown.",
+    "Zero Trust": "Current runtime auth and RLS preserved; no test bypass."
+  },
+  "remaining_gates": [
+    "Final exact-candidate independent review",
+    "Required current-head hostedCI",
+    "Protected queue admission and merge-group/readback"
+  ],
+  "limitations": [
+    "Native fixtures use owner-authenticated SET ROLE console_rt; current-role RLS proof, not physical runtime login.",
+    "Foreign cursor fixture differs both Company and recipient; existing same-recipient wrong-Company native case supplies orthogonalRLS control.",
+    "Generic legacy payslip payload fixtures prove metadata/receipt behavior, not canonical wage amounts or statutory completeness.",
+    "HTTP tests are in-process real Router/PostgreSQL with real signed families and softwareWebAuthn; not Next browser or physical/attended passkeys.",
+    "Disposable single-site PostgreSQL18.4 on bounded tmpfs proves local query behavior; no two-site durability/fencing/safe-emission claim.",
+    "R7 browser17 proof remains separate and unchanged; no new Payroll/Org/Foundry UI journey or full module/launch acceptance.",
+    "No deployment, institutional operation, payment, mail exposure or collection."
+  ]
+}

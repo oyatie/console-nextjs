@@ -143,23 +143,27 @@
         "console_payroll_rest::lifecycle::issue_payslips",
         "console_inbox_adapter_postgres::PgInboxStore::emit_inbox_doc_in_tx",
         "console_payroll_rest::PayrollRestState::visible_run_summaries",
-        "console_app::compose_ui_screens"
+        "console_app::compose_ui_screens",
+        "console_inbox_adapter_postgres::PgInboxStore::list"
       ],
       "contracts": [
         "Bounded existing payroll.create_run / PayrollDraftStaging owner paths: exact Company/run/period; pre-close refresh; known frozen no-op; locked-existing acknowledgment without refresh. Full module contract unverified.",
         "Bounded staged-roster exact current-version coverage at submission/APPROVE; captured recipients, immutable Inbox replay and independent final artifact validation in one local Company transaction. Full legal/approval/payment/UI/durability contract unverified.",
-        "Bounded SSR omission/authorized empty/populated/failure outcome through existing audited PayrollRunRead owner; same REST contract, no raw error or rows/hydration after failure. First100 pagination and full module remain incomplete."
+        "Bounded SSR omission/authorized empty/populated/failure outcome through existing audited PayrollRunRead owner; same REST contract, no raw error or rows/hydration after failure. First100 pagination and full module remain incomplete.",
+        "Bounded recipient Inbox metadata pagination ends only when no authorized eligible lookahead exists; owned chronological anchors remain valid across filters. Full Payroll/browser/legal/durability contract remains unverified."
       ],
       "tests": [
         "pay_run_port_as_runtime_role: 25 real PostgreSQL cases",
         "payroll_drain_period_lock: 7 real PostgreSQL cases",
         "Frozen payroll population probe:100/100 across8 complete owner/Router/Inbox/leave/workflow targets, zero filters/skips; strict locked/offline Clippy passed5 owner/lib/selected-target checks.",
-        "Payroll SSR complete health_readiness15/15; neighboring REST lib10/API17/UIlib7 all passed, zero skips/filters; strict relevant Clippy. Real single-site PostgreSQL/Router proof only."
+        "Payroll SSR complete health_readiness15/15; neighboring REST lib10/API17/UIlib7 all passed, zero skips/filters; strict relevant Clippy. Real single-site PostgreSQL/Router proof only.",
+        "Inbox native9 and existing HTTP2 execute completely with unchanged assertions, library6/tooling18 pass; strict Inbox owner/HTTP Clippy and frozen source custody pass. Single-site owner/query coverage only."
       ],
       "evidence": [
         "payroll-roster-restage-evidence.json: source b0a017a; 32/32 native pass; 11 intended red failures; independent code approval. Full module/GUI/rollback/two-site acceptance remains unverified.",
         "payroll-population-coverage-evidence.json sha256:1cec6ddbe5e09c3093e187acf4a3e0a5e5eb586b44db0c9a39abbd6077820578; source 3c544ba3267d99d9e25917e7da0871fc8f7ef4e3; unchanged approved tests RED100/87pass/13reviewed failures -> GREEN100/100. Module status stays unverified.",
-        "payroll-ssr-failure-evidence.json sha256:63d0b54c5bc5d02f1371853d8e4f7c4e4062c2192066500e3058fdd3d2b60a53; runtime source6d5f612736cc6d2f5e85bf9c3f5274f6317b7a86; independently reviewed intended RED4/15 -> unchanged GREEN15/15. Full module status stays unverified."
+        "payroll-ssr-failure-evidence.json sha256:63d0b54c5bc5d02f1371853d8e4f7c4e4062c2192066500e3058fdd3d2b60a53; runtime source6d5f612736cc6d2f5e85bf9c3f5274f6317b7a86; independently reviewed intended RED4/15 -> unchanged GREEN15/15. Full module status stays unverified.",
+        "inbox-terminal-cursor-evidence.json sha256:bb0e43442bb763b2a8175201740e9eb5516f77000f7da85657a565bb53324a1a; ownerf0a1723, fixture/CI2bfb22b; RED9(6pass3terminal failures)→GREEN9, inheritedHTTP2RED→real-familyGREEN2. Full module status stays unverified."
       ],
       "status": "unverified"
     },
@@ -2639,6 +2643,38 @@
         "Compromised runtime raw SQL is outside this established-owner lock-serialization proof.",
         "Exact final metadata revision, hosted CI, independent COMMENT and protected queue/merge readback remain pending at this checkpoint. No deployment or live effects."
       ]
+    },
+    {
+      "scope": "B06 recipient Inbox metadata pagination and existing Inbox receipt/self-service HTTP regression coverage; full Payroll and product remain unverified",
+      "candidate_commit": "2bfb22b06929c0a71a002dcfedf6c4540aa872c0",
+      "status": "bounded_native9_HTTP2_library6_GREEN_strict_Clippy_and_custody_passed_final_review_hosted_pending",
+      "evidence": {
+        "path": "docs/planning/nextjs-v1/inbox-terminal-cursor-evidence.json",
+        "sha256": "bb0e43442bb763b2a8175201740e9eb5516f77000f7da85657a565bb53324a1a"
+      },
+      "tests": {
+        "native_discovered": 9,
+        "native_executed": 9,
+        "native_passed": 9,
+        "HTTP_executed": 2,
+        "HTTP_passed": 2,
+        "library_executed": 6,
+        "library_passed": 6,
+        "tooling_executed": 18,
+        "tooling_passed": 18,
+        "failed": 0,
+        "ignored": 0,
+        "filtered": 0
+      },
+      "limitations": [
+        "Native fixtures use owner-authenticated SET ROLE console_rt; current-role RLS proof, not physical runtime login.",
+        "Foreign cursor fixture differs both Company and recipient; existing same-recipient wrong-Company native case supplies orthogonalRLS control.",
+        "Generic legacy payslip payload fixtures prove metadata/receipt behavior, not canonical wage amounts or statutory completeness.",
+        "HTTP tests are in-process real Router/PostgreSQL with real signed families and softwareWebAuthn; not Next browser or physical/attended passkeys.",
+        "Disposable single-site PostgreSQL18.4 on bounded tmpfs proves local query behavior; no two-site durability/fencing/safe-emission claim.",
+        "R7 browser17 proof remains separate and unchanged; no new Payroll/Org/Foundry UI journey or full module/launch acceptance.",
+        "No deployment, institutional operation, payment, mail exposure or collection."
+      ]
     }
   ],
   "foundation_evidence": [
@@ -4183,6 +4219,38 @@
         "Software WebAuthn and in-process runtime-role Router/PG tests are not a physical passkey, genuine Next browser or attended-human ceremony.",
         "One disposable PostgreSQL site proves local behavior, not two-site confirmation/fencing, zero acknowledged-record loss or production readiness.",
         "No applied migration, dependency, family/identity rewrite, live cutover, payment, institution, mail exposure or collection activation."
+      ]
+    },
+    {
+      "scope": "B06 recipient Inbox metadata pagination and existing Inbox receipt/self-service HTTP regression coverage; full Payroll and product remain unverified",
+      "candidate_commit": "2bfb22b06929c0a71a002dcfedf6c4540aa872c0",
+      "status": "bounded_native9_HTTP2_library6_GREEN_strict_Clippy_and_custody_passed_final_review_hosted_pending",
+      "evidence": {
+        "path": "docs/planning/nextjs-v1/inbox-terminal-cursor-evidence.json",
+        "sha256": "bb0e43442bb763b2a8175201740e9eb5516f77000f7da85657a565bb53324a1a"
+      },
+      "tests": {
+        "native_discovered": 9,
+        "native_executed": 9,
+        "native_passed": 9,
+        "HTTP_executed": 2,
+        "HTTP_passed": 2,
+        "library_executed": 6,
+        "library_passed": 6,
+        "tooling_executed": 18,
+        "tooling_passed": 18,
+        "failed": 0,
+        "ignored": 0,
+        "filtered": 0
+      },
+      "limitations": [
+        "Native fixtures use owner-authenticated SET ROLE console_rt; current-role RLS proof, not physical runtime login.",
+        "Foreign cursor fixture differs both Company and recipient; existing same-recipient wrong-Company native case supplies orthogonalRLS control.",
+        "Generic legacy payslip payload fixtures prove metadata/receipt behavior, not canonical wage amounts or statutory completeness.",
+        "HTTP tests are in-process real Router/PostgreSQL with real signed families and softwareWebAuthn; not Next browser or physical/attended passkeys.",
+        "Disposable single-site PostgreSQL18.4 on bounded tmpfs proves local query behavior; no two-site durability/fencing/safe-emission claim.",
+        "R7 browser17 proof remains separate and unchanged; no new Payroll/Org/Foundry UI journey or full module/launch acceptance.",
+        "No deployment, institutional operation, payment, mail exposure or collection."
       ]
     }
   ]
