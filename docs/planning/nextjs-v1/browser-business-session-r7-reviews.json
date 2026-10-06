@@ -3226,6 +3226,43 @@
         "source_inputs": 2955,
         "scope": "Human-attributed commit/push for hosted P14 localization; original hosted RED still blocks queue. This receipt alone added after exact-diff review."
       }
+    },
+    {
+      "recorded_at": "2026-10-06T00:36:46.040096+00:00",
+      "scope": "Reviewed P14 real-clock/cookie-expiry test observations and exact canonical regression proof",
+      "verdict": "SOURCE_ACCEPT_local_complete_current_head_hosted_pending",
+      "evidence": {
+        "path": "docs/planning/nextjs-v1/evidence/browser-business-session-r7/p14-timing-repair.json",
+        "sha256": "3672e6ecc8076a2a25c14aa89da285bd07f287ca5dcc70a3f5015cb594f94209"
+      },
+      "reviews": [
+        {
+          "reviewer": "p14_trace_review",
+          "verdict": "ACCEPT_exact_four_sources_for_execution"
+        },
+        {
+          "reviewer": "p14_diagnostic_review",
+          "verdict": "CONDITIONAL_DIAGNOSTIC_ACCEPT_original_and_repaired_fragments_custody_cleanup"
+        }
+      ],
+      "source_files": {
+        "tools/browser-business-temporal.mjs": "f4113ee8101ad8d28d043d0e8713288e8aca2dbb086bbbd506e20dab166d606d",
+        "tools/test-browser-business-session.mjs": "834b9a15ef0ec70517f510e0a2347e0cb991802264b554bedbfcd5172eaf5ea9",
+        "tools/browser-business-temporal.test.mjs": "027b086dd367804a85fbc7ced3ad7201c89613623b9cccb08b374a8af76a63a5",
+        ".github/workflows/ci.yml": "b1066d1aa0c1ac5a14c20f0b4c1fff4160ddf1a49e33afacae22dc7c05b167dc"
+      },
+      "disposition": "Original hosted P14 and private short-repaired01 causes remain unlocalized; passing later runs do not prove those causes fixed. Both demonstrated harness defects repaired with strict surviving/live-cookie, header, native-effect and actual expiry checks. Full121/17 now passed; independent full artifact/publication review, immutable candidate COMMENT and exact-head required CI pending before protected queue admission.",
+      "publication_review": {
+        "recorded_at": "2026-10-06T00:46:52.253586+00:00",
+        "verdict": "ACCEPT_bounded_publication",
+        "pre_receipt_manifest_sha256": "d644195b9917c23b1e183588285613b2d028f6e70847bd120842bdd59c771c5c",
+        "files": 14,
+        "reviewers": [
+          "p14_trace_review",
+          "p14_diagnostic_review"
+        ],
+        "scope": "Both independent reviewers accepted exact fourteen-file manifest02, complete121/17 local proof, twelve units and eighteen tooling tests; only this publication receipt and corresponding metadata/hash updates follow. Exact immutable-head review and current-head required PR CI remain gates before protected queue admission. Required merge-group checks follow. No wider product or launch approval."
+      }
     }
   ],
   "execution_totals_scope": "Historical red-lane admission checkpoint; current runtime/source evidence is recorded in implementation_followups and remains incomplete.",

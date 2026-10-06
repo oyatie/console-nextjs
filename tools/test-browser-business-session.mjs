@@ -372,6 +372,7 @@ async function absent(actor, context) {
   const text = await response.text(); assertNoProof(text);
   assert.ok(!text.includes(entry.facts.account_name) && !text.includes(entry.facts.company_name));
   assert.equal(await entry.page.getByRole("table").count(), 0);
+  return response;
 }
 
 async function cookieSnapshot() {
@@ -738,6 +739,7 @@ async function signIn(actor) {
   assert.match(cookie.value, /^bs1\.[A-Za-z0-9_-]{43}$/);
   assert.equal(Buffer.from(cookie.value.slice(4), "base64url").length, 32);
   const finishHeaders = await finish.headersArray();
+  const cookieObservedAt = Date.now() / 1000;
   const cookieExpires = verifyCookieDeadline(finishReply, cookie, finish, finishHeaders);
   const cookieHeaders = finishHeaders.filter((header) => header.name.toLowerCase() === "set-cookie");
   const sessionHeader = cookieHeaders.find((header) => header.value.startsWith(`__Host-console-session-${context}=`));
@@ -745,7 +747,7 @@ async function signIn(actor) {
   const signedData = Buffer.from(request.credential.response.authenticatorData, "base64url");
   assert.ok(signedData.length >= 37 && signedData.length <= MAX_FRAME);
   const signedCounter = signedData.readUInt32BE(33);
-  sessions.set(actor, { context, token: cookie.value, cookieExpires, browserCookieExpires: cookie.expires, signedCounter });
+  sessions.set(actor, { context, token: cookie.value, cookieExpires, cookieObservedAt, browserCookieExpires: cookie.expires, signedCounter });
   await checkpoint(actor, context, cookie.value, "open", cookieExpires, signedCounter);
   await checkTable(actor, entry.facts.first_page);
 }

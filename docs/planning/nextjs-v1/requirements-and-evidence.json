@@ -4187,10 +4187,10 @@
     },
     {
       "scope": "R7 passkey sign-in, current-authority own-attendance SSR/pagination/reload, exact-family logout and denied reads",
-      "status": "bounded_local_runtime_accepted_hosted_CI_failed_P14_delivery_REVISE",
+      "status": "bounded_current_local_runtime_accepted_exact_head_hosted_and_queue_pending",
       "evidence": {
         "path": "docs/planning/nextjs-v1/browser-business-session-r7-evidence.json",
-        "sha256": "d5564a4369f7c409bd7984faf96470604a6dd37f94144edbcba9fa8a3dfc6d09"
+        "sha256": "f005bfc82cd9bfab76b118904cd9cd9908bb9eeb67044ae09cec0e4970f8160c"
       },
       "native": {
         "discovered": 121,
@@ -4208,7 +4208,7 @@
         "skipped": 0,
         "unreached": 0
       },
-      "interpretation": "The 17 browser scenarios are inside one of the 121 native tests; they are not 17 additional native tests. Retained 285 native configuration executions are separately scoped and may overlap requirements. Hosted exact-head CI has120native passes/1failure and12browser passes/1failure/4unreached; this RED supersedes queue eligibility, not historical local proof.",
+      "interpretation": "The17browser scenarios are inside one of121native tests. Fresh p14-repair-canonical01 executes121/121 and17/17. Hosted prior diagnostic head8434bdb passed all42steps; originale24dac9RED remains preserved, cause unproven. Current repaired head requiredCI/queue pending.",
       "remaining_holds": [
         "Physical passkeys and attended identity/recovery",
         "Verified natural-person independent approval",
@@ -4218,7 +4218,7 @@
         "Complete HR/Org/Payroll/Foundry and all B/P launch workflows",
         "Capacity, restore, migration and full release acceptance"
       ],
-      "hosted_delivery": "REVISE_required_hosted_CI_failed_queue_disabled"
+      "hosted_delivery": "prior_diagnostic_head8434bdb_GREEN_current_repair_head_pending"
     }
   ]
 }

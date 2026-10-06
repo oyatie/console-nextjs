@@ -1,0 +1,1405 @@
+{
+  "schema": "hosted-r7-terminal-audit/1",
+  "created_at": "2026-10-06T00:11:16.711341+00:00",
+  "scope": "Exact diagnostic commit hosted required CI, not later working tree or product launch acceptance",
+  "head_sha": "8434bdbf7f54dcdc69bdcbb3b0bfc7f4dcce3197",
+  "run_id": 37384362706,
+  "job_id": 112013863743,
+  "run_url": "https://github.com/oyatie/console-nextjs/actions/runs/37384362706",
+  "started_at": "2026-10-05T22:44:26Z",
+  "completed_at": "2026-10-06T00:07:00Z",
+  "status": "completed",
+  "conclusion": "success",
+  "raw_log": {
+    "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/hosted-diag01/job-112013863743.log",
+    "bytes": 860996,
+    "sha256": "fba65b0673133c0d2ba2c5a73dcf04942f320c2ada6eaacf32a55a5e94af4f26"
+  },
+  "run_metadata": {
+    "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/hosted-diag01/run-37384362706.json",
+    "sha256": "1037929454c7156ae4e1e0c95b5192dd55900c966457132d24d913417bca7ad6"
+  },
+  "step_accounting": {
+    "reported": 42,
+    "success": 42,
+    "failed": 0,
+    "skipped": 0,
+    "pending": 0
+  },
+  "test_step_accounting": [
+    {
+      "step": "Run node --test tools/test-production-runtime.test.mjs",
+      "node_counts": {
+        "tests": 3,
+        "suites": 0,
+        "pass": 3,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "step": "Run node --test tools/browser-business-failure.test.mjs",
+      "node_counts": {
+        "tests": 5,
+        "suites": 0,
+        "pass": 5,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "step": "Run node --test tools/test-native-browser-enrollment.test.mjs",
+      "node_counts": {
+        "tests": 10,
+        "suites": 0,
+        "pass": 10,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "step": "PostgreSQL device-login source revocation and authentication owners",
+      "binary_count": 22,
+      "summary_count": 22,
+      "counts": {
+        "passed": 320,
+        "failed": 0,
+        "ignored": 0,
+        "measured": 0,
+        "filtered": 0
+      },
+      "named_passed_count": 320,
+      "results": [
+        {
+          "outcome": "ok",
+          "passed": 19,
+          "failed": 0,
+          "ignored": 0,
+          "measured": 0,
+          "filtered": 0,
+          "log_line": 1793
+        },
+        {
+          "outcome": "ok",
+          "passed": 28,
+          "failed": 0,
+          "ignored": 0,
+          "measured": 0,
+          "filtered": 0,
+          "log_line": 1827
+        },
+        {
+          "outcome": "ok",
+          "passed": 6,
+          "failed": 0,
+          "ignored": 0,
+          "measured": 0,
+          "filtered": 0,
+          "log_line": 1859
+        },
+        {
+          "outcome": "ok",
+          "passed": 6,
+          "failed": 0,
+          "ignored": 0,
+          "measured": 0,
+          "filtered": 0,
+          "log_line": 1871
+        },
+        {
+          "outcome": "ok",
+          "passed": 15,
+          "failed": 0,
+          "ignored": 0,
+          "measured": 0,
+          "filtered": 0,
+          "log_line": 1891
+        },
+        {
+          "outcome": "ok",
+          "passed": 121,
+          "failed": 0,
+          "ignored": 0,
+          "measured": 0,
+          "filtered": 0,
+          "log_line": 2855
+        },
+        {
+          "outcome": "ok",
+          "passed": 10,
+          "failed": 0,
+          "ignored": 0,
+          "measured": 0,
+          "filtered": 0,
+          "log_line": 2920
+        },
+        {
+          "outcome": "ok",
+          "passed": 3,
+          "failed": 0,
+          "ignored": 0,
+          "measured": 0,
+          "filtered": 0,
+          "log_line": 2930
+        },
+        {
+          "outcome": "ok",
+          "passed": 8,
+          "failed": 0,
+          "ignored": 0,
+          "measured": 0,
+          "filtered": 0,
+          "log_line": 2943
+        },
+        {
+          "outcome": "ok",
+          "passed": 2,
+          "failed": 0,
+          "ignored": 0,
+          "measured": 0,
+          "filtered": 0,
+          "log_line": 2952
+        },
+        {
+          "outcome": "ok",
+          "passed": 2,
+          "failed": 0,
+          "ignored": 0,
+          "measured": 0,
+          "filtered": 0,
+          "log_line": 2959
+        },
+        {
+          "outcome": "ok",
+          "passed": 27,
+          "failed": 0,
+          "ignored": 0,
+          "measured": 0,
+          "filtered": 0,
+          "log_line": 2992
+        },
+        {
+          "outcome": "ok",
+          "passed": 1,
+          "failed": 0,
+          "ignored": 0,
+          "measured": 0,
+          "filtered": 0,
+          "log_line": 2999
+        },
+        {
+          "outcome": "ok",
+          "passed": 1,
+          "failed": 0,
+          "ignored": 0,
+          "measured": 0,
+          "filtered": 0,
+          "log_line": 3043
+        },
+        {
+          "outcome": "ok",
+          "passed": 1,
+          "failed": 0,
+          "ignored": 0,
+          "measured": 0,
+          "filtered": 0,
+          "log_line": 3050
+        },
+        {
+          "outcome": "ok",
+          "passed": 7,
+          "failed": 0,
+          "ignored": 0,
+          "measured": 0,
+          "filtered": 0,
+          "log_line": 3081
+        },
+        {
+          "outcome": "ok",
+          "passed": 7,
+          "failed": 0,
+          "ignored": 0,
+          "measured": 0,
+          "filtered": 0,
+          "log_line": 3093
+        },
+        {
+          "outcome": "ok",
+          "passed": 5,
+          "failed": 0,
+          "ignored": 0,
+          "measured": 0,
+          "filtered": 0,
+          "log_line": 3154
+        },
+        {
+          "outcome": "ok",
+          "passed": 3,
+          "failed": 0,
+          "ignored": 0,
+          "measured": 0,
+          "filtered": 0,
+          "log_line": 3163
+        },
+        {
+          "outcome": "ok",
+          "passed": 22,
+          "failed": 0,
+          "ignored": 0,
+          "measured": 0,
+          "filtered": 0,
+          "log_line": 3208
+        },
+        {
+          "outcome": "ok",
+          "passed": 18,
+          "failed": 0,
+          "ignored": 0,
+          "measured": 0,
+          "filtered": 0,
+          "log_line": 3232
+        },
+        {
+          "outcome": "ok",
+          "passed": 8,
+          "failed": 0,
+          "ignored": 0,
+          "measured": 0,
+          "filtered": 0,
+          "log_line": 3246
+        }
+      ],
+      "binaries": [
+        {
+          "path": "target/debug/deps/console_identity_rest-919dc99c9866214d",
+          "log_line": 1770
+        },
+        {
+          "path": "target/debug/deps/authentication_locking-18a28d65e54351c4",
+          "log_line": 1794
+        },
+        {
+          "path": "target/debug/deps/console_platform_auth-3c793276d23ae3a1",
+          "log_line": 1848
+        },
+        {
+          "path": "target/debug/deps/console_platform_auth_rest-6decde657ffec344",
+          "log_line": 1855
+        },
+        {
+          "path": "target/debug/deps/console_platform_request_context-38a7f0a2be64e31d",
+          "log_line": 1869
+        },
+        {
+          "path": "target/debug/deps/auth_rest-98b153d0ed137cec",
+          "log_line": 2730
+        },
+        {
+          "path": "target/debug/deps/credential_identity-920c0f10971cc474",
+          "log_line": 2906
+        },
+        {
+          "path": "target/debug/deps/refresh_tokens-02bc4b2986b675fd",
+          "log_line": 2921
+        },
+        {
+          "path": "target/debug/deps/session_locking-a1e8a8095a6fc92a",
+          "log_line": 2928
+        },
+        {
+          "path": "target/debug/deps/webauthn_ceremony-9528ce9eb1c55f3e",
+          "log_line": 2944
+        },
+        {
+          "path": "target/debug/deps/webauthn_ceremony_replay-05db42d70fa83d18",
+          "log_line": 2950
+        },
+        {
+          "path": "target/debug/deps/webauthn_contention-35630690be534112",
+          "log_line": 2961
+        },
+        {
+          "path": "target/debug/deps/webauthn_registration_deactivated_user-9e58a4da7708a511",
+          "log_line": 2994
+        },
+        {
+          "path": "target/debug/deps/dev_auth_absence-c14f6c33194fe4c5",
+          "log_line": 3038
+        },
+        {
+          "path": "target/debug/deps/group_admin_tenant_context-27e0a5839935660c",
+          "log_line": 3045
+        },
+        {
+          "path": "target/debug/deps/console_platform_auth_rest-2cda001a69cd3275",
+          "log_line": 3069
+        },
+        {
+          "path": "target/debug/deps/dev_auth_session-e41185855e270674",
+          "log_line": 3078
+        },
+        {
+          "path": "target/debug/deps/auth_command_role-7b18b1ed9fb8bdef",
+          "log_line": 3145
+        },
+        {
+          "path": "target/debug/deps/auth_security_state-9bd82016003558df",
+          "log_line": 3156
+        },
+        {
+          "path": "target/debug/deps/account_identity-3be35cea33d8db7e",
+          "log_line": 3182
+        },
+        {
+          "path": "target/debug/deps/account_locking-7a3a4ee38912d691",
+          "log_line": 3210
+        },
+        {
+          "path": "target/debug/deps/rls_auth_chain_as_runtime_role-2b9e1eb9c33c3184",
+          "log_line": 3234
+        }
+      ]
+    },
+    {
+      "step": "PostgreSQL payroll source validation, roster and workflow recovery",
+      "binary_count": 15,
+      "summary_count": 15,
+      "counts": {
+        "passed": 169,
+        "failed": 0,
+        "ignored": 0,
+        "measured": 0,
+        "filtered": 0
+      },
+      "named_passed_count": 169,
+      "results": [
+        {
+          "outcome": "ok",
+          "passed": 18,
+          "failed": 0,
+          "ignored": 0,
+          "measured": 0,
+          "filtered": 0,
+          "log_line": 4268
+        },
+        {
+          "outcome": "ok",
+          "passed": 29,
+          "failed": 0,
+          "ignored": 0,
+          "measured": 0,
+          "filtered": 0,
+          "log_line": 4302
+        },
+        {
+          "outcome": "ok",
+          "passed": 4,
+          "failed": 0,
+          "ignored": 0,
+          "measured": 0,
+          "filtered": 0,
+          "log_line": 4313
+        },
+        {
+          "outcome": "ok",
+          "passed": 5,
+          "failed": 0,
+          "ignored": 0,
+          "measured": 0,
+          "filtered": 0,
+          "log_line": 4323
+        },
+        {
+          "outcome": "ok",
+          "passed": 7,
+          "failed": 0,
+          "ignored": 0,
+          "measured": 0,
+          "filtered": 0,
+          "log_line": 4336
+        },
+        {
+          "outcome": "ok",
+          "passed": 7,
+          "failed": 0,
+          "ignored": 0,
+          "measured": 0,
+          "filtered": 0,
+          "log_line": 4369
+        },
+        {
+          "outcome": "ok",
+          "passed": 10,
+          "failed": 0,
+          "ignored": 0,
+          "measured": 0,
+          "filtered": 0,
+          "log_line": 4406
+        },
+        {
+          "outcome": "ok",
+          "passed": 17,
+          "failed": 0,
+          "ignored": 0,
+          "measured": 0,
+          "filtered": 0,
+          "log_line": 4429
+        },
+        {
+          "outcome": "ok",
+          "passed": 14,
+          "failed": 0,
+          "ignored": 0,
+          "measured": 0,
+          "filtered": 0,
+          "log_line": 4448
+        },
+        {
+          "outcome": "ok",
+          "passed": 15,
+          "failed": 0,
+          "ignored": 0,
+          "measured": 0,
+          "filtered": 0,
+          "log_line": 4488
+        },
+        {
+          "outcome": "ok",
+          "passed": 7,
+          "failed": 0,
+          "ignored": 0,
+          "measured": 0,
+          "filtered": 0,
+          "log_line": 4594
+        },
+        {
+          "outcome": "ok",
+          "passed": 5,
+          "failed": 0,
+          "ignored": 0,
+          "measured": 0,
+          "filtered": 0,
+          "log_line": 4622
+        },
+        {
+          "outcome": "ok",
+          "passed": 16,
+          "failed": 0,
+          "ignored": 0,
+          "measured": 0,
+          "filtered": 0,
+          "log_line": 4664
+        },
+        {
+          "outcome": "ok",
+          "passed": 9,
+          "failed": 0,
+          "ignored": 0,
+          "measured": 0,
+          "filtered": 0,
+          "log_line": 4696
+        },
+        {
+          "outcome": "ok",
+          "passed": 6,
+          "failed": 0,
+          "ignored": 0,
+          "measured": 0,
+          "filtered": 0,
+          "log_line": 4708
+        }
+      ],
+      "binaries": [
+        {
+          "path": "target/debug/deps/console_payroll_adapter_postgres-e7a1b80210ed3a1e",
+          "log_line": 4245
+        },
+        {
+          "path": "target/debug/deps/pay_run_port_as_runtime_role-ec7648ccf1aa297c",
+          "log_line": 4263
+        },
+        {
+          "path": "target/debug/deps/payroll_lifecycle_rls_as_runtime_role-e3b00be65eff6ee9",
+          "log_line": 4304
+        },
+        {
+          "path": "target/debug/deps/payroll_rls_surfaces_as_runtime_role-b300f436b2944418",
+          "log_line": 4311
+        },
+        {
+          "path": "target/debug/deps/roster_materialisation-39bade7f3cea87d2",
+          "log_line": 4325
+        },
+        {
+          "path": "target/debug/deps/payroll_drain_period_lock-dc2699fcf69f6158",
+          "log_line": 4358
+        },
+        {
+          "path": "target/debug/deps/console_payroll_rest-da6683bf20d5ba7e",
+          "log_line": 4391
+        },
+        {
+          "path": "target/debug/deps/api-b1e1b7250e046bcf",
+          "log_line": 4403
+        },
+        {
+          "path": "target/debug/deps/run_lifecycle_api-36ef4a871bb0e400",
+          "log_line": 4427
+        },
+        {
+          "path": "target/debug/deps/health_readiness-3bf13f1849ed185c",
+          "log_line": 4469
+        },
+        {
+          "path": "target/debug/deps/console_payroll_ui-12ad9c8a9ee204aa",
+          "log_line": 4583
+        },
+        {
+          "path": "target/debug/deps/inbox_docs_rls_surfaces_as_runtime_role-fa8fbe0ffd4c2648",
+          "log_line": 4613
+        },
+        {
+          "path": "target/debug/deps/leave_rls_surfaces_as_runtime_role-1211d6e92e9b9861",
+          "log_line": 4644
+        },
+        {
+          "path": "target/debug/deps/console_platform_db-fc350a29917767f0",
+          "log_line": 4683
+        },
+        {
+          "path": "target/debug/deps/rls_isolation-83f85b9017412ac5",
+          "log_line": 4698
+        }
+      ]
+    },
+    {
+      "step": "PostgreSQL and real-browser inquiry",
+      "binary_count": 2,
+      "summary_count": 2,
+      "counts": {
+        "passed": 5,
+        "failed": 0,
+        "ignored": 0,
+        "measured": 0,
+        "filtered": 0
+      },
+      "named_passed_count": 5,
+      "results": [
+        {
+          "outcome": "ok",
+          "passed": 4,
+          "failed": 0,
+          "ignored": 0,
+          "measured": 0,
+          "filtered": 0,
+          "log_line": 4930
+        },
+        {
+          "outcome": "ok",
+          "passed": 1,
+          "failed": 0,
+          "ignored": 0,
+          "measured": 0,
+          "filtered": 0,
+          "log_line": 4936
+        }
+      ],
+      "binaries": [
+        {
+          "path": "target/debug/deps/public_inquiry-ea2bab507cebbdf8",
+          "log_line": 4921
+        },
+        {
+          "path": "target/debug/deps/real_browser_inquiry-9a62ced59e8c2650",
+          "log_line": 4928
+        }
+      ]
+    },
+    {
+      "step": "PostgreSQL sales store and runtime-role isolation",
+      "binary_count": 2,
+      "summary_count": 2,
+      "counts": {
+        "passed": 6,
+        "failed": 0,
+        "ignored": 0,
+        "measured": 0,
+        "filtered": 0
+      },
+      "named_passed_count": 6,
+      "results": [
+        {
+          "outcome": "ok",
+          "passed": 2,
+          "failed": 0,
+          "ignored": 0,
+          "measured": 0,
+          "filtered": 0,
+          "log_line": 4971
+        },
+        {
+          "outcome": "ok",
+          "passed": 4,
+          "failed": 0,
+          "ignored": 0,
+          "measured": 0,
+          "filtered": 0,
+          "log_line": 4981
+        }
+      ],
+      "binaries": [
+        {
+          "path": "target/debug/deps/inquiry_rls_surfaces_as_runtime_role-20df823e733290f0",
+          "log_line": 4965
+        },
+        {
+          "path": "target/debug/deps/sales_store-32b9f7313d94e3f8",
+          "log_line": 4973
+        }
+      ]
+    },
+    {
+      "step": "Attendance source parser regressions",
+      "binary_count": 0,
+      "summary_count": 1,
+      "counts": {
+        "passed": 8,
+        "failed": 0,
+        "ignored": 0,
+        "measured": 0,
+        "filtered": 158
+      },
+      "named_passed_count": 8,
+      "results": [
+        {
+          "outcome": "ok",
+          "passed": 8,
+          "failed": 0,
+          "ignored": 0,
+          "measured": 0,
+          "filtered": 158,
+          "log_line": 5011
+        }
+      ],
+      "binaries": []
+    },
+    {
+      "step": "PostgreSQL attendance retained history and Company isolation",
+      "binary_count": 1,
+      "summary_count": 1,
+      "counts": {
+        "passed": 3,
+        "failed": 0,
+        "ignored": 0,
+        "measured": 0,
+        "filtered": 0
+      },
+      "named_passed_count": 3,
+      "results": [
+        {
+          "outcome": "ok",
+          "passed": 3,
+          "failed": 0,
+          "ignored": 0,
+          "measured": 0,
+          "filtered": 0,
+          "log_line": 5048
+        }
+      ],
+      "binaries": [
+        {
+          "path": "target/debug/deps/self_service-af994cc7585f5c9b",
+          "log_line": 5041
+        }
+      ]
+    },
+    {
+      "step": "PostgreSQL HR attendance source fidelity, import gates and scoped raw history",
+      "binary_count": 5,
+      "summary_count": 5,
+      "counts": {
+        "passed": 60,
+        "failed": 0,
+        "ignored": 0,
+        "measured": 0,
+        "filtered": 0
+      },
+      "named_passed_count": 60,
+      "results": [
+        {
+          "outcome": "ok",
+          "passed": 19,
+          "failed": 0,
+          "ignored": 0,
+          "measured": 0,
+          "filtered": 0,
+          "log_line": 5117
+        },
+        {
+          "outcome": "ok",
+          "passed": 2,
+          "failed": 0,
+          "ignored": 0,
+          "measured": 0,
+          "filtered": 0,
+          "log_line": 5125
+        },
+        {
+          "outcome": "ok",
+          "passed": 14,
+          "failed": 0,
+          "ignored": 0,
+          "measured": 0,
+          "filtered": 0,
+          "log_line": 5145
+        },
+        {
+          "outcome": "ok",
+          "passed": 6,
+          "failed": 0,
+          "ignored": 0,
+          "measured": 0,
+          "filtered": 0,
+          "log_line": 5157
+        },
+        {
+          "outcome": "ok",
+          "passed": 19,
+          "failed": 0,
+          "ignored": 0,
+          "measured": 0,
+          "filtered": 0,
+          "log_line": 5182
+        }
+      ],
+      "binaries": [
+        {
+          "path": "target/debug/deps/current_authority-712d244d7ec40005",
+          "log_line": 5094
+        },
+        {
+          "path": "target/debug/deps/hr_attendance_manager_scope-a441377afc00524f",
+          "log_line": 5118
+        },
+        {
+          "path": "target/debug/deps/hr_attendance_self_read-2a9b49a97fc1daf3",
+          "log_line": 5127
+        },
+        {
+          "path": "target/debug/deps/hr_ingest_checklist_gate-a23bdfacc39490f6",
+          "log_line": 5147
+        },
+        {
+          "path": "target/debug/deps/openapi_drift-c7a2d08afd068b3e",
+          "log_line": 5159
+        }
+      ]
+    },
+    {
+      "step": "PostgreSQL authorized read snapshot",
+      "binary_count": 1,
+      "summary_count": 1,
+      "counts": {
+        "passed": 1,
+        "failed": 0,
+        "ignored": 0,
+        "measured": 0,
+        "filtered": 5
+      },
+      "named_passed_count": 1,
+      "results": [
+        {
+          "outcome": "ok",
+          "passed": 1,
+          "failed": 0,
+          "ignored": 0,
+          "measured": 0,
+          "filtered": 5,
+          "log_line": 5215
+        }
+      ],
+      "binaries": [
+        {
+          "path": "target/debug/deps/rls_isolation-83f85b9017412ac5",
+          "log_line": 5210
+        }
+      ]
+    }
+  ],
+  "native_auth_rest": {
+    "passed": 121,
+    "failed": 0,
+    "ignored": 0,
+    "filtered": 0,
+    "unique_named_passes": 121,
+    "names": [
+      {
+        "name": "admin_credential_reset_recovers_in_branch_subordinate",
+        "log_line": 2733
+      },
+      {
+        "name": "admin_issue_otp_allows_in_branch_subordinate",
+        "log_line": 2734
+      },
+      {
+        "name": "admin_issue_otp_rejects_cross_branch_target",
+        "log_line": 2735
+      },
+      {
+        "name": "admin_issue_otp_rejects_non_admin",
+        "log_line": 2736
+      },
+      {
+        "name": "admin_issue_otp_rejects_privileged_target",
+        "log_line": 2737
+      },
+      {
+        "name": "approve_session_rejects_access_token_expired_during_family_lock",
+        "log_line": 2738
+      },
+      {
+        "name": "approve_session_rejects_generic_desktop_handoff_without_target",
+        "log_line": 2739
+      },
+      {
+        "name": "body_mode_without_header_is_unchanged_and_sets_no_cookie",
+        "log_line": 2740
+      },
+      {
+        "name": "browser_sessions::account_and_company_fk_holders_refuse_removal_without_clearing_browser_proof",
+        "log_line": 2741
+      },
+      {
+        "name": "browser_sessions::actual_0240_populated_upgrade_preserves_native_identity_and_sessions",
+        "log_line": 2742
+      },
+      {
+        "name": "browser_sessions::both_removal_owners_leave_browser_row_unlocked_while_waiting_for_account",
+        "log_line": 2743
+      },
+      {
+        "name": "browser_sessions::browser_context_link_count_and_rows_share_a_witnessed_snapshot",
+        "log_line": 2744
+      },
+      {
+        "name": "browser_sessions::browser_context_substitution_unknown_and_noncanonical_handles_deny_without_effect",
+        "log_line": 2745
+      },
+      {
+        "name": "browser_sessions::browser_family_and_login_audit_failures_roll_back_the_exact_signed_assertion",
+        "log_line": 2746
+      },
+      {
+        "name": "browser_sessions::browser_history_context_is_own_only_and_preserves_old_wire_contract",
+        "log_line": 2747
+      },
+      {
+        "name": "browser_sessions::browser_history_pagination_has_exact_native_integer_bounds_without_effects",
+        "log_line": 2748
+      },
+      {
+        "name": "browser_sessions::browser_ingress_configuration_and_debug_never_expose_service_credentials",
+        "log_line": 2749
+      },
+      {
+        "name": "browser_sessions::browser_ingress_gate_requires_single_canonical_key_and_verified_hop",
+        "log_line": 2750
+      },
+      {
+        "name": "browser_sessions::browser_login_binds_original_proof_and_parallel_resolution_never_rotates",
+        "log_line": 2751
+      },
+      {
+        "name": "browser_sessions::browser_logout_closes_only_bound_family_and_reconciles_idempotently",
+        "log_line": 2752
+      },
+      {
+        "name": "browser_sessions::browser_logout_review::cleanup_isolates_company_failure_then_retries_without_starving_other_custody",
+        "log_line": 2753
+      },
+      {
+        "name": "browser_sessions::browser_logout_review::closed_mapping_without_family_or_owner_removal_cannot_certify_retry",
+        "log_line": 2754
+      },
+      {
+        "name": "browser_sessions::browser_logout_review::recovered_family_logout_audit_failure_rolls_back_then_reconciles_once",
+        "log_line": 2755
+      },
+      {
+        "name": "browser_sessions::browser_mapping_is_force_rls_company_scoped_with_narrow_locator_only",
+        "log_line": 2756
+      },
+      {
+        "name": "browser_sessions::browser_start_is_bodyless_explicit_and_shares_legacy_limits",
+        "log_line": 2757
+      },
+      {
+        "name": "browser_sessions::browser_storage_function_catalog_preserves_builtin_signatures_and_restricted_grants",
+        "log_line": 2758
+      },
+      {
+        "name": "browser_sessions::changed_current_account_role_generation_and_company_each_deny_original_browser_proof",
+        "log_line": 2759
+      },
+      {
+        "name": "browser_sessions::cleared_proof_and_terminal_browser_state_cannot_be_restored",
+        "log_line": 2760
+      },
+      {
+        "name": "browser_sessions::committed_account_set_or_status_drift_aborts_removal_without_browser_effects",
+        "log_line": 2761
+      },
+      {
+        "name": "browser_sessions::consumed_native_assertion_and_bearer_otp_or_refresh_cannot_convert_to_browser_session",
+        "log_line": 2762
+      },
+      {
+        "name": "browser_sessions::deferred_mapping_commit_failure_does_not_consume_or_publish_the_assertion",
+        "log_line": 2763
+      },
+      {
+        "name": "browser_sessions::denied_removal_and_late_company_audit_failure_preserve_browser_proof",
+        "log_line": 2764
+      },
+      {
+        "name": "browser_sessions::encrypted_proof_or_metadata_tampering_is_denied_without_reminting_authority",
+        "log_line": 2765
+      },
+      {
+        "name": "browser_sessions::expired_proof_cleanup_enforces_scope_bound_and_preserves_reconciliation",
+        "log_line": 2766
+      },
+      {
+        "name": "browser_sessions::failed_browser_login_rolls_back_before_waiting_credential_reset_commits",
+        "log_line": 2767
+      },
+      {
+        "name": "browser_sessions::failed_guarded_removal_restores_custody_before_waiting_logout_commits",
+        "log_line": 2768
+      },
+      {
+        "name": "browser_sessions::failed_logout_audit_preserves_live_family_and_exact_retry_can_close_it",
+        "log_line": 2769
+      },
+      {
+        "name": "browser_sessions::forged_owner_removal_cannot_clear_live_browser_custody",
+        "log_line": 2770
+      },
+      {
+        "name": "browser_sessions::guarded_removal_with_actual_device_data_preserves_exact_browser_custody",
+        "log_line": 2771
+      },
+      {
+        "name": "browser_sessions::insert_scope_is_checked_while_exact_verified_mapping_is_still_eligible",
+        "log_line": 2772
+      },
+      {
+        "name": "browser_sessions::logout_waits_for_account_without_holding_browser_row_and_preserves_later_family",
+        "log_line": 2773
+      },
+      {
+        "name": "browser_sessions::malformed_browser_signature_preserves_custody_and_original_assertion",
+        "log_line": 2774
+      },
+      {
+        "name": "browser_sessions::mapping_insert_failure_rolls_back_proof_counter_family_tokens_and_audits",
+        "log_line": 2775
+      },
+      {
+        "name": "browser_sessions::missing_family_without_owner_removal_cannot_certify_logout",
+        "log_line": 2776
+      },
+      {
+        "name": "browser_sessions::missing_malformed_and_replaced_browser_key_never_weaken_original_native_login",
+        "log_line": 2777
+      },
+      {
+        "name": "browser_sessions::native_browser_routes_never_take_authority_from_ambient_cookie_or_bearer",
+        "log_line": 2778
+      },
+      {
+        "name": "browser_sessions::original_short_family_deadline_expires_during_lookup_wait_without_sliding",
+        "log_line": 2779
+      },
+      {
+        "name": "browser_sessions::r7_native_additions::browser_invalid_sql_proof_shapes_roll_back_genuine_login_without_constraint_bypass",
+        "log_line": 2780
+      },
+      {
+        "name": "browser_sessions::r7_native_additions::browser_large_current_branch_proof_is_read_without_jwt_http_transport",
+        "log_line": 2781
+      },
+      {
+        "name": "browser_sessions::r7_native_additions::browser_native_body_caps_and_closed_routes_preserve_owner_effects",
+        "log_line": 2782
+      },
+      {
+        "name": "browser_sessions::r7_native_additions::browser_native_proof_matches_independent_aad_and_standard_aes_vectors",
+        "log_line": 2783
+      },
+      {
+        "name": "browser_sessions::r7_native_additions::browser_nearest_signed_cap_rolls_back_atomically_without_changing_legacy_cap",
+        "log_line": 2784
+      },
+      {
+        "name": "browser_sessions::r7_native_additions::browser_sql_insert_binds_discoverable_outcome_account_company_and_source",
+        "log_line": 2785
+      },
+      {
+        "name": "browser_sessions::r7_native_additions::browser_sql_insert_requires_fresh_ceremony_and_family_in_one_transaction",
+        "log_line": 2786
+      },
+      {
+        "name": "browser_sessions::r7_native_additions::browser_valid_aead_wrong_signed_claims_are_denied_without_effect",
+        "log_line": 2787
+      },
+      {
+        "name": "browser_sessions::r7_request_context_additions::browser_hr_owner_keeps_actual_request_context_and_distinct_auth_method",
+        "log_line": 2788
+      },
+      {
+        "name": "browser_sessions::real_session_survives_as_token_free_terminal_evidence_after_direct_and_company_removal",
+        "log_line": 2789
+      },
+      {
+        "name": "browser_sessions::real_worker_boot_prerequisites_are_independent_of_new_browser_routes",
+        "log_line": 2790
+      },
+      {
+        "name": "browser_sessions::real_workers_clear_expired_proof_without_root_locks_and_recover_after_crash",
+        "log_line": 2791
+      },
+      {
+        "name": "browser_sessions::recovery_revokes_browser_family_without_revoking_another_person",
+        "log_line": 2792
+      },
+      {
+        "name": "browser_sessions::removed_exact_passkey_denies_browser_access_but_preserves_logout_identity",
+        "log_line": 2793
+      },
+      {
+        "name": "browser_sessions::resident_fixture_preserves_real_native_login_and_exact_family_logout",
+        "log_line": 2794
+      },
+      {
+        "name": "browser_sessions::same_source_uuid_reinsert_does_not_renew_a_recorded_removed_browser_credential",
+        "log_line": 2795
+      },
+      {
+        "name": "browser_sessions::scoped_close_checks_eligible_rows_and_every_token_before_monotonic_closure",
+        "log_line": 2796
+      },
+      {
+        "name": "browser_sessions::scoped_read_and_lock_reject_hostile_temporary_objects_and_exact_pair_substitutions",
+        "log_line": 2797
+      },
+      {
+        "name": "browser_sessions::scoped_storage_functions_cannot_forge_closure_or_clear_active_proof",
+        "log_line": 2798
+      },
+      {
+        "name": "browser_sessions::successful_company_removal_audits_exclude_browser_proof_and_handle_material",
+        "log_line": 2799
+      },
+      {
+        "name": "browser_sessions::unlinked_and_out_of_range_browser_history_are_real_distinct_states",
+        "log_line": 2800
+      },
+      {
+        "name": "browser_sessions::witnessed_fresh_login_and_old_family_logout_preserve_independent_families",
+        "log_line": 2801
+      },
+      {
+        "name": "browser_sessions::witnessed_login_and_guarded_active_company_removal_preserve_exact_terminal_custody",
+        "log_line": 2802
+      },
+      {
+        "name": "browser_sessions::witnessed_login_reset_winners_never_leave_pre_reset_browser_authority",
+        "log_line": 2803
+      },
+      {
+        "name": "browser_sessions::witnessed_logout_and_both_company_removal_winners_preserve_terminal_outcomes",
+        "log_line": 2804
+      },
+      {
+        "name": "cookie_mode_login_then_refresh_reads_and_rotates_cookie",
+        "log_line": 2805
+      },
+      {
+        "name": "cookie_mode_redeem_sets_httponly_cookie_and_omits_body_refresh",
+        "log_line": 2806
+      },
+      {
+        "name": "cookie_mode_refresh_allows_rapid_navigation_burst_with_device_id",
+        "log_line": 2807
+      },
+      {
+        "name": "device_login_failures_preserve_proof_and_poll_permit",
+        "log_line": 2808
+      },
+      {
+        "name": "existing_passkey_addition_succeeds_without_open_bootstrap",
+        "log_line": 2809
+      },
+      {
+        "name": "financial_purchase_sensitive_actions_require_fresh_passkey_step_up",
+        "log_line": 2810
+      },
+      {
+        "name": "first_passkey_enrollment_requires_privacy_terms",
+        "log_line": 2811
+      },
+      {
+        "name": "first_passkey_registration_rejects_replaced_source_after_refresh",
+        "log_line": 2812
+      },
+      {
+        "name": "first_passkey_registration_rejects_revoked_bootstrap_after_start",
+        "log_line": 2813
+      },
+      {
+        "name": "genuine_browser::genuine_browser_discoverable_enrollment_requires_two_native_logins",
+        "log_line": 2814
+      },
+      {
+        "name": "genuine_browser::genuine_browser_enrollment_preserves_native_options_and_owned_effects",
+        "log_line": 2815
+      },
+      {
+        "name": "genuine_browser::genuine_browser_failed_native_phase_is_preserved_after_confirmed_cleanup",
+        "log_line": 2816
+      },
+      {
+        "name": "genuine_browser::genuine_production_browser_proposal_requires_all_seventeen_scenarios",
+        "log_line": 2817
+      },
+      {
+        "name": "genuine_browser::native_explicit_login_is_bodyless_and_shares_conditional_limits",
+        "log_line": 2818
+      },
+      {
+        "name": "genuine_browser::native_registration_opt_in_preserves_legacy_options_and_authority",
+        "log_line": 2819
+      },
+      {
+        "name": "mobile_bound_step_up_start_gates_mobile_approval_and_poll_vote",
+        "log_line": 2820
+      },
+      {
+        "name": "otp_enrollment_session_cannot_create_business_work",
+        "log_line": 2821
+      },
+      {
+        "name": "otp_family_cannot_gain_business_authority_after_passkey_registration",
+        "log_line": 2822
+      },
+      {
+        "name": "otp_first_signin_then_passkey_enrollment_then_usernameless_login",
+        "log_line": 2823
+      },
+      {
+        "name": "otp_is_consumed_on_passkey_registration_not_on_redeem",
+        "log_line": 2824
+      },
+      {
+        "name": "otp_redeem_rate_limit_wires_up_on_real_clock_path",
+        "log_line": 2825
+      },
+      {
+        "name": "passkey_login_session_issue_failure_preserves_signed_proof",
+        "log_line": 2826
+      },
+      {
+        "name": "platform_admin_can_approve_and_consume_bound_device_handoff",
+        "log_line": 2827
+      },
+      {
+        "name": "purpose::classification_lookup_failure_fails_closed_and_restores_without_promotion",
+        "log_line": 2828
+      },
+      {
+        "name": "purpose::dormant_v1_enrollment_command_cannot_release_http_authority",
+        "log_line": 2829
+      },
+      {
+        "name": "purpose::dormant_v1_normal_family_is_denied_by_both_admission_paths",
+        "log_line": 2830
+      },
+      {
+        "name": "purpose::enrollment_qr_requires_signed_approval_to_create_business_session",
+        "log_line": 2831
+      },
+      {
+        "name": "purpose::group_mint_and_preminted_actor_use_original_home_family",
+        "log_line": 2832
+      },
+      {
+        "name": "purpose::mismatched_marker_cannot_disappear_from_admission",
+        "log_line": 2833
+      },
+      {
+        "name": "purpose::otp_admin_and_mobile_step_up_denials_have_no_effect",
+        "log_line": 2834
+      },
+      {
+        "name": "purpose::otp_cannot_delete_own_credential_even_with_key_present",
+        "log_line": 2835
+      },
+      {
+        "name": "purpose::platform_enrollment_and_realtime_keep_ordinary_purpose_boundary",
+        "log_line": 2836
+      },
+      {
+        "name": "purpose::retained_marker_denies_consumed_expired_revoked_and_missing_source",
+        "log_line": 2837
+      },
+      {
+        "name": "purpose::session_approval_rechecks_classification_after_account_lock_wait",
+        "log_line": 2838
+      },
+      {
+        "name": "purpose::worker_attendance_requires_fresh_login_and_replays_without_effects",
+        "log_line": 2839
+      },
+      {
+        "name": "refresh_keeps_zero_passkey_user_in_setup_mode_until_enrolled",
+        "log_line": 2840
+      },
+      {
+        "name": "refresh_signing_failure_does_not_commit_undelivered_replacement",
+        "log_line": 2841
+      },
+      {
+        "name": "registration_rechecks_revoked_family_after_account_wait",
+        "log_line": 2842
+      },
+      {
+        "name": "registration_start_rechecks_expired_bearer_after_account_wait",
+        "log_line": 2843
+      },
+      {
+        "name": "replaced_otp_family_cannot_create_business_work",
+        "log_line": 2844
+      },
+      {
+        "name": "reset_sessions::family_storage_failure_rolls_back_reset",
+        "log_line": 2845
+      },
+      {
+        "name": "reset_sessions::ordinary_otp_issue_and_self_handoff_do_not_revoke_established_sessions",
+        "log_line": 2846
+      },
+      {
+        "name": "reset_sessions::otp_audit_and_deferred_commit_failure_roll_back_sessions_and_keys",
+        "log_line": 2847
+      },
+      {
+        "name": "reset_sessions::reset_first_blocks_refresh_and_prevents_replacement",
+        "log_line": 2848
+      },
+      {
+        "name": "reset_sessions::reset_revokes_signed_sessions_and_all_tokens_without_cross_account_effects",
+        "log_line": 2849
+      },
+      {
+        "name": "reset_sessions::reset_with_no_keys_preserves_prior_revocation_and_sweeps_token_residue",
+        "log_line": 2850
+      },
+      {
+        "name": "reset_sessions::reset_wrong_company_missing_and_inactive_targets_have_no_effects",
+        "log_line": 2851
+      },
+      {
+        "name": "reset_sessions::rotation_first_replacement_is_revoked_by_waiting_reset",
+        "log_line": 2852
+      },
+      {
+        "name": "reset_sessions::token_storage_failure_rolls_back_reset",
+        "log_line": 2853
+      }
+    ]
+  },
+  "canonical_browser": {
+    "test_name": "genuine_browser::genuine_production_browser_proposal_requires_all_seventeen_scenarios",
+    "test_outcome": "passed",
+    "discovered": 17,
+    "executed": 17,
+    "passed": 17,
+    "failed": 0,
+    "skipped": 0,
+    "unreached": 0,
+    "evidence_basis": "Hosted named canonical test passed and exact-commit protocol validates P01-P17 identities, counts and zero failed/skipped/unreached. Successful child stdout is captured by Rust; no direct browser report is printed in the full job log.",
+    "direct_report_in_log": false,
+    "failure_location_in_log": false
+  },
+  "frontend": {
+    "vitest_files": 9,
+    "vitest_passed": 112,
+    "python_tooling_passed": 18,
+    "fork_discovered_files": 4093,
+    "production_console_routes_404": 17
+  },
+  "explicit_subset_scopes": [
+    {
+      "step": "Attendance source parser regressions",
+      "passed": 8,
+      "filtered_out": 158,
+      "scope": "hr::tests::attendance_import"
+    },
+    {
+      "step": "PostgreSQL authorized read snapshot",
+      "passed": 1,
+      "filtered_out": 5,
+      "scope": "with_org_snapshot_arms_rls_before_repeatable_read_only_queries --exact",
+      "note": "The complete six-test RLS binary also passed in the payroll owner gate."
+    }
+  ],
+  "immutable_source_hashes": {
+    ".github/workflows/ci.yml": {
+      "bytes": 12484,
+      "sha256": "a3ed17e85e9bffd9d1089554c05edd30b631322d9660aa0716cbb800f105e3ba"
+    },
+    "backend-fork/backend/app/tests/auth_rest/genuine_browser.rs": {
+      "bytes": 109859,
+      "sha256": "eaa0a1a32a14b3c724939bcd65fdd453a2da663f382bd7926123c0e823573366"
+    },
+    "tools/test-browser-business-session.mjs": {
+      "bytes": 52093,
+      "sha256": "34769a1e48eff318e4de8068000efb75960f4182131c03a00c73c37ac3b659f7"
+    },
+    "tools/browser-business-temporal.mjs": {
+      "bytes": 34431,
+      "sha256": "44e6b3b0eae19e562a6baa520ae9e4d25914bcfb18b7cc30b5cde339f887b4e3"
+    },
+    "tools/browser-business-failure.mjs": {
+      "bytes": 2043,
+      "sha256": "682407048049f4ff76df89c5fa9af836f1985fddb36e4f8e7c8adcb34d9052e3"
+    }
+  },
+  "historical_red": {
+    "run_id": 37375753030,
+    "head_sha": "e24dac928d1e53967ac9ff23959d25ab464a089a",
+    "conclusion": "failure",
+    "sole_failed_scenario": "P14",
+    "root_cause": "Unproven; this hosted diagnostic candidate did not reproduce it."
+  },
+  "partial_log_attempt": {
+    "attempts_while_active": 1,
+    "endpoint_status": 404,
+    "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/hosted-diag01/partial-log-attempt01.txt",
+    "sha256": "0f798666d9980bedd51d24fc73db68c1e358c9067a426f0d093ff349f1441bd3"
+  },
+  "mutations": {
+    "source_edits": false,
+    "rerun": false,
+    "queue_admission": false,
+    "protection_change": false
+  },
+  "verdict": "SUCCESS_FOR_EXACT_8434BDB_ONLY; later follow-up still requires exact-head proof and review."
+}

@@ -17,14 +17,48 @@ function watchAttempt(promise) {
 function ownCookie(cookies, context) {
   return cookies.find((cookie) => cookie.name === `__Host-console-session-${context}`);
 }
+export function assertReadCookies(before, after, observedAtSeconds) {
+  assert.ok(Number.isFinite(observedAtSeconds) && observedAtSeconds > 0);
+  const original = new Map(before.map((cookie) => [cookie.name, cookie]));
+  const current = new Map(after.map((cookie) => [cookie.name, cookie]));
+  assert.equal(original.size, before.length, "original cookie names must be unique");
+  assert.equal(current.size, after.length, "observed cookie names must be unique");
+  for (const cookie of after) {
+    assert.ok(original.has(cookie.name), "reads must not add cookies");
+    assert.deepEqual(cookie, original.get(cookie.name), "reads must not change surviving cookies");
+  }
+  for (const cookie of before) {
+    if (current.has(cookie.name)) continue;
+    assert.ok(Number.isFinite(cookie.expires) && cookie.expires > 0 && cookie.expires <= observedAtSeconds,
+      "only a cookie with an actually elapsed recorded expiry may disappear");
+  }
+}
+async function noCookieMutation(response) {
+  assert.equal(response.request().redirectedFrom(), null, "cookie observation must include the original response");
+  assert.ok(!(await response.headersArray()).some((header) => header.name.toLowerCase() === "set-cookie"),
+    "read or rejected authentication response must not mutate browser cookies");
+}
+async function unchangedReadCookies(h, before) {
+  const after = await h.cookieSnapshot();
+  // This is the completed-observation time, not the browser's internal capture
+  // instant. Actual responses independently reject every Set-Cookie header.
+  const observedAtSeconds = Date.now() / 1000;
+  assertReadCookies(before, after, observedAtSeconds);
+}
 async function stable(h, actor, session) {
   const entry = h.actors.get(actor);
   const before = await h.control({ op: "effects" });
+  const cookies = await h.cookieSnapshot();
   const response = await entry.page.goto(`${entry.origin}/me/${session.context}/attendance/`);
   assert.equal(response.status(), 200);
+  await noCookieMutation(response);
   assert.ok(response.headers()["cache-control"]?.includes("no-store"));
   await h.checkTable(actor, entry.facts.first_page);
-  await entry.page.reload(); await h.checkTable(actor, entry.facts.first_page);
+  const reloaded = await entry.page.reload();
+  assert.equal(reloaded.status(), 200); await noCookieMutation(reloaded);
+  assert.ok(reloaded.headers()["cache-control"]?.includes("no-store"));
+  await h.checkTable(actor, entry.facts.first_page);
+  await unchangedReadCookies(h, cookies);
   const after = await h.control({ op: "effects" });
   assert.equal(after.digest, before.digest, "own reads must not rotate or issue authentication effects");
   await h.checkpoint(actor, session.context, session.token, "open", session.cookieExpires, session.signedCounter);
@@ -156,13 +190,13 @@ async function currentAuthorityAndExpiry(h) {
     assert.equal(changed.actor, "a"); assert.equal(changed.context, old.context);
     assert.equal(changed.change, change); assert.equal(changed.applied, true);
     const afterActualFault = await h.control({ op: "effects" });
-    await h.absent("a", old.context);
-    await h.actors.get("a").page.reload();
+    await noCookieMutation(await h.absent("a", old.context));
+    await noCookieMutation(await h.actors.get("a").page.reload());
     const explanation = await h.actors.get("a").page.locator("body").innerText();
     assert.match(explanation, /권한|계정|법인|접근|다시.*로그인|로그인.*(?:다시|필요)/,
       "current authority loss needs an actionable denied-access explanation");
     assert.equal(await h.actors.get("a").page.getByRole("table").count(), 0);
-    assert.deepEqual(await h.cookieSnapshot(), browserCookies);
+    await unchangedReadCookies(h, browserCookies);
     assert.equal((await h.control({ op: "effects" })).digest, afterActualFault.digest,
       "denied current-authority reads may not issue or repair authority");
     await stable(h, "b", survivor);
@@ -190,12 +224,14 @@ async function currentAuthorityAndExpiry(h) {
   await h.rateBudget();
   await h.restartRuntime({ CONSOLE_BACKEND_ORIGIN: h.runtime.shortBackend });
   await h.signIn("a"); const expiring = { ...h.sessions.get("a") };
-  assert.ok(expiring.cookieExpires - Date.now() / 1000 <= 6 && expiring.cookieExpires > Date.now() / 1000);
+  // signIn proves the real header/body/jar deadline is live at this observation.
+  // Its later checkpoint/table work may legitimately consume the six seconds.
+  assert.ok(expiring.cookieExpires - expiring.cookieObservedAt <= 6 && expiring.cookieExpires > expiring.cookieObservedAt);
   await elapsedDeadline(h, Math.max(expiring.cookieExpires, expiring.browserCookieExpires));
   assert.ok(!ownCookie(await h.cookieSnapshot(), expiring.context));
   const expiredState = await h.control({ op: "effects" });
-  await h.absent("a", expiring.context);
-  await h.actors.get("a").page.reload();
+  await noCookieMutation(await h.absent("a", expiring.context));
+  await noCookieMutation(await h.actors.get("a").page.reload());
   assertConservativeAbsent(await h.actors.get("a").page.locator("body").innerText());
   assert.equal((await h.control({ op: "effects" })).digest, expiredState.digest);
   await stable(h, "b", survivor);
@@ -490,18 +526,22 @@ export async function runTemporalScenarios(h) {
   const beforeRotation = await h.control({ op: "effects" });
   const beforeCookies = await h.cookieSnapshot();
   await h.restartRuntime({ CONSOLE_BROWSER_PREAUTH_KEY: randomBytes(32).toString("base64url") });
+  const observedFinish = page.waitForResponse((response) => response.url() === `${h.actors.get("a").origin}${h.paths.finish}`
+    && response.request().method() === "POST" && response.request().postDataJSON()?.ceremony_id === pendingStart.ceremony_id);
+  void observedFinish.catch(() => {});
   const rejected = await h.rawPublic("a", h.paths.finish, h.publicFinishBody(pendingStart, pendingAssertion), pendingStart.csrf_token);
+  await noCookieMutation(await observedFinish);
   assert.ok([400, 401, 403, 410].includes(rejected.status)); h.assertNoProof(rejected.body);
   assert.equal((await h.control({ op: "effects" })).digest, beforeRotation.digest);
-  assert.deepEqual(await h.cookieSnapshot(), beforeCookies, "invalidated preauth changes no cookies");
+  await unchangedReadCookies(h, beforeCookies);
   await h.signIn("a"); await h.signIn("b");
   const revoked = { ...h.sessions.get("a") }, live = { ...h.sessions.get("b") };
   const browserCookies = await h.cookieSnapshot();
   const owner = await h.control({ op: "native-revoke", actor: "a", context: revoked.context, session_token: revoked.token });
-  assert.equal(owner.status, 204); assert.deepEqual(await h.cookieSnapshot(), browserCookies);
-  await h.absent("a", revoked.context); await stable(h, "b", live);
+  assert.equal(owner.status, 204); await unchangedReadCookies(h, browserCookies);
+  await noCookieMutation(await h.absent("a", revoked.context)); await stable(h, "b", live);
   await h.control({ op: "cleanup", actor: "a" }); await h.restartRuntime();
-  await h.absent("a", revoked.context); await stable(h, "b", live);
+  await noCookieMutation(await h.absent("a", revoked.context)); await stable(h, "b", live);
   const confirmed = await h.rawPublic("a", h.paths.logout, h.publicLogoutBody(revoked.context), h.sessionCsrf(revoked.token, revoked.context));
   assert.equal(confirmed.status, 204);
   await h.logout("b"); h.pass("P14");
