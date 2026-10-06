@@ -4,6 +4,7 @@ import { spawn } from "node:child_process";
 import { once } from "node:events";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
+import { superviseEnrollmentFault } from "./enrollment-fault-deadlines.mjs";
 
 const env = Object.fromEntries(
   ["PATH", "HOME", "TMPDIR", "LANG", "LC_ALL", "PLAYWRIGHT_BROWSERS_PATH"]
@@ -51,15 +52,15 @@ for (const fault of ["signal-after-origin", "eof-after-ready", "oversized", "wro
     }
     // Parent timeout must request the runner's actual cleanup owner. A forced
     // termination cannot count as confirmed cleanup or a passed fault check.
-    let fallbackFired = false;
-    const deadline = setTimeout(() => { fallbackFired = true; child.kill("SIGTERM"); }, 25000);
-    const force = setTimeout(() => { fallbackFired = true; child.kill("SIGKILL"); }, 35000);
+    const supervision = superviseEnrollmentFault(child);
     try {
       assert.equal((await read()).kind, "origin");
       if (fault === "signal-after-origin") {
+        supervision.beginFault();
         child.kill("SIGTERM");
       } else {
         assert.equal((await read()).kind, "ready");
+        supervision.beginFault();
         if (fault === "eof-after-ready") child.stdin.end();
         else if (fault === "oversized") {
           const header = Buffer.alloc(4);
@@ -91,10 +92,9 @@ for (const fault of ["signal-after-origin", "eof-after-ready", "oversized", "wro
       assert.equal(code, aborted ? 2 : 1);
       assert.equal(signal, null);
       assert.ok(stderrBytes <= 1048576);
-      assert.equal(fallbackFired, false, "fallback intervention cannot prove requested cleanup");
+      assert.equal(supervision.forced, false, "fallback intervention cannot prove requested cleanup");
     } finally {
-      clearTimeout(deadline);
-      clearTimeout(force);
+      supervision.clear();
       child.stdin.destroy();
       if (child.exitCode === null && child.signalCode === null) {
         child.kill("SIGTERM");
