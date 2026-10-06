@@ -123,6 +123,322 @@ fn confirm(recipient: UserId, doc_id: InboxDocId) -> ConfirmReceiptCommand {
     }
 }
 
+async fn immutable_inbox_snapshot(owner: &PgPool) -> (Vec<String>, Vec<String>) {
+    let documents = sqlx::query_scalar("SELECT to_jsonb(d)::text FROM inbox_docs d ORDER BY id")
+        .fetch_all(owner)
+        .await
+        .unwrap();
+    let audits = sqlx::query_scalar("SELECT to_jsonb(a)::text FROM audit_events a ORDER BY id")
+        .fetch_all(owner)
+        .await
+        .unwrap();
+    (documents, audits)
+}
+
+// Emission uses the database creation timestamp, not command.occurred_at.
+// Set explicit fixture ordering before taking the immutable read snapshot.
+async fn fixture_created_at(owner: &PgPool, ids: &[InboxDocId], seconds: i64) {
+    let ids: Vec<Uuid> = ids.iter().map(|id| *id.as_uuid()).collect();
+    let updated = sqlx::query("UPDATE inbox_docs SET created_at = $1 WHERE id = ANY($2)")
+        .bind(OffsetDateTime::from_unix_timestamp(seconds).unwrap())
+        .bind(&ids)
+        .execute(owner)
+        .await
+        .unwrap();
+    assert_eq!(updated.rows_affected(), ids.len() as u64);
+}
+
+#[sqlx::test(migrations = "../../platform/db/migrations")]
+async fn full_terminal_page_ignores_other_recipients_companies_and_kinds(owner: PgPool) {
+    let org = OrgId::knl();
+    let other = OrgId::from_uuid(OTHER_ORG);
+    seed_org(&owner, OTHER_ORG, "PaginationOther").await;
+    let recipient = seed_user(&owner, *org.as_uuid(), "Page recipient").await;
+    let colleague = seed_user(&owner, *org.as_uuid(), "Other recipient").await;
+    let foreign = seed_user(&owner, OTHER_ORG, "Foreign recipient").await;
+    let store = PgInboxStore::new(runtime_role_pool(&owner).await);
+    let pay = console_platform_request_context::scope_org(org, async {
+        let pay = store.emit_inbox_doc(payslip_to(recipient)).await.unwrap();
+        store
+            .emit_inbox_doc(legal_notice_to(recipient, None))
+            .await
+            .unwrap();
+        store.emit_inbox_doc(payslip_to(colleague)).await.unwrap();
+        pay
+    })
+    .await;
+    console_platform_request_context::scope_org(other, async {
+        store.emit_inbox_doc(payslip_to(foreign)).await.unwrap();
+    })
+    .await;
+    let before = immutable_inbox_snapshot(&owner).await;
+
+    let empty = console_platform_request_context::scope_org(org, async {
+        store
+            .list(ListInboxDocsQuery {
+                recipient: colleague,
+                filter: InboxDocFilter::ActionRequired,
+                before_id: None,
+                limit: 1,
+            })
+            .await
+            .unwrap()
+    })
+    .await;
+    assert!(empty.items.is_empty());
+    assert_eq!(empty.next_cursor, None);
+    let mut pages = Vec::new();
+    for limit in [2, 1, 0, i64::MIN] {
+        let page = console_platform_request_context::scope_org(org, async {
+            store
+                .list(ListInboxDocsQuery {
+                    recipient,
+                    filter: InboxDocFilter::Payslip,
+                    before_id: None,
+                    limit,
+                })
+                .await
+                .unwrap()
+        })
+        .await;
+        assert_eq!(page.items, vec![pay.clone()], "limit={limit}");
+        pages.push((limit, page));
+    }
+    assert_eq!(immutable_inbox_snapshot(&owner).await, before);
+    for (limit, page) in pages {
+        assert_eq!(
+            page.next_cursor, None,
+            "a full final page has no next page; limit={limit}"
+        );
+    }
+}
+
+#[sqlx::test(migrations = "../../platform/db/migrations")]
+async fn tied_timestamps_page_without_gaps_duplicates_or_phantom_next(owner: PgPool) {
+    let org = OrgId::knl();
+    let recipient = seed_user(&owner, *org.as_uuid(), "Tied page recipient").await;
+    let store = PgInboxStore::new(runtime_role_pool(&owner).await);
+    let mut ids = console_platform_request_context::scope_org(org, async {
+        vec![
+            store
+                .emit_inbox_doc(payslip_to(recipient))
+                .await
+                .unwrap()
+                .id,
+            store
+                .emit_inbox_doc(payslip_to(recipient))
+                .await
+                .unwrap()
+                .id,
+        ]
+    })
+    .await;
+    fixture_created_at(&owner, &ids, 1_800_000_000).await;
+    ids.sort_by(|a, b| b.as_uuid().cmp(a.as_uuid()));
+    let before = immutable_inbox_snapshot(&owner).await;
+    let first = console_platform_request_context::scope_org(org, async {
+        store
+            .list(ListInboxDocsQuery {
+                recipient,
+                filter: InboxDocFilter::Payslip,
+                before_id: None,
+                limit: 1,
+            })
+            .await
+            .unwrap()
+    })
+    .await;
+    assert_eq!(first.items.len(), 1);
+    assert_eq!(first.items[0].id, ids[0]);
+    assert_eq!(
+        first.next_cursor,
+        Some(ids[0]),
+        "cursor is the returned row, not lookahead"
+    );
+    let second = console_platform_request_context::scope_org(org, async {
+        store
+            .list(ListInboxDocsQuery {
+                recipient,
+                filter: InboxDocFilter::Payslip,
+                before_id: first.next_cursor,
+                limit: 1,
+            })
+            .await
+            .unwrap()
+    })
+    .await;
+    assert_eq!(second.items.len(), 1);
+    assert_eq!(second.items[0].id, ids[1]);
+    assert_ne!(first.items[0].id, second.items[0].id);
+    assert_eq!(immutable_inbox_snapshot(&owner).await, before);
+    assert_eq!(second.next_cursor, None, "tied full final page terminates");
+}
+
+#[sqlx::test(migrations = "../../platform/db/migrations")]
+async fn foreign_cursors_fail_closed_and_owned_chronological_anchors_survive_filter_changes(
+    owner: PgPool,
+) {
+    let org = OrgId::knl();
+    let other = OrgId::from_uuid(OTHER_ORG);
+    seed_org(&owner, OTHER_ORG, "CursorOther").await;
+    let recipient = seed_user(&owner, *org.as_uuid(), "Cursor recipient").await;
+    let colleague = seed_user(&owner, *org.as_uuid(), "Cursor colleague").await;
+    let foreign = seed_user(&owner, OTHER_ORG, "Cursor foreign").await;
+    let store = PgInboxStore::new(runtime_role_pool(&owner).await);
+    let (older_legal, older_pay, anchor, newer_pay, colleague_pay) =
+        console_platform_request_context::scope_org(org, async {
+            (
+                store
+                    .emit_inbox_doc(legal_notice_to(recipient, None))
+                    .await
+                    .unwrap(),
+                store.emit_inbox_doc(payslip_to(recipient)).await.unwrap(),
+                store
+                    .emit_inbox_doc(legal_notice_to(recipient, None))
+                    .await
+                    .unwrap(),
+                store.emit_inbox_doc(payslip_to(recipient)).await.unwrap(),
+                store.emit_inbox_doc(payslip_to(colleague)).await.unwrap(),
+            )
+        })
+        .await;
+    let foreign_pay = console_platform_request_context::scope_org(other, async {
+        store.emit_inbox_doc(payslip_to(foreign)).await.unwrap()
+    })
+    .await;
+    for (id, seconds) in [
+        (older_legal.id, 1_800_000_005),
+        (older_pay.id, 1_800_000_010),
+        (anchor.id, 1_800_000_020),
+        (newer_pay.id, 1_800_000_030),
+        (colleague_pay.id, 1_800_000_040),
+        (foreign_pay.id, 1_800_000_050),
+    ] {
+        fixture_created_at(&owner, &[id], seconds).await;
+    }
+    console_platform_request_context::scope_org(org, async {
+        store
+            .confirm_receipt(confirm(recipient, anchor.id))
+            .await
+            .unwrap();
+    })
+    .await;
+    let before = immutable_inbox_snapshot(&owner).await;
+    let list = |filter, before_id| {
+        let store = store.clone();
+        async move {
+            console_platform_request_context::scope_org(org, async {
+                store
+                    .list(ListInboxDocsQuery {
+                        recipient,
+                        filter,
+                        before_id,
+                        limit: 10,
+                    })
+                    .await
+                    .unwrap()
+            })
+            .await
+        }
+    };
+    let baseline = list(InboxDocFilter::Payslip, None).await;
+    assert_eq!(
+        baseline
+            .items
+            .iter()
+            .map(|item| item.id)
+            .collect::<Vec<_>>(),
+        vec![newer_pay.id, older_pay.id]
+    );
+    let unknown = InboxDocId::new();
+    let mut denied = Vec::new();
+    for cursor in [colleague_pay.id, foreign_pay.id, unknown] {
+        let page = list(InboxDocFilter::Payslip, Some(cursor)).await;
+        assert!(page.items.is_empty());
+        assert_eq!(page.next_cursor, None);
+        denied.push(page);
+    }
+    assert!(denied.windows(2).all(|pair| pair[0] == pair[1]));
+    let anchored_pay = list(InboxDocFilter::Payslip, Some(anchor.id)).await;
+    assert_eq!(anchored_pay.items.len(), 1);
+    assert_eq!(anchored_pay.items[0].id, older_pay.id);
+    assert_eq!(anchored_pay.next_cursor, None);
+    let action = list(InboxDocFilter::ActionRequired, Some(anchor.id)).await;
+    assert_eq!(
+        action.items.len(),
+        1,
+        "a confirmed owned anchor still pages pending notices"
+    );
+    assert_eq!(action.items[0].id, older_legal.id);
+    assert!(action.items[0].locked);
+    assert_eq!(action.next_cursor, None);
+    assert_eq!(immutable_inbox_snapshot(&owner).await, before);
+}
+
+#[sqlx::test(migrations = "../../platform/db/migrations")]
+async fn maximum_page_size_is_bounded_and_exact_full_tail_terminates(owner: PgPool) {
+    let org = OrgId::knl();
+    let recipient = seed_user(&owner, *org.as_uuid(), "Maximum page recipient").await;
+    let store = PgInboxStore::new(runtime_role_pool(&owner).await);
+    let mut ids = Vec::new();
+    for _ in 0..201 {
+        let doc = console_platform_request_context::scope_org(org, async {
+            store.emit_inbox_doc(payslip_to(recipient)).await.unwrap()
+        })
+        .await;
+        ids.push(doc.id);
+    }
+    fixture_created_at(&owner, &ids, 1_800_000_000).await;
+    ids.sort_by(|a, b| b.as_uuid().cmp(a.as_uuid()));
+    let before = immutable_inbox_snapshot(&owner).await;
+    let list = |limit, before_id| {
+        let store = store.clone();
+        async move {
+            console_platform_request_context::scope_org(org, async {
+                store
+                    .list(ListInboxDocsQuery {
+                        recipient,
+                        filter: InboxDocFilter::Payslip,
+                        before_id,
+                        limit,
+                    })
+                    .await
+                    .unwrap()
+            })
+            .await
+        }
+    };
+    let first = list(200, None).await;
+    assert_eq!(
+        first.items.iter().map(|item| item.id).collect::<Vec<_>>(),
+        ids[..200]
+    );
+    assert_eq!(first.next_cursor, Some(ids[199]));
+    assert_eq!(
+        list(i64::MAX, None).await,
+        first,
+        "upper limit clamp is preserved"
+    );
+    let remainder = list(200, first.next_cursor).await;
+    assert_eq!(remainder.items.len(), 1);
+    assert_eq!(remainder.items[0].id, ids[200]);
+    assert_eq!(remainder.next_cursor, None);
+    let full_tail = list(i64::MAX, Some(ids[0])).await;
+    assert_eq!(
+        full_tail
+            .items
+            .iter()
+            .map(|item| item.id)
+            .collect::<Vec<_>>(),
+        ids[1..]
+    );
+    assert_eq!(immutable_inbox_snapshot(&owner).await, before);
+    assert_eq!(
+        full_tail.next_cursor, None,
+        "the exact 200-row tail has no next page"
+    );
+}
+
 #[sqlx::test(migrations = "../../platform/db/migrations")]
 async fn legal_notice_lock_confirm_and_cross_user_isolation(owner_pool: PgPool) {
     let rt_pool = runtime_role_pool(&owner_pool).await;
