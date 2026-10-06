@@ -54,6 +54,15 @@
     "/api/v1/auth/admin/otp/issue": [
       "post"
     ],
+    "/api/v1/auth/browser-session/login": [
+      "post"
+    ],
+    "/api/v1/auth/browser-session/logout": [
+      "post"
+    ],
+    "/api/v1/auth/browser-session/start": [
+      "post"
+    ],
     "/api/v1/auth/device-login/approve": [
       "post"
     ],
@@ -275,6 +284,8 @@
     "AppleAppSiteAssociation",
     "BranchScope",
     "BranchSummary",
+    "BrowserSessionIdentityRequest",
+    "BrowserSessionLoginResponse",
     "BulkAuthorizeBody",
     "BulkDecisionResponse",
     "ConsoleRouteSurface",

@@ -1,0 +1,23 @@
+{
+  "schema": "browser-mechanics-probe-source-review/5",
+  "verdict": "ACCEPT_SOURCE_ONLY",
+  "reviewer": "/root/resident_failure_diagnostic_review/secure_origin_path_review",
+  "source_sha256": "70f73116db84dd3e54b5563372bc05bc62d4863383408379947266bea2512b4e",
+  "initial_reviewed_proposal_sha256": "9f8d431fa218f7b21104d522fcbf3b8a2ed6a86f223160b8e37d09d6427be088",
+  "corrected_proposal_sha256": "792f692ad9d13092a47e7a7a94e2473ff9bda73143f3ab6ae4b370c9c95e86f3",
+  "proposal_correction": "observations[4] now accurately labels second original-document request and conditions guard reload provenance on trusted persisted original restoration; no executable source change.",
+  "independently_rehashed_source": true,
+  "verified": [
+    "Exactly149 static installed protocol reason enum values, no duplicates/missing/extras, actual protocol SHA asserted",
+    "First main-frame Page.backForwardCacheNotUsed event after Back-issued admitted independently of second GET timing",
+    "At most32 fixed type/reason fields, no event IDs/context/blocking details/tree/URLs",
+    "No reason event remains UNKNOWN; no cache eligibility/cause inference",
+    "Prior exact no-store/Chrome/guard/context/handles/preconditions/actions/timers/owned cleanup retained"
+  ],
+  "findings": [],
+  "limits": [
+    "Static source-only review",
+    "No browser/runtime/tests executed by author or reviewer",
+    "No actual BFF/native401/product acceptance or merge proof"
+  ]
+}

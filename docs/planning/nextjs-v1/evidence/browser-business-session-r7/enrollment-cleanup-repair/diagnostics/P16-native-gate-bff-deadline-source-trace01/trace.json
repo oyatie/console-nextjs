@@ -1,0 +1,119 @@
+{
+  "schema": "P16-native-gate-bff-deadline-source-trace/1",
+  "verdict": "SOURCE_TRACE_ONLY; SPECIFIC_RUNTIME_CAUSE_UNPROVEN",
+  "scope": "Independent read-only exact native held-response and product SSR transport timer trace against completed diagnostic90131bea sources. No tests/live operations/tracked edits or semantic repair.",
+  "completed_input_map_sha256": "90131bea32cf92be29be3b9b6332316eabb7534409cdc1cf463e5363626288da",
+  "sources": [
+    {
+      "relative": "backend-fork/backend/app/tests/auth_rest/genuine_browser.rs",
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/P16-native-gate-bff-deadline-source-trace01/sources/backend-fork/backend/app/tests/auth_rest/genuine_browser.rs",
+      "bytes": 110318,
+      "sha256": "3fc7ff40ce5b01325515803864ba2e87386562f4dd0bf744b2c22c594261879b",
+      "matches_completed_diagnostic_input_map": true
+    },
+    {
+      "relative": "tools/test-browser-business-session.mjs",
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/P16-native-gate-bff-deadline-source-trace01/sources/tools/test-browser-business-session.mjs",
+      "bytes": 52767,
+      "sha256": "ea936c0cdc8670261d556686b46a6d813b6479f4a8c6dd7b0925a42092e6aa2a",
+      "matches_completed_diagnostic_input_map": true
+    },
+    {
+      "relative": "tools/browser-business-restore.mjs",
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/P16-native-gate-bff-deadline-source-trace01/sources/tools/browser-business-restore.mjs",
+      "bytes": 45872,
+      "sha256": "a23c66dc14171cc07ab6d10d6835d07d4aaa105fae90e99ee9920015cf5214b6",
+      "matches_completed_diagnostic_input_map": true
+    },
+    {
+      "relative": "src/lib/server/browser-session.ts",
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/P16-native-gate-bff-deadline-source-trace01/sources/src/lib/server/browser-session.ts",
+      "bytes": 18614,
+      "sha256": "c890caf4d9904175cce5611919de992fe289fc5db22829f2bcf08999b4a1dfe6",
+      "matches_completed_diagnostic_input_map": true
+    },
+    {
+      "relative": "src/lib/server/backend.ts",
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/P16-native-gate-bff-deadline-source-trace01/sources/src/lib/server/backend.ts",
+      "bytes": 1448,
+      "sha256": "780f6e341eb6ef8e9313c85eada48527941c437feec980bad83491ee6e64885b",
+      "matches_completed_diagnostic_input_map": true
+    },
+    {
+      "relative": "src/app/me/[context]/attendance/page.public.tsx",
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/P16-native-gate-bff-deadline-source-trace01/sources/src/app/me/[context]/attendance/page.public.tsx",
+      "bytes": 6187,
+      "sha256": "a74bd09a039e0f9348a8982d48134a6acef023b5dbf1e712486b79112a8f206d",
+      "matches_completed_diagnostic_input_map": true
+    }
+  ],
+  "facts": [
+    {
+      "path": "tools/test-browser-business-session.mjs",
+      "lines": "347-352,419",
+      "fact": "holdNextRead arms ProductFaults on actual native history path through fault-arm; wait/release are separate control commands. No15s timer is present in this hold adapter."
+    },
+    {
+      "path": "backend-fork/backend/app/tests/auth_rest/genuine_browser.rs",
+      "lines": "1376-1389,1536-1550",
+      "fact": "Native wait for a held result uses PHASE20s. Once actual response is stored, its release wait is90s before drop; no15s automatic native release/cancel exists in this owner."
+    },
+    {
+      "path": "src/lib/server/browser-session.ts",
+      "lines": "174-176,188-192",
+      "fact": "Product ownAttendance calls nativeRequest(history), which passes AbortSignal.timeout(15000) to backendRequest. Rejected fetch maps to BrowserSessionError503."
+    },
+    {
+      "path": "src/lib/server/backend.ts",
+      "lines": "11-16",
+      "fact": "backendRequest preserves the supplied signal. Its5000ms default applies only when caller supplies none, so browser nativeRequest retains its explicit15000ms timer."
+    },
+    {
+      "path": "src/app/me/[context]/attendance/page.public.tsx",
+      "lines": "27-42",
+      "fact": "Actual SSR ownAttendance error503 renders a non-private connection-error page with retry link. A fetch abort could complete a real error reload while actual native response remains held."
+    },
+    {
+      "path": "tools/browser-business-restore.mjs",
+      "lines": "532-554,571-597,644,712",
+      "fact": "Queued test arms native history hold before real Back/hard reload, awaits actual held401 then attempts pinned original-world pending Runtime.evaluate. It releases the gate only after pending/privacy/release/React/logout assertions, or during legitimate owned cleanup after failure."
+    },
+    {
+      "path": "node_modules/playwright-core/lib/coreBundle.js",
+      "lines": "57557-57561",
+      "fact": "Pinned public CDPSession.send calls channel.send with kNoTimeout. This path does not establish the suggested generic15s SDK deadline; broader SDK/platform clocks are outside this narrow trace."
+    }
+  ],
+  "falsifiable_source_mechanism": "Held real reload native401 cannot reach SSR while the gate remains held. Product fetch has an independent15s abort, mapping to a real503 non-private page. If that page commits while original-world evaluation awaits, it could explain rejection around15006ms and a later different last-created main world. This is a source-backed candidate mechanism, not observed causal proof.",
+  "observed_runtime_facts": {
+    "helper_purpose": "pending",
+    "helper_category": "cdp-rejected",
+    "configured_helper_budget_ms": 20000,
+    "observed_helper_elapsed_ms": 15006,
+    "local_helper_timer_fired": false,
+    "normal_helper_result_received": false,
+    "raw_error": "UNOBSERVED",
+    "native_held_status": 401,
+    "gate_context_match": true,
+    "original_destroyed_event_seen": false,
+    "original_created_again_event_seen": true,
+    "contexts_cleared_seen": true,
+    "session_closed_seen": false,
+    "last_created_equality": false
+  },
+  "required_causal_proof": [
+    "Record bounded actual reload response status/error-page class and original-document lifecycle relative to helper rejection, without raw error/proof data or fake responses.",
+    "Preserve original product15s, native90s and helper20s bounds; timing proximity alone never establishes specific exception or deadline cause.",
+    "Any test-mechanism repair must retain truthful real401, original-document/pending/privacy/release witness and actual subsequent logout204/React/current privacy/independent actor assertions."
+  ],
+  "limits": [
+    "Source absence of15s native/adapter deadline applies only to the traced exact owners, not every runtime clock.",
+    "A15s BFF fetch abort is source-factual; this audit did not observe that abort/SSR response or browser commit during the actual run.",
+    "No specific CDP error, context absence, semantic fix, full125/browser17 approval or queue admission."
+  ],
+  "actions": {
+    "tests_executed": 0,
+    "tracked_source_writes": 0,
+    "artifact_only_trace_write": true
+  }
+}

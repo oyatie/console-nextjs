@@ -1,0 +1,99 @@
+{
+  "schema": "restored-context-mechanics-terminal-audit/1",
+  "verdict": "ACCEPT_TERMINAL_FAILED_PREREQUISITE_EVIDENCE; NO_P16_CAUSE_OR_PRODUCT_ACCEPTANCE",
+  "scope": "Independent completed standalone diagnostic report/log/captured-map and exact embedded terminal payload audit. No root-session consumption, rerun, map regeneration, business authentication/native result or product gate.",
+  "inputs": {
+    "report": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/restored-context-mechanics-native04.json",
+      "bytes": 792,
+      "sha256": "c79be73a48d501820cfbbd27817afc75658d86e6a29555a524b64e8315b5312c"
+    },
+    "log": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/restored-context-mechanics-native04.log",
+      "bytes": 4608,
+      "sha256": "bb18c43f79af21bf315af21bc3bd7783840d7663cab4e4888ba4fa69750f9e0a"
+    },
+    "maps": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/restored-context-mechanics-native04.inputs.json",
+      "bytes": 917481,
+      "sha256": "3a29d02833f3757908a3a8fe4f08c13790a813cd7a7676dbbb92653f2c77ae14"
+    }
+  },
+  "source_custody": {
+    "probe_source_sha256": "e9b978bdffd129fb1e261498d6a8c3dd94fa6e626075db8bbb76e7503b4c6d77",
+    "proposal_sha256": "33f19a7552f4719e8debf83ca58e8a3a6d116e664b0f5381567d4f5f0fef6d59",
+    "source_review_sha256": "9c724776c1d666e9250014cc3d5a1e634098daa6f85beadd1a634f90e47f45c6",
+    "review_verdict": "ACCEPT_SOURCE_ONLY",
+    "root_declared_artifact_immutable": true,
+    "before_after2958_source_entries_equal": true,
+    "artifact_executable_in_captured_worktree_map": false,
+    "layout_matches_captured_map": true,
+    "sdk_and_guard_match_reviewed_source_runtime_asserted_pins": true,
+    "limit": "Exact separately preserved root-frozen executable/proposal/review bytes match approved pins. Captured worktree map excludes this external artifact executable and node_modules SDK; do not invent runtime self-hash or map inclusion. Reviewed source asserts SDK and guard pins before owned-stage checkpoint."
+  },
+  "counts": {
+    "native_test_bodies_executed": 0,
+    "wrapper_zero_counts_are_native_regex_only": true,
+    "standalone_mechanics_attempts": 1,
+    "standalone_mechanics_failed": 1,
+    "post_restoration_comparison_evaluations_issued": 0,
+    "product_browser17_gate_executed": false
+  },
+  "terminal": {
+    "exit_code": 1,
+    "outer_timeout": false,
+    "duration_seconds": 6.848878083983436,
+    "status": "terminal-observations",
+    "failure_category": "phase-deadline",
+    "failure_checkpoint": "fixture-reload-request",
+    "trusted_persisted_original_restore_seen": false,
+    "source_defined_fixture_reload_request_seen": true,
+    "original_context_and_document_handle_pinned_before_departure": true,
+    "evaluation": null,
+    "original_document_handle_evaluation": null,
+    "fresh_fixture_response": null,
+    "mechanism_field": "inconclusive",
+    "cause_proof": false,
+    "payload_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/restored-context-mechanics-native04-terminal-audit01/probe-payload.json",
+    "payload_sha256": "3ae2f1a19c0ed55b23ff16e74e357530b5ea66c8e073d7f95610d9633d3e75f5"
+  },
+  "fixture_request_meaning": "Source sets the flag on the second /original request. Without trusted persisted restoration, this proves that fixture request only, not an independently witnessed guard hard reload; ordinary cold Back may request the same path.",
+  "scoped_cleanup": {
+    "facts": {
+      "browser_owner_returned": true,
+      "browser_close_settled": true,
+      "browser_kill_settled": false,
+      "browser_process_exit_seen": true,
+      "browser_owner_process_live_seen": true,
+      "browser_owned_group_confirmed": true,
+      "browser_group_absent": true,
+      "stage_creation_settled": true,
+      "server_closed": true,
+      "owned_stage_removed": true
+    },
+    "cleanup_complete_custody_confirmed": true,
+    "positive_live_owned_group_observed_before_absence": true,
+    "limit": "Actual source-bound probe reported SDK owner close settlement, observed owner process exit, captured owned PGID liveness/ownership then kernel ESRCH, closed fixture server and removed owned stage. No kill fallback was needed. This is scoped to this standalone process/group/stage; not arbitrary escaped descendants, earlier probe01, current native worker lifecycle or full product custody."
+  },
+  "historical_probe01": {
+    "terminal_receipt_sha256": "5d34d9ac8e6cbe5ea15274648840aefc35d8f6736520667501c01d75ff048928",
+    "source_sha256": "eb0bce2a8918e86599d3e1ec14c167403b6d601fe6b71b59fddc97fece992e81",
+    "recorded_tool_exit_code": 3,
+    "recorded_output_bytes": 0,
+    "runtime_proof": false,
+    "custody": "UNKNOWN; original receipt reports no independent owned group/temp disposition observation",
+    "limit": "Exact supplied historical root terminal receipt preserved, not a new independent session/raw-output observation. No upgraded success or cleanup claim."
+  },
+  "limits": [
+    "Prerequisite failed before either post-restoration comparison evaluation; initial original-context/handle pin evaluations did occur.",
+    "Source-defined inconclusive field is a label, not proof of BFF abort/native401/CDP rejection cause.",
+    "Fixture15s response never became a fresh observed response before cleanup; the response timer was canceled on failed prerequisite.",
+    "No synthetic pageshow, response fallback, remapped context, changed timeout or product action release in this audit.",
+    "Source-only04 approval and local cleanup do not satisfy required native125/browser17 acceptance or merge readiness."
+  ],
+  "actions": {
+    "tests_executed": 0,
+    "tracked_source_writes": 0,
+    "artifact_only_audit_and_payload_write": true
+  }
+}

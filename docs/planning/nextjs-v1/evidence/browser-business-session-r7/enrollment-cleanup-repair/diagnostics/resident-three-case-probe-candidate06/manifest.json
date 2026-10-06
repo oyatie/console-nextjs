@@ -1,0 +1,49 @@
+{
+  "schema": "resident-three-case-probe-candidate/6",
+  "state": "Artifact source candidate; not executed or accepted",
+  "before_sha256": "dbdad3d7e20f231b1fa0798ccaba659e9e6d8a3ba22df409aabe0a67f008adc3",
+  "after_sha256": "a5aa51a741c93e76b1a267392add0b6fdbd3a2afd60b45efbfde94b8fe8a9d31",
+  "patch_sha256": "731cf3922f82c1a2b55adb2a448ce54da85672155af20431a9b3360ba767cabd",
+  "source_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/resident-three-case-probe-candidate06/resident-three-case-probe.mjs",
+  "expected_final_sources": {
+    "tools/test-resident-authenticator.mjs": "88cdfea200731ab32fcda0c797a96eee6ce49a42e6f174208fed29195105cd2e",
+    "backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs": "c2fc3e190d7b9933cdaf77958a8a9dc11a6ab8df83fa69362c7a42d5bc67412c"
+  },
+  "changes": [
+    "Preserve the same actual ready/done, EOF-after-ready and positively owned group SIGSTOP/done cases, with original25-second startup,15-second cleanup and6-second failure-cleanup budgets.",
+    "Use a fresh caller container to observe actual native fixture scope count1 at ready and0 after ACK and exit, before any harness removal. No private SDK access or fs interception.",
+    "Require both the verified browser leader PID and its owned process group to be absent. Group reaping is observed under the existing cleanup deadline; no escaped-descendant absence claim.",
+    "Align strict diagnostic parsing with the new fixed stages and scope booleans. Add monotonic after-await gates to original bounded helper.",
+    "Fresh caller container setup reuses existing startup bound; failed setup reuses existing failure-cleanup bound. Caller removal stays within the current existing case cleanup/failure deadline, records residue before intervention, and cannot turn a failed fixture into success."
+  ],
+  "historical_scope_limit": "Candidate04 independently observed only the actual browser leader PID absence; its accepted run cannot certify complete group or escaped-descendant absence.",
+  "proof_limits": [
+    "No credential ceremony, authentication, business behavior, full native/browser gate or product acceptance.",
+    "Clean temporary-scope removal does not reproduce or prove the exact historical filesystem cause.",
+    "No success substitute from harness removal, a forced intervention, node exit alone or missing process identity.",
+    "SIGKILL or host failure cannot execute in-process cleanup; custody stays unconfirmed."
+  ],
+  "static_check": {
+    "command": [
+      "/Users/jasonlee/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
+      "--check",
+      "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/resident-three-case-probe-candidate06/resident-three-case-probe.mjs"
+    ],
+    "exit_code": 0,
+    "scope": "Syntax only; no execution or tests"
+  },
+  "actions": {
+    "tracked_source_writes": 0,
+    "tests_executed": 0,
+    "artifact_only_preparation": true
+  },
+  "supersedes": {
+    "candidate05_review_sha256": "9a9248ba217a1628287e34af2045252914304ef723616c672a7076f432fdde68",
+    "corrections": [
+      "Bound pre-case filesystem admission and cancellation before counting/starting a case. Its existing25-second startup clock starts before the admission read and is passed into the actual attempt.",
+      "Check cancellation during group absence polling and before accepting absence.",
+      "Keep a failed final residue observation separate from removal of the known fresh caller root while the original remaining budget permits.",
+      "Failed setup/admission with no active fixture enters the existing6-second failure cleanup phase once, including an already known root; spent live-case cleanup phases are not restarted."
+    ]
+  }
+}

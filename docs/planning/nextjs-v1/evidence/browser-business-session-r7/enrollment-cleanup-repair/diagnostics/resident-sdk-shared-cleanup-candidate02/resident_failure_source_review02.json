@@ -1,0 +1,141 @@
+{
+  "schema": "resident-sdk-shared-cleanup-source-review/1",
+  "verdict": "ACCEPT_SOURCE_ONLY",
+  "scope": "Independent direct design03, candidate02 exact Node/Rust source-diff and installed actual SDK ownership trace review. Separate from P16 trace and any future P16 implementation review. No execution, compilation, tests or tracked writes.",
+  "pins": {
+    "node_before": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/resident-sdk-shared-cleanup-candidate02/node-before.mjs",
+      "sha256": "b62d0d6eba89439d4194b79d4dab62ed8fd07614f93bf984bbd3ab261a71799e",
+      "bytes": 13043
+    },
+    "node_after": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/resident-sdk-shared-cleanup-candidate02/tools/test-resident-authenticator.mjs",
+      "sha256": "88cdfea200731ab32fcda0c797a96eee6ce49a42e6f174208fed29195105cd2e",
+      "bytes": 15858
+    },
+    "rust_before": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/resident-sdk-shared-cleanup-candidate02/rust-before.rs",
+      "sha256": "26e2350f1224c10f6ea3095a201ead024cf7f5e040d8a8924657202cc6345311",
+      "bytes": 27859
+    },
+    "rust_after": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/resident-sdk-shared-cleanup-candidate02/backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs",
+      "sha256": "c2fc3e190d7b9933cdaf77958a8a9dc11a6ab8df83fa69362c7a42d5bc67412c",
+      "bytes": 28091
+    },
+    "combined_patch": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/resident-sdk-shared-cleanup-candidate02/patch.diff",
+      "sha256": "70136cfd792b1084631ab8a7bcd1f64f802d7d4bdbf76ed36fef96c1dc1c4d94",
+      "bytes": 7848
+    },
+    "node_patch": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/resident-sdk-shared-cleanup-candidate02/node-patch.diff",
+      "sha256": "cbe3ec74daf2c3afa2399295415e27bd47571c529dd50156e5dfd529fce93136",
+      "bytes": 6355
+    },
+    "rust_patch": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/resident-sdk-shared-cleanup-candidate02/rust-patch.diff",
+      "sha256": "a0d50d87ec75931809154e172ec5b8bd28ff6f57c51149bd064efd42e1957b85",
+      "bytes": 1493
+    },
+    "manifest": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/resident-sdk-shared-cleanup-candidate02/manifest.json",
+      "sha256": "ba6411cc073f5469b4a71f69fd8213376b487ee40fd7c575675a8de6a0716ed6",
+      "bytes": 5485
+    },
+    "design": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/resident-sdk-shared-cleanup-design03/design.json",
+      "sha256": "706993f6545e022b20c96bee286bdb795ff2f82fdf732ab5738da31b1dd76d56",
+      "bytes": 14366
+    },
+    "design_review": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/resident-sdk-shared-cleanup-design03/review.json",
+      "sha256": "3834652671bf047078183b0d08cb90bd42cbf965ac39e6035b68c14356bc8d2e",
+      "bytes": 4349
+    },
+    "installed_sdk": {
+      "path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/node_modules/playwright-core/lib/coreBundle.js",
+      "sha256": "549070af3acabb3efcc4f55bfe6210f9f7c2fcf633cf7eaa59bfe60719969171",
+      "bytes": 3477183
+    },
+    "startup_fault_rust_dependency": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/resident-startup-fault-candidate02/backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs",
+      "sha256": "26e2350f1224c10f6ea3095a201ead024cf7f5e040d8a8924657202cc6345311",
+      "bytes": 27859
+    }
+  },
+  "exact_diffs_match": true,
+  "rust_before_is_dependency_not_current_tracked_source": true,
+  "findings": [],
+  "checks": [
+    {
+      "result": "PASS_SOURCE",
+      "property": "Fresh bounded scope ownership",
+      "evidence": "One actual fs.mkdtemp root is assigned to ownedTempScope. Only this fixture Node process TMPDIR and clean child env are changed. SDK default artifacts/profile mkdtemp reads os.tmpdir (installed SDK39756-39770), so paths stay within the fresh root. Cleanup target is only that fresh returned root, never caller TMPDIR or derived private SDK directories."
+    },
+    {
+      "result": "PASS_SOURCE",
+      "property": "Startup resource-race custody",
+      "evidence": "Actual mkdtemp plus actual launchServer share original5000ms monotonic startup budget. The original startup promise is retained through timeout/EOF finalization. After a late mkdtemp returns, closing is checked before launch; if launch already began its returned server owner is assigned and cleanup awaits that original promise. No substitute promise/provider or detached scope creation is added."
+    },
+    {
+      "result": "PASS_SOURCE",
+      "property": "Settled startup without returned server remains failure",
+      "evidence": "When startup settles without a BrowserServer, known fresh scope is removed and ENOENT-checked under same original finalizer; no scope is invented when mkdtemp supplied none. This path always fails without cleaned ACK and preserves UNKNOWN browser custody. Scope removal does not imply no browser was launched."
+    },
+    {
+      "result": "PASS_SOURCE",
+      "property": "Actual shared SDK cleanup",
+      "evidence": "Installed close/kill share waitForCleanup fulfilled after actual child close plus awaited removeFolders (SDK9358-9368,9380-9392,9430-9433). Candidate retains real kill promise, invokes close/kill once each, and permits awaiting that same promise after two-second observation only with actual child exit/close. Settlement false/rejection and total expiry fail. No private SDK internals or mutation are used."
+    },
+    {
+      "result": "PASS_SOURCE",
+      "property": "Late settlement race resolved",
+      "evidence": "Candidate02 does not require killSettled still be false after a timed-out observation; it checks the actual retained promise result. A legitimate fulfillment between phase expiry and later child checks is not rejected merely because the flag changed. Actual child exit/close and original total deadline remain mandatory."
+    },
+    {
+      "result": "PASS_SOURCE",
+      "property": "Phase and total deadlines",
+      "evidence": "2000ms close/kill observations stay bounded with losing timers canceled and monotonic acceptance checks. Original12000ms total captured once controls awaited startup, SDK settlement, scope removal/absence and before/after ACK completion. Delayed timer callbacks cannot authorize late success. Pending cleanup changes phase semantics per accepted design03; it does not widen total or add a tail budget."
+    },
+    {
+      "result": "PASS_SOURCE",
+      "property": "Scope removal evidence floor",
+      "evidence": "After actual SDK settlement/browser-child exit, real fs.rm is awaited with errors propagated, then lstat must yield ENOENT. Residual scope, other error or overdue completion prevents success. SDK settlement alone is not treated as deletion proof; SDK itself catches removal errors8343-8346,9326-9334."
+    },
+    {
+      "result": "PASS_SOURCE",
+      "property": "ACK and failed-finalization floor",
+      "evidence": "Cleaned frame still requires actual SDK settlement, child exit, owned root absent and original deadline. Post-write deadline check must pass before cleanupConfirmed/expected exit status. Failed finalization retains code3 and hard timer unref; Rust still requires matching actual Node exit, so an ACK whose completion crosses bound cannot alone certify cleanup."
+    },
+    {
+      "result": "PASS_SOURCE",
+      "property": "Paired diagnostic schema",
+      "evidence": "Node adds only owned-temp/browser-cleanup stage literals and owned_temp_seen/removed booleans. Rust kebab-case enum and deny_unknown_fields struct match exactly; existing best-effort logging prints fixed fields. Manifest correctly requires startup-fault02 dependency first and paired Node/Rust application before running; no mixed schema is claimed current."
+    },
+    {
+      "result": "PASS_SOURCE",
+      "property": "Privacy and unchanged product/crypto surface",
+      "evidence": "No new raw errors, paths, IDs or native payload output. Actual virtual-authenticator/browser APIs, protocol fields, credential handling and expected outcomes remain unchanged. Node process/browser-child exit and fresh scope absence do not certify descendants, external copies or all SDK directories outside the root."
+    }
+  ],
+  "required_runtime_proof": [
+    "Actually observe scope ownership/existence and absence independently before harness fallback cleanup for normal done, EOF-after-ready and positively verified SIGSTOP lifecycle cases.",
+    "Exercise naturally reachable early EOF/startup failure with a known scope/no returned server; record UNREACHED rather than manufactured failure/success when unavailable.",
+    "No Node/server exit alone proves browser group absence; retain UNKNOWN unless independently positively verified.",
+    "Compile and execute the four focused startup/cached-failure tests, unchanged short-family consumer, failing FK-holder consumer and updated actual lifecycle probe against final paired source.",
+    "Fresh full native/browser acceptance plus exact before/after input hashes and actual discovered/executed counts. P16 remains a separate failed/diagnosed path until its own behavior proof passes."
+  ],
+  "limits": [
+    "Source-only acceptance; static checks listed by author were not executed/repeated by this reviewer.",
+    "Historical exit3 and exact filesystem/FK-holder causes remain unproven.",
+    "No tested performance, temporary-file deletion, group absence, product readiness or merge approval is inferred.",
+    "Rust before source is an unapplied accepted dependency; it is not represented as current tracked source."
+  ],
+  "actions": {
+    "tracked_source_writes": 0,
+    "tests_executed": 0,
+    "live_operations": 0,
+    "artifact_review_write": true
+  }
+}

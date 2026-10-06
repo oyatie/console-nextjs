@@ -1,0 +1,72 @@
+{
+  "schema": "resident-startup-owner-source-review/1",
+  "state": "ACCEPT_SOURCE_ONLY",
+  "candidate": "resident-startup-owner-candidate02",
+  "review_scope": "Independent adversarial inspection of artifact source, exact before/after unified patch, candidate01 delta, and accepted design02; no application, compilation, tests, or fixture execution.",
+  "pins": {
+    "before_sha256": "30345239d9e8321ea9394dd5b5f75d91b5ca4d1b1a98a27c7360951a82179c45",
+    "after_sha256": "2917aa92f08d8d8d49da0f5ddf0474c808bf5886683a8754e35bf69a15fcaedd",
+    "patch_sha256": "6cd1737bd9e6795088e3795f1861e4449bdb28c458e278b73cf6a4288124b4c1",
+    "manifest_sha256": "47974e5f1a3ffad11eac6518f8125003b015778dcf6f9b05520d2b7e4a714b94",
+    "design_sha256": "3d711a1935a88dcacbc7fa17273fb57dda3952c0c97477a0dcc2dbe007f89d23"
+  },
+  "verified": {
+    "pins_match": true,
+    "patch_matches_exact_before_after_snapshots": true,
+    "candidate01_logging_finding_resolved": true
+  },
+  "source_checks": [
+    {
+      "lines": "92-119",
+      "assessment": "Bounded channels precede child spawn; the existing Self cleanup owner is installed immediately after successful spawn, before pipe extraction and worker creation."
+    },
+    {
+      "lines": "120-219",
+      "assessment": "Fallible Builder workers preserve fixed typed startup errors and immediately install successful handles. Later local pipes drop before the owner on constructor error; constructed workers remain owned. constructing becomes false only after readiness and browser identity validation."
+    },
+    {
+      "lines": "301-310",
+      "assessment": "The Copy close Result is cached after one finalized attempt, including failure, so later close/Drop does not create another cleanup budget."
+    },
+    {
+      "lines": "320-353",
+      "assessment": "Partial missing-worker startup cannot create an ACK success. Ordinary ACK handling retains the existing first cleanup deadline and checks elapsed time after receiving a frame. Channel disposal follows ordinary ACK handling and releases blocked reader sends."
+    },
+    {
+      "lines": "354-417",
+      "assessment": "Wait, deadline, and forced-kill errors are accumulated rather than bypassing resource cleanup. The second existing 15-second phase starts once and polls actual child status plus present workers; timeout remains failure. Node reaping is assigned only from observed status, with separate worker completion observation."
+    },
+    {
+      "lines": "419-467",
+      "assessment": "Only finished handles are joined. Ordinary missing workers and failed joins remain failures. ACK, known browser identity/exited flag, outcome, stderr count, and actual Node exit-code checks remain required for ordinary success."
+    },
+    {
+      "lines": "469-505",
+      "assessment": "All cleanup and construction/unwinding Drop diagnostics use ignored best-effort writeln stderr Results. Fixed strings/enums/booleans/counts/status metadata preserve the existing logging boundary; stderr write failure no longer intentionally panics or interrupts Result caching."
+    },
+    {
+      "lines": "1-507",
+      "assessment": "No concrete Rust ownership, type inference, Copy-result/status, or shared/mutable borrow inconsistency found by inspection. Formatting-induced nested-if/let-chain changes preserve the prior join conditions."
+    }
+  ],
+  "findings": [],
+  "limits": [
+    "Source/design acceptance only; no compiler/typecheck or runtime confirmation.",
+    "The manifest reports pinned rustfmt parse/format success; this review did not rerun formatting.",
+    "Private real-child injected worker-creation failure tests are still pending and will not prove actual OS resource exhaustion.",
+    "No partial-construction Chromium absence was observed. Node status/reaping and created-worker completion do not independently prove browser absence; browser custody remains UNKNOWN when identity/absence evidence is unavailable.",
+    "Existing separate fixture done/EOF/verified-SIGSTOP probes do not validate this candidate's unobserved partial-construction behavior.",
+    "Nominal source phase budgets remain the existing 15-second ACK/natural-exit phase plus one 15-second reap/worker phase; no measured wall-clock claim is made.",
+    "No product, business-session, release, or deployment acceptance is granted."
+  ],
+  "actions": {
+    "tracked_source_writes": false,
+    "candidate_source_writes": false,
+    "artifact_review_receipt_write": true,
+    "patch_applied": false,
+    "compilation": false,
+    "tests_executed": 0,
+    "fixture_or_probe_execution": false,
+    "service_or_other_repository_actions": false
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "outcome": "HARNESS_FAILURE",
+  "tests_executed": 0,
+  "cause": "Importing owner via Node stdin gives process.argv[1]=\"-\"; existing server module main-guard realpath refuses that nonexistent path before staging.",
+  "action": "Use existing documented production-runtime CLI with a real script path; no product edits."
+}

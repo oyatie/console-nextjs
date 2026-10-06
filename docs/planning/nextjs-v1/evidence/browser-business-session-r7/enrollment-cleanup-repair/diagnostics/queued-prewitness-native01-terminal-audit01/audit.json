@@ -1,0 +1,107 @@
+{
+  "schema": "queued-prewitness-native-terminal-audit/1",
+  "verdict": "ACCEPT_TERMINAL_EVIDENCE; REQUIRED_ACCEPTANCE_FAILED",
+  "scope": "Independent report/log/input-map and exact source-checkpoint audit, with preserved embedded real-browser payload. No rerun, full current-source regeneration, exception-type inference or release acceptance.",
+  "inputs": {
+    "report": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/queued-prewitness-diagnostic-native01.json",
+      "bytes": 1203,
+      "sha256": "8bf4d2ced074ec126e99ee3549b3dd369cb9edf146d3d51e27a9b942f737597c"
+    },
+    "log": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/queued-prewitness-diagnostic-native01.log",
+      "bytes": 10513,
+      "sha256": "260066fd973d91ab86beb0bfa992b97c7834285238546269357317cb270ab055"
+    },
+    "inputs": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/queued-prewitness-diagnostic-native01.inputs.json",
+      "bytes": 917481,
+      "sha256": "1cc116be66820ae7facd6253c3c5d652eb8c22649ed535bae787c898a82e1a61"
+    }
+  },
+  "native": {
+    "announced": 1,
+    "unique_raw_test_names": [
+      "genuine_browser::genuine_production_browser_proposal_requires_all_seventeen_scenarios"
+    ],
+    "executed": 1,
+    "passed": 0,
+    "failed": 1,
+    "ignored": 0,
+    "measured": 0,
+    "filtered": 120,
+    "exit_code": 101,
+    "timed_out": false,
+    "duration_seconds": 1157.3428845420713,
+    "limit": "This is one selected native test with120filtered, not an unfiltered121-test gate."
+  },
+  "browser": {
+    "discovered": 17,
+    "executed": 17,
+    "passed": 16,
+    "failed": 1,
+    "unreached": 0,
+    "skipped": 0,
+    "failure_class": "behavior",
+    "failed_scenario": "P16",
+    "failed_subcase": "queued-react-css",
+    "diagnostic": {
+      "queued_checkpoint": "queued-pending",
+      "failure_location": null,
+      "queued_native_observation": {
+        "stage": "native-response-observed",
+        "http_status": 401,
+        "native_gate_match": true,
+        "native_context_match": true,
+        "native_status_401": true
+      },
+      "queued_ordering_observation": null,
+      "not_restored_reasons": [],
+      "trusted_departures": 1,
+      "trusted_original_restores": 1
+    },
+    "other_P16_checks": {
+      "blocked-bundles": "passed",
+      "blocked-css-bundles": "passed",
+      "delayed-bundles": "passed",
+      "offline": "passed",
+      "missing-guard": "passed",
+      "thrown-guard": "passed"
+    },
+    "payload_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/queued-prewitness-native01-terminal-audit01/browser-payload.json",
+    "payload_sha256": "783355e0d032ee03b056b0e73a1e9ee821f726f852506b2ec03a7cb854251d1b"
+  },
+  "source_inputs": {
+    "before_count": 2958,
+    "after_count": 2958,
+    "all_before_after_entries_equal": true,
+    "selected_pins": {
+      "tools/browser-business-restore.mjs": "eb5e3feb387bac47b35eb9a4fb56c2d2fa18f57a92caa0ad72244519c8f8d4fc",
+      "tools/test-resident-authenticator.mjs": "b62d0d6eba89439d4194b79d4dab62ed8fd07614f93bf984bbd3ab261a71799e",
+      "backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs": "2917aa92f08d8d8d49da0f5ddf0474c808bf5886683a8754e35bf69a15fcaedd"
+    },
+    "restoration_source_snapshot_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/queued-prewitness-native01-terminal-audit01/browser-business-restore.mjs",
+    "restoration_source_snapshot_sha256": "eb5e3feb387bac47b35eb9a4fb56c2d2fa18f57a92caa0ad72244519c8f8d4fc",
+    "limit": "Captured maps independently compared, not independently regenerated. Exact current restoration file matches run pin and was copied as evidence. Other current files may later change under root."
+  },
+  "checkpoint_interpretation": {
+    "source_lines": "481-506",
+    "observed": "The native response status401 and exact gate/context matches were observed; trusted departure/restoration each1. queued-pending is assigned immediately before await page.evaluate. The ordering witness is assigned only after that evaluation returns an object and its fields are read.",
+    "localized_failure": "The pending original-Document evaluation/return path before witness assignment; the expected-pending assertion and releaseLogout call were not reached.",
+    "unproven": "Exact exception type, protocol cause and failure line remain unproven; failure_location is null. No claim that pending state was wrong or that the release latch fixed P16.",
+    "limits": [
+      "Actual native denial is not the verified ordering witness.",
+      "A restore event does not prove the original JavaScript context remains callable during reload/navigation.",
+      "No exact Playwright error message, navigation timing or context-destroyed assertion is present in this audited payload."
+    ]
+  },
+  "cleanup": {
+    "printed_database_lane_cleanup_observed": true,
+    "limit": "Printed lane cleanup is not an independent browser/process-group absence witness."
+  },
+  "actions": {
+    "tests_executed": 0,
+    "tracked_source_writes": 0,
+    "artifact_only_audit_and_snapshots": true
+  }
+}

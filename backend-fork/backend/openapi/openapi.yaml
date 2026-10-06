@@ -1879,6 +1879,83 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '409':
           $ref: '#/components/responses/Conflict'
+  /api/v1/auth/browser-session/login:
+    post:
+      tags:
+        - auth
+      summary: Finish browser passkey login
+      description: Consumes a fresh signed native assertion and atomically binds encrypted native proof to an opaque browser handle. No signed or refresh proof is returned.
+      security:
+      - BrowserIngress: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PasskeyLoginFinishRequest'
+      responses:
+        '200':
+          description: Authorized native response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BrowserSessionLoginResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '413':
+          description: Signed credential body exceeds 2 MiB or the freshly issued original native proof exceeds the browser-only 1 MiB ceiling. Issuer effects roll back; proof is never truncated or reminted.
+  /api/v1/auth/browser-session/logout:
+    post:
+      tags:
+        - auth
+      summary: Close exact browser session family
+      description: Accepts only the exact opaque handle and context. Known expired or source-removed identity can reconcile; unknown custody never confirms closure.
+      security:
+      - BrowserIngress: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BrowserSessionIdentityRequest'
+      responses:
+        '204':
+          description: Exact family closure confirmed; retry of confirmed terminal identity is idempotent.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '413':
+          description: Identity body exceeds 4 KiB.
+  /api/v1/auth/browser-session/start:
+    post:
+      tags:
+        - auth
+      summary: Start explicit browser passkey login
+      description: Bodyless explicit discoverable start. Shares native IP, device and global rate limits; requires verified one-hop ingress.
+      security:
+      - BrowserIngress: []
+      responses:
+        '200':
+          description: Authorized native response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PasskeyLoginStartResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '429':
+          description: Native login-start rate limit exceeded.
   /api/v1/auth/device-login/approve:
     post:
       tags:
@@ -7051,6 +7128,35 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         '403':
           $ref: '#/components/responses/Forbidden'
+  /api/v1/hr/browser-session/attendance-records/me:
+    post:
+      tags:
+        - hr
+      summary: Read own attendance through browser custody
+      description: Resolves current native authority and reads Company name, Account display, employee linkage, count and history in one authorized snapshot. No Account, Company or employee selector is accepted.
+      security:
+      - BrowserIngress: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BrowserSessionAttendanceRequest'
+      responses:
+        '200':
+          description: Authorized native response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BrowserSessionAttendanceResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '413':
+          description: Identity and pagination body exceeds 4 KiB.
   /api/v1/hr/exit-cases:
     post:
       tags:
@@ -18187,6 +18293,11 @@ paths:
           description: A required dependency is unavailable.
 components:
   securitySchemes:
+    BrowserIngress:
+      type: apiKey
+      in: header
+      name: x-console-browser-ingress
+      description: Purpose-scoped bi1 service credential, separately requiring the native ingress owner to verify one canonical forwarded client IP from a configured trusted socket peer. A browser handle or bearer does not waive ingress.
     basicAuth:
       type: http
       scheme: basic
@@ -20007,6 +20118,89 @@ components:
           description: Set when the branch has been soft-deleted (deactivated); null for an active branch. Active-only listings
             omit deactivated rows.
         created_at:
+          $ref: '#/components/schemas/Timestamp'
+    BrowserSessionAttendanceRequest:
+      type: object
+      additionalProperties: false
+      required: [session_token, browser_context, limit, offset]
+      properties:
+        session_token:
+          type: string
+          minLength: 47
+          maxLength: 47
+          pattern: '^bs1\.[A-Za-z0-9_-]{42}[AEIMQUYcgkosw048]$'
+        browser_context:
+          type: string
+          format: uuid
+          pattern: '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'
+        limit:
+          type: integer
+          format: int64
+          minimum: 1
+          maximum: 1000
+        offset:
+          type: integer
+          format: int64
+          minimum: 0
+    BrowserSessionAttendanceResponse:
+      type: object
+      additionalProperties: false
+      required: [context, history, browser_context, expires_at]
+      properties:
+        context:
+          $ref: '#/components/schemas/BrowserSessionContext'
+        history:
+          $ref: '#/components/schemas/EmployeeAttendanceRecordPage'
+        browser_context:
+          type: string
+          format: uuid
+          pattern: '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'
+        expires_at:
+          $ref: '#/components/schemas/Timestamp'
+    BrowserSessionContext:
+      type: object
+      additionalProperties: false
+      required: [company_id, company_name, account_display_name, employee_linked]
+      properties:
+        company_id:
+          type: string
+          format: uuid
+          pattern: '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'
+        company_name:
+          type: string
+        account_display_name:
+          type: string
+        employee_linked:
+          type: boolean
+    BrowserSessionIdentityRequest:
+      type: object
+      additionalProperties: false
+      required: [session_token, browser_context]
+      properties:
+        session_token:
+          type: string
+          minLength: 47
+          maxLength: 47
+          pattern: '^bs1\.[A-Za-z0-9_-]{42}[AEIMQUYcgkosw048]$'
+        browser_context:
+          type: string
+          format: uuid
+          pattern: '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'
+    BrowserSessionLoginResponse:
+      type: object
+      additionalProperties: false
+      required: [session_token, context_id, expires_at]
+      properties:
+        session_token:
+          type: string
+          minLength: 47
+          maxLength: 47
+          pattern: '^bs1\.[A-Za-z0-9_-]{42}[AEIMQUYcgkosw048]$'
+        context_id:
+          type: string
+          format: uuid
+          pattern: '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'
+        expires_at:
           $ref: '#/components/schemas/Timestamp'
     BulkApprovalCapability:
       type: object
@@ -22837,7 +23031,38 @@ components:
         kind:
           $ref: '#/components/schemas/AttendanceRecordKind'
         occurred_at:
-          $ref: '#/components/schemas/Timestamp'
+          description: Native time tuple [year, ordinal day, hour, minute, second, nanosecond, offset hour, offset minute, offset second]. Existing serialization is preserved.
+          type: array
+          minItems: 9
+          maxItems: 9
+          prefixItems:
+          - type: integer
+            minimum: -9999
+            maximum: 9999
+          - type: integer
+            minimum: 1
+            maximum: 366
+          - type: integer
+            minimum: 0
+            maximum: 23
+          - type: integer
+            minimum: 0
+            maximum: 59
+          - type: integer
+            minimum: 0
+            maximum: 59
+          - type: integer
+            minimum: 0
+            maximum: 999999999
+          - type: integer
+            minimum: -23
+            maximum: 23
+          - type: integer
+            minimum: -59
+            maximum: 59
+          - type: integer
+            minimum: -59
+            maximum: 59
         work_date:
           type: string
           format: date

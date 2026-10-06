@@ -1,0 +1,37 @@
+TAP version 13
+# Subtest: enrollment runner confirms cleanup after eof-after-ready
+not ok 1 - enrollment runner confirms cleanup after eof-after-ready
+  ---
+  duration_ms: 55479.420084
+  type: 'test'
+  location: '/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/tools/test-native-browser-enrollment.test.mjs:20:3'
+  failureType: 'testCodeFailure'
+  error: |-
+    runner must release its owned temporary resources before acknowledgement and exit
+    + actual - expected
+    
+    + [
+    +   'node-compile-cache'
+    + ]
+    - []
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual:
+    0: 'node-compile-cache'
+  operator: 'deepStrictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/tools/test-native-browser-enrollment.test.mjs:101:14)
+    async Test.run (node:internal/test_runner/test:1409:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3)
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 0
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 55542.745291

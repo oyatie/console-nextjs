@@ -1,0 +1,68 @@
+{
+  "version": 1,
+  "prefix": "ENROLLMENT_CLEANUP_DIAGNOSTIC ",
+  "failure_trigger": [
+    "cleanup-rejected",
+    "hard-deadline"
+  ],
+  "stages": {
+    "main_stage": [
+      "unstarted",
+      "startup",
+      "owners",
+      "runtime-stage",
+      "ack",
+      "complete"
+    ],
+    "browser_stage": [
+      "unstarted",
+      "absent",
+      "close",
+      "kill",
+      "exit-check",
+      "complete"
+    ],
+    "next_stage": [
+      "unstarted",
+      "absent",
+      "already-exited",
+      "term",
+      "kill",
+      "complete"
+    ]
+  },
+  "boolean_fields": [
+    "startup_settled",
+    "owners_settled",
+    "owners_all_fulfilled",
+    "browser_branch_settled",
+    "browser_close_settled",
+    "browser_close_fulfilled",
+    "browser_close_phase_met",
+    "browser_kill_settled",
+    "browser_kill_fulfilled",
+    "browser_kill_phase_met",
+    "browser_exit_check_passed",
+    "browser_exit_event_seen",
+    "browser_close_event_seen",
+    "next_branch_settled",
+    "next_term_phase_met",
+    "next_kill_phase_met",
+    "next_exit_event_seen",
+    "next_close_event_seen",
+    "runtime_remove_started",
+    "runtime_remove_settled",
+    "runtime_remove_fulfilled",
+    "ack_started",
+    "ack_settled",
+    "ack_fulfilled",
+    "browser_owner_seen",
+    "next_owner_seen",
+    "temporary_scope_seen",
+    "browser_exit_observed",
+    "next_exit_observed"
+  ],
+  "maximum_line_bytes": 2048,
+  "computed_maximum_fixed_line_bytes": 997,
+  "maximum_probe_records": 2
+}

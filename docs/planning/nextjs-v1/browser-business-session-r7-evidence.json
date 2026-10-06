@@ -1,0 +1,1102 @@
+{
+  "version": 1,
+  "recorded_at": "2026-10-06T00:36:46.040096+00:00",
+  "scope": "R7 passkey sign-in, current-authority own-attendance SSR/pagination/reload, exact-family logout and denied reads",
+  "status": "bounded_current_local_runtime_accepted_exact_head_hosted_and_queue_pending",
+  "branch": "feat/browser-business-session-r7",
+  "base": "7bbb48cc24952ec1639c393767e11bc0de6cc63c",
+  "preimplementation_test_head": "e033ff0f1630b3f53116a71a6c3c362bdaf25ae2",
+  "design": {
+    "path": "docs/planning/nextjs-v1/browser-business-session-r7.md",
+    "sha256": "8ef4ad7d85602c94aac05acfe0edf163b5ee3ede819d9e3cbb1e3c6d8b99b2ad"
+  },
+  "reviews": "docs/planning/nextjs-v1/browser-business-session-r7-reviews.json",
+  "canonical_native": {
+    "discovery": {
+      "id": "native-auth-final05-discovery",
+      "command": [
+        "/Users/jasonlee/.cargo/bin/cargo",
+        "+1.98.1",
+        "test",
+        "--locked",
+        "--offline",
+        "-p",
+        "console-app",
+        "--features",
+        "frontend-e2e",
+        "--test",
+        "auth_rest",
+        "--",
+        "--list"
+      ],
+      "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend",
+      "exit_code": 0,
+      "timed_out": false,
+      "duration_seconds": 0.8681301670148969,
+      "discovered": 121,
+      "counts": {
+        "passed": 0,
+        "failed": 0,
+        "skipped": 0,
+        "filtered": 0,
+        "executed": 0
+      },
+      "log_sha256": "09de1adc219c4ea1bb8f20a6f6bc0d093d35a1a19ae1e14d0c2b0462d27ca955",
+      "cleanup_reported": false,
+      "inputs_sha256": "f78a5d44ecf060f2dba4a2d36f6fa89e342c8d6702d9143af2470af03d18e5e5",
+      "inputs_unchanged": true
+    },
+    "execution": {
+      "id": "native-auth-final05-complete",
+      "command": [
+        "bash",
+        "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/tools/lanes/pgtest.sh",
+        "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork",
+        "/Users/jasonlee/.cargo/bin/cargo",
+        "+1.98.1",
+        "test",
+        "--locked",
+        "--offline",
+        "--no-fail-fast",
+        "-p",
+        "console-app",
+        "--features",
+        "frontend-e2e",
+        "--test",
+        "auth_rest",
+        "--",
+        "--test-threads=1",
+        "--nocapture"
+      ],
+      "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+      "exit_code": 0,
+      "timed_out": false,
+      "duration_seconds": 1170.169342334033,
+      "discovered": null,
+      "counts": {
+        "passed": 121,
+        "failed": 0,
+        "skipped": 0,
+        "filtered": 0,
+        "executed": 121
+      },
+      "log_sha256": "35cc0148e03fe59c702fa87c4c5cab0dd9ffea0ea90216ff12d22e7fb949f74d",
+      "cleanup_reported": true,
+      "inputs_sha256": "f78a5d44ecf060f2dba4a2d36f6fa89e342c8d6702d9143af2470af03d18e5e5",
+      "inputs_unchanged": true
+    },
+    "discovered_and_executed_names_match": true
+  },
+  "embedded_browser": {
+    "v": 1,
+    "seq": 626,
+    "kind": "report",
+    "discovered": 17,
+    "executed": 17,
+    "counts": {
+      "passed": 17,
+      "failed": 0,
+      "unreached": 0,
+      "skipped": 0
+    },
+    "failure_class": null,
+    "scenarios": [
+      {
+        "id": "P01",
+        "name": "runtime/exclusion/launcher/config negatives",
+        "status": "passed"
+      },
+      {
+        "id": "P02",
+        "name": "two genuine product sign-ins and native family logout",
+        "status": "passed"
+      },
+      {
+        "id": "P03",
+        "name": "real own-history count, rows, pagination and reload",
+        "status": "passed"
+      },
+      {
+        "id": "P04",
+        "name": "responsive keyboard and inaccessible-script recovery",
+        "status": "passed"
+      },
+      {
+        "id": "P05",
+        "name": "two actual source peers and ingress spoofing negatives",
+        "status": "passed"
+      },
+      {
+        "id": "P06",
+        "name": "Origin/CSRF/context/duplicate-cookie/body boundaries",
+        "status": "passed"
+      },
+      {
+        "id": "P07",
+        "name": "eight-preauth/eight-session admission boundaries",
+        "status": "passed"
+      },
+      {
+        "id": "P08",
+        "name": "independent tabs, stable reads and no context fallback",
+        "status": "passed"
+      },
+      {
+        "id": "P09",
+        "name": "reversed actual start responses",
+        "status": "passed"
+      },
+      {
+        "id": "P10",
+        "name": "reversed actual finish/header-arrival responses",
+        "status": "passed"
+      },
+      {
+        "id": "P11",
+        "name": "reversed logout versus a new independent login",
+        "status": "passed"
+      },
+      {
+        "id": "P12",
+        "name": "lost committed login result and consumed-assertion handling",
+        "status": "passed"
+      },
+      {
+        "id": "P13",
+        "name": "lost logout across genuine short-family expiry",
+        "status": "passed",
+        "checks": [
+          {
+            "id": "lost-result-expired-access",
+            "status": "passed",
+            "evidence": {
+              "observed": {
+                "kind": "http-failure",
+                "status": 503
+              },
+              "native_owner_status": 204,
+              "actual_cookie_expired": true,
+              "unknown_before_refresh": true,
+              "conservative_absent_after_refresh": true,
+              "same_sender_alive": true,
+              "late_header_claim": false
+            }
+          },
+          {
+            "id": "near-expiry-intact-late-headers",
+            "status": "passed",
+            "evidence": {
+              "native_owner_status": 204,
+              "original_public_status": 204,
+              "empty_body": true,
+              "actual_cookie_expired": true,
+              "recovery_document_refreshed": true,
+              "original_request_pending_until_b_cookie": true,
+              "exact_original_generation_headers": true,
+              "same_sender_alive": true,
+              "newer_b_cookie_and_reads_preserved": true
+            }
+          }
+        ]
+      },
+      {
+        "id": "P14",
+        "name": "current authority, key replacement and cleanup restart",
+        "status": "passed"
+      },
+      {
+        "id": "P15",
+        "name": "logout Back and witnessed real BFCache restore",
+        "status": "passed",
+        "checks": [
+          {
+            "id": "ordinary-logout-back",
+            "status": "passed",
+            "evidence": {
+              "ordinary_back": true,
+              "cached_restore_seen": false
+            }
+          },
+          {
+            "id": "native-revocation-real-bfcache",
+            "status": "passed",
+            "evidence": {
+              "mode": "normal",
+              "blocked_scripts": 0,
+              "blocked_styles": 0,
+              "transformed_documents": [],
+              "trusted_original_restore": true,
+              "original_document": "a716e11c-8671-40b3-a9e4-e516c626b183"
+            }
+          }
+        ],
+        "measured_guard_sha256": "a1c04481ce25603ade8e8fcd645ec27ff4730b446a4c54d81680b5c2fac76d97",
+        "measured_guard_documents": 2
+      },
+      {
+        "id": "P16",
+        "name": "actual restore before hydration with CSS/React/offline faults",
+        "status": "passed",
+        "checks": [
+          {
+            "id": "blocked-bundles",
+            "status": "passed",
+            "evidence": {
+              "mode": "blocked-bundles",
+              "blocked_scripts": 14,
+              "blocked_styles": 0,
+              "transformed_documents": [],
+              "trusted_original_restore": true,
+              "original_document": "e020d2ac-d856-4ab8-90b2-e4c9720031ba"
+            }
+          },
+          {
+            "id": "blocked-css-bundles",
+            "status": "passed",
+            "evidence": {
+              "mode": "blocked-css-bundles",
+              "blocked_scripts": 14,
+              "blocked_styles": 3,
+              "transformed_documents": [],
+              "trusted_original_restore": true,
+              "original_document": "4f74d95b-e354-46dc-b28d-d682bc3bc3a2"
+            }
+          },
+          {
+            "id": "delayed-bundles",
+            "status": "passed",
+            "evidence": {
+              "mode": "delayed-bundles",
+              "blocked_scripts": 0,
+              "blocked_styles": 0,
+              "transformed_documents": [],
+              "delayed_bundle_sha256": [
+                "968e7616f52d9283a444fae6f7a3ecff33394e80c9e1177859b94146d2860956",
+                "50a514868e4e913e186ebce1bbfeb0294466488528a42d14347c4df3cdf94cc3",
+                "8dc2c1d71557b434c654ec58acb1441bc0fb200c520ff548f606d88e689ee643",
+                "d77ffbf856b56b4ac7a59c41e5cc4e01612e2574ee3ed739adad6eb595a9f1f3",
+                "968e7616f52d9283a444fae6f7a3ecff33394e80c9e1177859b94146d2860956",
+                "50a514868e4e913e186ebce1bbfeb0294466488528a42d14347c4df3cdf94cc3",
+                "9a90a80a9a15f52045a58619733786ecee9042cda47d8e3dbf6961f87c409b93",
+                "fdf8e052c44354f91ddea79a5f2627808e024a5cf8e89b4d1f0f6f2e468e5a73",
+                "8dc2c1d71557b434c654ec58acb1441bc0fb200c520ff548f606d88e689ee643",
+                "d77ffbf856b56b4ac7a59c41e5cc4e01612e2574ee3ed739adad6eb595a9f1f3",
+                "57cefb9923740eac50454fd208c9357de4d9b77bca846babf5a60ce5753ab184",
+                "fdf8e052c44354f91ddea79a5f2627808e024a5cf8e89b4d1f0f6f2e468e5a73",
+                "968e7616f52d9283a444fae6f7a3ecff33394e80c9e1177859b94146d2860956",
+                "50a514868e4e913e186ebce1bbfeb0294466488528a42d14347c4df3cdf94cc3",
+                "8dc2c1d71557b434c654ec58acb1441bc0fb200c520ff548f606d88e689ee643",
+                "d77ffbf856b56b4ac7a59c41e5cc4e01612e2574ee3ed739adad6eb595a9f1f3"
+              ],
+              "trusted_original_restore": true,
+              "original_document": "b72467e4-45e8-4307-a897-39147f284035"
+            }
+          },
+          {
+            "id": "queued-react-css",
+            "status": "passed",
+            "evidence": {
+              "mode": "queued-react-css",
+              "blocked_scripts": 0,
+              "blocked_styles": 0,
+              "transformed_documents": [],
+              "trusted_original_restore": true,
+              "original_document": "4c67ec3a-abd7-468c-aa38-87101be65650"
+            }
+          },
+          {
+            "id": "offline",
+            "status": "passed",
+            "evidence": {
+              "mode": "offline",
+              "blocked_scripts": 0,
+              "blocked_styles": 0,
+              "transformed_documents": [],
+              "trusted_original_restore": true,
+              "original_document": "c9635b16-eda1-4234-bc83-216e9d74c14d"
+            }
+          },
+          {
+            "id": "missing-guard",
+            "status": "passed",
+            "evidence": {
+              "mode": "missing-guard",
+              "blocked_scripts": 0,
+              "blocked_styles": 0,
+              "transformed_documents": [
+                {
+                  "upstream_status": 200,
+                  "upstream_sha256": "5f64b01d46e42324603794c3af9adc16531122d067268797689cd91ee162afde",
+                  "delivered_sha256": "7d46e34bbbc600ee00a0a74433652e307d996bdc8bbbffbe6d36bd9925517d2b",
+                  "pinned_guard_sha256": "a1c04481ce25603ade8e8fcd645ec27ff4730b446a4c54d81680b5c2fac76d97"
+                }
+              ],
+              "trusted_original_restore": true,
+              "original_document": "31e2588f-8d59-4afe-94d3-e18278827cdd"
+            }
+          },
+          {
+            "id": "thrown-guard",
+            "status": "passed",
+            "evidence": {
+              "mode": "thrown-guard",
+              "blocked_scripts": 0,
+              "blocked_styles": 0,
+              "transformed_documents": [
+                {
+                  "upstream_status": 200,
+                  "upstream_sha256": "fec52f99135a6aab0042746edc970b26dc581675e1b315925ebad707203dc80d",
+                  "delivered_sha256": "42e02301645f042a1b76e52eff1b44df815f0c163171b9961155d9109c2cce94",
+                  "pinned_guard_sha256": "a1c04481ce25603ade8e8fcd645ec27ff4730b446a4c54d81680b5c2fac76d97"
+                }
+              ],
+              "trusted_original_restore": true,
+              "original_document": "07e42fa0-0772-4f4a-98fb-305634017d04"
+            }
+          }
+        ],
+        "measured_guard_sha256": "a1c04481ce25603ade8e8fcd645ec27ff4730b446a4c54d81680b5c2fac76d97",
+        "measured_guard_documents": 2
+      },
+      {
+        "id": "P17",
+        "name": "real unavailable/malformed service and failure cleanup",
+        "status": "passed"
+      }
+    ]
+  },
+  "count_interpretation": "The 17 browser scenarios are inside one of the 121 native tests; they are not 17 additional native tests. Retained 285 native configuration executions are separately scoped and may overlap requirements.",
+  "source_custody": {
+    "path": "docs/planning/nextjs-v1/evidence/browser-business-session-r7/native-auth-final05-complete.inputs.json",
+    "sha256": "f78a5d44ecf060f2dba4a2d36f6fa89e342c8d6702d9143af2470af03d18e5e5",
+    "recorded_inputs": 2953,
+    "before_after_current_match": true
+  },
+  "portable_artifacts": [
+    {
+      "path": "docs/planning/nextjs-v1/evidence/browser-business-session-r7/fork-custody-delivery-final08.json",
+      "sha256": "b321c24cd7ba2335e1f2d77f5fa2bf9c312342963b619fc72beee6a40840b87d",
+      "bytes": 801
+    },
+    {
+      "path": "docs/planning/nextjs-v1/evidence/browser-business-session-r7/fork-custody-delivery-final08.log",
+      "sha256": "ab7186404fa5c4f825a75033f723a99494cbdf539a009b03d80ec3539aac2068",
+      "bytes": 3370
+    },
+    {
+      "path": "docs/planning/nextjs-v1/evidence/browser-business-session-r7/native-auth-final05-complete.child-report.json",
+      "sha256": "eb41d139c60c8f7769ca698c211b0a63932ca34b807b865a3e6fafa9cc454a15",
+      "bytes": 9205
+    },
+    {
+      "path": "docs/planning/nextjs-v1/evidence/browser-business-session-r7/native-auth-final05-complete.inputs.json",
+      "sha256": "f78a5d44ecf060f2dba4a2d36f6fa89e342c8d6702d9143af2470af03d18e5e5",
+      "bytes": 916341
+    },
+    {
+      "path": "docs/planning/nextjs-v1/evidence/browser-business-session-r7/native-auth-final05-complete.json",
+      "sha256": "7ad1a245b30a3384c8050490675fafa47c82c988e0c674cb5621fc987f8b96b2",
+      "bytes": 1085
+    },
+    {
+      "path": "docs/planning/nextjs-v1/evidence/browser-business-session-r7/native-auth-final05-complete.log",
+      "sha256": "35cc0148e03fe59c702fa87c4c5cab0dd9ffea0ea90216ff12d22e7fb949f74d",
+      "bytes": 22723
+    },
+    {
+      "path": "docs/planning/nextjs-v1/evidence/browser-business-session-r7/native-auth-final05-discovery.json",
+      "sha256": "1553224145ea856800463d28c0f2e09f4fb290a5417464088e01bf167f773de9",
+      "bytes": 831
+    },
+    {
+      "path": "docs/planning/nextjs-v1/evidence/browser-business-session-r7/native-auth-final05-discovery.log",
+      "sha256": "09de1adc219c4ea1bb8f20a6f6bc0d093d35a1a19ae1e14d0c2b0462d27ca955",
+      "bytes": 11374
+    },
+    {
+      "path": "docs/planning/nextjs-v1/evidence/browser-business-session-r7/production-routes-delivery-final08.json",
+      "sha256": "853c203293e008f08fbfd3c32e05b0e5fb658f5c28279f8ec19a684f48be5199",
+      "bytes": 645
+    },
+    {
+      "path": "docs/planning/nextjs-v1/evidence/browser-business-session-r7/production-routes-delivery-final08.log",
+      "sha256": "75a155bc0dfd1cc81811dd4e489c2b184d523930fe2c299d842bf1f1b37aab60",
+      "bytes": 566
+    },
+    {
+      "path": "docs/planning/nextjs-v1/evidence/browser-business-session-r7/production-routes-delivery-final09.json",
+      "sha256": "827a60e5d33130bd58ad2bbbb49e3e88a75ada337f2f98161cad25da83d0be5c",
+      "bytes": 645
+    },
+    {
+      "path": "docs/planning/nextjs-v1/evidence/browser-business-session-r7/production-routes-delivery-final09.log",
+      "sha256": "512901c3a5e50a2917b8d01feb4f8538f69890debfe194f13904f75b1b739000",
+      "bytes": 212
+    },
+    {
+      "path": "docs/planning/nextjs-v1/evidence/browser-business-session-r7/tooling-delivery-final06.json",
+      "sha256": "af1adf4e4b9018d42de00efe07f4ed880db16f3539c7ed413160ca4baf9d21c2",
+      "bytes": 634
+    },
+    {
+      "path": "docs/planning/nextjs-v1/evidence/browser-business-session-r7/tooling-delivery-final06.log",
+      "sha256": "4b3f790506726989c27fe32acd70342b79b8468f4bc9fd2bbb824461ae52c4bb",
+      "bytes": 214
+    },
+    {
+      "path": "docs/planning/nextjs-v1/evidence/browser-business-session-r7/p14-timing-repair.json",
+      "sha256": "3672e6ecc8076a2a25c14aa89da285bd07f287ca5dcc70a3f5015cb594f94209"
+    },
+    {
+      "path": "docs/planning/nextjs-v1/evidence/browser-business-session-r7/hosted-diagnostic-green-8434bdb.json",
+      "sha256": "0711076b68b30cf85b1377fb3d7035a3a31c9ccf4901f702ff93091b257b0ee1"
+    },
+    {
+      "path": "docs/planning/nextjs-v1/evidence/browser-business-session-r7/p14-repair-canonical01.json",
+      "sha256": "ec89739dc23b7e092472079b352fe0879bf5c04fa3b2e7686c0f6888438c1070"
+    },
+    {
+      "path": "docs/planning/nextjs-v1/evidence/browser-business-session-r7/p14-repair-canonical01.inputs.json",
+      "sha256": "1f07e97d0a7502f836b82f6ac717235d5416c437821ab419a70d0cf65d3bddde"
+    },
+    {
+      "path": "docs/planning/nextjs-v1/evidence/browser-business-session-r7/p14-repair-canonical01.child-report.json",
+      "sha256": "464c8bc30d84e4befb7c3e41ef30dc87a5b877c12d1526b8e9813eb1f7152918"
+    }
+  ],
+  "frontend": [
+    {
+      "id": "frontend-lint-final06",
+      "execution": {
+        "id": "frontend-lint-final06",
+        "command": [
+          "npm",
+          "run",
+          "lint"
+        ],
+        "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+        "exit_code": 0,
+        "timed_out": false,
+        "duration_seconds": 1.7057640419807285,
+        "discovered": null,
+        "counts": {
+          "passed": 0,
+          "failed": 0,
+          "skipped": 0,
+          "filtered": 0,
+          "executed": 0
+        },
+        "log_sha256": "3e98dcbd24835eb29288dab5790e519db6a485457e666a6774fdbce08459740e",
+        "cleanup_reported": false,
+        "inputs_sha256": "ddafa3020c7be370a698eba009ab8ee03e04b4d79f2e8fe5d22e557ca8495592",
+        "inputs_unchanged": true
+      },
+      "actual_tests": null,
+      "count_source": "raw runner output; generic gate parses only Rust counts"
+    },
+    {
+      "id": "frontend-unit-final06",
+      "execution": {
+        "id": "frontend-unit-final06",
+        "command": [
+          "npm",
+          "test"
+        ],
+        "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+        "exit_code": 0,
+        "timed_out": false,
+        "duration_seconds": 1.1348635830217972,
+        "discovered": null,
+        "counts": {
+          "passed": 0,
+          "failed": 0,
+          "skipped": 0,
+          "filtered": 0,
+          "executed": 0
+        },
+        "log_sha256": "f82ded2c4d503a764798eade304ec7e3d8f76aa19327067fd163cfd78019f6a5",
+        "cleanup_reported": false,
+        "inputs_sha256": "ddafa3020c7be370a698eba009ab8ee03e04b4d79f2e8fe5d22e557ca8495592",
+        "inputs_unchanged": true
+      },
+      "actual_tests": {
+        "files": 9,
+        "passed": 112,
+        "failed": 0
+      },
+      "count_source": "raw runner output; generic gate parses only Rust counts"
+    },
+    {
+      "id": "frontend-build-final06",
+      "execution": {
+        "id": "frontend-build-final06",
+        "command": [
+          "npm",
+          "run",
+          "build"
+        ],
+        "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+        "exit_code": 0,
+        "timed_out": false,
+        "duration_seconds": 10.699157958035357,
+        "discovered": null,
+        "counts": {
+          "passed": 0,
+          "failed": 0,
+          "skipped": 0,
+          "filtered": 0,
+          "executed": 0
+        },
+        "log_sha256": "86eea7e4ffc406027a968c48be9cb43e3f87cc0f5f2b67714cb5385e51b9b306",
+        "cleanup_reported": false,
+        "inputs_sha256": "aaeafce1b77d1e13e11361f9e53c98d37a62d3a6396fb02933be6a480fac7898",
+        "inputs_unchanged": false
+      },
+      "actual_tests": null,
+      "count_source": "raw runner output; generic gate parses only Rust counts"
+    },
+    {
+      "id": "runtime-consumer-final06",
+      "execution": {
+        "id": "runtime-consumer-final06",
+        "command": [
+          "node",
+          "--test",
+          "tools/test-production-runtime.test.mjs"
+        ],
+        "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+        "exit_code": 0,
+        "timed_out": false,
+        "duration_seconds": 50.22628100006841,
+        "discovered": null,
+        "counts": {
+          "passed": 0,
+          "failed": 0,
+          "skipped": 0,
+          "filtered": 0,
+          "executed": 0
+        },
+        "log_sha256": "0f245295f09d6eedbe5f997c482b04b7435663ddcea156d67b25dcc0bdbfa515",
+        "cleanup_reported": false,
+        "inputs_sha256": "f78a5d44ecf060f2dba4a2d36f6fa89e342c8d6702d9143af2470af03d18e5e5",
+        "inputs_unchanged": true
+      },
+      "actual_tests": {
+        "passed": 3,
+        "failed": 0
+      },
+      "count_source": "raw runner output; generic gate parses only Rust counts"
+    }
+  ],
+  "independent_review": [
+    {
+      "reviewer": "r7_source_review",
+      "verdict": "ACCEPT_BOUNDED_R7_SOURCE_AFTER_FIX",
+      "scope": "current source, all sixteen source lenses; final immutable head pending"
+    },
+    {
+      "reviewer": "r7_wait_trace",
+      "verdict": "ACCEPT_BOUNDED_FULL121_CANONICAL17_RUNTIME",
+      "scope": "raw discovery/execution set equality, all required browser variants, 2953 current input hashes and confirmed cleanup"
+    },
+    {
+      "reviewer": "ai_impl_review",
+      "verdict": "APPROVE_BOUNDED_FINAL_UX_SOURCE",
+      "scope": "current actual login/attendance/SessionControls/native transport/restoration guard; no new blocking flow or maintainability issue; physical/two-site/full product holds remain"
+    },
+    {
+      "reviewer": "p14_trace_review",
+      "verdict": "ACCEPT_bounded_publication",
+      "scope": "Both independent reviewers accepted exact fourteen-file manifest02, complete121/17 local proof, twelve units and eighteen tooling tests; only this publication receipt and corresponding metadata/hash updates follow. Exact immutable-head review and current-head required PR CI remain gates before protected queue admission. Required merge-group checks follow. No wider product or launch approval.",
+      "pre_receipt_manifest_sha256": "d644195b9917c23b1e183588285613b2d028f6e70847bd120842bdd59c771c5c"
+    },
+    {
+      "reviewer": "p14_diagnostic_review",
+      "verdict": "ACCEPT_bounded_publication",
+      "scope": "Both independent reviewers accepted exact fourteen-file manifest02, complete121/17 local proof, twelve units and eighteen tooling tests; only this publication receipt and corresponding metadata/hash updates follow. Exact immutable-head review and current-head required PR CI remain gates before protected queue admission. Required merge-group checks follow. No wider product or launch approval.",
+      "pre_receipt_manifest_sha256": "d644195b9917c23b1e183588285613b2d028f6e70847bd120842bdd59c771c5c"
+    }
+  ],
+  "retained_proofs": {
+    "native_selected_configuration_executions": 285,
+    "strict_producers": 10,
+    "sales_real_service_tests": 5,
+    "clean_install_checks": 667,
+    "interpretation": "Retained source-applicable evidence is recorded in the revision-bound review journal; configuration executions are not unique product requirements. Linux install proof remains HOLD."
+  },
+  "prior_failures": "Rejected source proposals, diagnostic failures and trace custody recovery remain in the review journal and original artifact directory; focused P15-P17 partial runs do not substitute for this unfiltered canonical result.",
+  "remaining_holds": [
+    "Physical passkeys and attended identity/recovery",
+    "Verified natural-person independent approval",
+    "Current-at-emission authority serialization",
+    "Two-site confirmation, fencing and safe reads",
+    "Linux hosted compatibility until required CI passes",
+    "Complete HR/Org/Payroll/Foundry and all B/P launch workflows",
+    "Capacity, restore, migration and full release acceptance"
+  ],
+  "rollback": "Disable these routes/config and revoke families through the native owner; retain additive0241 and accepted identity/history. Never rewind accepted state, resurrect credentials or weaken RLS.",
+  "live_effects": "No deployment, institution mutation or collection performed.",
+  "metadata_gates": [
+    {
+      "execution": {
+        "id": "tooling-delivery-final06",
+        "command": [
+          "npm",
+          "run",
+          "test:source-closure"
+        ],
+        "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+        "exit_code": 0,
+        "timed_out": false,
+        "duration_seconds": 0.35793612501583993,
+        "discovered": null,
+        "counts": {
+          "passed": 0,
+          "failed": 0,
+          "skipped": 0,
+          "filtered": 0,
+          "executed": 0
+        },
+        "log_sha256": "4b3f790506726989c27fe32acd70342b79b8468f4bc9fd2bbb824461ae52c4bb",
+        "cleanup_reported": false,
+        "inputs_sha256": "f78a5d44ecf060f2dba4a2d36f6fa89e342c8d6702d9143af2470af03d18e5e5",
+        "inputs_unchanged": true
+      },
+      "actual_tests": 18,
+      "classification": "passed"
+    },
+    {
+      "execution": {
+        "id": "fork-custody-delivery-final08",
+        "command": [
+          "python3",
+          "-c",
+          "import sys,json;sys.path.insert(0,\"tools\");import acceptance;result=acceptance.inspect_fork();print(json.dumps(result,indent=2));raise SystemExit(result[\"status\"]!=\"passed\")"
+        ],
+        "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+        "exit_code": 0,
+        "timed_out": false,
+        "duration_seconds": 0.5026341669727117,
+        "discovered": null,
+        "counts": {
+          "passed": 0,
+          "failed": 0,
+          "skipped": 0,
+          "filtered": 0,
+          "executed": 0
+        },
+        "log_sha256": "ab7186404fa5c4f825a75033f723a99494cbdf539a009b03d80ec3539aac2068",
+        "cleanup_reported": false,
+        "inputs_sha256": "f78a5d44ecf060f2dba4a2d36f6fa89e342c8d6702d9143af2470af03d18e5e5",
+        "inputs_unchanged": true
+      },
+      "actual_tests": null,
+      "classification": "passed"
+    },
+    {
+      "execution": {
+        "id": "production-routes-delivery-final08",
+        "command": [
+          "npm",
+          "run",
+          "test:production-routes"
+        ],
+        "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+        "exit_code": 1,
+        "timed_out": false,
+        "duration_seconds": 4.874449249939062,
+        "discovered": null,
+        "counts": {
+          "passed": 0,
+          "failed": 0,
+          "skipped": 0,
+          "filtered": 0,
+          "executed": 0
+        },
+        "log_sha256": "75a155bc0dfd1cc81811dd4e489c2b184d523930fe2c299d842bf1f1b37aab60",
+        "cleanup_reported": false,
+        "inputs_sha256": "f78a5d44ecf060f2dba4a2d36f6fa89e342c8d6702d9143af2470af03d18e5e5",
+        "inputs_unchanged": true
+      },
+      "actual_tests": null,
+      "classification": "environment_failure_sandbox_loopback_EPERM"
+    },
+    {
+      "execution": {
+        "id": "production-routes-delivery-final09",
+        "command": [
+          "npm",
+          "run",
+          "test:production-routes"
+        ],
+        "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+        "exit_code": 0,
+        "timed_out": false,
+        "duration_seconds": 6.071706000017002,
+        "discovered": null,
+        "counts": {
+          "passed": 0,
+          "failed": 0,
+          "skipped": 0,
+          "filtered": 0,
+          "executed": 0
+        },
+        "log_sha256": "512901c3a5e50a2917b8d01feb4f8538f69890debfe194f13904f75b1b739000",
+        "cleanup_reported": false,
+        "inputs_sha256": "f78a5d44ecf060f2dba4a2d36f6fa89e342c8d6702d9143af2470af03d18e5e5",
+        "inputs_unchanged": true
+      },
+      "actual_tests": null,
+      "classification": "passed"
+    }
+  ],
+  "hosted_delivery": {
+    "path": "docs/planning/nextjs-v1/evidence/browser-business-session-r7/hosted-diagnostic-green-8434bdb.json",
+    "sha256": "0711076b68b30cf85b1377fb3d7035a3a31c9ccf4901f702ff93091b257b0ee1",
+    "status": "prior_diagnostic_head8434bdb_GREEN_current_repair_head_pending",
+    "auto_merge_request": null,
+    "merge_queue_admitted": false
+  },
+  "timing_repair": {
+    "path": "docs/planning/nextjs-v1/evidence/browser-business-session-r7/p14-timing-repair.json",
+    "sha256": "3672e6ecc8076a2a25c14aa89da285bd07f287ca5dcc70a3f5015cb594f94209"
+  },
+  "prior_hosted_failure": {
+    "path": "docs/planning/nextjs-v1/evidence/browser-business-session-r7/hosted-pr16-failure.json",
+    "sha256": "9cdaced7e9f40b2d3eae15dd926980f85d2d101242945dd059d8951ea4df5212",
+    "status": "REVISE_required_hosted_CI_failed_queue_disabled",
+    "auto_merge_request": null,
+    "merge_queue_admitted": false
+  },
+  "current_canonical_native": {
+    "execution": {
+      "id": "p14-repair-canonical01",
+      "command": [
+        "bash",
+        "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/tools/lanes/pgtest.sh",
+        "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork",
+        "/Users/jasonlee/.cargo/bin/cargo",
+        "+1.98.1",
+        "test",
+        "--locked",
+        "--offline",
+        "--no-fail-fast",
+        "-p",
+        "console-app",
+        "--features",
+        "frontend-e2e",
+        "--test",
+        "auth_rest",
+        "--",
+        "--test-threads=1",
+        "--nocapture"
+      ],
+      "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+      "exit_code": 0,
+      "timed_out": false,
+      "duration_seconds": 1800.4391737920232,
+      "discovered": null,
+      "counts": {
+        "passed": 121,
+        "failed": 0,
+        "skipped": 0,
+        "filtered": 0,
+        "executed": 121
+      },
+      "log_sha256": "576b9cf75ae1afec220f0479a59fb253915efaeedce88fcc38b30c3c24c6924a",
+      "cleanup_reported": true,
+      "inputs_sha256": "1f07e97d0a7502f836b82f6ac717235d5416c437821ab419a70d0cf65d3bddde",
+      "inputs_unchanged": true
+    },
+    "browser": {
+      "v": 1,
+      "seq": 577,
+      "kind": "report",
+      "discovered": 17,
+      "executed": 17,
+      "counts": {
+        "passed": 17,
+        "failed": 0,
+        "unreached": 0,
+        "skipped": 0
+      },
+      "failure_class": null,
+      "scenarios": [
+        {
+          "id": "P01",
+          "name": "runtime/exclusion/launcher/config negatives",
+          "status": "passed"
+        },
+        {
+          "id": "P02",
+          "name": "two genuine product sign-ins and native family logout",
+          "status": "passed"
+        },
+        {
+          "id": "P03",
+          "name": "real own-history count, rows, pagination and reload",
+          "status": "passed"
+        },
+        {
+          "id": "P04",
+          "name": "responsive keyboard and inaccessible-script recovery",
+          "status": "passed"
+        },
+        {
+          "id": "P05",
+          "name": "two actual source peers and ingress spoofing negatives",
+          "status": "passed"
+        },
+        {
+          "id": "P06",
+          "name": "Origin/CSRF/context/duplicate-cookie/body boundaries",
+          "status": "passed"
+        },
+        {
+          "id": "P07",
+          "name": "eight-preauth/eight-session admission boundaries",
+          "status": "passed"
+        },
+        {
+          "id": "P08",
+          "name": "independent tabs, stable reads and no context fallback",
+          "status": "passed"
+        },
+        {
+          "id": "P09",
+          "name": "reversed actual start responses",
+          "status": "passed"
+        },
+        {
+          "id": "P10",
+          "name": "reversed actual finish/header-arrival responses",
+          "status": "passed"
+        },
+        {
+          "id": "P11",
+          "name": "reversed logout versus a new independent login",
+          "status": "passed"
+        },
+        {
+          "id": "P12",
+          "name": "lost committed login result and consumed-assertion handling",
+          "status": "passed"
+        },
+        {
+          "id": "P13",
+          "name": "lost logout across genuine short-family expiry",
+          "status": "passed",
+          "checks": [
+            {
+              "id": "lost-result-expired-access",
+              "status": "passed",
+              "evidence": {
+                "observed": {
+                  "kind": "http-failure",
+                  "status": 503
+                },
+                "native_owner_status": 204,
+                "actual_cookie_expired": true,
+                "unknown_before_refresh": true,
+                "conservative_absent_after_refresh": true,
+                "same_sender_alive": true,
+                "late_header_claim": false
+              }
+            },
+            {
+              "id": "near-expiry-intact-late-headers",
+              "status": "passed",
+              "evidence": {
+                "native_owner_status": 204,
+                "original_public_status": 204,
+                "empty_body": true,
+                "actual_cookie_expired": true,
+                "recovery_document_refreshed": true,
+                "original_request_pending_until_b_cookie": true,
+                "exact_original_generation_headers": true,
+                "same_sender_alive": true,
+                "newer_b_cookie_and_reads_preserved": true
+              }
+            }
+          ]
+        },
+        {
+          "id": "P14",
+          "name": "current authority, key replacement and cleanup restart",
+          "status": "passed"
+        },
+        {
+          "id": "P15",
+          "name": "logout Back and witnessed real BFCache restore",
+          "status": "passed",
+          "checks": [
+            {
+              "id": "ordinary-logout-back",
+              "status": "passed",
+              "evidence": {
+                "ordinary_back": true,
+                "cached_restore_seen": false
+              }
+            },
+            {
+              "id": "native-revocation-real-bfcache",
+              "status": "passed",
+              "evidence": {
+                "mode": "normal",
+                "blocked_scripts": 0,
+                "blocked_styles": 0,
+                "transformed_documents": [],
+                "trusted_original_restore": true,
+                "original_document": "98d0af2b-2264-4fd9-8c45-3cb1a7195d11"
+              }
+            }
+          ],
+          "measured_guard_sha256": "a1c04481ce25603ade8e8fcd645ec27ff4730b446a4c54d81680b5c2fac76d97",
+          "measured_guard_documents": 2
+        },
+        {
+          "id": "P16",
+          "name": "actual restore before hydration with CSS/React/offline faults",
+          "status": "passed",
+          "checks": [
+            {
+              "id": "blocked-bundles",
+              "status": "passed",
+              "evidence": {
+                "mode": "blocked-bundles",
+                "blocked_scripts": 14,
+                "blocked_styles": 0,
+                "transformed_documents": [],
+                "trusted_original_restore": true,
+                "original_document": "4fcbf436-3a15-4326-a9c0-67ca2547ca15"
+              }
+            },
+            {
+              "id": "blocked-css-bundles",
+              "status": "passed",
+              "evidence": {
+                "mode": "blocked-css-bundles",
+                "blocked_scripts": 14,
+                "blocked_styles": 3,
+                "transformed_documents": [],
+                "trusted_original_restore": true,
+                "original_document": "f72e611a-9282-4254-8fbc-bfdbc3dc04e1"
+              }
+            },
+            {
+              "id": "delayed-bundles",
+              "status": "passed",
+              "evidence": {
+                "mode": "delayed-bundles",
+                "blocked_scripts": 0,
+                "blocked_styles": 0,
+                "transformed_documents": [],
+                "delayed_bundle_sha256": [
+                  "968e7616f52d9283a444fae6f7a3ecff33394e80c9e1177859b94146d2860956",
+                  "50a514868e4e913e186ebce1bbfeb0294466488528a42d14347c4df3cdf94cc3",
+                  "8dc2c1d71557b434c654ec58acb1441bc0fb200c520ff548f606d88e689ee643",
+                  "d77ffbf856b56b4ac7a59c41e5cc4e01612e2574ee3ed739adad6eb595a9f1f3",
+                  "968e7616f52d9283a444fae6f7a3ecff33394e80c9e1177859b94146d2860956",
+                  "50a514868e4e913e186ebce1bbfeb0294466488528a42d14347c4df3cdf94cc3",
+                  "fdf8e052c44354f91ddea79a5f2627808e024a5cf8e89b4d1f0f6f2e468e5a73",
+                  "9a90a80a9a15f52045a58619733786ecee9042cda47d8e3dbf6961f87c409b93",
+                  "8dc2c1d71557b434c654ec58acb1441bc0fb200c520ff548f606d88e689ee643",
+                  "d77ffbf856b56b4ac7a59c41e5cc4e01612e2574ee3ed739adad6eb595a9f1f3",
+                  "57cefb9923740eac50454fd208c9357de4d9b77bca846babf5a60ce5753ab184",
+                  "fdf8e052c44354f91ddea79a5f2627808e024a5cf8e89b4d1f0f6f2e468e5a73",
+                  "968e7616f52d9283a444fae6f7a3ecff33394e80c9e1177859b94146d2860956",
+                  "50a514868e4e913e186ebce1bbfeb0294466488528a42d14347c4df3cdf94cc3",
+                  "8dc2c1d71557b434c654ec58acb1441bc0fb200c520ff548f606d88e689ee643",
+                  "d77ffbf856b56b4ac7a59c41e5cc4e01612e2574ee3ed739adad6eb595a9f1f3"
+                ],
+                "trusted_original_restore": true,
+                "original_document": "a57a1618-68f4-4efc-a0a8-97fc1e50bd27"
+              }
+            },
+            {
+              "id": "queued-react-css",
+              "status": "passed",
+              "evidence": {
+                "mode": "queued-react-css",
+                "blocked_scripts": 0,
+                "blocked_styles": 0,
+                "transformed_documents": [],
+                "trusted_original_restore": true,
+                "original_document": "049bf979-31a5-4db0-922c-602270963af2"
+              }
+            },
+            {
+              "id": "offline",
+              "status": "passed",
+              "evidence": {
+                "mode": "offline",
+                "blocked_scripts": 0,
+                "blocked_styles": 0,
+                "transformed_documents": [],
+                "trusted_original_restore": true,
+                "original_document": "ba0c4010-741a-4bad-a035-955363adf1b7"
+              }
+            },
+            {
+              "id": "missing-guard",
+              "status": "passed",
+              "evidence": {
+                "mode": "missing-guard",
+                "blocked_scripts": 0,
+                "blocked_styles": 0,
+                "transformed_documents": [
+                  {
+                    "upstream_status": 200,
+                    "upstream_sha256": "fbd5d4790c81b805027cf34d5052a5df7c9aa27e5181c8fb4f474b0e5b26ce4c",
+                    "delivered_sha256": "01cb2ae340546d984e79b9f110984833d1e354e4c12d4c7e181009885f4b3bc8",
+                    "pinned_guard_sha256": "a1c04481ce25603ade8e8fcd645ec27ff4730b446a4c54d81680b5c2fac76d97"
+                  }
+                ],
+                "trusted_original_restore": true,
+                "original_document": "9ff5e300-8f3b-4c92-bbbe-4aa9b2887092"
+              }
+            },
+            {
+              "id": "thrown-guard",
+              "status": "passed",
+              "evidence": {
+                "mode": "thrown-guard",
+                "blocked_scripts": 0,
+                "blocked_styles": 0,
+                "transformed_documents": [
+                  {
+                    "upstream_status": 200,
+                    "upstream_sha256": "b635e97c5ffb9271219bd92f4865ebc8e7d12c0a5e79727189ce1d970b30a7ed",
+                    "delivered_sha256": "8e9a69823ec24dbc123ea366ad82896b1a344750fd89aa597b5bf333c76eadaf",
+                    "pinned_guard_sha256": "a1c04481ce25603ade8e8fcd645ec27ff4730b446a4c54d81680b5c2fac76d97"
+                  }
+                ],
+                "trusted_original_restore": true,
+                "original_document": "516bf390-c54b-49df-bbc0-d9045aa673ab"
+              }
+            }
+          ],
+          "measured_guard_sha256": "a1c04481ce25603ade8e8fcd645ec27ff4730b446a4c54d81680b5c2fac76d97",
+          "measured_guard_documents": 2
+        },
+        {
+          "id": "P17",
+          "name": "real unavailable/malformed service and failure cleanup",
+          "status": "passed"
+        }
+      ]
+    },
+    "input_snapshot": {
+      "path": "docs/planning/nextjs-v1/evidence/browser-business-session-r7/p14-repair-canonical01.inputs.json",
+      "sha256": "1f07e97d0a7502f836b82f6ac717235d5416c437821ab419a70d0cf65d3bddde"
+    },
+    "child_report": {
+      "path": "docs/planning/nextjs-v1/evidence/browser-business-session-r7/p14-repair-canonical01.child-report.json",
+      "sha256": "464c8bc30d84e4befb7c3e41ef30dc87a5b877c12d1526b8e9813eb1f7152918"
+    },
+    "discovered_count": 121,
+    "executed_unique_names": 121,
+    "native_names_sha256": "3d173aa479cba05365aa814eb755abab15e4a7fd3290b9ce706de1e8f1eb07df",
+    "interpretation": "17 browser scenarios are embedded inside one of121native tests. No ignored/skipped/filtered/unreached; single-site virtual browser proof only."
+  }
+}

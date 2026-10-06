@@ -1,0 +1,43 @@
+{
+  "schema": "real-p16-rejection-diagnostic-manifest/1",
+  "status": "ARTIFACT_ONLY_NOT_APPLIED_NOT_EXECUTED",
+  "before": {
+    "sha256": "a23c66dc14171cc07ab6d10d6835d07d4aaa105fae90e99ee9920015cf5214b6",
+    "bytes": 45872
+  },
+  "after": {
+    "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/real-p16-rejection-diagnostic-candidate01/tools/browser-business-restore.mjs",
+    "sha256": "63a0da2617d01fcd0fb98f6e3aeabf806e7a597a5f3924c924f9537dae8d3c40",
+    "bytes": 51112
+  },
+  "patch": {
+    "sha256": "9309efcf7bd5d9abc3688a454dfdb597d3652ab52cc056cd27882124ea5a71a5",
+    "bytes": 11739
+  },
+  "proposal": {
+    "sha256": "dabe81f0f2a9aa6d2d52aebc0fc59d0766911e4d53156f72b2c7a0239864f478"
+  },
+  "upstream": {
+    "chromium-DEPS": {
+      "git_blob_sha": "153b7611c7698a01166547c261bbda59d947d48c",
+      "sha256": "9b3b7db0bb23ac4e8211ebdedd06f3582d74d43132d07f5bb4440530f9d069b8",
+      "bytes": 196718
+    },
+    "v8-runtime-agent-impl.cc": {
+      "git_blob_sha": "b17432ca819792a6857676ef1ff68e4cdac587b8",
+      "sha256": "b8bc6ab5f32b1f71c9e70238a8cf03984ea16439f896cc3fe26cdd19dfeaac92",
+      "bytes": 49248
+    },
+    "injected-script.cc": {
+      "git_blob_sha": "dd346bb7f369ca87cd661d08fdc3a80c6a521605",
+      "sha256": "aacfb383b1711f8783dac44ded3743ad76fac4ee52c22cb09aee50ba5d54f295",
+      "bytes": 53643
+    },
+    "v8-inspector-impl.cc": {
+      "git_blob_sha": "e4bd1415e26803f0759b01ff016600e8b43a8f8c",
+      "sha256": "26bc90dba09ad74baace5e6504001078a74c1652c3f1ac22938ca9cad5998a58",
+      "bytes": 24877
+    }
+  },
+  "validation": "Exact text construction and source Git-blob/SHA-256 pins only. No syntax/runtime/tests."
+}

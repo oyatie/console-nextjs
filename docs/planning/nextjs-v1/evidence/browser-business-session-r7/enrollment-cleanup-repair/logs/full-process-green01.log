@@ -1,0 +1,106 @@
+TAP version 13
+# Subtest: slow prerequisite startup does not spend the requested cleanup budget
+ok 1 - slow prerequisite startup does not spend the requested cleanup budget
+  ---
+  duration_ms: 1.395542
+  type: 'test'
+  ...
+# Subtest: a ready runner that fails to exit still triggers the cleanup fallback
+ok 2 - a ready runner that fails to exit still triggers the cleanup fallback
+  ---
+  duration_ms: 1.456125
+  type: 'test'
+  ...
+# Subtest: never-ready startup has one absolute bounded termination deadline
+ok 3 - never-ready startup has one absolute bounded termination deadline
+  ---
+  duration_ms: 0.70825
+  type: 'test'
+  ...
+# Subtest: a second fault cannot reset an already running cleanup deadline
+ok 4 - a second fault cannot reset an already running cleanup deadline
+  ---
+  duration_ms: 0.209792
+  type: 'test'
+  ...
+# Subtest: late cleanup cannot erase evidence of forced intervention
+ok 5 - late cleanup cannot erase evidence of forced intervention
+  ---
+  duration_ms: 0.247667
+  type: 'test'
+  ...
+# Subtest: natural completion disposes both clocks and cannot rearm them
+ok 6 - natural completion disposes both clocks and cannot rearm them
+  ---
+  duration_ms: 0.190375
+  type: 'test'
+  ...
+# Subtest: enrollment runner confirms cleanup after signal-after-origin
+ok 7 - enrollment runner confirms cleanup after signal-after-origin
+  ---
+  duration_ms: 33041.567458
+  type: 'test'
+  ...
+# Subtest: enrollment runner confirms cleanup after eof-after-ready
+ok 8 - enrollment runner confirms cleanup after eof-after-ready
+  ---
+  duration_ms: 54161.708209
+  type: 'test'
+  ...
+# Subtest: enrollment runner confirms cleanup after oversized
+ok 9 - enrollment runner confirms cleanup after oversized
+  ---
+  duration_ms: 65422.78825
+  type: 'test'
+  ...
+# Subtest: enrollment runner confirms cleanup after wrong-version
+ok 10 - enrollment runner confirms cleanup after wrong-version
+  ---
+  duration_ms: 56500.884708
+  type: 'test'
+  ...
+# Subtest: enrollment runner confirms cleanup after wrong-sequence
+ok 11 - enrollment runner confirms cleanup after wrong-sequence
+  ---
+  duration_ms: 40275.163667
+  type: 'test'
+  ...
+# Subtest: enrollment runner confirms cleanup after wrong-kind
+ok 12 - enrollment runner confirms cleanup after wrong-kind
+  ---
+  duration_ms: 32062.116625
+  type: 'test'
+  ...
+# Subtest: enrollment runner confirms cleanup after legacy-selection
+ok 13 - enrollment runner confirms cleanup after legacy-selection
+  ---
+  duration_ms: 21065.161917
+  type: 'test'
+  ...
+# Subtest: enrollment runner confirms cleanup after missing-selection
+ok 14 - enrollment runner confirms cleanup after missing-selection
+  ---
+  duration_ms: 20056.272708
+  type: 'test'
+  ...
+# Subtest: enrollment runner confirms cleanup after malformed-selection
+ok 15 - enrollment runner confirms cleanup after malformed-selection
+  ---
+  duration_ms: 28182.700166
+  type: 'test'
+  ...
+# Subtest: enrollment runner confirms cleanup after weak-uv
+ok 16 - enrollment runner confirms cleanup after weak-uv
+  ---
+  duration_ms: 27332.04775
+  type: 'test'
+  ...
+1..16
+# tests 16
+# suites 0
+# pass 16
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 378160.6935

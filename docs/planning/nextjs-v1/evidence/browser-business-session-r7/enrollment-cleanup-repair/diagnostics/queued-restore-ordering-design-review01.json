@@ -1,0 +1,21 @@
+{
+  "schema": "queued-restore-ordering-design-review/1",
+  "verdict": "DESIGN_ACCEPT_PENDING_TEST_AND_SOURCE_PATCH_REVIEW",
+  "reviewers": [
+    "resident_failure_diagnostic_review",
+    "native_worker_failure_review"
+  ],
+  "scope": "single queuedrestore experimental ordering and error-preserving owned cleanup, no business/product behavior change",
+  "approved_conditions": [
+    "trustedpersistedpageshow queues actual timer; privatepromise awaits exactownedgate/context/actual401 witness",
+    "release validates sameoriginalrestoredDocument and singleuse then capturesReactbaseline immediately before resolving",
+    "later originalrestored React commit must strictly exceed releasebaseline",
+    "existing204/cookie/privatevisibility/reload/B independence/assertions/timers preserved",
+    "mark validowned gate witness held before rejecting unexpectedstatus so actualresponse remains releasable",
+    "mark releaseattempt before receipt and do not blindly retry unconfirmed release in finally",
+    "never release queuedaction during cleanup without genuinegatewitness",
+    "preserveprimaryfailure plus fixedcleanupstep labels; independentlyattemptpageclose; cleanupfailure blocksPASS"
+  ],
+  "explicit_limit": "Structuralordering gap established; no claimedcause for earliermissingcachedDocumentRED",
+  "implementation": "NOT_APPLIED; fullnative02sourcesfrozen"
+}

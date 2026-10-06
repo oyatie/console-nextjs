@@ -1,0 +1,73 @@
+--- a/tools/browser-business-restore.mjs
++++ b/tools/browser-business-restore.mjs
+@@ -155,12 +155,12 @@
+     } catch { errors.push("invalid restore probe frame"); }
+   };
+   page.on("console", listener);
+-  await page.addInitScript(({ selector, names, queueLogout, observeReact, key, prefix, bindingName, inputNonce }) => {
++  try {
++    await page.addInitScript(({ selector, names, queueLogout, observeReact, key, prefix, bindingName, inputNonce }) => {
+     const state = { document: crypto.randomUUID(), restored: false, reactCommits: 0, logoutQueued: false, logoutStarted: false, logoutReleased: false };
+     Object.defineProperty(window, key, { value: state });
+     const originalDocument = document; const originalToken = state.document;
+-    const reply = queueLogout ? window[bindingName] : null;
+-    if (queueLogout && typeof reply !== "function") throw new Error("native input reply binding absent");
++    let reply; // Capture the SDK binding while this original Document is active, before departure.
+     let trustedRestore = false; let inputSequence = 0;
+     // Only a real persisted pageshow queues this timer. The native response
+     // witness below releases it once; cleanup never releases an unproved action.
+@@ -175,7 +175,7 @@
+       return commits;
+     };
+     if (queueLogout) addEventListener("keydown", (event) => {
+-      if (!event.isTrusted || event.repeat || !["F13", "F14"].includes(event.code)
++      if (typeof reply !== "function" || !event.isTrusted || event.repeat || !["F13", "F14"].includes(event.code)
+         || !trustedRestore || !state.restored || !state.logoutQueued || state.logoutStarted
+         || state.document !== originalToken || document !== originalDocument
+         || originalDocument.defaultView?.document !== originalDocument) return;
+@@ -232,7 +232,12 @@
+     // Native listener callbacks can checkpoint microtasks between listeners;
+     // registration after the production listener permits a synchronous sample.
+     state.armPagehide = (original) => {
+-      if (state.document !== original || state.pagehideArmed) return false;
++      if (state.document !== original || state.pagehideArmed || document !== originalDocument) return false;
++      if (queueLogout) {
++        const candidate = window[bindingName];
++        if (typeof candidate !== "function") return false;
++        reply = candidate;
++      }
+       state.pagehideArmed = true;
+       addEventListener("pagehide", (event) => report("pagehide", event));
+       return true;
+@@ -258,6 +263,11 @@
+   }, { selector, names: [facts.company_name, facts.account_name,
+     ...facts.first_page.items.map((item) => item.note)], queueLogout, observeReact, key: PROBE, prefix: PREFIX,
+     bindingName, inputNonce });
++  } catch (error) {
++    closed = true; page.off("console", listener);
++    inputWaiter?.reject(new Error("original native input probe installation failed")); inputWaiter = undefined;
++    throw error; // The caller's owned-page finally still closes a partially installed binding.
++  }
+   return { events, errors, inputObservations, originalInput,
+     async armPagehide(original) {
+       assert.equal(await page.evaluate(({ key, original }) => window[key].armPagehide(original),
+@@ -347,8 +357,9 @@
+   await h.signIn("a");
+   const actor = h.actors.get("a"); const session = { ...h.sessions.get("a") };
+   const page = await actor.context.newPage();
+-  const probe = await installProbe(page, h.guardContract.privateRegionSelector, actor.facts, false);
++  let probe;
+   try {
++    probe = await installProbe(page, h.guardContract.privateRegionSelector, actor.facts, false);
+     await page.goto(`${actor.origin}/me/${session.context}/attendance/`);
+     await page.getByRole("table").waitFor({ state: "visible", timeout: h.phaseMs ?? 20000 });
+     const original = await page.evaluate((key) => window[key].document, PROBE);
+@@ -370,7 +381,7 @@
+       assert.equal(event.hidden, true); assert.equal(event.private_visible, false);
+     }
+     return { ordinary_back: true, cached_restore_seen: probe.events.some((event) => event.persisted && event.trusted) };
+-  } finally { probe.remove(); await page.close(); }
++  } finally { probe?.remove(); await page.close(); }
+ }
+ 
+ async function cacheVariant(h, mode) {

@@ -1,0 +1,99 @@
+{
+  "schema": "resident-setup-diagnostic-source-review/2",
+  "verdict": "ACCEPT_SOURCE_ONLY",
+  "scope": "Independent exact paired proposal/manifest/source/patch candidate02 review plus independent peer re-review. Source-only; no tracked edits, compilation, syntax/rustfmt execution, runtime operations or tests.",
+  "pins": {
+    "node_before": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/resident-setup-diagnostic-candidate02/node-before.mjs",
+      "sha256": "88cdfea200731ab32fcda0c797a96eee6ce49a42e6f174208fed29195105cd2e",
+      "bytes": 15858
+    },
+    "node_after": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/resident-setup-diagnostic-candidate02/tools/test-resident-authenticator.mjs",
+      "sha256": "3270d79e4a3511cba87b9998367b3918a00bdcebbc2935bb903019c319f13698",
+      "bytes": 17812
+    },
+    "rust_before": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/resident-setup-diagnostic-candidate02/rust-before.rs",
+      "sha256": "c2fc3e190d7b9933cdaf77958a8a9dc11a6ab8df83fa69362c7a42d5bc67412c",
+      "bytes": 28091
+    },
+    "rust_after": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/resident-setup-diagnostic-candidate02/backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs",
+      "sha256": "1a9ef29ee164cdeca5573a5b750b49f54f5e215f19a8709d9a8309ab5f71766f",
+      "bytes": 31840
+    },
+    "patch": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/resident-setup-diagnostic-candidate02/patch.diff",
+      "sha256": "44850cf403cdd3b3c36cd42472e26064390500be35a4ebb3a0ebedb39d86bc01",
+      "bytes": 10862
+    },
+    "manifest": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/resident-setup-diagnostic-candidate02/manifest.json",
+      "sha256": "2a52d2bea354e5b19529803091d5603a80e58c18e8d1757d25eca38746a78213",
+      "bytes": 2492
+    },
+    "proposal": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/resident-setup-diagnostic-candidate02/proposal.json",
+      "sha256": "42c4b6d6fdcce7bd24b336e2cedc26db58c727a1de4f0d6538e6e2bd652ce980",
+      "bytes": 3295
+    }
+  },
+  "prior_finding_review": {
+    "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/resident-setup-diagnostic-candidate01/resident_failure_source_review01.json",
+    "sha256": "17e24a65bf17cd81bc5de517ed945b7c52decdb0240c42b031d2e5038b36f59f",
+    "bytes": 6354
+  },
+  "exact_patch_results_match": true,
+  "node_unchanged_from_candidate01": true,
+  "findings": [],
+  "checks": [
+    {
+      "result": "PASS_SOURCE",
+      "property": "Required readiness-clock correction",
+      "evidence": "Rust candidate02 lines306-309 capture readiness_started_at immediately before unchanged value.read(PHASE). Bounded readiness_age_ms and phase_budget_elapsed at323,329-330 use that observation clock. Separate owner_age_ms uses spawned_at and explicit owner_age_capped; process/worker setup age is not labeled readiness-wait consumption. No timer, read timeout, retry or success gate changes."
+    },
+    {
+      "result": "PASS_SOURCE",
+      "property": "Fixed failure-only pre-ready checkpoints",
+      "evidence": "Node checkpoint names are fixed literals; setupComplete suppresses post-ready ceremony diagnostics. Diagnostic-only monotonic setup/stage age cap600000 has explicit age_capped and introduces no execution budget. Shared launch5000 budget begins at original captured start; configured connect/navigation20000 observation begins immediately before calls. Unconfigured phases emit budget_ms=null and budget_elapsed=null. SDK-internal exception/clock is not inferred."
+    },
+    {
+      "result": "PASS_SOURCE",
+      "property": "Trusted first-frame classification",
+      "evidence": "Existing read validates actual frame size/JSON/version/sequence first. Only fixed Ready/FixtureFailure/Cleaned/Other category and origin/secure booleans emit on mismatch. Raw frame/URL/code/browserID do not emit. The unchanged secure-origin error still fails; classifications never authorize readiness."
+    },
+    {
+      "result": "PASS_SOURCE",
+      "property": "512-byte typed privacy floor",
+      "evidence": "Existing stderr owner drains without publishing bytes and retains at most512 transient prefix bytes. SetupStage enum, deny_unknown_fields,u32 bounds and options filter accept only bounded forms. Ordinary fixed setup+failure+cleanup upper bound423bytes fits512. Repeated late cleanup diagnostics can be absent as disclosed; missing/invalid metadata never becomes success."
+    },
+    {
+      "result": "PASS_SOURCE",
+      "property": "Constructor error survives successful cleanup",
+      "evidence": "Parsed setup diagnostic emits under constructing branch independently of cleanup outcome, while original returned constructor error remains. Existing Node failure/error frame and Rust failure string, cleaned ACK, status/code, timers/deadlines and retry paths remain unchanged. Best-effort logging cannot create success."
+    },
+    {
+      "result": "PASS_SOURCE",
+      "property": "Exact paired application floor",
+      "evidence": "Node3270d79e4/Rust1a9ef29e pair and combined44850cf4 patch match manifest; exact patch reconstruction matches both after sources. BeforeNode88cdfea2/Rustc2fc3e19 match accepted applied cleanup pair. Current source remains frozen and candidate not treated as runtime evidence."
+    }
+  ],
+  "required_runtime_proof": [
+    "Wait for root frozen fullrun terminal before root paired application; record exact before/after/source/service pins.",
+    "Root-owned actual reproduction of affected encrypted_proof_or_metadata_tampering_is_denied_without_reminting_authority test to observe first-frame category and fixed setup-stage/configured-budget facts. Missing diagnostic is absence of evidence. Do not infer secureDocument error or old-cleanup cause from generic constructor label.",
+    "If affected reproduction passes without recurring failure, record successful rerun plus failure cause still unproven; do not fabricate failure to obtain a diagnosis.",
+    "Fresh final-source native125/browser17 and required actual lifecycle/custody/hosted/evidence gates; current failed cases remain required until fixed and verified."
+  ],
+  "limits": [
+    "ACCEPT_SOURCE_ONLY does not establish runtime diagnosis, browser/group custody, product readiness, deployment or merge approval.",
+    "Author-reported Node syntax/Rustfmt not repeated; no compilation/tests by reviewer.",
+    "Configured-budget observation labels do not independently establish SDK internal timeout mechanics."
+  ],
+  "actions": {
+    "tests_executed": 0,
+    "tracked_source_writes": 0,
+    "live_operations": 0,
+    "artifact_review_write": true
+  }
+}

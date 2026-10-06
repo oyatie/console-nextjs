@@ -4184,6 +4184,622 @@
         "One disposable PostgreSQL site proves local behavior, not two-site confirmation/fencing, zero acknowledged-record loss or production readiness.",
         "No applied migration, dependency, family/identity rewrite, live cutover, payment, institution, mail exposure or collection activation."
       ]
+    },
+    {
+      "scope": "R7 passkey sign-in, current-authority own-attendance SSR/pagination/reload, exact-family logout and denied reads",
+      "status": "full_native_124_of_125_browser_16_of_17_and_process_faults_19_of_22_required_failures_open",
+      "evidence": {
+        "path": "docs/planning/nextjs-v1/browser-business-session-r7-evidence.json",
+        "sha256": "f005bfc82cd9bfab76b118904cd9cd9908bb9eeb67044ae09cec0e4970f8160c"
+      },
+      "native": {
+        "discovered": 121,
+        "executed": 121,
+        "passed": 121,
+        "failed": 0,
+        "skipped": 0,
+        "filtered": 0
+      },
+      "embedded_browser": {
+        "discovered": 17,
+        "executed": 17,
+        "passed": 17,
+        "failed": 0,
+        "skipped": 0,
+        "unreached": 0
+      },
+      "interpretation": "The17browser scenarios are inside one of121native tests. Fresh p14-repair-canonical01 executes121/121 and17/17. Hosted prior diagnostic head8434bdb passed all42steps; originale24dac9RED remains preserved, cause unproven. Current repaired head requiredCI/queue pending. These native/browser counts are historical p14-repair-canonical01 proof. Frozen f5c29cc PR CI passed all42steps, but its exact-tree merge group failed: ten process tests, one passed/nine failed; later native/browser producers were skipped. The current repair passes22/22 deadline/process checks; fresh unfiltered121/17 is running and not yet accepted. The terminal current repair native run executes121:116passed5failed0ignored; embedded browser17:16passed1unreached(P16queued-react-css). Exact resident/worker diagnostics each1/1pass do not resolve original failures. Native enrollment preserves an exact20s checked_frames0 RED; independently reviewed first-origin-only90s correction passes the same exact consumer1/1. Full native/17 and hosted/queue acceptance remain pending. Terminal native02 independently audited:121executed120passed1failed0ignored0filtered; child17/17passed. Remaining resident cleanup exit3 is not explained by idle60s (observed6s). Source map unchanged within that run. Reviewed queued-ordering test currently running; no repaired final head or fresh hosted CI exists. The preceding running/frozen statements are historical and superseded by current_diagnostic_run/focused_cleanup_proof. Latest full run is118passed/3failed; selected17browser diagnostic is16passed/1failed at queued-pending after a real401 witness. Reviewed startup/SDK cleanup source passes four fault regressions and both previously failing consumers individually. The original121 discovery set plus four new regressions, all17browser scenarios, final source/evidence review, hostedCI and protected admission remain required. No current repair acceptance or launch is claimed. Latest full125/17 gate supersedes earlier active/pending wording and is RED123pass2fail native,16pass1fail browser. Both required failures remain open; isolated diagnostic consumer1/1 does not resolve the historical startup failure. Portable06 unsealed and no final review, new exact-headCI or queue admission. Latest native-input focused consumer is scopedPASS1native/all17browser. Subsequent full125 is RED124pass/1fail: queued-react-css passes, delayed-bundles fails with unlocalized generic assertion. Independent process22 gate is RED19pass/3fail (EOF-after-ready, wrong-sequence, legacy-selection), no cleanup ACK. These latest_full_run/current_process_fault_gate fields supersede earlier current/running statements. Diagnostics preserve every deadline/ACK/assertion; portable06 remains unsealed, publication/CI/queue blocked. Latest cleanup-owner-final-process-faults01 is terminalRED20passed/2failed: wrong-sequence fails before ready and never injects its intended fault; legacy-selection ends without cleanupACK. These are distinct observed stages with UNKNOWN causes. Latest focused location-native1/17 PASS is scoped; full125 remains RED. Source-only reviews do not grant final acceptance; portable06, publication, fresh hostedCI and protected queue admission remain blocked. Current business-writer-final-process-faults01 independently passes22/22; business-writer-final-full-native01 terminal passes125/125 and embedded17/17 with zero skips/filters/unreached. Exact2958 input hashes remain unchanged. These current fields supersede earlier required-current RED wording while preserving prior failures and UNKNOWN causes. Final full audit, evidence seal/review, exact-head hostedCI and protected queue admission remain pending; no launch acceptance. Full125/browser17 terminal audit now independently verifies exact discovery/execution sets, current unchanged2958 closure and allsevenP16variants. Final source/evidence review, seal and exact-head hostedCI/queue remain pending. Final bounded local source/metadata/evidence review accepted3f846; portable06 nowsealed781assets/56runs, prior205assets preserved. Postseal integrity/metadata delta review and exact-head hostedCI/protected queue remain pending; no publication or launch claim.",
+      "remaining_holds": [
+        "Physical passkeys and attended identity/recovery",
+        "Verified natural-person independent approval",
+        "Current-at-emission authority serialization",
+        "Two-site confirmation, fencing and safe reads",
+        "Linux hosted compatibility until required CI passes",
+        "Complete HR/Org/Payroll/Foundry and all B/P launch workflows",
+        "Capacity, restore, migration and full release acceptance"
+      ],
+      "hosted_delivery": "894ae36 published; hostedCI37461335987 failed at lint on an archived source snippet. Configuration-only fix verified locally; new exact-head hostedCI and normal protected queue remain pending.",
+      "current_repair_native": {
+        "executed": 125,
+        "passed": 124,
+        "failed": 1,
+        "skipped": 0,
+        "filtered": 0,
+        "discovered": 125,
+        "run": "native-input-final-full-native01",
+        "raw_log_sha256": "efc7415614eda7c09d02382e34ba3f8720ae99ccb216f6893c734bc149d951f6",
+        "scope": "Latest full required gate; terminal RED"
+      },
+      "current_repair_embedded_browser": {
+        "executed": 17,
+        "passed": 16,
+        "failed": 1,
+        "skipped": 0,
+        "unreached": 0,
+        "discovered": 17,
+        "run": "native-input-final-full-native01",
+        "scope": "Embedded within the failed full125 native gate; terminal RED"
+      },
+      "current_repair_evidence": {
+        "path": "docs/planning/nextjs-v1/evidence/browser-business-session-r7/enrollment-cleanup-repair/index05.json",
+        "sha256": "d0d7974037d0d02c6c4ba668fa092597b65c986a6fc5101e4973b23972e25e29",
+        "scope": "Terminal full native02RED120/1, queued baselineRED16/17, scoped resident1/1 and ready/done40/40; approved diagnostics/review chain; active unfiltered diagnostic03 excluded; no root-cause or queue approval"
+      },
+      "current_diagnostic_run": {
+        "id": "queued-prewitness-diagnostic-native01",
+        "status": "terminal_required_acceptance_failed",
+        "native_counts": {
+          "executed": 1,
+          "passed": 0,
+          "failed": 1,
+          "skipped": 0,
+          "filtered": 120
+        },
+        "browser_counts": {
+          "executed": 17,
+          "passed": 16,
+          "failed": 1,
+          "skipped": 0,
+          "unreached": 0
+        },
+        "raw_log_sha256": "260066fd973d91ab86beb0bfa992b97c7834285238546269357317cb270ab055",
+        "inputs_sha256": "1cc116be66820ae7facd6253c3c5d652eb8c22649ed535bae787c898a82e1a61",
+        "source_inputs_unchanged": true,
+        "failure_observation": {
+          "scenario": "P16",
+          "variant": "queued-react-css",
+          "checkpoint": "queued-pending",
+          "native_status": 401,
+          "native_gate_and_context_match": true,
+          "trusted_departures": 1,
+          "trusted_original_restores": 1,
+          "ordering_observation": null,
+          "raw_exception": "unproven"
+        },
+        "source_edits": "run finished; reviewed cleanup corrections applied afterward"
+      },
+      "focused_cleanup_proof": {
+        "resident-startup-and-cached-fault-native01": {
+          "executed": 4,
+          "passed": 4,
+          "failed": 0,
+          "skipped": 0,
+          "filtered": 121,
+          "raw_log_sha256": "403449217e7afd81c8b79a7e545cf7f47e7761cbec85970bee5c098cfb3a48e6"
+        },
+        "resident-shared-cleanup-short-family-native01": {
+          "executed": 1,
+          "passed": 1,
+          "failed": 0,
+          "skipped": 0,
+          "filtered": 124,
+          "raw_log_sha256": "dd79ffead7dd9c53ed1209f3324a1b26f453e9f97fbad9f4f9049683118e8eea"
+        },
+        "resident-shared-cleanup-fk-native01": {
+          "executed": 1,
+          "passed": 1,
+          "failed": 0,
+          "skipped": 0,
+          "filtered": 124,
+          "raw_log_sha256": "a6ca65b12623b4058f734bc6f74ab00a7e127b8b4a58c8e5c5357c0b1f0ef503"
+        },
+        "inputs_sha256": "85386f6ca3a1a72287c32bf111311f8e52d584a7a047b0826830873645e0ad2e",
+        "source_inputs_unchanged": true,
+        "limits": "Scoped proof only; simulated private setup errors are not OS exhaustion. Node reap/worker join observations do not independently prove Chromium group absence. Fresh full125native/17browser and hosted exact-head checks remain required."
+      },
+      "latest_full_run": {
+        "id": "business-writer-final-full-native01",
+        "status": "terminal_independently_verified_scoped_pass",
+        "native_counts": {
+          "executed": 125,
+          "passed": 125,
+          "failed": 0,
+          "skipped": 0,
+          "filtered": 0
+        },
+        "embedded_browser_counts": {
+          "executed": 17,
+          "passed": 17,
+          "failed": 0,
+          "skipped": 0,
+          "unreached": 0
+        },
+        "raw_log_sha256": "e1ac895efd241e8440d50180bd505cb2e6f8382e9d97284493515832565bc29e",
+        "inputs_sha256": "860a09c23df250e4f1f95d71b64cf8056d03d88d3c52f66c80cb0ed71b56bfb6",
+        "source_inputs_unchanged": true,
+        "previous_gate_preserved": {
+          "id": "native-input-final-full-native01",
+          "status": "terminal_required_acceptance_failed",
+          "native_counts": {
+            "executed": 125,
+            "passed": 124,
+            "failed": 1,
+            "skipped": 0,
+            "filtered": 0
+          },
+          "embedded_browser_counts": {
+            "executed": 17,
+            "passed": 16,
+            "failed": 1,
+            "skipped": 0,
+            "unreached": 0
+          },
+          "raw_log_sha256": "efc7415614eda7c09d02382e34ba3f8720ae99ccb216f6893c734bc149d951f6",
+          "inputs_sha256": "77d09afd7c39eb07166ae64c0cb85e660c8f2b57927090464edbf198dd415d4a",
+          "source_inputs_unchanged": true,
+          "open_failures": [
+            "P16 delayed-bundles: generic required restore assertion; exact failure location/cause unobserved"
+          ],
+          "queued_react_css": {
+            "status": "passed",
+            "native_gate_context_401_and_pending_match": true,
+            "snapshot_elapsed_ms": 11,
+            "release_elapsed_ms": 5,
+            "existing_budget_ms": 20000
+          },
+          "limits": "All125 native/all17 browser executed, no skipped/filtered/unreached. Independently audited terminal RED. Focused subsequent17/17 does not clear this full gate or separate process22 RED.",
+          "independent_terminal_audit_sha256": "7bf286d80ec750e4ec798bc832eebaae5175ae31c05b867143b8fe7f42db6a32"
+        },
+        "limits": "Embedded17 browser scenarios execute inside one of125 native tests, not142 independent tests. Independent audit matches exact125 discovery/execution sets and all2958 current/22/static input hashes. Allseven P16 variants pass. PriorRED/UNKNOWN causes remain preserved; source/evidence review, seal, exact-head hostedCI and protected queue admission remain pending.",
+        "independent_terminal_audit_sha256": "5f6d6baa419ec7d08014f432e52c259d5f7a9accc489fbccf8dfb8d436b2db14",
+        "embedded_payload_sha256": "bfaedceac01cec85715fb4b8a72c549188843d7e3c491b81f7873514dcb10e38"
+      },
+      "latest_restore_diagnostic": {
+        "id": "real-p16-original-document-owner-native01",
+        "status": "terminal_required_acceptance_failed",
+        "native_counts": {
+          "passed": 0,
+          "failed": 1,
+          "skipped": 0,
+          "filtered": 124,
+          "executed": 1
+        },
+        "browser_counts": {
+          "passed": 16,
+          "failed": 1,
+          "unreached": 0,
+          "skipped": 0
+        },
+        "raw_log_sha256": "b10e324ae5e35478466344793f9a2d88f9ffa937aa3ff0bd7f50dba75f4d96d7",
+        "inputs_sha256": "58289ce43a1c9cb39145a677b87a0b55b404dfc3990a65ae638847e93c759609",
+        "source_inputs_unchanged": true,
+        "independent_terminal_audit_sha256": "00ea12253f901e3b34bfe44fc8fe85dc037d79deacbda5520aee6b95a86e9fa3",
+        "actual_observation": {
+          "queued_checkpoint": "queued-pending",
+          "failure_location": null,
+          "queued_native_observation": {
+            "stage": "native-response-observed",
+            "http_status": 401,
+            "native_gate_match": true,
+            "native_context_match": true,
+            "native_status_401": true
+          },
+          "queued_ordering_observation": null,
+          "original_world_observation": {
+            "purpose": "pending",
+            "category": "cdp-rejected",
+            "configured_budget_ms": 20000,
+            "observed_elapsed_ms": 15008,
+            "elapsed_capped": false,
+            "local_deadline_fired": false,
+            "cdp_response_received": false,
+            "exception_returned": null,
+            "exception_class": null,
+            "returned_value_kind": null,
+            "cdp_rejection": {
+              "error_shape": "native-error",
+              "public_name": "Error",
+              "message_category": "unique-context-not-found",
+              "exact_literal_matched": true
+            },
+            "original_context_destroyed_seen": false,
+            "original_context_created_again_seen": true,
+            "contexts_cleared_after_pin_seen": true,
+            "cdp_session_closed_seen": false,
+            "last_created_main_world_matches_original": false
+          },
+          "original_document_pin_observation": {
+            "purpose": "document-pin",
+            "category": "returned-original-document",
+            "configured_budget_ms": 20000,
+            "observed_elapsed_ms": 0,
+            "elapsed_capped": false,
+            "local_deadline_fired": false,
+            "cdp_response_received": true,
+            "exception_returned": false,
+            "exception_class": null,
+            "returned_value_kind": "node",
+            "cdp_rejection": null,
+            "original_context_destroyed_seen": false,
+            "original_context_created_again_seen": false,
+            "contexts_cleared_after_pin_seen": false,
+            "cdp_session_closed_seen": false,
+            "last_created_main_world_matches_original": true
+          },
+          "original_document_owner_at_required_outcome": {
+            "category": "pending-at-required-outcome",
+            "configured_budget_ms": 20000,
+            "observed_elapsed_ms": 15008,
+            "elapsed_capped": false,
+            "local_deadline_fired": false,
+            "raw_document_call_issued": true,
+            "cdp_response_received": false,
+            "cdp_rejection": null,
+            "exception_returned": null,
+            "exception_class": null,
+            "pending": null,
+            "pending_matches_expected": null
+          },
+          "original_document_owner_observation": {
+            "category": "pending-at-required-outcome",
+            "configured_budget_ms": 20000,
+            "observed_elapsed_ms": 15008,
+            "elapsed_capped": false,
+            "local_deadline_fired": false,
+            "raw_document_call_issued": true,
+            "cdp_response_received": false,
+            "cdp_rejection": null,
+            "exception_returned": null,
+            "exception_class": null,
+            "pending": null,
+            "pending_matches_expected": null
+          },
+          "queued_phase_timeline": [
+            {
+              "sequence": 0,
+              "kind": "exact-main-frame-request",
+              "observed_elapsed_ms": 196,
+              "elapsed_capped": false
+            },
+            {
+              "sequence": 1,
+              "kind": "exact-main-frame-commit",
+              "observed_elapsed_ms": 197,
+              "elapsed_capped": false,
+              "navigation_type": "BackForwardCacheRestore"
+            },
+            {
+              "sequence": 2,
+              "kind": "native-response-observed",
+              "observed_elapsed_ms": 204,
+              "elapsed_capped": false,
+              "stage": "native-response-observed",
+              "http_status": 401,
+              "native_gate_match": true,
+              "native_context_match": true,
+              "native_status_401": true
+            },
+            {
+              "sequence": 3,
+              "kind": "original-evaluation-issued",
+              "observed_elapsed_ms": 204,
+              "elapsed_capped": false,
+              "purpose": "pending"
+            },
+            {
+              "sequence": 4,
+              "kind": "exact-main-frame-response",
+              "observed_elapsed_ms": 15201,
+              "elapsed_capped": false,
+              "http_status": 200
+            },
+            {
+              "sequence": 5,
+              "kind": "exact-main-frame-commit",
+              "observed_elapsed_ms": 15204,
+              "elapsed_capped": false,
+              "navigation_type": "Navigation"
+            },
+            {
+              "sequence": 6,
+              "kind": "original-evaluation-rejected",
+              "observed_elapsed_ms": 15212,
+              "elapsed_capped": false,
+              "purpose": "pending",
+              "cdp_rejection": {
+                "error_shape": "native-error",
+                "public_name": "Error",
+                "message_category": "unique-context-not-found",
+                "exact_literal_matched": true
+              }
+            }
+          ],
+          "not_restored_reasons": [],
+          "trusted_departures": 1,
+          "trusted_original_restores": 1
+        },
+        "cause": "Exact unique-context-not-found lookup rejection observed after replacement Navigation receipt; expression did not return. Internal BFF abort/status/body and Chromium command deferral causality remain unproven. Predeparture raw Document pin succeeded but read remained pending; no usable alternate observation demonstrated.",
+        "limits": "Native one failed/124 filtered; all17 browser16 passed/1failed. No timeout, original-document requirement, assertion or release change. This remains a diagnostic RED, not correction acceptance."
+      },
+      "latest_strict_clippy": {
+        "id": "resident-stderr-type-clarity-clippy01",
+        "status": "passed",
+        "exit_code": 0,
+        "duration_seconds": 1050.759528500028,
+        "test_bodies_executed": 0,
+        "raw_log_sha256": "db089e738d22fdf5078887d6dabf87e5ff113f790c92770246d2392961228f1e",
+        "inputs_sha256": "3a29d02833f3757908a3a8fe4f08c13790a813cd7a7676dbbb92653f2c77ae14",
+        "source_inputs_unchanged": true,
+        "limits": "Strict current -D warnings passed after the reviewed StderrObservation type alias. Cargo retains the proc-macro-error2 future-incompatibility notice. No test-body or browser acceptance is claimed.",
+        "independent_terminal_audit_sha256": "67445e9852386f2781837f9efd4b8d485eee8d85c917a90caccbb7b33abf77b0"
+      },
+      "latest_mechanics_diagnostic": {
+        "id": "restored-context-mechanics-native05-launch02",
+        "status": "terminal_failed_prerequisite",
+        "exit_code": 1,
+        "duration_seconds": 6.064896541996859,
+        "raw_log_sha256": "b141060fff2340219180c30569fabe4a814fcd52accc4780fffee878e46daef1",
+        "inputs_sha256": "3a29d02833f3757908a3a8fe4f08c13790a813cd7a7676dbbb92653f2c77ae14",
+        "source_inputs_unchanged": true,
+        "independent_terminal_audit_sha256": "fca03823d1a457906182b68ce3017cd0b47b94ccaaa577eeb1153526e76f0f62",
+        "trusted_original_restoration": false,
+        "comparison_evaluations_issued": 0,
+        "cache_failure_reason_event_observed": false,
+        "scope": "Isolated browser mechanics only; fixture documents/timers do not prove business authentication, BFF behavior or required product acceptance",
+        "limits": "Second original-document request does not prove guard reload without trusted restoration. Scoped cleanup observed for this standalone only. No cause inferred; no further fixture expansion. Earlier malformed invocation never started a probe and has separate failure evidence."
+      },
+      "prior_restore_diagnostic": {
+        "id": "restored-context-failure-diagnostic-native01",
+        "status": "terminal_required_acceptance_failed",
+        "native_counts": {
+          "executed": 1,
+          "passed": 0,
+          "failed": 1,
+          "skipped": 0,
+          "filtered": 124
+        },
+        "browser_counts": {
+          "executed": 17,
+          "passed": 16,
+          "failed": 1,
+          "skipped": 0,
+          "unreached": 0
+        },
+        "raw_log_sha256": "417238077f3659d50325bd878e6e82aa3f45e84c11489cd8d27fc199f8e2a1ca",
+        "inputs_sha256": "90131bea32cf92be29be3b9b6332316eabb7534409cdc1cf463e5363626288da",
+        "source_inputs_unchanged": true,
+        "independent_terminal_audit_sha256": "fdaa7c0b0f675fd9d51a422d04cc4aec252047acdb8dcab45aaf78b7a5cff7ef",
+        "actual_observation": {
+          "purpose": "pending",
+          "category": "cdp-rejected",
+          "configured_budget_ms": 20000,
+          "observed_elapsed_ms": 15006,
+          "local_deadline_fired": false,
+          "normal_awaited_result_observed": false,
+          "returned_javascript_exception_observed": false
+        },
+        "cause": "Unproven; existing BFF15s native-fetch timeout and context lifecycle loss are hypotheses, not demonstrated cause",
+        "limits": "No timeout, assertion, context fallback or single-release change. Required failure remains open."
+      },
+      "previous_full_run_before_native_input": {
+        "id": "resident-restored-context-full-native01",
+        "status": "terminal_required_acceptance_failed",
+        "native_counts": {
+          "executed": 125,
+          "passed": 123,
+          "failed": 2,
+          "skipped": 0,
+          "filtered": 0
+        },
+        "embedded_browser_counts": {
+          "executed": 17,
+          "passed": 16,
+          "failed": 1,
+          "skipped": 0,
+          "unreached": 0
+        },
+        "raw_log_sha256": "94f7244bc3b0454ef7075553d1347b4d5d7857abef97ff8c0e9a5ffc85cbaad2",
+        "inputs_sha256": "c054df00ddb6a240ffaaabc6baf2a53b3a91ce07723d8ad4653692cffc2e7fc0",
+        "source_inputs_unchanged": true,
+        "independent_terminal_audit_sha256": "988724173da9c68933d382c992519ae5fce8777af2e49c2e3783b4862adee0b7",
+        "open_failures": [
+          "resident first-frame readiness category/setup stage unproven in encrypted-proof tampering consumer",
+          "P16 queued-react-css queued-pending observation unavailable after exact native401; raw cause unproven"
+        ],
+        "after_terminal": "Reviewed bounded setup diagnostics applied; exact tampering consumer passed1/1 with124filtered, a nonreproducing scoped result rather than historical-failure resolution"
+      },
+      "focused_native_input_proof": {
+        "id": "real-p16-native-input-owner-native01",
+        "status": "scoped_pass_independently_audited",
+        "native_counts": {
+          "executed": 1,
+          "passed": 1,
+          "failed": 0,
+          "skipped": 0,
+          "filtered": 124
+        },
+        "browser_counts": {
+          "executed": 17,
+          "passed": 17,
+          "failed": 0,
+          "skipped": 0,
+          "unreached": 0
+        },
+        "source_sha256": "3be5f8d095d22cd5c2588880650f26acebb92f535222232ad8da40bca16147da",
+        "raw_log_sha256": "84ded14316b057068c0ec8d6edfb744e28dc568e0331fcd6520924a1634a47b9",
+        "inputs_sha256": "77d09afd7c39eb07166ae64c0cb85e660c8f2b57927090464edbf198dd415d4a",
+        "source_inputs_unchanged": true,
+        "independent_terminal_audit_sha256": "fc0b0c21e08ac0415c5d92b002fd55247632815775729a973c138a6c46814079",
+        "limits": "All seven P16 variants pass in this selected native consumer only; later full125 has delayed-bundle failure. No full repair/CI/queue/launch acceptance."
+      },
+      "current_process_fault_gate": {
+        "id": "business-writer-final-process-faults01",
+        "status": "terminal_independently_verified_scoped_pass",
+        "exit_code": 0,
+        "node_counts": {
+          "executed": 22,
+          "passed": 22,
+          "failed": 0,
+          "skipped": 0,
+          "cancelled": 0,
+          "todo": 0
+        },
+        "raw_log_sha256": "becc88a435a730ea845cb17205464b42c2f01ef2a34667361ebeb0df1e011d02",
+        "inputs_sha256": "860a09c23df250e4f1f95d71b64cf8056d03d88d3c52f66c80cb0ed71b56bfb6",
+        "source_inputs_unchanged": true,
+        "independent_terminal_audit_sha256": "329bf7a28bf7c3e82027c5df030bca0e552f949cff2c429eae9c2c3d24c0cfb4",
+        "previous_gate_preserved": {
+          "id": "cleanup-owner-final-process-faults01",
+          "status": "terminal_required_acceptance_failed",
+          "exit_code": 1,
+          "node_counts": {
+            "executed": 22,
+            "passed": 20,
+            "failed": 2,
+            "skipped": 0,
+            "cancelled": 0,
+            "todo": 0
+          },
+          "failed_cases": {
+            "wrong-sequence": {
+              "stage": "before-ready",
+              "observed": "cleaned frame received instead of ready at driver line81",
+              "intended_fault_injected": false,
+              "cause": "UNKNOWN; original prerequisite failure and cleaned outcome unobserved"
+            },
+            "legacy-selection": {
+              "stage": "cleanup-acknowledgement",
+              "observed": "runner ended before cleanup acknowledgement at read line54 / call line102",
+              "cause": "UNKNOWN; no first-owner-stage or child-exit metadata"
+            }
+          },
+          "raw_log_sha256": "ea9b2ad096fad25d1927ecb02a7596d1b382f5c7573d04826e919497acd521ef",
+          "inputs_sha256": "433fa937df5fb1298f20b855ca2e7af376750d61b0cdadef93087063c1e704f2",
+          "source_inputs_unchanged": true,
+          "independent_terminal_audit_sha256": "ebe4a3641538086a2205476e54d6a7585f665e14b0853d1a44a6e7242d609a13",
+          "previous_gate_preserved": {
+            "id": "native-input-final-process-faults01",
+            "status": "terminal_required_acceptance_failed",
+            "exit_code": 1,
+            "node_counts": {
+              "executed": 22,
+              "passed": 19,
+              "failed": 3,
+              "skipped": 0,
+              "cancelled": 0,
+              "todo": 0
+            },
+            "failed_cases": [
+              "eof-after-ready",
+              "wrong-sequence",
+              "legacy-selection"
+            ],
+            "observed_failure": "runner ended before cleanup acknowledgement at read line54 / call line102",
+            "cause": "unproven; no child exit, force or first-owner-stage observation in this gate",
+            "raw_log_sha256": "b794b4da32b975219deb50bb92f9207f0c0cb17b256f11137ebe9c2afedef9a1",
+            "inputs_sha256": "77d09afd7c39eb07166ae64c0cb85e660c8f2b57927090464edbf198dd415d4a",
+            "source_inputs_unchanged": true,
+            "independent_terminal_audit_sha256": "5aceecaefa2e7bd10ffddce979f8f1ef02063d44cc48c1ad61d998015bd2bac8",
+            "limits": "Generic run-gate counts describe Rust results (zero here); actual Node22 counts independently parsed without duplicate failure-summary rows. Required process acceptance remains RED."
+          },
+          "limits": "Exactly22 unique Node execution rows, zero cancelled/skipped/todo. Generic Rust parser counts remain zero separately. EOF-after-ready passed in this run without resolving its historical cause; pre-ready and missing-ACK failures are distinct. No final runtime acceptance."
+        },
+        "limits": "Six clock tests and16 real process cases retain exact ACK/outcome/zero invalid credential creation/natural exit/no supervisor force/empty owned TMPDIR assertions. Historical native readiness/cleanup causes remain UNKNOWN. This gate is not full product or launch proof."
+      },
+      "focused_restore_location_proof": {
+        "id": "real-all-variant-restore-location-native01",
+        "status": "terminal_scoped_pass",
+        "native_counts": {
+          "executed": 1,
+          "passed": 1,
+          "failed": 0,
+          "skipped": 0,
+          "filtered": 124
+        },
+        "browser_counts": {
+          "executed": 17,
+          "passed": 17,
+          "failed": 0,
+          "skipped": 0,
+          "unreached": 0
+        },
+        "raw_log_sha256": "03215ada36a50102d3af51176c08171a8405439b0caaba8672b07837f8cfabae",
+        "inputs_sha256": "0d0db8b93f59409b9b7395aaec683c4a67522789fab874d8359cdc03984d8c22",
+        "source_inputs_unchanged": true,
+        "independent_terminal_audit_sha256": "6da45f4632408948d8d1b07faa404e8cd2f1cf767633bb1ad263505d34bab3c9",
+        "limits": "Failure location diagnostic preserves behavior. No delayed-bundles failure reproduced; historical cause remains UNKNOWN. This scoped pass does not replace required fresh unfiltered125/browser17 gate."
+      },
+      "cleanup_owner_repair": {
+        "status": "applied_source_reviewed_runtime_gate_red",
+        "native_sha256": "afd17a0d0a69358613e1ff6d03d24f27eb322bd558a8cf021390e32527fff22e",
+        "business_sha256": "6868ac44bef0334065b3e4cd70ddfc58c3623be4070e6625f35b1738bed24280",
+        "independent_source_review_sha256": "7e68f4fee14e1c38f9f5aeedcc34b1683071869dcbc7436727b4c58c01c3e3e4",
+        "overall_source_review_sha256": "9f817a1811f2462711869cd60bfe7481b7afe2d1e35eef0d0471c61bfd6d2d06",
+        "scope": "Shared SDK cleanup ownership, sibling settlement, bounded unconfirmed finalization and startup-owned sequential certificate writes. Existing2s escalation phases and6s hard bound preserved.",
+        "limits": "Source approvals do not establish historical runtime cause, current full22/full125/17 pass, final evidence seal, exact-head hostedCI or protected queue admission."
+      },
+      "business_writer_ownership_repair": {
+        "status": "applied_source_reviewed_current_process_and_native_gates_pass",
+        "before_sha256": "6868ac44bef0334065b3e4cd70ddfc58c3623be4070e6625f35b1738bed24280",
+        "after_sha256": "840d164c2e81b204d98347d8fc6a1f6467e3c70d5769bc1e1a815fc2ebf4bc11",
+        "independent_source_review_sha256": "ee7285be6989e121e0b9bd11a07e18b58f6e137bb737be13cace9db97d0db638",
+        "observed_regression": {
+          "run_id": "cleanup-owner-full-fault-diagnostic03",
+          "executed": 22,
+          "passed": 21,
+          "failed": 1,
+          "raw_log_sha256": "5c6993ff8d1a36e2f404571946f7367840920e22dec2e350e061785c6d0b445f",
+          "independent_terminal_audit_sha256": "85f04f43bb8fe5405bdfde43487d5f6a25dfba2c1957ff5b5b947ee3bc4ceba7",
+          "failure": "Original business startup frame-EOF case receives report before expected cleaned. Reader stops at report; later ACK emission remains unproven. Final parent SIGTERM attempted, not proof of delivery or necessity."
+        },
+        "change": "Ordinary writeFrame rejects when closing before sequence/bytes submission; finalizer alone calls the existing private primitive for cleaned. Same stdout FIFO, normal17-scenario report, timers and test assertions preserved.",
+        "limits": "Known business protocol interleave corrected; earlier native readiness/cleanup/delayed-bundle failure causes are not established by later passes."
+      },
+      "final_static_checks": {
+        "format_run_id": "business-writer-final-format01",
+        "custody_run_id": "business-writer-final-custody01",
+        "status": "passed",
+        "independent_audit_sha256": "9c87f527e7adcd3b9c1435cdc0fd3191a42ae45a756011184660c0188af833f3",
+        "strict_clippy_scope_reuse_audit_sha256": "03c1db9be519f32c4bb7c805cc481ba7ba94e74eaf77cc389d87af4a2697c55a",
+        "limits": "Zero runtime test bodies; existing strict Clippy reused only for unchanged captured backend/dependency/source scope. No all-workspace or environment attestation."
+      },
+      "final_local_adversarial_review": {
+        "status": "accepted_bounded_pr16_source_metadata_evidence",
+        "receipt_sha256": "3f846b73ff9d77d25d57a4cc01a04ed865d5965aa8dde873d85cc4f96c7718a8",
+        "scope": "Exact final12code/CI snapshots,3separate metadata snapshots,2958 runtime inputs and local22/125/17 evidence. PriorRED/UNKNOWN preserved. No MVP/launch/physical-passkey or two-site durability acceptance."
+      },
+      "portable_evidence06": {
+        "status": "sealed_evidence_only",
+        "path": "docs/planning/nextjs-v1/evidence/browser-business-session-r7/enrollment-cleanup-repair/index06.json",
+        "index_sha256": "5a0dcdf8cb10fc09bf364a29272124fa412598b5c05c033146257963cdc84037",
+        "assets": 781,
+        "runs": 56,
+        "preserved_prior_assets": 205,
+        "limits": "One-way runtime/source/review/evidence chain; metadata/index excluded from runtime bindings. External postseal review is a separate publication gate recorded at postseal_review_path. Exact-head hostedCI/normal queue are separate and remain pending at this checkpoint; no release approval.",
+        "postseal_review_path": "docs/planning/nextjs-v1/evidence/browser-business-session-r7/enrollment-cleanup-repair/postseal-review.json"
+      },
+      "typescript_discovery_repair": {
+        "evidence_index": "docs/planning/nextjs-v1/evidence/browser-business-session-r7/typescript-discovery-repair/index.json",
+        "independent_review_path": "docs/planning/nextjs-v1/evidence/browser-business-session-r7/typescript-discovery-repair/independent-review.json",
+        "baseline_hosted_run": 37461335987,
+        "baseline_head": "894ae36e7170245b027d0688b26b6e46da461c13",
+        "baseline_outcome": "FAILED_LINT_LATER_REQUIRED_GATES_UNREACHED",
+        "candidate_configuration_sha256": "ccf246d7611d18b133521c0db25ad40448d2f4706a8b84ed6d313415b09d1ee8",
+        "local_outcome": "compiler_discovery_import_negative_lint_build_production_custody_pass",
+        "scope": "Only three archived TS/TSX roots/program files excluded. All other roots/imports retained. Original native125/embedded17/process22 remain scoped to prior configuration. Generated build manifest replacement separately recorded. New hostedCI/queue pending; no full product or launch acceptance.",
+        "git_publication_review_path": "docs/planning/nextjs-v1/evidence/browser-business-session-r7/typescript-discovery-repair/git-publication-review.json",
+        "publication_correction": "First894ae36 publication omitted78 reviewed original assets via ignore rules. Exact original bytes explicitly staged in follow-up; all evidence assets must be present in Git index before commit. Seal/source unchanged; final staged custody review required."
+      }
     }
   ]
 }

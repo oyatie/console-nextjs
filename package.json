@@ -8,8 +8,8 @@
   },
   "scripts": {
     "dev": "next dev --turbopack -p 5173",
-    "build": "next build --webpack",
-    "start": "next start -p 5173",
+    "build": "node tools/production-runtime.mjs --build",
+    "start": "node server.mjs",
     "lint": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",

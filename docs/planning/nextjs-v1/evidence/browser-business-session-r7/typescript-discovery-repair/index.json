@@ -1,0 +1,187 @@
+{
+  "schema": "typescript-discovery-config-repair-evidence/1",
+  "created_at_utc": "2026-10-06T12:23:02.770442+00:00",
+  "scope": "PR16 configuration-only follow-up; excludes archived evidence from compiler root discovery while retaining source/tests/generated types/import checking. Not full product, hostedCI or queue acceptance.",
+  "source_parent": "894ae36e7170245b027d0688b26b6e46da461c13",
+  "baseline_tsconfig_sha256": "1632796cde2881ef7091052486f75a0385e22e98a1862e6436da25c4f3424810",
+  "candidate_tsconfig_sha256": "ccf246d7611d18b133521c0db25ad40448d2f4706a8b84ed6d313415b09d1ee8",
+  "sealed_prior_index_sha256": "5a0dcdf8cb10fc09bf364a29272124fa412598b5c05c033146257963cdc84037",
+  "sealed_prior_package_unchanged": true,
+  "baseline_hosted_ci": {
+    "run": 37461335987,
+    "head": "894ae36e7170245b027d0688b26b6e46da461c13",
+    "status": "completed",
+    "conclusion": "failure",
+    "failed_steps": [
+      "Run npm run lint"
+    ],
+    "skipped_steps": 34,
+    "later_required_gates_unreached": true
+  },
+  "current_local_proof": {
+    "compiler_roots_before": 110,
+    "compiler_roots_after": 107,
+    "program_files_before": 786,
+    "program_files_after": 783,
+    "only_removed_files": "Three archived evidence TS/TSX files. No other source/dependency removed.",
+    "imported_excluded_file_still_typechecked": true,
+    "lint_exit": 0,
+    "build_exit": 0,
+    "production_runtime_custody_exit": 0,
+    "source_inputs_unchanged_during_commands": true,
+    "generated_build_manifest_replaced": true,
+    "prior_native_browser_process_results_relabelled": false,
+    "production_runtime_standalone_verification_exit": 0
+  },
+  "harness_and_wrapper_failures_preserved": [
+    "compiler-probe-attempt01.json",
+    "local-gates-attempt01.json",
+    "runtime-custody-attempt01.json"
+  ],
+  "assets": [
+    {
+      "path": "baseline-lint.json",
+      "bytes": 319,
+      "sha256": "287559019a4379e7d100a26d518b2b9939ac563e2c7f4fa539df5c5079580b2f"
+    },
+    {
+      "path": "baseline-lint.log",
+      "bytes": 326,
+      "sha256": "b3b8ab64709e11b1c945928d01790b6995dafff61c90d21e422fa8feb26a49fe"
+    },
+    {
+      "path": "baseline-tsconfig.json",
+      "bytes": 817,
+      "sha256": "1632796cde2881ef7091052486f75a0385e22e98a1862e6436da25c4f3424810"
+    },
+    {
+      "path": "candidate-build-inputs.json",
+      "bytes": 21908,
+      "sha256": "dae93797cef464387c9a74f479e9791f3c81f475b01fe666a54a4a703a64cf4a"
+    },
+    {
+      "path": "candidate-build.json",
+      "bytes": 265,
+      "sha256": "10538fb06df5f1f703d1cbdb28dc1ba8b7a9e6c127efa7dfab42c73e7e5e1286"
+    },
+    {
+      "path": "candidate-build.log",
+      "bytes": 819,
+      "sha256": "d95b91ae3daa5e2e46a0366876b9966b3e12e88cfb2a1a0d6ebd612863e97cd8"
+    },
+    {
+      "path": "candidate-inputs-after.json",
+      "bytes": 452798,
+      "sha256": "512d42ba1b704ffa54a5952ca6c7a976f6264794e1a1bb1afba661231b74d689"
+    },
+    {
+      "path": "candidate-inputs-before.json",
+      "bytes": 452798,
+      "sha256": "07d55a73060ebdc4c4a2d456673079cd2132fefa7e3d81c6f047fd5a77fffb65"
+    },
+    {
+      "path": "candidate-lint.json",
+      "bytes": 263,
+      "sha256": "06bd8f2878a09284dbe2a1d8d1409964bf9c783b97dd39221fbb84ad6d26d0d3"
+    },
+    {
+      "path": "candidate-lint.log",
+      "bytes": 42,
+      "sha256": "3e98dcbd24835eb29288dab5790e519db6a485457e666a6774fdbce08459740e"
+    },
+    {
+      "path": "candidate-tsconfig.json",
+      "bytes": 857,
+      "sha256": "ccf246d7611d18b133521c0db25ad40448d2f4706a8b84ed6d313415b09d1ee8"
+    },
+    {
+      "path": "check-discovery.mjs",
+      "bytes": 4774,
+      "sha256": "4963ce9c93f55658ac8b48cc5b747ba0b9ff615a2a0e9a5c1e758a50d76c4ffb"
+    },
+    {
+      "path": "compiler-probe-attempt01.json",
+      "bytes": 346,
+      "sha256": "61a8d1ad7f131193a106742fdeb8cec7f02d489a9cd59a0c2370c4dff3210f1d"
+    },
+    {
+      "path": "configuration.diff",
+      "bytes": 252,
+      "sha256": "d1d72a37c52dc60ac8bcf9dae65b7ae31887cee9542b68fc10bd7813bd73a8b1"
+    },
+    {
+      "path": "discovery-and-import-semantics.json",
+      "bytes": 101232,
+      "sha256": "68758f9900a0bbe454fd973d80652b0208496d166a9143815a6daf819c2fe9ae"
+    },
+    {
+      "path": "hosted-ci-failed-step.log",
+      "bytes": 1560,
+      "sha256": "5b64cdee8cfc8f4ac5d45c7b24e22696784d79321a0b3b9e4adbc5fbcec8e254"
+    },
+    {
+      "path": "hosted-ci-full-run.log",
+      "bytes": 36762,
+      "sha256": "7b371e68542e906675db19ae84ce874ba25f7164ff00645b5a62fd9678117b08"
+    },
+    {
+      "path": "hosted-ci-terminal-run.json",
+      "bytes": 12195,
+      "sha256": "5098244dd0dfed8613b320d1d2ca99a4f131fc7ca7e5781c013404dcbd5c0f77"
+    },
+    {
+      "path": "local-gates-attempt01.json",
+      "bytes": 702,
+      "sha256": "35a5f830126b351e868439bc360acc767113daf81f636dc46d2c84a9da5bfc5a"
+    },
+    {
+      "path": "local-gates.json",
+      "bytes": 2206,
+      "sha256": "0586ed0f42272c6eb026fbb32dad6da5e68ed2a0fadc68649195460634153840"
+    },
+    {
+      "path": "production-runtime-custody-claim01.json",
+      "bytes": 693,
+      "sha256": "688cc225173ae25e59387d271e1ac907def964f8922ab93b67047173f6f38ce8"
+    },
+    {
+      "path": "production-runtime-custody.json",
+      "bytes": 820,
+      "sha256": "6082df391a890caa016ba1451095fb0b21534525acf28201b3156623e57c1879"
+    },
+    {
+      "path": "production-runtime-custody.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "production-runtime-verification.json",
+      "bytes": 851,
+      "sha256": "7ddd51f2a443681730b479952d658eceac3e77a5d34e296c13cfbcb0985d3890"
+    },
+    {
+      "path": "production-runtime-verification.log",
+      "bytes": 31,
+      "sha256": "8eb6003f462a7cec37ab473e02d3e78c432125de026e01a6ed7a758e1a313f97"
+    },
+    {
+      "path": "runtime-custody-attempt01.json",
+      "bytes": 326,
+      "sha256": "9df17de27201006d782da5dc2297cdbce2d424295189de61b43b442b4273171c"
+    }
+  ],
+  "final_review_path": "independent-review.json",
+  "remaining_required": [
+    "Independent final source/metadata/copied-evidence review.",
+    "Fresh exact-head required hostedCI on configuration repair commit.",
+    "Normal protected merge queue without bypass."
+  ],
+  "broader_scope": "HR/Org/Payroll/Foundry, two-site durability, physical identity and launch remain incomplete.",
+  "runtime_reporting_precision": {
+    "initial_staging_report": "production-runtime-custody-claim01.json",
+    "finding": "Initial staging report claimed closure verification without separately invoking verifyProductionRuntime.",
+    "correction": "Corrected stage-only report preserves actual command/result; existing standalone verifier then invoked separately and passes on the same unchanged staged closure.",
+    "corrected_stage_report": "production-runtime-custody.json",
+    "separate_verification_report": "production-runtime-verification.json"
+  }
+}

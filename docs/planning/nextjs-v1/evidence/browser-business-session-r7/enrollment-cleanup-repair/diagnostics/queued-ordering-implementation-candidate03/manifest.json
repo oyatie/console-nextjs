@@ -1,0 +1,31 @@
+{
+  "path": "tools/browser-business-restore.mjs",
+  "state": "CANDIDATE_ONLY; NOT_APPLIED; NOT_EXECUTED",
+  "diagnostic_contract": {
+    "stage": "verified-native-denial",
+    "native_checks": "Exact held gate, context and actual status 401 assertions must pass before observation",
+    "fields": "Four actual pending booleans; non-booleans become null; strict expected-match comparison",
+    "unobserved": null,
+    "privacy": "No IDs, URLs, cookies, tokens, raw errors or raw payloads in the new diagnostic",
+    "evidence_limit": "Ordering relative to independently verified release point, not actual first server arrival"
+  },
+  "preserved": [
+    "Actual browser BFCache and trusted persisted pageshow requirements",
+    "All seventeen scenarios",
+    "All existing assertions",
+    "All existing deadlines",
+    "All failure outcomes",
+    "No fabricated responses or history events"
+  ],
+  "observed_red02": {
+    "log_sha256": "c13a4e3b06995e910615ab8e6f2376cab433672c170e0cac332ed597c3ac58e9",
+    "conclusion": "Named queued-react-css probe failed with generic assertion reason; exact pending values unobserved"
+  },
+  "before": "d9682e6dd85a4793f8636c18a8fd8fc939a22fada0db6359d8d30a721e5bd350",
+  "after": "7c81d3228765d28f16cfacc7bbf30ad1d94112b94e8843b3d9c68b4cf7d60b71",
+  "patch_sha256": "d367670458ef2a599d7d2562a8c4f762c8eb286ecc7fe0269ac8469275f8596e",
+  "kind": "Approved latch/cleanup implementation plus identical pending diagnostic",
+  "approved_latch_source_sha256": "f4d2199a74d0be38817eb66ac77a20b542542748e484dd1fe3998fecbba14be8",
+  "approved_latch_patch_sha256": "a21a34b0c3ed2549679d27dcf91bec71a2060b1cd8ac1e38325ea7c911ebd693",
+  "apply_order": "After baseline diagnostic candidate01 terminal proof; before source hash must match"
+}

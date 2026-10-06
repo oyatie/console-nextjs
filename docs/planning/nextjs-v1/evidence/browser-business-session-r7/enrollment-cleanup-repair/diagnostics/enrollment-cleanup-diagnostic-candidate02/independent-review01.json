@@ -1,0 +1,86 @@
+{
+  "schema": "enrollment-cleanup-diagnostic-independent-review/1",
+  "verdict": "REQUEST_CHANGES_SOURCE_ONLY",
+  "scope": "Exact unexecuted candidate01 producer failure-only stage metadata and isolated same-producer EOF-after-ready driver. Root alone copies/executes. No cleanup repair, cause, runtime/full gates or merge acceptance.",
+  "inputs": {
+    "manifest.json": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/enrollment-cleanup-diagnostic-candidate01/manifest.json",
+      "bytes": 1566,
+      "sha256": "ae905b55b99648699fdbc2219c8365792627c27efe55dc97a928c18dc3bf0af1"
+    },
+    "before.mjs": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/enrollment-cleanup-diagnostic-candidate01/before.mjs",
+      "bytes": 13987,
+      "sha256": "6cbb58a1b2eae9f01d0b4d0838afd7c5c421c496a532fde056a1f33e153027ce"
+    },
+    "tools/test-native-browser-enrollment.mjs": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/enrollment-cleanup-diagnostic-candidate01/tools/test-native-browser-enrollment.mjs",
+      "bytes": 18733,
+      "sha256": "bcd5fb0730bdc268d35dbd220fb8c44bbf35b3219ea1deffba95b3a8a9e6d3f6"
+    },
+    "tools/test-native-browser-enrollment-diagnostic.test.mjs": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/enrollment-cleanup-diagnostic-candidate01/tools/test-native-browser-enrollment-diagnostic.test.mjs",
+      "bytes": 13191,
+      "sha256": "58099e7bf5d539a35117818a76bb4d50b4af0dece3f2c35a17fe9c5f41c444f7"
+    },
+    "patch.diff": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/enrollment-cleanup-diagnostic-candidate01/patch.diff",
+      "bytes": 8442,
+      "sha256": "f323b64574abf791176372b71664742164964d56041f6eb32dafdf15e563f919"
+    },
+    "root-input-pins.json": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/enrollment-cleanup-diagnostic-candidate01/root-input-pins.json",
+      "bytes": 1974,
+      "sha256": "dfe06bb291c2e5ddc53f6077911144ec9e8bfb58ee3f489165d09f2fb7551333"
+    },
+    "diagnostic-schema.json": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/enrollment-cleanup-diagnostic-candidate01/diagnostic-schema.json",
+      "bytes": 1478,
+      "sha256": "96196e0d6347177555972492f3db32eb08a92f9de0558bf15eed968ccbd60d18"
+    },
+    "proposal.json": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/enrollment-cleanup-diagnostic-candidate01/proposal.json",
+      "bytes": 4130,
+      "sha256": "cbd91c9f3e89d1bd05304ebd0e2bf99fbfb151d8735aff6c1705dc3666461c27"
+    }
+  },
+  "checks": {
+    "manifest_artifact_byte_pins_match": true,
+    "patch_reconstructs_exact_source": true,
+    "before_matches_frozen_current_root_producer": true,
+    "root_and_bundle_pins_match_before_execution_and_driver_literals": true,
+    "same_actual_producer_stages_cwd_root_production_runtime_and_exact_installed_sdk": true,
+    "normal_copy_bundle_no_tracked_or_build_source_mutation": true,
+    "original2s_races_6s_harddeadline_parent140_150s_fault25_35s_and_final6s_unchanged": true,
+    "original_close_kill_rejections_exit_predicates_ACK_outcome_and_failure_timer_clear_preserved": true,
+    "failed_owner_path_still_skips_stage_removal_deliberately_no_semantic_fix": true,
+    "independent_browser_next_and_main_stage_flags_no_serial_cause_inference": true,
+    "SDK_settlement_separate_from_actual_child_exit_close_observations": true,
+    "only_fixed_booleans_and_allowlisted_enums_failure_only_no_raw_errors_paths_ids_credentials_or_payloads": true,
+    "bounded_driver_drain_validates_exact_schema_and_at_most2_records": true,
+    "same_EOF_after_ready_driver_preserves_ACK_natural_exit_no_supervisor_force_and_owned_temp_empty_assertions": true
+  },
+  "findings": [
+    {
+      "id": "PARENT_FORCE_OBSERVATION_OMITS_FINAL_FALLBACK",
+      "severity": "blocking-diagnostic-accuracy",
+      "path": "tools/test-native-browser-enrollment-diagnostic.test.mjs",
+      "line": 193,
+      "problem": "parent_forced uses supervision.forced only. The unchanged finally branch can independently issue SIGKILL at line183 after its6s wait, yet failure observation still reports parent_forced:false. This could misstate actual intervention during cleanup localization.",
+      "requested_change": "Track the existing final cleanup SIGTERM/SIGKILL attempts separately and name supervisor_forced accurately, or include actual final SIGKILL in parent_forced. Keep original waits, first error, ACK and cleanup semantics unchanged."
+    }
+  ],
+  "limits": [
+    "This is diagnostic source only and retains existing possibly failing cleanup deliberately. No required process22 remediation or acceptance is claimed.",
+    "SDK fulfilled/settled and child exit/close flags do not certify Chromium process-group absence; unobserved events remain unknown.",
+    "Failure snapshot is synchronous metadata at emission. It cannot prove independently dated causal order or runtime cause.",
+    "Fixed writeSync diagnostic emits at most bounded1KiB lines to an owned continuously drained pipe; failed emission is swallowed and never manufactures metadata.",
+    "Root must copy ordinary source files beneath worktree .artifacts, verify exact candidate/root pins, invoke driver and candidate from the same bundle with cwd root, and preserve active fullrun frozen input closure.",
+    "A green isolated retry is not evidence that priorRED is fixed. Required currentprocess22 and exactfull125/17, metadata/evidence review and hosted/protectedqueue remain pending."
+  ],
+  "actions": {
+    "tests_executed": 0,
+    "tracked_source_writes": 0,
+    "artifact_only_review_write": true
+  }
+}

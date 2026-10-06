@@ -44,6 +44,15 @@ use time::{Duration, OffsetDateTime};
 use url::Url;
 use uuid::Uuid;
 
+mod browser;
+pub use browser::{
+    BROWSER_LOGIN_PATH, BROWSER_LOGOUT_PATH, BROWSER_START_PATH, BrowserPrincipal,
+    with_browser_ingress,
+};
+pub use console_platform_auth::browser_session::{
+    IngressKey as BrowserIngressKey, Key as BrowserProofKey,
+};
+
 const DEFAULT_ACCESS_TOKEN_TTL: Duration = Duration::minutes(15);
 const GROUP_ADMIN_TENANT_CONTEXT_TTL: Duration = Duration::minutes(15);
 const GROUP_ADMIN_GROUP_ROLE: &str = "GROUP_ADMIN";
@@ -97,6 +106,9 @@ pub const AUTH_ROUTE_PATHS: &[&str] = &[
     PASSKEY_LOGIN_START_PATH,
     PASSKEY_LOGIN_EXPLICIT_START_PATH,
     PASSKEY_LOGIN_FINISH_PATH,
+    BROWSER_START_PATH,
+    BROWSER_LOGIN_PATH,
+    BROWSER_LOGOUT_PATH,
     PASSKEY_STEP_UP_START_PATH,
     OTP_REDEEM_PATH,
     ADMIN_OTP_ISSUE_PATH,
@@ -179,6 +191,8 @@ pub struct AuthRestConfig {
     /// http dev where the browser would otherwise drop a `Secure` cookie on
     /// `http://localhost`.
     pub cookie_secure: bool,
+    pub browser_session_key: Option<BrowserProofKey>,
+    pub browser_ingress_key: Option<BrowserIngressKey>,
 }
 
 #[derive(Clone)]
@@ -211,6 +225,8 @@ struct AuthServices {
     refresh_token_ttl: Duration,
     refresh_family_absolute_ttl: Duration,
     cookie_secure: bool,
+    browser_session_key: Option<BrowserProofKey>,
+    browser_ingress_key: Option<BrowserIngressKey>,
     /// Outbound OTP email sender for open self-service signup (#38). Always
     /// present: live SMTP, an explicitly configured non-prod stub, or a disabled
     /// fail-closed sender that never logs OTPs.
@@ -263,6 +279,8 @@ impl AuthRestState {
                 refresh_token_ttl: config.refresh_token_ttl,
                 refresh_family_absolute_ttl: config.refresh_family_absolute_ttl,
                 cookie_secure: config.cookie_secure,
+                browser_session_key: config.browser_session_key,
+                browser_ingress_key: config.browser_ingress_key,
                 // Fail closed by default; the composition root installs live SMTP
                 // or an explicit non-prod logging stub via `with_email_sender`.
                 email_sender: Arc::new(DisabledEmailSender),
@@ -292,7 +310,9 @@ pub enum AuthRestConfigError {
 }
 
 pub fn router(state: AuthRestState) -> Router {
+    let browser_router = browser::router(state.clone());
     let router = Router::new()
+        .merge(browser_router)
         .route(SIGNUP_PATH, post(signup))
         .route(PASSKEY_REGISTER_START_PATH, post(start_registration))
         .route(PASSKEY_REGISTER_FINISH_PATH, post(finish_registration))
@@ -1189,16 +1209,38 @@ async fn finish_login(
 ) -> Result<Response, RestError> {
     let services = state.services()?;
     let mut tx = state.pool.begin().await.map_err(DbError::Sqlx)?;
+    let (_outcome, tokens) = prepare_login_in_tx(&mut tx, services, body).await?;
+    tx.commit().await.map_err(DbError::Sqlx)?;
+    Ok(token_pair_response(
+        tokens,
+        &headers,
+        services.cookie_secure,
+    ))
+}
+
+// Both transports enter only with a fresh signed passkey ceremony. Generic OTP,
+// refresh and handoff token issuance cannot create browser custody.
+async fn prepare_login_in_tx(
+    tx: &mut sqlx::Transaction<'_, sqlx::Postgres>,
+    services: &AuthServices,
+    body: LoginFinishRequest,
+) -> Result<
+    (
+        console_platform_auth::AuthenticationOutcome,
+        IssuedTokenPair,
+    ),
+    RestError,
+> {
     let outcome = services
         .passkeys
-        .finish_authentication_in_tx(&mut tx, body.ceremony_id, body.credential)
+        .finish_authentication_in_tx(tx, body.ceremony_id, body.credential)
         .await
         .map_err(|err| RestError::unauthorized(err.to_string()))?;
     // Verification resolved and armed the credential's Company in this same
     // transaction. No proof, family, token or success audit survives a failure.
-    let mut user = load_user_auth_context_tx(&mut tx, outcome.user_id).await?;
-    user.feature_grants = resolve_feature_grant_keys_for_user_in_tx(&mut tx, &user).await?;
-    let tokens = issue_token_pair_in_tx(&mut tx, services, &user).await?;
+    let mut user = load_user_auth_context_tx(tx, outcome.user_id).await?;
+    user.feature_grants = resolve_feature_grant_keys_for_user_in_tx(tx, &user).await?;
+    let tokens = issue_token_pair_in_tx(tx, services, &user).await?;
     let login_audit = auth_audit_event(
         outcome.org_id,
         outcome.user_id,
@@ -1208,13 +1250,8 @@ async fn finish_login(
             "refresh_family_id": tokens.family_id,
         }),
     )?;
-    insert_audit_event(&mut tx, &login_audit).await?;
-    tx.commit().await.map_err(DbError::Sqlx)?;
-    Ok(token_pair_response(
-        tokens,
-        &headers,
-        services.cookie_secure,
-    ))
+    insert_audit_event(tx, &login_audit).await?;
+    Ok((outcome, tokens))
 }
 
 /// Open self-service signup (#38): create a new low-privilege MEMBER account and
@@ -3008,7 +3045,7 @@ async fn issue_token_pair_in_tx(
         .await
         .map_err(|err| RestError::internal(err.to_string()))?;
     let access_token = issue_access_token(services, user, &refresh)?;
-    insert_audit_event(tx, &audit).await?;
+    insert_audit_event(tx, &request_scoped_auth_audit(audit)).await?;
     Ok(IssuedTokenPair {
         access_token,
         refresh_token: refresh.token.as_str().to_owned(),
@@ -3454,22 +3491,32 @@ async fn record_auth_audit(
     with_audit::<_, (), RestError>(pool, event, |_tx| Box::pin(async move { Ok(()) })).await
 }
 
+fn request_scoped_auth_audit(mut event: AuditEvent) -> AuditEvent {
+    if let Some(context) = console_platform_request_context::current_audit_context() {
+        event.trace = context.trace;
+        event.request_context = context.request;
+    }
+    event
+}
+
 fn auth_audit_event(
     org_id: OrgId,
     user_id: Uuid,
     action: &str,
     after: serde_json::Value,
 ) -> Result<AuditEvent, RestError> {
-    Ok(AuditEvent::new(
-        Some(UserId::from_uuid(user_id)),
-        AuditAction::new(action).map_err(|err| RestError::internal(err.to_string()))?,
-        "users",
-        user_id.to_string(),
-        TraceContext::generate(),
-        OffsetDateTime::now_utc(),
-    )
-    .with_org(org_id)
-    .with_snapshots(None, Some(after)))
+    Ok(request_scoped_auth_audit(
+        AuditEvent::new(
+            Some(UserId::from_uuid(user_id)),
+            AuditAction::new(action).map_err(|err| RestError::internal(err.to_string()))?,
+            "users",
+            user_id.to_string(),
+            TraceContext::generate(),
+            OffsetDateTime::now_utc(),
+        )
+        .with_org(org_id)
+        .with_snapshots(None, Some(after)),
+    ))
 }
 
 /// Audit a failed unauthenticated attempt with no actor and no PII (no OTP value,

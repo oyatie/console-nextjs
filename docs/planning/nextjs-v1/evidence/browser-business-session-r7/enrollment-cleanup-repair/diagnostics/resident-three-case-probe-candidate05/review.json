@@ -1,0 +1,62 @@
+{
+  "schema": "resident-three-case-probe-source-review/5",
+  "state": "REQUEST_CHANGES_SOURCE_ONLY",
+  "scope": "Independent read-only adversarial source review before execution. No runtime, product, native/browser gate, release or deployment acceptance.",
+  "pins": {
+    "before_sha256": "dbdad3d7e20f231b1fa0798ccaba659e9e6d8a3ba22df409aabe0a67f008adc3",
+    "after_sha256": "b27f4288bab0b0483dbd1cf80f9d1dd712ff5afd9cb6641a69d2dc5961874084",
+    "patch_sha256": "bde2245dc1c491ec8c587238ee07f1c5c401200466bf13d818807dfc4f90af14",
+    "manifest_sha256": "289d9c3bc7af68d1145c060998fb36ce6103b87ac225a12581f6ad07804536bf"
+  },
+  "verified": {
+    "all_artifact_pins_match": true,
+    "patch_exactly_reconstructs_candidate05_from_candidate04": true
+  },
+  "findings": [
+    {
+      "id": "unbounded-precase-observation-and-cancellation-counting",
+      "severity": "P2",
+      "lines": "419-425,115-116",
+      "problem": "The new pre-case fixtureScopeCount await has neither a deadline/cancellation race nor a post-await requireActive before counts are mutated. A stalled fs observation can hold the fresh caller scope indefinitely despite SIGINT/SIGTERM. A signal handled during that await followed by a zero count increments started/decrements unreached, then attempt rejects at its entry before spawning or returning an attempt receipt, so counts and unreached_cases omit an unrun case.",
+      "required_change": "Admit each case only after a bounded scope observation and an immediate cancellation gate, using that case original startup deadline. Do not increment started until admission is confirmed, and do not re-arm the startup clock inside attempt."
+    },
+    {
+      "id": "owned-group-poll-does-not-cancel",
+      "severity": "P2",
+      "lines": "362-367",
+      "problem": "The new group-absence loop checks only the natural cleanup deadline. A handled SIGINT/SIGTERM while the group remains present does not enter failure cleanup until group absence or the remaining up-to-fifteen-second deadline expires.",
+      "required_change": "Check active cancellation in each group-poll iteration and before accepting absence, preserving the existing original cleanup deadline and identity-checked failure cleanup."
+    },
+    {
+      "id": "final-observation-gates-known-root-cleanup",
+      "severity": "P2",
+      "lines": "435-458",
+      "problem": "A final residue-count rejection, such as EIO or unexpected entry shape/type, exits the encompassing try before rm even when budget remains. The fresh caller root is positively known and owned, but observation failure skips its cleanup. Separately, failed setup with an already-known root does not enter the advertised existing six-second failure-cleanup bound; a setup-stat deadline expiry leaves the old startup deadline expired and removal unattempted.",
+      "required_change": "Keep failed or unknown pre-removal observations as failures, but independently attempt only the known fresh caller-root removal within the applicable existing remaining cleanup budget. Use the existing failure-cleanup bound for failed setup, including when the root is already known; never start an extra post-case clock or turn removal into fixture success."
+    }
+  ],
+  "positive_source_checks": [
+    "Preserves all three real fixture lifecycle cases and expected actual ACK/Node outcomes without SDK interception or provider fabrication.",
+    "Fresh exact caller-owned container and strict child-scope entry/type checks prevent broad inherited TMPDIR deletion. Fixture observations occur at ready, after ACK and after actual exit before harness deletion.",
+    "Successful cases require independent actual leader and negatively addressed owned group absence. Group signaling still requires positive leader/start/executable/group identity; lost leader custody stays failed rather than inventing a safe group target.",
+    "Monotonic after-await gates reject late bounded settlements. Failed cases and forced interventions cannot be converted to passes by harness deletion.",
+    "Strict updated fixed diagnostic stages and owned-temp booleans match the expected candidate source schema; no raw private process identity or temp paths enter the report.",
+    "Unresolved late mkdtemp after the six-second ownership observation is explicitly creation_unconfirmed and failure, not absence or success."
+  ],
+  "limits": [
+    "This is source/design-only review. No probe execution, syntax check, compilation, runtime test or real process/filesystem lifecycle operation was performed.",
+    "A successful future run may establish only the declared lifecycle/scope/group observations, not credential ceremonies, business behavior, secure erasure, escaped-descendant absence or the exact historical cleanup cause.",
+    "An exhausted existing cleanup deadline truthfully leaves custody unconfirmed; the finding targets avoidable skipped cleanup while an applicable budget remains.",
+    "SIGKILL or host failure cannot execute in-process cleanup; no complete stranded-resource guarantee is asserted."
+  ],
+  "actions": {
+    "tracked_source_writes": 0,
+    "candidate_source_writes": 0,
+    "artifact_review_receipt_write": true,
+    "patch_applied": false,
+    "compilation": false,
+    "tests_executed": 0,
+    "fixture_or_probe_execution": false,
+    "service_actions": false
+  }
+}

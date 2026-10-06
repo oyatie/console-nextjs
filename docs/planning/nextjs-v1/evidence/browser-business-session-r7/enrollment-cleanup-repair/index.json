@@ -1,0 +1,955 @@
+{
+  "schema": "enrollment-deadline-portable-evidence-index/2",
+  "at": "2026-10-06T04:12:15.155516+00:00",
+  "base_head": "f5c29cc9ccb1d463f5ba76ebbf746b024311bd37",
+  "test_baseline_commit": "c3793f92dab565de104224fc705578c543d85b64",
+  "source_state": "Reviewed uncommitted repair at c3793f92; exact source hashes retained. No final commit/tree or hosted repair approval claimed.",
+  "scope": "All previous local RED/GREEN evidence plus new22/22 process result, failed19/3 intermediate run, startup EOF REDs and diagnostics-only native03; exact historical merge-group failure audit/rawmetadata. Current native121/17 full run is unfinished and excluded.",
+  "new_runs": [
+    {
+      "id": "full-process-green03",
+      "exit_code": 0,
+      "actual_outcome": "GREEN_PROCESS_ONLY",
+      "counts": {
+        "tests": 22,
+        "pass": 22,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "raw_log_sha256": "ae17b8d10a24dfa5d6522050ac09e7b0bcbdc09c9dbbe7222d2e788ae2ad79ef",
+      "scope": "Full unfiltered six deadline-policy units and sixteen real-process faults (thirteen native, three product), including all original ten faults and six startup-EOF variants. No native/API/browser scenario acceptance."
+    },
+    {
+      "id": "full-process-green02",
+      "exit_code": 1,
+      "actual_outcome": "RED",
+      "counts": {
+        "tests": 22,
+        "pass": 19,
+        "fail": 3,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "raw_log_sha256": "2a50a7bc376177b43d429d2e29d0172f5f7034af9f1ee3bf8b76c4680360462e",
+      "scope": "Full unfiltered six deadline-policy units and sixteen real-process faults (thirteen native, three product), including all original ten faults and six startup-EOF variants. No native/API/browser scenario acceptance."
+    },
+    {
+      "id": "early-eof-red01",
+      "exit_code": 1,
+      "actual_outcome": "RED",
+      "counts": null,
+      "raw_log_sha256": "b255933c43cde6097696a4148f9b480b1e1fba15afe19c7d41e0665986a6390a",
+      "scope": "One exact real process early-EOF case selected; ten original cases intentionally unselected. Counts in raw TAP. No native API acceptance."
+    },
+    {
+      "id": "business-early-eof-red01",
+      "exit_code": 1,
+      "actual_outcome": "RED",
+      "counts": null,
+      "raw_log_sha256": "62005f4f282a4dcb6682542a6e5c2e81356b42f26fd346962b2d7d680c7744e3",
+      "scope": "One real product-runner early-EOF case selected; eleven enrollment cases intentionally unselected. Counts in raw TAP. No seventeen-scenario acceptance."
+    },
+    {
+      "id": "buffered-early-eof-red01",
+      "exit_code": 1,
+      "actual_outcome": "RED",
+      "counts": null,
+      "raw_log_sha256": "217612b276980fdb66a30096de6ee3b4f6f2ce53ed7719280db3a816e9b6ed91",
+      "scope": "Four real startup EOF cases with partial header or complete frame selected in native and product runners; twelve cases intentionally unselected. Counts in raw TAP. No native/API/browser scenario acceptance."
+    },
+    {
+      "id": "native-origin-probe03",
+      "exit_code": 0,
+      "actual_outcome": "GREEN_DIAGNOSTIC_ONLY",
+      "counts": {
+        "passed": 1,
+        "failed": 0,
+        "ignored": 0,
+        "filtered": 120
+      },
+      "raw_log_sha256": "32298b3661c032803c1561a009baddf78c30225e1c3f69aa72de7b4f650b0433",
+      "scope": "Diagnostic-only static native failure observation; original phase deadlines unchanged. One exact genuine native enrollment consumer using production staging, disposable PostgreSQL and real virtual WebAuthn. Selection intends one case only; actual executed/filtered counts come solely from observed Rust summaries. Not full121/17 or release acceptance."
+    }
+  ],
+  "queue_failure": {
+    "run_id": 37403914643,
+    "job_id": 112077080738,
+    "synthetic_head": "b3ac72c41d3d5dca9ff9c2334543098c2c8bd177",
+    "accepted_head": "f5c29cc9ccb1d463f5ba76ebbf746b024311bd37",
+    "same_tree": "f8845f3b37cbc923c9354cc3a46ad9be13035c88",
+    "steps": {
+      "reported": 42,
+      "success": 16,
+      "failure": 1,
+      "skipped": 25
+    },
+    "process_tests": {
+      "executed": 10,
+      "passed": 1,
+      "failed": 9,
+      "skipped": 0
+    },
+    "state": "REQUIRED_CHECK_FAILED; PR OPEN/UNMERGED; historical queue admission not current authorization"
+  },
+  "original_report_paths": "Reports retain unchanged absolute references. Resolve original_path+SHA to archive_path/assets/source aliases. Verified deeper historical prerequisite references are listed separately; source snapshots unavailable are explicit.",
+  "explicit_provenance": [
+    "Original temp-custody RED parent remains disclosed post-run reconstruction, never pre-recorded source.",
+    "Current source snapshots are post-run captures matching recorded hashes.",
+    "Earlier empty EOF parent483f539 and78c8d36 snapshots not located; maps/logs preserved without invented bytes.",
+    "Buffered RED4 and final22 share exact finalparent3204b466; product3545f934 toea936c0c adds only closing guard.",
+    "Native03 preserves earlier runnerb0/parentced and original20s phases; diagnostic observation does not erase native02 failure."
+  ],
+  "verification": {
+    "prior_assets_preserved": 39,
+    "artifact_reference_errors": [],
+    "verified_literal_references": 88,
+    "deeper_verified_external_references": 3,
+    "unavailable_historical_source_snapshots": 2
+  },
+  "limits": [
+    "Scoped process22/22 is not native121/17, Payroll, MVP, two-site or release acceptance.",
+    "green02 filename is preserved but outcome RED19/3.",
+    "Native02 cleanup-unconfirmed cause remains unlocalized. Native03 is diagnostics-only with earlier inputs.",
+    "Current full native run not terminal; no GitHub runtime/test actions by this audit.",
+    "No fresh final-head CI or queue admission claimed."
+  ],
+  "assets": [
+    {
+      "archive_path": "reports/deadlines-red01.json",
+      "original_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/deadlines-red01.json",
+      "bytes": 2008,
+      "sha256": "822267d14024ba5615b68141572c70ae7a7f2dfee32a8dea68f7f1c1be0c56fb",
+      "scope": "Original local component evidence only; see unchanged report scope.",
+      "provenance": "Unchanged original bytes copied after execution; original report/raw hash preserved."
+    },
+    {
+      "archive_path": "logs/deadlines-red01.log",
+      "original_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/deadlines-red01.log",
+      "bytes": 6559,
+      "sha256": "14b9aea04613e222984329552db9b465f229a543329085d308fd83d5940fd769",
+      "scope": "Original local component evidence only; see unchanged report scope.",
+      "provenance": "Unchanged original bytes copied after execution; original report/raw hash preserved."
+    },
+    {
+      "archive_path": "reports/deadlines-green01.json",
+      "original_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/deadlines-green01.json",
+      "bytes": 1657,
+      "sha256": "d18a11329fafc1b3367575d71c5335bdf45f7f9dfcd36156c5c119b97e337f6f",
+      "scope": "Original local component evidence only; see unchanged report scope.",
+      "provenance": "Unchanged original bytes copied after execution; original report/raw hash preserved."
+    },
+    {
+      "archive_path": "logs/deadlines-green01.log",
+      "original_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/deadlines-green01.log",
+      "bytes": 1309,
+      "sha256": "dd66643a1d3769d9d069c0b89f4d83273e4ef6b2d99c8f8ab3f0bf1539171ec4",
+      "scope": "Original local component evidence only; see unchanged report scope.",
+      "provenance": "Unchanged original bytes copied after execution; original report/raw hash preserved."
+    },
+    {
+      "archive_path": "reports/temp-custody-red01.json",
+      "original_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/temp-custody-red01.json",
+      "bytes": 2071,
+      "sha256": "a6419e7f8fea04a19298896d949e5c54e2babf12b0d43cba721c9c3fb5f721ff",
+      "scope": "Original local component evidence only; see unchanged report scope.",
+      "provenance": "Unchanged original bytes copied after execution; original report/raw hash preserved."
+    },
+    {
+      "archive_path": "logs/temp-custody-red01.log",
+      "original_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/temp-custody-red01.log",
+      "bytes": 1113,
+      "sha256": "f45094bef8f17c07cefc6a621342d6f473b578b7573c255196e3be826320d515",
+      "scope": "Original local component evidence only; see unchanged report scope.",
+      "provenance": "Unchanged original bytes copied after execution; original report/raw hash preserved."
+    },
+    {
+      "archive_path": "snapshots/historical/temp-custody-red-owner01.mjs",
+      "original_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/temp-custody-red-owner01.mjs",
+      "bytes": 8638,
+      "sha256": "2187fa70e8ed9ac385863991d521043b0e801f5b71adf7add3b4b04c0c0374ef",
+      "scope": "Original local component evidence only; see unchanged report scope.",
+      "provenance": "Exact frozen f5c29cc9 tools/production-runtime.mjs Git blob. Already-verified original snapshot; not current source."
+    },
+    {
+      "archive_path": "snapshots/historical/temp-custody-red-parent01.mjs",
+      "original_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/temp-custody-red-parent01.mjs",
+      "bytes": 5813,
+      "sha256": "d68433029c4dd4b9a5c1a8bc12b2ae184aa67a57b11391c4037ccc8df28cd89c",
+      "scope": "Original local component evidence only; see unchanged report scope.",
+      "provenance": "Post-run reconstructed parent reversing reviewed clear-after-exit insertion and corrected message. NOT a pre-run recorded snapshot. Original report discloses reconstruction."
+    },
+    {
+      "archive_path": "reports/full-process-green01.json",
+      "original_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/full-process-green01.json",
+      "bytes": 4759,
+      "sha256": "f0af8456a97cc44c2572b65320fd8973fb0b99f96c06c32aa076a5efb3ee772d",
+      "scope": "Original local component evidence only; see unchanged report scope.",
+      "provenance": "Unchanged original bytes copied after execution; original report/raw hash preserved."
+    },
+    {
+      "archive_path": "logs/full-process-green01.log",
+      "original_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/full-process-green01.log",
+      "bytes": 3169,
+      "sha256": "5fa84d2388d53f014c81302c231bda9e58eeeffa97a6dbf3462c3c5d083b4805",
+      "scope": "Original local component evidence only; see unchanged report scope.",
+      "provenance": "Unchanged original bytes copied after execution; original report/raw hash preserved."
+    },
+    {
+      "archive_path": "reports/runtime-consumers-green01.json",
+      "original_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/runtime-consumers-green01.json",
+      "bytes": 1549,
+      "sha256": "718dbec3629038e7862598300b5a736a12c20b4c0a3a728ec8c114e7f5499276",
+      "scope": "Original local component evidence only; see unchanged report scope.",
+      "provenance": "Unchanged original bytes copied after execution; original report/raw hash preserved."
+    },
+    {
+      "archive_path": "logs/runtime-consumers-green01.log",
+      "original_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/runtime-consumers-green01.log",
+      "bytes": 804,
+      "sha256": "b35c9eb9d2951388a6a416fd30159bdc7643a31d01a536c06ea6c841c31dfb16",
+      "scope": "Original local component evidence only; see unchanged report scope.",
+      "provenance": "Unchanged original bytes copied after execution; original report/raw hash preserved."
+    },
+    {
+      "archive_path": "reports/phase-probe01.json",
+      "original_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/phase-probe01.json",
+      "bytes": 824,
+      "sha256": "be3120df28e5a9b64d614e936981e3f8beed9f29a7a2eedb35758d400651bdb0",
+      "scope": "Original local component evidence only; see unchanged report scope.",
+      "provenance": "Unchanged original bytes copied after execution; original report/raw hash preserved."
+    },
+    {
+      "archive_path": "producers/phase-probe01.mjs",
+      "original_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/phase-probe01.mjs",
+      "bytes": 4035,
+      "sha256": "250316450ad007d4088760c966ade03f94d2887c41a392c7b71a414e4a878759",
+      "scope": "Original local component evidence only; see unchanged report scope.",
+      "provenance": "Unchanged original bytes copied after execution; original report/raw hash preserved."
+    },
+    {
+      "archive_path": "reports/native-origin-probe01.json",
+      "original_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/native-origin-probe01.json",
+      "bytes": 3252,
+      "sha256": "9bc37bab6ef07fda99c83c86489d66b57971ef592ec529c9c988d830cbc1d444",
+      "scope": "Original local component evidence only; see unchanged report scope.",
+      "provenance": "Unchanged original bytes copied after execution; original report/raw hash preserved."
+    },
+    {
+      "archive_path": "logs/native-origin-probe01.log",
+      "original_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/native-origin-probe01.log",
+      "bytes": 191,
+      "sha256": "b6e15d6260aa263d6ca9303063f124a5cadc5cee0994e84ba6a025328e7de25d",
+      "scope": "Original local component evidence only; see unchanged report scope.",
+      "provenance": "Unchanged original bytes copied after execution; original report/raw hash preserved."
+    },
+    {
+      "archive_path": "producers/native-origin-probe01.py",
+      "original_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/native-origin-probe01.py",
+      "bytes": 2775,
+      "sha256": "bde2998788392173aa65c1cb0d436ccab21b0ef29eed353bc2291148dc87ab4d",
+      "scope": "Original local component evidence only; see unchanged report scope.",
+      "provenance": "Unchanged original bytes copied after execution; original report/raw hash preserved."
+    },
+    {
+      "archive_path": "reports/native-origin-environment-attempt01.json",
+      "original_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/native-origin-environment-attempt01.json",
+      "bytes": 762,
+      "sha256": "c0d95cdb1625ff92b63fc1a9ca958dbce587cd9cdd9d5c19f68af7a347edd511",
+      "scope": "Original local component evidence only; see unchanged report scope.",
+      "provenance": "Unchanged original bytes copied after execution; original report/raw hash preserved."
+    },
+    {
+      "archive_path": "reports/native-origin-probe02.json",
+      "original_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/native-origin-probe02.json",
+      "bytes": 3313,
+      "sha256": "f91240cf437ebc8835c040cb7bfe55aaaa73007db66c960272037e6db78458cf",
+      "scope": "Original local component evidence only; see unchanged report scope.",
+      "provenance": "Unchanged original bytes copied after execution; original report/raw hash preserved."
+    },
+    {
+      "archive_path": "logs/native-origin-probe02.log",
+      "original_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/native-origin-probe02.log",
+      "bytes": 17964,
+      "sha256": "779cdaa6f7bf8960d6aa4236bcfc9078d9c5f0dc549ec175b76214a70dc25b4e",
+      "scope": "Original local component evidence only; see unchanged report scope.",
+      "provenance": "Unchanged original bytes copied after execution; original report/raw hash preserved."
+    },
+    {
+      "archive_path": "producers/native-origin-probe02.py",
+      "original_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/native-origin-probe02.py",
+      "bytes": 3038,
+      "sha256": "05f7d23196d7634eea40b7386d9704e7326c91a3469a3786397adae12b1ee260",
+      "scope": "Original local component evidence only; see unchanged report scope.",
+      "provenance": "Unchanged original bytes copied after execution; original report/raw hash preserved."
+    },
+    {
+      "archive_path": "logs/build-green01.log",
+      "original_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/build-green01.log",
+      "bytes": 819,
+      "sha256": "5ec885112898251015cc44544bd8271fc2f1217ddd9b9ccfb72129062f12edaf",
+      "scope": "Original local component evidence only; see unchanged report scope.",
+      "provenance": "Unchanged original bytes copied after execution; original report/raw hash preserved."
+    },
+    {
+      "archive_path": "logs/lint-green01.log",
+      "original_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/lint-green01.log",
+      "bytes": 42,
+      "sha256": "3e98dcbd24835eb29288dab5790e519db6a485457e666a6774fdbce08459740e",
+      "scope": "Original local component evidence only; see unchanged report scope.",
+      "provenance": "Unchanged original bytes copied after execution; original report/raw hash preserved."
+    },
+    {
+      "archive_path": "logs/tooling-green01.log",
+      "original_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/tooling-green01.log",
+      "bytes": 117,
+      "sha256": "c95d541fe7b7946a099df722e142d74442ba9d64f2b73eb84f004932afcec268",
+      "scope": "Original local component evidence only; see unchanged report scope.",
+      "provenance": "Unchanged original bytes copied after execution; original report/raw hash preserved."
+    },
+    {
+      "archive_path": "reports/independent-evidence-audit01.json",
+      "original_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/independent-evidence-audit01.json",
+      "bytes": 11852,
+      "sha256": "2805745fcd161be93bbd6175dcabb3d4d79edb338790722db91526e582b742f1",
+      "scope": "Original local component evidence only; see unchanged report scope.",
+      "provenance": "Unchanged original bytes copied after execution; original report/raw hash preserved."
+    },
+    {
+      "archive_path": "snapshots/green/.github/workflows/ci.yml",
+      "original_path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/.github/workflows/ci.yml",
+      "bytes": 12567,
+      "sha256": "0ca66a38078c0a5ea8930312d7d1420e91d5b088859d2d477148dd79864a5c47",
+      "scope": "Source-custody evidence only; runtime conclusions derive from unchanged logs/reports.",
+      "provenance": "Post-run current-source capture with exact SHA matching original GREEN/native input records. Not claimed as pre-run capture or final committed source."
+    },
+    {
+      "archive_path": "snapshots/build-inputs-snapshot.json",
+      "original_path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/.next/build-inputs.json",
+      "bytes": 21908,
+      "sha256": "45001f336b372dd488fd27cce5d6d8e1119c42e9dada4025c766fd0d4558d7c7",
+      "scope": "Source-custody evidence only; runtime conclusions derive from unchanged logs/reports.",
+      "provenance": "Exact disposable build-input manifest bytes copied after execution; SHA matches original reports;90 source+96 output files checked at independent audit."
+    },
+    {
+      "archive_path": "snapshots/green/backend-fork/backend/Cargo.lock",
+      "original_path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend/Cargo.lock",
+      "bytes": 227510,
+      "sha256": "fcc3babe468e7ab667fb63cf4ec5c248afe576a14b05bc42c7bcfeee87b9096e",
+      "scope": "Source-custody evidence only; runtime conclusions derive from unchanged logs/reports.",
+      "provenance": "Post-run current-source capture with exact SHA matching original GREEN/native input records. Not claimed as pre-run capture or final committed source."
+    },
+    {
+      "archive_path": "snapshots/historical/c3793f92/backend-fork/backend/app/tests/auth_rest/genuine_browser.rs",
+      "original_path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend/app/tests/auth_rest/genuine_browser.rs",
+      "bytes": 109859,
+      "sha256": "eaa0a1a32a14b3c724939bcd65fdd453a2da663f382bd7926123c0e823573366",
+      "scope": "Source-custody evidence only; runtime conclusions derive from unchanged logs/reports.",
+      "provenance": "Exact immutable Git blob c3793f92dab565de104224fc705578c543d85b64:backend-fork/backend/app/tests/auth_rest/genuine_browser.rs; SHA matches historical RED input report."
+    },
+    {
+      "archive_path": "snapshots/green/backend-fork/tools/lanes/pgtest.sh",
+      "original_path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/tools/lanes/pgtest.sh",
+      "bytes": 4211,
+      "sha256": "8c4396ddf962d50ce05b4c625ed1a290e1c6608c63eaf6416e03ec782100deec",
+      "scope": "Source-custody evidence only; runtime conclusions derive from unchanged logs/reports.",
+      "provenance": "Post-run current-source capture with exact SHA matching original GREEN/native input records. Not claimed as pre-run capture or final committed source."
+    },
+    {
+      "archive_path": "snapshots/historical/c3793f92/tools/enrollment-fault-deadlines.mjs",
+      "original_path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/tools/enrollment-fault-deadlines.mjs",
+      "bytes": 535,
+      "sha256": "1d422078717c4f17c364f59dca40745f85811948342c0a091bb481ebf4949005",
+      "scope": "Source-custody evidence only; runtime conclusions derive from unchanged logs/reports.",
+      "provenance": "Exact immutable Git blob c3793f92dab565de104224fc705578c543d85b64:tools/enrollment-fault-deadlines.mjs; SHA matches historical RED input report."
+    },
+    {
+      "archive_path": "snapshots/green/tools/enrollment-fault-deadlines.mjs",
+      "original_path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/tools/enrollment-fault-deadlines.mjs",
+      "bytes": 1167,
+      "sha256": "6f80266162d5413bcda245b17536b991518e95e22f5b1a7001067aaa4120fc06",
+      "scope": "Source-custody evidence only; runtime conclusions derive from unchanged logs/reports.",
+      "provenance": "Post-run current-source capture with exact SHA matching original GREEN/native input records. Not claimed as pre-run capture or final committed source."
+    },
+    {
+      "archive_path": "snapshots/green/tools/enrollment-fault-deadlines.test.mjs",
+      "original_path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/tools/enrollment-fault-deadlines.test.mjs",
+      "bytes": 2938,
+      "sha256": "7e4aa20a3cfac678c5f5d8b620456da7b6e74d72fd6f64824b05cde363bc4bca",
+      "scope": "Source-custody evidence only; runtime conclusions derive from unchanged logs/reports.",
+      "provenance": "Post-run current-source capture with exact SHA matching original GREEN/native input records. Not claimed as pre-run capture or final committed source."
+    },
+    {
+      "archive_path": "snapshots/green/tools/production-runtime.mjs",
+      "original_path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/tools/production-runtime.mjs",
+      "bytes": 8831,
+      "sha256": "7e4d05bac69900295f8777c931999f2987acd36c947f281cbea7d1bbdf673367",
+      "scope": "Source-custody evidence only; runtime conclusions derive from unchanged logs/reports.",
+      "provenance": "Post-run current-source capture with exact SHA matching original GREEN/native input records. Not claimed as pre-run capture or final committed source."
+    },
+    {
+      "archive_path": "snapshots/green/tools/test-native-browser-enrollment.mjs",
+      "original_path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/tools/test-native-browser-enrollment.mjs",
+      "bytes": 13419,
+      "sha256": "b0a4ef6f86493df99c10efaddebd735043d8226774d253dd41d90431008defa4",
+      "scope": "Source-custody evidence only; runtime conclusions derive from unchanged logs/reports.",
+      "provenance": "Post-run current-source capture with exact SHA matching original GREEN/native input records. Not claimed as pre-run capture or final committed source."
+    },
+    {
+      "archive_path": "snapshots/historical/c3793f92/tools/test-native-browser-enrollment.test.mjs",
+      "original_path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/tools/test-native-browser-enrollment.test.mjs",
+      "bytes": 5317,
+      "sha256": "469e342cc3a51500587792c08a2060b34be57253c1ea33159fd38cac0a78af3e",
+      "scope": "Source-custody evidence only; runtime conclusions derive from unchanged logs/reports.",
+      "provenance": "Exact immutable Git blob c3793f92dab565de104224fc705578c543d85b64:tools/test-native-browser-enrollment.test.mjs; SHA matches historical RED input report."
+    },
+    {
+      "archive_path": "snapshots/green/tools/test-native-browser-enrollment.test.mjs",
+      "original_path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/tools/test-native-browser-enrollment.test.mjs",
+      "bytes": 5830,
+      "sha256": "ced5f004a977659b3b1755cfd385dbd2013bb0eb1fbca5d164d9e7bcd73ff326",
+      "scope": "Source-custody evidence only; runtime conclusions derive from unchanged logs/reports.",
+      "provenance": "Post-run current-source capture with exact SHA matching original GREEN/native input records. Not claimed as pre-run capture or final committed source."
+    },
+    {
+      "archive_path": "snapshots/green/tools/test-production-runtime.test.mjs",
+      "original_path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/tools/test-production-runtime.test.mjs",
+      "bytes": 9049,
+      "sha256": "66ac7652b4079353b9344da6bfdfc8e3afa69c0f58c16cae62ca0c47cb74f75d",
+      "scope": "Source-custody evidence only; runtime conclusions derive from unchanged logs/reports.",
+      "provenance": "Post-run current-source capture with exact SHA matching original GREEN/native input records. Not claimed as pre-run capture or final committed source."
+    },
+    {
+      "archive_path": "snapshots/historical/c3793f92/tools/enrollment-fault-deadlines.test.mjs",
+      "original_path": "git:c3793f92dab565de104224fc705578c543d85b64:tools/enrollment-fault-deadlines.test.mjs",
+      "bytes": 2938,
+      "sha256": "7e4aa20a3cfac678c5f5d8b620456da7b6e74d72fd6f64824b05cde363bc4bca",
+      "scope": "Unchanged six-test RED/GREEN source.",
+      "provenance": "Exact immutable Git blob c3793f92dab565de104224fc705578c543d85b64:tools/enrollment-fault-deadlines.test.mjs."
+    },
+    {
+      "archive_path": "metadata/portable-review01-index.json",
+      "original_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/portable-review01/index.json",
+      "bytes": 25615,
+      "sha256": "e3b64891408ee76f116bade1a310b9fbf7a15f1704f8b1b009be3257b0a3a1da",
+      "scope": "Original previous scoped evidence index; all assets preserved.",
+      "provenance": "Unchanged original bytes; earlier package hash e3b64891408ee76f116bade1a310b9fbf7a15f1704f8b1b009be3257b0a3a1da."
+    },
+    {
+      "archive_path": "reports/full-process-green03.json",
+      "original_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/full-process-green03.json",
+      "bytes": 2103,
+      "sha256": "4692279855262c89d5766d79535617d61a58979a27882681e11a1415b830265a",
+      "scope": "New scoped local evidence; actual outcomes derive from raw logs and reports, not filenames.",
+      "provenance": "Unchanged original bytes copied after execution."
+    },
+    {
+      "archive_path": "logs/full-process-green03.log",
+      "original_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/full-process-green03.log",
+      "bytes": 4345,
+      "sha256": "ae17b8d10a24dfa5d6522050ac09e7b0bcbdc09c9dbbe7222d2e788ae2ad79ef",
+      "scope": "New scoped local evidence; actual outcomes derive from raw logs and reports, not filenames.",
+      "provenance": "Unchanged original bytes copied after execution."
+    },
+    {
+      "archive_path": "reports/full-process-green02.json",
+      "original_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/full-process-green02.json",
+      "bytes": 2103,
+      "sha256": "4de0a8c2f656f4bc66608a5aa1615a487233aeae04c29953905688e15c931035",
+      "scope": "New scoped local evidence; actual outcomes derive from raw logs and reports, not filenames.",
+      "provenance": "Unchanged original bytes copied after execution."
+    },
+    {
+      "archive_path": "logs/full-process-green02.log",
+      "original_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/full-process-green02.log",
+      "bytes": 6788,
+      "sha256": "2a50a7bc376177b43d429d2e29d0172f5f7034af9f1ee3bf8b76c4680360462e",
+      "scope": "New scoped local evidence; actual outcomes derive from raw logs and reports, not filenames.",
+      "provenance": "Unchanged original bytes copied after execution."
+    },
+    {
+      "archive_path": "reports/early-eof-red01.json",
+      "original_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/early-eof-red01.json",
+      "bytes": 1482,
+      "sha256": "3766054891ce060fd0247919872441558ccc468d13b5622acbbcf529b1fd70d7",
+      "scope": "New scoped local evidence; actual outcomes derive from raw logs and reports, not filenames.",
+      "provenance": "Unchanged original bytes copied after execution."
+    },
+    {
+      "archive_path": "logs/early-eof-red01.log",
+      "original_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/early-eof-red01.log",
+      "bytes": 1114,
+      "sha256": "b255933c43cde6097696a4148f9b480b1e1fba15afe19c7d41e0665986a6390a",
+      "scope": "New scoped local evidence; actual outcomes derive from raw logs and reports, not filenames.",
+      "provenance": "Unchanged original bytes copied after execution."
+    },
+    {
+      "archive_path": "reports/business-early-eof-red01.json",
+      "original_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/business-early-eof-red01.json",
+      "bytes": 1492,
+      "sha256": "f4193b398ca481d1fb1aec1a3669e2d74fd9973ee36748d3ee2fbdc38197981b",
+      "scope": "New scoped local evidence; actual outcomes derive from raw logs and reports, not filenames.",
+      "provenance": "Unchanged original bytes copied after execution."
+    },
+    {
+      "archive_path": "logs/business-early-eof-red01.log",
+      "original_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/business-early-eof-red01.log",
+      "bytes": 1111,
+      "sha256": "62005f4f282a4dcb6682542a6e5c2e81356b42f26fd346962b2d7d680c7744e3",
+      "scope": "New scoped local evidence; actual outcomes derive from raw logs and reports, not filenames.",
+      "provenance": "Unchanged original bytes copied after execution."
+    },
+    {
+      "archive_path": "reports/buffered-early-eof-red01.json",
+      "original_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/buffered-early-eof-red01.json",
+      "bytes": 1755,
+      "sha256": "ac7a4d07915bbf994c6d3848fc49c91df23046fc8b6fa226533688ff4bc55565",
+      "scope": "New scoped local evidence; actual outcomes derive from raw logs and reports, not filenames.",
+      "provenance": "Unchanged original bytes copied after execution."
+    },
+    {
+      "archive_path": "logs/buffered-early-eof-red01.log",
+      "original_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/buffered-early-eof-red01.log",
+      "bytes": 4145,
+      "sha256": "217612b276980fdb66a30096de6ee3b4f6f2ce53ed7719280db3a816e9b6ed91",
+      "scope": "New scoped local evidence; actual outcomes derive from raw logs and reports, not filenames.",
+      "provenance": "Unchanged original bytes copied after execution."
+    },
+    {
+      "archive_path": "reports/native-origin-probe03.json",
+      "original_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/native-origin-probe03.json",
+      "bytes": 3399,
+      "sha256": "98a9bace547e2d58d3982ea66c23b2923a8bb03654dbdf6f4c37a65a3234a01d",
+      "scope": "New scoped local evidence; actual outcomes derive from raw logs and reports, not filenames.",
+      "provenance": "Unchanged original bytes copied after execution."
+    },
+    {
+      "archive_path": "logs/native-origin-probe03.log",
+      "original_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/native-origin-probe03.log",
+      "bytes": 4307,
+      "sha256": "32298b3661c032803c1561a009baddf78c30225e1c3f69aa72de7b4f650b0433",
+      "scope": "New scoped local evidence; actual outcomes derive from raw logs and reports, not filenames.",
+      "provenance": "Unchanged original bytes copied after execution."
+    },
+    {
+      "archive_path": "producers/native-origin-probe03.py",
+      "original_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/native-origin-probe03.py",
+      "bytes": 3125,
+      "sha256": "5ff9edcd6c1583df69ac90c489202f48fda3da8ac184283333eee5dfb4d7ed2f",
+      "scope": "New scoped local evidence; actual outcomes derive from raw logs and reports, not filenames.",
+      "provenance": "Unchanged original bytes copied after execution."
+    },
+    {
+      "archive_path": "reports/independent-evidence-audit02.json",
+      "original_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/independent-evidence-audit02.json",
+      "bytes": 12674,
+      "sha256": "6fd1d3772faed470ad2b6e54ef3f515d618bc1591962b1bb099debf7afb861f2",
+      "scope": "New scoped local evidence; actual outcomes derive from raw logs and reports, not filenames.",
+      "provenance": "Unchanged original bytes copied after execution."
+    },
+    {
+      "archive_path": "reports/pr-before-publication01.json",
+      "original_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/pr-before-publication01.json",
+      "bytes": 214,
+      "sha256": "9aaf148a865a13aa772229eb6e602d3d8d93908f52185687afec0df0a8a82066",
+      "scope": "New scoped local evidence; actual outcomes derive from raw logs and reports, not filenames.",
+      "provenance": "Unchanged original bytes copied after execution."
+    },
+    {
+      "archive_path": "logs/rust-format-green02.log",
+      "original_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/rust-format-green02.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "scope": "New scoped local evidence; actual outcomes derive from raw logs and reports, not filenames.",
+      "provenance": "Unchanged original bytes copied after execution."
+    },
+    {
+      "archive_path": "logs/lint-green02.log",
+      "original_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/lint-green02.log",
+      "bytes": 42,
+      "sha256": "3e98dcbd24835eb29288dab5790e519db6a485457e666a6774fdbce08459740e",
+      "scope": "New scoped local evidence; actual outcomes derive from raw logs and reports, not filenames.",
+      "provenance": "Unchanged original bytes copied after execution."
+    },
+    {
+      "archive_path": "logs/frontend-unit-green02.log",
+      "original_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/frontend-unit-green02.log",
+      "bytes": 768,
+      "sha256": "376f5c227a6f84844865797184b24e05711f835f4e20ed8d385b8b39489cbb7e",
+      "scope": "New scoped local evidence; actual outcomes derive from raw logs and reports, not filenames.",
+      "provenance": "Unchanged original bytes copied after execution."
+    },
+    {
+      "archive_path": "snapshots/full-process-red02-sources/enrollment-fault-deadlines.mjs",
+      "original_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/full-process-red02-sources/enrollment-fault-deadlines.mjs",
+      "bytes": 1167,
+      "sha256": "6f80266162d5413bcda245b17536b991518e95e22f5b1a7001067aaa4120fc06",
+      "scope": "Historical exact recorded run input snapshot.",
+      "provenance": "Original captured snapshot bytes preserved; SHA matches recorded before/after input maps."
+    },
+    {
+      "archive_path": "snapshots/full-process-red02-sources/enrollment-fault-deadlines.test.mjs",
+      "original_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/full-process-red02-sources/enrollment-fault-deadlines.test.mjs",
+      "bytes": 2938,
+      "sha256": "7e4aa20a3cfac678c5f5d8b620456da7b6e74d72fd6f64824b05cde363bc4bca",
+      "scope": "Historical exact recorded run input snapshot.",
+      "provenance": "Original captured snapshot bytes preserved; SHA matches recorded before/after input maps."
+    },
+    {
+      "archive_path": "snapshots/full-process-red02-sources/production-runtime.mjs",
+      "original_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/full-process-red02-sources/production-runtime.mjs",
+      "bytes": 8831,
+      "sha256": "7e4d05bac69900295f8777c931999f2987acd36c947f281cbea7d1bbdf673367",
+      "scope": "Historical exact recorded run input snapshot.",
+      "provenance": "Original captured snapshot bytes preserved; SHA matches recorded before/after input maps."
+    },
+    {
+      "archive_path": "snapshots/full-process-red02-sources/test-browser-business-session.mjs",
+      "original_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/full-process-red02-sources/test-browser-business-session.mjs",
+      "bytes": 52744,
+      "sha256": "3545f9342e825ff703a3669c06566e1c90e3ec180fc52477ac8fd87f1200d0d4",
+      "scope": "Historical exact recorded run input snapshot.",
+      "provenance": "Original captured snapshot bytes preserved; SHA matches recorded before/after input maps."
+    },
+    {
+      "archive_path": "snapshots/full-process-red02-sources/test-native-browser-enrollment.mjs",
+      "original_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/full-process-red02-sources/test-native-browser-enrollment.mjs",
+      "bytes": 13987,
+      "sha256": "6cbb58a1b2eae9f01d0b4d0838afd7c5c421c496a532fde056a1f33e153027ce",
+      "scope": "Historical exact recorded run input snapshot.",
+      "provenance": "Original captured snapshot bytes preserved; SHA matches recorded before/after input maps."
+    },
+    {
+      "archive_path": "snapshots/full-process-red02-sources/test-native-browser-enrollment.test.mjs",
+      "original_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/full-process-red02-sources/test-native-browser-enrollment.test.mjs",
+      "bytes": 6611,
+      "sha256": "3204b466940c270897814f9100ee8f92fbddfdc937e7b71a06406dacac778ead",
+      "scope": "Historical exact recorded run input snapshot.",
+      "provenance": "Original captured snapshot bytes preserved; SHA matches recorded before/after input maps."
+    },
+    {
+      "archive_path": "snapshots/buffered-early-eof-red01-sources/enrollment-fault-deadlines.mjs",
+      "original_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/buffered-early-eof-red01-sources/enrollment-fault-deadlines.mjs",
+      "bytes": 1167,
+      "sha256": "6f80266162d5413bcda245b17536b991518e95e22f5b1a7001067aaa4120fc06",
+      "scope": "Historical exact recorded run input snapshot.",
+      "provenance": "Original captured snapshot bytes preserved; SHA matches recorded before/after input maps."
+    },
+    {
+      "archive_path": "snapshots/buffered-early-eof-red01-sources/production-runtime.mjs",
+      "original_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/buffered-early-eof-red01-sources/production-runtime.mjs",
+      "bytes": 8831,
+      "sha256": "7e4d05bac69900295f8777c931999f2987acd36c947f281cbea7d1bbdf673367",
+      "scope": "Historical exact recorded run input snapshot.",
+      "provenance": "Original captured snapshot bytes preserved; SHA matches recorded before/after input maps."
+    },
+    {
+      "archive_path": "snapshots/buffered-early-eof-red01-sources/test-browser-business-session.mjs",
+      "original_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/buffered-early-eof-red01-sources/test-browser-business-session.mjs",
+      "bytes": 52176,
+      "sha256": "834b9a15ef0ec70517f510e0a2347e0cb991802264b554bedbfcd5172eaf5ea9",
+      "scope": "Historical exact recorded run input snapshot.",
+      "provenance": "Original captured snapshot bytes preserved; SHA matches recorded before/after input maps."
+    },
+    {
+      "archive_path": "snapshots/buffered-early-eof-red01-sources/test-native-browser-enrollment.mjs",
+      "original_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/buffered-early-eof-red01-sources/test-native-browser-enrollment.mjs",
+      "bytes": 13419,
+      "sha256": "b0a4ef6f86493df99c10efaddebd735043d8226774d253dd41d90431008defa4",
+      "scope": "Historical exact recorded run input snapshot.",
+      "provenance": "Original captured snapshot bytes preserved; SHA matches recorded before/after input maps."
+    },
+    {
+      "archive_path": "snapshots/buffered-early-eof-red01-sources/test-native-browser-enrollment.test.mjs",
+      "original_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/buffered-early-eof-red01-sources/test-native-browser-enrollment.test.mjs",
+      "bytes": 6611,
+      "sha256": "3204b466940c270897814f9100ee8f92fbddfdc937e7b71a06406dacac778ead",
+      "scope": "Historical exact recorded run input snapshot.",
+      "provenance": "Original captured snapshot bytes preserved; SHA matches recorded before/after input maps."
+    },
+    {
+      "archive_path": "merge-group-b3ac72c01/accepted-commit.json",
+      "original_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/merge-group-b3ac72c01/accepted-commit.json",
+      "bytes": 1823,
+      "sha256": "0cf19718266a91b7ce78b20b04a12927867604ea04cc2248ee989722ab78e600",
+      "scope": "Historical protected merge-group failure: run37403914643 syntheticb3ac72c; terminal failure preserved.",
+      "provenance": "Unchanged raw metadata/log/archive/producer bytes; no GitHub query or mutation."
+    },
+    {
+      "archive_path": "merge-group-b3ac72c01/check-initial.json",
+      "original_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/merge-group-b3ac72c01/check-initial.json",
+      "bytes": 3051,
+      "sha256": "a797b364c771eae1ca7cdb6a4a3c92c15416d367c4eb22a14109ba471f5d77af",
+      "scope": "Historical protected merge-group failure: run37403914643 syntheticb3ac72c; terminal failure preserved.",
+      "provenance": "Unchanged raw metadata/log/archive/producer bytes; no GitHub query or mutation."
+    },
+    {
+      "archive_path": "merge-group-b3ac72c01/check-terminal01.json",
+      "original_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/merge-group-b3ac72c01/check-terminal01.json",
+      "bytes": 3072,
+      "sha256": "3b3b3075aaa70a2babb2d7af1cbabd4c02499fd917606409fd6b25797cbb4598",
+      "scope": "Historical protected merge-group failure: run37403914643 syntheticb3ac72c; terminal failure preserved.",
+      "provenance": "Unchanged raw metadata/log/archive/producer bytes; no GitHub query or mutation."
+    },
+    {
+      "archive_path": "merge-group-b3ac72c01/failure-audit.py",
+      "original_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/merge-group-b3ac72c01/failure-audit.py",
+      "bytes": 7408,
+      "sha256": "c00414cf370f04992b126dea0ebc8e686ed3aa0835c8a1980cd8eb587c12862f",
+      "scope": "Historical protected merge-group failure: run37403914643 syntheticb3ac72c; terminal failure preserved.",
+      "provenance": "Unchanged raw metadata/log/archive/producer bytes; no GitHub query or mutation."
+    },
+    {
+      "archive_path": "merge-group-b3ac72c01/job-112077080738-direct01.log",
+      "original_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/merge-group-b3ac72c01/job-112077080738-direct01.log",
+      "bytes": 82699,
+      "sha256": "dfe4e4bbea1600b59dda1f6152ae8a4492b26403697c54f778ba263951d943d0",
+      "scope": "Historical protected merge-group failure: run37403914643 syntheticb3ac72c; terminal failure preserved.",
+      "provenance": "Unchanged raw metadata/log/archive/producer bytes; no GitHub query or mutation."
+    },
+    {
+      "archive_path": "merge-group-b3ac72c01/job-112077080738.json",
+      "original_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/merge-group-b3ac72c01/job-112077080738.json",
+      "bytes": 8704,
+      "sha256": "4e5f02d011cc0dffbc6136e6ac3073b0097e8e153324c6b5611b3cc2ae283698",
+      "scope": "Historical protected merge-group failure: run37403914643 syntheticb3ac72c; terminal failure preserved.",
+      "provenance": "Unchanged raw metadata/log/archive/producer bytes; no GitHub query or mutation."
+    },
+    {
+      "archive_path": "merge-group-b3ac72c01/jobs-initial.json",
+      "original_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/merge-group-b3ac72c01/jobs-initial.json",
+      "bytes": 7245,
+      "sha256": "09b60ba9d2284461e2d442fcc45003d39df78a1bc48818547def32e34eea139c",
+      "scope": "Historical protected merge-group failure: run37403914643 syntheticb3ac72c; terminal failure preserved.",
+      "provenance": "Unchanged raw metadata/log/archive/producer bytes; no GitHub query or mutation."
+    },
+    {
+      "archive_path": "merge-group-b3ac72c01/monitor.py",
+      "original_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/merge-group-b3ac72c01/monitor.py",
+      "bytes": 4775,
+      "sha256": "722e11b3f63dd964c24156132eef256f7b0597ce0fe37cb78fb9e86e91dd7f7c",
+      "scope": "Historical protected merge-group failure: run37403914643 syntheticb3ac72c; terminal failure preserved.",
+      "provenance": "Unchanged raw metadata/log/archive/producer bytes; no GitHub query or mutation."
+    },
+    {
+      "archive_path": "merge-group-b3ac72c01/pr-queue-readback01.json",
+      "original_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/merge-group-b3ac72c01/pr-queue-readback01.json",
+      "bytes": 536,
+      "sha256": "47c06908a3d7efd729e259473cc4a42b23a2667e0f2a8de1eabd684953ec16a0",
+      "scope": "Historical protected merge-group failure: run37403914643 syntheticb3ac72c; terminal failure preserved.",
+      "provenance": "Unchanged raw metadata/log/archive/producer bytes; no GitHub query or mutation."
+    },
+    {
+      "archive_path": "merge-group-b3ac72c01/pr-terminal-readback01.json",
+      "original_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/merge-group-b3ac72c01/pr-terminal-readback01.json",
+      "bytes": 221,
+      "sha256": "a6ddcdc3f536df0b58a619250af83070b995bc416cdc79ad6c04481bee215270",
+      "scope": "Historical protected merge-group failure: run37403914643 syntheticb3ac72c; terminal failure preserved.",
+      "provenance": "Unchanged raw metadata/log/archive/producer bytes; no GitHub query or mutation."
+    },
+    {
+      "archive_path": "merge-group-b3ac72c01/progress-observations.jsonl",
+      "original_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/merge-group-b3ac72c01/progress-observations.jsonl",
+      "bytes": 903,
+      "sha256": "c3195c9355c4289979f4df309b3c0d562ea82eb891fc78353e4b2425ea312e0e",
+      "scope": "Historical protected merge-group failure: run37403914643 syntheticb3ac72c; terminal failure preserved.",
+      "provenance": "Unchanged raw metadata/log/archive/producer bytes; no GitHub query or mutation."
+    },
+    {
+      "archive_path": "merge-group-b3ac72c01/queue-tree-binding01.json",
+      "original_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/merge-group-b3ac72c01/queue-tree-binding01.json",
+      "bytes": 5815,
+      "sha256": "97470cd1f017f9dd7b0c72efafb68bcbb9b9848a2787360f663757ccc93dfe37",
+      "scope": "Historical protected merge-group failure: run37403914643 syntheticb3ac72c; terminal failure preserved.",
+      "provenance": "Unchanged raw metadata/log/archive/producer bytes; no GitHub query or mutation."
+    },
+    {
+      "archive_path": "merge-group-b3ac72c01/repo-options01.json",
+      "original_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/merge-group-b3ac72c01/repo-options01.json",
+      "bytes": 180,
+      "sha256": "23546ec7e3d8d42606e4ccb1ab1f5c9fc18b3ece234e0b3e11775ccbeecb6736",
+      "scope": "Historical protected merge-group failure: run37403914643 syntheticb3ac72c; terminal failure preserved.",
+      "provenance": "Unchanged raw metadata/log/archive/producer bytes; no GitHub query or mutation."
+    },
+    {
+      "archive_path": "merge-group-b3ac72c01/ruleset-initial.json",
+      "original_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/merge-group-b3ac72c01/ruleset-initial.json",
+      "bytes": 1438,
+      "sha256": "dc4d183acac48fbfc27b5425c877d201fc3154dff45d11e5ff883a7d44e40d5e",
+      "scope": "Historical protected merge-group failure: run37403914643 syntheticb3ac72c; terminal failure preserved.",
+      "provenance": "Unchanged raw metadata/log/archive/producer bytes; no GitHub query or mutation."
+    },
+    {
+      "archive_path": "merge-group-b3ac72c01/run-37403914643-full01.zip",
+      "original_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/merge-group-b3ac72c01/run-37403914643-full01.zip",
+      "bytes": 40996,
+      "sha256": "a4796677c6ea98d9d829f032cc3fb4d1aeed73e38a2a86a597f26e9bc4d35925",
+      "scope": "Historical protected merge-group failure: run37403914643 syntheticb3ac72c; terminal failure preserved.",
+      "provenance": "Unchanged raw metadata/log/archive/producer bytes; no GitHub query or mutation."
+    },
+    {
+      "archive_path": "merge-group-b3ac72c01/run-37403914643.json",
+      "original_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/merge-group-b3ac72c01/run-37403914643.json",
+      "bytes": 8212,
+      "sha256": "c0d368fd80afb22ab3dde81a01c5cc4c9ce867a3b6b2df41ea9519210f65128e",
+      "scope": "Historical protected merge-group failure: run37403914643 syntheticb3ac72c; terminal failure preserved.",
+      "provenance": "Unchanged raw metadata/log/archive/producer bytes; no GitHub query or mutation."
+    },
+    {
+      "archive_path": "merge-group-b3ac72c01/run-initial.json",
+      "original_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/merge-group-b3ac72c01/run-initial.json",
+      "bytes": 12731,
+      "sha256": "d6ccccb743c830281a28558da2ded1090f4cd8b38cc776f8cb897d1c4a6cfc8e",
+      "scope": "Historical protected merge-group failure: run37403914643 syntheticb3ac72c; terminal failure preserved.",
+      "provenance": "Unchanged raw metadata/log/archive/producer bytes; no GitHub query or mutation."
+    },
+    {
+      "archive_path": "merge-group-b3ac72c01/synthetic-commit.json",
+      "original_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/merge-group-b3ac72c01/synthetic-commit.json",
+      "bytes": 2976,
+      "sha256": "0ef78e013f974826c33bbdb31d0c078710f21b14f62ab37bb2c326751d9c60cf",
+      "scope": "Historical protected merge-group failure: run37403914643 syntheticb3ac72c; terminal failure preserved.",
+      "provenance": "Unchanged raw metadata/log/archive/producer bytes; no GitHub query or mutation."
+    },
+    {
+      "archive_path": "merge-group-b3ac72c01/terminal-failure-audit01.json",
+      "original_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/merge-group-b3ac72c01/terminal-failure-audit01.json",
+      "bytes": 10322,
+      "sha256": "9ab2fb52808d3f6a4709428369a3795dcd5f2a95025f84b43ca1bee36bb775dd",
+      "scope": "Historical protected merge-group failure: run37403914643 syntheticb3ac72c; terminal failure preserved.",
+      "provenance": "Unchanged raw metadata/log/archive/producer bytes; no GitHub query or mutation."
+    },
+    {
+      "archive_path": "merge-group-b3ac72c01/terminal-failure-custody01.json",
+      "original_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/merge-group-b3ac72c01/terminal-failure-custody01.json",
+      "bytes": 6094,
+      "sha256": "04fcaaf7bccddf39307f7a42d9786ff1d8ef27b9fc37df839d4a0dcc141f74de",
+      "scope": "Historical protected merge-group failure: run37403914643 syntheticb3ac72c; terminal failure preserved.",
+      "provenance": "Unchanged raw metadata/log/archive/producer bytes; no GitHub query or mutation."
+    },
+    {
+      "archive_path": "merge-group-prerequisites/queue-admission-f5c29cc01.json",
+      "original_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/queue-admission-f5c29cc01.json",
+      "bytes": 1323,
+      "sha256": "3a5450373ad45bbd2a9ea8c57b0857f70802d7693ec72c821947c35ecb9147cf",
+      "scope": "Historical queue admission/proposal/independent disposition; superseded by terminal queue failure.",
+      "provenance": "Unchanged original metadata bytes."
+    },
+    {
+      "archive_path": "merge-group-prerequisites/enqueue-f5c29cc-proposal01.json",
+      "original_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enqueue-f5c29cc-proposal01.json",
+      "bytes": 440,
+      "sha256": "228d603c86ed7b1498f68c572f163320e406a42efb735fc588856bd865cdfdcc",
+      "scope": "Historical queue admission/proposal/independent disposition; superseded by terminal queue failure.",
+      "provenance": "Unchanged original metadata bytes."
+    },
+    {
+      "archive_path": "merge-group-prerequisites/r7-protected-queue-disposition01.json",
+      "original_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/r7-protected-queue-disposition01.json",
+      "bytes": 11038,
+      "sha256": "d3054b61e5626c4582e9862da63e7886bfb2c9a7aea24d0b4c71e2f413dd80bc",
+      "scope": "Historical queue admission/proposal/independent disposition; superseded by terminal queue failure.",
+      "provenance": "Unchanged original metadata bytes."
+    },
+    {
+      "archive_path": "snapshots/source-by-hash/3dc3de1c946b/backend-fork/backend/app/tests/auth_rest/genuine_browser.rs",
+      "original_path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend/app/tests/auth_rest/genuine_browser.rs",
+      "bytes": 109954,
+      "sha256": "3dc3de1c946b9858aa33a0f0c605a52ef46e91d245ab892f7b7746cc4f0f69cf",
+      "scope": "Exact source/input-custody evidence at recorded hash.",
+      "provenance": "Post-run source capture matching recorded SHA; not a pre-run snapshot or final-head proof."
+    },
+    {
+      "archive_path": "snapshots/source-by-hash/ea936c0cdc86/tools/test-browser-business-session.mjs",
+      "original_path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/tools/test-browser-business-session.mjs",
+      "bytes": 52767,
+      "sha256": "ea936c0cdc8670261d556686b46a6d813b6479f4a8c6dd7b0925a42092e6aa2a",
+      "scope": "Exact source/input-custody evidence at recorded hash.",
+      "provenance": "Post-run source capture matching recorded SHA; not a pre-run snapshot or final-head proof."
+    }
+  ],
+  "source_aliases": [
+    {
+      "original_source_path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/tools/enrollment-fault-deadlines.mjs",
+      "sha256": "6f80266162d5413bcda245b17536b991518e95e22f5b1a7001067aaa4120fc06",
+      "archive_path": "snapshots/buffered-early-eof-red01-sources/enrollment-fault-deadlines.mjs"
+    },
+    {
+      "original_source_path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/tools/enrollment-fault-deadlines.test.mjs",
+      "sha256": "7e4aa20a3cfac678c5f5d8b620456da7b6e74d72fd6f64824b05cde363bc4bca",
+      "archive_path": "snapshots/full-process-red02-sources/enrollment-fault-deadlines.test.mjs"
+    },
+    {
+      "original_source_path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/tools/production-runtime.mjs",
+      "sha256": "7e4d05bac69900295f8777c931999f2987acd36c947f281cbea7d1bbdf673367",
+      "archive_path": "snapshots/buffered-early-eof-red01-sources/production-runtime.mjs"
+    },
+    {
+      "original_source_path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/tools/test-browser-business-session.mjs",
+      "sha256": "3545f9342e825ff703a3669c06566e1c90e3ec180fc52477ac8fd87f1200d0d4",
+      "archive_path": "snapshots/full-process-red02-sources/test-browser-business-session.mjs"
+    },
+    {
+      "original_source_path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/tools/test-browser-business-session.mjs",
+      "sha256": "834b9a15ef0ec70517f510e0a2347e0cb991802264b554bedbfcd5172eaf5ea9",
+      "archive_path": "snapshots/buffered-early-eof-red01-sources/test-browser-business-session.mjs"
+    },
+    {
+      "original_source_path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/tools/test-native-browser-enrollment.mjs",
+      "sha256": "6cbb58a1b2eae9f01d0b4d0838afd7c5c421c496a532fde056a1f33e153027ce",
+      "archive_path": "snapshots/full-process-red02-sources/test-native-browser-enrollment.mjs"
+    },
+    {
+      "original_source_path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/tools/test-native-browser-enrollment.mjs",
+      "sha256": "b0a4ef6f86493df99c10efaddebd735043d8226774d253dd41d90431008defa4",
+      "archive_path": "snapshots/buffered-early-eof-red01-sources/test-native-browser-enrollment.mjs"
+    },
+    {
+      "original_source_path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/tools/test-native-browser-enrollment.test.mjs",
+      "sha256": "3204b466940c270897814f9100ee8f92fbddfdc937e7b71a06406dacac778ead",
+      "archive_path": "snapshots/buffered-early-eof-red01-sources/test-native-browser-enrollment.test.mjs"
+    }
+  ],
+  "verified_external_references": [
+    {
+      "original_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/p14-publication-manifest03.json",
+      "sha256": "29c62c4f7b18553d734fbe34f921f7c453bf92be386db2185f5a6bc087a23677",
+      "bytes": 2236,
+      "status": "VERIFIED_EXTERNAL_SCOPE_PREREQUISITE",
+      "archive_path": null,
+      "reason": "Earlier publication/hosted disposition prerequisite beyond exact queue-failure scope; metadata hash checked read-only, content intentionally not expanded."
+    },
+    {
+      "original_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/hosted-repair-f5c29cc01/terminal-audit-f5c29cc02.json",
+      "sha256": "57fa0576cb0679e3336f3cfaf587d1a3e738554c9532ffa1c32faab39c83291b",
+      "bytes": 63749,
+      "status": "VERIFIED_EXTERNAL_SCOPE_PREREQUISITE",
+      "archive_path": null,
+      "reason": "Earlier publication/hosted disposition prerequisite beyond exact queue-failure scope; metadata hash checked read-only, content intentionally not expanded."
+    },
+    {
+      "original_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/hosted-repair-f5c29cc01/terminal-custody-manifest01.json",
+      "sha256": "cb15587a99632b09320e725ec55aface7e828b92ac6c7c6559fe5e16a92e0058",
+      "bytes": 4156,
+      "status": "VERIFIED_EXTERNAL_SCOPE_PREREQUISITE",
+      "archive_path": null,
+      "reason": "Earlier publication/hosted disposition prerequisite beyond exact queue-failure scope; metadata hash checked read-only, content intentionally not expanded."
+    }
+  ],
+  "unavailable_source_snapshots": [
+    {
+      "original_source_path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/tools/test-native-browser-enrollment.test.mjs",
+      "sha256": "483f539847f1fa6b04a783f3dfde61051ccd02dd4354ede0af98cc5ff11d341a",
+      "status": "EXACT_SNAPSHOT_UNAVAILABLE",
+      "scope": "Earlier empty-EOF RED source-map observation preserved. Later buffered RED and full22 have captured exact finalparent. No source bytes invented."
+    },
+    {
+      "original_source_path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/tools/test-native-browser-enrollment.test.mjs",
+      "sha256": "78c8d36ccd49525d04cec12f9be056e23632e8137064625ac332d78da3fc06b9",
+      "status": "EXACT_SNAPSHOT_UNAVAILABLE",
+      "scope": "Earlier empty-EOF RED source-map observation preserved. Later buffered RED and full22 have captured exact finalparent. No source bytes invented."
+    }
+  ]
+}

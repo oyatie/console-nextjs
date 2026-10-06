@@ -1,0 +1,34 @@
+{
+  "id": "hosted-diagnostic-unit01",
+  "command": [
+    "node",
+    "--test",
+    "tools/browser-business-failure.test.mjs"
+  ],
+  "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+  "exit_code": 0,
+  "timed_out": false,
+  "duration_seconds": 0.13257295894436538,
+  "discovered": null,
+  "counts": {
+    "passed": 0,
+    "failed": 0,
+    "skipped": 0,
+    "filtered": 0,
+    "executed": 0
+  },
+  "log_sha256": "5d507171555efa217966f1b13ea988623ffa79d42fe74d0a0852066dfb5ec9dd",
+  "cleanup_reported": false,
+  "inputs_sha256": "681caf0b0532e9874d7219741e1aac9d14115e08fa2f688687cb3fe155edcd9e",
+  "inputs_unchanged": true,
+  "scope": "Privacy-safe source-location projection only; not native/browser acceptance",
+  "actual_node_tests": {
+    "discovered": 5,
+    "executed": 5,
+    "passed": 5,
+    "failed": 0,
+    "skipped": 0,
+    "cancelled": 0
+  },
+  "counts_parser_scope": "run-gate counts parse Rust summaries only; actual Node counts are above"
+}

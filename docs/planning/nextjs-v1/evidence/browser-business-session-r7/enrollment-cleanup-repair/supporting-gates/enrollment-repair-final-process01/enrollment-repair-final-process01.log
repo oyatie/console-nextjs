@@ -1,0 +1,30 @@
+✔ slow prerequisite startup does not spend the requested cleanup budget (1.376375ms)
+✔ a ready runner that fails to exit still triggers the cleanup fallback (0.66675ms)
+✔ never-ready startup has one absolute bounded termination deadline (0.416ms)
+✔ a second fault cannot reset an already running cleanup deadline (0.282ms)
+✔ late cleanup cannot erase evidence of forced intervention (0.244625ms)
+✔ natural completion disposes both clocks and cannot rearm them (0.175ms)
+✔ enrollment runner confirms cleanup after eof-before-origin (270.840833ms)
+✔ enrollment runner confirms cleanup after partial-eof-before-origin (246.253625ms)
+✔ enrollment runner confirms cleanup after frame-eof-before-origin (233.643708ms)
+✔ enrollment runner confirms cleanup after signal-after-origin (9383.780375ms)
+✔ enrollment runner confirms cleanup after eof-after-ready (14966.313041ms)
+✔ enrollment runner confirms cleanup after oversized (25376.484791ms)
+✔ enrollment runner confirms cleanup after wrong-version (31117.281375ms)
+✔ enrollment runner confirms cleanup after wrong-sequence (38087.262916ms)
+✔ enrollment runner confirms cleanup after wrong-kind (38801.989375ms)
+✔ enrollment runner confirms cleanup after legacy-selection (38915.436708ms)
+✔ enrollment runner confirms cleanup after missing-selection (47633.233125ms)
+✔ enrollment runner confirms cleanup after malformed-selection (50396.095667ms)
+✔ enrollment runner confirms cleanup after weak-uv (40998.783333ms)
+✔ business runner confirms cleanup after eof-before-origin (282.686667ms)
+✔ business runner confirms cleanup after partial-eof-before-origin (282.613834ms)
+✔ business runner confirms cleanup after frame-eof-before-origin (296.073625ms)
+ℹ tests 22
+ℹ suites 0
+ℹ pass 22
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 337341.844875

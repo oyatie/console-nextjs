@@ -1,0 +1,70 @@
+{
+  "schema": "resident-startup-fault-source-review/2",
+  "state": "ACCEPT_SOURCE_ONLY",
+  "scope": "Independent static re-review of artifact candidate02, candidate01 delta, exact baseline/after unified patch, real cleanup observation generation, and all four private tests.",
+  "pins": {
+    "before_sha256": "2917aa92f08d8d8d49da0f5ddf0474c808bf5886683a8754e35bf69a15fcaedd",
+    "after_sha256": "26e2350f1224c10f6ea3095a201ead024cf7f5e040d8a8924657202cc6345311",
+    "patch_sha256": "89ea9f10862dab300d1d9a644e50ad937a28f5133806b68b30cce4592f518b57",
+    "manifest_sha256": "fad7111629dad1eaf4b87fb280f7448832d10d21be87c98ec6411a5ae51a3029",
+    "superseded_review_sha256": "50b238e43e5b081a1244ba8a0e8324e523fc813d9b06f12f91fc771a5bee4890"
+  },
+  "verified": {
+    "pins_match": true,
+    "patch_matches_exact_before_after_snapshots": true
+  },
+  "prior_findings": {
+    "successful_worker_joins": "RESOLVED_BY_ACTUAL_JOIN_OUTCOME",
+    "forced_and_expired_cleanup_masking": "RESOLVED_BY_SEPARATE_ACTUAL_FACTS",
+    "cached_drop_panic_identity": "RESOLVED_BY_EXACT_FIXED_PAYLOAD_CHECK"
+  },
+  "findings": [],
+  "source_checks": [
+    {
+      "lines": "85-255",
+      "assessment": "Normal new passes no private fault/probe. Setup faults occur only after actual Node ownership and before the relevant fallible worker. Existing child, pipe, ready, origin, browser identity, and ceremony behavior remains."
+    },
+    {
+      "lines": "341-355",
+      "assessment": "One real cleanup owner returns observed facts; close caches its Copy Result before one private unbounded-channel notification. Cached calls return before another attempt or notification."
+    },
+    {
+      "lines": "358-503",
+      "assessment": "Created-worker flags come from actual installed handles. join_succeeded starts None and is set only from actual join results, including explicit stderr success/failure. Only finished handles are joined; failure accumulation and the two original cleanup phase budgets remain unchanged."
+    },
+    {
+      "lines": "409-465,553-570",
+      "assessment": "Node reaped is based on observed real child status. Force records actual child.kill attempts. Phase-expiry facts are separately sampled from the existing Instant deadlines rather than inferred from the first sticky Result."
+    },
+    {
+      "lines": "588-637",
+      "assessment": "Constructor tests require the exact typed startup error, actual reaping, no remaining handles, successful joins only for created workers, no force attempt, no sampled phase expiry, and exactly one completed cleanup notification before return."
+    },
+    {
+      "lines": "666-719",
+      "assessment": "The cache test starts the real ready fixture, drops its actual receiver, and requires the exact first Result. Repeated close emits no new attempt. Normal Drop's caught payload must equal the exact fixed stdout-closed error; unexpected payloads are not explicitly printed by the test."
+    },
+    {
+      "lines": "633-635,715-717",
+      "assessment": "Fixed proof diagnostics are emitted only after assertions and keep browser custody UNKNOWN. No private PID, payload, SDK result, credential, or ACK is fabricated or newly logged."
+    }
+  ],
+  "limits": [
+    "Source-only acceptance; pinned rustfmt formatting is manifest-reported, not a compiler/typecheck or runtime result.",
+    "No tests, probe, browser, or service execution occurred.",
+    "Private injected setup failures do not prove empirical OS resource exhaustion.",
+    "Node reaping and joined workers do not establish Chromium/process-group absence or temp-file destruction.",
+    "Phase facts are real samples of existing deadlines; no independent wall-clock measurement of these tests was produced.",
+    "Final Node/Rust diagnostic changes require exact rebase/source binding and fresh focused/full runtime proof."
+  ],
+  "actions": {
+    "tracked_source_writes": 0,
+    "candidate_source_writes": 0,
+    "artifact_review_receipt_write": true,
+    "tests_executed": 0,
+    "compilation": false,
+    "probe_execution": false,
+    "service_actions": false,
+    "patch_applied": false
+  }
+}

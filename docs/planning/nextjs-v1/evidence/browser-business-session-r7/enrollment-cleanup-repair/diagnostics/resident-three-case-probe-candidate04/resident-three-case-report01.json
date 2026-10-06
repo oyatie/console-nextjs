@@ -1,0 +1,234 @@
+{
+  "schema": "resident-three-case/1",
+  "scope": "Actual ready/done, EOF-after-ready and owned real Chromium group SIGSTOP/done lifecycle; no credential ceremony, authentication or native acceptance proof",
+  "proof_limits": {
+    "failed_kill_retained_unref_deadline": "SOURCE_ONLY",
+    "historical_exit3_cause": "UNPROVEN",
+    "close_timeout_kill_path": "Source path plus verified real browser stop and actual cleanup ACK/exit; no SDK call interception",
+    "uncatchable_probe_termination": "SIGKILL/host failure cannot run in-process cleanup; no success claim"
+  },
+  "state": "bounded_diagnostic_pass",
+  "command": [
+    "/Users/jasonlee/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
+    "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/resident-three-case-probe-candidate04/resident-three-case-probe.mjs"
+  ],
+  "fixture_command": [
+    "/Users/jasonlee/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
+    "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/tools/test-resident-authenticator.mjs"
+  ],
+  "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+  "node_version": "24.21.0",
+  "cases": [
+    "ready-done",
+    "eof-after-ready",
+    "owned-browser-stop-before-done"
+  ],
+  "deadlines_ms": {
+    "startup": 25000,
+    "cleanup_ack_and_natural_exit": 15000,
+    "failure_cleanup": 6000
+  },
+  "counts": {
+    "expected": 3,
+    "started": 3,
+    "passed": 3,
+    "failed": 0,
+    "unreached": 0
+  },
+  "attempts": [
+    {
+      "index": 1,
+      "case": "ready-done",
+      "expected": {
+        "outcome": "completed",
+        "exit_code": 0
+      },
+      "status": "passed",
+      "reason": null,
+      "stages_ms": {
+        "spawn_ms": 2,
+        "ready_ms": 424,
+        "browser_owner_ms": 428,
+        "done_ms": 428,
+        "ack_ms": 448,
+        "exit_ms": 455,
+        "stdio_close_ms": 455,
+        "browser_absent_ms": 456
+      },
+      "frames_received": 2,
+      "frames_sent": 1,
+      "stdout_bytes": 212,
+      "acknowledgement": {
+        "kind": "cleaned",
+        "outcome": "completed",
+        "browser_matches": true,
+        "browser_exited": true
+      },
+      "exit": {
+        "code": 0,
+        "signal": null
+      },
+      "stderr": {
+        "bytes": 0,
+        "finished": true,
+        "read_failed": false,
+        "classes": [],
+        "diagnostics": []
+      },
+      "custody": {
+        "browser_pid_observed": true,
+        "browser_owner_verified": true,
+        "browser_absence_observed": true,
+        "browser_signal_identity_verified": false,
+        "browser_signal_identity_unconfirmed": false
+      },
+      "fault_injection": {
+        "stdin_eof_sent": false,
+        "browser_stop_sent": false,
+        "browser_stopped_observed": false
+      },
+      "interventions": {
+        "eof": false,
+        "fixture_term": false,
+        "fixture_kill": false,
+        "browser_term": false,
+        "browser_kill": false
+      },
+      "forced": false
+    },
+    {
+      "index": 2,
+      "case": "eof-after-ready",
+      "expected": {
+        "outcome": "aborted",
+        "exit_code": 2
+      },
+      "status": "passed",
+      "reason": null,
+      "stages_ms": {
+        "spawn_ms": 1,
+        "ready_ms": 406,
+        "browser_owner_ms": 409,
+        "eof_ms": 409,
+        "ack_ms": 431,
+        "exit_ms": 438,
+        "stdio_close_ms": 438,
+        "browser_absent_ms": 438
+      },
+      "frames_received": 2,
+      "frames_sent": 0,
+      "stdout_bytes": 210,
+      "acknowledgement": {
+        "kind": "cleaned",
+        "outcome": "aborted",
+        "browser_matches": true,
+        "browser_exited": true
+      },
+      "exit": {
+        "code": 2,
+        "signal": null
+      },
+      "stderr": {
+        "bytes": 0,
+        "finished": true,
+        "read_failed": false,
+        "classes": [],
+        "diagnostics": []
+      },
+      "custody": {
+        "browser_pid_observed": true,
+        "browser_owner_verified": true,
+        "browser_absence_observed": true,
+        "browser_signal_identity_verified": false,
+        "browser_signal_identity_unconfirmed": false
+      },
+      "fault_injection": {
+        "stdin_eof_sent": true,
+        "browser_stop_sent": false,
+        "browser_stopped_observed": false
+      },
+      "interventions": {
+        "eof": false,
+        "fixture_term": false,
+        "fixture_kill": false,
+        "browser_term": false,
+        "browser_kill": false
+      },
+      "forced": false
+    },
+    {
+      "index": 3,
+      "case": "owned-browser-stop-before-done",
+      "expected": {
+        "outcome": "completed",
+        "exit_code": 0
+      },
+      "status": "passed",
+      "reason": null,
+      "stages_ms": {
+        "spawn_ms": 1,
+        "ready_ms": 388,
+        "browser_owner_ms": 392,
+        "browser_stop_ms": 397,
+        "browser_stopped_ms": 400,
+        "done_ms": 400,
+        "ack_ms": 2411,
+        "exit_ms": 2420,
+        "stdio_close_ms": 2420,
+        "browser_absent_ms": 2420
+      },
+      "frames_received": 2,
+      "frames_sent": 1,
+      "stdout_bytes": 212,
+      "acknowledgement": {
+        "kind": "cleaned",
+        "outcome": "completed",
+        "browser_matches": true,
+        "browser_exited": true
+      },
+      "exit": {
+        "code": 0,
+        "signal": null
+      },
+      "stderr": {
+        "bytes": 0,
+        "finished": true,
+        "read_failed": false,
+        "classes": [],
+        "diagnostics": []
+      },
+      "custody": {
+        "browser_pid_observed": true,
+        "browser_owner_verified": true,
+        "browser_absence_observed": true,
+        "browser_signal_identity_verified": true,
+        "browser_signal_identity_unconfirmed": false
+      },
+      "fault_injection": {
+        "stdin_eof_sent": false,
+        "browser_stop_sent": true,
+        "browser_stopped_observed": true
+      },
+      "interventions": {
+        "eof": false,
+        "fixture_term": false,
+        "fixture_kill": false,
+        "browser_term": false,
+        "browser_kill": false
+      },
+      "forced": false
+    }
+  ],
+  "source_hashes": {
+    "tools/test-resident-authenticator.mjs": "b62d0d6eba89439d4194b79d4dab62ed8fd07614f93bf984bbd3ab261a71799e",
+    "package-lock.json": "ad526fce2fe800ee7122f39029843a69fd9a335572de82a4a71d9c1a9714bc7b",
+    "backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs": "30345239d9e8321ea9394dd5b5f75d91b5ca4d1b1a98a27c7360951a82179c45",
+    "node_modules/@playwright/test/package.json": "5587f932b8979b6889654b60e3c28aeb7ca0abbac00eec8c176c939a16149536",
+    "node_modules/playwright-core/package.json": "f061c58427e47e843e26d201f0a57076c734e57c734ecbbd87d4a23b7a20db9b",
+    "node_modules/playwright-core/lib/coreBundle.js": "549070af3acabb3efcc4f55bfe6210f9f7c2fcf633cf7eaa59bfe60719969171"
+  },
+  "node_binary_sha256": "e4b5a3af0e05c75de2eae013904145f40fe7fc2a6e6f17510128bf45cca4e79b",
+  "probe_sha256": "dbdad3d7e20f231b1fa0798ccaba659e9e6d8a3ba22df409aabe0a67f008adc3",
+  "unreached_cases": [],
+  "interruption": null
+}

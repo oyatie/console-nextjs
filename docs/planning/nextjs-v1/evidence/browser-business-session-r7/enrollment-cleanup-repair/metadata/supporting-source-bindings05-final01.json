@@ -1,0 +1,21 @@
+{
+  "schema": "portable-supporting-source-bindings/5-final1",
+  "supporting_input_map_sha256": "c3e6726ea9e28cfa2797dd733199133f54611bd9209b07aafc9ec26657d8cb2c",
+  "paths": 2958,
+  "before_after_identical": true,
+  "base_input_map": "native-runs/resident-cleanup-stage-exact01/resident-cleanup-stage-exact01.inputs.json",
+  "base_bindings": "metadata/native-extra-source-bindings05.json",
+  "sole_delta": [
+    {
+      "path": "tools/browser-business-restore.mjs",
+      "before": "05c0dfebd791403622397f7a83568c4f5383360002ee9b96c5d366c956277b6d",
+      "after": "d9682e6dd85a4793f8636c18a8fd8fc939a22fada0db6359d8d30a721e5bd350"
+    }
+  ],
+  "new_exact_binding": {
+    "path": "tools/browser-business-restore.mjs",
+    "sha256": "d9682e6dd85a4793f8636c18a8fd8fc939a22fada0db6359d8d30a721e5bd350",
+    "archive_path": "diagnostics/queued-ordering-diagnostic-candidate01/tools/browser-business-restore.mjs"
+  },
+  "source_state": "Historical completed supporting-gate maps; no current whole-tree equality claim; active diagnostic03 excluded."
+}

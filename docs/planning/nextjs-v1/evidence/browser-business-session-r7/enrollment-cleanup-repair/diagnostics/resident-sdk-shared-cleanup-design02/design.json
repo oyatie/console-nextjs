@@ -1,0 +1,164 @@
+{
+  "schema": "resident-sdk-shared-cleanup-design/2",
+  "state": "PROPOSED_NOT_IMPLEMENTED_NOT_TESTED",
+  "scope": "Narrow owner-state and temporary-custody correction. Intentional phase-contract clarification: two-second kill observation may leave real SDK cleanup pending after verified child exit/close; that same cleanup must actually settle within the original twelve-second total. No timeout constant widening, alternate completion, historical-fix claim or new cleanup engine.",
+  "inputs": {
+    "node_fixture": {
+      "path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/tools/test-resident-authenticator.mjs",
+      "bytes": 13043,
+      "sha256": "b62d0d6eba89439d4194b79d4dab62ed8fd07614f93bf984bbd3ab261a71799e"
+    },
+    "rust_fixture": {
+      "path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs",
+      "bytes": 20063,
+      "sha256": "2917aa92f08d8d8d49da0f5ddf0474c808bf5886683a8754e35bf69a15fcaedd"
+    },
+    "installed_sdk": {
+      "path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/node_modules/playwright-core/lib/coreBundle.js",
+      "bytes": 3477183,
+      "sha256": "549070af3acabb3efcc4f55bfe6210f9f7c2fcf633cf7eaa59bfe60719969171"
+    }
+  },
+  "current_empirical_evidence": {
+    "terminal_audit": "finalnative01-terminal-audit01/audit.json",
+    "audit_sha256": "3b3090ee129f08250f5c9e48e154f9a5018824ba376cca2c611f5c47db5f0a27",
+    "short_family_current_run": {
+      "stage": "BrowserKill",
+      "child_exit_seen": true,
+      "child_close_seen": true,
+      "close_settled": false,
+      "kill_settled": false,
+      "child_exited": true,
+      "node_exit": 3
+    },
+    "limits": [
+      "No actual fs.rm operation, per-directory completion, process-group absence or precise filesystem cause was observed in finalnative01.",
+      "FK-holder cleanup has only timeout/unconfirmed evidence; its exact cause is unknown.",
+      "Historical exit3 cause remains UNPROVEN."
+    ]
+  },
+  "installed_sdk_trace": [
+    {
+      "lines": "57212-57214",
+      "fact": "BrowserServer close and kill delegate directly to browser.options.browserProcess close and kill."
+    },
+    {
+      "lines": "39831-39847",
+      "fact": "closeOrKill races gracefullyClose against its own SDK timer and on failure awaits kill. browserProcess exposes that close wrapper and original kill."
+    },
+    {
+      "lines": "9358-9368",
+      "fact": "One waitForCleanup promise fulfills only from spawnedProcess close handler after cleanup().then(fulfillCleanup); child close and temporary-folder cleanup are separate events."
+    },
+    {
+      "lines": "9326-9334;8343-8346",
+      "fact": "cleanup awaits removeFolders(tempDirectories), which awaits Promise.all of actual fs.promises.rm recursive force maxRetries10. Errors become values; cleanup logs them and still fulfills waitForCleanup. Promise fulfillment proves the attempt settled, not successful deletion of every folder."
+    },
+    {
+      "lines": "9380-9392;9430-9433",
+      "fact": "gracefullyClose and killAndWait both await the same waitForCleanup. Repeating kill cannot create an independent completion path."
+    },
+    {
+      "lines": "39756-39770",
+      "fact": "Default launch creates both artifacts and user-data directories under os.tmpdir, listing both in tempDirectories. Explicit artifactsDir remains caller-owned; default user-data directory stays SDK-owned."
+    }
+  ],
+  "proposed_state_transitions": [
+    {
+      "state": "owned startup scope",
+      "behavior": "Use Node fs.mkdtemp to create one fresh private scope before SDK launch. Set only this isolated Node process TMPDIR and the existing clean child env TMPDIR to that scope. Keep root path transient/in-memory. Scope creation plus actual SDK launch share the existing STARTUP_MS5000 monotonic startup budget and its bounded observation; retain the original startup/resource-owner promise for EOF/error finalization. A timeout does not abandon a later-created scope/resource. No private SDK fields, node_modules changes or global host environment changes."
+    },
+    {
+      "state": "startup/finalize deadline",
+      "behavior": "At finalize entry capture monotonic original deadlineAt = performance.now()+12000 and start the existing12000ms hard timer. Keep it while awaiting the original startup promise. Before accepting each settled cleanup step and before/after ACK completion require current monotonic time strictly before that same deadlineAt. Expiry is failure/exit3, even if an overdue timer callback has not run. No new tail clock."
+    },
+    {
+      "state": "browser-close",
+      "behavior": "Invoke actual browserServer.close once and retain its original observed promise. Observe for existing2000ms; close_settled reflects actual fulfillment/rejection. Fulfillment true may advance; rejection remains unsuccessful and uses existing one kill fallback."
+    },
+    {
+      "state": "browser-kill",
+      "behavior": "If close observation did not succeed, invoke actual browserServer.kill exactly once and retain its original observed promise. Observe for existing2000ms. A settled rejection is failure. Expiry may transition to cleanup pending only after actual child exitCode/signalCode establishes exit and actual child close event was observed."
+    },
+    {
+      "state": "browser-cleanup",
+      "behavior": "Intentional phase-contract correction: two-second kill expiry is not full cleanup success or immediate failure when the process already exited/closed and SDK artifact cleanup is genuinely pending. Await that same already-issued real kill promise under the original total deadline. No additional close/kill call or synthetic result. Rejection/false or monotonic total expiry is failure. Actual SDK settlement plus actual child exit remains required."
+    },
+    {
+      "state": "owned-temp",
+      "behavior": "Only after real SDK cleanup settles and actual browser child exit is established, await actual fs.rm of the one fresh owned root (recursive/force, errors propagated), then independently check lstat returns only ENOENT for that root. Any other result/error, residual scope or original total expiry prevents ACK. Scope removal is part of the same finalize owner and original twelve-second budget, not a new timer/cleanup engine. Never remove the caller host TMPDIR or any SDK/host directory outside the freshly created scope."
+    },
+    {
+      "state": "ack",
+      "behavior": "Immediately before emitting unchanged cleaned ACK require same monotonic total bound, real SDK settlement, actual browser child exit and verified absence of the fresh owned root. Await actual writeFrame, then check the same total bound again before cleanupConfirmed or expected Node exit code. If ACK bytes were written but completion crosses the bound, remain unconfirmed/exit3; Rust requires actual matching Node status and must not treat frame alone as success."
+    }
+  ],
+  "non_negotiable_preservation": [
+    "Close and kill still each have a two-second observation. The new pending-cleanup state intentionally corrects phase success semantics but never widens the twelve-second total or starts a new tail timer.",
+    "No SDK monkeypatch, shadowing, private SDK introspection, synthetic fulfillment, provider success, raw payload/path/PID logging, process-only ACK, generic kill fallback or duplicate cleanup engine.",
+    "Existing catch/finally and unref retained hard bound on failed shutdown remain truthful; monotonic checks prevent late success when event-loop callbacks are delayed.",
+    "Add matching private Rust browser-cleanup and owned-temp stage tags and any fixed metadata needed; deny_unknown_fields schema must remain aligned with actual emitted diagnostic.",
+    "SDK catches removal errors and still fulfills; real settlement does not prove file erasure. Only actual scoped rm plus independently absent-root check can support that new scoped cleanup fact.",
+    "The private Node temp scope uses only this one test child process environment and fixed owned paths; no Console repository, host/global env, cache registry or live secrets touched.",
+    "Passing actual lifecycle/probe tests does not certify native credential consumers, P16, full gate or launch."
+  ],
+  "empirical_owned_temp_probe_design": {
+    "state": "PROPOSED_NOT_PREPARED_NOT_EXECUTED",
+    "mechanism": "Run real fixture through its new fresh per-child scope, with a separate caller-created per-case outer TMPDIR to observe scope existence/counts before any harness removal. Record only fixed class counts, actual child exit/close and SDK promise settlement timing. Actual probe observations precede fallback cleanup; no SDK monkeypatch/fs.rm interception/private SDK fields. Scope removal and no-residual observations must be independently verified, not inferred from real promise settlement.",
+    "cases": [
+      "Normal ready/done with actual Chromium identity and independent verified absence witness.",
+      "EOF after actual ready with the same custody and absence checks.",
+      "Verified owned Chromium process-group SIGSTOP then done, retaining actual SDK close/kill and independent absence.",
+      "A dedicated actual SDK launch/close observation may record child exit/close, close/kill promise settlement and owned-temp directory existence to localize removal delay; it must remain separate from native credential/business acceptance."
+    ],
+    "guards": [
+      "No fs.rm interception or mutation of node_modules.",
+      "Never remove a directory or signal a process without verifying it belongs to this fresh instance; unavailable ownership remains UNKNOWN and fails custody acceptance.",
+      "A child exit flag does not establish descendant/group absence.",
+      "If delay does not reproduce, report NOT_REPRODUCED and keep exact directory cause UNPROVEN.",
+      "Use outer bounded harness custody; in-process timers cannot guarantee cleanup after SIGKILL/host failure.",
+      "Any raw private filesystem paths are transient internal references, excluded from report/log/telemetry.",
+      "Faults/remaining scope are evidence failures; harness removal is recorded separately and cannot turn production-fixture cleanup into success."
+    ]
+  },
+  "required_reviews_and_proof": [
+    "Independent design acceptance before Node implementation.",
+    "Exact source diff review covering both Node owner and Rust diagnostic tag, with no changed total/phase constants.",
+    "Real owned-temp lifecycle/dedicated SDK evidence; preserve unproven filesystem cause if no reproduction.",
+    "Focused startup-failure proof, unchanged short-family consumer and failing FK-holder consumer against final changed source.",
+    "Fresh full native/browser gate plus exact source maps; P16 diagnostic/fix remains separate."
+  ],
+  "actions": {
+    "tracked_source_writes": 0,
+    "tests_executed": 0,
+    "artifact_only_design_write": true
+  },
+  "supersedes": {
+    "design01_sha256": "f87e4690f539a28c22b1ce229a46fea3de5a2483b84514fd824494996fb1cc55",
+    "review01_sha256": "86f195c53f1631cf7aacabafdce69d0871cfce5fe27c315b137412100027b3b9",
+    "findings_resolved": [
+      "Add monotonic original-total deadline guards before/after real cleanup settlement and around ACK completion.",
+      "Explicitly describe the kill phase success/pending contract correction."
+    ],
+    "root_addition": "Real isolated temporary-directory ownership and removal before ACK; SDK fulfillment alone is not file destruction."
+  },
+  "phase_contract": {
+    "close_observation_ms": 2000,
+    "kill_observation_ms": 2000,
+    "finalize_total_ms": 12000,
+    "startup_ms": 5000,
+    "intentional_change": "Old code equated two-second kill observation expiry with cleanup failure even when browser child had exited/closed and shared SDK folder cleanup was still pending. Revised code recognizes a pending artifact-cleanup state under the unchanged total bound; full settlement is still mandatory.",
+    "deadline_semantics": "Monotonic guards are authoritative acceptance checks. Timer callback is an emergency bound; a delayed event loop cannot clear an overdue timer and claim late success."
+  },
+  "ack_certifies": [
+    "The original startup owner/resource resolution was observed within finalize custody.",
+    "Actual SDK cleanup attempt settled successfully as promised by SDK close/kill, and browser child actually exited.",
+    "One fresh Node-owned temporary root was actually removed and independently observed absent at the ACK gate.",
+    "ACK write completed and Node preserved expected exit outcome within original monotonic finalize bound."
+  ],
+  "ack_does_not_certify": [
+    "Independent absence of all browser descendants/process-group members. This remains UNKNOWN unless separately positively witnessed.",
+    "Destruction of directories outside the fresh isolated scope or external copies.",
+    "Historical exit3/FK-holder cause, full product/browser/native release acceptance or P16 correctness."
+  ]
+}

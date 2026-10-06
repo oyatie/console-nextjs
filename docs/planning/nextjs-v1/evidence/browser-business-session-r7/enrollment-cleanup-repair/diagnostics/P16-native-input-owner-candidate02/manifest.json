@@ -1,0 +1,13 @@
+{
+  "schema": "P16-native-input-owner-candidate/2",
+  "status": "UNEXECUTED_SOURCE_CANDIDATE",
+  "before_sha256": "33bbfcc9e60abdc5f6eb6e9d8c800667bac46ced34cbbde6154744ed7da61a7b",
+  "candidate01_sha256": "39209e86daab502846448cd5a66e1b50d89e4e45a0ebdd420f1869be3c910646",
+  "after_sha256": "860788aeb12884a3f5997c9dadf715a37227a2cc6341ef7aec34676325c697e0",
+  "after_bytes": 49359,
+  "patch_sha256": "a5ef8259590837fc088717783ecb969c82e9fef92079b79b15642eafc6c855f2",
+  "revision_diff_sha256": "7259adf168ec14fae1cf5276853fb00fe24831ebf17bfdbb99662412bb9240bc",
+  "tests_executed": 0,
+  "tracked_source_writes": 0,
+  "changes": "Same native input owner protocol. Pendingreply explicitly rejected on attempt completion; cacheprobe installation within existing ownedpage try/finally, preserving original setup error and closing ownedpage even if binding/init installation fails."
+}

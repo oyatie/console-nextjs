@@ -1,0 +1,25 @@
+{
+  "id": "enrollment-repair-final-process01",
+  "command": [
+    "node",
+    "--test",
+    "tools/enrollment-fault-deadlines.test.mjs",
+    "tools/test-native-browser-enrollment.test.mjs"
+  ],
+  "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+  "exit_code": 0,
+  "timed_out": false,
+  "duration_seconds": 337.44424416695256,
+  "discovered": null,
+  "counts": {
+    "passed": 0,
+    "failed": 0,
+    "skipped": 0,
+    "filtered": 0,
+    "executed": 0
+  },
+  "log_sha256": "87df26ca24f19da055b6cceab86e0a58d4474053f16a91979e11f6a429390586",
+  "cleanup_reported": false,
+  "inputs_sha256": "0b834b380a7366256aff69650f30962d54f0e0954c982b424acf2c82e1b582d4",
+  "inputs_unchanged": true
+}

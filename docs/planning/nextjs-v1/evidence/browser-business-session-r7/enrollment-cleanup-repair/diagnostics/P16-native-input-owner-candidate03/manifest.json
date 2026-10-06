@@ -1,0 +1,14 @@
+{
+  "schema": "P16-native-input-owner-candidate/3",
+  "status": "UNEXECUTED_SOURCE_CANDIDATE",
+  "before_sha256": "33bbfcc9e60abdc5f6eb6e9d8c800667bac46ced34cbbde6154744ed7da61a7b",
+  "candidate02_sha256": "860788aeb12884a3f5997c9dadf715a37227a2cc6341ef7aec34676325c697e0",
+  "after_sha256": "3be5f8d095d22cd5c2588880650f26acebb92f535222232ad8da40bca16147da",
+  "after_bytes": 49825,
+  "patch_sha256": "7cef2ca6837f35c87271002c59fc81b9788d82e94dc89a69d5289ce8bee2c8a6",
+  "revision_diff_sha256": "f000576af1e083d1273585ba95b3afad10f86d7780c23e9e17146ae58eddff66",
+  "candidate01_revision_diff_sha256": "04e296e876097a9fadca64a189a5cc8f6a62b76351e99aafd0c02f1365098d19",
+  "tests_executed": 0,
+  "tracked_source_writes": 0,
+  "changes": "Settles pending reply on completion. Probe installation is inside existing ownedpage try/finally for ordinary+cache variants; partial consolelistener removed on init failure while exact firsterror preserved. SDK binding function captured at already-existing original activeDocument armPagehide beforedeparture, avoiding dependence on initialscript executionorder. OriginalF13/F14 protocol/20s/401/privacy/singleRelease/outcomes remain unchanged."
+}

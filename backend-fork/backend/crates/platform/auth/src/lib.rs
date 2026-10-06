@@ -5,6 +5,7 @@
 #![cfg_attr(test, allow(clippy::unwrap_used, clippy::expect_used, clippy::panic))]
 
 mod account;
+pub mod browser_session;
 mod error;
 mod jwt;
 mod refresh;

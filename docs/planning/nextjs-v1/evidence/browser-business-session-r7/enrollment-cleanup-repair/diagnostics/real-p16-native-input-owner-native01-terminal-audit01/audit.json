@@ -1,0 +1,245 @@
+{
+  "schema": "real-P16-native-input-owner-terminal-audit/1",
+  "verdict": "ACCEPT_FOCUSED_TERMINAL_EVIDENCE; FINAL_FULL125_GATE_PENDING",
+  "scope": "Exact completed focused root report/log/captured before-after map and embedded real browser payload independently audited. No test rerun, root-session consumption, map regeneration, tracked edits, full125 or merge acceptance.",
+  "inputs": {
+    "report": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/real-p16-native-input-owner-native01.json",
+      "bytes": 1199,
+      "sha256": "03d3c461a75c5fc2d78c1c83c3cfbaf52fb9884f0e42f77e4aa2465079edadc0"
+    },
+    "log": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/real-p16-native-input-owner-native01.log",
+      "bytes": 10311,
+      "sha256": "84ded14316b057068c0ec8d6edfb744e28dc568e0331fcd6520924a1634a47b9"
+    },
+    "maps": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/real-p16-native-input-owner-native01.inputs.json",
+      "bytes": 917481,
+      "sha256": "77d09afd7c39eb07166ae64c0cb85e660c8f2b57927090464edbf198dd415d4a"
+    },
+    "exact03_source_review": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/P16-native-input-owner-candidate03/independent-review03.json",
+      "bytes": 7766,
+      "sha256": "47c47c85c4d04d26c253a34590aae430baa40da8231da649d8c81ca18a7c9408"
+    },
+    "overall_source_review02": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/overall-repair-source-review02/review.json",
+      "bytes": 5302,
+      "sha256": "35002f54b2735d166f26ce4d769ef000b1d577d0a28de347711681a61c1ab3d2"
+    },
+    "overall_source_pins02": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/overall-repair-source-review02/source-pins.json",
+      "bytes": 4560,
+      "sha256": "88fa3884e5a27a2f4df7e8ad3a1c8dfa2bbc11214758e24713ffd92b9879fe38"
+    }
+  },
+  "native": {
+    "test_name": "genuine_browser::genuine_production_browser_proposal_requires_all_seventeen_scenarios",
+    "command": [
+      "bash",
+      "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/tools/lanes/pgtest.sh",
+      "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork",
+      "/Users/jasonlee/.cargo/bin/cargo",
+      "+1.98.1",
+      "test",
+      "--locked",
+      "--offline",
+      "--no-fail-fast",
+      "--features",
+      "frontend-e2e",
+      "-p",
+      "console-app",
+      "--test",
+      "auth_rest",
+      "genuine_browser::genuine_production_browser_proposal_requires_all_seventeen_scenarios",
+      "--",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+    "executed": 1,
+    "passed": 1,
+    "failed": 0,
+    "ignored": 0,
+    "measured": 0,
+    "filtered": 124,
+    "body_duration_seconds": 581.42,
+    "wrapper_duration_seconds": 596.1493306669872,
+    "exit_code": 0,
+    "outer_timeout": false
+  },
+  "browser": {
+    "discovered": 17,
+    "executed": 17,
+    "passed": 17,
+    "failed": 0,
+    "unreached": 0,
+    "skipped": 0,
+    "unique_exact_ids": [
+      "P01",
+      "P02",
+      "P03",
+      "P04",
+      "P05",
+      "P06",
+      "P07",
+      "P08",
+      "P09",
+      "P10",
+      "P11",
+      "P12",
+      "P13",
+      "P14",
+      "P15",
+      "P16",
+      "P17"
+    ],
+    "failure_class": null,
+    "P16_checks": {
+      "blocked-bundles": "passed",
+      "blocked-css-bundles": "passed",
+      "delayed-bundles": "passed",
+      "queued-react-css": "passed",
+      "offline": "passed",
+      "missing-guard": "passed",
+      "thrown-guard": "passed"
+    },
+    "payload": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/real-p16-native-input-owner-native01-terminal-audit01/browser-payload.json",
+      "bytes": 7052,
+      "sha256": "cb86f70de6085d0c950ee8989901cabbb0f8895dd6ae4ca753cc3790b7eba9a8"
+    },
+    "payload_provenance": "Exact original compact report JSON extracted from the single PRODUCT_BROWSER_SCENARIOS marker plus one newline. Original ephemeral Document UUIDs remain only in preserved payload."
+  },
+  "P16_observed": {
+    "queued_ordering_observation": {
+      "stage": "verified-native-denial",
+      "native_gate_match": true,
+      "native_context_match": true,
+      "native_status_401": true,
+      "pending": {
+        "original": true,
+        "restored": true,
+        "queued": true,
+        "started": false
+      },
+      "pending_matches_expected": true
+    },
+    "original_input_observations": [
+      {
+        "kind": "snapshot",
+        "sequence": 1,
+        "category": "reply-received",
+        "configured_budget_ms": 20000,
+        "observed_elapsed_ms": 9,
+        "elapsed_capped": false,
+        "native_input_completed": true,
+        "valid_original_reply_received": true,
+        "local_deadline_fired": false
+      },
+      {
+        "kind": "release",
+        "sequence": 2,
+        "category": "reply-received",
+        "configured_budget_ms": 20000,
+        "observed_elapsed_ms": 6,
+        "elapsed_capped": false,
+        "native_input_completed": true,
+        "valid_original_reply_received": true,
+        "local_deadline_fired": false
+      }
+    ],
+    "all_seven_fault_variants_passed": true,
+    "trusted_original_restore_reported": true,
+    "measured_guard_sha256": "a1c04481ce25603ade8e8fcd645ec27ff4730b446a4c54d81680b5c2fac76d97",
+    "measured_guard_documents": 2
+  },
+  "source_bound_executed_requirements": [
+    {
+      "path": "tools/browser-business-restore.mjs",
+      "line": 235,
+      "claim": "Existing original active-Document arm captures binding function before departure and checks original token/document."
+    },
+    {
+      "path": "tools/browser-business-restore.mjs",
+      "line": 176,
+      "claim": "Native F13/F14 callbacks require trusted nonrepeat input, exact captured original Document and actual trusted persisted restoration. Node binding verifies owned page/mainframe, nonce, sequence, kind, original token and typed bounded reply."
+    },
+    {
+      "path": "tools/browser-business-restore.mjs",
+      "line": 639,
+      "claim": "Exact actual gate/context/401 precedes F13. Returned pending tuple and captured original text/HTML/table privacy assertions precede sole F14 release."
+    },
+    {
+      "path": "tools/browser-business-restore.mjs",
+      "line": 679,
+      "claim": "Release receives positive preexisting React commit count; actual later installed React commit in original restored Document remains hidden, and actual POST logout204/emptybody and selected cookie removal are awaited before continuing."
+    },
+    {
+      "path": "tools/browser-business-restore.mjs",
+      "line": 694,
+      "claim": "Current privacy, exact once-held native gate release receipt, fresh denial Document, exactly one hard reload and final privacy are required."
+    },
+    {
+      "path": "tools/browser-business-restore.mjs",
+      "line": 737,
+      "claim": "Independent actorB table reload and native open-family checkpoint plus no probe error are required before return; cleanup failures still prevent passing."
+    },
+    {
+      "path": "backend-fork/backend/app/tests/auth_rest/genuine_browser.rs",
+      "line": 1853,
+      "claim": "Native revoke uses actual owner HTTP204, exact mapping/family/tokens/audit/encrypted-custody and unrelated-effects checks before issuing controlled response."
+    },
+    {
+      "path": "backend-fork/backend/app/tests/auth_rest/genuine_browser.rs",
+      "line": 2526,
+      "claim": "Rust protocol independently checks exact17 unique ordered IDs, permitted statuses, per-status counts and executed count; final passing test requires protocol result and owned child reap."
+    }
+  ],
+  "proof_granularity": "The actual embedded payload explicitly records original restore, native401/gate/context/pending and two completed native input replies. Remaining privacy/React/logout/cookie/reload/B assertions are proven by the exact source-bound passing path, not separately exported raw per-event traces. Raw private text/HTML remains intentionally absent from artifacts.",
+  "source_inputs": {
+    "before_count": 2958,
+    "after_count": 2958,
+    "all_before_after_entries_equal": true,
+    "captured_maps_unchanged_without_regeneration": true,
+    "all12_overall_implementation_CI_pins_match_runtime_map": true,
+    "implementation_pins": {
+      ".github/workflows/ci.yml": "0ca66a38078c0a5ea8930312d7d1420e91d5b088859d2d477148dd79864a5c47",
+      "backend-fork/backend/app/tests/auth_rest/browser_sessions.rs": "af3da5f340ecaa1d78ad46d41fdc0a53be6d515a678727d54542fdffaff6d454",
+      "backend-fork/backend/app/tests/auth_rest/genuine_browser.rs": "3fc7ff40ce5b01325515803864ba2e87386562f4dd0bf744b2c22c594261879b",
+      "backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs": "ac3a42f9d88b85631d46640ffed8a63b3fd7793d2b3b5983402d2853f692fed8",
+      "tools/browser-business-restore.mjs": "3be5f8d095d22cd5c2588880650f26acebb92f535222232ad8da40bca16147da",
+      "tools/enrollment-fault-deadlines.mjs": "6f80266162d5413bcda245b17536b991518e95e22f5b1a7001067aaa4120fc06",
+      "tools/enrollment-fault-deadlines.test.mjs": "7e4aa20a3cfac678c5f5d8b620456da7b6e74d72fd6f64824b05cde363bc4bca",
+      "tools/production-runtime.mjs": "7e4d05bac69900295f8777c931999f2987acd36c947f281cbea7d1bbdf673367",
+      "tools/test-browser-business-session.mjs": "ea936c0cdc8670261d556686b46a6d813b6479f4a8c6dd7b0925a42092e6aa2a",
+      "tools/test-native-browser-enrollment.mjs": "6cbb58a1b2eae9f01d0b4d0838afd7c5c421c496a532fde056a1f33e153027ce",
+      "tools/test-native-browser-enrollment.test.mjs": "3204b466940c270897814f9100ee8f92fbddfdc937e7b71a06406dacac778ead",
+      "tools/test-resident-authenticator.mjs": "3270d79e4a3511cba87b9998367b3918a00bdcebbc2935bb903019c319f13698"
+    },
+    "three_planning_documents_absent_from_runtime_map": "Separately pinned/accepted overall source-review02 documentation; runtime map does not cover them, so no runtime-doc coverage claim."
+  },
+  "cleanup": {
+    "database_lane_cleanup_line_observed": true,
+    "protocol_owned_cleanup_ack_exit_reap_source_bound_success": true,
+    "no_cleanup_failed_steps_or_cleanup_unconfirmed_output": true,
+    "limit": "Pass depends on exact source awaited cleanup ACK, expected exit and stderr drain plus page/runtime owners. No new independent OS-wide process/group/temp absence survey was performed; database lane output is not proof of all-resource absence."
+  },
+  "warnings_preserved": [
+    "Linker __eh_frame compact-unwind warning is present.",
+    "Cargo future-incompatibility warning proc-macro-error2 v2.0.1 is present."
+  ],
+  "limits": [
+    "Focused native command deliberately executes1 and filters124; all17 real browser scenarios passed, but this does not fill fixed final unfiltered125-native/17-browser gate.",
+    "Earlier RED/UNKNOWN runs remain historical evidence and their BFF15s causal role remains unproven. Current native-input success does not retrospectively prove that cause.",
+    "Configured SDK/Chromium source and virtual-authenticator browser ceremony prove this automated path; no physical-human attestation, full product capability, deployment, institutional effect or merge is inferred.",
+    "Final full125/17, current final metadata/evidence approval, portable seal and immutable-head hosted/protected merge checks remain required."
+  ],
+  "actions": {
+    "tests_executed": 0,
+    "tracked_source_writes": 0,
+    "artifact_only_terminal_audit_payload_write": true
+  }
+}

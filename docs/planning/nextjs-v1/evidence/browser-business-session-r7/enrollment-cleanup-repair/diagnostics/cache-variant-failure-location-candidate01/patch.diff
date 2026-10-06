@@ -1,0 +1,10 @@
+--- a/tools/browser-business-restore.mjs
++++ b/tools/browser-business-restore.mjs
+@@ -756,6 +756,7 @@
+       trusted_departures: (probe?.events ?? []).filter((event) => event.event === "pagehide" && event.trusted && event.document === original).length,
+       trusted_original_restores: (probe?.events ?? []).filter((event) => event.event === "pageshow" && event.trusted && event.persisted && event.document === original).length,
+     };
++    else error.cacheObservation = { mode, failure_location: browserFailureLocation(error) ?? null };
+     throw error;
+   } finally {
+     tearingDown = true;

@@ -1,0 +1,88 @@
+{
+  "schema": "native-enrollment-cleanup-diagnostic-candidate/1",
+  "state": "UNAPPLIED_UNEXECUTED_REQUIRES_INDEPENDENT_REVIEW",
+  "created_at_utc": "2026-10-06T10:18:48.008660+00:00",
+  "terminal_observation": {
+    "suite": "native-input-final-process-faults01",
+    "root_reported_counts": {
+      "executed": 22,
+      "passed": 19,
+      "failed": 3
+    },
+    "failed_cases": [
+      "eof-after-ready",
+      "wrong-sequence",
+      "legacy-selection"
+    ],
+    "assertion": "runner ended before cleanup acknowledgement",
+    "log_sha256": "b794b4da32b975219deb50bb92f9207f0c0cb17b256f11137ebe9c2afedef9a1",
+    "cause": "unlocalized; no owner-stage metadata or cleanup exit code"
+  },
+  "source_before_sha256": "6cbb58a1b2eae9f01d0b4d0838afd7c5c421c496a532fde056a1f33e153027ce",
+  "source_after_sha256": "bcd5fb0730bdc268d35dbd220fb8c44bbf35b3219ea1deffba95b3a8a9e6d3f6",
+  "intent": "Failure-only fixed metadata distinguishes concurrent BrowserServer/Next phases, SDK promise settlement versus actual child exit/close, runtime removal and ACK. No cleanup correction yet.",
+  "preserved": [
+    "Every original2s race,6s hard deadline,140/150s parent prerequisite,25/35s fault and6s final fallback remains unchanged.",
+    "Failure-path timer clearing and skipped rm(stage) after owner rejection remain unchanged deliberately for RED localization.",
+    "Original close/kill rejection behavior, actual process-exit predicates, runtime removal, ACK fields and primary outcome remain unchanged.",
+    "No additional await, retry, force success, raw error/path/ID/credential/body or provider substitute.",
+    "Main, browser and Next stage fields are separate; settlement facts do not manufacture a causal order or process-group absence."
+  ],
+  "probe": {
+    "path": "tools/test-native-browser-enrollment-diagnostic.test.mjs",
+    "candidate_entry_argv": true,
+    "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+    "command_template": [
+      "node",
+      "W/.artifacts/COPY/tools/test-native-browser-enrollment-diagnostic.test.mjs",
+      "W/.artifacts/COPY/tools/test-native-browser-enrollment.mjs"
+    ],
+    "staging": "Root-only copy of this bundle ordinary files beneath W/.artifacts; exact helper/server/supervisor copies supplied. No source symlinks or frozen tracked mutation. Candidate uses cwd W for actual immutable production staging and inherits W exact installed SDK.",
+    "pins": "root-input-pins.json; driver rechecks all root and bundle bytes before spawn",
+    "acceptance": "Same real producer and exact EOF-after-ready; unchanged ACK/outcome/natural-exit/no-force/empty-owned-TMPDIR requirements. Driver reports only approved fixed diagnostic metadata. One green rerun does not resolve prior failures or required full suite.",
+    "limitation": "Metadata absence means no validated record received, not proof no stage emission. Probe is unexecuted."
+  },
+  "hypotheses_ranked": [
+    {
+      "rank": 1,
+      "mechanism": "Browser close/kill share SDK child/temp cleanup promise; local2s race can fail after observed child exit",
+      "status": "source-supported possible; runtime localization pending"
+    },
+    {
+      "rank": 2,
+      "mechanism": "Actual BrowserServer/Next process shutdown unsettled at existing phase/hard limit",
+      "status": "possible; no child result in current terminal assertion"
+    },
+    {
+      "rank": 3,
+      "mechanism": "Runtime rm or ACK write fails after owner completion",
+      "status": "possible; stage-specific metadata absent"
+    },
+    {
+      "rank": 4,
+      "mechanism": "Other parent IPC/force/TMPDIR failure",
+      "status": "terminal assertion is missing ACK, not yet supporting downstream TMPDIR assertion"
+    }
+  ],
+  "not_inferred": [
+    "Concurrent full native suite caused the failures",
+    "SDK settlement or Node exit proves Chromium process-group absence",
+    "A success rerun fixes the failure",
+    "Any current full/runtime/CI/merge acceptance"
+  ],
+  "actions": {
+    "tests_executed": 0,
+    "tracked_source_writes": 0,
+    "process_actions": 0,
+    "isolated_artifact_only": true
+  },
+  "revision": 2,
+  "previous_candidate": "enrollment-cleanup-diagnostic-candidate01",
+  "review_repair": {
+    "reviewer": "/root/native_worker_failure_review",
+    "finding": "driver01 parent_forced omitted the existing final-cleanup SIGKILL fallback and could misleadingly report false after a parent signal attempt",
+    "change": "Rename supervisor force field to supervisor_forced and separately report fixed Boolean final-cleanup SIGTERM/SIGKILL attempted flags; bump observation schema to version 2",
+    "unchanged": "Producer bytes, owner promises, deadlines, cleanup, errors, assertions, and ACK unchanged",
+    "signal_flag_semantics": "Flags record attempted signal calls only; they do not prove signal delivery, process exit, process-group absence, or successful cleanup"
+  }
+}

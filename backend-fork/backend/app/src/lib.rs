@@ -164,6 +164,7 @@ use url::Url;
 
 pub mod action_inbox;
 mod audit_chain_signer;
+mod browser_session_cleanup;
 pub mod cedar_parity;
 mod collaboration;
 mod console_telemetry;
@@ -1081,6 +1082,12 @@ fn auth_rest_config_from_vars(
             "CONSOLE_REFRESH_FAMILY_ABSOLUTE_TTL_SECS",
         )?,
         cookie_secure: parse_cookie_secure(vars.get("CONSOLE_COOKIE_SECURE"))?,
+        browser_session_key: vars
+            .get("CONSOLE_BROWSER_SESSION_KEY_HEX")
+            .and_then(|value| console_platform_auth_rest::BrowserProofKey::from_hex(value).ok()),
+        browser_ingress_key: vars.get("CONSOLE_BROWSER_INGRESS_KEY").and_then(|value| {
+            console_platform_auth_rest::BrowserIngressKey::from_base64url(value).ok()
+        }),
     }))
 }
 
@@ -3206,6 +3213,13 @@ pub fn build_router(state: AppState) -> Router {
                     let hr_state = hr::HrState::new(pool.clone(), state.jwt_verifier.clone());
                     hr_state.with_leave_command_store(leave_store.clone())
                 }))
+                .merge(hr::browser_router(
+                    pool.clone(),
+                    state
+                        .auth_rest
+                        .clone()
+                        .unwrap_or_else(|| AuthRestState::disabled(pool.clone())),
+                ))
                 .merge(console_recruiting_rest::router(RecruitingRestState::new(
                     PgRecruitingStore::new(pool.clone()),
                     state.jwt_verifier.clone(),
@@ -4652,6 +4666,7 @@ async fn run_dispatch_worker(config: AppConfig, state: AppState) -> Result<(), A
     // migration/seed creates a schedule row, so it finds no work until a tenant
     // authors one through the audited studio REST surface.
     let workflow_schedule_handle = workflow_schedules::spawn(pool.clone());
+    let browser_session_cleanup_handle = browser_session_cleanup::spawn(pool.clone());
     let facilities_schedule_handle = facilities_schedule::spawn(pool.clone());
     let alimtalk_policy = if config.solapi.is_some() {
         AlimtalkEscalationPolicy::enabled()
@@ -4721,6 +4736,7 @@ async fn run_dispatch_worker(config: AppConfig, state: AppState) -> Result<(), A
         handle.shutdown();
     }
     workflow_schedule_handle.shutdown();
+    browser_session_cleanup_handle.shutdown();
     facilities_schedule_handle.shutdown();
     health_server.abort();
     result

@@ -1,0 +1,40 @@
+{
+  "schema": "repair-source-review-receipt/1",
+  "at": "2026-10-06T04:46:46.155178+00:00",
+  "base_head": "c3793f92dab565de104224fc705578c543d85b64",
+  "source_diff_sha256": "3c32e4499f8a977fe23934a8b221ca52ccbd301083d2963a44378e68e913fcc6",
+  "reviewer": "native_worker_failure_review",
+  "verdict": "SOURCE_ACCEPT_ONLY",
+  "observed_files": {
+    ".github/workflows/ci.yml": "0ca66a38078c0a5ea8930312d7d1420e91d5b088859d2d477148dd79864a5c47",
+    "backend-fork/backend/app/tests/auth_rest/browser_sessions.rs": "af3da5f340ecaa1d78ad46d41fdc0a53be6d515a678727d54542fdffaff6d454",
+    "backend-fork/backend/app/tests/auth_rest/genuine_browser.rs": "3fc7ff40ce5b01325515803864ba2e87386562f4dd0bf744b2c22c594261879b",
+    "backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs": "feb30ff385b2231c09bea95f9f71d12eaf498f206a9c035e84b278baa11a3491",
+    "docs/planning/nextjs-v1/IMPLEMENTATION.md": "ac55ab71c2c750e593c12a1c1b83dabbc2f4915f105ebdd19f7e25588b1a889e",
+    "docs/planning/nextjs-v1/fork-delta.json": "bbbd60bbd3222f4504ec7c1e2a2f1d2db192a373640d8d710ce6a7216dbf3bc3",
+    "docs/planning/nextjs-v1/requirements-and-evidence.json": "0a8ca61bfb70d0cc453e62a8080589f8c1ee2e6f555f326a296e067a6e193ba5",
+    "tools/browser-business-restore.mjs": "7423b8c14aaf703d785aadff36701afc5a29355b5c0b56e7eccf470a759e719f",
+    "tools/enrollment-fault-deadlines.mjs": "6f80266162d5413bcda245b17536b991518e95e22f5b1a7001067aaa4120fc06",
+    "tools/production-runtime.mjs": "7e4d05bac69900295f8777c931999f2987acd36c947f281cbea7d1bbdf673367",
+    "tools/test-browser-business-session.mjs": "ea936c0cdc8670261d556686b46a6d813b6479f4a8c6dd7b0925a42092e6aa2a",
+    "tools/test-native-browser-enrollment.mjs": "6cbb58a1b2eae9f01d0b4d0838afd7c5c421c496a532fde056a1f33e153027ce",
+    "tools/test-native-browser-enrollment.test.mjs": "3204b466940c270897814f9100ee8f92fbddfdc937e7b71a06406dacac778ead"
+  },
+  "cause_proof": [
+    {
+      "red": "enrollment-diagnostic-native20-preserve01",
+      "green": "enrollment-native90-preserve01",
+      "mechanism": "runtime staging before first-origin receipt incorrectly shared20s native phase budget; no later timer change"
+    },
+    {
+      "green": "enrollment-native90-interruption01",
+      "mechanism": "injected failure remains observable after cleanup with checked_frames3"
+    }
+  ],
+  "remaining_holds": [
+    "Original full116/5 and product16/17 remain preserved; no full/current acceptance",
+    "Resident/worker isolated diagnostic GREEN is not source-fix evidence",
+    "P16 queued cached-document failure remains unlocalized until fresh diagnostic observation",
+    "Fresh hosted exactheadCI and normal protected queue admission"
+  ]
+}

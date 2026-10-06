@@ -1,0 +1,25 @@
+{
+  "id": "business-writer-final-process-faults01",
+  "command": [
+    "node",
+    "--test",
+    "tools/enrollment-fault-deadlines.test.mjs",
+    "tools/test-native-browser-enrollment.test.mjs"
+  ],
+  "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+  "exit_code": 0,
+  "timed_out": false,
+  "duration_seconds": 208.19069462502375,
+  "discovered": null,
+  "counts": {
+    "passed": 0,
+    "failed": 0,
+    "skipped": 0,
+    "filtered": 0,
+    "executed": 0
+  },
+  "log_sha256": "becc88a435a730ea845cb17205464b42c2f01ef2a34667361ebeb0df1e011d02",
+  "cleanup_reported": false,
+  "inputs_sha256": "860a09c23df250e4f1f95d71b64cf8056d03d88d3c52f66c80cb0ed71b56bfb6",
+  "inputs_unchanged": true
+}

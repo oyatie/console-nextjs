@@ -1,0 +1,41 @@
+{
+  "id": "restored-context-failure-diagnostic-native01",
+  "command": [
+    "bash",
+    "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/tools/lanes/pgtest.sh",
+    "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork",
+    "/Users/jasonlee/.cargo/bin/cargo",
+    "+1.98.1",
+    "test",
+    "--locked",
+    "--offline",
+    "--no-fail-fast",
+    "--features",
+    "frontend-e2e",
+    "-p",
+    "console-app",
+    "--test",
+    "auth_rest",
+    "genuine_browser::genuine_production_browser_proposal_requires_all_seventeen_scenarios",
+    "--",
+    "--exact",
+    "--test-threads=1",
+    "--nocapture"
+  ],
+  "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+  "exit_code": 101,
+  "timed_out": false,
+  "duration_seconds": 537.3777486659819,
+  "discovered": null,
+  "counts": {
+    "passed": 0,
+    "failed": 1,
+    "skipped": 0,
+    "filtered": 124,
+    "executed": 1
+  },
+  "log_sha256": "417238077f3659d50325bd878e6e82aa3f45e84c11489cd8d27fc199f8e2a1ca",
+  "cleanup_reported": true,
+  "inputs_sha256": "90131bea32cf92be29be3b9b6332316eabb7534409cdc1cf463e5363626288da",
+  "inputs_unchanged": true
+}

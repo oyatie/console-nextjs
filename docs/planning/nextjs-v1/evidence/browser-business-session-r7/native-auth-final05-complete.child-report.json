@@ -1,0 +1,278 @@
+{
+  "v": 1,
+  "seq": 626,
+  "kind": "report",
+  "discovered": 17,
+  "executed": 17,
+  "counts": {
+    "passed": 17,
+    "failed": 0,
+    "unreached": 0,
+    "skipped": 0
+  },
+  "failure_class": null,
+  "scenarios": [
+    {
+      "id": "P01",
+      "name": "runtime/exclusion/launcher/config negatives",
+      "status": "passed"
+    },
+    {
+      "id": "P02",
+      "name": "two genuine product sign-ins and native family logout",
+      "status": "passed"
+    },
+    {
+      "id": "P03",
+      "name": "real own-history count, rows, pagination and reload",
+      "status": "passed"
+    },
+    {
+      "id": "P04",
+      "name": "responsive keyboard and inaccessible-script recovery",
+      "status": "passed"
+    },
+    {
+      "id": "P05",
+      "name": "two actual source peers and ingress spoofing negatives",
+      "status": "passed"
+    },
+    {
+      "id": "P06",
+      "name": "Origin/CSRF/context/duplicate-cookie/body boundaries",
+      "status": "passed"
+    },
+    {
+      "id": "P07",
+      "name": "eight-preauth/eight-session admission boundaries",
+      "status": "passed"
+    },
+    {
+      "id": "P08",
+      "name": "independent tabs, stable reads and no context fallback",
+      "status": "passed"
+    },
+    {
+      "id": "P09",
+      "name": "reversed actual start responses",
+      "status": "passed"
+    },
+    {
+      "id": "P10",
+      "name": "reversed actual finish/header-arrival responses",
+      "status": "passed"
+    },
+    {
+      "id": "P11",
+      "name": "reversed logout versus a new independent login",
+      "status": "passed"
+    },
+    {
+      "id": "P12",
+      "name": "lost committed login result and consumed-assertion handling",
+      "status": "passed"
+    },
+    {
+      "id": "P13",
+      "name": "lost logout across genuine short-family expiry",
+      "status": "passed",
+      "checks": [
+        {
+          "id": "lost-result-expired-access",
+          "status": "passed",
+          "evidence": {
+            "observed": {
+              "kind": "http-failure",
+              "status": 503
+            },
+            "native_owner_status": 204,
+            "actual_cookie_expired": true,
+            "unknown_before_refresh": true,
+            "conservative_absent_after_refresh": true,
+            "same_sender_alive": true,
+            "late_header_claim": false
+          }
+        },
+        {
+          "id": "near-expiry-intact-late-headers",
+          "status": "passed",
+          "evidence": {
+            "native_owner_status": 204,
+            "original_public_status": 204,
+            "empty_body": true,
+            "actual_cookie_expired": true,
+            "recovery_document_refreshed": true,
+            "original_request_pending_until_b_cookie": true,
+            "exact_original_generation_headers": true,
+            "same_sender_alive": true,
+            "newer_b_cookie_and_reads_preserved": true
+          }
+        }
+      ]
+    },
+    {
+      "id": "P14",
+      "name": "current authority, key replacement and cleanup restart",
+      "status": "passed"
+    },
+    {
+      "id": "P15",
+      "name": "logout Back and witnessed real BFCache restore",
+      "status": "passed",
+      "checks": [
+        {
+          "id": "ordinary-logout-back",
+          "status": "passed",
+          "evidence": {
+            "ordinary_back": true,
+            "cached_restore_seen": false
+          }
+        },
+        {
+          "id": "native-revocation-real-bfcache",
+          "status": "passed",
+          "evidence": {
+            "mode": "normal",
+            "blocked_scripts": 0,
+            "blocked_styles": 0,
+            "transformed_documents": [],
+            "trusted_original_restore": true,
+            "original_document": "a716e11c-8671-40b3-a9e4-e516c626b183"
+          }
+        }
+      ],
+      "measured_guard_sha256": "a1c04481ce25603ade8e8fcd645ec27ff4730b446a4c54d81680b5c2fac76d97",
+      "measured_guard_documents": 2
+    },
+    {
+      "id": "P16",
+      "name": "actual restore before hydration with CSS/React/offline faults",
+      "status": "passed",
+      "checks": [
+        {
+          "id": "blocked-bundles",
+          "status": "passed",
+          "evidence": {
+            "mode": "blocked-bundles",
+            "blocked_scripts": 14,
+            "blocked_styles": 0,
+            "transformed_documents": [],
+            "trusted_original_restore": true,
+            "original_document": "e020d2ac-d856-4ab8-90b2-e4c9720031ba"
+          }
+        },
+        {
+          "id": "blocked-css-bundles",
+          "status": "passed",
+          "evidence": {
+            "mode": "blocked-css-bundles",
+            "blocked_scripts": 14,
+            "blocked_styles": 3,
+            "transformed_documents": [],
+            "trusted_original_restore": true,
+            "original_document": "4f74d95b-e354-46dc-b28d-d682bc3bc3a2"
+          }
+        },
+        {
+          "id": "delayed-bundles",
+          "status": "passed",
+          "evidence": {
+            "mode": "delayed-bundles",
+            "blocked_scripts": 0,
+            "blocked_styles": 0,
+            "transformed_documents": [],
+            "delayed_bundle_sha256": [
+              "968e7616f52d9283a444fae6f7a3ecff33394e80c9e1177859b94146d2860956",
+              "50a514868e4e913e186ebce1bbfeb0294466488528a42d14347c4df3cdf94cc3",
+              "8dc2c1d71557b434c654ec58acb1441bc0fb200c520ff548f606d88e689ee643",
+              "d77ffbf856b56b4ac7a59c41e5cc4e01612e2574ee3ed739adad6eb595a9f1f3",
+              "968e7616f52d9283a444fae6f7a3ecff33394e80c9e1177859b94146d2860956",
+              "50a514868e4e913e186ebce1bbfeb0294466488528a42d14347c4df3cdf94cc3",
+              "9a90a80a9a15f52045a58619733786ecee9042cda47d8e3dbf6961f87c409b93",
+              "fdf8e052c44354f91ddea79a5f2627808e024a5cf8e89b4d1f0f6f2e468e5a73",
+              "8dc2c1d71557b434c654ec58acb1441bc0fb200c520ff548f606d88e689ee643",
+              "d77ffbf856b56b4ac7a59c41e5cc4e01612e2574ee3ed739adad6eb595a9f1f3",
+              "57cefb9923740eac50454fd208c9357de4d9b77bca846babf5a60ce5753ab184",
+              "fdf8e052c44354f91ddea79a5f2627808e024a5cf8e89b4d1f0f6f2e468e5a73",
+              "968e7616f52d9283a444fae6f7a3ecff33394e80c9e1177859b94146d2860956",
+              "50a514868e4e913e186ebce1bbfeb0294466488528a42d14347c4df3cdf94cc3",
+              "8dc2c1d71557b434c654ec58acb1441bc0fb200c520ff548f606d88e689ee643",
+              "d77ffbf856b56b4ac7a59c41e5cc4e01612e2574ee3ed739adad6eb595a9f1f3"
+            ],
+            "trusted_original_restore": true,
+            "original_document": "b72467e4-45e8-4307-a897-39147f284035"
+          }
+        },
+        {
+          "id": "queued-react-css",
+          "status": "passed",
+          "evidence": {
+            "mode": "queued-react-css",
+            "blocked_scripts": 0,
+            "blocked_styles": 0,
+            "transformed_documents": [],
+            "trusted_original_restore": true,
+            "original_document": "4c67ec3a-abd7-468c-aa38-87101be65650"
+          }
+        },
+        {
+          "id": "offline",
+          "status": "passed",
+          "evidence": {
+            "mode": "offline",
+            "blocked_scripts": 0,
+            "blocked_styles": 0,
+            "transformed_documents": [],
+            "trusted_original_restore": true,
+            "original_document": "c9635b16-eda1-4234-bc83-216e9d74c14d"
+          }
+        },
+        {
+          "id": "missing-guard",
+          "status": "passed",
+          "evidence": {
+            "mode": "missing-guard",
+            "blocked_scripts": 0,
+            "blocked_styles": 0,
+            "transformed_documents": [
+              {
+                "upstream_status": 200,
+                "upstream_sha256": "5f64b01d46e42324603794c3af9adc16531122d067268797689cd91ee162afde",
+                "delivered_sha256": "7d46e34bbbc600ee00a0a74433652e307d996bdc8bbbffbe6d36bd9925517d2b",
+                "pinned_guard_sha256": "a1c04481ce25603ade8e8fcd645ec27ff4730b446a4c54d81680b5c2fac76d97"
+              }
+            ],
+            "trusted_original_restore": true,
+            "original_document": "31e2588f-8d59-4afe-94d3-e18278827cdd"
+          }
+        },
+        {
+          "id": "thrown-guard",
+          "status": "passed",
+          "evidence": {
+            "mode": "thrown-guard",
+            "blocked_scripts": 0,
+            "blocked_styles": 0,
+            "transformed_documents": [
+              {
+                "upstream_status": 200,
+                "upstream_sha256": "fec52f99135a6aab0042746edc970b26dc581675e1b315925ebad707203dc80d",
+                "delivered_sha256": "42e02301645f042a1b76e52eff1b44df815f0c163171b9961155d9109c2cce94",
+                "pinned_guard_sha256": "a1c04481ce25603ade8e8fcd645ec27ff4730b446a4c54d81680b5c2fac76d97"
+              }
+            ],
+            "trusted_original_restore": true,
+            "original_document": "07e42fa0-0772-4f4a-98fb-305634017d04"
+          }
+        }
+      ],
+      "measured_guard_sha256": "a1c04481ce25603ade8e8fcd645ec27ff4730b446a4c54d81680b5c2fac76d97",
+      "measured_guard_documents": 2
+    },
+    {
+      "id": "P17",
+      "name": "real unavailable/malformed service and failure cleanup",
+      "status": "passed"
+    }
+  ]
+}

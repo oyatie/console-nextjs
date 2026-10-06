@@ -1,0 +1,106 @@
+{
+  "schema": "resident-startup-fault-source-review/2",
+  "verdict": "ACCEPT_SOURCE_ONLY",
+  "scope": "Independent exact source/diff, owning cleanup and four focused regression case re-review; no compilation, tests, fixture calls or tracked writes",
+  "pins": {
+    "before": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/resident-startup-fault-candidate02/before.rs",
+      "sha256": "2917aa92f08d8d8d49da0f5ddf0474c808bf5886683a8754e35bf69a15fcaedd",
+      "bytes": 20063
+    },
+    "after": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/resident-startup-fault-candidate02/backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs",
+      "sha256": "26e2350f1224c10f6ea3095a201ead024cf7f5e040d8a8924657202cc6345311",
+      "bytes": 27859
+    },
+    "patch": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/resident-startup-fault-candidate02/patch.diff",
+      "sha256": "89ea9f10862dab300d1d9a644e50ad937a28f5133806b68b30cce4592f518b57",
+      "bytes": 12375
+    },
+    "manifest": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/resident-startup-fault-candidate02/manifest.json",
+      "sha256": "fad7111629dad1eaf4b87fb280f7448832d10d21be87c98ec6411a5ae51a3029",
+      "bytes": 3114
+    },
+    "tracked_before": {
+      "path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs",
+      "sha256": "2917aa92f08d8d8d49da0f5ddf0474c808bf5886683a8754e35bf69a15fcaedd",
+      "bytes": 20063
+    },
+    "prior_review": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/resident-startup-fault-candidate01/resident_failure_source_review01.json",
+      "sha256": "7a0b3c355703295f008e79ae062a8025cafe9c17b8b05eaca5b124a8d0710dd4",
+      "bytes": 7143
+    }
+  },
+  "exact_diff_matches_sources": true,
+  "findings": [],
+  "resolved_findings": [
+    {
+      "id": "F1",
+      "previous": "Created handle drain/is_finished and sticky first error could mask a worker panic or additional forced/deadline cleanup failure.",
+      "resolution": "Existing close_owned returns the same sticky Result plus directly observed per-worker join_succeeded Option<bool>, local forced flag and both existing phase deadline facts. Values are read from actual join outcomes and existing deadline/kill state; they are not inferred from the first Err. All four cases assert successful joins for the expected created-worker set, no remaining handles, no force and no exceeded cleanup phase."
+    },
+    {
+      "id": "F2",
+      "previous": "Cached-failure normal Drop test accepted any panic.",
+      "resolution": "Caught payload is matched against the exact original fixed stdout-closed error for either Rust string payload form. Only a boolean and fixed assertion message are emitted by the added match; unexpected raw payload is not printed by this assertion."
+    }
+  ],
+  "checks": [
+    {
+      "result": "PASS_SOURCE",
+      "property": "Actual child and original typed constructor error",
+      "evidence": "Each injected failpoint follows actual Child spawn, Self ownership and pipe extraction; new() remains private no-fault/no-observer. catch_unwind rejects a secondary constructor/Drop panic and matches the exact fixed constructor Err. Early fixture/spawn failures cannot qualify because both expected Err and cleanup observation are mandatory."
+    },
+    {
+      "result": "PASS_SOURCE",
+      "property": "Real reaping and successful created-worker joins",
+      "evidence": "node_reaped still derives only from observed Child try_wait status. join_succeeded is set Some(true/false) only by actual join result; None is required for uncreated workers. Tests require the exact expected worker set, successful created joins, empty handle set and actual Node reap."
+    },
+    {
+      "result": "PASS_SOURCE",
+      "property": "Force/deadline failures remain visible to regression",
+      "evidence": "Local forced state and direct first/second phase deadline checks are included in the private observation. All four tests require forced=false and both deadline flags=false independently of the sticky expected Err, so the former masked-error counterexamples no longer satisfy them."
+    },
+    {
+      "result": "PASS_SOURCE",
+      "property": "Preserved cleanup behavior and budgets",
+      "evidence": "The same existing 15-second ACK/natural-exit phase and second 15-second reap/worker phase remain. Missing-worker, ACK, frame, browser identity, exit/outcome and worker failures still produce the same sticky Result. The private return type transports observations; it adds no owner, loop, wait, retry or success fallback."
+    },
+    {
+      "result": "PASS_SOURCE",
+      "property": "Cached Err and deliberate Drop failure floor",
+      "evidence": "close caches the original Result before emitting one observation. Repeated close must return that Err with no new observation. Normal Drop must panic with that fixed original reason; channel disconnection after Drop proves observation owner disposal. No extra cleanup notification/budget is accepted."
+    },
+    {
+      "result": "PASS_SOURCE",
+      "property": "Minimal private test instrumentation",
+      "evidence": "One fixture-only enum, one observation struct and optional private mpsc sender. One nonblocking-to-the-owner unbounded send occurs only after actual cleanup and result caching. No public/config/environment/protocol/production surface or general observer framework is added."
+    },
+    {
+      "result": "PASS_SOURCE",
+      "property": "Honest browser custody and simulation boundaries",
+      "evidence": "Manifest, comments and fixed output state injected setup failure is not empirical OS exhaustion. Browser custody remains UNKNOWN in partial and ready-then-failed-close cases; Node reaping, worker joins and phase success do not prove Chromium group absence or temp-file deletion. No new raw ID/error/business payload output is added."
+    }
+  ],
+  "required_runtime_proof": [
+    "Compile and actually discover/execute all four new focused tests against the real unchanged Node fixture; source definitions are not discovery/execution evidence.",
+    "Retain any worker panic, forced cleanup, deadline failure or unconfirmed browser custody in evidence; do not substitute generated expected output for observations.",
+    "Run the source-pinned actual done/EOF-after-ready/verified-SIGSTOP lifecycle probe, unchanged short-family consumer and fresh full native/browser gate after final source changes.",
+    "Historical exit3 and P16 failure causes remain unproven until exact diagnostic/runtime evidence resolves them; focused source acceptance cannot approve release or merge."
+  ],
+  "limits": [
+    "No syntax check, compilation or test execution in this review.",
+    "Four focused source test definitions are reviewed; no independently discovered/executed count is claimed.",
+    "No independently verified browser group absence or temporary-file cleanup is supplied by this candidate.",
+    "Prior-source full native/browser evidence cannot certify new source."
+  ],
+  "actions": {
+    "tracked_source_writes": 0,
+    "tests_executed": 0,
+    "live_operations": 0,
+    "artifact_review_write": true
+  }
+}

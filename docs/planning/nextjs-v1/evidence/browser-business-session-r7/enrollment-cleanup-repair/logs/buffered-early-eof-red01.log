@@ -1,0 +1,110 @@
+TAP version 13
+# Subtest: enrollment runner confirms cleanup after partial-eof-before-origin
+not ok 1 - enrollment runner confirms cleanup after partial-eof-before-origin
+  ---
+  duration_ms: 10368.832166
+  type: 'test'
+  location: '/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/tools/test-native-browser-enrollment.test.mjs:27:3'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + 'origin'
+    - 'cleaned'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'cleaned'
+  actual: 'origin'
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/tools/test-native-browser-enrollment.test.mjs:105:14)
+    process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    async Test.run (node:internal/test_runner/test:1409:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3)
+  ...
+# Subtest: enrollment runner confirms cleanup after frame-eof-before-origin
+not ok 2 - enrollment runner confirms cleanup after frame-eof-before-origin
+  ---
+  duration_ms: 10200.293375
+  type: 'test'
+  location: '/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/tools/test-native-browser-enrollment.test.mjs:27:3'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + 'origin'
+    - 'cleaned'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'cleaned'
+  actual: 'origin'
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/tools/test-native-browser-enrollment.test.mjs:105:14)
+    process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    async Test.run (node:internal/test_runner/test:1409:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+  ...
+# Subtest: business runner confirms cleanup after partial-eof-before-origin
+not ok 3 - business runner confirms cleanup after partial-eof-before-origin
+  ---
+  duration_ms: 9553.190792
+  type: 'test'
+  location: '/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/tools/test-native-browser-enrollment.test.mjs:27:3'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + 'origin'
+    - 'cleaned'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'cleaned'
+  actual: 'origin'
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/tools/test-native-browser-enrollment.test.mjs:105:14)
+    process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    async Test.run (node:internal/test_runner/test:1409:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+  ...
+# Subtest: business runner confirms cleanup after frame-eof-before-origin
+not ok 4 - business runner confirms cleanup after frame-eof-before-origin
+  ---
+  duration_ms: 9288.664084
+  type: 'test'
+  location: '/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/tools/test-native-browser-enrollment.test.mjs:27:3'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + 'origin'
+    - 'cleaned'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'cleaned'
+  actual: 'origin'
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/tools/test-native-browser-enrollment.test.mjs:105:14)
+    process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    async Test.run (node:internal/test_runner/test:1409:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+  ...
+1..4
+# tests 4
+# suites 0
+# pass 0
+# fail 4
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 39445.519125

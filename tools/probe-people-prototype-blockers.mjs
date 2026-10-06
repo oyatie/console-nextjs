@@ -5,10 +5,10 @@ import ts from "typescript";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const files = {
-  manifest: path.join(root, ".next/standalone/.next/server/app-paths-manifest.json"),
+  manifest: path.join(root, ".next/server/app-paths-manifest.json"),
   people: path.join(root, "src/app/(console)/hr/people/page.tsx"),
   layout: path.join(root, "src/app/(console)/layout.tsx"),
-  config: path.join(root, "next.config.ts"),
+  config: path.join(root, "next.config.mjs"),
 };
 const scope = "Current People prototype blockers only; passing does not prove authentication, authorized SSR, owner reads, or two-site safety";
 

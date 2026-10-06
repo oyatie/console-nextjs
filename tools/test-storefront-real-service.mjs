@@ -6,38 +6,49 @@ import { createServer } from "node:net";
 import { createInterface } from "node:readline";
 import { setTimeout as delay } from "node:timers/promises";
 import { chromium, expect } from "@playwright/test";
+import { mkdtemp, rm } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import path from "node:path";
+import { stageProductionRuntime } from "./production-runtime.mjs";
 
 const origin = process.env.REAL_SERVICE_API_ORIGIN;
 const listingId = process.env.REAL_SERVICE_LISTING_ID;
 assert.match(origin ?? "", /^http:\/\/127\.0\.0\.1:\d+$/);
 assert.match(listingId ?? "", /^[0-9a-f-]{36}$/i);
 
-const reservation = createServer().listen(0, "127.0.0.1");
-await once(reservation, "listening");
-const port = reservation.address().port;
-await new Promise((resolve) => reservation.close(resolve));
-
-const next = spawn(process.execPath, ["node_modules/next/dist/bin/next", "start", "-p", String(port)], {
-  cwd: process.cwd(),
-  env: { ...process.env, HOSTNAME: "127.0.0.1", CONSOLE_BACKEND_ORIGIN: origin },
-  stdio: ["ignore", "pipe", "pipe"],
-});
-let serverOutput = "";
-for (const stream of [next.stdout, next.stderr]) {
-  stream.on("data", (chunk) => { serverOutput = (serverOutput + chunk).slice(-16000); });
-}
-const input = createInterface({ input: process.stdin });
-const replies = input[Symbol.asyncIterator]();
-async function checkpoint(marker, expectedReply) {
-  const pending = replies.next();
-  process.stdout.write(`${marker}\n`);
-  const { value, done } = await pending;
-  assert.ok(!done, `Rust closed the ${marker} checkpoint`);
-  assert.equal(value, expectedReply);
-}
-
+let reservation;
+let owned;
+let next;
+let input;
 let browser;
+let serverOutput = "";
 try {
+  reservation = createServer().listen(0, "127.0.0.1");
+  await once(reservation, "listening");
+  const port = reservation.address().port;
+  await new Promise((resolve) => reservation.close(resolve));
+
+  owned = await mkdtemp(path.join(tmpdir(), "storefront-real-runtime-"));
+  const runtime = path.join(owned, "runtime");
+  await stageProductionRuntime({ sourceRoot: process.cwd(), destination: runtime });
+  next = spawn(process.execPath, [path.join(runtime, "server.mjs")], {
+    cwd: runtime,
+    env: { ...process.env, NODE_ENV: "production", PORT: String(port), HOSTNAME: "127.0.0.1", CONSOLE_BACKEND_ORIGIN: origin },
+    stdio: ["ignore", "pipe", "pipe"],
+  });
+  for (const stream of [next.stdout, next.stderr]) {
+    stream.on("data", (chunk) => { serverOutput = (serverOutput + chunk).slice(-16000); });
+  }
+  input = createInterface({ input: process.stdin });
+  const replies = input[Symbol.asyncIterator]();
+  async function checkpoint(marker, expectedReply) {
+    const pending = replies.next();
+    process.stdout.write(`${marker}\n`);
+    const { value, done } = await pending;
+    assert.ok(!done, `Rust closed the ${marker} checkpoint`);
+    assert.equal(value, expectedReply);
+  }
+
   const url = `http://127.0.0.1:${port}/storefront/${listingId}`;
   let ready = false;
   for (let attempt = 0; attempt < 120; attempt += 1) {
@@ -77,12 +88,25 @@ try {
   await expect(page.getByRole("status")).toContainText("최종 접수 확인은 아직 할 수 없으니");
   await expect(page.getByRole("button", { name: "문의 접수" })).toHaveCount(0);
 } finally {
-  input.close();
-  await browser?.close();
-  next.kill();
-  if (next.exitCode === null && next.signalCode === null) {
-    const force = setTimeout(() => next.kill("SIGKILL"), 2000);
-    await once(next, "exit");
-    clearTimeout(force);
+  const released = await Promise.allSettled([
+    (async () => { await browser?.close(); })(),
+    (async () => {
+      if (!next) return;
+      next.kill();
+      if (next.exitCode === null && next.signalCode === null) {
+        const force = setTimeout(() => next.kill("SIGKILL"), 2000);
+        try { await once(next, "exit"); } finally { clearTimeout(force); }
+      }
+    })(),
+    (async () => {
+      if (reservation?.listening) await new Promise((resolve) => reservation.close(resolve));
+    })(),
+    (async () => { input?.close(); })(),
+  ]);
+  try {
+    const failed = released.find((result) => result.status === "rejected");
+    if (failed) throw failed.reason;
+  } finally {
+    if (owned) await rm(owned, { recursive: true, force: true });
   }
 }

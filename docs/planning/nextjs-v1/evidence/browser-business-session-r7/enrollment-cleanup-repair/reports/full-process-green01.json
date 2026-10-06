@@ -1,0 +1,99 @@
+{
+  "schema": "enrollment-deadline-process-green/1",
+  "at": "2026-10-06T03:32:13.856246+00:00",
+  "base_test_commit": "c3793f92dab565de104224fc705578c543d85b64",
+  "command": [
+    "fnm",
+    "exec",
+    "--using",
+    "24.21.0",
+    "node",
+    "--test",
+    "--test-reporter=tap",
+    "tools/enrollment-fault-deadlines.test.mjs",
+    "tools/test-native-browser-enrollment.test.mjs"
+  ],
+  "exit_code": 0,
+  "counts": {
+    "tests": 16,
+    "pass": 16,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0
+  },
+  "passed_names": [
+    "slow prerequisite startup does not spend the requested cleanup budget",
+    "a ready runner that fails to exit still triggers the cleanup fallback",
+    "never-ready startup has one absolute bounded termination deadline",
+    "a second fault cannot reset an already running cleanup deadline",
+    "late cleanup cannot erase evidence of forced intervention",
+    "natural completion disposes both clocks and cannot rearm them",
+    "enrollment runner confirms cleanup after signal-after-origin",
+    "enrollment runner confirms cleanup after eof-after-ready",
+    "enrollment runner confirms cleanup after oversized",
+    "enrollment runner confirms cleanup after wrong-version",
+    "enrollment runner confirms cleanup after wrong-sequence",
+    "enrollment runner confirms cleanup after wrong-kind",
+    "enrollment runner confirms cleanup after legacy-selection",
+    "enrollment runner confirms cleanup after missing-selection",
+    "enrollment runner confirms cleanup after malformed-selection",
+    "enrollment runner confirms cleanup after weak-uv"
+  ],
+  "scope": "Six pure supervision-policy tests plus ten actual production-runtime/process fault cases, all unfiltered. Zero attempted credential creation for invalid inputs and requested cleanup/natural exit/owned temporary-directory emptiness required. This is not native enrollment, Payroll, or full17 browser acceptance.",
+  "raw_log": {
+    "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/full-process-green01.log",
+    "bytes": 3169,
+    "sha256": "5fa84d2388d53f014c81302c231bda9e58eeeffa97a6dbf3462c3c5d083b4805"
+  },
+  "sources": [
+    {
+      "path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/tools/enrollment-fault-deadlines.mjs",
+      "bytes": 1167,
+      "sha256": "6f80266162d5413bcda245b17536b991518e95e22f5b1a7001067aaa4120fc06"
+    },
+    {
+      "path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/tools/enrollment-fault-deadlines.test.mjs",
+      "bytes": 2938,
+      "sha256": "7e4aa20a3cfac678c5f5d8b620456da7b6e74d72fd6f64824b05cde363bc4bca"
+    },
+    {
+      "path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/tools/test-native-browser-enrollment.test.mjs",
+      "bytes": 5830,
+      "sha256": "ced5f004a977659b3b1755cfd385dbd2013bb0eb1fbca5d164d9e7bcd73ff326"
+    },
+    {
+      "path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/tools/production-runtime.mjs",
+      "bytes": 8831,
+      "sha256": "7e4d05bac69900295f8777c931999f2987acd36c947f281cbea7d1bbdf673367"
+    },
+    {
+      "path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/.github/workflows/ci.yml",
+      "bytes": 12567,
+      "sha256": "0ca66a38078c0a5ea8930312d7d1420e91d5b088859d2d477148dd79864a5c47"
+    }
+  ],
+  "fresh_build": {
+    "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/build-green01.log",
+    "bytes": 819,
+    "sha256": "5ec885112898251015cc44544bd8271fc2f1217ddd9b9ccfb72129062f12edaf"
+  },
+  "build_input_custody": {
+    "path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/.next/build-inputs.json",
+    "bytes": 21908,
+    "sha256": "45001f336b372dd488fd27cce5d6d8e1119c42e9dada4025c766fd0d4558d7c7"
+  },
+  "prior_reds": [
+    {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/deadlines-red01.json",
+      "bytes": 2008,
+      "sha256": "822267d14024ba5615b68141572c70ae7a7f2dfee32a8dea68f7f1c1be0c56fb"
+    },
+    {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/temp-custody-red01.json",
+      "bytes": 2071,
+      "sha256": "a6419e7f8fea04a19298896d949e5c54e2babf12b0d43cba721c9c3fb5f721ff"
+    }
+  ],
+  "native_consumer": "UNVERIFIED_CURRENT_REPAIR;20s original native-origin phase is an unresolved concern requiring actual selected consumer proof"
+}

@@ -1,0 +1,266 @@
+{
+  "schema": "resident-owned-temp-three-case-terminal-audit/1",
+  "verdict": "ACCEPT_THREE_CASE_SCOPED_TERMINAL_EVIDENCE_ONLY",
+  "scope": "Independent exact source/review/report/log/receipt/map audit of root-executed lifecycle06. No rerun, original tool-session consumption, independently signed process monitor, native auth/browser product gate or release approval.",
+  "inputs": {
+    "wrapper_report": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/resident-owned-temp-three-case-native01.json",
+      "bytes": 819,
+      "sha256": "6b47914677b3b735ca188292d152c148d049ff70cea900bc52455f4823101491"
+    },
+    "wrapper_log": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/resident-owned-temp-three-case-native01.log",
+      "bytes": 325,
+      "sha256": "ad661de865e53fa500523076de69feec10ad23cd7824cc46f79bb363c1fb370d"
+    },
+    "input_map": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/resident-owned-temp-three-case-native01.inputs.json",
+      "bytes": 917481,
+      "sha256": "c054df00ddb6a240ffaaabc6baf2a53b3a91ce07723d8ad4653692cffc2e7fc0"
+    },
+    "probe_report": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/resident-three-case-probe-candidate06/resident-three-case-report01.json",
+      "bytes": 8913,
+      "sha256": "26f4c88309aa462732ffea497f3ad963e401948c21afcfe9e87971d5e4a33bc0"
+    },
+    "parent_receipt": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/resident-three-case-probe-candidate06/execution-receipt01.json",
+      "bytes": 944,
+      "sha256": "fd5307a8d5682e17c53c1cb54333d4ccfddac0b7ad8f61ecf00ed18c86369d73"
+    },
+    "probe_source": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/resident-three-case-probe-candidate06/resident-three-case-probe.mjs",
+      "bytes": 28886,
+      "sha256": "a5aa51a741c93e76b1a267392add0b6fdbd3a2afd60b45efbfde94b8fe8a9d31"
+    },
+    "source_review": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/resident-three-case-probe-candidate06/review.json",
+      "bytes": 6797,
+      "sha256": "7192cf848d0c4ea9acb7b9da09c180b26683c223f3fd180c83da134caa06eea8"
+    },
+    "manifest": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/resident-three-case-probe-candidate06/manifest.json",
+      "bytes": 3883,
+      "sha256": "9c501677d0587dd276addd0d07e29d71d33eabbad4e98c5c457a387249eda21c"
+    },
+    "patch": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/resident-three-case-probe-candidate06/patch.diff",
+      "bytes": 17630,
+      "sha256": "731cf3922f82c1a2b55adb2a448ce54da85672155af20431a9b3360ba767cabd"
+    }
+  },
+  "actual_lifecycle_counts": {
+    "expected": 3,
+    "started": 3,
+    "passed": 3,
+    "failed": 0,
+    "unreached": 0
+  },
+  "wrapper_cargo_counts": {
+    "passed": 0,
+    "failed": 0,
+    "skipped": 0,
+    "filtered": 0,
+    "executed": 0
+  },
+  "wrapper_actual_exit_code": 0,
+  "parent_recorded_tool_exit_code": 0,
+  "parent_tool_receipt_provenance": "Root-recorded session45969/chunk3afa23; bytes and declared evidence match, not independent original session observation.",
+  "wrapper_duration_seconds": 4.458107291953638,
+  "cases": [
+    {
+      "index": 1,
+      "case": "ready-done",
+      "actual_acknowledgement": {
+        "kind": "cleaned",
+        "outcome": "completed",
+        "browser_matches": true,
+        "browser_exited": true
+      },
+      "actual_exit": {
+        "code": 0,
+        "signal": null
+      },
+      "observed_stage_times_ms": {
+        "spawn_ms": 3,
+        "ready_ms": 902,
+        "browser_owner_ms": 908,
+        "owned_scope_ready_ms": 909,
+        "done_ms": 909,
+        "ack_ms": 973,
+        "owned_scope_absent_after_ack_ms": 973,
+        "exit_ms": 991,
+        "stdio_close_ms": 991,
+        "browser_absent_ms": 992,
+        "browser_group_absent_ms": 992,
+        "owned_scope_absent_after_exit_ms": 992
+      },
+      "browser_owner_verified": true,
+      "browser_leader_absence_observed": true,
+      "browser_owned_group_absence_observed": true,
+      "fixture_scope_count": {
+        "at_ready": 1,
+        "after_ack": 0,
+        "after_exit": 0,
+        "observed_absent_before_harness_removal": true
+      },
+      "forced_or_fallback_intervention": false,
+      "actual_fault_injection": {
+        "stdin_eof_sent": false,
+        "browser_stop_sent": false,
+        "browser_stopped_observed": false
+      },
+      "scope": "Reported actual harness observations backed by preserved exact reviewed source; auditor did not repeat live process/filesystem observations."
+    },
+    {
+      "index": 2,
+      "case": "eof-after-ready",
+      "actual_acknowledgement": {
+        "kind": "cleaned",
+        "outcome": "aborted",
+        "browser_matches": true,
+        "browser_exited": true
+      },
+      "actual_exit": {
+        "code": 2,
+        "signal": null
+      },
+      "observed_stage_times_ms": {
+        "spawn_ms": 1,
+        "ready_ms": 592,
+        "browser_owner_ms": 598,
+        "owned_scope_ready_ms": 599,
+        "eof_ms": 599,
+        "ack_ms": 623,
+        "owned_scope_absent_after_ack_ms": 623,
+        "exit_ms": 634,
+        "stdio_close_ms": 634,
+        "browser_absent_ms": 634,
+        "browser_group_absent_ms": 634,
+        "owned_scope_absent_after_exit_ms": 634
+      },
+      "browser_owner_verified": true,
+      "browser_leader_absence_observed": true,
+      "browser_owned_group_absence_observed": true,
+      "fixture_scope_count": {
+        "at_ready": 1,
+        "after_ack": 0,
+        "after_exit": 0,
+        "observed_absent_before_harness_removal": true
+      },
+      "forced_or_fallback_intervention": false,
+      "actual_fault_injection": {
+        "stdin_eof_sent": true,
+        "browser_stop_sent": false,
+        "browser_stopped_observed": false
+      },
+      "scope": "Reported actual harness observations backed by preserved exact reviewed source; auditor did not repeat live process/filesystem observations."
+    },
+    {
+      "index": 3,
+      "case": "owned-browser-stop-before-done",
+      "actual_acknowledgement": {
+        "kind": "cleaned",
+        "outcome": "completed",
+        "browser_matches": true,
+        "browser_exited": true
+      },
+      "actual_exit": {
+        "code": 0,
+        "signal": null
+      },
+      "observed_stage_times_ms": {
+        "spawn_ms": 1,
+        "ready_ms": 509,
+        "browser_owner_ms": 514,
+        "owned_scope_ready_ms": 514,
+        "browser_stop_ms": 519,
+        "browser_stopped_ms": 522,
+        "done_ms": 522,
+        "ack_ms": 2547,
+        "owned_scope_absent_after_ack_ms": 2548,
+        "exit_ms": 2562,
+        "stdio_close_ms": 2562,
+        "browser_absent_ms": 2562,
+        "browser_group_absent_ms": 2562,
+        "owned_scope_absent_after_exit_ms": 2562
+      },
+      "browser_owner_verified": true,
+      "browser_leader_absence_observed": true,
+      "browser_owned_group_absence_observed": true,
+      "fixture_scope_count": {
+        "at_ready": 1,
+        "after_ack": 0,
+        "after_exit": 0,
+        "observed_absent_before_harness_removal": true
+      },
+      "forced_or_fallback_intervention": false,
+      "actual_fault_injection": {
+        "stdin_eof_sent": false,
+        "browser_stop_sent": true,
+        "browser_stopped_observed": true
+      },
+      "scope": "Reported actual harness observations backed by preserved exact reviewed source; auditor did not repeat live process/filesystem observations."
+    }
+  ],
+  "scope_custody": {
+    "setup_confirmed": true,
+    "before_harness_removal_count": 0,
+    "harness_removal_started": true,
+    "harness_container_absence_verified": true,
+    "creation_unconfirmed": false,
+    "residue_observation_unconfirmed": false,
+    "cleanup_unconfirmed": false
+  },
+  "verified_source_pins": {
+    "tools/test-resident-authenticator.mjs": {
+      "sha256": "88cdfea200731ab32fcda0c797a96eee6ce49a42e6f174208fed29195105cd2e",
+      "currently_matches_preserved_report": true
+    },
+    "package-lock.json": {
+      "sha256": "ad526fce2fe800ee7122f39029843a69fd9a335572de82a4a71d9c1a9714bc7b",
+      "currently_matches_preserved_report": true
+    },
+    "backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs": {
+      "sha256": "c2fc3e190d7b9933cdaf77958a8a9dc11a6ab8df83fa69362c7a42d5bc67412c",
+      "currently_matches_preserved_report": true
+    },
+    "node_modules/@playwright/test/package.json": {
+      "sha256": "5587f932b8979b6889654b60e3c28aeb7ca0abbac00eec8c176c939a16149536",
+      "currently_matches_preserved_report": true
+    },
+    "node_modules/playwright-core/package.json": {
+      "sha256": "f061c58427e47e843e26d201f0a57076c734e57c734ecbbd87d4a23b7a20db9b",
+      "currently_matches_preserved_report": true
+    },
+    "node_modules/playwright-core/lib/coreBundle.js": {
+      "sha256": "549070af3acabb3efcc4f55bfe6210f9f7c2fcf633cf7eaa59bfe60719969171",
+      "currently_matches_preserved_report": true
+    }
+  },
+  "unchanged_captured_input_map": {
+    "sha256": "c054df00ddb6a240ffaaabc6baf2a53b3a91ce07723d8ad4653692cffc2e7fc0",
+    "before_entries": 2958,
+    "after_entries": 2958,
+    "all_before_after_entries_equal": true
+  },
+  "retained_historical_limits": {
+    "candidate04": "Only leader PID absence observed; this actual06 proof is separate and does not upgrade historical04 bytes.",
+    "exact_prior_filesystem_or_exit3_cause": "UNPROVEN",
+    "unfulfilled_kill_hard_deadline": "SOURCE_ONLY",
+    "escaped_descendant_absence": "NOT_PROVEN",
+    "secure_erasure": "NOT_PROVEN",
+    "credentials_or_authentication": "NOT_EXERCISED",
+    "current_first_frame_failure": "NOT_REPAIRED_BY_THIS_PROBE"
+  },
+  "remaining_required": [
+    "Fresh unfiltered125-native/all17-browser gate terminal evidence and independent audit.",
+    "First-frame setup diagnostic source review and actual cause evidence if root applies it.",
+    "Author-separated cumulative source review, final source bindings, metadata review, hosted immutable-head CI and protected queue acceptance."
+  ],
+  "actions": {
+    "tests_executed": 0,
+    "tracked_source_writes": 0,
+    "artifact_only_audit_write": true
+  }
+}

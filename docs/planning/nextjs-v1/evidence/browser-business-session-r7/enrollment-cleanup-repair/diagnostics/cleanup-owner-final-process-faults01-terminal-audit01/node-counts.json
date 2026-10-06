@@ -1,0 +1,137 @@
+{
+  "schema": "node22-process-accounting/1",
+  "run_id": "cleanup-owner-final-process-faults01",
+  "actual_node_counts": {
+    "executed": 22,
+    "passed": 20,
+    "failed": 2,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0
+  },
+  "clock_owner_tests": 6,
+  "runner_fault_test_bodies": 16,
+  "runner_fault_passed": 14,
+  "runner_fault_failed": 2,
+  "execution_rows": [
+    {
+      "name": "slow prerequisite startup does not spend the requested cleanup budget",
+      "status": "passed",
+      "duration_ms": 1.229542
+    },
+    {
+      "name": "a ready runner that fails to exit still triggers the cleanup fallback",
+      "status": "passed",
+      "duration_ms": 0.868625
+    },
+    {
+      "name": "never-ready startup has one absolute bounded termination deadline",
+      "status": "passed",
+      "duration_ms": 0.396875
+    },
+    {
+      "name": "a second fault cannot reset an already running cleanup deadline",
+      "status": "passed",
+      "duration_ms": 0.30125
+    },
+    {
+      "name": "late cleanup cannot erase evidence of forced intervention",
+      "status": "passed",
+      "duration_ms": 0.280416
+    },
+    {
+      "name": "natural completion disposes both clocks and cannot rearm them",
+      "status": "passed",
+      "duration_ms": 0.362583
+    },
+    {
+      "name": "enrollment runner confirms cleanup after eof-before-origin",
+      "status": "passed",
+      "duration_ms": 305.789834
+    },
+    {
+      "name": "enrollment runner confirms cleanup after partial-eof-before-origin",
+      "status": "passed",
+      "duration_ms": 236.204917
+    },
+    {
+      "name": "enrollment runner confirms cleanup after frame-eof-before-origin",
+      "status": "passed",
+      "duration_ms": 242.055625
+    },
+    {
+      "name": "enrollment runner confirms cleanup after signal-after-origin",
+      "status": "passed",
+      "duration_ms": 19825.359917
+    },
+    {
+      "name": "enrollment runner confirms cleanup after eof-after-ready",
+      "status": "passed",
+      "duration_ms": 22608.706167
+    },
+    {
+      "name": "enrollment runner confirms cleanup after oversized",
+      "status": "passed",
+      "duration_ms": 18234.780792
+    },
+    {
+      "name": "enrollment runner confirms cleanup after wrong-version",
+      "status": "passed",
+      "duration_ms": 43977.4345
+    },
+    {
+      "name": "enrollment runner confirms cleanup after wrong-sequence",
+      "status": "failed",
+      "duration_ms": 86113.016125
+    },
+    {
+      "name": "enrollment runner confirms cleanup after wrong-kind",
+      "status": "passed",
+      "duration_ms": 86182.827291
+    },
+    {
+      "name": "enrollment runner confirms cleanup after legacy-selection",
+      "status": "failed",
+      "duration_ms": 93165.170875
+    },
+    {
+      "name": "enrollment runner confirms cleanup after missing-selection",
+      "status": "passed",
+      "duration_ms": 44671.880334
+    },
+    {
+      "name": "enrollment runner confirms cleanup after malformed-selection",
+      "status": "passed",
+      "duration_ms": 22009.391958
+    },
+    {
+      "name": "enrollment runner confirms cleanup after weak-uv",
+      "status": "passed",
+      "duration_ms": 37366.357042
+    },
+    {
+      "name": "business runner confirms cleanup after eof-before-origin",
+      "status": "passed",
+      "duration_ms": 330.279541
+    },
+    {
+      "name": "business runner confirms cleanup after partial-eof-before-origin",
+      "status": "passed",
+      "duration_ms": 329.250708
+    },
+    {
+      "name": "business runner confirms cleanup after frame-eof-before-origin",
+      "status": "passed",
+      "duration_ms": 296.564875
+    }
+  ],
+  "counting_rule": "Exactly22 unique execution rows before first \u2139 tests summary. Repeated failing-summary rows are not extra executions.",
+  "generic_wrapper_counts": {
+    "passed": 0,
+    "failed": 0,
+    "skipped": 0,
+    "filtered": 0,
+    "executed": 0
+  },
+  "generic_wrapper_limit": "Allzero generic Rust parser counters retained verbatim; they are not Node execution counts."
+}

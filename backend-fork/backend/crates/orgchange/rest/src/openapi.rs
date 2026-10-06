@@ -173,6 +173,15 @@ const PATHS: &[PathItem] = &[
         }],
     },
     PathItem {
+        path: "/api/v1/hr/browser-session/attendance-records/me",
+        operations: &[Operation {
+            method: "post",
+            body: include_str!(
+                "../openapi/paths/api__v1__hr__browser-session__attendance-records__me.post.yaml"
+            ),
+        }],
+    },
+    PathItem {
         path: "/api/v1/hr/exit-cases",
         operations: &[Operation {
             method: "post",
@@ -348,6 +357,18 @@ const SCHEMAS: &[NamedYaml] = &[
     NamedYaml {
         name: "AttendanceSummaryPage",
         body: include_str!("../openapi/schemas/AttendanceSummaryPage.yaml"),
+    },
+    NamedYaml {
+        name: "BrowserSessionAttendanceRequest",
+        body: include_str!("../openapi/schemas/BrowserSessionAttendanceRequest.yaml"),
+    },
+    NamedYaml {
+        name: "BrowserSessionAttendanceResponse",
+        body: include_str!("../openapi/schemas/BrowserSessionAttendanceResponse.yaml"),
+    },
+    NamedYaml {
+        name: "BrowserSessionContext",
+        body: include_str!("../openapi/schemas/BrowserSessionContext.yaml"),
     },
     NamedYaml {
         name: "CancelOrgChangeRequest",

@@ -1,0 +1,93 @@
+{
+  "schema": "restored-context-failure-diagnostic-independent-review/1",
+  "scope": "Uninvolved independent read-only exact source/diff/proposal, privacy and public SDK/protocol review. No compilation, syntax/test execution, browser operation, tracked edits or original root session consumption.",
+  "actions": {
+    "tests_executed": 0,
+    "tracked_source_writes": 0,
+    "compilation": false,
+    "syntax_check_executed": false,
+    "runtime_operations": 0,
+    "artifact_review_write": true
+  },
+  "verdict": "REQUEST_CHANGES_SOURCE_ONLY",
+  "pins": {
+    "before": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/restored-context-failure-diagnostic-candidate01/before.mjs",
+      "bytes": 41804,
+      "sha256": "183df5e840c6fbd46c77ca7fa4ba8301801606870b970173a89ac784a27ddf4c"
+    },
+    "after": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/restored-context-failure-diagnostic-candidate01/tools/browser-business-restore.mjs",
+      "bytes": 45658,
+      "sha256": "ace3384350819891ac5d57743b11b74a2d89716d6e02ed831c8c54b63bd6f5a8"
+    },
+    "patch": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/restored-context-failure-diagnostic-candidate01/patch.diff",
+      "bytes": 10010,
+      "sha256": "2885f1820a15df1ce951c4d5ccca031c75efcb02e9f950231545070a280ce210"
+    },
+    "proposal": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/restored-context-failure-diagnostic-candidate01/proposal.json",
+      "bytes": 5593,
+      "sha256": "00d00ac2ce8f51a52c2e5741adf67469bdb1850077428f94adca468118ed1a87"
+    },
+    "manifest": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/restored-context-failure-diagnostic-candidate01/manifest.json",
+      "sha256": "14a5b748cb2b92bbdfc4db3e7825f33aef814a533950bba6278800c8269b0b1c",
+      "bytes": 2398
+    }
+  },
+  "relied_on_source_pins": {
+    "sdk": {
+      "path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/node_modules/playwright-core/lib/coreBundle.js",
+      "sha256": "549070af3acabb3efcc4f55bfe6210f9f7c2fcf633cf7eaa59bfe60719969171",
+      "bytes": 3477183
+    },
+    "protocol": {
+      "path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/node_modules/playwright-core/types/protocol.d.ts",
+      "sha256": "0410ed82a9ac63269dc1471ed249b280e2d461249a3a331e71cdb54cdf10db33",
+      "bytes": 814210
+    },
+    "sanitizer": {
+      "path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/tools/browser-business-failure.mjs",
+      "sha256": "682407048049f4ff76df89c5fa9af836f1985fddb36e4f8e7c8adcb34d9052e3",
+      "bytes": 2043
+    }
+  },
+  "exact_unified_diff_reconstruction_matches_candidate": true,
+  "tests_run": 0,
+  "findings": [
+    {
+      "id": "last-created-context-mislabeled-current",
+      "priority": "P2",
+      "location": "tools/browser-business-restore.mjs:322",
+      "problem": "currentMainWorld updates only on executionContextCreated and is retained after destroyed/cleared/close events. current_main_world_matches_original can remain true after the pinned original context is destroyed or the session closes; it describes the last created world, not current availability.",
+      "concrete_counterexample": "Pin original context; observe its exact unique-ID destruction without a subsequent default main-world creation. destroyedSeen becomes true while currentMainWorld still equals originalMainWorld and current_main_world_matches_original remains true. No runtime claim is made.",
+      "required_change": "Rename the observation last_created_main_world_matches_original and document historical creation-event equality only. Do not remap/reset the original target or infer evaluate availability."
+    },
+    {
+      "id": "unguarded-diagnostics-can-replace-outcome",
+      "priority": "P2",
+      "location": "tools/browser-business-restore.mjs:360",
+      "problem": "observe() computation/assignment is called without a guard on both success and failure paths. A metadata exception can replace the awaited actual value or the exact original caught error, contrary to the stated best-effort contract. No actual metadata exception is asserted.",
+      "required_change": "Wrap only observe diagnostic computation/assignment in internal best-effort try/catch. Preserve original return/rethrow, promise ownership and existing deadlines."
+    }
+  ],
+  "other_checks": [
+    "Fixed purpose and class/type/category metadata does not emit raw values, errors, context IDs or paths.",
+    "Exact original uniqueContextId/expression/Document assertion and sole private release remain.",
+    "The existing CDP promise and one race timer are retained; no retries, fallback or extra timer.",
+    "Public CDP Runtime destruction carries executionContextUniqueId and public client close event is real."
+  ],
+  "required_runtime_proof": [
+    "Root-owned actual selected17 browser consumer to observe helper category/lifecycle and preserve true failed/skipped/unreached outcomes.",
+    "Missing diagnostics are absent evidence; neither null failure_location nor generic constructor labels prove a cause.",
+    "Any semantic repair requires its own exact source review; diagnostic source approval is not P16 repair acceptance.",
+    "Fresh final-source unfiltered125 native/all17 browser plus source/metadata, hosted CI and protected queue gates remain required."
+  ],
+  "limits": [
+    "Source-only approval; root-reported syntax or active runner state not independently executed or certified.",
+    "No exact current P16 cause, browser custody, business completion, product readiness, deployment or merge approval.",
+    "Earlier failed mechanics probe and full125/browser17 RED remain historical required evidence."
+  ]
+}

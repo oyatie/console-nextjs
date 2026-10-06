@@ -77,6 +77,8 @@ fn test_state(pool: PgPool) -> AuthRestState {
             refresh_token_ttl: Duration::days(30),
             refresh_family_absolute_ttl: Duration::hours(24),
             cookie_secure: false,
+            browser_session_key: None,
+            browser_ingress_key: None,
         },
     )
     .unwrap()

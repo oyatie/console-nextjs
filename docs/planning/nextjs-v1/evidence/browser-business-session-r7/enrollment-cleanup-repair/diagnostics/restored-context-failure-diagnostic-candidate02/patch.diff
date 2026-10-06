@@ -1,0 +1,171 @@
+--- a/tools/browser-business-restore.mjs
++++ b/tools/browser-business-restore.mjs
+@@ -277,32 +277,95 @@
+   const cacheFailures = [];
+   let cacheObserver;
+   let mainFrameId; let currentMainWorld; let originalMainWorld;
++  let originalWorldObservation;
++  const originalWorldLifecycle = { destroyedSeen: false, createdAgainSeen: false,
++    contextsClearedSeen: false, sessionClosedSeen: false };
+   const contextListener = ({ context }) => {
+-    if (context.auxData?.isDefault && context.auxData.frameId === mainFrameId)
++    if (context.auxData?.isDefault && context.auxData.frameId === mainFrameId) {
+       currentMainWorld = context.uniqueId;
++      if (originalMainWorld && context.uniqueId === originalMainWorld)
++        originalWorldLifecycle.createdAgainSeen = true;
++    }
++  };
++  const contextDestroyedListener = ({ executionContextUniqueId }) => {
++    if (originalMainWorld && executionContextUniqueId === originalMainWorld)
++      originalWorldLifecycle.destroyedSeen = true;
++  };
++  const contextsClearedListener = () => {
++    if (originalMainWorld) originalWorldLifecycle.contextsClearedSeen = true;
++  };
++  const observerClosedListener = () => {
++    if (originalMainWorld) originalWorldLifecycle.sessionClosedSeen = true;
+   };
+   // Use the standard CDP identity of the actual original main world. During
+   // a held hard reload, Playwright's current-frame/utility-script selection
+   // need not select the restored world. Never remap to a successor context.
+-  async function evaluateOriginal(expression) {
+-    assert.equal(typeof originalMainWorld, "string", "original main-world identity required");
+-    const evaluation = cacheObserver.send("Runtime.evaluate", {
+-      uniqueContextId: originalMainWorld, returnByValue: true, timeout: h.phaseMs ?? 20000,
+-      expression: `(() => { const original = ${JSON.stringify(original)};
+-        const state = window[${JSON.stringify(PROBE)}];
+-        if (!state || state.document !== original) throw new Error('original Document unavailable');
+-        return (${expression}); })()`,
+-    });
+-    void evaluation.catch(() => {});
+-    let timer;
+-    const result = await Promise.race([evaluation, new Promise((_, reject) => {
+-      timer = setTimeout(() => reject(new Error("original-world observation deadline")), h.phaseMs ?? 20000);
+-    })]).finally(() => clearTimeout(timer));
+-    assert.ok(!result.exceptionDetails, "actual original-world observation must succeed");
+-    return result.result.value;
++  async function evaluateOriginal(purpose, expression) {
++    const startedAt = performance.now();
++    const configuredBudgetMs = h.phaseMs ?? 20000;
++    let category = "identity-check";
++    let sendRejected = false; let deadlineFired = false; let responseReceived = false;
++    let returnedException = null; let exceptionClass = null;
++    function observe(outcome, valueKind = null) {
++      try {
++        const elapsed = Math.max(0, Math.floor(performance.now() - startedAt));
++        originalWorldObservation = { purpose, category: outcome,
++          configured_budget_ms: Number.isSafeInteger(configuredBudgetMs)
++            && configuredBudgetMs > 0 && configuredBudgetMs <= 600000 ? configuredBudgetMs : null,
++          observed_elapsed_ms: Math.min(elapsed, 600000), elapsed_capped: elapsed > 600000,
++          local_deadline_fired: deadlineFired, cdp_response_received: responseReceived,
++          exception_returned: returnedException, exception_class: exceptionClass,
++          returned_value_kind: valueKind,
++          original_context_destroyed_seen: originalWorldLifecycle.destroyedSeen,
++          original_context_created_again_seen: originalWorldLifecycle.createdAgainSeen,
++          contexts_cleared_after_pin_seen: originalWorldLifecycle.contextsClearedSeen,
++          cdp_session_closed_seen: originalWorldLifecycle.sessionClosedSeen,
++          // Historical equality only; destroy/clear/close need not create a replacement.
++          last_created_main_world_matches_original: typeof currentMainWorld === "string"
++            && typeof originalMainWorld === "string" ? currentMainWorld === originalMainWorld : null };
++      } catch { /* Missing diagnostics cannot replace the actual outcome. */ }
++    }
++    try {
++      assert.equal(typeof originalMainWorld, "string", "original main-world identity required");
++      category = "cdp-send";
++      const evaluation = cacheObserver.send("Runtime.evaluate", {
++        uniqueContextId: originalMainWorld, returnByValue: true, timeout: h.phaseMs ?? 20000,
++        expression: `(() => { const original = ${JSON.stringify(original)};
++          const state = window[${JSON.stringify(PROBE)}];
++          if (!state || state.document !== original) throw new Error('original Document unavailable');
++          return (${expression}); })()`,
++      });
++      // Retain the exact original promise and error. A late rejection cannot
++      // rewrite the already-captured deadline observation.
++      void evaluation.catch(() => { sendRejected = true; });
++      let timer;
++      const result = await Promise.race([evaluation, new Promise((_, reject) => {
++        timer = setTimeout(() => {
++          deadlineFired = true;
++          reject(new Error("original-world observation deadline"));
++        }, h.phaseMs ?? 20000);
++      })]).finally(() => clearTimeout(timer));
++      responseReceived = true;
++      category = "response-access";
++      returnedException = Boolean(result?.exceptionDetails);
++      if (returnedException) {
++        const className = result.exceptionDetails.exception?.className;
++        exceptionClass = ["Error", "EvalError", "RangeError", "ReferenceError", "SyntaxError", "TypeError", "URIError"]
++          .includes(className) ? className : "other";
++        category = "returned-exception";
++      }
++      assert.ok(!result.exceptionDetails, "actual original-world observation must succeed");
++      category = "result-access";
++      const value = result.result.value;
++      observe("returned-value", value === null ? "null" : typeof value);
++      return value;
++    } catch (error) {
++      observe(deadlineFired ? "local-deadline" : sendRejected ? "cdp-rejected" : category);
++      throw error; // Diagnostics never replace the actual first failure.
++    }
+   }
+   async function assertOriginalPrivateHidden() {
+-    const snapshot = await evaluateOriginal(`({ text: document.body.innerText,
++    const snapshot = await evaluateOriginal("privacy", `({ text: document.body.innerText,
+       html: document.documentElement.outerHTML,
+       visibleTables: [...document.querySelectorAll('table,[role="table"]')].map((table) => {
+         const style = getComputedStyle(table);
+@@ -408,6 +471,9 @@
+       cacheObserver.on("Page.backForwardCacheNotUsed", cacheFailureListener);
+       mainFrameId = (await cacheObserver.send("Page.getFrameTree")).frameTree.frame.id;
+       cacheObserver.on("Runtime.executionContextCreated", contextListener);
++      cacheObserver.on("Runtime.executionContextDestroyed", contextDestroyedListener);
++      cacheObserver.on("Runtime.executionContextsCleared", contextsClearedListener);
++      cacheObserver.on("close", observerClosedListener);
+       await cacheObserver.send("Runtime.enable");
+       await cacheObserver.send("Page.enable");
+     }
+@@ -437,7 +503,7 @@
+     if (queued) {
+       queuedCheckpoint = "original-world-pin";
+       originalMainWorld = currentMainWorld;
+-      assert.equal(await evaluateOriginal("state.document"), original);
++      assert.equal(await evaluateOriginal("pin", "state.document"), original);
+     }
+     if (queued) queuedCheckpoint = "initial-hydration";
+     const beforeHydration = ["blocked-bundles", "blocked-css-bundles", "delayed-bundles"].includes(mode);
+@@ -527,7 +593,7 @@
+         queuedCheckpoint = "native-denial-status";
+         assert.equal(held.status, 401);
+         queuedCheckpoint = "queued-pending";
+-        const pending = await evaluateOriginal(`({ original: state.document === original,
++        const pending = await evaluateOriginal("pending", `({ original: state.document === original,
+           restored: state.restored, queued: state.logoutQueued, started: state.logoutStarted })`);
+         // Record actual booleans at the verified release point before asserting.
+         // This is not a claim about when the request first arrived at the server.
+@@ -559,7 +625,7 @@
+       }
+       if (queued) {
+         queuedCheckpoint = "queued-release";
+-        const commitsBeforeRelease = await evaluateOriginal("state.releaseLogout(original)");
++        const commitsBeforeRelease = await evaluateOriginal("release", "state.releaseLogout(original)");
+         assert.ok(Number.isSafeInteger(commitsBeforeRelease) && commitsBeforeRelease > 0,
+           "release one queued logout only in the original restored Document after the actual native denial");
+         queuedCheckpoint = "queued-react-commit";
+@@ -627,6 +693,7 @@
+       failure_location: browserFailureLocation(error) ?? null,
+       queued_native_observation: queuedNativeObservation ?? null,
+       queued_ordering_observation: queuedOrderingObservation ?? null,
++      original_world_observation: originalWorldObservation ?? null,
+       not_restored_reasons: cacheFailures,
+       trusted_departures: probe.events.filter((event) => event.event === "pagehide" && event.trusted && event.document === original).length,
+       trusted_original_restores: probe.events.filter((event) => event.event === "pageshow" && event.trusted && event.persisted && event.document === original).length,
+@@ -649,6 +716,9 @@
+     await cleanup("probe-listeners", () => {
+       cacheObserver?.off("Page.backForwardCacheNotUsed", cacheFailureListener);
+       cacheObserver?.off("Runtime.executionContextCreated", contextListener);
++      cacheObserver?.off("Runtime.executionContextDestroyed", contextDestroyedListener);
++      cacheObserver?.off("Runtime.executionContextsCleared", contextsClearedListener);
++      cacheObserver?.off("close", observerClosedListener);
+       probe.remove(); page.off("request", requestListener); page.off("requestfailed", failureListener);
+     });
+     // Always attempt owned page closure, independently of earlier cleanup errors.

@@ -1,0 +1,117 @@
+{
+  "schema": "restored-context-failure-diagnostic-independent-review/2",
+  "scope": "Uninvolved independent read-only exact source/diff/proposal, privacy and public SDK/protocol review. No compilation, syntax/test execution, browser operation, tracked edits or original root session consumption.",
+  "actions": {
+    "tests_executed": 0,
+    "tracked_source_writes": 0,
+    "compilation": false,
+    "syntax_check_executed": false,
+    "runtime_operations": 0,
+    "artifact_review_write": true
+  },
+  "verdict": "ACCEPT_SOURCE_ONLY",
+  "pins": {
+    "before": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/restored-context-failure-diagnostic-candidate02/before.mjs",
+      "bytes": 41804,
+      "sha256": "183df5e840c6fbd46c77ca7fa4ba8301801606870b970173a89ac784a27ddf4c"
+    },
+    "after": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/restored-context-failure-diagnostic-candidate02/tools/browser-business-restore.mjs",
+      "bytes": 45872,
+      "sha256": "a23c66dc14171cc07ab6d10d6835d07d4aaa105fae90e99ee9920015cf5214b6"
+    },
+    "patch": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/restored-context-failure-diagnostic-candidate02/patch.diff",
+      "bytes": 10227,
+      "sha256": "a3d7b8bfc59aea5dc0c774cfb35988550632b730c70bbee35de073bb3e10dd2e"
+    },
+    "proposal": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/restored-context-failure-diagnostic-candidate02/proposal.json",
+      "bytes": 6890,
+      "sha256": "6ae9ac294878a64a74b5c83b6c0fb1c86adaf65d0bb7739e9ff987343928e53a"
+    },
+    "manifest": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/restored-context-failure-diagnostic-candidate02/manifest.json",
+      "sha256": "a08b7740108e197d74a838c92cfba1be4d1aaba09cd1ba28942243ae93e08f1f",
+      "bytes": 3274
+    }
+  },
+  "relied_on_source_pins": {
+    "sdk": {
+      "path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/node_modules/playwright-core/lib/coreBundle.js",
+      "sha256": "549070af3acabb3efcc4f55bfe6210f9f7c2fcf633cf7eaa59bfe60719969171",
+      "bytes": 3477183
+    },
+    "protocol": {
+      "path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/node_modules/playwright-core/types/protocol.d.ts",
+      "sha256": "0410ed82a9ac63269dc1471ed249b280e2d461249a3a331e71cdb54cdf10db33",
+      "bytes": 814210
+    },
+    "sanitizer": {
+      "path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/tools/browser-business-failure.mjs",
+      "sha256": "682407048049f4ff76df89c5fa9af836f1985fddb36e4f8e7c8adcb34d9052e3",
+      "bytes": 2043
+    }
+  },
+  "exact_unified_diff_reconstruction_matches_candidate": true,
+  "tests_run": 0,
+  "prior_review": {
+    "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/restored-context-failure-diagnostic-candidate01/independent_review01.json",
+    "sha256": "be84d5ed3ea820e8e8b745e66959f00d58b01d66be043787a98af87366cbae99"
+  },
+  "findings": [],
+  "resolved_findings": [
+    {
+      "id": "last-created-context-mislabeled-current",
+      "resolution": "Property renamed last_created_main_world_matches_original with explicit historical equality/no-current-availability limits. Destruction/clear/close observations remain only seen flags; no targeting or selection changes."
+    },
+    {
+      "id": "unguarded-diagnostics-can-replace-outcome",
+      "resolution": "observe computation/assignment enclosed in internal try/catch. Original awaited value and exact caught error proceed; absent metadata never supplies success."
+    }
+  ],
+  "checks": [
+    {
+      "property": "Exact immutable source and diff",
+      "result": "PASS_SOURCE",
+      "evidence": "Before183df5e8, aftera23c66dc, unified patcha3d7b8bf, manifesta08b7740 and proposal pins match exact bytes; generated unified diff from before/after equals supplied patch."
+    },
+    {
+      "property": "Fixed minimal disclosure",
+      "result": "PASS_SOURCE",
+      "evidence": "Four callsites use fixed pin/pending/privacy/release purposes. Categories and typeof kinds are fixed; exception class returns only standard Error/EvalError/RangeError/ReferenceError/SyntaxError/TypeError/URIError or other. Capped age/configured budget and copied lifecycle booleans expose no raw error/message/stack/HTML/result, credential, URL/path or context/event ID."
+    },
+    {
+      "property": "Actual branch and late promise ownership",
+      "result": "PASS_SOURCE",
+      "evidence": "Same Runtime.evaluate promise enters unchanged Promise.race and existing timeout. Earlier installed rejection observer sets only local boolean; the race remains authoritative, unchanged failure is rethrown, and copied primitive diagnostic snapshot is not mutated by late losing-promise or later lifecycle events. Configured budget observation is not an SDK-cause verdict."
+    },
+    {
+      "property": "Original invariants and completion path",
+      "result": "PASS_SOURCE",
+      "evidence": "Exact original uniqueContextId, Document guard, native401 gate/context check, pending assertions, privacy snapshots, one release and actual React/logout204/cookie/reload/independent actor checks retained. No context remap, retries, success fallback, timer or sanitizer changes."
+    },
+    {
+      "property": "Public event schema and owned cleanup",
+      "result": "PASS_SOURCE",
+      "evidence": "Pinned protocol.d.ts22248-22256 provides actual executionContextUniqueId. Public SDK coreBundle57540-57564 forwards Runtime events and emits close. Added event listeners compare unique IDs transiently and are removed through existing probe-listeners cleanup before owned page closure."
+    },
+    {
+      "property": "No availability overclaim",
+      "result": "PASS_SOURCE",
+      "evidence": "last_created_main_world_matches_original is explicitly historical; destruction/clear/close flags mean received events only. False flags do not prove absence, and a true equality does not authorize or establish current context addressability."
+    }
+  ],
+  "required_runtime_proof": [
+    "Root-owned actual selected17 browser consumer to observe helper category/lifecycle and preserve true failed/skipped/unreached outcomes.",
+    "Missing diagnostics are absent evidence; neither null failure_location nor generic constructor labels prove a cause.",
+    "Any semantic repair requires its own exact source review; diagnostic source approval is not P16 repair acceptance.",
+    "Fresh final-source unfiltered125 native/all17 browser plus source/metadata, hosted CI and protected queue gates remain required."
+  ],
+  "limits": [
+    "Source-only approval; root-reported syntax or active runner state not independently executed or certified.",
+    "No exact current P16 cause, browser custody, business completion, product readiness, deployment or merge approval.",
+    "Earlier failed mechanics probe and full125/browser17 RED remain historical required evidence."
+  ]
+}

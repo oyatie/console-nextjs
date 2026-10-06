@@ -1,0 +1,18 @@
+--- native20-recorded8b9
++++ native90-recorded3fc
+@@ -135,7 +135,14 @@
+         if self.received >= self.max_frames {
+             return Err("infrastructure: frame count");
+         }
+-        let frame = timeout(self.phase, async {
++        // Runtime staging precedes the first origin frame. Keep later native
++        // ceremony phases at 20s and the enclosing probe/cleanup bounds intact.
++        let deadline = if self.received == 0 {
++            StdDuration::from_secs(90)
++        } else {
++            self.phase
++        };
++        let frame = timeout(deadline, async {
+             let length = self
+                 .output
+                 .read_u32()

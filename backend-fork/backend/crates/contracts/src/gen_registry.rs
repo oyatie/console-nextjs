@@ -20,6 +20,10 @@ pub const SHARED: Fragment = Fragment {
 
 const SHARED_SECURITY_SCHEMES: &[NamedYaml] = &[
     NamedYaml {
+        name: "BrowserIngress",
+        body: include_str!("../../../openapi/shared/securitySchemes/BrowserIngress.yaml"),
+    },
+    NamedYaml {
         name: "basicAuth",
         body: include_str!("../../../openapi/shared/securitySchemes/basicAuth.yaml"),
     },
@@ -3539,6 +3543,33 @@ const IDENTITY_FRAGMENT_PATHS: &[PathItem] = &[
         }],
     },
     PathItem {
+        path: "/api/v1/auth/browser-session/login",
+        operations: &[Operation {
+            method: "post",
+            body: include_str!(
+                "../../identity/rest/openapi/paths/api__v1__auth__browser-session__login.post.yaml"
+            ),
+        }],
+    },
+    PathItem {
+        path: "/api/v1/auth/browser-session/logout",
+        operations: &[Operation {
+            method: "post",
+            body: include_str!(
+                "../../identity/rest/openapi/paths/api__v1__auth__browser-session__logout.post.yaml"
+            ),
+        }],
+    },
+    PathItem {
+        path: "/api/v1/auth/browser-session/start",
+        operations: &[Operation {
+            method: "post",
+            body: include_str!(
+                "../../identity/rest/openapi/paths/api__v1__auth__browser-session__start.post.yaml"
+            ),
+        }],
+    },
+    PathItem {
         path: "/api/v1/auth/device-login/approve",
         operations: &[Operation {
             method: "post",
@@ -4237,6 +4268,16 @@ const IDENTITY_FRAGMENT_SCHEMAS: &[NamedYaml] = &[
     NamedYaml {
         name: "BranchSummary",
         body: include_str!("../../identity/rest/openapi/schemas/BranchSummary.yaml"),
+    },
+    NamedYaml {
+        name: "BrowserSessionIdentityRequest",
+        body: include_str!(
+            "../../identity/rest/openapi/schemas/BrowserSessionIdentityRequest.yaml"
+        ),
+    },
+    NamedYaml {
+        name: "BrowserSessionLoginResponse",
+        body: include_str!("../../identity/rest/openapi/schemas/BrowserSessionLoginResponse.yaml"),
     },
     NamedYaml {
         name: "BulkAuthorizeBody",
@@ -6619,6 +6660,15 @@ const ORGCHANGE_FRAGMENT_PATHS: &[PathItem] = &[
         }],
     },
     PathItem {
+        path: "/api/v1/hr/browser-session/attendance-records/me",
+        operations: &[Operation {
+            method: "post",
+            body: include_str!(
+                "../../orgchange/rest/openapi/paths/api__v1__hr__browser-session__attendance-records__me.post.yaml"
+            ),
+        }],
+    },
+    PathItem {
         path: "/api/v1/hr/exit-cases",
         operations: &[Operation {
             method: "post",
@@ -6826,6 +6876,22 @@ const ORGCHANGE_FRAGMENT_SCHEMAS: &[NamedYaml] = &[
     NamedYaml {
         name: "AttendanceSummaryPage",
         body: include_str!("../../orgchange/rest/openapi/schemas/AttendanceSummaryPage.yaml"),
+    },
+    NamedYaml {
+        name: "BrowserSessionAttendanceRequest",
+        body: include_str!(
+            "../../orgchange/rest/openapi/schemas/BrowserSessionAttendanceRequest.yaml"
+        ),
+    },
+    NamedYaml {
+        name: "BrowserSessionAttendanceResponse",
+        body: include_str!(
+            "../../orgchange/rest/openapi/schemas/BrowserSessionAttendanceResponse.yaml"
+        ),
+    },
+    NamedYaml {
+        name: "BrowserSessionContext",
+        body: include_str!("../../orgchange/rest/openapi/schemas/BrowserSessionContext.yaml"),
     },
     NamedYaml {
         name: "CancelOrgChangeRequest",

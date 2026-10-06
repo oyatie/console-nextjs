@@ -1,0 +1,33 @@
+{
+  "schema": "resident-timer-ownership-review/1",
+  "at": "2026-10-06T05:57:37.327722+00:00",
+  "patch_sha256": "82e65c23d1ea3e547979ea8230cb4918bd6f7db800c9aa020c2a92b7d716f1db",
+  "source_sha256": "b62d0d6eba89439d4194b79d4dab62ed8fd07614f93bf984bbd3ab261a71799e",
+  "reviewers": [
+    {
+      "id": "/root/resident_failure_diagnostic_review",
+      "verdict": "ACCEPT_SOURCE_ONLY"
+    },
+    {
+      "id": "/root/native_worker_failure_review",
+      "verdict": "ACCEPT_SOURCE_ONLY"
+    }
+  ],
+  "findings": [],
+  "preserved": [
+    "2sclose/2skill/12stotal; Rust25s/15s unchanged",
+    "ACKonlyafterrealshutdownandactualwritecompletion",
+    "exit3/noACKonfailedcleanup",
+    "typedfailuremetadataonly"
+  ],
+  "limitations": [
+    "Historicalexit3causeUNPROVEN",
+    "Realstalledcleanupfailure/unrefbranchnotexecuted",
+    "The new()->close EOF suggestion was incorrect: constructor ends failed=false; use actual EOF-after-ready or refused origin path"
+  ],
+  "required_proof": [
+    "Same real shortfamilyconsumer and full121/17",
+    "Actualfixture lifecycle done/EOF and verifiedSIGSTOP fallback, no fakeSDK/provider",
+    "Naturalexit timing descriptive only; no arbitrary threshold"
+  ]
+}

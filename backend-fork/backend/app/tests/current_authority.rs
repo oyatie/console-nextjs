@@ -32,11 +32,15 @@ impl Fixture {
                     .connect_options()
                     .as_ref()
                     .clone()
-                    .username("console_rt"),
+                    .username("console_rt")
+                    .password(
+                        &std::env::var("CONSOLE_TEST_RUNTIME_PASSWORD")
+                            .expect("disposable runtime password"),
+                    ),
             )
             .await
             .unwrap();
-        let safe: bool = sqlx::query_scalar("SELECT NOT rolsuper AND NOT rolbypassrls AND current_user = 'console_rt' FROM pg_roles WHERE rolname = current_user")
+        let safe: bool = sqlx::query_scalar("SELECT NOT rolsuper AND NOT rolbypassrls AND current_user = 'console_rt' AND session_user = 'console_rt' FROM pg_roles WHERE rolname = current_user")
             .fetch_one(&runtime).await.unwrap();
         assert!(safe);
         let org = OrgId::new();
@@ -263,6 +267,8 @@ impl Fixture {
                     refresh_token_ttl: Duration::hours(1),
                     refresh_family_absolute_ttl: Duration::hours(2),
                     cookie_secure: true,
+                    browser_session_key: None,
+                    browser_ingress_key: None,
                 },
             )
             .unwrap(),
@@ -956,9 +962,16 @@ async fn refresh_waiting_for_family_lock_cannot_cross_absolute_deadline(owner: P
             tokio::time::sleep(std::time::Duration::from_millis(10)).await;
         }
     }).await.expect("refresh reached the family lock");
-    while OffsetDateTime::now_utc() < now + Duration::seconds(2) {
-        tokio::time::sleep(std::time::Duration::from_millis(10)).await;
-    }
+    // Issuance re-samples PostgreSQL time. Wait for the actual persisted family
+    // deadline, while the rotation still carries its stale pre-lock input.
+    tokio::time::timeout(std::time::Duration::from_secs(5), async {
+        loop {
+            let expired: bool = sqlx::query_scalar("SELECT clock_timestamp() >= created_at + interval '2 seconds' FROM auth_refresh_token_families WHERE id=$1")
+                .bind(issued.family_id).fetch_one(&f.owner).await.unwrap();
+            if expired { break; }
+            tokio::time::sleep(std::time::Duration::from_millis(10)).await;
+        }
+    }).await.expect("stored family deadline elapsed before releasing its lock");
     lock.rollback().await.unwrap();
     assert!(matches!(
         rotate.await.unwrap(),

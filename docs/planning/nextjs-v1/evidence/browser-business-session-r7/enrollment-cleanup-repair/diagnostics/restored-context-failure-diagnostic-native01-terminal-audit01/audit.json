@@ -1,0 +1,132 @@
+{
+  "schema": "restored-context-failure-diagnostic-terminal-audit/1",
+  "verdict": "ACCEPT_TERMINAL_DIAGNOSTIC_EVIDENCE; REQUIRED_P16_ACCEPTANCE_FAILED",
+  "scope": "Independent completed report/log/captured-map and embedded actual browser payload audit. No rerun, original root session consumption, current map regeneration, process census, specific cause or product/merge acceptance.",
+  "inputs": {
+    "report": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/restored-context-failure-diagnostic-native01.json",
+      "bytes": 1209,
+      "sha256": "7b34db5ad4426838dd9d75b21c5165d62dd5d03dda4e6a614e8f41a4c5de3e34"
+    },
+    "log": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/restored-context-failure-diagnostic-native01.log",
+      "bytes": 10871,
+      "sha256": "417238077f3659d50325bd878e6e82aa3f45e84c11489cd8d27fc199f8e2a1ca"
+    },
+    "inputs": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/restored-context-failure-diagnostic-native01.inputs.json",
+      "bytes": 917481,
+      "sha256": "90131bea32cf92be29be3b9b6332316eabb7534409cdc1cf463e5363626288da"
+    }
+  },
+  "native": {
+    "test_name": "genuine_browser::genuine_production_browser_proposal_requires_all_seventeen_scenarios",
+    "executed": 1,
+    "passed": 0,
+    "failed": 1,
+    "ignored": 0,
+    "measured": 0,
+    "filtered": 124,
+    "body_duration_seconds": 529.27,
+    "wrapper_duration_seconds": 537.3777486659819,
+    "exit_code": 101,
+    "outer_timeout": false
+  },
+  "browser": {
+    "discovered": 17,
+    "executed": 17,
+    "passed": 16,
+    "failed": 1,
+    "unreached": 0,
+    "skipped": 0,
+    "failed_scenarios": [
+      "P16"
+    ],
+    "P16_checks": {
+      "blocked-bundles": "passed",
+      "blocked-css-bundles": "passed",
+      "delayed-bundles": "passed",
+      "queued-react-css": "failed",
+      "offline": "passed",
+      "missing-guard": "passed",
+      "thrown-guard": "passed"
+    },
+    "payload_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/restored-context-failure-diagnostic-native01-terminal-audit01/browser-payload.json",
+    "payload_sha256": "d00739abd5136c406c8b4c083967607fb15b3a36dc71ddc752b7b1ab398f49bf",
+    "payload_provenance": "Exact embedded compact JSON plus one newline, no regenerated run."
+  },
+  "P16_queued_diagnostic": {
+    "queued_checkpoint": "queued-pending",
+    "failure_location": null,
+    "queued_native_observation": {
+      "stage": "native-response-observed",
+      "http_status": 401,
+      "native_gate_match": true,
+      "native_context_match": true,
+      "native_status_401": true
+    },
+    "queued_ordering_observation": null,
+    "original_world_observation": {
+      "purpose": "pending",
+      "category": "cdp-rejected",
+      "configured_budget_ms": 20000,
+      "observed_elapsed_ms": 15006,
+      "elapsed_capped": false,
+      "local_deadline_fired": false,
+      "cdp_response_received": false,
+      "exception_returned": null,
+      "exception_class": null,
+      "returned_value_kind": null,
+      "original_context_destroyed_seen": false,
+      "original_context_created_again_seen": true,
+      "contexts_cleared_after_pin_seen": true,
+      "cdp_session_closed_seen": false,
+      "last_created_main_world_matches_original": false
+    },
+    "not_restored_reasons": [],
+    "trusted_departures": 1,
+    "trusted_original_restores": 1
+  },
+  "observed_branch": {
+    "purpose": "pending",
+    "category": "cdp-rejected",
+    "configured_budget_ms": 20000,
+    "observed_elapsed_ms": 15006,
+    "local_deadline_fired": false,
+    "meaning": "Original pinned Runtime.evaluate promise rejected before a normal awaited result; the unchanged local20-second timer did not fire at the captured observation.",
+    "limitations": [
+      "cdp_response_received=false means the awaited helper did not fulfill with a normal result; it does not prove no protocol error response arrived.",
+      "exception_returned=null means the returned-result branch was not reached, not proof that no renderer/protocol exception exists.",
+      "False lifecycle seen flags mean the event was not observed. They do not prove context remained alive or addressable.",
+      "last_created_main_world_matches_original is historical creation-event equality, not current context availability.",
+      "Observed15006ms does not by itself establish an SDK timeout, native gate timeout, particular error, host load or context absence."
+    ]
+  },
+  "specific_cause": "UNPROVEN; source owner/timer trace and any governed semantic repair are separate from this terminal audit.",
+  "source_inputs": {
+    "sha256": "90131bea32cf92be29be3b9b6332316eabb7534409cdc1cf463e5363626288da",
+    "before_count": 2958,
+    "after_count": 2958,
+    "all_before_after_entries_equal": true,
+    "selected_pins": {
+      "tools/browser-business-restore.mjs": "a23c66dc14171cc07ab6d10d6835d07d4aaa105fae90e99ee9920015cf5214b6",
+      "tools/test-resident-authenticator.mjs": "3270d79e4a3511cba87b9998367b3918a00bdcebbc2935bb903019c319f13698",
+      "backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs": "1a9ef29ee164cdeca5573a5b750b49f54f5e215f19a8709d9a8309ab5f71766f"
+    },
+    "limit": "Captured maps verified, not independently regenerated; no later-source acceptance."
+  },
+  "cleanup": {
+    "database_lane_cleanup_line_observed": true,
+    "limit": "Lane output is not independent browser/group/temp-custody proof."
+  },
+  "remaining_required": [
+    "Diagnose and fix required queued P16 behavior without retry/context remap/false success or deadline weakening.",
+    "Fresh reviewed final-source unfiltered125-native/all17-browser gate.",
+    "Current cumulative source and metadata/evidence approval, hosted immutable-head CI and protected merge queue."
+  ],
+  "actions": {
+    "tests_executed": 0,
+    "tracked_source_writes": 0,
+    "artifact_only_audit_write": true
+  }
+}

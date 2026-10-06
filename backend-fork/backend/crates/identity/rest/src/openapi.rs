@@ -178,6 +178,27 @@ const PATHS: &[PathItem] = &[
         }],
     },
     PathItem {
+        path: "/api/v1/auth/browser-session/login",
+        operations: &[Operation {
+            method: "post",
+            body: include_str!("../openapi/paths/api__v1__auth__browser-session__login.post.yaml"),
+        }],
+    },
+    PathItem {
+        path: "/api/v1/auth/browser-session/logout",
+        operations: &[Operation {
+            method: "post",
+            body: include_str!("../openapi/paths/api__v1__auth__browser-session__logout.post.yaml"),
+        }],
+    },
+    PathItem {
+        path: "/api/v1/auth/browser-session/start",
+        operations: &[Operation {
+            method: "post",
+            body: include_str!("../openapi/paths/api__v1__auth__browser-session__start.post.yaml"),
+        }],
+    },
+    PathItem {
         path: "/api/v1/auth/device-login/approve",
         operations: &[Operation {
             method: "post",
@@ -772,6 +793,14 @@ const SCHEMAS: &[NamedYaml] = &[
     NamedYaml {
         name: "BranchSummary",
         body: include_str!("../openapi/schemas/BranchSummary.yaml"),
+    },
+    NamedYaml {
+        name: "BrowserSessionIdentityRequest",
+        body: include_str!("../openapi/schemas/BrowserSessionIdentityRequest.yaml"),
+    },
+    NamedYaml {
+        name: "BrowserSessionLoginResponse",
+        body: include_str!("../openapi/schemas/BrowserSessionLoginResponse.yaml"),
     },
     NamedYaml {
         name: "BulkAuthorizeBody",

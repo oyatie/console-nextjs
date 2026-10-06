@@ -1,0 +1,110 @@
+{
+  "schema": "restored-context-source-review/1",
+  "scope": "Independent exact artifact source/diff review against actual logout implementation and pinned installed public CDP protocol. No tracked edits, executions, browser operations or tests.",
+  "pins": {
+    "before": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/restored-context-candidate02/before.mjs",
+      "sha256": "eb5e3feb387bac47b35eb9a4fb56c2d2fa18f57a92caa0ad72244519c8f8d4fc",
+      "bytes": 38995
+    },
+    "after": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/restored-context-candidate02/tools/browser-business-restore.mjs",
+      "sha256": "183df5e840c6fbd46c77ca7fa4ba8301801606870b970173a89ac784a27ddf4c",
+      "bytes": 41804
+    },
+    "patch": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/restored-context-candidate02/patch.diff",
+      "sha256": "defc6ddf9d618b78dcacddf5033bbadee1cfb1eb4b81ad77e449090c23265792",
+      "bytes": 7408
+    },
+    "manifest": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/restored-context-candidate02/manifest.json",
+      "sha256": "9c4eb6651b9acec998ef2b649329d2cc25b64e1d449b1eb497bfb88a04fa235b",
+      "bytes": 2128
+    },
+    "product_logout": {
+      "path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/src/components/browser-session/SessionControls.tsx",
+      "sha256": "c074070a1ab90e5bbc45b7e1b5e6adff3a8f288c90daf961281249847d144992",
+      "bytes": 7475
+    },
+    "installed_sdk": {
+      "path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/node_modules/playwright-core/lib/coreBundle.js",
+      "sha256": "549070af3acabb3efcc4f55bfe6210f9f7c2fcf633cf7eaa59bfe60719969171",
+      "bytes": 3477183
+    },
+    "installed_protocol": {
+      "path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/node_modules/playwright-core/types/protocol.d.ts",
+      "sha256": "0410ed82a9ac63269dc1471ed249b280e2d461249a3a331e71cdb54cdf10db33",
+      "bytes": 814210
+    },
+    "output_owner": {
+      "path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/tools/test-browser-business-session.mjs",
+      "sha256": "ea936c0cdc8670261d556686b46a6d813b6479f4a8c6dd7b0925a42092e6aa2a",
+      "bytes": 52767
+    },
+    "failure_sanitizer": {
+      "path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/tools/browser-business-failure.mjs",
+      "sha256": "682407048049f4ff76df89c5fa9af836f1985fddb36e4f8e7c8adcb34d9052e3",
+      "bytes": 2043
+    }
+  },
+  "exact_patch_result_matches": true,
+  "actions": {
+    "tracked_source_writes": 0,
+    "tests_executed": 0,
+    "live_operations": 0,
+    "artifact_review_write": true
+  },
+  "limits": [
+    "Source-only review; no claimed browser BFCache/context behavior, syntax/compilation result, performance, full acceptance or merge readiness.",
+    "Candidate artifacts remain unapplied at time of review; root owns all application/execution.",
+    "Latest queued-prewitness native/browser gate remains RED until a fresh real run proves otherwise; exact raw prewitness exception cause remains unproven."
+  ],
+  "verdict": "ACCEPT_SOURCE_ONLY",
+  "supersedes_finding": "candidate01: original-world-after-logout-navigation",
+  "findings": [],
+  "checks": [
+    {
+      "result": "PASS_SOURCE",
+      "property": "Rejected observation order repaired",
+      "evidence": "Candidate02 lines522-551 require exact gate/context401 and pending original/restored/queued/start=false first, then take original body/table/HTML snapshot before release at562. Current-page assertPrivateHidden remains at576 after actual204/cookie checks, compatible with real logout navigation."
+    },
+    {
+      "result": "PASS_SOURCE",
+      "property": "Original context stays exact",
+      "evidence": "Runtime context listener selects default main-frame context; uniqueContextId is frozen before departure and verified against original probe Document. Every original operation checks that Document; no numeric-context substitution, remapping, current-page fallback, private SDK field or synthetic lifecycle event is added."
+    },
+    {
+      "result": "PASS_SOURCE",
+      "property": "Public protocol semantics",
+      "evidence": "Pinned protocol documents uniqueId as system-unique and Runtime.evaluate.uniqueContextId mutually exclusive with numeric contextId, preventing wrong-process/context reuse. Actual restored-context availability still requires runtime proof."
+    },
+    {
+      "result": "PASS_SOURCE",
+      "property": "Acceptance floors remain",
+      "evidence": "Actual trusted persisted original restoration, hidden/private-visible observations, exact native401, one guarded latch release, subsequent actual React commit, actual logout204/body proof/cookie removal, exactly one real reload, final private denial, independent actorB and owned cleanup remain mandatory."
+    },
+    {
+      "result": "PASS_SOURCE",
+      "property": "Bounded truthful failure",
+      "evidence": "Both public Runtime.evaluate timeout and owned Promise.race use unchanged h.phaseMs default20000. Rejection/exception/missing original context is not mapped to success. Losing evaluation rejection is observed; timer is cleared. No phase or outer deadline is enlarged."
+    },
+    {
+      "result": "PASS_SOURCE",
+      "property": "Transient privacy and safe diagnostics",
+      "evidence": "Snapshot body text excludes actor facts; table visibility requires all observed tables hidden; existing assertNoProof checks transient HTML. Raw HTML/context identities/CDP exceptions are not attached to report. Exception assertion now stores boolean only. Existing catch/report emits fixed reason/checkpoint/boolean diagnostics and sanitized location."
+    },
+    {
+      "result": "PASS_SOURCE",
+      "property": "Cleanup retains observation ownership",
+      "evidence": "Added Runtime executionContextCreated listener is removed in existing owned cleanup. Native gate release, routes, scripts, page and outstanding Back/session cleanup continue independently. Failed original release is not synthesized by cleanup."
+    }
+  ],
+  "required_runtime_proof": [
+    "Apply exact accepted artifact under root ownership; record exact source/build/service input pins before execution.",
+    "Fresh real queued-react-css run must prove original uniqueContextId usable after actual trusted persisted original restoration while exact native401 remains held; missing context is failure/unreached as the unchanged runner actually records, never GREEN.",
+    "Observe exact pending state, before-release original privacy snapshot, single release, later actual React commit with hidden/private-visible=false, real204/body proof/cookie removal, current-page/final privacy, one real reload and independent actorB.",
+    "Run required full native/browser gate after paired resident cleanup/startup repairs; record discovered/executed/filtered/skipped/unreached counts and actual outcomes without converting prior probes or source approval to runtime acceptance."
+  ],
+  "runtime_status": "NOT_EXECUTED_BY_REVIEWER"
+}

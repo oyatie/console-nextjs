@@ -1,0 +1,31 @@
+{
+  "schema": "resident-setup-diagnostic-proposal/1",
+  "status": "SOURCE_CANDIDATE_ONLY_NOT_APPLIED_NOT_EXECUTED",
+  "scope": "Narrow fixed pre-ready setup checkpoint and trusted first-frame category diagnostics. Generic secure-origin label is a first-frame mismatch, not proof of a secureDocument failure.",
+  "basis": {
+    "node_before_sha256": "88cdfea200731ab32fcda0c797a96eee6ce49a42e6f174208fed29195105cd2e",
+    "rust_before_sha256": "c2fc3e190d7b9933cdaf77958a8a9dc11a6ab8df83fa69362c7a42d5bc67412c",
+    "failure_cause": "UNPROVEN",
+    "actual_first_frame": "UNOBSERVED"
+  },
+  "invariants": [
+    "No protocol fields, frame order, status/exit codes, error labels, cleanup ACK, retries or existing timer/deadline constants are changed.",
+    "All fields are fixed allowlisted stages/categories, bounded monotonic ages and configured-budget facts; no raw error, path, credential, ID, native payload or variable URL output.",
+    "Node checkpoints only observe. No new timers or runtime success/failure gates. Existing temporary-scope/browser launch five-second shared budget, connect/navigation twenty-second configured budget, Rust readiness twenty-five seconds and cleanup fifteen-plus-fifteen seconds remain.",
+    "Configured-budget elapsed means observed monotonic time since shared launch budget start or immediately before connect/navigation call; it does not diagnose the SDK exception or independently establish its internal timeout clock. Operations without explicit current timeout report null budget/elapsed.",
+    "Rust first-frame classification happens after existing version/sequence validation and prints no received frame. Existing error string is preserved.",
+    "Existing bounded stderr owner retains512 bytes; only strictly typed bounded diagnostics are parsed. Constructor setup metadata is emitted even when its cleanup succeeds. Failed/missing diagnostic is absence of evidence, never a new success.",
+    "600000ms diagnostic age cap retains explicit age_capped flag; it does not add a600000ms execution budget.",
+    "Source freeze remains until root full125 gate is terminal. Runtime reproduction is root-owned after independent source acceptance."
+  ],
+  "remaining_required": [
+    "Independent paired source review before any root application.",
+    "Root-owned actual reproduction to observe first frame category/setup checkpoint.",
+    "Fresh final-source gate and source bindings if root applies candidate."
+  ],
+  "actions": {
+    "tests_executed": 0,
+    "tracked_source_writes": 0,
+    "artifact_only_write": true
+  }
+}

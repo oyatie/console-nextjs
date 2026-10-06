@@ -1,0 +1,48 @@
+{
+  "schema": "browser-mechanics-probe-proposal/2",
+  "status": "ARTIFACT_ONLY_NOT_EXECUTED_NOT_PRODUCT_ACCEPTANCE",
+  "source": {
+    "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/restored-context-mechanics-probe02/probe.mjs",
+    "sha256": "8697ffed498a041b453116162bf3337b0a04dca8c134ed774491e565f8b78297",
+    "bytes": 19328
+  },
+  "purpose": "Cheapest bounded actual Chromium witness for exact original-world command behavior while the pinned production restoration guard starts a hard reload. Fixed15s fixture response models the candidate interruption mechanism; does not prove actual BFF causality.",
+  "observations": [
+    "Real HTTPS secure context and cache-control private,no-store",
+    "Original production parser guard pinned by source and literal hash",
+    "Original unique main-world identity and original Document JSHandle pinned before departure",
+    "Real trusted persisted original-Document pageshow; refusal remains unreached/failure without synthetic fallback",
+    "Actual fixture reload receipt; fixed15s fixture timer fires from that receipt; real response and main-frame navigation",
+    "Concurrent exact original uniqueContextId Runtime.evaluate and standard original Document handle evaluation, separately retained outcomes under one20s shared bound",
+    "Fixed checkpoint and Node-received monotonic event observations without raw text,HTML,IDs,URLs,exceptions or payloads",
+    "SDK owned server close/kill; actual process exit and exact owned group absence observed via kernel ESRCH; no general browser absence inferred",
+    "Owned HTTPS/browser temporary stage removed only after owned group absence; no unrelated process cleanup"
+  ],
+  "deadlines": {
+    "phase_ms": 5000,
+    "fixture_response_ms": 15000,
+    "shared_evaluation_ms": 20000,
+    "browser_close_ms": 2000,
+    "browser_kill_ms": 2000,
+    "group_observation_ms": 1000,
+    "server_close_ms": 1000,
+    "stage_remove_ms": 1000,
+    "hard_ms": 60000
+  },
+  "limits": [
+    "Fixture timing is not an actual BFF abort/native401/authentication observation",
+    "No business API, passkey ceremony, React commit, actual mounted logout action, cookie revocation or product acceptance",
+    "Receiving a browser event at a Node timestamp does not independently date browser occurrence",
+    "Kernel ESRCH verifies only the exact captured owned process group, not arbitrary escaped descendants",
+    "A failed SDK launch without returned owner remains custody UNKNOWN; no ownerless broad process cleanup",
+    "No context remap, retry, sole product latch release or deadline widening",
+    "Fresh-response HTTP200 is explicit fixture behavior; not asserted as actual attendance-page transport status",
+    "No author-run syntax/runtime/tests; root executes only after independent source review"
+  ],
+  "prior_failed_probe": {
+    "source_sha256": "eb0bce2a8918e86599d3e1ec14c167403b6d601fe6b71b59fddc97fece992e81",
+    "terminal_receipt_sha256": "5d34d9ac8e6cbe5ea15274648840aefc35d8f6736520667501c01d75ff048928",
+    "status": "FAILED_INCOMPLETE_DIAGNOSTIC_NOT_ACCEPTANCE",
+    "retained": true
+  }
+}

@@ -1500,3 +1500,185 @@ fn app_does_not_wire_intelligence_draft_dispatch_or_depend_on_the_seam_crate() {
         "console-app must not depend on the intelligence seam crate"
     );
 }
+
+#[test]
+fn browser_session_contract_is_handle_only_and_matches_dedicated_owner_routes() {
+    let operations = openapi_operation_keys(OPENAPI_YAML);
+    for (surface, path) in [
+        ("auth", "/api/v1/auth/browser-session/start"),
+        ("auth", "/api/v1/auth/browser-session/login"),
+        ("auth", "/api/v1/auth/browser-session/logout"),
+        ("hr", "/api/v1/hr/browser-session/attendance-records/me"),
+    ] {
+        assert!(
+            configured_surface_paths(surface).unwrap().contains(&path),
+            "dedicated route must be registered by its actual owner: {path}"
+        );
+        let methods: BTreeSet<_> = operations
+            .iter()
+            .filter(|(candidate, _)| candidate == path)
+            .map(|(_, method)| method.as_str())
+            .collect();
+        assert_eq!(
+            methods,
+            BTreeSet::from(["post"]),
+            "opaque proof stays out of GET URLs"
+        );
+        let operation = openapi_operation_body(OPENAPI_YAML, path, "post");
+        assert!(
+            operation.contains("security:\n      - BrowserIngress: []")
+                && !operation.contains("bearerAuth"),
+            "browser ingress is separately authenticated; ambient bearer is not authority"
+        );
+        assert!(
+            operation.contains("'401':") && operation.contains("'503':"),
+            "denied and unavailable outcomes must remain distinct"
+        );
+        if path.ends_with("/start") {
+            assert!(
+                !operation.contains("requestBody:"),
+                "new explicit start is bodyless"
+            );
+            assert!(
+                operation.contains("PasskeyLoginStartResponse") && operation.contains("'429':")
+            );
+        } else if path.ends_with("/logout") {
+            assert!(
+                operation.contains("BrowserSessionIdentityRequest") && operation.contains("'204':")
+            );
+            let terminal = operation
+                .split("'204':")
+                .nth(1)
+                .unwrap()
+                .split("        '")
+                .next()
+                .unwrap();
+            assert!(
+                !terminal.contains("content:"),
+                "confirmed closure has an empty body"
+            );
+        } else if path.ends_with("/login") {
+            assert!(
+                operation.contains("PasskeyLoginFinishRequest")
+                    && operation.contains("BrowserSessionLoginResponse")
+                    && operation.contains("'413':")
+            );
+        } else {
+            assert!(
+                operation.contains("BrowserSessionAttendanceRequest")
+                    && operation.contains("BrowserSessionAttendanceResponse")
+            );
+        }
+    }
+    assert!(
+        !operations
+            .iter()
+            .any(|(path, _)| path == "/api/v1/auth/browser-session/resolve"),
+        "no public JWT conversion path exists"
+    );
+    for (name, fields) in [
+        (
+            "BrowserSessionLoginResponse",
+            vec!["session_token", "context_id", "expires_at"],
+        ),
+        (
+            "BrowserSessionIdentityRequest",
+            vec!["session_token", "browser_context"],
+        ),
+        (
+            "BrowserSessionAttendanceRequest",
+            vec!["session_token", "browser_context", "limit", "offset"],
+        ),
+        (
+            "BrowserSessionAttendanceResponse",
+            vec!["context", "history", "browser_context", "expires_at"],
+        ),
+        (
+            "BrowserSessionContext",
+            vec![
+                "company_id",
+                "company_name",
+                "account_display_name",
+                "employee_linked",
+            ],
+        ),
+    ] {
+        let schema = openapi_schema_body(OPENAPI_YAML, name);
+        assert!(
+            schema.contains("additionalProperties: false"),
+            "{name} is a closed contract"
+        );
+        let properties = schema
+            .split_once("      properties:\n")
+            .expect("typed properties")
+            .1;
+        let actual: BTreeSet<_> = properties
+            .lines()
+            .filter(|line| line.starts_with("        ") && !line.starts_with("          "))
+            .filter_map(|line| line.trim().split_once(':').map(|(name, _)| name))
+            .collect();
+        assert_eq!(
+            actual,
+            fields.into_iter().collect(),
+            "{name} must never acquire token conversion or identity selectors"
+        );
+        let mut lines = schema.lines();
+        let required_line = lines
+            .find(|line| line.starts_with("      required:"))
+            .expect("explicit required set");
+        let inline = required_line
+            .trim()
+            .strip_prefix("required:")
+            .unwrap()
+            .trim();
+        let required: BTreeSet<String> = if inline.starts_with('[') {
+            inline
+                .trim_matches(['[', ']'])
+                .split(',')
+                .map(|item| item.trim().trim_matches(['\"', '\'']).to_owned())
+                .collect()
+        } else {
+            lines
+                .take_while(|line| line.trim().starts_with("- "))
+                .map(|line| {
+                    line.trim()
+                        .trim_start_matches("- ")
+                        .trim_matches(['\"', '\''])
+                        .to_owned()
+                })
+                .collect()
+        };
+        let expected_required: BTreeSet<String> =
+            actual.iter().map(|item| (*item).to_owned()).collect();
+        assert_eq!(
+            required, expected_required,
+            "exact responses and identity binding cannot make mandatory fields optional"
+        );
+        assert!(!schema.contains("access_token") && !schema.contains("refresh_token"));
+    }
+    let scheme = OPENAPI_YAML
+        .split_once("    BrowserIngress:\n")
+        .expect("real header credential scheme")
+        .1
+        .lines()
+        .take_while(|line| line.starts_with("      ") || line.trim().is_empty())
+        .collect::<Vec<_>>()
+        .join("\n");
+    assert!(
+        scheme.contains("type: apiKey")
+            && scheme.contains("in: header")
+            && scheme.contains("name: x-console-browser-ingress")
+    );
+    let history = openapi_schema_body(OPENAPI_YAML, "BrowserSessionAttendanceResponse");
+    assert!(
+        history.contains("EmployeeAttendanceRecordPage"),
+        "legacy timestamp/page contract is preserved"
+    );
+    let credential = openapi_schema_body(OPENAPI_YAML, "BrowserSessionIdentityRequest");
+    assert!(
+        credential.contains("minLength: 47")
+            && credential.contains("maxLength: 47")
+            && credential.contains("bs1"),
+        "handle codec has exact wire bounds"
+    );
+}

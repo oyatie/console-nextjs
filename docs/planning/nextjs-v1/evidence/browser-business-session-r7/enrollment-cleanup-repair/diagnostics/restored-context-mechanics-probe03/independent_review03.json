@@ -1,0 +1,24 @@
+{
+  "schema": "browser-mechanics-probe-source-review/3",
+  "verdict": "REJECT_SOURCE_ONLY",
+  "reviewer": "/root/resident_failure_diagnostic_review/secure_origin_path_review",
+  "source_sha256": "f481728a0e87b6b020f9c0c2c90639a320b9d49582d863e374e5f094afb358e1",
+  "proposal_sha256": "01d2d42c463ad0b3b83c37dc16a0192c06fe8668d49f0a1dc0a7c0efe3b63205",
+  "findings": [
+    {
+      "id": "FRESH_COMMIT",
+      "lines": [
+        180,
+        182,
+        288,
+        292
+      ],
+      "problem": "Page.frameNavigated lacks type and can accept delayed BackForwardCacheRestore as a fresh unavailable-document commit. Matching navigation is not required before CDP settlement.",
+      "required_fix": "Require explicit Navigation type, matching original fixture path, fixtureResponseEnded already observed at receipt, and receipt index before evaluation-settled. Preserve Node-receipt timing caveat."
+    }
+  ],
+  "prior02_corrections": "All pass source review; no other required finding.",
+  "runtime_proof": false,
+  "executed_by_reviewer": false,
+  "disposition": "Preserve03 and correct04; fresh source review required before execution."
+}

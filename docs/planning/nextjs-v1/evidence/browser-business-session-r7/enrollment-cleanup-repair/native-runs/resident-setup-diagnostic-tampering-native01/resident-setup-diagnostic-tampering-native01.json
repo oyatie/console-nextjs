@@ -1,0 +1,41 @@
+{
+  "id": "resident-setup-diagnostic-tampering-native01",
+  "command": [
+    "bash",
+    "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/tools/lanes/pgtest.sh",
+    "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork",
+    "/Users/jasonlee/.cargo/bin/cargo",
+    "+1.98.1",
+    "test",
+    "--locked",
+    "--offline",
+    "--no-fail-fast",
+    "--features",
+    "frontend-e2e",
+    "-p",
+    "console-app",
+    "--test",
+    "auth_rest",
+    "browser_sessions::encrypted_proof_or_metadata_tampering_is_denied_without_reminting_authority",
+    "--",
+    "--exact",
+    "--test-threads=1",
+    "--nocapture"
+  ],
+  "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+  "exit_code": 0,
+  "timed_out": false,
+  "duration_seconds": 46.62316954205744,
+  "discovered": null,
+  "counts": {
+    "passed": 1,
+    "failed": 0,
+    "skipped": 0,
+    "filtered": 124,
+    "executed": 1
+  },
+  "log_sha256": "23b7dc8c03b62b13d66a0ae1cab37b58f14adf49abc97f014dd5a7776d184dfc",
+  "cleanup_reported": true,
+  "inputs_sha256": "0bbeaf06882e9ca46babb7414e88f0b39e50924d43ff2daa5aff549ce0955b14",
+  "inputs_unchanged": true
+}

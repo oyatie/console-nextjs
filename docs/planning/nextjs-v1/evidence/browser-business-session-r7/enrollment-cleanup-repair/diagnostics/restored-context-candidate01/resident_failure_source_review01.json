@@ -1,0 +1,74 @@
+{
+  "schema": "restored-context-source-review/1",
+  "scope": "Independent exact artifact source/diff review against actual logout implementation and pinned installed public CDP protocol. No tracked edits, executions, browser operations or tests.",
+  "pins": {
+    "before": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/restored-context-candidate01/before.mjs",
+      "sha256": "eb5e3feb387bac47b35eb9a4fb56c2d2fa18f57a92caa0ad72244519c8f8d4fc",
+      "bytes": 38995
+    },
+    "after": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/restored-context-candidate01/tools/browser-business-restore.mjs",
+      "sha256": "05e4c507cd4821df1d113ec17a9c71fc9cf90fc34370fb72e80f1391992c4b98",
+      "bytes": 41612
+    },
+    "patch": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/restored-context-candidate01/patch.diff",
+      "sha256": "619018bd4802c9a4dc71bf5e9d79adebb267666b70ef6131c7c723acaaffc38f",
+      "bytes": 7220
+    },
+    "manifest": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/restored-context-candidate01/manifest.json",
+      "sha256": "36777345175b8d2ff1086ae0a8fac1aec591878d203a898878598081b3c3c5a5",
+      "bytes": 1812
+    },
+    "product_logout": {
+      "path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/src/components/browser-session/SessionControls.tsx",
+      "sha256": "c074070a1ab90e5bbc45b7e1b5e6adff3a8f288c90daf961281249847d144992",
+      "bytes": 7475
+    },
+    "installed_sdk": {
+      "path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/node_modules/playwright-core/lib/coreBundle.js",
+      "sha256": "549070af3acabb3efcc4f55bfe6210f9f7c2fcf633cf7eaa59bfe60719969171",
+      "bytes": 3477183
+    },
+    "installed_protocol": {
+      "path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/node_modules/playwright-core/types/protocol.d.ts",
+      "sha256": "0410ed82a9ac63269dc1471ed249b280e2d461249a3a331e71cdb54cdf10db33",
+      "bytes": 814210
+    },
+    "output_owner": {
+      "path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/tools/test-browser-business-session.mjs",
+      "sha256": "ea936c0cdc8670261d556686b46a6d813b6479f4a8c6dd7b0925a42092e6aa2a",
+      "bytes": 52767
+    },
+    "failure_sanitizer": {
+      "path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/tools/browser-business-failure.mjs",
+      "sha256": "682407048049f4ff76df89c5fa9af836f1985fddb36e4f8e7c8adcb34d9052e3",
+      "bytes": 2043
+    }
+  },
+  "exact_patch_result_matches": true,
+  "actions": {
+    "tracked_source_writes": 0,
+    "tests_executed": 0,
+    "live_operations": 0,
+    "artifact_review_write": true
+  },
+  "limits": [
+    "Source-only review; no claimed browser BFCache/context behavior, syntax/compilation result, performance, full acceptance or merge readiness.",
+    "Candidate artifacts remain unapplied at time of review; root owns all application/execution.",
+    "Latest queued-prewitness native/browser gate remains RED until a fresh real run proves otherwise; exact raw prewitness exception cause remains unproven."
+  ],
+  "verdict": "REQUEST_CHANGES_SOURCE_ONLY",
+  "findings": [
+    {
+      "id": "original-world-after-logout-navigation",
+      "priority": "P2",
+      "location": "tools/browser-business-restore.mjs:572",
+      "problem": "Exact-original context snapshot runs only after real queued logout204 and cookie removal. Actual LogoutControl calls window.location.assign(/login/) upon204 (SessionControls.tsx82-83), so a correct completed logout may destroy the original world before evaluateOriginal. Candidate can reject correct product behavior due solely to observation order.",
+      "required_change": "Take exact-original body/table/HTML privacy snapshot after exact gate/context401 plus pending assertion and before sole logout latch release. Preserve later actual React hidden/private-visible assertions and actual204/cookie checks. Use existing current-page private-hidden check after204; do not introduce original-context fallback or remapping."
+    }
+  ],
+  "runtime_status": "NOT_EXECUTED_BY_REVIEWER"
+}

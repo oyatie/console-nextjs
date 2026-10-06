@@ -1,0 +1,39 @@
+--- a/tools/browser-business-restore.mjs
++++ b/tools/browser-business-restore.mjs
+@@ -281,6 +281,7 @@
+   };
+   const evidence = { mode, blocked_scripts: 0, blocked_styles: 0, transformed_documents: [] };
+   let readGate; let back; let queuedResponse; let original; let consumedFault = false;
++  let queuedOrderingObservation;
+   const requestListener = (request) => {
+     if (request.isNavigationRequest() && request.frame() === page.mainFrame()) documents.push(request.url());
+   };
+@@ -423,6 +424,20 @@
+           return { original: state?.document === original, restored: state?.restored,
+             queued: state?.logoutQueued, started: state?.logoutStarted };
+         }, { key: PROBE, original });
++        // Record actual booleans at the verified release point before asserting.
++        // This is not a claim about when the request first arrived at the server.
++        const observedBoolean = (value) => typeof value === "boolean" ? value : null;
++        queuedOrderingObservation = {
++          stage: "verified-native-denial",
++          native_gate_match: held.gate === readGate.gate,
++          native_context_match: held.context === session.context,
++          native_status_401: held.status === 401,
++          pending: { original: observedBoolean(pending.original), restored: observedBoolean(pending.restored),
++            queued: observedBoolean(pending.queued), started: observedBoolean(pending.started) },
++          pending_matches_expected: pending.original === true && pending.restored === true
++            && pending.queued === true && pending.started === false,
++        };
++        evidence.queued_ordering_observation = queuedOrderingObservation;
+         assert.deepEqual(pending, { original: true, restored: true, queued: true, started: false },
+           "actual queued logout must remain pending until the exact native reload denial is witnessed");
+       }
+@@ -483,6 +498,7 @@
+     return evidence;
+   } catch (error) {
+     if (queued) error.cacheObservation = {
++      queued_ordering_observation: queuedOrderingObservation ?? null,
+       not_restored_reasons: cacheFailures,
+       trusted_departures: probe.events.filter((event) => event.event === "pagehide" && event.trusted && event.document === original).length,
+       trusted_original_restores: probe.events.filter((event) => event.event === "pageshow" && event.trusted && event.persisted && event.document === original).length,

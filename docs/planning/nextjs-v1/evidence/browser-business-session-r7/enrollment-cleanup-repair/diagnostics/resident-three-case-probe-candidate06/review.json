@@ -1,0 +1,88 @@
+{
+  "schema": "resident-three-case-probe-source-review/6",
+  "state": "ACCEPT_SOURCE_ONLY",
+  "scope": "Independent static re-review of candidate06 against historical candidate04 and rejected candidate05. No runtime, product, native/browser gate, release or deployment acceptance.",
+  "pins": {
+    "before_sha256": "dbdad3d7e20f231b1fa0798ccaba659e9e6d8a3ba22df409aabe0a67f008adc3",
+    "after_sha256": "a5aa51a741c93e76b1a267392add0b6fdbd3a2afd60b45efbfde94b8fe8a9d31",
+    "patch_sha256": "731cf3922f82c1a2b55adb2a448ce54da85672155af20431a9b3360ba767cabd",
+    "manifest_sha256": "9c501677d0587dd276addd0d07e29d71d33eabbad4e98c5c457a387249eda21c",
+    "superseded_candidate05_review_sha256": "9a9248ba217a1628287e34af2045252914304ef723616c672a7076f432fdde68",
+    "expected_node_fixture_sha256": "88cdfea200731ab32fcda0c797a96eee6ce49a42e6f174208fed29195105cd2e",
+    "expected_rust_fixture_sha256": "c2fc3e190d7b9933cdaf77958a8a9dc11a6ab8df83fa69362c7a42d5bc67412c",
+    "expected_installed_sdk_core_sha256": "549070af3acabb3efcc4f55bfe6210f9f7c2fcf633cf7eaa59bfe60719969171"
+  },
+  "verified": {
+    "all_artifact_pins_match": true,
+    "patch_exactly_reconstructs_candidate06_from_candidate04": true,
+    "candidate05_to_candidate06_delta_reviewed": true
+  },
+  "prior_findings": [
+    {
+      "id": "unbounded-precase-observation-and-cancellation-counting",
+      "state": "RESOLVED",
+      "lines": "425-432,116-119,319-320",
+      "resolution": "The case start clock is captured before bounded filesystem admission and passed into attempt. Its same twenty-five-second startup deadline covers admission and actual startup. A post-await active gate precedes synchronous count mutation and invocation; cancellation during admission rejects before counting or spawning."
+    },
+    {
+      "id": "owned-group-poll-does-not-cancel",
+      "state": "RESOLVED",
+      "lines": "362-369",
+      "resolution": "Each polling iteration checks cancellation, and an additional active gate precedes accepted absence. The existing fifteen-second natural cleanup deadline is retained; handled cancellation enters the existing identity-checked failure phase."
+    },
+    {
+      "id": "final-observation-gates-known-root-cleanup",
+      "state": "RESOLVED",
+      "lines": "438-480",
+      "resolution": "Failed final residue observation is separately recorded as unconfirmed and diagnostic failure, then known fresh root removal is still attempted if the original applicable budget remains. The outer catch enters the existing six-second failure phase once for failed setup/admission without an active fixture, including an already-known root after setup-stat expiry. Active or spent case cleanup is not restarted."
+    }
+  ],
+  "findings": [],
+  "source_checks": [
+    {
+      "lines": "18-25,319-391",
+      "assessment": "Preserves the three actual ready/done, EOF-after-ready and positively verified Chromium group SIGSTOP/done cases, actual expected ACK outcomes, Node exit statuses and drained streams. No SDK/private-method interception or provider-result fabrication."
+    },
+    {
+      "lines": "34-52,413-420,142-146",
+      "assessment": "Fresh mkdtemp caller container is captured by its original creation owner, independently checked as a real directory, and used only as child TMPDIR. Native fixture creates its inner scope; strict entry prefix/six-character suffix, bounded entry count and lstat type checks are retained. Deletion targets only the exact fresh caller root, not inherited TMPDIR."
+    },
+    {
+      "lines": "327-329,351-353,370-373,455-475",
+      "assessment": "Ready count one and count zero after actual ACK and actual Node exit are observed before any harness removal. Final residue count or observation failure is recorded before removal. Harness deletion cannot repair case status or substitute for observed fixture cleanup."
+    },
+    {
+      "lines": "255-286,296-310,360-369",
+      "assessment": "Success requires positively verified leader ownership followed by independently observed leader absence and negative-PID group ESRCH. SIGSTOP and failure group signals retain leader/start/executable/group identity checks. A vanished leader with an unconfirmed remaining group stays failed rather than inventing a signaling target."
+    },
+    {
+      "lines": "77-91,425-446,467-480",
+      "assessment": "Bounded awaited work checks the same monotonic deadline after settlement and active cancellation outside cleanup. Setup/admission failure has the existing six-second phase, while actual case cleanup/failure deadlines are reused for outer removal and independently verified ENOENT absence. An expired budget remains failed and cleanup_unconfirmed."
+    },
+    {
+      "lines": "218-230,394-405,482-497",
+      "assessment": "Fixed diagnostic stages and required scope booleans align with pinned paired fixture schema. Report preserves explicit escaped-descendant/historical-cause limitations, accurate pre-admission counts and interruption publication failure handling. Raw transient ps identities and temp-container paths are not added to the report."
+    },
+    {
+      "lines": "414-417,451-454,482-483",
+      "assessment": "The original scope creation promise remains retained through failure ownership observation. Completion beyond that existing bound is creation_unconfirmed and failure; no absent-container or complete stranded-resource guarantee is invented."
+    }
+  ],
+  "limits": [
+    "Source/design-only acceptance. No probe execution, tests, compilation, services, syntax check or real process/filesystem lifecycle operation was performed by this review; the manifest-reported syntax check is author evidence only.",
+    "The expected live source pins are runtime prerequisites, not a claim that this review applied the dependencies or verified a future execution. Root owns application and runtime checks.",
+    "A future successful run can establish only the declared actual lifecycle, owned group and scoped-absence observations. It does not prove credential ceremonies, business behavior, full native/browser gates, secure erasure, escaped-descendant absence or the exact historical filesystem/exit3 cause.",
+    "Candidate04 historical runtime evidence observed leader absence only and cannot be promoted to group or scoped-absence evidence.",
+    "Exhausted cleanup budgets, unresolved late filesystem creation, SIGKILL and host failure may leave custody unconfirmed; failure remains failure and no complete no-stranded-resource guarantee is granted."
+  ],
+  "actions": {
+    "tracked_source_writes": 0,
+    "candidate_source_writes": 0,
+    "artifact_review_receipt_write": true,
+    "patch_applied": false,
+    "compilation": false,
+    "tests_executed": 0,
+    "fixture_or_probe_execution": false,
+    "service_actions": false
+  }
+}

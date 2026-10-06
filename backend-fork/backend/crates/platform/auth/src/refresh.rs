@@ -1,5 +1,7 @@
-use console_kernel_core::{AuditAction, AuditEvent, OrgId, TraceContext, UserId};
-use console_platform_db::with_audits;
+use console_kernel_core::{
+    AuditAction, AuditEvent, AuditRequestContext, OrgId, TraceContext, UserId,
+};
+use console_platform_db::{insert_audit_event, with_audits};
 use sha2::{Digest, Sha256};
 use sqlx::{PgPool, Postgres, Row, Transaction};
 use time::{Duration, OffsetDateTime};
@@ -578,45 +580,98 @@ impl RefreshTokenStore {
             return Err(RefreshTokenUseError::FamilyRevoked.into());
         }
 
-        sqlx::query(
+        self.revoke_locked_family_for_logout_in_tx(
+            &mut tx,
+            OrgId::from_uuid(org_uuid),
+            user_id,
+            family_id,
+            now,
+        )
+        .await?;
+
+        tx.commit().await?;
+        Ok(())
+    }
+
+    /// Shared logout effect. The owner must hold Account, exact family and token
+    /// locks before any dependent custody row; commit the audit with revocation.
+    pub async fn revoke_locked_family_for_logout_in_tx(
+        &self,
+        tx: &mut Transaction<'_, Postgres>,
+        org: OrgId,
+        user_id: Uuid,
+        family_id: Uuid,
+        now: OffsetDateTime,
+    ) -> Result<(), AuthError> {
+        self.revoke_locked_family_for_logout_with_audit_context_in_tx(
+            tx, org, user_id, family_id, now, None,
+        )
+        .await
+    }
+
+    /// Preserve the owner-owned logout effect and atomically persist metadata
+    /// supplied by an authenticated transport. Metadata never grants authority.
+    pub async fn revoke_locked_family_for_logout_with_audit_context_in_tx(
+        &self,
+        tx: &mut Transaction<'_, Postgres>,
+        org: OrgId,
+        user_id: Uuid,
+        family_id: Uuid,
+        now: OffsetDateTime,
+        audit_context: Option<(TraceContext, AuditRequestContext)>,
+    ) -> Result<(), AuthError> {
+        let already_audited: bool = sqlx::query_scalar(
+            "SELECT EXISTS(SELECT 1 FROM audit_events WHERE org_id=$1 AND action='auth.logout' AND target_type='auth_refresh_token_family' AND target_id=$2)",
+        ).bind(*org.as_uuid()).bind(family_id.to_string()).fetch_one(tx.as_mut()).await?;
+        let revoked_reason: Option<String> = sqlx::query_scalar(
             r#"
             UPDATE auth_refresh_token_families
-            SET revoked_at = $1, revoked_reason = 'logout'
-            WHERE id = $2 AND revoked_at IS NULL
+            SET revoked_reason = CASE WHEN revoked_at IS NULL THEN 'logout' ELSE revoked_reason END,
+                revoked_at = COALESCE(revoked_at, $1)
+            WHERE id = $2 AND user_id = $3 AND org_id = $4
+            RETURNING revoked_reason
             "#,
         )
         .bind(now)
         .bind(family_id)
-        .execute(tx.as_mut())
+        .bind(user_id)
+        .bind(*org.as_uuid())
+        .fetch_one(tx.as_mut())
         .await?;
 
         sqlx::query(
             r#"
             UPDATE auth_refresh_tokens
             SET revoked_at = COALESCE(revoked_at, $1)
-            WHERE family_id = $2
+            WHERE family_id = $2 AND user_id = $3 AND org_id = $4
             "#,
         )
         .bind(now)
         .bind(family_id)
+        .bind(user_id)
+        .bind(*org.as_uuid())
         .execute(tx.as_mut())
         .await?;
 
-        insert_audit_in_tx(
-            &mut tx,
-            OrgId::from_uuid(org_uuid),
-            user_id,
-            family_id,
-            "auth.logout",
-            now,
-            serde_json::json!({
-                "family_id": family_id,
-                "revoked_reason": "logout",
-            }),
-        )
-        .await?;
+        if !already_audited {
+            let mut event = family_audit_event(
+                org,
+                user_id,
+                family_id,
+                "auth.logout",
+                now,
+                serde_json::json!({
+                    "family_id": family_id,
+                    "revoked_reason": revoked_reason,
+                }),
+            )?;
+            if let Some((trace, request)) = audit_context {
+                event.trace = trace;
+                event.request_context = request;
+            }
+            insert_audit_event(tx, &event).await?;
+        }
 
-        tx.commit().await?;
         Ok(())
     }
 }
@@ -683,7 +738,20 @@ async fn insert_audit_in_tx(
     now: OffsetDateTime,
     after: serde_json::Value,
 ) -> Result<(), AuthError> {
-    let event = AuditEvent::new(
+    let event = family_audit_event(org, user_id, family_id, action, now, after)?;
+    insert_audit_event(tx, &event).await?;
+    Ok(())
+}
+
+fn family_audit_event(
+    org: OrgId,
+    user_id: Uuid,
+    family_id: Uuid,
+    action: &str,
+    now: OffsetDateTime,
+    after: serde_json::Value,
+) -> Result<AuditEvent, AuthError> {
+    Ok(AuditEvent::new(
         Some(UserId::from_uuid(user_id)),
         AuditAction::new(action)?,
         "auth_refresh_token_family",
@@ -692,37 +760,7 @@ async fn insert_audit_in_tx(
         now,
     )
     .with_org(org)
-    .with_snapshots(None, Some(after));
-
-    // Stamp `org_id` on the row (the enclosing tx already armed `app.current_org`
-    // to this org before the RLS-gated read). Omitting it lands the row with
-    // NULL org_id — which the FORCE-RLS WITH CHECK still permits, but then a
-    // tenant-scoped `/api/audit` read (RLS `USING (org_id = app.current_org)`)
-    // can never see these refresh/logout events.
-    sqlx::query(
-        r#"
-        INSERT INTO audit_events (
-            id, actor, action, target_type, target_id, branch_id,
-            before_snap, after_snap, trace_id, span_id, occurred_at, org_id
-        ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
-        "#,
-    )
-    .bind(*event.id.as_uuid())
-    .bind(event.actor.map(|actor| *actor.as_uuid()))
-    .bind(event.action.as_str())
-    .bind(event.target_type)
-    .bind(event.target_id)
-    .bind(event.branch_id.map(|branch| *branch.as_uuid()))
-    .bind(event.before)
-    .bind(event.after)
-    .bind(event.trace.trace_id())
-    .bind(event.trace.span_id())
-    .bind(event.occurred_at)
-    .bind(event.org_id.map(|org_id| *org_id.as_uuid()))
-    .execute(tx.as_mut())
-    .await?;
-
-    Ok(())
+    .with_snapshots(None, Some(after)))
 }
 
 fn generate_refresh_token() -> String {

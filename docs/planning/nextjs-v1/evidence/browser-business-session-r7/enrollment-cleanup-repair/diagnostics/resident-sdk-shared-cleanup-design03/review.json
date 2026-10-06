@@ -1,0 +1,48 @@
+{
+  "schema": "resident-sdk-shared-cleanup-design-review/3",
+  "state": "ACCEPT_DESIGN_ONLY",
+  "scope": "Independent static re-review of design03, exact design02 delta, and already source-verified pinned SDK/fixture contract. The design is sufficient to prepare a concrete implementation candidate for separate source review; this is not runtime acceptance.",
+  "pins": {
+    "design_sha256": "706993f6545e022b20c96bee286bdb795ff2f82fdf732ab5738da31b1dd76d56",
+    "superseded_design_sha256": "bccff06235ae457e9f379b1ff854c4de36c83be0cc13a3dd9cb4452b13a9fbda",
+    "superseded_review_sha256": "afaac5d75c4cdbef19dc6c0c22d6dd4780dd0554ad7d42ae7e8d1ec0f9d3ca94",
+    "node_source_sha256": "b62d0d6eba89439d4194b79d4dab62ed8fd07614f93bf984bbd3ab261a71799e",
+    "rust_baseline_sha256": "2917aa92f08d8d8d49da0f5ddf0474c808bf5886683a8754e35bf69a15fcaedd",
+    "installed_sdk_sha256": "549070af3acabb3efcc4f55bfe6210f9f7c2fcf633cf7eaa59bfe60719969171"
+  },
+  "prior_findings": {
+    "original_total_monotonic_acceptance": "RESOLVED",
+    "intentional_pending_cleanup_phase_semantics": "EXPLICITLY_DOCUMENTED",
+    "known_scope_without_returned_browser": "RESOLVED"
+  },
+  "findings": [],
+  "assessments": [
+    "A single fresh Node-owned mkdtemp scope, child-local TMPDIR override, actual scoped rm and independent ENOENT-only lstat check fit the existing finalize owner and require no SDK patch, private field, provider substitute, or separate cleanup engine.",
+    "Scope creation and actual SDK launch share the original five-second startup budget. The original resource-owner promise remains retained across observational timeout/EOF; successful returned scope/browser resources must be assigned to that owner before any late-budget error.",
+    "The no-returned-browser branch awaits the settled original startup owner, cleans only a known fresh scope, invents no removal target if mkdtemp did not return one, and remains Node3/no cleaned ACK/browser custody UNKNOWN.",
+    "Close/kill keep two-second observations. An expired-pending kill observation may continue only after actual child exit plus observed child close, awaiting only the original issued SDK promise under the original twelve-second total.",
+    "Rejected/false SDK results, removal failure, residual scope, and original monotonic expiry remain failure. Monotonic checks after settlement and around ACK completion prevent clearing an overdue timer into accepted success.",
+    "Scope absence at the gate and SDK settlement are separate observations. Neither provides independent descendant/group absence, secure-erasure proof, destruction outside the scope, or proof of the historical failure cause.",
+    "Owned-temp probe observations precede outer harness intervention. Any fallback custody, unreachable startup branch, or unreproduced delay remains separately labeled and cannot grant fixture acceptance."
+  ],
+  "required_source_review_guards": [
+    "Assign the actual mkdtemp-created path immediately; recursively remove only that exact path, never inherited caller TMPDIR.",
+    "Retain the original startup/resource-owner promise rather than substituting its timeout race for ownership.",
+    "Use distinct pending/fulfilled/rejected-or-false states; never repeat close/kill to obtain another completion path.",
+    "Pair all Node fixed diagnostics with the strict Rust enum/schema and fresh source bindings, including rebased startup-fault tests.",
+    "Keep the no-returned-browser startup branch failure-only, with no fabricated cleanup ACK or imagined process absence.",
+    "Recheck the same original total budget after real async cleanup and before/after actual ACK write; a late emitted frame cannot override actual Node3 status."
+  ],
+  "limits": [
+    "Design acceptance only; implementation, syntax/typecheck, focused tests, owned-temp lifecycle evidence, and fresh native/browser gate remain pending.",
+    "No actual temp root removal, event timing, process-group absence, browser custody, or provider cleanup was executed in this review.",
+    "Historical exit3, FK-holder cause, precise filesystem delay, P16 correctness, and release acceptance remain UNPROVEN."
+  ],
+  "actions": {
+    "tracked_source_writes": 0,
+    "tests_executed": 0,
+    "artifact_review_receipt_write": true,
+    "fixture_or_probe_execution": false,
+    "service_actions": false
+  }
+}

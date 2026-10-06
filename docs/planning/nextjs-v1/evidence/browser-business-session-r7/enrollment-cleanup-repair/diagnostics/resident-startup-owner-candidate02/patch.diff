@@ -1,0 +1,503 @@
+--- a/backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs
++++ b/backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs
+@@ -54,7 +54,10 @@
+     received: u64,
+     browser_pid: Option<u32>,
+     failed: bool,
+-    cleaned: bool,
++    constructing: bool,
++    close_result: Option<Result<()>>,
++    node_reaped: bool,
++    workers_settled: bool,
+     spawned_at: Instant,
+     last_ceremony_read: Option<Instant>,
+ }
+@@ -86,96 +89,119 @@
+                 command.env(key, value);
+             }
+         }
++        let (input, commands) = mpsc::sync_channel::<Vec<u8>>(1);
++        let (written, writes) = mpsc::sync_channel(1);
++        let (frames, output) = mpsc::sync_channel(1);
+         let spawned_at = Instant::now();
+-        let mut child = command
++        let child = command
+             .spawn()
+             .map_err(|_| "infrastructure: resident Node start")?;
+-        let mut stdin = child.stdin.take().ok_or("infrastructure: resident stdin")?;
+-        let mut stdout = child
+-            .stdout
+-            .take()
+-            .ok_or("infrastructure: resident stdout")?;
+-        let mut stderr = child
+-            .stderr
+-            .take()
+-            .ok_or("infrastructure: resident stderr")?;
+-        let (input, commands) = mpsc::sync_channel::<Vec<u8>>(1);
+-        let (written, writes) = mpsc::sync_channel(1);
+-        // Separate I/O workers let every synchronous public operation have a
+-        // deadline without blocking an async database/lock-test task indefinitely.
+-        let writer = thread::spawn(move || {
+-            while let Ok(bytes) = commands.recv() {
+-                let outcome = stdin
+-                    .write_all(&(bytes.len() as u32).to_be_bytes())
+-                    .and_then(|()| stdin.write_all(&bytes))
+-                    .and_then(|()| stdin.flush())
+-                    .map_err(|_| "infrastructure: resident frame write");
+-                let failed = outcome.is_err();
+-                if written.send(outcome).is_err() || failed {
+-                    break;
+-                }
+-            }
+-            // Disconnect/Drop closes stdin, so the Node owner performs cleanup.
+-        });
+-        let (frames, output) = mpsc::sync_channel(1);
+-        let reader = thread::spawn(move || {
+-            for _ in 0..MAX_FRAMES {
+-                let outcome = (|| {
+-                    let mut header = [0_u8; 4];
+-                    stdout
+-                        .read_exact(&mut header)
+-                        .map_err(|_| "infrastructure: resident frame header")?;
+-                    let length = u32::from_be_bytes(header) as usize;
+-                    if length == 0 || length > MAX_FRAME {
+-                        return Err("infrastructure: resident frame size");
+-                    }
+-                    let mut bytes = vec![0_u8; length];
+-                    stdout
+-                        .read_exact(&mut bytes)
+-                        .map_err(|_| "infrastructure: resident frame body")?;
+-                    serde_json::from_slice(&bytes)
+-                        .map_err(|_| "infrastructure: resident frame JSON")
+-                })();
+-                let failed = outcome.is_err();
+-                if frames.send(outcome).is_err() || failed {
+-                    break;
+-                }
+-            }
+-        });
+-        let error_reader = thread::spawn(move || {
+-            let mut bytes = [0_u8; 8192];
+-            let mut count = 0_usize;
+-            let mut prefix = Vec::with_capacity(512);
+-            while let Ok(length) = stderr.read(&mut bytes) {
+-                if length == 0 {
+-                    break;
+-                }
+-                count = count.saturating_add(length);
+-                let retained = length.min(512 - prefix.len());
+-                prefix.extend_from_slice(&bytes[..retained]);
+-            }
+-            let diagnostic = prefix.split(|byte| *byte == b'\n').find_map(|line| {
+-                let payload = line.strip_prefix(b"RESIDENT_CLEANUP_DIAGNOSTIC ")?;
+-                serde_json::from_slice::<CleanupDiagnostic>(payload).ok()
+-            });
+-            (count, diagnostic)
+-        });
++        // Install the existing cleanup owner before taking pipes or creating a
++        // fallible worker. Partial construction never abandons the Child.
+         let mut value = Self {
+             child,
+             input: Some(input),
+             output: Some(output),
+             writes,
+-            writer: Some(writer),
+-            reader: Some(reader),
+-            error_reader: Some(error_reader),
++            writer: None,
++            reader: None,
++            error_reader: None,
+             sent: 0,
+             received: 0,
+             browser_pid: None,
+             failed: true,
+-            cleaned: false,
++            constructing: true,
++            close_result: None,
++            node_reaped: false,
++            workers_settled: false,
+             spawned_at,
+             last_ceremony_read: None,
+         };
++        let mut stdin = value
++            .child
++            .stdin
++            .take()
++            .ok_or("infrastructure: resident stdin")?;
++        let mut stdout = value
++            .child
++            .stdout
++            .take()
++            .ok_or("infrastructure: resident stdout")?;
++        let mut stderr = value
++            .child
++            .stderr
++            .take()
++            .ok_or("infrastructure: resident stderr")?;
++        // Separate I/O workers let every synchronous public operation have a
++        // deadline without blocking an async database/lock-test task indefinitely.
++        value.writer = Some(
++            thread::Builder::new()
++                .spawn(move || {
++                    while let Ok(bytes) = commands.recv() {
++                        let outcome = stdin
++                            .write_all(&(bytes.len() as u32).to_be_bytes())
++                            .and_then(|()| stdin.write_all(&bytes))
++                            .and_then(|()| stdin.flush())
++                            .map_err(|_| "infrastructure: resident frame write");
++                        let failed = outcome.is_err();
++                        if written.send(outcome).is_err() || failed {
++                            break;
++                        }
++                    }
++                    // Disconnect/Drop closes stdin, so the Node owner performs cleanup.
++                })
++                .map_err(|_| "infrastructure: resident writer start")?,
++        );
++        value.reader = Some(
++            thread::Builder::new()
++                .spawn(move || {
++                    for _ in 0..MAX_FRAMES {
++                        let outcome = (|| {
++                            let mut header = [0_u8; 4];
++                            stdout
++                                .read_exact(&mut header)
++                                .map_err(|_| "infrastructure: resident frame header")?;
++                            let length = u32::from_be_bytes(header) as usize;
++                            if length == 0 || length > MAX_FRAME {
++                                return Err("infrastructure: resident frame size");
++                            }
++                            let mut bytes = vec![0_u8; length];
++                            stdout
++                                .read_exact(&mut bytes)
++                                .map_err(|_| "infrastructure: resident frame body")?;
++                            serde_json::from_slice(&bytes)
++                                .map_err(|_| "infrastructure: resident frame JSON")
++                        })();
++                        let failed = outcome.is_err();
++                        if frames.send(outcome).is_err() || failed {
++                            break;
++                        }
++                    }
++                })
++                .map_err(|_| "infrastructure: resident reader start")?,
++        );
++        value.error_reader = Some(
++            thread::Builder::new()
++                .spawn(move || {
++                    let mut bytes = [0_u8; 8192];
++                    let mut count = 0_usize;
++                    let mut prefix = Vec::with_capacity(512);
++                    while let Ok(length) = stderr.read(&mut bytes) {
++                        if length == 0 {
++                            break;
++                        }
++                        count = count.saturating_add(length);
++                        let retained = length.min(512 - prefix.len());
++                        prefix.extend_from_slice(&bytes[..retained]);
++                    }
++                    let diagnostic = prefix.split(|byte| *byte == b'\n').find_map(|line| {
++                        let payload = line.strip_prefix(b"RESIDENT_CLEANUP_DIAGNOSTIC ")?;
++                        serde_json::from_slice::<CleanupDiagnostic>(payload).ok()
++                    });
++                    (count, diagnostic)
++                })
++                .map_err(|_| "infrastructure: resident stderr start")?,
++        );
+         let ready = value.read(PHASE)?;
+         if ready["kind"] != "ready" || ready["origin"] != ORIGIN || ready["secure_context"] != true
+         {
+@@ -189,6 +215,7 @@
+             return Err("infrastructure: resident browser process identity");
+         }
+         value.failed = false;
++        value.constructing = false;
+         Ok(value)
+     }
+ 
+@@ -272,9 +299,17 @@
+     }
+ 
+     pub(super) fn close(&mut self) -> Result<()> {
+-        if self.cleaned {
+-            return Ok(());
+-        }
++        if let Some(result) = self.close_result {
++            return result;
++        }
++        let result = self.close_owned();
++        // A finalized cleanup attempt is not necessarily successful. Retain its
++        // failure, and never start another budget during Drop or a second close.
++        self.close_result = Some(result);
++        result
++    }
++
++    fn close_owned(&mut self) -> Result<()> {
+         let owner_age_ms = self.spawned_at.elapsed().as_millis();
+         let ceremony_idle_ms = self
+             .last_ceremony_read
+@@ -282,9 +317,10 @@
+         let sent_before = self.sent;
+         let received_before = self.received;
+         let panicking = thread::panicking();
++        let partial = self.constructing
++            && (self.writer.is_none() || self.reader.is_none() || self.error_reader.is_none());
+         let deadline = Instant::now() + CLEANUP;
+-        // Successful close requests done. Error/panic uses EOF, as C2 does.
+-        let done = if self.failed || thread::panicking() {
++        let done = if self.failed || panicking || partial {
+             false
+         } else {
+             self.write(json!({"kind":"done"}), CLEANUP).is_ok()
+@@ -292,106 +328,177 @@
+         if !done {
+             self.input.take();
+         }
+-        // A timed-out command may still deliver its ordinary response before
+-        // cleanup. Drain those checked frames under one total cleanup deadline.
+-        let acknowledgement = (|| loop {
+-            let remaining = deadline
+-                .checked_duration_since(Instant::now())
+-                .ok_or("infrastructure: resident cleanup deadline")?;
+-            let frame = self.read(remaining)?;
+-            match frame["kind"].as_str() {
+-                Some("cleaned") => break Ok(frame),
+-                Some("ready" | "registered" | "authenticated" | "error") => {}
+-                _ => break Err("infrastructure: resident cleanup frame"),
+-            }
+-        })();
++        // Ordinary cleanup retains its complete ACK window. Uncreated workers
++        // cannot manufacture an ACK; partial startup is already a failure.
++        let acknowledgement = if partial {
++            Err("infrastructure: resident startup workers incomplete")
++        } else {
++            (|| loop {
++                let remaining = deadline
++                    .checked_duration_since(Instant::now())
++                    .ok_or("infrastructure: resident cleanup deadline")?;
++                let frame = self.read(remaining)?;
++                if Instant::now() >= deadline {
++                    return Err("infrastructure: resident cleanup deadline");
++                }
++                match frame["kind"].as_str() {
++                    Some("cleaned") => break Ok(frame),
++                    Some("ready" | "registered" | "authenticated" | "error") => {}
++                    _ => break Err("infrastructure: resident cleanup frame"),
++                }
++            })()
++        };
+         self.input.take();
+-        // Release any reader blocked sending EOF/error into the one-slot queue
+-        // before waiting for worker exit. Never join with its Receiver alive.
+-        self.output.take();
+-        let status = loop {
+-            if let Some(status) = self
+-                .child
+-                .try_wait()
+-                .map_err(|_| "infrastructure: resident wait")?
+-            {
+-                break status;
++        self.output.take(); // Release any reader blocked sending into its queue.
++        self.child.stdin.take(); // Also closes a pipe not yet moved into a worker.
++        let mut failure = acknowledgement.as_ref().err().copied();
++        let mut status = None;
++        let mut forced = false;
++        loop {
++            match self.child.try_wait() {
++                Ok(Some(observed)) => {
++                    status = Some(observed);
++                    if Instant::now() >= deadline {
++                        failure.get_or_insert("infrastructure: resident cleanup deadline");
++                    }
++                    break;
++                }
++                Ok(None) => {}
++                Err(_) => {
++                    failure.get_or_insert("infrastructure: resident wait");
++                    forced = true;
++                    let _ = self.child.kill();
++                    break;
++                }
+             }
+             if Instant::now() >= deadline {
++                failure
++                    .get_or_insert("infrastructure: resident cleanup unconfirmed; possible orphan");
++                forced = true;
+                 let _ = self.child.kill();
+-                self.cleaned = true;
+-                return Err("infrastructure: resident cleanup unconfirmed; possible orphan");
++                break;
+             }
+             thread::sleep(Duration::from_millis(20));
+-        };
+-        self.cleaned = true;
++        }
++        // Reuse the existing worker phase for actual reaping and worker drain.
++        // Force-kill is sticky failure, never a substitute for natural exit/ACK.
+         let workers_deadline = Instant::now() + CLEANUP;
+-        let workers_finished = || {
+-            self.writer.as_ref().is_some_and(JoinHandle::is_finished)
+-                && self.reader.as_ref().is_some_and(JoinHandle::is_finished)
+-                && self
++        let workers_finished = |value: &Self| {
++            value.writer.as_ref().is_none_or(JoinHandle::is_finished)
++                && value.reader.as_ref().is_none_or(JoinHandle::is_finished)
++                && value
+                     .error_reader
+                     .as_ref()
+-                    .is_some_and(JoinHandle::is_finished)
++                    .is_none_or(JoinHandle::is_finished)
+         };
+-        while !workers_finished() && Instant::now() < workers_deadline {
++        while (status.is_none() || !workers_finished(self)) && Instant::now() < workers_deadline {
++            if status.is_none() {
++                match self.child.try_wait() {
++                    Ok(Some(observed)) => status = Some(observed),
++                    Ok(None) => {}
++                    Err(_) => {
++                        failure.get_or_insert("infrastructure: resident wait");
++                    }
++                }
++            }
+             thread::sleep(Duration::from_millis(20));
+         }
+-        if !workers_finished() {
+-            return Err("infrastructure: resident worker cleanup deadline");
++        self.node_reaped = status.is_some();
++        self.workers_settled = workers_finished(self);
++        if !self.node_reaped {
++            failure.get_or_insert("infrastructure: resident Node reap unconfirmed");
++        }
++        if !self.workers_settled || Instant::now() >= workers_deadline {
++            failure.get_or_insert("infrastructure: resident worker cleanup deadline");
++        }
++        if !self.constructing
++            && (self.writer.is_none() || self.reader.is_none() || self.error_reader.is_none())
++        {
++            failure.get_or_insert("infrastructure: resident cleanup worker missing");
+         }
+         for worker in [&mut self.writer, &mut self.reader] {
+-            if let Some(worker) = worker.take() {
+-                worker
+-                    .join()
+-                    .map_err(|_| "infrastructure: resident I/O worker failed")?;
+-            }
+-        }
+-        let (count, diagnostic) = self
++            if worker.as_ref().is_some_and(JoinHandle::is_finished)
++                && worker.take().is_some_and(|worker| worker.join().is_err())
++            {
++                failure.get_or_insert("infrastructure: resident I/O worker failed");
++            }
++        }
++        let mut count = 0;
++        let mut diagnostic = None;
++        if self
+             .error_reader
+-            .take()
+-            .ok_or("infrastructure: resident stderr worker missing")?
+-            .join()
+-            .map_err(|_| "infrastructure: resident stderr worker failed")?;
+-        let acknowledgement = acknowledgement.inspect_err(|reason| {
++            .as_ref()
++            .is_some_and(JoinHandle::is_finished)
++            && let Some(worker) = self.error_reader.take()
++        {
++            match worker.join() {
++                Ok(observed) => {
++                    count = observed.0;
++                    diagnostic = observed.1;
++                }
++                Err(_) => {
++                    failure.get_or_insert("infrastructure: resident stderr worker failed");
++                }
++            }
++        }
++        let result = (|| {
++            if let Some(reason) = failure {
++                return Err(reason);
++            }
++            let acknowledgement = acknowledgement?;
++            if count > 1_048_576 || acknowledgement["kind"] != "cleaned" {
++                return Err("infrastructure: resident cleanup acknowledgement");
++            }
++            if let Some(pid) = self.browser_pid
++                && (acknowledgement["browser_pid"] != pid
++                    || acknowledgement["browser_exited"] != true)
++            {
++                return Err("infrastructure: resident browser cleanup identity");
++            }
++            let expected = match acknowledgement["outcome"].as_str() {
++                Some("completed") if done => 0,
++                Some("aborted") if !done => 2,
++                Some("failed") if self.failed => 1,
++                _ => return Err("infrastructure: resident cleanup outcome"),
++            };
++            if status.and_then(|status| status.code()) != Some(expected) {
++                return Err("infrastructure: resident cleanup exit");
++            }
++            Ok(())
++        })();
++        if let Err(reason) = result {
+             if let Some(diagnostic) = &diagnostic {
+-                eprintln!(
++                let _ = writeln!(
++                    std::io::stderr().lock(),
+                     "RESIDENT_CLEANUP_DIAGNOSTIC stage={:?} child_exit_seen={} child_close_seen={} close_settled={} kill_settled={} child_exited={}",
+-                    diagnostic.stage, diagnostic.child_exit_seen, diagnostic.child_close_seen,
+-                    diagnostic.close_settled, diagnostic.kill_settled, diagnostic.child_exited
++                    diagnostic.stage,
++                    diagnostic.child_exit_seen,
++                    diagnostic.child_close_seen,
++                    diagnostic.close_settled,
++                    diagnostic.kill_settled,
++                    diagnostic.child_exited
+                 );
+             }
+-            eprintln!(
+-                "RESIDENT_CLEANUP_FAILURE reason={reason} exit_status={status:?} stderr_bytes={count} sent_before={sent_before} checked_frames_before={received_before} sent={} checked_frames={} done={done} failed={} panicking={panicking} owner_age_ms={owner_age_ms} ceremony_idle_ms={ceremony_idle_ms:?}",
+-                self.sent, self.received, self.failed
++            let _ = writeln!(
++                std::io::stderr().lock(),
++                "RESIDENT_CLEANUP_FAILURE reason={reason} exit_status={status:?} stderr_bytes={count} sent_before={sent_before} checked_frames_before={received_before} sent={} checked_frames={} done={done} failed={} panicking={panicking} owner_age_ms={owner_age_ms} ceremony_idle_ms={ceremony_idle_ms:?} constructing={} forced={forced} node_reaped={} workers_settled={}",
++                self.sent,
++                self.received,
++                self.failed,
++                self.constructing,
++                self.node_reaped,
++                self.workers_settled
+             );
+-        })?;
+-        if count > 1_048_576 || acknowledgement["kind"] != "cleaned" {
+-            return Err("infrastructure: resident cleanup acknowledgement");
+-        }
+-        if let Some(pid) = self.browser_pid
+-            && (acknowledgement["browser_pid"] != pid || acknowledgement["browser_exited"] != true)
+-        {
+-            return Err("infrastructure: resident browser cleanup identity");
+-        }
+-        let expected = match acknowledgement["outcome"].as_str() {
+-            Some("completed") if done => 0,
+-            Some("aborted") if !done => 2,
+-            Some("failed") if self.failed => 1,
+-            _ => return Err("infrastructure: resident cleanup outcome"),
+-        };
+-        if status.code() != Some(expected) {
+-            return Err("infrastructure: resident cleanup exit");
+-        }
+-        Ok(())
++        }
++        result
+     }
+ }
+ 
+ impl Drop for ResidentAuthenticator {
+     fn drop(&mut self) {
+         if let Err(message) = self.close() {
+-            if thread::panicking() {
+-                eprintln!("{message}");
++            if self.constructing || thread::panicking() {
++                let _ = writeln!(std::io::stderr().lock(), "{message}");
+             } else {
+                 panic!("{message}");
+             }

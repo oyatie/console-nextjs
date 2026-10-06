@@ -1,0 +1,236 @@
+{
+  "schema": "copied-cleanup-fault-diagnostic-terminal-audit/1",
+  "verdict": "VERIFIED_DIAGNOSTIC22_TERMINAL_RED21_PASS1_FAIL_BUSINESS_PROTOCOL_ORDER",
+  "scope": "Exact completed copied diagnostic03 report/log/2958 captured input map,16 observations and after-run eight-file copy custody. No tests, tracked edits, root sessions, active-source assumptions, regenerated map or historical cause.",
+  "inputs": {
+    "root_report": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/cleanup-owner-full-fault-diagnostic03.json",
+      "bytes": 860,
+      "sha256": "8380e92db1b05e26e045ad90e7e5346ba5464bcd81ee74cc214244efb5e68390"
+    },
+    "completed_log": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/cleanup-owner-full-fault-diagnostic03.log",
+      "bytes": 23972,
+      "sha256": "5c6993ff8d1a36e2f404571946f7367840920e22dec2e350e061785c6d0b445f"
+    },
+    "captured_input_map": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/cleanup-owner-full-fault-diagnostic03.inputs.json",
+      "bytes": 917481,
+      "sha256": "433fa937df5fb1298f20b855ca2e7af376750d61b0cdadef93087063c1e704f2"
+    },
+    "approved_existing_source_review": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/enrollment-cleanup-after-owner-repair-diagnostic-candidate03/independent-source-review03.json",
+      "bytes": 8039,
+      "sha256": "0463ac5bbceee24d728e025b57e7de77a40ddba25bad3cb38fd7ce227de44b86"
+    },
+    "root_copy_receipt": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/enrollment-cleanup-after-owner-repair-diagnostic03-copy.json",
+      "bytes": 1685,
+      "sha256": "0e7e426dadd98eed8944b71cb9fca3591beeca95aa6bb284285e6e9894be485c"
+    },
+    "exact_observations": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/cleanup-owner-full-fault-diagnostic03-terminal-audit01/probe-observations.ndjson",
+      "bytes": 20476,
+      "sha256": "7966ae2abeba3d5a9e805a8728164b1327ddc9fe1f6ef50929e3faae18e78f98"
+    },
+    "node_accounting": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/cleanup-owner-full-fault-diagnostic03-terminal-audit01/node-counts.json",
+      "bytes": 3977,
+      "sha256": "fef048da63cd72ded8b1ff0f0ecfcc5b04a777c117fc5622f7ede4e92681f794"
+    },
+    "copied_bundle_after_pins": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/cleanup-owner-full-fault-diagnostic03-terminal-audit01/copied-bundle-after-pins.json",
+      "bytes": 4672,
+      "sha256": "73b19a7cdd95ef7aa6f3d7a891477ad61e6480497cede269fdef09b04946b929"
+    }
+  },
+  "command": [
+    "node",
+    "--test",
+    ".artifacts/enrollment-cleanup-after-owner-repair-diagnostic03/tools/enrollment-fault-deadlines.test.mjs",
+    ".artifacts/enrollment-cleanup-after-owner-repair-diagnostic03/tools/test-native-browser-enrollment-diagnostic.test.mjs"
+  ],
+  "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+  "exit_code": 1,
+  "outer_timeout": false,
+  "wrapper_duration_seconds": 216.37315004097763,
+  "node_reported_duration_ms": 216287.616583,
+  "actual_node_counts": {
+    "executed": 22,
+    "passed": 21,
+    "failed": 1,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0
+  },
+  "categories": {
+    "clock_tests_passed": 6,
+    "native_runner_passed": 13,
+    "business_runner_passed": 2,
+    "business_runner_failed": 1
+  },
+  "failed_case": {
+    "name": "business runner confirms cleanup after frame-eof-before-origin",
+    "duration_ms": 201.275875,
+    "assertion_actual_kind": "report",
+    "assertion_expected_kind": "cleaned",
+    "location": {
+      "file": "tools/test-native-browser-enrollment-diagnostic.test.mjs",
+      "line": 196,
+      "column": 14
+    },
+    "exact_observation": {
+      "schema": "isolated-real-enrollment-cleanup-suite-probe/1",
+      "runner": "business",
+      "fault": "frame-eof-before-origin",
+      "phase": "startup",
+      "expected_frame_kind": "cleaned",
+      "last_received_frame_kind": "other",
+      "fault_input_attempted": true,
+      "cleanup_ack_received": false,
+      "cleanup_ack_outcome": "none",
+      "cleanup_creation_attempts_zero": null,
+      "producer_exit_observed": true,
+      "producer_exit_code_class": "2",
+      "producer_signal_class": "none",
+      "approved_producer_sha256": "6868ac44bef0334065b3e4cd70ddfc58c3623be4070e6625f35b1738bed24280",
+      "supervisor_forced": false,
+      "final_cleanup_sigterm_attempted": true,
+      "final_cleanup_sigkill_attempted": false,
+      "owned_tmp_empty_before_parent_removal": true,
+      "diagnostic_decode_failed": false,
+      "received_cleanup_diagnostics": [],
+      "received_main_failure_diagnostics": [],
+      "scope": "unchanged16process cases plus6clock tests; separate main and cleanup localization; no historical-failure resolution or full125/17 acceptance"
+    },
+    "interpretation": "Original business6868 producer emitted unexpected report before the driver observed cleaned. This is a required protocol ordering failure. The observation stores unknown kind as other; the exact assertion identifies report.",
+    "limits": [
+      "Driver stopped expected-ACK reading after unexpected report. cleanup_ack_received:false proves no ACK observed by that reader, not that the producer never emitted a later ACK.",
+      "Actual exit2/no signal and empty owned TMPDIR were observed after failed assertion and final SIGTERM attempt. This failed case did not reach checked-natural-exit, so it cannot count as no-intervention/natural cleanup acceptance.",
+      "Final SIGTERM flag proves an attempted call, not delivery or causal effect. No SIGKILL attempt and no supervisor fallback were observed.",
+      "No fixed business main/cleanup diagnostic was emitted by the unchanged business copy; internal startup/close/ACK timing and broader cause remain unproven."
+    ]
+  },
+  "passed_observations": {
+    "actual_count": 15,
+    "all_exact_expected_ACK_outcome_zero_creation_exit_observed": true,
+    "all_checked_natural_exit_no_signal_no_supervisor_or_final_parent_attempts": true,
+    "all_owned_TMPDIR_empty_before_parent_removal": true,
+    "native_wrong_sequence_and_legacy": [
+      {
+        "schema": "isolated-real-enrollment-cleanup-suite-probe/1",
+        "runner": "enrollment",
+        "fault": "wrong-sequence",
+        "phase": "checked-natural-exit",
+        "expected_frame_kind": "cleaned",
+        "last_received_frame_kind": "cleaned",
+        "fault_input_attempted": true,
+        "cleanup_ack_received": true,
+        "cleanup_ack_outcome": "failed",
+        "cleanup_creation_attempts_zero": true,
+        "producer_exit_observed": true,
+        "producer_exit_code_class": "1",
+        "producer_signal_class": "none",
+        "approved_producer_sha256": "ef53481448b7b9fb261a31ea594a2deed9604b5c3536c7101d8d3b13cd22bd2b",
+        "supervisor_forced": false,
+        "final_cleanup_sigterm_attempted": false,
+        "final_cleanup_sigkill_attempted": false,
+        "owned_tmp_empty_before_parent_removal": true,
+        "diagnostic_decode_failed": false,
+        "received_cleanup_diagnostics": [],
+        "received_main_failure_diagnostics": [
+          {
+            "version": 1,
+            "main_phase": "validation",
+            "main_error_type": "assertion",
+            "next_readiness_status": "ready",
+            "next_probe_result": "404-html",
+            "next_probe_error_type": "none",
+            "next_readiness_budget_elapsed": false,
+            "next_startup_error_seen": false,
+            "next_startup_exit_seen": false,
+            "next_startup_close_seen": false,
+            "ready_write_started": true,
+            "ready_write_settled": true,
+            "ready_write_fulfilled": true,
+            "next_owner_seen": true,
+            "next_exit_observed": false
+          }
+        ],
+        "scope": "unchanged16process cases plus6clock tests; separate main and cleanup localization; no historical-failure resolution or full125/17 acceptance"
+      },
+      {
+        "schema": "isolated-real-enrollment-cleanup-suite-probe/1",
+        "runner": "enrollment",
+        "fault": "legacy-selection",
+        "phase": "checked-natural-exit",
+        "expected_frame_kind": "cleaned",
+        "last_received_frame_kind": "cleaned",
+        "fault_input_attempted": true,
+        "cleanup_ack_received": true,
+        "cleanup_ack_outcome": "failed",
+        "cleanup_creation_attempts_zero": true,
+        "producer_exit_observed": true,
+        "producer_exit_code_class": "1",
+        "producer_signal_class": "none",
+        "approved_producer_sha256": "ef53481448b7b9fb261a31ea594a2deed9604b5c3536c7101d8d3b13cd22bd2b",
+        "supervisor_forced": false,
+        "final_cleanup_sigterm_attempted": false,
+        "final_cleanup_sigkill_attempted": false,
+        "owned_tmp_empty_before_parent_removal": true,
+        "diagnostic_decode_failed": false,
+        "received_cleanup_diagnostics": [],
+        "received_main_failure_diagnostics": [
+          {
+            "version": 1,
+            "main_phase": "validation",
+            "main_error_type": "assertion",
+            "next_readiness_status": "ready",
+            "next_probe_result": "404-html",
+            "next_probe_error_type": "none",
+            "next_readiness_budget_elapsed": false,
+            "next_startup_error_seen": false,
+            "next_startup_exit_seen": false,
+            "next_startup_close_seen": false,
+            "ready_write_started": true,
+            "ready_write_settled": true,
+            "ready_write_fulfilled": true,
+            "next_owner_seen": true,
+            "next_exit_observed": false
+          }
+        ],
+        "scope": "unchanged16process cases plus6clock tests; separate main and cleanup localization; no historical-failure resolution or full125/17 acceptance"
+      }
+    ],
+    "limit": "These two native intended faults reached and passed on copied diagnosticef534. Earlier wrong-sequence pre-ready failure and legacy noACK are preserved, not reproduced or causally resolved."
+  },
+  "diagnostics": {
+    "native_main_failure_records": 13,
+    "business_main_failure_records": 0,
+    "cleanup_failure_records": 0,
+    "decoded_failure_metadata_invalid": 0,
+    "interpretation": "Native outer-main errors include expected invalid input assertions. Their existence does not mean cleanup failed. No cleanup failure snapshots were received on this run."
+  },
+  "source_custody": {
+    "captured_before_after_count": 2958,
+    "captured_maps_identical": true,
+    "tracked_source_map_identical_to_current_required22_RED": true,
+    "copied_effective_source_verified_separately": true,
+    "copied_file_count": 8,
+    "native_copied_source_sha256": "ef53481448b7b9fb261a31ea594a2deed9604b5c3536c7101d8d3b13cd22bd2b",
+    "business_copied_source_sha256": "6868ac44bef0334065b3e4cd70ddfc58c3623be4070e6625f35b1738bed24280",
+    "all_after_hashes_match_pre_run_receipt_and_approved_manifest": true,
+    "limit": "Ordinary2958 tracked maps exclude the copied diagnostic bundle, so they alone do not pin its effective source. Independent eight-file closure supplies that proof."
+  },
+  "limits": [
+    "Separate copied diagnostic22 remains21/1RED; it cannot satisfy ordinary current required22 acceptance20/2RED.",
+    "No timing differences or isolated native passes establish historical cause or repair success.",
+    "Current full125/all17 still required; prior full125RED preserved.",
+    "Portable seal, final exact source/evidence review, immutable-head hostedCI and protected merge queue remain pending."
+  ],
+  "actions": {
+    "tests_executed": 0,
+    "tracked_source_writes": 0,
+    "artifact_only_audit_observation_accounting_custody_write": true
+  }
+}

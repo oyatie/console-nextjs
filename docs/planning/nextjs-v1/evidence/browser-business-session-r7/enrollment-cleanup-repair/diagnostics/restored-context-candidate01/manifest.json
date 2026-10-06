@@ -1,0 +1,29 @@
+{
+  "schema": "restored-context-candidate/1",
+  "state": "artifact_only_not_applied_not_executed",
+  "before_sha256": "eb5e3feb387bac47b35eb9a4fb56c2d2fa18f57a92caa0ad72244519c8f8d4fc",
+  "after_sha256": "05e4c507cd4821df1d113ec17a9c71fc9cf90fc34370fb72e80f1391992c4b98",
+  "patch_sha256": "619018bd4802c9a4dc71bf5e9d79adebb267666b70ef6131c7c723acaaffc38f",
+  "source_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/restored-context-candidate01/tools/browser-business-restore.mjs",
+  "observed_failure": {
+    "run": "queued-prewitness-diagnostic-native01",
+    "checkpoint": "queued-pending",
+    "native_status": 401,
+    "native_gate_and_context_match": true,
+    "ordering_observation": null,
+    "raw_exception": "unproven"
+  },
+  "source_mechanism": "Playwright selects the current frame and cached utility-script object; direct standard CDP evaluation uses the pinned system-unique original context instead. Exact original probe Document is checked before every operation. No context remapping or current-page fallback.",
+  "acceptance_preserved": [
+    "Actual trusted persisted restoration and hidden departure/restore",
+    "Exact native gate/context/401 before single latch release",
+    "Later actual React commit and actual logout204/cookie removal",
+    "Original hidden body/table/HTML proof during held reload",
+    "Exactly one reload and independent actorB"
+  ],
+  "proof_limits": [
+    "Runtime remains pending; original uniqueContextId usability after BFCache restoration is not yet established",
+    "This changes only test observation/controlled probe release, not production authorization or behavior",
+    "Raw CDP exceptions, HTML, URLs and context identities are not diagnostic output"
+  ]
+}

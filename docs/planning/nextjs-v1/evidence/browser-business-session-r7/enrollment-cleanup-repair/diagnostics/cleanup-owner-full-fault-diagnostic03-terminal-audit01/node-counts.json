@@ -1,0 +1,136 @@
+{
+  "schema": "node22-copied-diagnostic-accounting/1",
+  "run_id": "cleanup-owner-full-fault-diagnostic03",
+  "actual_node_counts": {
+    "executed": 22,
+    "passed": 21,
+    "failed": 1,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0
+  },
+  "clock_tests_passed": 6,
+  "native_runner_tests_passed": 13,
+  "business_runner_tests_passed": 2,
+  "business_runner_tests_failed": 1,
+  "execution_rows": [
+    {
+      "name": "slow prerequisite startup does not spend the requested cleanup budget",
+      "status": "passed",
+      "duration_ms": 1.38475
+    },
+    {
+      "name": "a ready runner that fails to exit still triggers the cleanup fallback",
+      "status": "passed",
+      "duration_ms": 0.711917
+    },
+    {
+      "name": "never-ready startup has one absolute bounded termination deadline",
+      "status": "passed",
+      "duration_ms": 0.32425
+    },
+    {
+      "name": "a second fault cannot reset an already running cleanup deadline",
+      "status": "passed",
+      "duration_ms": 0.199083
+    },
+    {
+      "name": "late cleanup cannot erase evidence of forced intervention",
+      "status": "passed",
+      "duration_ms": 0.21775
+    },
+    {
+      "name": "natural completion disposes both clocks and cannot rearm them",
+      "status": "passed",
+      "duration_ms": 0.177792
+    },
+    {
+      "name": "enrollment runner confirms cleanup after eof-before-origin",
+      "status": "passed",
+      "duration_ms": 369.303917
+    },
+    {
+      "name": "enrollment runner confirms cleanup after partial-eof-before-origin",
+      "status": "passed",
+      "duration_ms": 291.205667
+    },
+    {
+      "name": "enrollment runner confirms cleanup after frame-eof-before-origin",
+      "status": "passed",
+      "duration_ms": 294.378958
+    },
+    {
+      "name": "enrollment runner confirms cleanup after signal-after-origin",
+      "status": "passed",
+      "duration_ms": 17401.479208
+    },
+    {
+      "name": "enrollment runner confirms cleanup after eof-after-ready",
+      "status": "passed",
+      "duration_ms": 22170.746583
+    },
+    {
+      "name": "enrollment runner confirms cleanup after oversized",
+      "status": "passed",
+      "duration_ms": 26471.90725
+    },
+    {
+      "name": "enrollment runner confirms cleanup after wrong-version",
+      "status": "passed",
+      "duration_ms": 29055.754833
+    },
+    {
+      "name": "enrollment runner confirms cleanup after wrong-sequence",
+      "status": "passed",
+      "duration_ms": 24854.670542
+    },
+    {
+      "name": "enrollment runner confirms cleanup after wrong-kind",
+      "status": "passed",
+      "duration_ms": 22884.217333
+    },
+    {
+      "name": "enrollment runner confirms cleanup after legacy-selection",
+      "status": "passed",
+      "duration_ms": 23869.109291
+    },
+    {
+      "name": "enrollment runner confirms cleanup after missing-selection",
+      "status": "passed",
+      "duration_ms": 19351.573583
+    },
+    {
+      "name": "enrollment runner confirms cleanup after malformed-selection",
+      "status": "passed",
+      "duration_ms": 14373.82875
+    },
+    {
+      "name": "enrollment runner confirms cleanup after weak-uv",
+      "status": "passed",
+      "duration_ms": 14227.17125
+    },
+    {
+      "name": "business runner confirms cleanup after eof-before-origin",
+      "status": "passed",
+      "duration_ms": 217.289459
+    },
+    {
+      "name": "business runner confirms cleanup after partial-eof-before-origin",
+      "status": "passed",
+      "duration_ms": 203.436458
+    },
+    {
+      "name": "business runner confirms cleanup after frame-eof-before-origin",
+      "status": "failed",
+      "duration_ms": 201.275875
+    }
+  ],
+  "generic_wrapper_counts": {
+    "passed": 0,
+    "failed": 0,
+    "skipped": 0,
+    "filtered": 0,
+    "executed": 0
+  },
+  "counting_rule": "Only22 unique execution rows before \u2139 tests count; repeated failing summary is not another executed case. Generic Rust wrapper zeros are not Nodecounts."
+}

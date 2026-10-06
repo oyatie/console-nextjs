@@ -1,0 +1,1120 @@
+diff --git a/.github/workflows/ci.yml b/.github/workflows/ci.yml
+index a9ea12c..b37c3c4 100644
+--- a/.github/workflows/ci.yml
++++ b/.github/workflows/ci.yml
+@@ -38,7 +38,7 @@ jobs:
+       - run: node --test tools/test-production-runtime.test.mjs
+       - run: node --test tools/browser-business-failure.test.mjs tools/browser-business-temporal.test.mjs
+       - run: npx playwright install --with-deps chromium
+-      - run: node --test tools/test-native-browser-enrollment.test.mjs
++      - run: node --test tools/enrollment-fault-deadlines.test.mjs tools/test-native-browser-enrollment.test.mjs
+       - run: rustup toolchain install 1.98.1 --profile minimal
+       - run: rustup component add clippy rustfmt --toolchain 1.98.1
+       - name: Rust format
+diff --git a/backend-fork/backend/app/tests/auth_rest/browser_sessions.rs b/backend-fork/backend/app/tests/auth_rest/browser_sessions.rs
+index f558a44..bc9e7c5 100644
+--- a/backend-fork/backend/app/tests/auth_rest/browser_sessions.rs
++++ b/backend-fork/backend/app/tests/auth_rest/browser_sessions.rs
+@@ -3233,17 +3233,97 @@ async fn prepare_real_worker_storage(pool: &PgPool) {
+         .expect("Apalis owner preparation must pass independently of cleanup behavior");
+ }
+ 
++// Drain every byte without retaining or publishing subprocess error contents.
++// Only bounded line prefixes are examined for fixed startup failure classes.
++#[derive(Default)]
++struct WorkerStderr {
++    bytes: usize,
++    app_error: Option<&'static str>,
++    address_in_use: bool,
++    panicked: bool,
++    thread_spawn: bool,
++    read_failed: bool,
++}
++
++impl WorkerStderr {
++    fn classify(&mut self, prefix: &[u8]) {
++        for variant in [
++            "Config",
++            "Database",
++            "Internal",
++            "Io",
++            "Storage",
++            "Telemetry",
++            "Worker",
++            "Realtime",
++        ] {
++            if prefix.starts_with(format!("Error: {variant}(").as_bytes()) {
++                self.app_error = Some(variant);
++                if variant == "Io" {
++                    self.address_in_use |= prefix
++                        .windows(b"kind: AddrInUse".len())
++                        .any(|part| part == b"kind: AddrInUse");
++                }
++            }
++        }
++        self.panicked |= prefix
++            .windows(b"panicked at".len())
++            .any(|part| part == b"panicked at");
++        self.thread_spawn |= prefix
++            .windows(b"OS can't spawn worker thread:".len())
++            .any(|part| part == b"OS can't spawn worker thread:");
++    }
++
++    fn drain(mut stderr: std::process::ChildStderr) -> Self {
++        use std::io::Read as _;
++        let mut result = Self::default();
++        let mut bytes = [0_u8; 8192];
++        let mut prefix = Vec::with_capacity(512);
++        loop {
++            match stderr.read(&mut bytes) {
++                Ok(0) => break,
++                Ok(length) => {
++                    result.bytes = result.bytes.saturating_add(length);
++                    for byte in &bytes[..length] {
++                        if *byte == b'\n' {
++                            result.classify(&prefix);
++                            prefix.clear();
++                        } else if prefix.len() < 512 {
++                            prefix.push(*byte);
++                        }
++                    }
++                }
++                Err(error) if error.kind() == std::io::ErrorKind::Interrupted => continue,
++                Err(_) => {
++                    result.read_failed = true;
++                    break;
++                }
++            }
++        }
++        result.classify(&prefix);
++        result
++    }
++}
++
+ struct RealWorker {
+     child: std::process::Child,
+     ready_url: String,
+     service: String,
+     worker_id: String,
++    stderr: Option<std::thread::JoinHandle<WorkerStderr>>,
++    spawned_at: std::time::Instant,
++    ready_verified: bool,
++    last_ready: &'static str,
++    last_registered: bool,
+ }
+ 
+ impl Drop for RealWorker {
+     fn drop(&mut self) {
+         let _ = self.child.kill();
+         let _ = self.child.wait();
++        if let Some(reader) = self.stderr.take() {
++            let _ = reader.join();
++        }
+     }
+ }
+ 
+@@ -3280,6 +3360,7 @@ impl RealWorker {
+             "fixture must use a genuinely new worker identity"
+         );
+         drop(reserve);
++        let spawned_at = std::time::Instant::now();
+         let child = std::process::Command::new(env!("CARGO_BIN_EXE_console-app"))
+             .env_clear()
+             .env("CONSOLE_APP_ROLE", "worker")
+@@ -3292,7 +3373,7 @@ impl RealWorker {
+             .env("RUST_LOG", "error")
+             .stdin(std::process::Stdio::null())
+             .stdout(std::process::Stdio::null())
+-            .stderr(std::process::Stdio::null())
++            .stderr(std::process::Stdio::piped())
+             .spawn()
+             .expect("worker fixture prerequisite: binary must spawn");
+         let mut worker = Self {
+@@ -3300,7 +3381,19 @@ impl RealWorker {
+             ready_url: format!("http://{addr}/readyz"),
+             service,
+             worker_id,
++            stderr: None,
++            spawned_at,
++            ready_verified: false,
++            last_ready: "unobserved",
++            last_registered: false,
+         };
++        // The owner guard must exist before diagnostic thread creation can fail.
++        let stderr = worker.child.stderr.take().expect("worker diagnostic pipe");
++        worker.stderr = Some(
++            std::thread::Builder::new()
++                .spawn(move || WorkerStderr::drain(stderr))
++                .unwrap_or_else(|_| panic!("worker diagnostic reader start")),
++        );
+         worker.require_ready(owner).await;
+         worker
+     }
+@@ -3313,20 +3406,28 @@ impl RealWorker {
+         loop {
+             self.require_alive();
+             let mut ready = false;
+-            if let Ok(response) = client.get(&self.ready_url).send().await
+-                && response.status() == reqwest::StatusCode::OK
+-                && let Ok(bytes) = response.bytes().await
+-                && let Ok(body) = serde_json::from_slice::<Value>(&bytes)
+-            {
+-                ready = body["service"].as_str() == Some(self.service.as_str())
+-                    && body["role"] == "worker"
+-                    && body["status"] == "ready"
+-                    && body["write_ready"] == false;
++            self.last_ready = "request_failed";
++            if let Ok(response) = client.get(&self.ready_url).send().await {
++                self.last_ready = "non_ok_status";
++                if response.status() == reqwest::StatusCode::OK {
++                    self.last_ready = "invalid_response";
++                    if let Ok(bytes) = response.bytes().await
++                        && let Ok(body) = serde_json::from_slice::<Value>(&bytes)
++                    {
++                        ready = body["service"].as_str() == Some(self.service.as_str())
++                            && body["role"] == "worker"
++                            && body["status"] == "ready"
++                            && body["write_ready"] == false;
++                        self.last_ready = if ready { "ready" } else { "identity_mismatch" };
++                    }
++                }
+             }
+             let registered:bool=sqlx::query_scalar("SELECT EXISTS(SELECT 1 FROM apalis.workers WHERE id=$1 AND worker_type='console.dispatch')")
+                 .bind(&self.worker_id).fetch_one(owner).await.unwrap();
++            self.last_registered = registered;
+             if ready && registered {
+                 self.require_alive();
++                self.ready_verified = true;
+                 return;
+             }
+             assert!(
+@@ -3337,10 +3438,31 @@ impl RealWorker {
+         }
+     }
+     fn require_alive(&mut self) {
+-        assert!(
+-            self.child.try_wait().unwrap().is_none(),
+-            "worker infrastructure failure: process exited before cleanup proof"
+-        );
++        if let Some(status) = self.child.try_wait().unwrap() {
++            let drained = self.stderr.take().map(|reader| reader.join());
++            let (drain_joined, evidence) = match drained {
++                Some(Ok(evidence)) => (true, evidence),
++                _ => (false, WorkerStderr::default()),
++            };
++            let phase = if self.ready_verified {
++                "runtime"
++            } else {
++                "startup"
++            };
++            eprintln!(
++                "REAL_WORKER_FAILURE exit_status={status:?} phase={phase} elapsed_ms={} last_ready={} registered={} drain_joined={drain_joined} stderr_bytes={} app_error={:?} address_in_use={} panicked={} thread_spawn={} read_failed={}",
++                self.spawned_at.elapsed().as_millis(),
++                self.last_ready,
++                self.last_registered,
++                evidence.bytes,
++                evidence.app_error,
++                evidence.address_in_use,
++                evidence.panicked,
++                evidence.thread_spawn,
++                evidence.read_failed
++            );
++            panic!("worker infrastructure failure: process exited before cleanup proof");
++        }
+     }
+     fn crash(&mut self) {
+         self.child.kill().expect("crash real worker");
+diff --git a/backend-fork/backend/app/tests/auth_rest/genuine_browser.rs b/backend-fork/backend/app/tests/auth_rest/genuine_browser.rs
+index 2ed1c9d..3a65a38 100644
+--- a/backend-fork/backend/app/tests/auth_rest/genuine_browser.rs
++++ b/backend-fork/backend/app/tests/auth_rest/genuine_browser.rs
+@@ -135,7 +135,14 @@ impl Browser {
+         if self.received >= self.max_frames {
+             return Err("infrastructure: frame count");
+         }
+-        let frame = timeout(self.phase, async {
++        // Runtime staging precedes the first origin frame. Keep later native
++        // ceremony phases at 20s and the enclosing probe/cleanup bounds intact.
++        let deadline = if self.received == 0 {
++            StdDuration::from_secs(90)
++        } else {
++            self.phase
++        };
++        let frame = timeout(deadline, async {
+             let length = self
+                 .output
+                 .read_u32()
+@@ -956,6 +963,12 @@ async fn run_probe(
+     )
+     .await
+     .unwrap_or(Err("infrastructure: overall deadline"));
++    if let Err(reason) = &result {
++        eprintln!(
++            "NATIVE_BROWSER_FAILURE {reason} checked_frames={}",
++            browser.received
++        );
++    }
+     if let Some(server) = server {
+         server.abort();
+         let _ = server.await;
+diff --git a/backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs b/backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs
+index 224bb0a..7d25a99 100644
+--- a/backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs
++++ b/backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs
+@@ -18,6 +18,28 @@ const MAX_FRAME: usize = 65_536;
+ const MAX_FRAMES: u64 = 128;
+ const PHASE: Duration = Duration::from_secs(25);
+ const CLEANUP: Duration = Duration::from_secs(15);
++#[derive(serde::Deserialize, Debug)]
++#[serde(rename_all = "kebab-case")]
++enum CleanupStage {
++    Startup,
++    BrowserIdentity,
++    BrowserClose,
++    BrowserKill,
++    BrowserExit,
++    Ack,
++}
++
++#[derive(serde::Deserialize, Debug)]
++#[serde(deny_unknown_fields)]
++struct CleanupDiagnostic {
++    stage: CleanupStage,
++    child_exit_seen: bool,
++    child_close_seen: bool,
++    close_settled: bool,
++    kill_settled: bool,
++    child_exited: bool,
++}
++
+ type Result<T> = std::result::Result<T, &'static str>;
+ 
+ pub(super) struct ResidentAuthenticator {
+@@ -27,12 +49,14 @@ pub(super) struct ResidentAuthenticator {
+     writes: Receiver<Result<()>>,
+     writer: Option<JoinHandle<()>>,
+     reader: Option<JoinHandle<()>>,
+-    error_reader: Option<JoinHandle<usize>>,
++    error_reader: Option<JoinHandle<(usize, Option<CleanupDiagnostic>)>>,
+     sent: u64,
+     received: u64,
+     browser_pid: Option<u32>,
+     failed: bool,
+     cleaned: bool,
++    spawned_at: Instant,
++    last_ceremony_read: Option<Instant>,
+ }
+ 
+ impl ResidentAuthenticator {
+@@ -62,6 +86,7 @@ impl ResidentAuthenticator {
+                 command.env(key, value);
+             }
+         }
++        let spawned_at = Instant::now();
+         let mut child = command
+             .spawn()
+             .map_err(|_| "infrastructure: resident Node start")?;
+@@ -120,13 +145,20 @@ impl ResidentAuthenticator {
+         let error_reader = thread::spawn(move || {
+             let mut bytes = [0_u8; 8192];
+             let mut count = 0_usize;
++            let mut prefix = Vec::with_capacity(512);
+             while let Ok(length) = stderr.read(&mut bytes) {
+                 if length == 0 {
+                     break;
+                 }
+                 count = count.saturating_add(length);
++                let retained = length.min(512 - prefix.len());
++                prefix.extend_from_slice(&bytes[..retained]);
+             }
+-            count
++            let diagnostic = prefix.split(|byte| *byte == b'\n').find_map(|line| {
++                let payload = line.strip_prefix(b"RESIDENT_CLEANUP_DIAGNOSTIC ")?;
++                serde_json::from_slice::<CleanupDiagnostic>(payload).ok()
++            });
++            (count, diagnostic)
+         });
+         let mut value = Self {
+             child,
+@@ -141,6 +173,8 @@ impl ResidentAuthenticator {
+             browser_pid: None,
+             failed: true,
+             cleaned: false,
++            spawned_at,
++            last_ceremony_read: None,
+         };
+         let ready = value.read(PHASE)?;
+         if ready["kind"] != "ready" || ready["origin"] != ORIGIN || ready["secure_context"] != true
+@@ -195,6 +229,7 @@ impl ResidentAuthenticator {
+         }
+         let credential = serde_json::from_value(result["credential"].clone())
+             .map_err(|_| "infrastructure: resident credential codec")?;
++        self.last_ceremony_read = Some(Instant::now());
+         self.failed = false;
+         Ok(credential)
+     }
+@@ -240,6 +275,13 @@ impl ResidentAuthenticator {
+         if self.cleaned {
+             return Ok(());
+         }
++        let owner_age_ms = self.spawned_at.elapsed().as_millis();
++        let ceremony_idle_ms = self
++            .last_ceremony_read
++            .map(|time| time.elapsed().as_millis());
++        let sent_before = self.sent;
++        let received_before = self.received;
++        let panicking = thread::panicking();
+         let deadline = Instant::now() + CLEANUP;
+         // Successful close requests done. Error/panic uses EOF, as C2 does.
+         let done = if self.failed || thread::panicking() {
+@@ -305,13 +347,25 @@ impl ResidentAuthenticator {
+                     .map_err(|_| "infrastructure: resident I/O worker failed")?;
+             }
+         }
+-        let count = self
++        let (count, diagnostic) = self
+             .error_reader
+             .take()
+             .ok_or("infrastructure: resident stderr worker missing")?
+             .join()
+             .map_err(|_| "infrastructure: resident stderr worker failed")?;
+-        let acknowledgement = acknowledgement?;
++        let acknowledgement = acknowledgement.inspect_err(|reason| {
++            if let Some(diagnostic) = &diagnostic {
++                eprintln!(
++                    "RESIDENT_CLEANUP_DIAGNOSTIC stage={:?} child_exit_seen={} child_close_seen={} close_settled={} kill_settled={} child_exited={}",
++                    diagnostic.stage, diagnostic.child_exit_seen, diagnostic.child_close_seen,
++                    diagnostic.close_settled, diagnostic.kill_settled, diagnostic.child_exited
++                );
++            }
++            eprintln!(
++                "RESIDENT_CLEANUP_FAILURE reason={reason} exit_status={status:?} stderr_bytes={count} sent_before={sent_before} checked_frames_before={received_before} sent={} checked_frames={} done={done} failed={} panicking={panicking} owner_age_ms={owner_age_ms} ceremony_idle_ms={ceremony_idle_ms:?}",
++                self.sent, self.received, self.failed
++            );
++        })?;
+         if count > 1_048_576 || acknowledgement["kind"] != "cleaned" {
+             return Err("infrastructure: resident cleanup acknowledgement");
+         }
+diff --git a/tools/browser-business-restore.mjs b/tools/browser-business-restore.mjs
+index f44bb25..f7f69cb 100644
+--- a/tools/browser-business-restore.mjs
++++ b/tools/browser-business-restore.mjs
+@@ -86,8 +86,20 @@ async function installProbe(page, selector, facts, queueLogout, observeReact = f
+   };
+   page.on("console", listener);
+   await page.addInitScript(({ selector, names, queueLogout, observeReact, key, prefix }) => {
+-    const state = { document: crypto.randomUUID(), restored: false, reactCommits: 0 };
++    const state = { document: crypto.randomUUID(), restored: false, reactCommits: 0, logoutQueued: false, logoutStarted: false, logoutReleased: false };
+     Object.defineProperty(window, key, { value: state });
++    // Only a real persisted pageshow queues this timer. The native response
++    // witness below releases it once; cleanup never releases an unproved action.
++    let releaseLogout;
++    const logoutRelease = queueLogout ? new Promise((resolve) => { releaseLogout = resolve; }) : null;
++    state.releaseLogout = (original) => {
++      if (!queueLogout || state.document !== original || !state.restored
++        || !state.logoutQueued || state.logoutStarted || state.logoutReleased) return null;
++      const commits = state.reactCommits;
++      state.logoutReleased = true;
++      releaseLogout();
++      return commits;
++    };
+     function report(event, source) {
+       const region = document.querySelector(selector);
+       const style = region ? getComputedStyle(region) : null;
+@@ -125,11 +137,16 @@ async function installProbe(page, selector, facts, queueLogout, observeReact = f
+     addEventListener("pageshow", (event) => {
+       if (event.isTrusted && event.persisted) {
+         state.restored = true;
+-        if (queueLogout) setTimeout(() => {
+-          const button = [...(document.querySelector(selector)?.querySelectorAll("button") ?? [])]
+-            .find((item) => item.textContent.trim() === "로그아웃");
+-          if (button) button.click(); // Actual mounted product handler; real owner response required below.
+-        }, 0);
++        if (queueLogout && !state.logoutQueued) {
++          state.logoutQueued = true;
++          setTimeout(async () => {
++            await logoutRelease;
++            state.logoutStarted = true;
++            const button = [...(document.querySelector(selector)?.querySelectorAll("button") ?? [])]
++              .find((item) => item.textContent.trim() === "로그아웃");
++            if (button) button.click(); // Actual mounted product handler; real owner response required below.
++          }, 0);
++        }
+       }
+       queueMicrotask(() => report("pageshow", event));
+     });
+@@ -253,8 +270,43 @@ async function cacheVariant(h, mode) {
+   const queued = mode === "queued-react-css";
+   const probe = await installProbe(page, h.guardContract.privateRegionSelector, actor.facts, queued, mode === "delayed-bundles");
+   const documents = []; const failedRequests = []; const heldScripts = [];
++  const cacheFailures = [];
++  let cacheObserver;
++  // This diagnostic retains fixed browser enums only, never event IDs/URLs/details.
++  const cacheReasonAllowlist = new Set([
++    "BackForwardCacheDisabled", "RelatedActiveContentsExist", "Loading", "Timeout", "CacheLimit",
++    "JavaScriptExecution", "RendererProcessKilled", "RendererProcessCrashed", "CacheFlushed",
++    "TimeoutPuttingInCache", "BackForwardCacheDisabledByLowMemory", "BackForwardCacheDisabledByCommandLine",
++    "NetworkRequestTimeout", "NetworkExceedsBufferLimit", "NavigationCancelledWhileRestoring",
++    "CacheControlNoStore", "CacheControlNoStoreCookieModified", "CacheControlNoStoreHTTPOnlyCookieModified",
++    "OutstandingNetworkRequestOthers", "OutstandingNetworkRequestFetch", "OutstandingNetworkRequestXHR",
++    "InjectedJavascript", "InjectedStyleSheet", "KeepaliveRequest", "CacheLimitPrunedOnModerateMemoryPressure",
++    "CacheLimitPrunedOnCriticalMemoryPressure", "ContentWebAuthenticationAPI", "Unknown",
++  ]);
++  const cacheFailureListener = ({ notRestoredExplanations }) => {
++    for (const explanation of notRestoredExplanations ?? []) {
++      if (cacheFailures.length >= 32) break;
++      const type = ["SupportPending", "PageSupportNeeded", "Circumstantial"].includes(explanation.type)
++        ? explanation.type : "unrecognized";
++      const reason = cacheReasonAllowlist.has(explanation.reason) ? explanation.reason : "unrecognized";
++      cacheFailures.push({ type, reason });
++    }
++  };
+   const evidence = { mode, blocked_scripts: 0, blocked_styles: 0, transformed_documents: [] };
+   let readGate; let back; let queuedResponse; let original; let consumedFault = false;
++  let queuedOrderingObservation;
++  let tearingDown = false;
++  let readGateHeld = false;
++  let readGateReleaseAttempted = false;
++  let primaryError;
++  async function releaseReadGate() {
++    assert.ok(readGate && readGateHeld && !readGateReleaseAttempted, "release only an owned held native response once");
++    readGateReleaseAttempted = true; // A lost receipt never permits a blind retry.
++    const released = await readGate.release();
++    assert.equal(released.gate, readGate.gate);
++    assert.equal(released.released, true);
++    readGate = undefined;
++  }
+   const requestListener = (request) => {
+     if (request.isNavigationRequest() && request.frame() === page.mainFrame()) documents.push(request.url());
+   };
+@@ -275,6 +327,8 @@ async function cacheVariant(h, mode) {
+     if (request.resourceType() === "script" && mode === "delayed-bundles") {
+       const response = await route.fetch({ timeout: h.phaseMs ?? 20000 }); // Real static bytes; no cookie/header-order claim.
+       const body = await response.body();
++      // A late real fetch must not create another hold after cleanup drained it.
++      if (tearingDown) { await route.fulfill({ response, body }); return; }
+       let release; const released = new Promise((resolve) => { release = resolve; });
+       heldScripts.push({ release, digest: sha(body) });
+       await released;
+@@ -304,6 +358,11 @@ async function cacheVariant(h, mode) {
+   };
+   const routed = ["blocked-bundles", "blocked-css-bundles", "delayed-bundles", "missing-guard", "thrown-guard"].includes(mode);
+   try {
++    if (queued) {
++      cacheObserver = await actor.context.newCDPSession(page);
++      cacheObserver.on("Page.backForwardCacheNotUsed", cacheFailureListener);
++      await cacheObserver.send("Page.enable");
++    }
+     if (routed) await page.route("**/*", intercept);
+     const response = await page.goto(url, { waitUntil: mode === "delayed-bundles" ? "commit" : "domcontentloaded" });
+     assert.equal(response.status(), 200); const html = await response.text(); h.assertNoProof(html);
+@@ -367,10 +426,9 @@ async function cacheVariant(h, mode) {
+     const seen = await until(() => probe.events.slice(eventStart).find((event) => event.event === "pageshow"
+       && event.trusted && event.persisted && event.document === original), h.phaseMs ?? 20000);
+     if (!seen) {
+-      await readGate?.release(); readGate = undefined;
+-      for (const script of heldScripts) script.release();
+-      await back;
+       assert.deepEqual(probe.errors, []);
++      // Cleanup closes the owned page and settles Back without inventing a
++      // response or releasing the private logout latch when no witness exists.
+       throw new Unreached("actual BFCache restoration unavailable for this fault; no-store not weakened");
+     }
+     const restored = assertRestored(probe.events.slice(eventStart), original);
+@@ -382,7 +440,34 @@ async function cacheVariant(h, mode) {
+     assert.equal(hiddenEvent.persisted, true);
+     assert.equal(hiddenEvent.hidden, true); assert.equal(hiddenEvent.private_visible, false);
+     if (readGate) {
+-      await readGate.wait();
++      const held = await readGate.wait();
++      assert.equal(held.gate, readGate.gate);
++      readGateHeld = true; // Preserve release ownership even if actual status is unexpected.
++      if (queued) {
++        assert.equal(held.context, session.context);
++        assert.equal(held.status, 401);
++        const pending = await page.evaluate(({ key, original }) => {
++          const state = window[key];
++          return { original: state?.document === original, restored: state?.restored,
++            queued: state?.logoutQueued, started: state?.logoutStarted };
++        }, { key: PROBE, original });
++        // Record actual booleans at the verified release point before asserting.
++        // This is not a claim about when the request first arrived at the server.
++        const observedBoolean = (value) => typeof value === "boolean" ? value : null;
++        queuedOrderingObservation = {
++          stage: "verified-native-denial",
++          native_gate_match: held.gate === readGate.gate,
++          native_context_match: held.context === session.context,
++          native_status_401: held.status === 401,
++          pending: { original: observedBoolean(pending.original), restored: observedBoolean(pending.restored),
++            queued: observedBoolean(pending.queued), started: observedBoolean(pending.started) },
++          pending_matches_expected: pending.original === true && pending.restored === true
++            && pending.queued === true && pending.started === false,
++        };
++        evidence.queued_ordering_observation = queuedOrderingObservation;
++        assert.deepEqual(pending, { original: true, restored: true, queued: true, started: false },
++          "actual queued logout must remain pending until the exact native reload denial is witnessed");
++      }
+       if (mode === "delayed-bundles") {
+         for (const script of heldScripts) script.release();
+         const committed=await until(() => probe.events.slice(eventStart).find((event) => event.document===original
+@@ -391,15 +476,19 @@ async function cacheVariant(h, mode) {
+         assert.equal(committed.hidden,true); assert.equal(committed.private_visible,false);
+       }
+       if (queued) {
++        const commitsBeforeRelease = await page.evaluate(({ key, original }) => window[key]?.releaseLogout(original),
++          { key: PROBE, original });
++        assert.ok(Number.isSafeInteger(commitsBeforeRelease) && commitsBeforeRelease > 0,
++          "release one queued logout only in the original restored Document after the actual native denial");
+         const committed = await until(() => probe.events.slice(eventStart).find((event) => event.document === original
+-          && event.event === "react-commit" && event.restored), h.phaseMs ?? 20000);
++          && event.event === "react-commit" && event.restored && event.react_commits > commitsBeforeRelease), h.phaseMs ?? 20000);
+         if (!committed) throw new Unreached("actual restored React update was not witnessed while native reload waited");
+         assert.equal(committed.hidden, true); assert.equal(committed.private_visible, false);
+         await queuedResponse;
+         assert.ok(!selectedCookie(await actor.context.cookies(), session), "only the actual confirmed logout clears its cookie");
+       }
+       await assertPrivateHidden(page, actor, h);
+-      await readGate.release(); readGate = undefined;
++      await releaseReadGate();
+     }
+     await back;
+     assertRestored(probe.events.slice(eventStart), original);
+@@ -438,17 +527,47 @@ async function cacheVariant(h, mode) {
+     await assertBStillAuthorized(h);
+     assert.deepEqual(probe.errors, []);
+     return evidence;
++  } catch (error) {
++    primaryError = error;
++    if (queued) error.cacheObservation = {
++      queued_ordering_observation: queuedOrderingObservation ?? null,
++      not_restored_reasons: cacheFailures,
++      trusted_departures: probe.events.filter((event) => event.event === "pagehide" && event.trusted && event.document === original).length,
++      trusted_original_restores: probe.events.filter((event) => event.event === "pageshow" && event.trusted && event.persisted && event.document === original).length,
++    };
++    throw error;
+   } finally {
+-    await actor.context.setOffline(false);
+-    await readGate?.release();
+-    for (const script of heldScripts) script.release();
+-    await back?.catch(() => {}); // Result checked above; cleanup owns an outstanding rejection.
+-    if (routed) await page.unrouteAll({ behavior: "wait" });
+-    probe.remove(); page.off("request", requestListener); page.off("requestfailed", failureListener);
+-    await page.close();
++    tearingDown = true;
++    const cleanupFailures = [];
++    async function cleanup(step, operation) {
++      try { await operation(); } catch { cleanupFailures.push(step); }
++    }
++    await cleanup("network-online", () => actor.context.setOffline(false));
++    if (readGate) {
++      if (!readGateHeld) cleanupFailures.push("native-gate-unheld");
++      else if (readGateReleaseAttempted) cleanupFailures.push("native-gate-release-unconfirmed");
++      else await cleanup("native-gate-release", releaseReadGate);
++    }
++    await cleanup("script-release", () => { for (const script of heldScripts) script.release(); });
++    if (routed) await cleanup("routes-remove", () => page.unrouteAll({ behavior: "wait" }));
++    await cleanup("probe-listeners", () => {
++      cacheObserver?.off("Page.backForwardCacheNotUsed", cacheFailureListener);
++      probe.remove(); page.off("request", requestListener); page.off("requestfailed", failureListener);
++    });
++    // Always attempt owned page closure, independently of earlier cleanup errors.
++    // Closing also settles a pending Back when its native gate was never held.
++    await cleanup("page-close", () => page.close());
++    if (back) await cleanup("back-navigation", () => back);
+     // Each fresh real sign-in is closed to avoid accidentally testing a ninth
+     // session-cookie admission denial in an unrelated restore scenario.
+-    if (selectedCookie(await actor.context.cookies(), session)) await h.logout("a");
++    await cleanup("session-logout", async () => {
++      if (selectedCookie(await actor.context.cookies(), session)) await h.logout("a");
++    });
++    if (cleanupFailures.length) {
++      const error = primaryError ?? new Error("owned restore cleanup failed");
++      error.cleanupObservation = { cleanup_failed_steps: cleanupFailures };
++      if (!primaryError) throw error;
++    }
+   }
+ }
+ 
+@@ -475,8 +594,10 @@ export async function runRestoreScenarios(h) {
+       if (!prerequisites) { checks.push({ id: name, status: prerequisiteStatus, reason: prerequisiteReason }); continue; }
+       try { checks.push({ id: name, status: "passed", evidence: await run(h) }); }
+       catch (error) {
+-        checks.push({ id: name, status: isPrerequisite(error) ? "unreached" : "failed",
+-          reason: isPrerequisite(error) ? error.message : "actual required restore assertion failed" });
++        checks.push({ id: name, status: error.cleanupObservation ? "failed" : isPrerequisite(error) ? "unreached" : "failed",
++          reason: isPrerequisite(error) ? error.message : "actual required restore assertion failed",
++          ...(error.cacheObservation || error.cleanupObservation
++            ? { diagnostic: { ...error.cacheObservation, ...error.cleanupObservation } } : {}) });
+         // Continue only within this owned test runner. Failures remain failures.
+       }
+     }
+diff --git a/tools/enrollment-fault-deadlines.mjs b/tools/enrollment-fault-deadlines.mjs
+new file mode 100644
+index 0000000..7ba49a1
+--- /dev/null
++++ b/tools/enrollment-fault-deadlines.mjs
+@@ -0,0 +1,26 @@
++// Test-process supervision only; this never certifies native enrollment.
++export function superviseEnrollmentFault(child) {
++  let forced = false;
++  let faultStarted = false;
++  let disposed = false;
++  const terminate = () => { forced = true; child.kill("SIGTERM"); };
++  const kill = () => { forced = true; child.kill("SIGKILL"); };
++  // One absolute prerequisite budget, bounded by the runner's 140s watchdog.
++  // It covers locked installation and real Next/Chromium startup, not cleanup.
++  let deadline = setTimeout(terminate, 140000);
++  let force = setTimeout(kill, 150000);
++  return {
++    beginFault() {
++      if (forced || faultStarted || disposed) throw new Error("Fault deadline cannot be restarted");
++      faultStarted = true;
++      clearTimeout(deadline);
++      clearTimeout(force);
++      // Keep the original cleanup limits, starting at the actual fault input.
++      // Both the cleanup acknowledgement AND natural exit must fit this clock.
++      deadline = setTimeout(terminate, 25000);
++      force = setTimeout(kill, 35000);
++    },
++    get forced() { return forced; },
++    clear() { disposed = true; clearTimeout(deadline); clearTimeout(force); },
++  };
++}
+diff --git a/tools/enrollment-fault-deadlines.test.mjs b/tools/enrollment-fault-deadlines.test.mjs
+new file mode 100644
+index 0000000..a6e93c9
+--- /dev/null
++++ b/tools/enrollment-fault-deadlines.test.mjs
+@@ -0,0 +1,87 @@
++// Deadline-policy units only; no browser, provider or native acceptance.
++import assert from "node:assert/strict";
++import test from "node:test";
++import { superviseEnrollmentFault } from "./enrollment-fault-deadlines.mjs";
++
++function supervision(t) {
++  t.mock.timers.enable({ apis: ["setTimeout"] });
++  const signals = [];
++  const owner = superviseEnrollmentFault({ kill(signal) { signals.push(signal); } });
++  t.after(() => owner.clear());
++  return { owner, signals };
++}
++
++test("slow prerequisite startup does not spend the requested cleanup budget", (t) => {
++  const { owner, signals } = supervision(t);
++  t.mock.timers.tick(26000);
++  assert.deepEqual(signals, []);
++  assert.equal(owner.forced, false);
++  owner.beginFault();
++  t.mock.timers.tick(24999);
++  assert.deepEqual(signals, []);
++  t.mock.timers.tick(1);
++  assert.deepEqual(signals, ["SIGTERM"]);
++  assert.equal(owner.forced, true);
++  t.mock.timers.tick(10000);
++  assert.deepEqual(signals, ["SIGTERM", "SIGKILL"]);
++});
++
++test("a ready runner that fails to exit still triggers the cleanup fallback", (t) => {
++  const { owner, signals } = supervision(t);
++  t.mock.timers.tick(7000);
++  owner.beginFault();
++  t.mock.timers.tick(24999);
++  assert.deepEqual(signals, []);
++  t.mock.timers.tick(1);
++  assert.deepEqual(signals, ["SIGTERM"]);
++  t.mock.timers.tick(9999);
++  assert.deepEqual(signals, ["SIGTERM"]);
++  t.mock.timers.tick(1);
++  assert.deepEqual(signals, ["SIGTERM", "SIGKILL"]);
++});
++
++test("never-ready startup has one absolute bounded termination deadline", (t) => {
++  const { owner, signals } = supervision(t);
++  t.mock.timers.tick(139999);
++  assert.deepEqual(signals, []);
++  t.mock.timers.tick(1);
++  assert.deepEqual(signals, ["SIGTERM"]);
++  assert.equal(owner.forced, true);
++  assert.throws(() => owner.beginFault());
++  t.mock.timers.tick(9999);
++  assert.deepEqual(signals, ["SIGTERM"]);
++  t.mock.timers.tick(1);
++  assert.deepEqual(signals, ["SIGTERM", "SIGKILL"]);
++});
++
++test("a second fault cannot reset an already running cleanup deadline", (t) => {
++  const { owner, signals } = supervision(t);
++  owner.beginFault();
++  t.mock.timers.tick(1000);
++  assert.throws(() => owner.beginFault());
++  t.mock.timers.tick(24000);
++  assert.deepEqual(signals, ["SIGTERM"]);
++});
++
++test("late cleanup cannot erase evidence of forced intervention", (t) => {
++  const { owner, signals } = supervision(t);
++  owner.beginFault();
++  t.mock.timers.tick(25000);
++  assert.deepEqual(signals, ["SIGTERM"]);
++  owner.clear();
++  t.mock.timers.tick(200000);
++  assert.deepEqual(signals, ["SIGTERM"]);
++  assert.equal(owner.forced, true);
++  assert.throws(() => owner.beginFault());
++});
++
++test("natural completion disposes both clocks and cannot rearm them", (t) => {
++  const { owner, signals } = supervision(t);
++  owner.beginFault();
++  owner.clear();
++  owner.clear();
++  t.mock.timers.tick(200000);
++  assert.deepEqual(signals, []);
++  assert.equal(owner.forced, false);
++  assert.throws(() => owner.beginFault());
++});
+diff --git a/tools/production-runtime.mjs b/tools/production-runtime.mjs
+index ba55752..8163565 100644
+--- a/tools/production-runtime.mjs
++++ b/tools/production-runtime.mjs
+@@ -42,7 +42,9 @@ async function install(destination, signal) {
+   const npm = path.join(path.dirname(process.execPath), "npm");
+   const child = spawn(npm, ["ci", "--omit=dev", "--omit=optional", "--ignore-scripts", "--no-audit", "--no-fund"], {
+     cwd: destination, detached: process.platform !== "win32", stdio: ["ignore", "pipe", "pipe"],
+-    env: { ...process.env, NODE_ENV: "production" },
++    // npm enables Node's compile cache before installing. Keep that disposable
++    // cache out of the caller's TMPDIR; it is not part of the runtime closure.
++    env: { ...process.env, NODE_ENV: "production", NODE_DISABLE_COMPILE_CACHE: "1" },
+   });
+   let output = 0;
+   let killDeadline;
+diff --git a/tools/test-browser-business-session.mjs b/tools/test-browser-business-session.mjs
+index 27cc94c..45ae02e 100644
+--- a/tools/test-browser-business-session.mjs
++++ b/tools/test-browser-business-session.mjs
+@@ -24,12 +24,15 @@ const cleanEnv = Object.fromEntries(
+ );
+ const input = process.stdin[Symbol.asyncIterator]();
+ let buffered = Buffer.alloc(0);
++let inputEnded = false;
++let inputChanged = Promise.withResolvers();
+ let incoming = 0;
+ let outgoing = 0;
+ async function readFrameUnsafe(waitMs = PHASE_MS) {
+   const expectedSequence = incoming++; assert.ok(incoming <= MAX_FRAMES);
+   const deadline = Date.now() + waitMs;
+   while (true) {
++    assert.ok(!inputEnded && !closing);
+     if (buffered.length >= 4) {
+       const length = buffered.readUInt32BE();
+       assert.ok(length > 0 && length <= MAX_FRAME);
+@@ -44,13 +47,10 @@ async function readFrameUnsafe(waitMs = PHASE_MS) {
+     const remaining = deadline - Date.now();
+     assert.ok(remaining > 0);
+     let timer;
+-    const item = await Promise.race([
+-      input.next(),
++    await Promise.race([
++      inputChanged.promise,
+       new Promise((_, reject) => { timer = setTimeout(() => reject(new Error("IPC deadline")), remaining); }),
+     ]).finally(() => clearTimeout(timer));
+-    assert.ok(!item.done);
+-    assert.ok(buffered.length + item.value.length <= MAX_FRAME + 4);
+-    buffered = Buffer.concat([buffered, item.value]);
+   }
+ }
+ async function writeFrameUnsafe(fields) {
+@@ -130,7 +130,26 @@ function finalize(outcome, exitCode) {
+ function interrupted() { void finalize("aborted", 2); }
+ process.once("SIGTERM", interrupted);
+ process.once("SIGINT", interrupted);
+-process.stdin.once("end", () => { if (!closing) interrupted(); });
++// Own the input from startup so EOF also cancels staging. Frame decoding and
++// sequence validation stay in readFrame; early data only fills its bounded buffer.
++void (async () => {
++  try {
++    for await (const chunk of input) {
++      assert.ok(buffered.length + chunk.length <= MAX_FRAME + 4);
++      buffered = Buffer.concat([buffered, chunk]);
++      const changed = inputChanged;
++      inputChanged = Promise.withResolvers();
++      changed.resolve();
++    }
++  } catch {
++    // Malformed/failed input retains failed/1; EOF retains aborted/2.
++    void finalize("failed", 1);
++  } finally {
++    inputEnded = true;
++    inputChanged.resolve();
++    if (!closing) interrupted();
++  }
++})();
+ const watchdog = setTimeout(interrupted, 140000);
+ 
+ import { createHash, randomBytes, randomUUID } from "node:crypto";
+@@ -792,6 +811,7 @@ try {
+   let packager;
+   try { packager = await import(pathToFileURL(packagerPath).href); } catch { throw new InfrastructureError(); }
+   if (typeof packager.stageProductionRuntime !== "function" || typeof packager.verifyProductionRuntime !== "function") throw new InfrastructureError();
++  assert.ok(!closing);
+   startup = (async () => {
+     stage = await mkdtemp(path.join(tmpdir(), "console-product-browser-"));
+     const destination = path.join(stage, "runtime");
+diff --git a/tools/test-native-browser-enrollment.mjs b/tools/test-native-browser-enrollment.mjs
+index b185ad6..1c8ec7b 100644
+--- a/tools/test-native-browser-enrollment.mjs
++++ b/tools/test-native-browser-enrollment.mjs
+@@ -23,12 +23,15 @@ const cleanEnv = Object.fromEntries(
+ );
+ const input = process.stdin[Symbol.asyncIterator]();
+ let buffered = Buffer.alloc(0);
++let inputEnded = false;
++let inputChanged = Promise.withResolvers();
+ let incoming = 0;
+ let outgoing = 0;
+ async function readFrame(waitMs = PHASE_MS) {
+   assert.ok(++incoming <= MAX_FRAMES);
+   const deadline = Date.now() + waitMs;
+   while (true) {
++    assert.ok(!inputEnded && !closing);
+     if (buffered.length >= 4) {
+       const length = buffered.readUInt32BE();
+       assert.ok(length > 0 && length <= MAX_FRAME);
+@@ -43,13 +46,10 @@ async function readFrame(waitMs = PHASE_MS) {
+     const remaining = deadline - Date.now();
+     assert.ok(remaining > 0);
+     let timer;
+-    const item = await Promise.race([
+-      input.next(),
++    await Promise.race([
++      inputChanged.promise,
+       new Promise((_, reject) => { timer = setTimeout(() => reject(new Error("IPC deadline")), remaining); }),
+     ]).finally(() => clearTimeout(timer));
+-    assert.ok(!item.done);
+-    assert.ok(buffered.length + item.value.length <= MAX_FRAME + 4);
+-    buffered = Buffer.concat([buffered, item.value]);
+   }
+ }
+ async function writeFrame(fields) {
+@@ -135,7 +135,26 @@ function finalize(outcome, exitCode) {
+ function interrupted() { void finalize("aborted", 2); }
+ process.once("SIGTERM", interrupted);
+ process.once("SIGINT", interrupted);
+-process.stdin.once("end", () => { if (!closing) interrupted(); });
++// Own the input from startup so EOF also cancels staging. Frame decoding and
++// sequence validation stay in readFrame; early data only fills its bounded buffer.
++void (async () => {
++  try {
++    for await (const chunk of input) {
++      assert.ok(buffered.length + chunk.length <= MAX_FRAME + 4);
++      buffered = Buffer.concat([buffered, chunk]);
++      const changed = inputChanged;
++      inputChanged = Promise.withResolvers();
++      changed.resolve();
++    }
++  } catch {
++    // Malformed/failed input retains failed/1; EOF retains aborted/2.
++    void finalize("failed", 1);
++  } finally {
++    inputEnded = true;
++    inputChanged.resolve();
++    if (!closing) interrupted();
++  }
++})();
+ const watchdog = setTimeout(interrupted, 140000);
+ let outcome = "failed";
+ let exitCode = 1;
+diff --git a/tools/test-native-browser-enrollment.test.mjs b/tools/test-native-browser-enrollment.test.mjs
+index e80e91a..7e35079 100644
+--- a/tools/test-native-browser-enrollment.test.mjs
++++ b/tools/test-native-browser-enrollment.test.mjs
+@@ -2,8 +2,12 @@
+ import assert from "node:assert/strict";
+ import { spawn } from "node:child_process";
+ import { once } from "node:events";
++import { mkdtemp, readdir, rm } from "node:fs/promises";
++import { tmpdir } from "node:os";
++import path from "node:path";
+ import test from "node:test";
+ import { fileURLToPath } from "node:url";
++import { superviseEnrollmentFault } from "./enrollment-fault-deadlines.mjs";
+ 
+ const env = Object.fromEntries(
+   ["PATH", "HOME", "TMPDIR", "LANG", "LC_ALL", "PLAYWRIGHT_BROWSERS_PATH"]
+@@ -11,10 +15,19 @@ const env = Object.fromEntries(
+     .map((key) => [key, process.env[key]]),
+ );
+ 
+-for (const fault of ["signal-after-origin", "eof-after-ready", "oversized", "wrong-version", "wrong-sequence", "wrong-kind", "legacy-selection", "missing-selection", "malformed-selection", "weak-uv"]) {
+-  test(`enrollment runner confirms cleanup after ${fault}`, { timeout: 40000 }, async () => {
+-    const child = spawn(process.execPath, [fileURLToPath(new URL("./test-native-browser-enrollment.mjs", import.meta.url))], {
+-      env, stdio: ["pipe", "pipe", "pipe"],
++const startupFaults = ["eof-before-origin", "partial-eof-before-origin", "frame-eof-before-origin"];
++const enrollmentFaults = [...startupFaults, "signal-after-origin", "eof-after-ready", "oversized", "wrong-version", "wrong-sequence", "wrong-kind", "legacy-selection", "missing-selection", "malformed-selection", "weak-uv"];
++const cases = [
++  ...enrollmentFaults.map((fault) => ["test-native-browser-enrollment.mjs", fault]),
++  ...startupFaults.map((fault) => ["test-browser-business-session.mjs", fault]),
++];
++for (const [runner, fault] of cases) {
++  // 140s prerequisite + 35s fault supervision + 6s final cleanup, with margin.
++  const name = runner === "test-browser-business-session.mjs" ? "business" : "enrollment";
++  test(`${name} runner confirms cleanup after ${fault}`, { timeout: 190000 }, async () => {
++    const owned = await mkdtemp(path.join(tmpdir(), "enrollment-fault-"));
++    const child = spawn(process.execPath, [fileURLToPath(new URL(`./${runner}`, import.meta.url))], {
++      env: { ...env, TMPDIR: owned }, stdio: ["pipe", "pipe", "pipe"],
+     });
+     // Drain without retaining error stacks, server output or proof bytes.
+     let stderrBytes = 0;
+@@ -51,15 +64,22 @@ for (const fault of ["signal-after-origin", "eof-after-ready", "oversized", "wro
+     }
+     // Parent timeout must request the runner's actual cleanup owner. A forced
+     // termination cannot count as confirmed cleanup or a passed fault check.
+-    let fallbackFired = false;
+-    const deadline = setTimeout(() => { fallbackFired = true; child.kill("SIGTERM"); }, 25000);
+-    const force = setTimeout(() => { fallbackFired = true; child.kill("SIGKILL"); }, 35000);
++    const supervision = superviseEnrollmentFault(child);
+     try {
+-      assert.equal((await read()).kind, "origin");
++      if (startupFaults.includes(fault)) {
++        supervision.beginFault();
++        if (fault === "partial-eof-before-origin") child.stdin.write(Buffer.from([0, 0]));
++        if (fault === "frame-eof-before-origin") send({ v: 1, seq: 0, kind: "done" });
++        child.stdin.end();
++      } else {
++        assert.equal((await read()).kind, "origin");
++      }
+       if (fault === "signal-after-origin") {
++        supervision.beginFault();
+         child.kill("SIGTERM");
+-      } else {
++      } else if (!startupFaults.includes(fault)) {
+         assert.equal((await read()).kind, "ready");
++        supervision.beginFault();
+         if (fault === "eof-after-ready") child.stdin.end();
+         else if (fault === "oversized") {
+           const header = Buffer.alloc(4);
+@@ -84,17 +104,18 @@ for (const fault of ["signal-after-origin", "eof-after-ready", "oversized", "wro
+       if (cleaned.kind === "ready" && fault === "signal-after-origin") cleaned = await read();
+       assert.equal(cleaned.kind, "cleaned");
+       assert.equal(cleaned.creation_attempts, 0, "invalid contract cannot reach credential creation");
+-      const aborted = fault === "signal-after-origin" || fault === "eof-after-ready";
++      const aborted = startupFaults.includes(fault) || ["signal-after-origin", "eof-after-ready"].includes(fault);
+       assert.equal(cleaned.outcome, aborted ? "aborted" : "failed");
+       child.stdin.end();
+       const [code, signal] = await exited;
++      supervision.clear();
+       assert.equal(code, aborted ? 2 : 1);
+       assert.equal(signal, null);
+       assert.ok(stderrBytes <= 1048576);
+-      assert.equal(fallbackFired, false, "fallback intervention cannot prove requested cleanup");
++      assert.equal(supervision.forced, false, "fallback intervention cannot prove requested cleanup");
++      assert.deepEqual(await readdir(owned), [], "runner must release its owned temporary resources before parent cleanup");
+     } finally {
+-      clearTimeout(deadline);
+-      clearTimeout(force);
++      supervision.clear();
+       child.stdin.destroy();
+       if (child.exitCode === null && child.signalCode === null) {
+         child.kill("SIGTERM");
+@@ -102,6 +123,7 @@ for (const fault of ["signal-after-origin", "eof-after-ready", "oversized", "wro
+         await exited;
+         clearTimeout(forced);
+       }
++      await rm(owned, { recursive: true, force: true });
+     }
+   });
+ }
+diff --git a/tools/test-resident-authenticator.mjs b/tools/test-resident-authenticator.mjs
+index 89191c9..e46c8a0 100644
+--- a/tools/test-resident-authenticator.mjs
++++ b/tools/test-resident-authenticator.mjs
+@@ -3,7 +3,7 @@
+ // Conditional presentation is deliberately modal in this native fixture only;
+ // unchanged C2/product runners own actual conditional/production UI evidence.
+ import assert from "node:assert/strict";
+-import { setTimeout as delay } from "node:timers/promises";
++import { writeSync } from "node:fs";
+ import { chromium } from "@playwright/test";
+ 
+ const ORIGIN = "https://auth.example.com";
+@@ -85,33 +85,71 @@ async function finalize(outcome, exitCode) {
+     clearTimeout(watchdog);
+     // Enclose the 5s launch owner plus 2s close, 2s kill and IPC headroom.
+     // Rust allows 15s. Timeout remains unconfirmed cleanup, never success.
+-    const deadline = setTimeout(() => process.exit(3), 12_000);
++    let stage = "startup";
++    let child;
++    let childExitSeen = false;
++    let childCloseSeen = false;
++    let closeSettled = false;
++    let killSettled = false;
++    let cleanupConfirmed = false;
++    // The fixture owns the 2s phase timer; it must release a losing timer too.
++    async function waitForShutdown(operation) {
++      let timer;
++      try {
++        return await Promise.race([operation,
++          new Promise((resolve) => { timer = setTimeout(() => resolve(false), 2_000); })]);
++      } finally { clearTimeout(timer); }
++    }
++    function diagnostic() {
++      // Fixed failure metadata only. Never expose errors, IDs, paths or native payloads.
++      const fields = { stage, child_exit_seen: childExitSeen, child_close_seen: childCloseSeen,
++        close_settled: closeSettled, kill_settled: killSettled,
++        child_exited: Boolean(child && (child.exitCode !== null || child.signalCode !== null)) };
++      try { writeSync(2, `RESIDENT_CLEANUP_DIAGNOSTIC ${JSON.stringify(fields)}\n`); } catch {}
++    }
++    const deadline = setTimeout(() => { diagnostic(); process.exit(3); }, 12_000);
+     try {
+       // EOF/signal can race launch; await its returned resource owner first.
+       await startup.catch(() => {});
+       let browserPid = null;
+       let browserExited = null;
+       if (browserServer) {
+-        const child = browserServer.process();
++        stage = "browser-identity";
++        child = browserServer.process();
++        child.once("exit", () => { childExitSeen = true; });
++        child.once("close", () => { childCloseSeen = true; });
+         browserPid = child.pid;
+         assert.ok(Number.isSafeInteger(browserPid) && browserPid > 0);
+-        const closed = await Promise.race([
+-          browserServer.close().then(() => true, () => false), delay(2_000).then(() => false),
+-        ]);
+-        if (!closed) assert.ok(await Promise.race([
+-          browserServer.kill().then(() => true, () => false), delay(2_000).then(() => false),
+-        ]));
++        stage = "browser-close";
++        const closed = await waitForShutdown(
++          browserServer.close().then(() => { closeSettled = true; return true; },
++            () => { closeSettled = true; return false; }),
++        );
++        if (!closed) {
++          stage = "browser-kill";
++          assert.ok(await waitForShutdown(
++            browserServer.kill().then(() => { killSettled = true; return true; },
++              () => { killSettled = true; return false; }),
++          ));
++        }
++        stage = "browser-exit";
+         browserExited = child.exitCode !== null || child.signalCode !== null;
+         assert.equal(browserExited, true);
+       }
+       registration = undefined;
+       buffered = Buffer.alloc(0);
++      stage = "ack";
+       await writeFrame({ kind: "cleaned", outcome, browser_pid: browserPid, browser_exited: browserExited });
++      cleanupConfirmed = true;
+       process.exitCode = exitCode;
+     } catch {
++      diagnostic();
+       process.exitCode = 3; // No cleanup ACK or native-success substitute.
+     } finally {
+-      clearTimeout(deadline);
++      // Failed shutdown still owns its hard bound; an idle failure may exit
++      // naturally with code3, while pending SDK handles remain bounded by12s.
++      if (cleanupConfirmed) clearTimeout(deadline);
++      else deadline.unref();
+       process.stdin.destroy();
+     }
+   })();

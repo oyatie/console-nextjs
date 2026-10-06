@@ -1,0 +1,15 @@
+source-and-inquiry	Run npm run lint	﻿2026-10-06T12:10:33.8345448Z ##[group]Run npm run lint
+source-and-inquiry	Run npm run lint	2026-10-06T12:10:33.8345732Z ^[[36;1mnpm run lint^[[0m
+source-and-inquiry	Run npm run lint	2026-10-06T12:10:33.8402674Z shell: /usr/bin/bash -e {0}
+source-and-inquiry	Run npm run lint	2026-10-06T12:10:33.8402902Z env:
+source-and-inquiry	Run npm run lint	2026-10-06T12:10:33.8403086Z   CARGO_BUILD_JOBS: 1
+source-and-inquiry	Run npm run lint	2026-10-06T12:10:33.8403284Z   CARGO_INCREMENTAL: 0
+source-and-inquiry	Run npm run lint	2026-10-06T12:10:33.8403478Z   CARGO_PROFILE_DEV_DEBUG: 0
+source-and-inquiry	Run npm run lint	2026-10-06T12:10:33.8403691Z   CARGO_PROFILE_TEST_DEBUG: 0
+source-and-inquiry	Run npm run lint	2026-10-06T12:10:33.8403913Z ##[endgroup]
+source-and-inquiry	Run npm run lint	2026-10-06T12:10:33.9316552Z 
+source-and-inquiry	Run npm run lint	2026-10-06T12:10:33.9326041Z > console-web@1.0.0 lint
+source-and-inquiry	Run npm run lint	2026-10-06T12:10:33.9328026Z > tsc --noEmit
+source-and-inquiry	Run npm run lint	2026-10-06T12:10:33.9328335Z 
+source-and-inquiry	Run npm run lint	2026-10-06T12:10:40.4772031Z ##[error]docs/planning/nextjs-v1/evidence/browser-business-session-r7/enrollment-cleanup-repair/diagnostics/P16-native-gate-bff-deadline-source-trace01/sources/src/lib/server/browser-session.ts(5,46): error TS2307: Cannot find module './mutation-guard' or its corresponding type declarations.
+source-and-inquiry	Run npm run lint	2026-10-06T12:10:40.5235816Z ##[error]Process completed with exit code 2.

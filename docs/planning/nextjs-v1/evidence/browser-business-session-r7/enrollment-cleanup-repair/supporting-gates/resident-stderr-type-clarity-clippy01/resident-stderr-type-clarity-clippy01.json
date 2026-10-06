@@ -1,0 +1,35 @@
+{
+  "id": "resident-stderr-type-clarity-clippy01",
+  "command": [
+    "/Users/jasonlee/.cargo/bin/cargo",
+    "+1.98.1",
+    "clippy",
+    "--locked",
+    "--offline",
+    "--features",
+    "frontend-e2e",
+    "-p",
+    "console-app",
+    "--test",
+    "auth_rest",
+    "--",
+    "-D",
+    "warnings"
+  ],
+  "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend",
+  "exit_code": 0,
+  "timed_out": false,
+  "duration_seconds": 1050.759528500028,
+  "discovered": null,
+  "counts": {
+    "passed": 0,
+    "failed": 0,
+    "skipped": 0,
+    "filtered": 0,
+    "executed": 0
+  },
+  "log_sha256": "db089e738d22fdf5078887d6dabf87e5ff113f790c92770246d2392961228f1e",
+  "cleanup_reported": false,
+  "inputs_sha256": "3a29d02833f3757908a3a8fe4f08c13790a813cd7a7676dbbb92653f2c77ae14",
+  "inputs_unchanged": true
+}

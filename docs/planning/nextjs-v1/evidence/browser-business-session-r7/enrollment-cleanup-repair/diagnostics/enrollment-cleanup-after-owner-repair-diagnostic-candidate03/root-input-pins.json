@@ -1,0 +1,31 @@
+{
+  "version": 3,
+  "root": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+  "files": {
+    "tools/test-native-browser-enrollment.mjs": "afd17a0d0a69358613e1ff6d03d24f27eb322bd558a8cf021390e32527fff22e",
+    "tools/test-browser-business-session.mjs": "6868ac44bef0334065b3e4cd70ddfc58c3623be4070e6625f35b1738bed24280",
+    "tools/production-runtime.mjs": "7e4d05bac69900295f8777c931999f2987acd36c947f281cbea7d1bbdf673367",
+    "server.mjs": "1f0f42b227af875f580ea4d11ff3b8355eb24487b17f45d9de99e3324a62f90f",
+    "tools/enrollment-fault-deadlines.mjs": "6f80266162d5413bcda245b17536b991518e95e22f5b1a7001067aaa4120fc06",
+    "tools/test-native-browser-enrollment.test.mjs": "3204b466940c270897814f9100ee8f92fbddfdc937e7b71a06406dacac778ead",
+    "package.json": "1b9a58f08e845d1eefa4f124c345f84a347875593a515f9c9eaaff43f40e77cc",
+    "package-lock.json": "ad526fce2fe800ee7122f39029843a69fd9a335572de82a4a71d9c1a9714bc7b",
+    ".node-version": "73fb1b615e2043a933be1c0895cde4358036acc28d785692509b822aa53c761f",
+    ".next/build-inputs.json": "45001f336b372dd488fd27cce5d6d8e1119c42e9dada4025c766fd0d4558d7c7",
+    "node_modules/@playwright/test/package.json": "5587f932b8979b6889654b60e3c28aeb7ca0abbac00eec8c176c939a16149536",
+    "node_modules/playwright-core/lib/coreBundle.js": "549070af3acabb3efcc4f55bfe6210f9f7c2fcf633cf7eaa59bfe60719969171",
+    "node_modules/playwright-core/types/protocol.d.ts": "0410ed82a9ac63269dc1471ed249b280e2d461249a3a331e71cdb54cdf10db33",
+    "tools/browser-business-failure.mjs": "682407048049f4ff76df89c5fa9af836f1985fddb36e4f8e7c8adcb34d9052e3",
+    "tools/enrollment-fault-deadlines.test.mjs": "7e4aa20a3cfac678c5f5d8b620456da7b6e74d72fd6f64824b05cde363bc4bca"
+  },
+  "bundle": {
+    "tools/production-runtime.mjs": "7e4d05bac69900295f8777c931999f2987acd36c947f281cbea7d1bbdf673367",
+    "server.mjs": "1f0f42b227af875f580ea4d11ff3b8355eb24487b17f45d9de99e3324a62f90f",
+    "tools/enrollment-fault-deadlines.mjs": "6f80266162d5413bcda245b17536b991518e95e22f5b1a7001067aaa4120fc06",
+    "tools/test-native-browser-enrollment.mjs": "ef53481448b7b9fb261a31ea594a2deed9604b5c3536c7101d8d3b13cd22bd2b",
+    "tools/test-browser-business-session.mjs": "6868ac44bef0334065b3e4cd70ddfc58c3623be4070e6625f35b1738bed24280",
+    "tools/browser-business-failure.mjs": "682407048049f4ff76df89c5fa9af836f1985fddb36e4f8e7c8adcb34d9052e3",
+    "tools/enrollment-fault-deadlines.test.mjs": "7e4aa20a3cfac678c5f5d8b620456da7b6e74d72fd6f64824b05cde363bc4bca"
+  },
+  "rule": "Root-only ordinary exact bundle copy beneath W/.artifacts, no source symlinks, copied clock test and driver/producer same bundle cwdW"
+}

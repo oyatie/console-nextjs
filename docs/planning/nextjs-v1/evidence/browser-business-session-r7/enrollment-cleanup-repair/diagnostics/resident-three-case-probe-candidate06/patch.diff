@@ -1,0 +1,275 @@
+--- a/resident-three-case-probe.mjs
++++ b/resident-three-case-probe.mjs
+@@ -3,7 +3,8 @@
+ import { createHash } from "node:crypto";
+ import { spawn, execFileSync } from "node:child_process";
+ import { createReadStream } from "node:fs";
+-import { writeFile } from "node:fs/promises";
++import { lstat, mkdtemp, readdir, rm, writeFile } from "node:fs/promises";
++import { tmpdir } from "node:os";
+ import path from "node:path";
+ import { fileURLToPath } from "node:url";
+ import { performance } from "node:perf_hooks";
+@@ -23,13 +24,33 @@
+ const CLEANUP_MS = 15000;
+ const FORCE_CLEANUP_MS = 6000;
+ const EXPECTED = {
+-  "tools/test-resident-authenticator.mjs": "b62d0d6eba89439d4194b79d4dab62ed8fd07614f93bf984bbd3ab261a71799e",
++  "tools/test-resident-authenticator.mjs": "88cdfea200731ab32fcda0c797a96eee6ce49a42e6f174208fed29195105cd2e",
+   "package-lock.json": "ad526fce2fe800ee7122f39029843a69fd9a335572de82a4a71d9c1a9714bc7b",
+-  "backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs": "30345239d9e8321ea9394dd5b5f75d91b5ca4d1b1a98a27c7360951a82179c45",
++  "backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs": "c2fc3e190d7b9933cdaf77958a8a9dc11a6ab8df83fa69362c7a42d5bc67412c",
+   "node_modules/@playwright/test/package.json": "5587f932b8979b6889654b60e3c28aeb7ca0abbac00eec8c176c939a16149536",
+   "node_modules/playwright-core/package.json": "f061c58427e47e843e26d201f0a57076c734e57c734ecbbd87d4a23b7a20db9b",
+   "node_modules/playwright-core/lib/coreBundle.js": "549070af3acabb3efcc4f55bfe6210f9f7c2fcf633cf7eaa59bfe60719969171",
+ };
++// One fresh caller-owned container lets us observe actual fixture scope
++// absence before any harness removal. Its path never enters the report.
++let ownedProbeScope;
++let scopeCreation;
++let scopeCleanupDeadline;
++let attemptingFixture = false;
++const scopeCustody = { setup_confirmed: false, before_harness_removal_count: null,
++  harness_removal_started: false, harness_container_absence_verified: false,
++  creation_unconfirmed: false, residue_observation_unconfirmed: false, cleanup_unconfirmed: false };
++async function fixtureScopeCount() {
++  require(typeof ownedProbeScope === "string", "owned-scope-unavailable");
++  const entries = await readdir(ownedProbeScope);
++  require(entries.length <= 4, "owned-scope-entry-limit");
++  for (const entry of entries) {
++    require(/^console-resident-authenticator-[A-Za-z0-9]{6}$/.test(entry), "unexpected-owned-scope-entry");
++    const info = await lstat(path.join(ownedProbeScope, entry));
++    require(info.isDirectory() && !info.isSymbolicLink(), "owned-scope-entry-type");
++  }
++  return entries.length;
++}
+ // Repeated catchable termination signals cancel work once; they never skip owned cleanup.
+ let interruptedSignal = null;
+ const cancellation = Promise.withResolvers();
+@@ -63,7 +84,10 @@
+       timer = setTimeout(() => reject(new Failure(reason)), remaining);
+     })];
+     if (!cleanup) waiting.push(cancellation.promise.then(() => { throw new Failure("probe-interrupted"); }));
+-    return await Promise.race(waiting);
++    const result = await Promise.race(waiting);
++    require(performance.now() < deadline, reason);
++    if (!cleanup) requireActive();
++    return result;
+   } finally { clearTimeout(timer); }
+ }
+ function signalClass(signal) {
+@@ -89,9 +113,8 @@
+     && now.started === before.started && now.executable === before.executable;
+ }
+ 
+-async function attempt(index, testCase) {
++async function attempt(index, testCase, began) {
+   requireActive();
+-  const began = performance.now();
+   const stages = {};
+   const elapsed = () => Math.round(performance.now() - began);
+   let browserPid;
+@@ -110,11 +133,16 @@
+   const notify = () => { const previous = changed; changed = Promise.withResolvers(); previous.resolve(); };
+   const stderr = { bytes: 0, finished: false, read_failed: false, classes: [], diagnostics: [] };
+   const custody = { browser_pid_observed: false, browser_owner_verified: false, browser_absence_observed: false,
++    browser_group_absence_observed: false,
+     browser_signal_identity_verified: false, browser_signal_identity_unconfirmed: false };
++  const tempScope = { at_ready: null, after_ack: null, after_exit: null,
++    observed_absent_before_harness_removal: false };
+   const interventions = { eof: false, fixture_term: false, fixture_kill: false, browser_term: false, browser_kill: false };
+   const faultInjection = { stdin_eof_sent: false, browser_stop_sent: false, browser_stopped_observed: false };
+   const environment = Object.fromEntries(["PATH", "HOME", "TMPDIR", "LANG", "LC_ALL", "PLAYWRIGHT_BROWSERS_PATH"]
+     .filter((key) => process.env[key] !== undefined).map((key) => [key, process.env[key]]));
++  require(scopeCustody.setup_confirmed, "owned-scope-not-established");
++  environment.TMPDIR = ownedProbeScope;
+   const child = spawn(process.execPath, [RUNNER], { cwd: ROOT, env: environment, detached: true, stdio: ["pipe", "pipe", "pipe"] });
+   stages.spawn_ms = elapsed();
+   const closed = Promise.withResolvers();
+@@ -190,9 +218,10 @@
+       if (length <= 512 && text.startsWith("RESIDENT_CLEANUP_DIAGNOSTIC ")) {
+         try {
+           const fields = JSON.parse(text.slice("RESIDENT_CLEANUP_DIAGNOSTIC ".length));
+-          const flags = ["child_exit_seen", "child_close_seen", "close_settled", "kill_settled", "child_exited"];
++          const flags = ["child_exit_seen", "child_close_seen", "close_settled", "kill_settled", "child_exited",
++            "owned_temp_seen", "owned_temp_removed"];
+           require(keys(fields, ["stage", ...flags])
+-            && ["startup", "browser-identity", "browser-close", "browser-kill", "browser-exit", "ack"].includes(fields.stage)
++            && ["startup", "browser-identity", "browser-close", "browser-kill", "browser-cleanup", "browser-exit", "owned-temp", "ack"].includes(fields.stage)
+             && flags.every((key) => typeof fields[key] === "boolean"), "diagnostic-shape");
+           require(stderr.diagnostics.length < 4, "diagnostic-count");
+           stderr.diagnostics.push({ stage: fields.stage, observed_ms: elapsed(),
+@@ -259,13 +288,16 @@
+   async function failureCleanup() {
+     closing = true;
+     const deadline = performance.now() + FORCE_CLEANUP_MS;
++    scopeCleanupDeadline = deadline;
+     if (!child.stdin.destroyed) { interventions.eof = true; child.stdin.end(); }
+     const termAt = deadline - 4000;
+     const killAt = deadline - 2000;
+     let termed = false; let killed = false;
+     while (performance.now() < deadline) {
+       if (browserPid && gone(browserPid)) custody.browser_absence_observed = true;
+-      if ((exited || spawnFailed) && (!browserPid || custody.browser_absence_observed)) break;
++      if (browserStamp && gone(-browserPid)) custody.browser_group_absence_observed = true;
++      if ((exited || spawnFailed) && (!browserPid || (custody.browser_absence_observed
++        && custody.browser_group_absence_observed))) break;
+       if (!termed && performance.now() >= termAt) {
+         termed = true;
+         if (!exited && !spawnFailed) { interventions.fixture_term = true; child.kill("SIGTERM"); }
+@@ -292,10 +324,14 @@
+     require(browserStamp && browserStamp.pid === browserPid && browserStamp.parent === child.pid
+       && browserStamp.group === browserPid && /chrome|chromium|headless_shell/i.test(browserStamp.executable), "browser-custody-unconfirmed");
+     custody.browser_owner_verified = true; stages.browser_owner_ms = elapsed();
++    tempScope.at_ready = await bounded(fixtureScopeCount(), startupDeadline, "ready-scope-observation-deadline");
++    require(tempScope.at_ready === 1, "fresh-fixture-scope-not-observed");
++    stages.owned_scope_ready_ms = elapsed();
+     require(performance.now() < startupDeadline, "startup-deadline");
+     if (testCase.mode === "stop-done") await stopOwnedBrowser(startupDeadline);
+     requireActive();
+     const cleanupDeadline = performance.now() + CLEANUP_MS;
++    scopeCleanupDeadline = cleanupDeadline;
+     if (testCase.mode === "eof") {
+       closing = true;
+       await bounded(new Promise((resolve, reject) => child.stdin.end(
+@@ -312,6 +348,9 @@
+     acknowledgement = await read(cleanupDeadline); stages.ack_ms = elapsed();
+     require(acknowledgement.kind === "cleaned" && acknowledgement.outcome === testCase.expected_outcome
+       && acknowledgement.browser_matches && acknowledgement.browser_exited, "cleanup-ack-invalid");
++    tempScope.after_ack = await bounded(fixtureScopeCount(), cleanupDeadline, "ack-scope-observation-deadline");
++    require(tempScope.after_ack === 0, "fixture-scope-survived-ack");
++    stages.owned_scope_absent_after_ack_ms = elapsed();
+     await bounded(closed.promise, cleanupDeadline, "natural-exit-deadline");
+     await bounded(Promise.all([stdoutTask, stderrTask]), cleanupDeadline, "stdio-drain-deadline");
+     require(exited && exitStatus.code === testCase.expected_exit && exitStatus.signal === null, "natural-exit-invalid");
+@@ -320,6 +359,18 @@
+     require(stderr.bytes === 0 && stderr.classes.length === 0, "stderr-diagnostic-observed");
+     require(gone(browserPid), "browser-still-present");
+     custody.browser_absence_observed = true; stages.browser_absent_ms = elapsed();
++    while (!gone(-browserPid)) {
++      requireActive();
++      require(performance.now() < cleanupDeadline, "owned-browser-group-still-present");
++      await delay(Math.min(20, Math.max(1, cleanupDeadline - performance.now())));
++    }
++    requireActive();
++    require(performance.now() < cleanupDeadline, "browser-group-observation-deadline");
++    custody.browser_group_absence_observed = true; stages.browser_group_absent_ms = elapsed();
++    tempScope.after_exit = await bounded(fixtureScopeCount(), cleanupDeadline, "exit-scope-observation-deadline");
++    require(tempScope.after_exit === 0, "fixture-scope-survived-exit");
++    tempScope.observed_absent_before_harness_removal = true;
++    stages.owned_scope_absent_after_exit_ms = elapsed();
+     requireActive();
+   } catch (error) {
+     reason = error instanceof Failure ? error.reason : "probe-error";
+@@ -331,39 +382,105 @@
+   if (forced) reason ??= "forced-intervention";
+   if (!stdoutEnded || !stderr.finished || stderr.read_failed) reason ??= "drain-unconfirmed";
+   if (browserPid && !custody.browser_absence_observed) reason ??= "browser-custody-unconfirmed";
++  if (browserPid && !custody.browser_group_absence_observed) reason ??= "browser-group-custody-unconfirmed";
+   return { index, case: testCase.id, expected: { outcome: testCase.expected_outcome, exit_code: testCase.expected_exit }, status: reason ? "failed" : "passed", reason: reason ?? null, stages_ms: stages,
+     frames_received: frames, frames_sent: sent, stdout_bytes: stdoutBytes,
+     acknowledgement: acknowledgement ? { kind: acknowledgement.kind, outcome: acknowledgement.outcome ?? null,
+       browser_matches: acknowledgement.browser_matches ?? false, browser_exited: acknowledgement.browser_exited ?? false } : null,
+-    exit: exitStatus ?? null, stderr, custody, fault_injection: faultInjection, interventions, forced };
++    exit: exitStatus ?? null, stderr, custody, temp_scope: tempScope,
++    fault_injection: faultInjection, interventions, forced };
+ }
+ 
+-const report = { schema: "resident-three-case/1",
+-  scope: "Actual ready/done, EOF-after-ready and owned real Chromium group SIGSTOP/done lifecycle; no credential ceremony, authentication or native acceptance proof",
++const report = { schema: "resident-three-case/2",
++  scope: "Actual ready/done, EOF-after-ready and verified Chromium group SIGSTOP/done lifecycle, with independent leader/group absence and fixture-scope absence before harness removal; no credential ceremony, authentication or native acceptance proof",
+   proof_limits: { failed_kill_retained_unref_deadline: "SOURCE_ONLY", historical_exit3_cause: "UNPROVEN",
+     close_timeout_kill_path: "Source path plus verified real browser stop and actual cleanup ACK/exit; no SDK call interception",
+-    uncatchable_probe_termination: "SIGKILL/host failure cannot run in-process cleanup; no success claim" },
++    uncatchable_probe_termination: "SIGKILL/host failure cannot run in-process cleanup; no success claim",
++    escaped_descendants: "No absence claim for processes outside the positively verified browser group",
++    filesystem_cause: "Exact prior cleanup delay remains UNPROVEN unless independently observed; a clean run does not prove the prior cause" },
+   state: "running", command: [process.execPath, fileURLToPath(import.meta.url)], fixture_command: [process.execPath, RUNNER], cwd: ROOT,
+   node_version: process.versions.node, cases: CASES.map(({ id }) => id),
+   deadlines_ms: { startup: STARTUP_MS, cleanup_ack_and_natural_exit: CLEANUP_MS, failure_cleanup: FORCE_CLEANUP_MS },
+-  counts: { expected: CASES.length, started: 0, passed: 0, failed: 0, unreached: CASES.length }, attempts: [] };
++  counts: { expected: CASES.length, started: 0, passed: 0, failed: 0, unreached: CASES.length },
++  scope_custody: scopeCustody, attempts: [] };
+ try {
+   require(process.cwd() === ROOT && process.versions.node === "24.21.0", "runtime-prerequisite");
+   report.source_hashes = await sources();
+   report.node_binary_sha256 = await hash(process.execPath);
+   report.probe_sha256 = await hash(fileURLToPath(import.meta.url));
++  // This prerequisite creates no live browser. It reuses the existing startup
++  // and failure-cleanup bounds; no case or native cleanup budget is extended.
++  scopeCleanupDeadline = performance.now() + STARTUP_MS;
++  scopeCreation = mkdtemp(path.join(tmpdir(), "resident-lifecycle-proof-"))
++    .then((scope) => { ownedProbeScope = scope; return scope; });
++  scopeCreation.catch(() => {});
++  await bounded(scopeCreation, scopeCleanupDeadline, "owned-scope-setup-deadline");
++  const scopeInfo = await bounded(lstat(ownedProbeScope), scopeCleanupDeadline, "owned-scope-setup-stat-deadline");
++  require(scopeInfo.isDirectory() && !scopeInfo.isSymbolicLink(), "owned-scope-setup-type");
++  scopeCustody.setup_confirmed = true;
+   for (const [index, testCase] of CASES.entries()) {
+     requireActive();
+     await sources();
+     requireActive();
++    const caseBegan = performance.now();
++    scopeCleanupDeadline = caseBegan + STARTUP_MS;
++    require(await bounded(fixtureScopeCount(), scopeCleanupDeadline,
++      "pre-case-scope-observation-deadline") === 0, "residual-scope-before-case");
++    requireActive();
+     report.counts.started += 1; report.counts.unreached -= 1;
+-    const result = await attempt(index + 1, testCase); report.attempts.push(result); report.counts[result.status] += 1;
++    attemptingFixture = true;
++    const result = await attempt(index + 1, testCase, caseBegan);
++    attemptingFixture = false;
++    report.attempts.push(result); report.counts[result.status] += 1;
+     if (result.status === "failed") break;
+   }
+   report.state = report.counts.failed ? "diagnostic_failure" : "bounded_diagnostic_pass";
+ } catch (error) {
+   report.state = "prerequisite_failure";
+   report.reason = error instanceof Failure ? error.reason : "probe-prerequisite-error";
++  if (scopeCreation && !attemptingFixture) {
++    // Setup or pre-case admission failed without starting a live fixture.
++    // Enter the existing failure phase once, including a known root whose
++    // setup stat expired. This never restarts a spent live-case cleanup phase.
++    scopeCleanupDeadline = performance.now() + FORCE_CLEANUP_MS;
++  }
++}
++// Observe fixture residue before removing this known fresh caller container.
++// Harness removal never changes a failed fixture case into a passed case.
++try {
++  if (scopeCreation && !ownedProbeScope) {
++    try { await bounded(scopeCreation, scopeCleanupDeadline, "owned-scope-creation-unconfirmed", true); }
++    catch { scopeCustody.creation_unconfirmed = true; }
++  }
++  if (ownedProbeScope) {
++    try {
++      const count = await bounded(fixtureScopeCount(), scopeCleanupDeadline, "owned-scope-final-observation-deadline", true);
++      scopeCustody.before_harness_removal_count = count;
++      if (count !== 0) { report.state = "diagnostic_failure"; report.reason ??= "fixture-scope-residual-before-harness"; }
++    } catch {
++      // Observation failure prevents acceptance, but is not permission to
++      // abandon removal of our known fresh root while its budget remains.
++      scopeCustody.residue_observation_unconfirmed = true;
++      report.state = "diagnostic_failure";
++      report.reason ??= "fixture-scope-final-observation-unconfirmed";
++    }
++    require(performance.now() < scopeCleanupDeadline, "owned-container-removal-deadline");
++    scopeCustody.harness_removal_started = true;
++    await bounded(rm(ownedProbeScope, { recursive: true, force: true, maxRetries: 10 }),
++      scopeCleanupDeadline, "owned-container-removal-deadline", true);
++    let absent = false;
++    try { await bounded(lstat(ownedProbeScope), scopeCleanupDeadline, "owned-container-absence-deadline", true); }
++    catch (error) { if (error?.code === "ENOENT") absent = true; else throw error; }
++    require(absent, "owned-container-still-present");
++    scopeCustody.harness_container_absence_verified = true;
++  }
++} catch {
++  scopeCustody.cleanup_unconfirmed = true;
++  report.state = "diagnostic_failure";
++  report.reason ??= "owned-container-cleanup-unconfirmed";
++}
++if (scopeCustody.creation_unconfirmed) {
++  report.state = "diagnostic_failure"; report.reason ??= "owned-container-creation-unconfirmed";
+ }
+ report.unreached_cases = CASES.slice(report.counts.started).map(({ id }) => id);
+ report.interruption = interruptedSignal;

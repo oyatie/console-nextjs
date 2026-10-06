@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "reviewer_task": "/root/resident_failure_diagnostic_review",
+  "created_at_utc": "2026-10-06T09:10:38.265806+00:00",
+  "verdict": "ACCEPT_SOURCE_ONLY",
+  "finding_count": 0,
+  "scope": "Current overall tracked repair for Rust/Node startup and cleanup ownership and CI settings; ten exact implementation/CI files. Excludes reviewer-authored tools/browser-business-restore.mjs diagnostics. Planning status text was inspected only for unsupported acceptance claims.",
+  "base": "c3793f92dab565de104224fc705578c543d85b64",
+  "head": "c3793f92dab565de104224fc705578c543d85b64",
+  "reviewed_diff_sha256": "47c61e77360bb24567aebcd1a157cd94178cb99523dbb618d669662ad98d503e",
+  "source_pins": "source-pins.json",
+  "reviewed_diff": "reviewed-diff.patch",
+  "observed_properties": [
+    "Rust child owner precedes fallible pipe/thread construction; partial constructor failures preserve original error.",
+    "First cleanup result is sticky; Drop does not restart a failed cleanup budget.",
+    "ACK/natural exit and subsequent reap/drain remain bounded; forced kill, missed deadlines, missing ACK or unsettled workers remain failures.",
+    "Node startup-owned bounded input pump observes early EOF, aborts staging, and closing guard prevents later resource creation.",
+    "Resident cleanup awaits returned startup owner and SDK cleanup; actual owned temporary-scope absence precedes ACK within unchanged total deadline.",
+    "Fault supervisor separates prerequisite startup from original25/35-second fault clocks and cannot restart after force, fault start or disposal.",
+    "CI retains existing full native authentication and Clippy gates and adds real enrollment/business fault tests.",
+    "Current planning status preserves required RED/unresolved outcomes and pending publication/queue gates."
+  ],
+  "limits": [
+    "Read-only source review; no tests, live operations, tracked edits or Git/PR writes performed.",
+    "No runtime acceptance, independent Chromium process-group absence, causal P16 diagnosis, merge approval or full product completion claimed.",
+    "Required real P16/full125-native and17-browser evidence, final evidence review, exact-head hosted CI and protected queue admission remain pending."
+  ],
+  "preservation": "Receipt records the completed review; persistence only rechecks exact reviewed byte pins to prevent source-drift substitution. No review or tests were rerun."
+}

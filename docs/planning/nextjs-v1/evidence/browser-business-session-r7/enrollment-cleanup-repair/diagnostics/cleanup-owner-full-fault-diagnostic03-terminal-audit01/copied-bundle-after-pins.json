@@ -1,0 +1,83 @@
+{
+  "schema": "copied-diagnostic-after-run-pins/1",
+  "bundle": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/.artifacts/enrollment-cleanup-after-owner-repair-diagnostic03",
+  "copied_file_count": 8,
+  "root_copy_receipt": {
+    "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/enrollment-cleanup-after-owner-repair-diagnostic03-copy.json",
+    "bytes": 1685,
+    "sha256": "0e7e426dadd98eed8944b71cb9fca3591beeca95aa6bb284285e6e9894be485c"
+  },
+  "source_review": {
+    "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/enrollment-cleanup-after-owner-repair-diagnostic-candidate03/independent-source-review03.json",
+    "bytes": 8039,
+    "sha256": "0463ac5bbceee24d728e025b57e7de77a40ddba25bad3cb38fd7ce227de44b86"
+  },
+  "all_file_hash_size_mode_type_match": true,
+  "no_source_or_directory_symlinks": true,
+  "files": [
+    {
+      "relative": "server.mjs",
+      "path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/.artifacts/enrollment-cleanup-after-owner-repair-diagnostic03/server.mjs",
+      "bytes": 8799,
+      "sha256": "1f0f42b227af875f580ea4d11ff3b8355eb24487b17f45d9de99e3324a62f90f",
+      "ordinary_readonly": true,
+      "matches_manifest_and_before_copy_receipt": true
+    },
+    {
+      "relative": "tools/browser-business-failure.mjs",
+      "path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/.artifacts/enrollment-cleanup-after-owner-repair-diagnostic03/tools/browser-business-failure.mjs",
+      "bytes": 2043,
+      "sha256": "682407048049f4ff76df89c5fa9af836f1985fddb36e4f8e7c8adcb34d9052e3",
+      "ordinary_readonly": true,
+      "matches_manifest_and_before_copy_receipt": true
+    },
+    {
+      "relative": "tools/enrollment-fault-deadlines.mjs",
+      "path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/.artifacts/enrollment-cleanup-after-owner-repair-diagnostic03/tools/enrollment-fault-deadlines.mjs",
+      "bytes": 1167,
+      "sha256": "6f80266162d5413bcda245b17536b991518e95e22f5b1a7001067aaa4120fc06",
+      "ordinary_readonly": true,
+      "matches_manifest_and_before_copy_receipt": true
+    },
+    {
+      "relative": "tools/enrollment-fault-deadlines.test.mjs",
+      "path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/.artifacts/enrollment-cleanup-after-owner-repair-diagnostic03/tools/enrollment-fault-deadlines.test.mjs",
+      "bytes": 2938,
+      "sha256": "7e4aa20a3cfac678c5f5d8b620456da7b6e74d72fd6f64824b05cde363bc4bca",
+      "ordinary_readonly": true,
+      "matches_manifest_and_before_copy_receipt": true
+    },
+    {
+      "relative": "tools/production-runtime.mjs",
+      "path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/.artifacts/enrollment-cleanup-after-owner-repair-diagnostic03/tools/production-runtime.mjs",
+      "bytes": 8831,
+      "sha256": "7e4d05bac69900295f8777c931999f2987acd36c947f281cbea7d1bbdf673367",
+      "ordinary_readonly": true,
+      "matches_manifest_and_before_copy_receipt": true
+    },
+    {
+      "relative": "tools/test-browser-business-session.mjs",
+      "path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/.artifacts/enrollment-cleanup-after-owner-repair-diagnostic03/tools/test-browser-business-session.mjs",
+      "bytes": 54371,
+      "sha256": "6868ac44bef0334065b3e4cd70ddfc58c3623be4070e6625f35b1738bed24280",
+      "ordinary_readonly": true,
+      "matches_manifest_and_before_copy_receipt": true
+    },
+    {
+      "relative": "tools/test-native-browser-enrollment-diagnostic.test.mjs",
+      "path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/.artifacts/enrollment-cleanup-after-owner-repair-diagnostic03/tools/test-native-browser-enrollment-diagnostic.test.mjs",
+      "bytes": 19521,
+      "sha256": "81206713f661ce12f5327330010ba624d77cc8d6c3f798b3a1596639e30a2c12",
+      "ordinary_readonly": true,
+      "matches_manifest_and_before_copy_receipt": true
+    },
+    {
+      "relative": "tools/test-native-browser-enrollment.mjs",
+      "path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/.artifacts/enrollment-cleanup-after-owner-repair-diagnostic03/tools/test-native-browser-enrollment.mjs",
+      "bytes": 25965,
+      "sha256": "ef53481448b7b9fb261a31ea594a2deed9604b5c3536c7101d8d3b13cd22bd2b",
+      "ordinary_readonly": true,
+      "matches_manifest_and_before_copy_receipt": true
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "id": "resident-owned-temp-three-case-native01",
+  "command": [
+    "node",
+    "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/resident-three-case-probe-candidate06/resident-three-case-probe.mjs"
+  ],
+  "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+  "exit_code": 0,
+  "timed_out": false,
+  "duration_seconds": 4.458107291953638,
+  "discovered": null,
+  "counts": {
+    "passed": 0,
+    "failed": 0,
+    "skipped": 0,
+    "filtered": 0,
+    "executed": 0
+  },
+  "log_sha256": "ad661de865e53fa500523076de69feec10ad23cd7824cc46f79bb363c1fb370d",
+  "cleanup_reported": false,
+  "inputs_sha256": "c054df00ddb6a240ffaaabc6baf2a53b3a91ce07723d8ad4653692cffc2e7fc0",
+  "inputs_unchanged": true
+}

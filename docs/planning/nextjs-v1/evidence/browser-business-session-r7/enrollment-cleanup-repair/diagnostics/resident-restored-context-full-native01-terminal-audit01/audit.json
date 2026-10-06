@@ -1,0 +1,139 @@
+{
+  "schema": "resident-restored-context-full-native-terminal-audit/1",
+  "verdict": "ACCEPT_TERMINAL_EVIDENCE; REQUIRED_ACCEPTANCE_FAILED",
+  "scope": "Independent preserved terminal report/log/captured-map and embedded real-browser payload audit. No rerun, original root tool-session consumption, live source regeneration, process census, full product/release or GitHub approval.",
+  "inputs": {
+    "report": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/resident-restored-context-full-native01.json",
+      "bytes": 1098,
+      "sha256": "6e59524739cf606e1f74cf4fdae81df0015b9925d201af5973aa3405137c5154"
+    },
+    "log": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/resident-restored-context-full-native01.log",
+      "bytes": 27143,
+      "sha256": "94f7244bc3b0454ef7075553d1347b4d5d7857abef97ff8c0e9a5ffc85cbaad2"
+    },
+    "inputs": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/resident-restored-context-full-native01.inputs.json",
+      "bytes": 917481,
+      "sha256": "c054df00ddb6a240ffaaabc6baf2a53b3a91ce07723d8ad4653692cffc2e7fc0"
+    }
+  },
+  "native": {
+    "announced": 125,
+    "unique_raw_test_names": 125,
+    "executed": 125,
+    "passed": 123,
+    "failed": 2,
+    "ignored": 0,
+    "measured": 0,
+    "filtered": 0,
+    "failed_test_names": [
+      "browser_sessions::encrypted_proof_or_metadata_tampering_is_denied_without_reminting_authority",
+      "genuine_browser::genuine_production_browser_proposal_requires_all_seventeen_scenarios"
+    ],
+    "added_constructor_cache_tests": [
+      "browser_sessions::resident_authenticator::failed_close_is_cached_without_restarting_cleanup_and_normal_drop_stays_failing",
+      "browser_sessions::resident_authenticator::injected_reader_setup_failure_preserves_constructor_error_and_resource_custody",
+      "browser_sessions::resident_authenticator::injected_stderr_setup_failure_preserves_constructor_error_and_resource_custody",
+      "browser_sessions::resident_authenticator::injected_writer_setup_failure_preserves_constructor_error_and_resource_custody"
+    ],
+    "exit_code": 101,
+    "outer_timeout": false,
+    "body_duration_seconds": 1563.28,
+    "wrapper_duration_seconds": 1579.495316207991
+  },
+  "browser": {
+    "discovered": 17,
+    "executed": 17,
+    "passed": 16,
+    "failed": 1,
+    "skipped": 0,
+    "unreached": 0,
+    "failed_scenarios": [
+      "P16"
+    ],
+    "P16_status": "failed",
+    "P16_checks": {
+      "blocked-bundles": "passed",
+      "blocked-css-bundles": "passed",
+      "delayed-bundles": "passed",
+      "queued-react-css": "failed",
+      "offline": "passed",
+      "missing-guard": "passed",
+      "thrown-guard": "passed"
+    },
+    "queued_react_css": {
+      "id": "queued-react-css",
+      "status": "failed",
+      "reason": "actual required restore assertion failed",
+      "diagnostic": {
+        "queued_checkpoint": "queued-pending",
+        "failure_location": null,
+        "queued_native_observation": {
+          "stage": "native-response-observed",
+          "http_status": 401,
+          "native_gate_match": true,
+          "native_context_match": true,
+          "native_status_401": true
+        },
+        "queued_ordering_observation": null,
+        "not_restored_reasons": [],
+        "trusted_departures": 1,
+        "trusted_original_restores": 1
+      }
+    },
+    "payload_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/resident-restored-context-full-native01-terminal-audit01/browser-payload.json",
+    "payload_sha256": "918e00b6700f2a1bb3a77edf9608e1b113db4989800321fc40ff80a22022927f",
+    "payload_provenance": "Exact embedded compact JSON bytes plus one newline; no regenerated browser run or current source substitution."
+  },
+  "source_inputs": {
+    "sha256": "c054df00ddb6a240ffaaabc6baf2a53b3a91ce07723d8ad4653692cffc2e7fc0",
+    "before_count": 2958,
+    "after_count": 2958,
+    "all_before_after_entries_equal": true,
+    "selected_pins": {
+      "tools/test-resident-authenticator.mjs": "88cdfea200731ab32fcda0c797a96eee6ce49a42e6f174208fed29195105cd2e",
+      "backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs": "c2fc3e190d7b9933cdaf77958a8a9dc11a6ab8df83fa69362c7a42d5bc67412c",
+      "tools/browser-business-restore.mjs": "183df5e840c6fbd46c77ca7fa4ba8301801606870b970173a89ac784a27ddf4c"
+    },
+    "limit": "Captured maps audited exactly; no independent regeneration and no acceptance for later diagnostic-source application."
+  },
+  "first_frame_failure": {
+    "fixed_error_label_observed": true,
+    "fixed_error_label": "infrastructure: resident secure origin not ready",
+    "meaning": "Generic mismatch of first validated frame against fixed ready/origin/secure fields; label does not establish secureDocument failure.",
+    "raw_first_frame": "UNOBSERVED on this frozen source",
+    "setup_checkpoint": "UNOBSERVED on this frozen source",
+    "specific_cause": "UNPROVEN",
+    "host_load_cause": "UNPROVEN",
+    "link_to_historical_sdk_cleanup_failure": "NOT_INFERRED",
+    "limit": "Source-reviewed diagnostic02 was not part of these captured frozen inputs; no retroactive diagnostic/repair claim."
+  },
+  "fixed_final_native121_material_semantics": {
+    "required_slot": "final_native121_browser17_gate_terminal_report_log_inputs_payload_and_independent_audit",
+    "inherited_native": 121,
+    "added_constructor_cache_native": 4,
+    "required_actual_native": 125,
+    "required_actual_browser": 17,
+    "zero_ignored_filtered_skipped_unreached_required": true,
+    "native_all_green": false,
+    "browser_all_green": false,
+    "required_acceptance_passed": false,
+    "limit": "Terminal evidence can be accepted as honest RED. RED does not satisfy final-green material or grant merge admission."
+  },
+  "cleanup": {
+    "database_lane_cleanup_line_observed": true,
+    "limit": "Printed lane cleanup is not independent browser/group or temporary-scope custody."
+  },
+  "remaining_required": [
+    "Repair or legitimately reproduce unresolved required failure without weakening original bounds or substituting provider success.",
+    "Fresh final-source unfiltered125-native/all17-browser acceptance after any applied diagnostic/repair.",
+    "Current author-separated cumulative source and metadata acceptance, final source bindings, immutable-head hosted CI and protected merge queue."
+  ],
+  "actions": {
+    "tests_executed": 0,
+    "tracked_source_writes": 0,
+    "artifact_only_audit_write": true
+  }
+}

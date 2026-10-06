@@ -1,0 +1,15 @@
+{
+  "name": "candidate-build",
+  "command": [
+    "fnm",
+    "exec",
+    "--using",
+    "24.21.0",
+    "npm",
+    "run",
+    "build"
+  ],
+  "exit": 0,
+  "duration_seconds": 7.215,
+  "log_sha256": "d95b91ae3daa5e2e46a0366876b9966b3e12e88cfb2a1a0d6ebd612863e97cd8"
+}

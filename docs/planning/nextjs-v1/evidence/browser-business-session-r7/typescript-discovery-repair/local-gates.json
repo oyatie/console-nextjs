@@ -1,0 +1,65 @@
+{
+  "scope": "Configuration-only discovery repair; source and generated output are recorded separately. No native/browser/process tests rerun.",
+  "original_runtime_binding_sha256": "88bcca57962c0c7a40650872e4bc5a930a7389bd1fcc075f05c6115d93ec8add",
+  "captured_entries": 2958,
+  "tracked_source_delta_from_original": [
+    {
+      "path": "tsconfig.json",
+      "before": "1632796cde2881ef7091052486f75a0385e22e98a1862e6436da25c4f3424810",
+      "after": "ccf246d7611d18b133521c0db25ad40448d2f4706a8b84ed6d313415b09d1ee8"
+    }
+  ],
+  "expected_generated_output_delta_from_original": [
+    {
+      "path": ".next/build-inputs.json",
+      "before": "45001f336b372dd488fd27cce5d6d8e1119c42e9dada4025c766fd0d4558d7c7",
+      "after": "dae93797cef464387c9a74f479e9791f3c81f475b01fe666a54a4a703a64cf4a"
+    }
+  ],
+  "changed_during_commands": [
+    {
+      "path": ".next/build-inputs.json",
+      "before": "45001f336b372dd488fd27cce5d6d8e1119c42e9dada4025c766fd0d4558d7c7",
+      "after": "dae93797cef464387c9a74f479e9791f3c81f475b01fe666a54a4a703a64cf4a"
+    }
+  ],
+  "source_inputs_unchanged_during_commands": true,
+  "stable_captured_entries_during_commands": 2957,
+  "build_manifest_source_hashes_verified": 90,
+  "build_manifest_output_hashes_verified": 96,
+  "results": [
+    {
+      "name": "candidate-lint",
+      "command": [
+        "fnm",
+        "exec",
+        "--using",
+        "24.21.0",
+        "npm",
+        "run",
+        "lint"
+      ],
+      "exit": 0,
+      "duration_seconds": 0.799,
+      "log_sha256": "3e98dcbd24835eb29288dab5790e519db6a485457e666a6774fdbce08459740e"
+    },
+    {
+      "name": "candidate-build",
+      "command": [
+        "fnm",
+        "exec",
+        "--using",
+        "24.21.0",
+        "npm",
+        "run",
+        "build"
+      ],
+      "exit": 0,
+      "duration_seconds": 7.215,
+      "log_sha256": "d95b91ae3daa5e2e46a0366876b9966b3e12e88cfb2a1a0d6ebd612863e97cd8"
+    }
+  ],
+  "previous_wrapper_guard_failure_preserved": true,
+  "all_requested_commands_passed": true,
+  "prior125_native_embedded17_browser_and22_process_results_scope": "Original sealed inputs only. No relabeling to the changed config. Fresh exact-head hostedCI remains required."
+}

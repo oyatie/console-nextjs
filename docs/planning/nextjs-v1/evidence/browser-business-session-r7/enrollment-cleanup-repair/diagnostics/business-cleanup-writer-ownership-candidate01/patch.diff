@@ -1,0 +1,20 @@
+--- a/tools/test-browser-business-session.mjs
++++ b/tools/test-browser-business-session.mjs
+@@ -139,7 +139,7 @@
+     try {
+       await stop();
+       assert.ok(performance.now() < deadlineAt);
+-      await writeFrame({ kind: "cleaned", outcome, creation_attempts: creationAttempts });
++      await writeFrameUnsafe({ kind: "cleaned", outcome, creation_attempts: creationAttempts });
+       assert.ok(performance.now() < deadlineAt);
+       cleanupConfirmed = true;
+       process.exitCode = exitCode;
+@@ -190,7 +190,7 @@
+   try { return await readFrameUnsafe(waitMs); } catch { throw new InfrastructureError("IPC read failed"); }
+ }
+ async function writeFrame(fields) {
+-  try { return await writeFrameUnsafe(fields); } catch { throw new InfrastructureError("IPC write failed"); }
++  try { assert.ok(!closing); return await writeFrameUnsafe(fields); } catch { throw new InfrastructureError("IPC write failed"); }
+ }
+ 
+ // Test-only adapters. All network bytes come from the staged immutable runtime

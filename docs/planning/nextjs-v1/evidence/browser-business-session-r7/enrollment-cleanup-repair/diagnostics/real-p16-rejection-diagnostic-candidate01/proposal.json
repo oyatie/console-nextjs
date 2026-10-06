@@ -1,0 +1,62 @@
+{
+  "schema": "real-p16-rejection-diagnostic-proposal/1",
+  "status": "ARTIFACT_ONLY_NOT_APPLIED_NOT_EXECUTED",
+  "before_sha256": "a23c66dc14171cc07ab6d10d6835d07d4aaa105fae90e99ee9920015cf5214b6",
+  "after_sha256": "63a0da2617d01fcd0fb98f6e3aeabf806e7a597a5f3924c924f9537dae8d3c40",
+  "patch_sha256": "9309efcf7bd5d9abc3688a454dfdb597d3652ab52cc056cd27882124ea5a71a5",
+  "scope": "Exact enum-only CDP rejection fingerprint plus passive authorized actual main-frame HTTPstatus and typed commit receipt timeline in queued P16 variant. Preserves original commands/errors/assertions/actions/context IDs/timeouts/release/cleanup.",
+  "classifier_api": "classifyCdpRejection(error, method): fixed method Runtime.evaluate/Runtime.callFunctionOn only, native Error own message read transiently, exact complete suffix match after optional literal cdpSession.send wrapper, fixed shape/name/category/matched fields only. Unknown/long/multiline/unreadable messages remain unrecognized, never logged/hashed.",
+  "timeline_api": "recordQueuedPhase(kind, details): queued-only after actual Back issued; max32 fixed primitive observations, Node receipt times capped600000ms, immutable diagnostic copies before cleanup. Public response callback reads actual synchronous cached status; Page.frameNavigated retains fixed Navigation/BackForwardCacheRestore type only. No body/URL/IDs/headers/details are output.",
+  "upstream_provenance": {
+    "configured_chromium_version": "153.0.8010.12",
+    "chromium_repository": "chromium/chromium",
+    "chromium_ref": "153.0.8010.12",
+    "deps_v8_revision": "0b60d2b01800d7ba2c6eeb5e51ecd95f6dab44c7",
+    "v8_repository": "v8/v8",
+    "source_snapshots": {
+      "chromium-DEPS": {
+        "git_blob_sha": "153b7611c7698a01166547c261bbda59d947d48c",
+        "sha256": "9b3b7db0bb23ac4e8211ebdedd06f3582d74d43132d07f5bb4440530f9d069b8",
+        "bytes": 196718
+      },
+      "v8-runtime-agent-impl.cc": {
+        "git_blob_sha": "b17432ca819792a6857676ef1ff68e4cdac587b8",
+        "sha256": "b8bc6ab5f32b1f71c9e70238a8cf03984ea16439f896cc3fe26cdd19dfeaac92",
+        "bytes": 49248
+      },
+      "injected-script.cc": {
+        "git_blob_sha": "dd346bb7f369ca87cd661d08fdc3a80c6a521605",
+        "sha256": "aacfb383b1711f8783dac44ded3743ad76fac4ee52c22cb09aee50ba5d54f295",
+        "bytes": 53643
+      },
+      "v8-inspector-impl.cc": {
+        "git_blob_sha": "e4bd1415e26803f0759b01ff016600e8b43a8f8c",
+        "sha256": "26bc90dba09ad74baace5e6504001078a74c1652c3f1ac22938ca9cad5998a58",
+        "bytes": 24877
+      }
+    }
+  },
+  "known_literal_owners": {
+    "unique-context-not-found": "v8-runtime-agent-impl.cc232",
+    "invalid-unique-context": "v8-runtime-agent-impl.cc229",
+    "specified-context-not-found": "injected-script.cc1197",
+    "default-context-not-found": "v8-runtime-agent-impl.cc239",
+    "execution-context-destroyed": "injected-script.cc797",
+    "execution-terminated": "injected-script.cc976/989 and v8-inspector-impl.cc579",
+    "specified-object-not-found": "injected-script.cc813",
+    "session-closed": "installed coreBundle35036",
+    "page-crashed": "installed coreBundle34985",
+    "target-closed": "installed coreBundle12242/57725"
+  },
+  "source_mechanism_candidate": "Actual original Runtime.evaluate rejected around15006ms, not local20s timeout/returned exception. SDK send timeout0 has no15s command timer. Real native history hold90s competes with product BFF AbortSignal.timeout15000; abort renders a replacement unavailable SSR document. Browser/source protocol may reject the pending original context at replacement. Causality still unproven: actual typed rejection and response/commit receipt order are necessary observations.",
+  "limits": [
+    "Exact category is a matching vetted literal, not inferred CDP numeric error code or causality",
+    "SDK ProtocolError code/type/method metadata is dropped across serializeError/parseError; no fabricated protocolcode",
+    "Configured SDK browserVersion does not independently prove current runtime binary/V8 version",
+    "Actual SSR HTTPstatus may200 even internal503; actual response status must be reported distinctly",
+    "Node receipt order does not independently date browser/BFF occurrence",
+    "Late responses/cleanup cannot rewrite copied first-failure timeline",
+    "No new function execution, response read, wait, timer, deadline widening, context mapping/retry, synthetic event, external effect or logout release",
+    "No syntax/runtime/tests executed by author; root executes only after independent source review"
+  ]
+}

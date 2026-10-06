@@ -1,0 +1,191 @@
+{
+  "schema": "frozen-composite-source-snapshot/2",
+  "scope": "Exact reviewed source-only composite custody, all captured bytes equal reviewed hashes. Explicit live, earlier exact capture, before-source and reconstructed forkdelta origins; no tracked source/test/runtime/merge operations.",
+  "source_review_sha256": "f2230ab3b4831bcfb9e38931550be7a2e620a99af5c3b549bcfebd553f6f8cbf",
+  "base": "c3793f92dab565de104224fc705578c543d85b64",
+  "reviewed_diff": {
+    "sha256": "3a9db7d1bc977675a1d466ced5ff797c63fa03790acac0d4a2cba7bffc976a9e",
+    "bytes": 112402,
+    "tracked_files": 14
+  },
+  "reviewed_diff_bytes": "UNAVAILABLE_IN_THIS_SNAPSHOT; reviewed diff3a9db7d1 hash retained without substituting a regenerated current diff.",
+  "files": [
+    {
+      "relative": ".github/workflows/ci.yml",
+      "snapshot_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/composite-tracked-source-review01-inputs01/sources/.github/workflows/ci.yml",
+      "sha256": "0ca66a38078c0a5ea8930312d7d1420e91d5b088859d2d477148dd79864a5c47",
+      "bytes": 12567,
+      "original_reviewed_path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/.github/workflows/ci.yml",
+      "actual_custody_origin": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/.github/workflows/ci.yml",
+      "provenance": "Current sampled live bytes match reviewed pin",
+      "live_sha256_when_sampled": "0ca66a38078c0a5ea8930312d7d1420e91d5b088859d2d477148dd79864a5c47"
+    },
+    {
+      "relative": "backend-fork/backend/app/tests/auth_rest/browser_sessions.rs",
+      "snapshot_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/composite-tracked-source-review01-inputs01/sources/backend-fork/backend/app/tests/auth_rest/browser_sessions.rs",
+      "sha256": "af3da5f340ecaa1d78ad46d41fdc0a53be6d515a678727d54542fdffaff6d454",
+      "bytes": 288060,
+      "original_reviewed_path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend/app/tests/auth_rest/browser_sessions.rs",
+      "actual_custody_origin": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend/app/tests/auth_rest/browser_sessions.rs",
+      "provenance": "Current sampled live bytes match reviewed pin",
+      "live_sha256_when_sampled": "af3da5f340ecaa1d78ad46d41fdc0a53be6d515a678727d54542fdffaff6d454"
+    },
+    {
+      "relative": "backend-fork/backend/app/tests/auth_rest/genuine_browser.rs",
+      "snapshot_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/composite-tracked-source-review01-inputs01/sources/backend-fork/backend/app/tests/auth_rest/genuine_browser.rs",
+      "sha256": "3fc7ff40ce5b01325515803864ba2e87386562f4dd0bf744b2c22c594261879b",
+      "bytes": 110318,
+      "original_reviewed_path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend/app/tests/auth_rest/genuine_browser.rs",
+      "actual_custody_origin": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend/app/tests/auth_rest/genuine_browser.rs",
+      "provenance": "Current sampled live bytes match reviewed pin",
+      "live_sha256_when_sampled": "3fc7ff40ce5b01325515803864ba2e87386562f4dd0bf744b2c22c594261879b"
+    },
+    {
+      "relative": "backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs",
+      "snapshot_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/composite-tracked-source-review01-inputs01/sources/backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs",
+      "sha256": "c2fc3e190d7b9933cdaf77958a8a9dc11a6ab8df83fa69362c7a42d5bc67412c",
+      "bytes": 28091,
+      "original_reviewed_path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs",
+      "actual_custody_origin": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/composite-tracked-source-review01-inputs01/sources/backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs",
+      "provenance": "Earlier artifact-only capture in this snapshot directory exactly matches reviewed pin; live source changed later",
+      "live_sha256_when_sampled": "1a9ef29ee164cdeca5573a5b750b49f54f5e215f19a8709d9a8309ab5f71766f"
+    },
+    {
+      "relative": "docs/planning/nextjs-v1/IMPLEMENTATION.md",
+      "snapshot_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/composite-tracked-source-review01-inputs01/sources/docs/planning/nextjs-v1/IMPLEMENTATION.md",
+      "sha256": "711b6ef2c9c4250f7671b43b3f3b85113c19df34d74111a829039d698f08da2b",
+      "bytes": 202712,
+      "original_reviewed_path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/docs/planning/nextjs-v1/IMPLEMENTATION.md",
+      "actual_custody_origin": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/composite-tracked-source-review01-inputs01/sources/docs/planning/nextjs-v1/IMPLEMENTATION.md",
+      "provenance": "Earlier artifact-only capture in this snapshot directory exactly matches reviewed pin; live source changed later",
+      "live_sha256_when_sampled": "8b2f879499d026ead2883ed02b11edeac8d9d5adb07f99bbcf916641ddb5b66d"
+    },
+    {
+      "relative": "docs/planning/nextjs-v1/fork-delta.json",
+      "snapshot_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/composite-tracked-source-review01-inputs01/sources/docs/planning/nextjs-v1/fork-delta.json",
+      "sha256": "86044b97d7882f7080b1af546ad3d41ca628a0b4ff49ac7b12cf288c3d359f32",
+      "bytes": 144742,
+      "original_reviewed_path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/docs/planning/nextjs-v1/fork-delta.json",
+      "actual_custody_origin": "Artifact-only exact inverse of disclosed root post-terminal diagnostic02 metadata mutation",
+      "provenance": "Explicit reconstructed historical bytes verified against reviewed SHA256; no root metadata writes",
+      "live_sha256_when_sampled": "240a7f32a4c673df164e25a8dd3e7b795bf4229f4ff4531e5b87179bc3654e2e"
+    },
+    {
+      "relative": "tools/browser-business-restore.mjs",
+      "snapshot_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/composite-tracked-source-review01-inputs01/sources/tools/browser-business-restore.mjs",
+      "sha256": "183df5e840c6fbd46c77ca7fa4ba8301801606870b970173a89ac784a27ddf4c",
+      "bytes": 41804,
+      "original_reviewed_path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/tools/browser-business-restore.mjs",
+      "actual_custody_origin": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/tools/browser-business-restore.mjs",
+      "provenance": "Current sampled live bytes match reviewed pin",
+      "live_sha256_when_sampled": "183df5e840c6fbd46c77ca7fa4ba8301801606870b970173a89ac784a27ddf4c"
+    },
+    {
+      "relative": "tools/enrollment-fault-deadlines.mjs",
+      "snapshot_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/composite-tracked-source-review01-inputs01/sources/tools/enrollment-fault-deadlines.mjs",
+      "sha256": "6f80266162d5413bcda245b17536b991518e95e22f5b1a7001067aaa4120fc06",
+      "bytes": 1167,
+      "original_reviewed_path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/tools/enrollment-fault-deadlines.mjs",
+      "actual_custody_origin": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/tools/enrollment-fault-deadlines.mjs",
+      "provenance": "Current sampled live bytes match reviewed pin",
+      "live_sha256_when_sampled": "6f80266162d5413bcda245b17536b991518e95e22f5b1a7001067aaa4120fc06"
+    },
+    {
+      "relative": "tools/production-runtime.mjs",
+      "snapshot_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/composite-tracked-source-review01-inputs01/sources/tools/production-runtime.mjs",
+      "sha256": "7e4d05bac69900295f8777c931999f2987acd36c947f281cbea7d1bbdf673367",
+      "bytes": 8831,
+      "original_reviewed_path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/tools/production-runtime.mjs",
+      "actual_custody_origin": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/tools/production-runtime.mjs",
+      "provenance": "Current sampled live bytes match reviewed pin",
+      "live_sha256_when_sampled": "7e4d05bac69900295f8777c931999f2987acd36c947f281cbea7d1bbdf673367"
+    },
+    {
+      "relative": "tools/test-browser-business-session.mjs",
+      "snapshot_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/composite-tracked-source-review01-inputs01/sources/tools/test-browser-business-session.mjs",
+      "sha256": "ea936c0cdc8670261d556686b46a6d813b6479f4a8c6dd7b0925a42092e6aa2a",
+      "bytes": 52767,
+      "original_reviewed_path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/tools/test-browser-business-session.mjs",
+      "actual_custody_origin": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/tools/test-browser-business-session.mjs",
+      "provenance": "Current sampled live bytes match reviewed pin",
+      "live_sha256_when_sampled": "ea936c0cdc8670261d556686b46a6d813b6479f4a8c6dd7b0925a42092e6aa2a"
+    },
+    {
+      "relative": "tools/test-native-browser-enrollment.mjs",
+      "snapshot_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/composite-tracked-source-review01-inputs01/sources/tools/test-native-browser-enrollment.mjs",
+      "sha256": "6cbb58a1b2eae9f01d0b4d0838afd7c5c421c496a532fde056a1f33e153027ce",
+      "bytes": 13987,
+      "original_reviewed_path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/tools/test-native-browser-enrollment.mjs",
+      "actual_custody_origin": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/tools/test-native-browser-enrollment.mjs",
+      "provenance": "Current sampled live bytes match reviewed pin",
+      "live_sha256_when_sampled": "6cbb58a1b2eae9f01d0b4d0838afd7c5c421c496a532fde056a1f33e153027ce"
+    },
+    {
+      "relative": "tools/test-native-browser-enrollment.test.mjs",
+      "snapshot_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/composite-tracked-source-review01-inputs01/sources/tools/test-native-browser-enrollment.test.mjs",
+      "sha256": "3204b466940c270897814f9100ee8f92fbddfdc937e7b71a06406dacac778ead",
+      "bytes": 6611,
+      "original_reviewed_path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/tools/test-native-browser-enrollment.test.mjs",
+      "actual_custody_origin": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/tools/test-native-browser-enrollment.test.mjs",
+      "provenance": "Current sampled live bytes match reviewed pin",
+      "live_sha256_when_sampled": "3204b466940c270897814f9100ee8f92fbddfdc937e7b71a06406dacac778ead"
+    },
+    {
+      "relative": "tools/test-resident-authenticator.mjs",
+      "snapshot_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/composite-tracked-source-review01-inputs01/sources/tools/test-resident-authenticator.mjs",
+      "sha256": "88cdfea200731ab32fcda0c797a96eee6ce49a42e6f174208fed29195105cd2e",
+      "bytes": 15858,
+      "original_reviewed_path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/tools/test-resident-authenticator.mjs",
+      "actual_custody_origin": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/resident-setup-diagnostic-candidate02/node-before.mjs",
+      "provenance": "Explicit preserved candidate02 before-source artifact exactly matches reviewed pin; live source changed after terminal",
+      "live_sha256_when_sampled": "3270d79e4a3511cba87b9998367b3918a00bdcebbc2935bb903019c319f13698"
+    },
+    {
+      "relative": "docs/planning/nextjs-v1/requirements-and-evidence.json",
+      "snapshot_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/composite-tracked-source-review01-inputs01/sources/docs/planning/nextjs-v1/requirements-and-evidence.json",
+      "sha256": "b6c1f6f2aa646c7ac15555cbc1564ed170227ba648e360ab906459e8ab3d2a17",
+      "bytes": 202895,
+      "original_reviewed_path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/docs/planning/nextjs-v1/requirements-and-evidence.json",
+      "actual_custody_origin": "Artifact-only exact inverse of disclosed root post-terminal full-run metadata edit",
+      "provenance": "Exact reconstructed old bytes verified against reviewed SHA256; no live metadata writes",
+      "live_sha256_when_sampled": "e3344d6717bd9da8fe263f360adc2731264a5082bdefdd74db0fa837accf9bad"
+    }
+  ],
+  "expected_files": 14,
+  "captured_files": 14,
+  "unavailable": [],
+  "all14_snapshot_hashes_match_review": true,
+  "current_live_source_equality_not_assumed": true,
+  "fork_delta_reconstruction": {
+    "input_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/composite-tracked-source-review01-inputs01/fork-delta-reconstruction-input.json",
+    "input_sha256": "240a7f32a4c673df164e25a8dd3e7b795bf4229f4ff4531e5b87179bc3654e2e",
+    "output_relative": "docs/planning/nextjs-v1/fork-delta.json",
+    "output_sha256": "86044b97d7882f7080b1af546ad3d41ca628a0b4ff49ac7b12cf288c3d359f32",
+    "changed_fields": [
+      "resident_authenticator.rs after.sha256",
+      "resident_authenticator.rs after.bytes",
+      "remove exact appended reason suffix"
+    ],
+    "removed_suffix": " Fixed setup checkpoints and validated first-frame categories distinguish resident startup failures without raw payloads, retries or deadline changes.",
+    "root_instruction_provenance": "Root message disclosed exact post-terminal mutation; no other fields altered",
+    "exact_old_reviewed_hash_verified": true
+  },
+  "actions": {
+    "tests_executed": 0,
+    "tracked_source_writes": 0,
+    "artifact_only_copy": true
+  },
+  "prior_partial_manifest_sha256": "b8f110346d2ec006c5b60e93ff924b75293b58efbe718e0b1344ba138667c096",
+  "requirements_reconstruction": {
+    "input_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/composite-tracked-source-review01-inputs01/requirements-reconstruction-input.json",
+    "input_sha256": "e3344d6717bd9da8fe263f360adc2731264a5082bdefdd74db0fa837accf9bad",
+    "output_relative": "docs/planning/nextjs-v1/requirements-and-evidence.json",
+    "output_sha256": "b6c1f6f2aa646c7ac15555cbc1564ed170227ba648e360ab906459e8ab3d2a17",
+    "target": "foundation_evidence[36]",
+    "restored_status": "bounded_prior_runtime_accepted_current_repair_full_red_focused_cleanup_green_restore_candidate_source_approved",
+    "deleted_key": "latest_full_run",
+    "removed_exact_suffix": " Latest full125/17 gate supersedes earlier active/pending wording and is RED123pass2fail native,16pass1fail browser. Both required failures remain open; isolated diagnostic consumer1/1 does not resolve the historical startup failure. Portable06 unsealed and no final review, new exact-headCI or queue admission.",
+    "root_instruction_provenance": "Root disclosed entire post-terminal edit; all other fields retained",
+    "exact_old_reviewed_hash_verified": true
+  }
+}

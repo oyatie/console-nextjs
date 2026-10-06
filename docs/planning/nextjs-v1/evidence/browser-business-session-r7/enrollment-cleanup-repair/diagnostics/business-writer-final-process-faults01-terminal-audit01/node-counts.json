@@ -1,0 +1,135 @@
+{
+  "schema": "ordinary-node22-final-accounting/1",
+  "run_id": "business-writer-final-process-faults01",
+  "actual_node_counts": {
+    "executed": 22,
+    "passed": 22,
+    "failed": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0
+  },
+  "supervision_clock_tests_passed": 6,
+  "native_runner_fault_bodies_passed": 13,
+  "business_runner_fault_bodies_passed": 3,
+  "execution_rows": [
+    {
+      "name": "slow prerequisite startup does not spend the requested cleanup budget",
+      "status": "passed",
+      "duration_ms": 1.567667
+    },
+    {
+      "name": "a ready runner that fails to exit still triggers the cleanup fallback",
+      "status": "passed",
+      "duration_ms": 0.834084
+    },
+    {
+      "name": "never-ready startup has one absolute bounded termination deadline",
+      "status": "passed",
+      "duration_ms": 0.520917
+    },
+    {
+      "name": "a second fault cannot reset an already running cleanup deadline",
+      "status": "passed",
+      "duration_ms": 0.217292
+    },
+    {
+      "name": "late cleanup cannot erase evidence of forced intervention",
+      "status": "passed",
+      "duration_ms": 0.225667
+    },
+    {
+      "name": "natural completion disposes both clocks and cannot rearm them",
+      "status": "passed",
+      "duration_ms": 0.194042
+    },
+    {
+      "name": "enrollment runner confirms cleanup after eof-before-origin",
+      "status": "passed",
+      "duration_ms": 313.034083
+    },
+    {
+      "name": "enrollment runner confirms cleanup after partial-eof-before-origin",
+      "status": "passed",
+      "duration_ms": 298.529459
+    },
+    {
+      "name": "enrollment runner confirms cleanup after frame-eof-before-origin",
+      "status": "passed",
+      "duration_ms": 310.922625
+    },
+    {
+      "name": "enrollment runner confirms cleanup after signal-after-origin",
+      "status": "passed",
+      "duration_ms": 19198.534167
+    },
+    {
+      "name": "enrollment runner confirms cleanup after eof-after-ready",
+      "status": "passed",
+      "duration_ms": 23788.00175
+    },
+    {
+      "name": "enrollment runner confirms cleanup after oversized",
+      "status": "passed",
+      "duration_ms": 22492.523125
+    },
+    {
+      "name": "enrollment runner confirms cleanup after wrong-version",
+      "status": "passed",
+      "duration_ms": 18219.821458
+    },
+    {
+      "name": "enrollment runner confirms cleanup after wrong-sequence",
+      "status": "passed",
+      "duration_ms": 23433.839208
+    },
+    {
+      "name": "enrollment runner confirms cleanup after wrong-kind",
+      "status": "passed",
+      "duration_ms": 22166.766333
+    },
+    {
+      "name": "enrollment runner confirms cleanup after legacy-selection",
+      "status": "passed",
+      "duration_ms": 19695.119041
+    },
+    {
+      "name": "enrollment runner confirms cleanup after missing-selection",
+      "status": "passed",
+      "duration_ms": 19865.170458
+    },
+    {
+      "name": "enrollment runner confirms cleanup after malformed-selection",
+      "status": "passed",
+      "duration_ms": 20751.682417
+    },
+    {
+      "name": "enrollment runner confirms cleanup after weak-uv",
+      "status": "passed",
+      "duration_ms": 16730.950792
+    },
+    {
+      "name": "business runner confirms cleanup after eof-before-origin",
+      "status": "passed",
+      "duration_ms": 268.015083
+    },
+    {
+      "name": "business runner confirms cleanup after partial-eof-before-origin",
+      "status": "passed",
+      "duration_ms": 271.536041
+    },
+    {
+      "name": "business runner confirms cleanup after frame-eof-before-origin",
+      "status": "passed",
+      "duration_ms": 268.535958
+    }
+  ],
+  "generic_wrapper_counts_preserved": {
+    "passed": 0,
+    "failed": 0,
+    "skipped": 0,
+    "filtered": 0,
+    "executed": 0
+  },
+  "counting_rule": "All22 unique execution rows before \u2139 tests and exact final Node counters; generic Rust parser zero counts are retained separately."
+}

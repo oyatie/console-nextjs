@@ -1,0 +1,16 @@
+{
+  "files": [
+    {
+      "path": "tools/test-resident-authenticator.mjs",
+      "before": "3fed2df601a952073775f00397d692de20a2413c0387629f6ba36ded3db901fe",
+      "after": "9d152c60f03827d7c5676f4e965edc56084c67d6f25d80014c3559e76d0d7c5d"
+    },
+    {
+      "path": "backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs",
+      "before": "feb30ff385b2231c09bea95f9f71d12eaf498f206a9c035e84b278baa11a3491",
+      "after": "30345239d9e8321ea9394dd5b5f75d91b5ca4d1b1a98a27c7360951a82179c45"
+    }
+  ],
+  "patch_sha256": "97f2dbe3cbfab598fadbff4a078015cd7cbd2d738e82c249581b184921663691",
+  "scope": "diagnostic only; deadlines/ACK/exit unchanged; fixed typed failure metadata only"
+}

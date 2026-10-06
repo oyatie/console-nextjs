@@ -1,0 +1,9 @@
+{
+  "verdict": "REQUEST_CHANGES_SOURCE_ONLY",
+  "candidate": "resident-startup-owner-candidate01",
+  "patch_sha256": "090a449e9bfe2c19afde30e6b111d1a3ab0b6f9c8c989d3415b937e98443bd5c",
+  "finding": "eprintln maypanic onstderrwritefailure andreplace typedconstructionErr orpreventcompletedcloseResult cache",
+  "disposition": "candidate02 uses best-effort writeln tolockedstderr withResultignored; samefixedmetadata",
+  "other_findings": [],
+  "scope": "Independentread-onlysource review; no execution"
+}

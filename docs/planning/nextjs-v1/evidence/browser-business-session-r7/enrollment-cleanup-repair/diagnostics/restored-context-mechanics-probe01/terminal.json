@@ -1,0 +1,25 @@
+{
+  "schema": "browser-mechanics-probe-terminal/1",
+  "source_sha256": "eb0bce2a8918e86599d3e1ec14c167403b6d601fe6b71b59fddc97fece992e81",
+  "command": [
+    "fnm",
+    "exec",
+    "--using",
+    "24.21.0",
+    "node",
+    "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/restored-context-mechanics-probe01/probe.mjs"
+  ],
+  "parent_session_id": 13834,
+  "terminal_chunk_id": "5aa0fd",
+  "actual_tool_exit_code": 3,
+  "output_bytes": 0,
+  "status": "FAILED_INCOMPLETE_DIAGNOSTIC_NOT_ACCEPTANCE",
+  "last_checkpoint": "unobserved",
+  "raw_cause": "unproven",
+  "runtime_proof": false,
+  "custody": "No external fallback or unrelated-process cleanup performed. Chromium group absence and temporary artifact disposition were not independently observed. Do not infer success from process exit.",
+  "limits": [
+    "No business API, Account, provider result, or product acceptance involved",
+    "Probe cannot establish restored uniqueContextId usability without its missing terminal report"
+  ]
+}

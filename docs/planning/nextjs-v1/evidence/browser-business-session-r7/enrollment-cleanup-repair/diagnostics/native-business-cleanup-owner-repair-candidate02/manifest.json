@@ -1,0 +1,31 @@
+{
+  "version": 2,
+  "artifacts": {
+    "before/tools/test-browser-business-session.mjs": {
+      "sha256": "ea936c0cdc8670261d556686b46a6d813b6479f4a8c6dd7b0925a42092e6aa2a",
+      "bytes": 52767
+    },
+    "before/tools/test-native-browser-enrollment.mjs": {
+      "sha256": "6cbb58a1b2eae9f01d0b4d0838afd7c5c421c496a532fde056a1f33e153027ce",
+      "bytes": 13987
+    },
+    "patch.diff": {
+      "sha256": "8e10f5111c0349f4f5dce61f60f5abf370acf14bcb85d30a0e4214602decaa1d",
+      "bytes": 8204
+    },
+    "proposal.json": {
+      "sha256": "9c1246b7c55f887de0da5815e1a308bb03f1eabe022492311c8b1bc94fdd5a3f",
+      "bytes": 9853
+    },
+    "tools/test-browser-business-session.mjs": {
+      "sha256": "6868ac44bef0334065b3e4cd70ddfc58c3623be4070e6625f35b1738bed24280",
+      "bytes": 54371
+    },
+    "tools/test-native-browser-enrollment.mjs": {
+      "sha256": "afd17a0d0a69358613e1ff6d03d24f27eb322bd558a8cf021390e32527fff22e",
+      "bytes": 15154
+    }
+  },
+  "immutable_files_read_only": true,
+  "runtime_acceptance": false
+}

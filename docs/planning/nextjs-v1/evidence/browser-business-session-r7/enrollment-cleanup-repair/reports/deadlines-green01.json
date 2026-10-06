@@ -1,0 +1,43 @@
+{
+  "schema": "enrollment-deadline-unit-green/1",
+  "at": "2026-10-06T03:18:52.295129+00:00",
+  "test_commit": "c3793f92dab565de104224fc705578c543d85b64",
+  "command": [
+    "fnm",
+    "exec",
+    "--using",
+    "24.21.0",
+    "node",
+    "--test",
+    "--test-reporter=tap",
+    "tools/enrollment-fault-deadlines.test.mjs"
+  ],
+  "exit_code": 0,
+  "discovered": 6,
+  "executed": 6,
+  "passed": 6,
+  "failed": 0,
+  "skipped": 0,
+  "cancelled": 0,
+  "scope": "Test-supervision lifecycle only; does not certify real process/resource cleanup or native enrollment.",
+  "test_source": {
+    "path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/tools/enrollment-fault-deadlines.test.mjs",
+    "bytes": 2938,
+    "sha256": "7e4aa20a3cfac678c5f5d8b620456da7b6e74d72fd6f64824b05cde363bc4bca"
+  },
+  "corrected_owner": {
+    "path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/tools/enrollment-fault-deadlines.mjs",
+    "bytes": 1167,
+    "sha256": "6f80266162d5413bcda245b17536b991518e95e22f5b1a7001067aaa4120fc06"
+  },
+  "raw_log": {
+    "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/deadlines-green01.log",
+    "bytes": 1309,
+    "sha256": "dd66643a1d3769d9d069c0b89f4d83273e4ef6b2d99c8f8ab3f0bf1539171ec4"
+  },
+  "red_report": {
+    "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/deadlines-red01.json",
+    "bytes": 2008,
+    "sha256": "822267d14024ba5615b68141572c70ae7a7f2dfee32a8dea68f7f1c1be0c56fb"
+  }
+}

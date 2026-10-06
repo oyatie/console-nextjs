@@ -1,0 +1,45 @@
+{
+  "schema": "mechanics05-invocation-failure-receipt-audit/1",
+  "verdict": "ACCEPT_PRESERVED_ROOT_TRANSCRIBED_INVOCATION_FAILURE_ONLY",
+  "scope": "Exact root-transcribed failed wrapper invocation receipt and empty log audit; separate from actual corrected probe05 launch02. No root tool-session consumption or invented normal report/map/custody.",
+  "inputs": {
+    "receipt": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/restored-context-mechanics-native05.invocation-failure.json",
+      "bytes": 1442,
+      "sha256": "e0acc44846523865488d6365745801c2fa47363b53d13a1119ebfbf8429a501f"
+    },
+    "empty_log": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/restored-context-mechanics-native05.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "receipt_facts": {
+    "root_tool_chunk": "1afd21",
+    "wrapper_exit_code": 1,
+    "wrapper_wall_time_seconds": 0.327676625,
+    "probe_started": false,
+    "test_bodies_executed": 0,
+    "normal_report_or_map_written": false,
+    "recorded_exception": "PermissionError at subprocess.Popen before child creation"
+  },
+  "current_source_explanation": {
+    "runner_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/run-gate.py",
+    "runner_sha256": "76e365797aecb875ecd1bd7c7517bdc46d67de80fc009d8e16209fd035377700",
+    "wrong_kind": "node",
+    "correct_kind": "exec",
+    "source_behavior": "Unrecognized kind selects remaining arguments directly. The recorded wrong command leaves probe.mjs as executable; corrected command supplies node as executable.",
+    "limit": "Current wrapper source explains recorded command parsing. No separately pinned pre-invocation wrapper snapshot/raw session audit is invented."
+  },
+  "limits": [
+    "Receipt explicitly transcribes root actual tool output; this reviewer did not consume original tool session/chunk.",
+    "Empty output/log and missing normal artifacts do not themselves prove source equality or browser custody.",
+    "Failure occurred before browser diagnostic child creation according to root receipt; no diagnostic/native/product case failure is claimed.",
+    "Corrected launch02 remains a distinct actual failed-prerequisite attempt, not overwrite or retry-based success."
+  ],
+  "actions": {
+    "tests_executed": 0,
+    "tracked_source_writes": 0,
+    "artifact_only_receipt_audit_write": true
+  }
+}

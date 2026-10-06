@@ -1,0 +1,55 @@
+{
+  "schema": "cache-variant-failure-location-independent-review/1",
+  "verdict": "ACCEPT_SOURCE_ONLY",
+  "scope": "One exact failure-only nonqueued cacheVariant observation assignment using existing allowlisted source-location helper. Root alone applies/runs; no runtime cause, repair, process22/full125/17 or merge acceptance.",
+  "inputs": {
+    "manifest.json": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/cache-variant-failure-location-candidate01/manifest.json",
+      "bytes": 930,
+      "sha256": "5a9534ca3c67a48150ce5cb17fe64d656dee5df5aea4f1d6ee379e7a773ecbd8"
+    },
+    "before.mjs": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/cache-variant-failure-location-candidate01/before.mjs",
+      "bytes": 49825,
+      "sha256": "3be5f8d095d22cd5c2588880650f26acebb92f535222232ad8da40bca16147da"
+    },
+    "tools/browser-business-restore.mjs": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/cache-variant-failure-location-candidate01/tools/browser-business-restore.mjs",
+      "bytes": 49926,
+      "sha256": "e462014ed1730297d671a07fedc5b41d9e7204ebbd9270f75956eb8ebb25a9fd"
+    },
+    "patch.diff": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/cache-variant-failure-location-candidate01/patch.diff",
+      "bytes": 598,
+      "sha256": "7a126a0ff65144a1d1f239180f05ac789a5b194dbe42c62ce90313c7f1ea1d02"
+    }
+  },
+  "unchanged_failure_helper": {
+    "path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/tools/browser-business-failure.mjs",
+    "bytes": 2043,
+    "sha256": "682407048049f4ff76df89c5fa9af836f1985fddb36e4f8e7c8adcb34d9052e3"
+  },
+  "checks": {
+    "exact_patch_and_before_after_manifest_pins_verified": true,
+    "single_nonqueued_catch_observation_assignment_only": true,
+    "mode_is_internal_literal_from_closed_native_fault_list": true,
+    "existing_helper_emits_only_allowed_checkedin_probe_filename_bounded_line_column_or_explicit_null": true,
+    "no_raw_error_message_stack_path_assertion_value_body_token_or_identity": true,
+    "same_error_rethrown_same_finally_cleanup_and_terminal_failed_unreached_accounting": true,
+    "queued_diagnostics_and_originalF13F14_native401_pending_privacy_action_proofs_unchanged": true,
+    "all_assertions_events_waits_owner_effects_timeouts_and_cleanup_unchanged": true,
+    "existing_variant_report_spreads_failure_diagnostic_without_new_transport": true
+  },
+  "findings": [],
+  "limits": [
+    "A future exact location identifies an assertion source, not its cause; null means unrecognized/unavailable location.",
+    "No new calls or checkpoints were introduced; this is the smallest required localization, not semantic correction.",
+    "Current full125 terminalRED and requiredprocess22RED remain preserved and must pass after separately reviewed fixes.",
+    "Source approval does not infer any rerun or runtime result; final metadata/evidence/portable/hosted/protectedqueue remain required."
+  ],
+  "actions": {
+    "tests_executed": 0,
+    "tracked_source_writes": 0,
+    "artifact_only_review_write": true
+  }
+}

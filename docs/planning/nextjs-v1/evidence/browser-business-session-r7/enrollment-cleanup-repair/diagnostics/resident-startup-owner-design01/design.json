@@ -1,0 +1,42 @@
+{
+  "schema": "resident-startup-owner-design/1",
+  "state": "PROPOSED_NOT_IMPLEMENTED_NOT_EXECUTED",
+  "scope": "Narrow inheritedtest-only ResidentAuthenticator construction ownership repair; no product/business engine orSDK interface change. Root tracksources frozen untilfinalnative01terminal.",
+  "source_before_sha256": "30345239d9e8321ea9394dd5b5f75d91b5ca4d1b1a98a27c7360951a82179c45",
+  "finding": {
+    "location": "backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs90-163",
+    "failure": "Child launched beforethread::spawn calls106/121/145 canpanic, beforeSelf/Drop exists163; Node neitherkillednorwaited byChilddrop, earlierthreadsdetach; EOFdoesnotconfirmcleanup/reaping",
+    "introduced_by_current_diff": false
+  },
+  "constructor": [
+    "Create boundedinput/write/framechannels beforecommand.spawn; channel endpoints remain the same private protocol.",
+    "Immediately aftersuccessful childspawn initializeexistingSelf withChild, parent input/output/write channels, handlesNone, existingcounters/browserpid/failed=true/cleaned=false/timestamps, plus private constructing=true.",
+    "Takepipes and start3 workers withfalliblethread::Builder::spawn; install eachsuccessfulJoinHandle immediately inSelf; propagate fixedtyped pipe/threadstartup error. No panic-based threadcreation.",
+    "Retain all normal frame/schema/deadline/origin/browseridentity validation. Setconstructing=false onlyat fullysuccessful constructorreturn; readyvalidationfailures remain constructionfailures."
+  ],
+  "partial_cleanup": [
+    "Drop duringconstructing=true must notpanic and obscureoriginal typedconstructorerror. Run narrowconstruction-failure cleanup; fixedmetadata records cleanupfailure ifunconfirmed.",
+    "Close parentinput/outputchannels and anyremaining ownedstdin first. This requests actualNode EOF and releases blockedreader channel sends. No mockshutdown, no syntheticACK.",
+    "Use one existing15s cleanupdeadline. Constructionalreadyfailed, so reserve last3s foractualkill/reap: allow12s matchingNodehardcleanup window fornaturalexit, then realchild.kill ifneeded and polltry_wait withinremainingexisting15s bound. This budget partition applies onlytofailedconstruction, not successful/native15s acceptance.",
+    "Poll actualChild::try_wait and optionalpresentworker completion under same total15s constructioncleanupdeadline; joinonlyfinished presentthreads. Missinguncreatedworkers areallowed onlywithinthis failedconstructionbranch.",
+    "Mark cleaned onlyafteractualNodestatusreaped andcreatedworkersfinished. If forced/unreaped/orphan-browser-or-stdio uncertainty remains, preserve originalconstructorerror andfixedfailuremetadata; neverreportfixture/native success or fabricatedbrowserexitACK.",
+    "Ordinary successfulobject close/ACK/exit and all25s/15s consumeracceptance checks remain unchanged; constructing=false keeps mandatoryall-worker assertions."
+  ],
+  "open_design_question": {
+    "inherited_ordinary_close_timeout_kill_without_reap": "Currentnormalclose lines319-323 killNode on15s timeout, setcleaned=true andreturnwithoutwait. This isconcrete separateinheritedfailurepath. Starting kill at15s leaves no time toguarantee boundedreaping within same15s; avoid pretending try_wait immediatelyafterkill provesreap. Root mustdisposition/repair thispath without weakeningnormal15s ACK/exit acceptance oraddingunboundedwait. Construction-only12+3 partition doesnotclaim tosolveordinarytimeoutbranch."
+  },
+  "focused_regression": [
+    "Keep actualexistingNode+Chromium fixture. A private test-only constructor setup function may accept a fixed enum failurepoint (writer/reader/stderr); production/testconsumer new() alwayscallsnormalpath withnofault. The selectedfailure returns anactualtypedthreadsetup error beforethatBuilder call, afterrealchildownership exists. This simulatesOSthreadstartfailure only, neverprovider/SDKsuccess.",
+    "Run all3 failurepoints againstrealchild, assert constructorreturns theoriginaltypederror withoutsecondDroppanic, ownerobservesactualNodeexit/reap underexisting15s bound andno forcedintervention ifactualcleanup succeeds; capture boundedfixedresource booleans. NoWebAuthn credentialfactory or businessAPI mock.",
+    "Run unchanged shortfamilyconsumer andnormal/EOF/verifiedSIGSTOP real lifecycleprobe withupdatedRustsourcepin, then freshfull121/17; prior finalnative01 remainshistorical ifRustownerchanges."
+  ],
+  "requirements_preserved": [
+    "NoSDKshadowing/providerfake-success",
+    "No newpublic/configsurface or secondengine",
+    "Normalprotocol and25/15/2/2/12 clocks unchanged",
+    "Partialuncreatedworkers never qualify ordinarysuccess",
+    "No rawerrors/IDs/business/secrets logged",
+    "No trackedwrites/tests untilroot appliesreviewedcandidate afterterminalgate"
+  ],
+  "review_request": "Independentadversarialdesignreview beforeartifactimplementation; reject/resolveopenordinarytimeout custodyquestion ratherthanclaimcompletefix."
+}

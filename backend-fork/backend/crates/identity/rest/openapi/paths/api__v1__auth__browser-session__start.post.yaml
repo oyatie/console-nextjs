@@ -1,0 +1,21 @@
+tags:
+  - auth
+summary: Start explicit browser passkey login
+description: Bodyless explicit discoverable start. Shares native IP, device and global rate limits; requires verified one-hop ingress.
+security:
+- BrowserIngress: []
+responses:
+  '200':
+    description: Authorized native response.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/PasskeyLoginStartResponse'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '503':
+    $ref: '#/components/responses/ServiceUnavailable'
+  '422':
+    $ref: '#/components/responses/ValidationError'
+  '429':
+    description: Native login-start rate limit exceeded.

@@ -1,0 +1,170 @@
+--- a/tools/test-native-browser-enrollment.mjs
++++ b/tools/test-native-browser-enrollment.mjs
+@@ -86,17 +86,25 @@
+     const results = await Promise.allSettled([
+       (async () => {
+         if (!browserServer) return;
++        const child = browserServer.process();
++        let childCloseSeen = false;
++        child.once("close", () => { childCloseSeen = true; });
+         const closed = await Promise.race([
+           browserServer.close().then(() => true, () => false),
+           delay(2000).then(() => false),
+         ]);
+         if (!closed) {
+-          assert.ok(await Promise.race([
+-            browserServer.kill().then(() => true), delay(2000).then(() => false),
+-          ]));
++          const killing = browserServer.kill().then(() => true);
++          const killed = await Promise.race([killing, delay(2000).then(() => false)]);
++          if (!killed) {
++            // close/kill share the SDK's process and artifact-cleanup owner.
++            // Its pending cleanup retains finalize's original 6s hard bound.
++            assert.equal(childCloseSeen, true);
++            assert.ok(child.exitCode !== null || child.signalCode !== null);
++            assert.equal(await killing, true);
++          }
+         }
+-        const process = browserServer.process();
+-        assert.ok(process.exitCode !== null || process.signalCode !== null);
++        assert.ok(child.exitCode !== null || child.signalCode !== null);
+       })(),
+       (async () => {
+         if (!next || next.exitCode !== null || next.signalCode !== null) return;
+@@ -110,23 +118,36 @@
+       })(),
+       reservation?.listening ? new Promise((resolve) => reservation.close(resolve)) : Promise.resolve(),
+     ]);
+-    assert.ok(results.every((result) => result.status === "fulfilled"));
+-    if (stage) await rm(stage, { recursive: true, force: true });
++    // Runtime files depend on confirmed process-owner cleanup. Reservation
++    // failure does not skip independent file removal or replace its first error.
++    if (stage && results[0].status === "fulfilled" && results[1].status === "fulfilled") {
++      const [removed] = await Promise.allSettled([rm(stage, { recursive: true, force: true })]);
++      results.push(removed);
++    }
++    const failed = results.find((result) => result.status === "rejected");
++    if (failed) throw failed.reason;
+   })();
+   return stopPromise;
+ }
+ function finalize(outcome, exitCode) {
+   finalization ??= (async () => {
+     closing = true;
++    let cleanupConfirmed = false;
++    const deadlineAt = performance.now() + 6000;
+     const deadline = setTimeout(() => process.exit(3), 6000);
+     try {
+       await stop();
++      assert.ok(performance.now() < deadlineAt);
+       await writeFrame({ kind: "cleaned", outcome, creation_attempts: creationAttempts });
++      assert.ok(performance.now() < deadlineAt);
++      cleanupConfirmed = true;
+       process.exitCode = exitCode;
+     } catch {
+       process.exitCode = 3; // Cleanup unconfirmed; never a native result.
+     } finally {
+-      clearTimeout(deadline);
++      // Failed cleanup still owns the original hard bound if handles remain.
++      if (cleanupConfirmed) clearTimeout(deadline);
++      else deadline.unref();
+       process.stdin.destroy();
+     }
+   })();
+--- a/tools/test-browser-business-session.mjs
++++ b/tools/test-browser-business-session.mjs
+@@ -88,40 +88,67 @@
+     const results = await Promise.allSettled([
+       (async () => {
+         if (!browserServer) return;
++        const child = browserServer.process();
++        let childCloseSeen = false;
++        child.once("close", () => { childCloseSeen = true; });
+         const closed = await Promise.race([
+           browserServer.close().then(() => true, () => false),
+           delay(2000).then(() => false),
+         ]);
+         if (!closed) {
+-          assert.ok(await Promise.race([
+-            browserServer.kill().then(() => true), delay(2000).then(() => false),
+-          ]));
++          const killing = browserServer.kill().then(() => true);
++          const killed = await Promise.race([killing, delay(2000).then(() => false)]);
++          if (!killed) {
++            // close/kill share the SDK's process and artifact-cleanup owner.
++            // Its pending cleanup retains finalize's original 6s hard bound.
++            assert.equal(childCloseSeen, true);
++            assert.ok(child.exitCode !== null || child.signalCode !== null);
++            assert.equal(await killing, true);
++          }
+         }
+-        const process = browserServer.process();
+-        assert.ok(process.exitCode !== null || process.signalCode !== null);
++        assert.ok(child.exitCode !== null || child.signalCode !== null);
+       })(),
+-      Promise.all([...productInstances].map((instance) => instance.close())),
+-      Promise.all([...productReservations].map((lease) => lease.listening
+-        ? new Promise((resolve) => lease.close(resolve)) : Promise.resolve())),
++      Promise.allSettled([...productInstances].map((instance) => instance.close())).then((results) => {
++        const failed = results.find((result) => result.status === "rejected");
++        if (failed) throw failed.reason;
++      }),
++      Promise.allSettled([...productReservations].map((lease) => lease.listening
++        ? new Promise((resolve) => lease.close(resolve)) : Promise.resolve())).then((results) => {
++        const failed = results.find((result) => result.status === "rejected");
++        if (failed) throw failed.reason;
++      }),
+       reservation?.listening ? new Promise((resolve) => reservation.close(resolve)) : Promise.resolve(),
+     ]);
+-    assert.ok(results.every((result) => result.status === "fulfilled"));
+-    if (stage) await rm(stage, { recursive: true, force: true });
++    // Runtime files depend on confirmed process-owner cleanup. Reservation
++    // failure does not skip independent file removal or replace its first error.
++    if (stage && results[0].status === "fulfilled" && results[1].status === "fulfilled") {
++      const [removed] = await Promise.allSettled([rm(stage, { recursive: true, force: true })]);
++      results.push(removed);
++    }
++    const failed = results.find((result) => result.status === "rejected");
++    if (failed) throw failed.reason;
+   })();
+   return stopPromise;
+ }
+ function finalize(outcome, exitCode) {
+   finalization ??= (async () => {
+     closing = true;
++    let cleanupConfirmed = false;
++    const deadlineAt = performance.now() + 6000;
+     const deadline = setTimeout(() => process.exit(3), 6000);
+     try {
+       await stop();
++      assert.ok(performance.now() < deadlineAt);
+       await writeFrame({ kind: "cleaned", outcome, creation_attempts: creationAttempts });
++      assert.ok(performance.now() < deadlineAt);
++      cleanupConfirmed = true;
+       process.exitCode = exitCode;
+     } catch {
+       process.exitCode = 3; // Cleanup unconfirmed; never a native result.
+     } finally {
+-      clearTimeout(deadline);
++      // Failed cleanup still owns the original hard bound if handles remain.
++      if (cleanupConfirmed) clearTimeout(deadline);
++      else deadline.unref();
+       process.stdin.destroy();
+     }
+   })();
+@@ -839,8 +866,13 @@
+   assert.equal(backend.protocol, "http:"); assert.equal(backend.hostname, "127.0.0.1");
+   assert.equal(backend.pathname, "/"); assert.equal(backend.search + backend.hash + backend.username + backend.password, "");
+   const certFile = path.join(stage, "fixture-cert.pem"); const keyFile = path.join(stage, "fixture-key.pem");
+-  await writeFile(certFile, configure.tls_cert_pem, { mode: 0o600 });
+-  await writeFile(keyFile, configure.tls_key_pem, { mode: 0o600 });
++  assert.ok(!closing);
++  startup = (async () => {
++    await writeFile(certFile, configure.tls_cert_pem, { mode: 0o600 });
++    assert.ok(!closing);
++    await writeFile(keyFile, configure.tls_key_pem, { mode: 0o600 });
++  })();
++  await startup; assert.ok(!closing);
+   await new Promise((resolve) => reservation.close(resolve)); assert.ok(!closing);
+   productRuntimeConfig = { port, origin, backend: backend.origin, normalBackend: backend.origin,
+     shortBackend: configure.short_backend_origin, ingress: configure.ingress_key,

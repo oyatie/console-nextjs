@@ -1,0 +1,204 @@
+--- a/tools/browser-business-restore.mjs
++++ b/tools/browser-business-restore.mjs
+@@ -2,6 +2,7 @@
+ import assert from "node:assert/strict";
+ import { createHash, randomUUID } from "node:crypto";
+ import { setTimeout as delay } from "node:timers/promises";
++import { types } from "node:util";
+ import { browserFailureLocation } from "./browser-business-failure.mjs";
+ 
+ const LOGIN = "/login/";
+@@ -10,6 +11,46 @@
+ const PREFIX = "R7_RESTORE_OBSERVATION ";
+ const GUARD_ID = "console-browser-restoration-guard";
+ const PRIVATE_SELECTOR = "#console-browser-private-region";
++
++// Compare complete fixed SDK/protocol literals in memory only. No raw error,
++// stack, URL, identity or error-message hash is diagnostic output. Protocol
++// numeric codes/types do not survive the installed SDK error serialization.
++function classifyCdpRejection(error, method) {
++  const result = { error_shape: "unrecognized", public_name: "unrecognized",
++    message_category: "unrecognized", exact_literal_matched: false };
++  try {
++    if (!["Runtime.evaluate", "Runtime.callFunctionOn"].includes(method) || !types.isNativeError(error)) return result;
++    result.error_shape = "native-error";
++    const name = Object.getOwnPropertyDescriptor(error, "name")?.value;
++    result.public_name = ["Error", "TimeoutError", "TargetClosedError", "AbortError"].includes(name)
++      ? name : name === undefined ? "native-default" : "other";
++    const message = Object.getOwnPropertyDescriptor(error, "message")?.value;
++    if (typeof message !== "string" || message.length > 65536) return result;
++    const body = message.startsWith("cdpSession.send: ") ? message.slice("cdpSession.send: ".length) : message;
++    if (body === "Target page, context or browser has been closed") {
++      result.message_category = "target-closed"; result.exact_literal_matched = true; return result;
++    }
++    const prefix = `Protocol error (${method}): `;
++    if (!body.startsWith(prefix)) return result;
++    // V8 literals are pinned to Chromium configured153.0.8010.12 DEPS's
++    // V8 commit0b60d2b01800d7ba2c6eeb5e51ecd95f6dab44c7; SDK literals
++    // are from pinned coreBundle.js. Literal match does not prove causality.
++    const categories = new Map([
++      ["uniqueContextId not found", "unique-context-not-found"],
++      ["invalid uniqueContextId", "invalid-unique-context"],
++      ["Cannot find context with specified id", "specified-context-not-found"],
++      ["Cannot find default execution context", "default-context-not-found"],
++      ["Execution context was destroyed.", "execution-context-destroyed"],
++      ["Execution was terminated", "execution-terminated"],
++      ["Could not find object with given id", "specified-object-not-found"],
++      ["Internal server error, session closed.", "session-closed"],
++      ["Page crashed.", "page-crashed"],
++    ]);
++    const category = categories.get(body.slice(prefix.length));
++    if (category) { result.message_category = category; result.exact_literal_matched = true; }
++  } catch { /* Missing fixed metadata cannot replace the actual outcome. */ }
++  return result;
++}
+ 
+ class Unreached extends Error {}
+ function isPrerequisite(error) { return error instanceof Unreached || error.code === "R7_BROWSER_PREREQUISITE"; }
+@@ -278,6 +319,24 @@
+   let cacheObserver;
+   let mainFrameId; let currentMainWorld; let originalMainWorld;
+   let originalWorldObservation;
++  const queuedPhaseTimeline = [];
++  const queuedVariantStartedAt = performance.now();
++  let queuedBackIssued = false;
++  // Node-received observations only; no inferred browser/BFF occurrence time.
++  function recordQueuedPhase(kind, details = {}) {
++    try {
++      if (!queued || !queuedBackIssued || queuedPhaseTimeline.length >= 32) return;
++      const elapsed = Math.max(0, Math.floor(performance.now() - queuedVariantStartedAt));
++      queuedPhaseTimeline.push({ sequence: queuedPhaseTimeline.length, kind,
++        observed_elapsed_ms: Math.min(elapsed, 600000), elapsed_capped: elapsed > 600000, ...details });
++    } catch { /* Diagnostics never replace an action, assertion or failure. */ }
++  }
++  const frameNavigatedListener = ({ frame, type }) => {
++    try {
++      if (frame?.id === mainFrameId && frame.url === url) recordQueuedPhase("exact-main-frame-commit", {
++        navigation_type: ["Navigation", "BackForwardCacheRestore"].includes(type) ? type : "unrecognized" });
++    } catch { /* Passive fixed metadata cannot replace the actual outcome. */ }
++  };
+   const originalWorldLifecycle = { destroyedSeen: false, createdAgainSeen: false,
+     contextsClearedSeen: false, sessionClosedSeen: false };
+   const contextListener = ({ context }) => {
+@@ -306,6 +365,7 @@
+     let category = "identity-check";
+     let sendRejected = false; let deadlineFired = false; let responseReceived = false;
+     let returnedException = null; let exceptionClass = null;
++    let cdpRejection;
+     function observe(outcome, valueKind = null) {
+       try {
+         const elapsed = Math.max(0, Math.floor(performance.now() - startedAt));
+@@ -316,6 +376,7 @@
+           local_deadline_fired: deadlineFired, cdp_response_received: responseReceived,
+           exception_returned: returnedException, exception_class: exceptionClass,
+           returned_value_kind: valueKind,
++          cdp_rejection: cdpRejection ? { ...cdpRejection } : null,
+           original_context_destroyed_seen: originalWorldLifecycle.destroyedSeen,
+           original_context_created_again_seen: originalWorldLifecycle.createdAgainSeen,
+           contexts_cleared_after_pin_seen: originalWorldLifecycle.contextsClearedSeen,
+@@ -328,6 +389,7 @@
+     try {
+       assert.equal(typeof originalMainWorld, "string", "original main-world identity required");
+       category = "cdp-send";
++      recordQueuedPhase("original-evaluation-issued", { purpose });
+       const evaluation = cacheObserver.send("Runtime.evaluate", {
+         uniqueContextId: originalMainWorld, returnByValue: true, timeout: h.phaseMs ?? 20000,
+         expression: `(() => { const original = ${JSON.stringify(original)};
+@@ -337,7 +399,11 @@
+       });
+       // Retain the exact original promise and error. A late rejection cannot
+       // rewrite the already-captured deadline observation.
+-      void evaluation.catch(() => { sendRejected = true; });
++      void evaluation.catch((error) => {
++        sendRejected = true;
++        cdpRejection = classifyCdpRejection(error, "Runtime.evaluate");
++        recordQueuedPhase("original-evaluation-rejected", { purpose, cdp_rejection: cdpRejection });
++      });
+       let timer;
+       const result = await Promise.race([evaluation, new Promise((_, reject) => {
+         timer = setTimeout(() => {
+@@ -346,6 +412,7 @@
+         }, h.phaseMs ?? 20000);
+       })]).finally(() => clearTimeout(timer));
+       responseReceived = true;
++      recordQueuedPhase("original-evaluation-response", { purpose });
+       category = "response-access";
+       returnedException = Boolean(result?.exceptionDetails);
+       if (returnedException) {
+@@ -415,13 +482,27 @@
+     readGate = undefined;
+   }
+   const requestListener = (request) => {
+-    if (request.isNavigationRequest() && request.frame() === page.mainFrame()) documents.push(request.url());
++    if (request.isNavigationRequest() && request.frame() === page.mainFrame()) {
++      documents.push(request.url());
++      if (request.url() === url) recordQueuedPhase("exact-main-frame-request");
++    }
++  };
++  const responseListener = (response) => {
++    try {
++      const request = response.request();
++      if (request.isNavigationRequest() && request.frame() === page.mainFrame() && response.url() === url) {
++        const status = response.status();
++        recordQueuedPhase("exact-main-frame-response", {
++          http_status: Number.isInteger(status) && status >= 100 && status <= 599 ? status : null });
++      }
++    } catch { /* Passive metadata cannot replace the actual outcome. */ }
+   };
+   const failureListener = (request) => {
+     if (request.isNavigationRequest() && request.frame() === page.mainFrame() && request.url() === url)
+       failedRequests.push(request.failure()?.errorText ?? "");
+   };
+   page.on("request", requestListener); page.on("requestfailed", failureListener);
++  if (queued) page.on("response", responseListener);
+   const intercept = async (route) => {
+     const request = route.request();
+     if (new URL(request.url()).origin !== actor.origin) { await route.continue(); return; }
+@@ -469,6 +550,7 @@
+       queuedCheckpoint = "cache-observer";
+       cacheObserver = await actor.context.newCDPSession(page);
+       cacheObserver.on("Page.backForwardCacheNotUsed", cacheFailureListener);
++      cacheObserver.on("Page.frameNavigated", frameNavigatedListener);
+       mainFrameId = (await cacheObserver.send("Page.getFrameTree")).frameTree.frame.id;
+       cacheObserver.on("Runtime.executionContextCreated", contextListener);
+       cacheObserver.on("Runtime.executionContextDestroyed", contextDestroyedListener);
+@@ -548,6 +630,7 @@
+     }
+     // Keep this promise owned: a gate must be released before awaiting the final reload.
+     if (queued) queuedCheckpoint = "restore-observation";
++    if (queued) queuedBackIssued = true;
+     back = backNavigation(page, eventStart, h, original, probe, true);
+     void back.catch(() => {}); // No unhandled rejection while the independently owned response gate waits.
+     const seen = await until(() => probe.events.slice(eventStart).find((event) => event.event === "pageshow"
+@@ -583,6 +666,7 @@
+             native_context_match: typeof held.context === "string" ? held.context === session.context : null,
+             native_status_401: typeof held.status === "number" ? held.status === 401 : null,
+           };
++          recordQueuedPhase("native-response-observed", queuedNativeObservation);
+         }
+       }
+       assert.equal(held.gate, readGate.gate);
+@@ -694,6 +778,9 @@
+       queued_native_observation: queuedNativeObservation ?? null,
+       queued_ordering_observation: queuedOrderingObservation ?? null,
+       original_world_observation: originalWorldObservation ?? null,
++      // Copy at the actual first failure; late callbacks/cleanup cannot rewrite it.
++      queued_phase_timeline: queuedPhaseTimeline.map((entry) => ({ ...entry,
++        ...(entry.cdp_rejection ? { cdp_rejection: { ...entry.cdp_rejection } } : {}) })),
+       not_restored_reasons: cacheFailures,
+       trusted_departures: probe.events.filter((event) => event.event === "pagehide" && event.trusted && event.document === original).length,
+       trusted_original_restores: probe.events.filter((event) => event.event === "pageshow" && event.trusted && event.persisted && event.document === original).length,
+@@ -715,11 +802,13 @@
+     if (routed) await cleanup("routes-remove", () => page.unrouteAll({ behavior: "wait" }));
+     await cleanup("probe-listeners", () => {
+       cacheObserver?.off("Page.backForwardCacheNotUsed", cacheFailureListener);
++      cacheObserver?.off("Page.frameNavigated", frameNavigatedListener);
+       cacheObserver?.off("Runtime.executionContextCreated", contextListener);
+       cacheObserver?.off("Runtime.executionContextDestroyed", contextDestroyedListener);
+       cacheObserver?.off("Runtime.executionContextsCleared", contextsClearedListener);
+       cacheObserver?.off("close", observerClosedListener);
+       probe.remove(); page.off("request", requestListener); page.off("requestfailed", failureListener);
++      if (queued) page.off("response", responseListener);
+     });
+     // Always attempt owned page closure, independently of earlier cleanup errors.
+     // Closing also settles a pending Back when its native gate was never held.
