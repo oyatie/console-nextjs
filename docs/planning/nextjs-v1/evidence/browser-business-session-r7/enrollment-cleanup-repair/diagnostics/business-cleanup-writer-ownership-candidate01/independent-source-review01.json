@@ -1,0 +1,56 @@
+{
+  "schema": "independent-business-cleanup-writer-source-review/1",
+  "reviewer": "p16_owner_mechanism",
+  "created_at_utc": "2026-10-06T11:07:40.020776+00:00",
+  "verdict": "ACCEPT_SOURCE_ONLY",
+  "manifest_sha256": "b31670c0aaa3e7b925eb9823e42deb0c2da4a8a8a4a362ba2bf8ae15b114b870",
+  "artifact_pins": {
+    "before.mjs": {
+      "sha256": "6868ac44bef0334065b3e4cd70ddfc58c3623be4070e6625f35b1738bed24280",
+      "bytes": 54371
+    },
+    "patch.diff": {
+      "sha256": "af030d916c969d0d1cfe68522e43a284ba13bd8badf11802f95d2767f823870e",
+      "bytes": 1000
+    },
+    "proposal.json": {
+      "sha256": "49af9d4799e08e46dd5186b5b53e82bc77269348d4eebfe72a7cc62344386fe3",
+      "bytes": 6987
+    },
+    "tools/test-browser-business-session.mjs": {
+      "sha256": "840d164c2e81b204d98347d8fc6a1f6467e3c70d5769bc1e1a815fc2ebf4bc11",
+      "bytes": 54398
+    }
+  },
+  "source_before_sha256": "6868ac44bef0334065b3e4cd70ddfc58c3623be4070e6625f35b1738bed24280",
+  "source_after_sha256": "840d164c2e81b204d98347d8fc6a1f6467e3c70d5769bc1e1a815fc2ebf4bc11",
+  "patch_sha256": "af030d916c969d0d1cfe68522e43a284ba13bd8badf11802f95d2767f823870e",
+  "tests_executed": 0,
+  "tracked_edits": 0,
+  "runtime_acceptance": false,
+  "code_findings": [],
+  "source_verification": {
+    "all4_artifact_sizes_hashes_match": true,
+    "baseline_matches_current_tracked_source": true,
+    "all10_supporting_rootpins_match": true,
+    "patch_reproduces_candidate": true,
+    "only2_exact_line_edits": true,
+    "private_writer_other_callers": false
+  },
+  "ownership_review": [
+    "EOF/signal enters memoized finalize and synchronously sets closing before cleanup. Existing main finally attempts report regardless; productExchange defers its actual writer invocation in the serialized chain.",
+    "Ordinary writeFrame now asserts !closing at actual invocation inside its existing normalization catch, before unsafe writer consumes sequence or submits any bytes. Queued exchanges starting after ownership transfer fail with the existing fixed InfrastructureError.",
+    "No caller-selected kind bypass exists. Only memoized finalize directly calls the same private writer for its exact cleaned payload after existing stop and pre-ACK deadline checks; other direct private calls are solely ordinary facade delegation.",
+    "Already-started ordinary writes synchronously submit to stdout FIFO before yielding; finalizer cleaned uses the same queue and cannot overtake their bytes. No extra sender, drain, retry or input wait is introduced.",
+    "Normal open17 report still submits exact discovery/execution/count/scenario data and waits actual done through productExchange before completed outcome/finalize. Native/browser coverage and report validators are untouched.",
+    "Finalizer direct private-write rejection remains caught as unconfirmed exit3; removing ordinary error normalization only for that private cleanup call does not leak raw errors or authorize success.",
+    "Exact absolute6s timer/checks, all existing2s owners, stop allSettled order, startup/launch guards, SDK cleanup/exit/close checks, guarded stage deletion, confirmed-only deadline clear, failed unref, stdin teardown, frame size/count/version/sequence and ACK outcomes remain.",
+    "No test body, assertion, fault case, watch/supervision timer, business module or native runner changes. Current native afd17 and driver3204/clock7e4aa pins match."
+  ],
+  "evidence_limits": [
+    "Root reported diagnostic03 terminal22RED21pass1fail: business frame-eof-before-origin observed report instead of expected cleaned. This source trace supplies the specific competing-writer mechanism and candidate fix; it does not establish a passing repaired runtime.",
+    "Driver stopped reading unexpected report. Later cleaned emission remains UNKNOWN; exit2/empty TMPDIR do not prove no-intervention natural success because final parent SIGTERM was attempted.",
+    "Earlier wrong-sequence pre-ready and legacy-selection native causes remain independently UNKNOWN despite all13 native cases passing diagnostic03. This business fix does not claim to explain those earlier failures.",
+    "Root must run unchanged22 process/clock suite and fresh unfiltered125 native/all17 browser acceptance, preserve historical failures/exact pins, then obtain final evidence review, exact-head hostedCI and normal protected queue admission."
+  ]
+}

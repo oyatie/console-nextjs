@@ -1,0 +1,50 @@
+{
+  "schema": "enrollment-deadline-behavioral-red/1",
+  "at": "2026-10-06T03:16:01.671327+00:00",
+  "base_head": "f5c29cc9ccb1d463f5ba76ebbf746b024311bd37",
+  "command": [
+    "fnm",
+    "exec",
+    "--using",
+    "24.21.0",
+    "node",
+    "--test",
+    "--test-reporter=tap",
+    "tools/enrollment-fault-deadlines.test.mjs"
+  ],
+  "exit_code": 1,
+  "discovered": 6,
+  "executed": 6,
+  "passed": 0,
+  "failed": 6,
+  "skipped": 0,
+  "cancelled": 0,
+  "scope": "Test-supervision lifecycle only; baseline extraction retains original spawn-relative25s/35s deadlines and no-op phase transition. No native/API acceptance or historical cause assertion.",
+  "sources": [
+    {
+      "path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/tools/enrollment-fault-deadlines.mjs",
+      "bytes": 535,
+      "sha256": "1d422078717c4f17c364f59dca40745f85811948342c0a091bb481ebf4949005"
+    },
+    {
+      "path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/tools/enrollment-fault-deadlines.test.mjs",
+      "bytes": 2938,
+      "sha256": "7e4aa20a3cfac678c5f5d8b620456da7b6e74d72fd6f64824b05cde363bc4bca"
+    },
+    {
+      "path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/tools/test-native-browser-enrollment.test.mjs",
+      "bytes": 5317,
+      "sha256": "469e342cc3a51500587792c08a2060b34be57253c1ea33159fd38cac0a78af3e"
+    }
+  ],
+  "raw_log": {
+    "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/deadlines-red01.log",
+    "bytes": 6559,
+    "sha256": "14b9aea04613e222984329552db9b465f229a543329085d308fd83d5940fd769"
+  },
+  "real_parent_diagnostic": {
+    "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/phase-probe01.json",
+    "bytes": 824,
+    "sha256": "be3120df28e5a9b64d614e936981e3f8beed9f29a7a2eedb35758d400651bdb0"
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "schema": "full-current-repair-source-review/2",
+  "reviewer_task": "/root/resident_failure_diagnostic_review",
+  "created_at_utc": "2026-10-06T09:44:16.040572+00:00",
+  "verdict": "ACCEPT_SOURCE_ONLY",
+  "findings": [],
+  "scope": "Full current tracked repair against exact HEAD and supplied prior remote commit, including12 implementation/CI files and3 planning files. Reviewed new native-input owner and its integration; reused unchanged prior ten-file ownership review by exact byte pins; separately inspected supervisor unit coverage added since supplied remote baseline.",
+  "HEAD": "c3793f92dab565de104224fc705578c543d85b64",
+  "supplied_remote_prior": "f5c29cc9ccb1d463f5ba76ebbf746b024311bd37",
+  "current_restore_source_sha256": "3be5f8d095d22cd5c2588880650f26acebb92f535222232ad8da40bca16147da",
+  "reviewed_diffs": {
+    "diff-against-HEAD.patch": "9437c1d767f841c2d5c0cd6a3ff9e39156d37c8f3f02599715f9295a677b292a",
+    "diff-against-prior-remote.patch": "cf98145970ee712964b012e03704e7caa04b2ea4155320c9b60f8610da03eefc"
+  },
+  "source_pins": "source-pins.json",
+  "prior_reviews": {
+    "references/prior-overall-review01.json": "20781b9b551afc38424135a3be01e3ae4a9f14ca5cc38ece5a464ca0ac263da8",
+    "references/prior-overall-source-pins01.json": "f34f11bae6585b5081cef844a0d9a3b88ed454f6d51b5bf2aa1d6ae7a74d6e50",
+    "references/exact03-independent-review03.json": "47c47c85c4d04d26c253a34590aae430baa40da8231da649d8c81ca18a7c9408"
+  },
+  "independence_boundary": "Reviewer previously authored a removed CDP rejection classifier and part of retained passive timeline instrumentation. The independent exact03 review covers the complete current restore file; this review additionally checks its integration and all remaining repair source. No self-authored diagnostics alone are presented as independently accepted.",
+  "checked_properties": [
+    "All ten startup/cleanup/CI files remain identical to accepted overall-source-review01. Owner-first construction, sticky cleanup failure, bounded ACK/reap/drain, truthful forced-kill failure and owned-temp absence remain intact.",
+    "Current restore file equals frozen independently accepted candidate03. No product guard or current-authority BFF code changed.",
+    "Original browser listener captures exact Document/token and SDK binding before departure; it requires trusted nonrepeating native input and actual trusted persisted restoration.",
+    "Node binding validates exact owned page/mainframe, nonce, original token, sequence, kind and trusted/persisted facts. A successor Document cannot satisfy the original token check.",
+    "Existing root exact gate/context/actual401 checks precede native F13. Original pending/private snapshot is validated before sole F14 release; browser/Node sequence guards prevent repeat release.",
+    "Native send plus reply remain within one existing20s phase. Pending waiter is rejected before clearing, late native-send rejection is owned, and stopped attempt avoids late keyup dispatch.",
+    "Actual mounted product logout, real installed React commit, actual native204, selected-cookie removal, privacy snapshots, exactlyone reload and independent actorB checks remain required.",
+    "Raw text/HTML snapshot is bounded transient callback data, never appended to console events/diagnostics or successful evidence; fixed metadata copies cannot be rewritten by cleanup.",
+    "Probe installation is inside owned-page cleanup. Failure removes partial console listener; cleanup attempts owned page closure independently and keeps cleanup failure terminal.",
+    "Held native response can be released only once with exact release receipt. Missing restoration/gate/release and cleanup uncertainty cannot become a pass.",
+    "Late real bundle fetch cannot introduce a new hold after cleanup drain. Current restoration status aggregates every required variant; failed or unreached variants keep gate nonpassing.",
+    "CI retains full authentication/native browser producers, strict Clippy and merge_group checks. Added supervisor tests cover startup/cleanup clocks, force stickiness, nonrestart and disposal without substituting for native runtime proof.",
+    "Planning records preserve all historical RED and UNKNOWN results and do not claim current runtime, hosted or merge acceptance."
+  ],
+  "limits": [
+    "Source-only review. No tests, active logs, live operations, tracked edits, Git writes or PR operations performed.",
+    "Root-owned real-p16-native-input-owner-native01 was active while source review completed; no native-input usability or runtime success is inferred.",
+    "Untracked portable evidence directory is not certified by this source receipt; terminal evidence inventory/custody review remains separate.",
+    "Required current unfiltered125-native/all17-browser proof, final independent runtime/evidence review, exact-head hosted CI and protected queue admission remain pending.",
+    "Full HR/Org/Payroll/Foundry and launch remain incomplete; no deployment or institutional effect approved."
+  ],
+  "actions": {
+    "tests_executed": 0,
+    "tracked_source_writes": 0,
+    "isolated_artifact_write": true
+  },
+  "custody": "Snapshots and both diffs rechecked byte-for-byte before persistence. Every artifact file is read-only; new directory created exclusively."
+}

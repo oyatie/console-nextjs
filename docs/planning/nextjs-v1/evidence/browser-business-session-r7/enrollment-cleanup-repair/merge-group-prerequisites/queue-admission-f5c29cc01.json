@@ -1,0 +1,37 @@
+{
+  "at": "2026-10-06T02:23:29.815652+00:00",
+  "repository": "oyatie/console-nextjs",
+  "pull_request": 16,
+  "expected_head_oid": "f5c29cc9ccb1d463f5ba76ebbf746b024311bd37",
+  "independent_proof_hashes": {
+    "hosted-repair-f5c29cc01/terminal-audit-f5c29cc02.json": "57fa0576cb0679e3336f3cfaf587d1a3e738554c9532ffa1c32faab39c83291b",
+    "r7-protected-queue-disposition01.json": "d3054b61e5626c4582e9862da63e7886bfb2c9a7aea24d0b4c71e2f413dd80bc",
+    "enqueue-f5c29cc-proposal01.json": "228d603c86ed7b1498f68c572f163320e406a42efb735fc588856bd865cdfdcc"
+  },
+  "mutation_entry": {
+    "id": "MQE_lQDOU0kUys8AAAABGy2m8s4ABGXHzgMc5Ds",
+    "state": "QUEUED",
+    "position": 1,
+    "enqueuedAt": "2026-10-06T02:23:28Z",
+    "jump": false,
+    "headCommit": null,
+    "pullRequest": {
+      "number": 16,
+      "headRefOid": "f5c29cc9ccb1d463f5ba76ebbf746b024311bd37",
+      "state": "OPEN"
+    }
+  },
+  "readback_entry": {
+    "id": "MQE_lQDOU0kUys8AAAABGy2m8s4ABGXHzgMc5Ds",
+    "state": "QUEUED",
+    "position": 1,
+    "enqueuedAt": "2026-10-06T02:23:28Z",
+    "jump": false,
+    "headCommit": null
+  },
+  "pull_request_state": "OPEN",
+  "verdict": "PROTECTED_QUEUE_ADMISSION_CONFIRMED_NOT_MERGED",
+  "limitations": [
+    "Required merge-group checks and merged-tree readback remain pending; no bypass requested."
+  ]
+}

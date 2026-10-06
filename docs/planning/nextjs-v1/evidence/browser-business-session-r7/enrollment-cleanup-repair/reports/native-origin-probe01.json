@@ -1,0 +1,59 @@
+{
+  "schema": "actual-native-origin-consumer-probe/1",
+  "at": "2026-10-06T03:35:52.051148+00:00",
+  "command": [
+    "bash",
+    "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/tools/lanes/pgtest.sh",
+    "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork",
+    "/Users/jasonlee/.cargo/bin/cargo",
+    "+1.98.1",
+    "test",
+    "--locked",
+    "--offline",
+    "--features",
+    "frontend-e2e",
+    "-p",
+    "console-app",
+    "--test",
+    "auth_rest",
+    "genuine_browser::genuine_browser_discoverable_enrollment_requires_two_native_logins",
+    "--",
+    "--exact",
+    "--test-threads=1",
+    "--nocapture"
+  ],
+  "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+  "case": "genuine_browser::genuine_browser_discoverable_enrollment_requires_two_native_logins",
+  "exit_code": 1,
+  "duration_seconds": 0.6938332500867546,
+  "counts": {
+    "passed": 0,
+    "failed": 0,
+    "ignored": 0,
+    "filtered": 0
+  },
+  "inputs_before": {
+    "backend-fork/backend/app/tests/auth_rest/genuine_browser.rs": "eaa0a1a32a14b3c724939bcd65fdd453a2da663f382bd7926123c0e823573366",
+    "backend-fork/backend/Cargo.lock": "fcc3babe468e7ab667fb63cf4ec5c248afe576a14b05bc42c7bcfeee87b9096e",
+    "backend-fork/tools/lanes/pgtest.sh": "8c4396ddf962d50ce05b4c625ed1a290e1c6608c63eaf6416e03ec782100deec",
+    "tools/production-runtime.mjs": "7e4d05bac69900295f8777c931999f2987acd36c947f281cbea7d1bbdf673367",
+    "tools/test-native-browser-enrollment.mjs": "b0a4ef6f86493df99c10efaddebd735043d8226774d253dd41d90431008defa4",
+    "tools/enrollment-fault-deadlines.mjs": "6f80266162d5413bcda245b17536b991518e95e22f5b1a7001067aaa4120fc06",
+    "tools/test-native-browser-enrollment.test.mjs": "ced5f004a977659b3b1755cfd385dbd2013bb0eb1fbca5d164d9e7bcd73ff326",
+    ".next/build-inputs.json": "45001f336b372dd488fd27cce5d6d8e1119c42e9dada4025c766fd0d4558d7c7"
+  },
+  "inputs_after": {
+    "backend-fork/backend/app/tests/auth_rest/genuine_browser.rs": "eaa0a1a32a14b3c724939bcd65fdd453a2da663f382bd7926123c0e823573366",
+    "backend-fork/backend/Cargo.lock": "fcc3babe468e7ab667fb63cf4ec5c248afe576a14b05bc42c7bcfeee87b9096e",
+    "backend-fork/tools/lanes/pgtest.sh": "8c4396ddf962d50ce05b4c625ed1a290e1c6608c63eaf6416e03ec782100deec",
+    "tools/production-runtime.mjs": "7e4d05bac69900295f8777c931999f2987acd36c947f281cbea7d1bbdf673367",
+    "tools/test-native-browser-enrollment.mjs": "b0a4ef6f86493df99c10efaddebd735043d8226774d253dd41d90431008defa4",
+    "tools/enrollment-fault-deadlines.mjs": "6f80266162d5413bcda245b17536b991518e95e22f5b1a7001067aaa4120fc06",
+    "tools/test-native-browser-enrollment.test.mjs": "ced5f004a977659b3b1755cfd385dbd2013bb0eb1fbca5d164d9e7bcd73ff326",
+    ".next/build-inputs.json": "45001f336b372dd488fd27cce5d6d8e1119c42e9dada4025c766fd0d4558d7c7"
+  },
+  "inputs_unchanged": true,
+  "raw_log_sha256": "b6e15d6260aa263d6ca9303063f124a5cadc5cee0994e84ba6a025328e7de25d",
+  "cleanup_reported": true,
+  "scope": "One exact genuine native enrollment consumer using production staging, disposable PostgreSQL and real virtual WebAuthn. Other120 auth_rest cases filtered intentionally; not full121/17 or release acceptance."
+}

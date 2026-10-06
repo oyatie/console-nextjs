@@ -1,0 +1,19 @@
+{
+  "candidate": "resident-three-case-probe-candidate04",
+  "probe_sha256": "dbdad3d7e20f231b1fa0798ccaba659e9e6d8a3ba22df409aabe0a67f008adc3",
+  "verdict": "ACCEPT_PREPARED_ARTIFACT_SOURCE_ONLY",
+  "review_scope": "Independent read-only adversarial artifact source review; no execution or release approval",
+  "dispositions": [
+    "Guarded idempotent SIGINT/SIGTERM cancellation wakes active waits and preserves existing6s identity-checked cleanup",
+    "Post-ps check enforces unchanged25s startup deadline before accepting stopped Chromium",
+    "Signal handled during initial async report publication is persisted as failure before summary; repeated signals preserve first signal/failure"
+  ],
+  "remaining_concrete_findings": [],
+  "tests_executed": 0,
+  "source_writes": false,
+  "proof_limits": {
+    "failed_kill_retained_unref_deadline": "SOURCE_ONLY",
+    "historical_exit3_cause": "UNPROVEN",
+    "runtime": "Probe prepared only; not executed"
+  }
+}

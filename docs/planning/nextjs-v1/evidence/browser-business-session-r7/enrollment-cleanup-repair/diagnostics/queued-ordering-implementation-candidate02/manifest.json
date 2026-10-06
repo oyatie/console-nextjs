@@ -1,0 +1,8 @@
+{
+  "path": "tools/browser-business-restore.mjs",
+  "before": "05c0dfebd791403622397f7a83568c4f5383360002ee9b96c5d366c956277b6d",
+  "after": "f4d2199a74d0be38817eb66ac77a20b542542748e484dd1fe3998fecbba14be8",
+  "patch_sha256": "a21a34b0c3ed2549679d27dcf91bec71a2060b1cd8ac1e38325ea7c911ebd693",
+  "fixes_finding": "Late delayed-script fetch cannot create unbounded hold after teardown starts",
+  "state": "NOT_APPLIED; baseline RED running"
+}

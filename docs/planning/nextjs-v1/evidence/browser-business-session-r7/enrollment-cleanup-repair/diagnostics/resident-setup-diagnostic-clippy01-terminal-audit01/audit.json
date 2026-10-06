@@ -1,0 +1,50 @@
+{
+  "schema": "resident-setup-diagnostic-clippy-terminal-audit/1",
+  "verdict": "ACCEPT_TERMINAL_RED_EVIDENCE; STRICT_CLIPPY_FAILED",
+  "scope": "Independent completed report/log/captured-map audit only. No rerun/session consumption, current-map regeneration, cause beyond observed compile lint, or fresh after-source acceptance.",
+  "inputs": {
+    "report": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/resident-setup-diagnostic-clippy01.json",
+      "bytes": 852,
+      "sha256": "d0bff2e764e3e0a5ea9a29c38baee79b61223be3d2ae1a8e534544890796003f"
+    },
+    "log": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/resident-setup-diagnostic-clippy01.log",
+      "bytes": 842,
+      "sha256": "72116faa5201efcaace371fae15cde38221ad825d5915c57c35e3f5e22f27a7b"
+    },
+    "maps": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/resident-setup-diagnostic-clippy01.inputs.json",
+      "bytes": 917481,
+      "sha256": "90131bea32cf92be29be3b9b6332316eabb7534409cdc1cf463e5363626288da"
+    }
+  },
+  "observations": {
+    "exit_code": 101,
+    "outer_timeout": false,
+    "duration_seconds": 639.7950352500193,
+    "executed_test_bodies": 0,
+    "lint": "clippy::type_complexity",
+    "reported_errors": 1,
+    "location": "app/tests/auth_rest/resident_authenticator.rs:129:19",
+    "failed_type": "Option<JoinHandle<(usize, Option<CleanupDiagnostic>, Option<SetupDiagnostic>)>>",
+    "all_before_after2958_entries_equal": true,
+    "resident_before_source_sha256": "1a9ef29ee164cdeca5573a5b750b49f54f5e215f19a8709d9a8309ab5f71766f",
+    "log_reports_compile_failure": true
+  },
+  "fix_review": {
+    "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/resident-stderr-type-clarity-candidate01/independent_review01.json",
+    "sha256": "9729679fc7b9836888d2916ccfd5d73ee0edecba5aff1892b834530f68ba7338",
+    "verdict": "ACCEPT_SOURCE_ONLY"
+  },
+  "limits": [
+    "Compiler/linter failure has no browser/native body pass or fail counts; all zero recorded counts do not indicate acceptance.",
+    "Fresh strict Clippy onac3a42f9 after-source remains pending and cannot erase this RED.",
+    "Captured maps verified without regeneration; no cleanup/process custody or full product acceptance."
+  ],
+  "actions": {
+    "tests_executed": 0,
+    "tracked_source_writes": 0,
+    "artifact_only_audit_write": true
+  }
+}

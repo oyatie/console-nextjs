@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "artifacts": {
+    "before.mjs": {
+      "sha256": "6868ac44bef0334065b3e4cd70ddfc58c3623be4070e6625f35b1738bed24280",
+      "bytes": 54371
+    },
+    "patch.diff": {
+      "sha256": "af030d916c969d0d1cfe68522e43a284ba13bd8badf11802f95d2767f823870e",
+      "bytes": 1000
+    },
+    "proposal.json": {
+      "sha256": "49af9d4799e08e46dd5186b5b53e82bc77269348d4eebfe72a7cc62344386fe3",
+      "bytes": 6987
+    },
+    "tools/test-browser-business-session.mjs": {
+      "sha256": "840d164c2e81b204d98347d8fc6a1f6467e3c70d5769bc1e1a815fc2ebf4bc11",
+      "bytes": 54398
+    }
+  },
+  "immutable_files_read_only": true,
+  "runtime_acceptance": false
+}

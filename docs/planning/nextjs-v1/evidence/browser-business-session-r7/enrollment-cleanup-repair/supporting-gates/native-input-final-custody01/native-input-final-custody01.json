@@ -1,0 +1,24 @@
+{
+  "id": "native-input-final-custody01",
+  "command": [
+    "python3",
+    "-c",
+    "import sys,json; sys.path.insert(0,\"tools\"); import acceptance; r=acceptance.inspect_fork(); print(json.dumps(r,indent=2)); raise SystemExit(r[\"status\"] != \"passed\")"
+  ],
+  "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+  "exit_code": 0,
+  "timed_out": false,
+  "duration_seconds": 1.1780926659703255,
+  "discovered": null,
+  "counts": {
+    "passed": 0,
+    "failed": 0,
+    "skipped": 0,
+    "filtered": 0,
+    "executed": 0
+  },
+  "log_sha256": "29d94dfa8494f72e488c8f1cb5853c3345024f0824853b22d0ceac2b5a4c1151",
+  "cleanup_reported": false,
+  "inputs_sha256": "77d09afd7c39eb07166ae64c0cb85e660c8f2b57927090464edbf198dd415d4a",
+  "inputs_unchanged": true
+}

@@ -1,0 +1,18 @@
+{
+  "schema": "acceptance-invocation-failure/1",
+  "id": "restored-context-mechanics-native05",
+  "tool_chunk": "1afd21",
+  "command": ["fnm", "exec", "--using", "24.21.0", "python3", "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/run-gate.py", "restored-context-mechanics-native05", "node", "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/restored-context-mechanics-probe05/probe.mjs"],
+  "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+  "wrapper_exit_code": 1,
+  "wrapper_wall_time_seconds": 0.327676625,
+  "observed_exception": "PermissionError: [Errno 13] Permission denied at subprocess.Popen before child creation",
+  "cause": "Runner kind was node instead of exec; selection therefore treated the non-executable probe path as the executable rather than passing it to Node",
+  "probe_started": false,
+  "test_bodies_executed": 0,
+  "log_bytes": 0,
+  "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "normal_report_written": false,
+  "normal_inputs_written": false,
+  "limits": "This receipt transcribes the actual tool result. No product test, browser custody or source-map observation is inferred from the failed invocation. The corrected invocation has separate id restored-context-mechanics-native05-launch02."
+}

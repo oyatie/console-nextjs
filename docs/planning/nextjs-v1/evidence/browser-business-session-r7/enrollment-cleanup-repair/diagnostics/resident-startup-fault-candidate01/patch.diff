@@ -1,0 +1,228 @@
+--- a/backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs
++++ b/backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs
+@@ -41,6 +41,25 @@
+ }
+ 
+ type Result<T> = std::result::Result<T, &'static str>;
++
++// Private fixture failures simulate thread setup errors, not OS exhaustion.
++// They never replace a browser, credential ceremony or provider result.
++#[derive(Clone, Copy, Debug, PartialEq, Eq)]
++enum StartupFault {
++    Writer,
++    Reader,
++    Stderr,
++}
++
++#[derive(Debug)]
++struct CleanupObservation {
++    result: Result<()>,
++    node_pid: u32,
++    node_reaped: bool,
++    workers_settled: bool,
++    created_workers: [bool; 3],
++    remaining_worker_handles: [bool; 3],
++}
+ 
+ pub(super) struct ResidentAuthenticator {
+     child: Child,
+@@ -60,10 +79,18 @@
+     workers_settled: bool,
+     spawned_at: Instant,
+     last_ceremony_read: Option<Instant>,
++    cleanup_probe: Option<mpsc::Sender<CleanupObservation>>,
+ }
+ 
+ impl ResidentAuthenticator {
+     pub(super) fn new() -> Result<Self> {
++        Self::new_observed(None, None)
++    }
++
++    fn new_observed(
++        fault: Option<StartupFault>,
++        cleanup_probe: Option<mpsc::Sender<CleanupObservation>>,
++    ) -> Result<Self> {
+         let root = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../../..");
+         let runner = root.join("tools/test-resident-authenticator.mjs");
+         if !runner.is_file() || !root.join("package-lock.json").is_file() {
+@@ -116,6 +143,7 @@
+             workers_settled: false,
+             spawned_at,
+             last_ceremony_read: None,
++            cleanup_probe,
+         };
+         let mut stdin = value
+             .child
+@@ -134,6 +162,9 @@
+             .ok_or("infrastructure: resident stderr")?;
+         // Separate I/O workers let every synchronous public operation have a
+         // deadline without blocking an async database/lock-test task indefinitely.
++        if fault == Some(StartupFault::Writer) {
++            return Err("infrastructure: resident writer start");
++        }
+         value.writer = Some(
+             thread::Builder::new()
+                 .spawn(move || {
+@@ -152,6 +183,9 @@
+                 })
+                 .map_err(|_| "infrastructure: resident writer start")?,
+         );
++        if fault == Some(StartupFault::Reader) {
++            return Err("infrastructure: resident reader start");
++        }
+         value.reader = Some(
+             thread::Builder::new()
+                 .spawn(move || {
+@@ -180,6 +214,9 @@
+                 })
+                 .map_err(|_| "infrastructure: resident reader start")?,
+         );
++        if fault == Some(StartupFault::Stderr) {
++            return Err("infrastructure: resident stderr start");
++        }
+         value.error_reader = Some(
+             thread::Builder::new()
+                 .spawn(move || {
+@@ -302,10 +339,31 @@
+         if let Some(result) = self.close_result {
+             return result;
+         }
++        let created_workers = [
++            self.writer.is_some(),
++            self.reader.is_some(),
++            self.error_reader.is_some(),
++        ];
+         let result = self.close_owned();
+         // A finalized cleanup attempt is not necessarily successful. Retain its
+         // failure, and never start another budget during Drop or a second close.
+         self.close_result = Some(result);
++        // Test observation is emitted only after the real attempt and cache.
++        // An unbounded private channel cannot block the resource owner.
++        if let Some(probe) = &self.cleanup_probe {
++            let _ = probe.send(CleanupObservation {
++                result,
++                node_pid: self.child.id(),
++                node_reaped: self.node_reaped,
++                workers_settled: self.workers_settled,
++                created_workers,
++                remaining_worker_handles: [
++                    self.writer.is_some(),
++                    self.reader.is_some(),
++                    self.error_reader.is_some(),
++                ],
++            });
++        }
+         result
+     }
+ 
+@@ -505,3 +563,110 @@
+         }
+     }
+ }
++
++// These tests run the actual Node/Chromium fixture. Private fault injection
++// covers ownership after spawn; it does not claim empirical thread exhaustion.
++fn assert_setup_failure(
++    fault: StartupFault,
++    expected_error: &'static str,
++    expected_created_workers: [bool; 3],
++) {
++    let (observed, observations) = mpsc::channel();
++    let outcome = std::panic::catch_unwind(|| {
++        ResidentAuthenticator::new_observed(Some(fault), Some(observed))
++    });
++    let error = match outcome {
++        Ok(Err(error)) => error,
++        Ok(Ok(mut owner)) => {
++            let _ = owner.close();
++            panic!("private setup failure did not trigger");
++        }
++        Err(_) => panic!("constructor error replaced by cleanup panic"),
++    };
++    assert_eq!(error, expected_error);
++    let cleanup = observations
++        .try_recv()
++        .expect("real cleanup observation before constructor returns");
++    assert_eq!(
++        cleanup.result,
++        Err("infrastructure: resident startup workers incomplete")
++    );
++    assert!(cleanup.node_pid > 0);
++    assert!(cleanup.node_reaped, "actual Node status was not observed");
++    assert!(cleanup.workers_settled, "created workers did not finish");
++    assert_eq!(cleanup.created_workers, expected_created_workers);
++    assert_eq!(cleanup.remaining_worker_handles, [false; 3]);
++    assert!(matches!(
++        observations.try_recv(),
++        Err(mpsc::TryRecvError::Disconnected)
++    ));
++    // Partial construction has no trusted ready browser identity or independent
++    // process-group absence witness. Never infer Chromium absence from Node.
++    let _ = writeln!(
++        std::io::stderr().lock(),
++        "RESIDENT_STARTUP_PROBE fault={fault:?} simulated_setup_error=true node_reaped=true created_workers_finished=true browser_custody=UNKNOWN"
++    );
++}
++
++#[test]
++fn injected_writer_setup_failure_preserves_constructor_error_and_resource_custody() {
++    assert_setup_failure(
++        StartupFault::Writer,
++        "infrastructure: resident writer start",
++        [false, false, false],
++    );
++}
++
++#[test]
++fn injected_reader_setup_failure_preserves_constructor_error_and_resource_custody() {
++    assert_setup_failure(
++        StartupFault::Reader,
++        "infrastructure: resident reader start",
++        [true, false, false],
++    );
++}
++
++#[test]
++fn injected_stderr_setup_failure_preserves_constructor_error_and_resource_custody() {
++    assert_setup_failure(
++        StartupFault::Stderr,
++        "infrastructure: resident stderr start",
++        [true, true, false],
++    );
++}
++
++#[test]
++fn failed_close_is_cached_without_restarting_cleanup_and_normal_drop_stays_failing() {
++    let (observed, observations) = mpsc::channel();
++    let mut owner = ResidentAuthenticator::new_observed(None, Some(observed))
++        .expect("real resident fixture ready");
++    // Dispose of the actual receiver. No frame, ACK or provider is fabricated.
++    owner.output.take();
++    owner.failed = true;
++    let first = owner.close();
++    assert_eq!(first, Err("infrastructure: resident stdout closed"));
++    let cleanup = observations
++        .try_recv()
++        .expect("first real cleanup observation");
++    assert_eq!(cleanup.result, first);
++    assert!(cleanup.node_pid > 0);
++    assert!(cleanup.node_reaped);
++    assert!(cleanup.workers_settled);
++    assert_eq!(cleanup.created_workers, [true; 3]);
++    assert_eq!(cleanup.remaining_worker_handles, [false; 3]);
++    assert_eq!(owner.close(), first);
++    assert!(matches!(
++        observations.try_recv(),
++        Err(mpsc::TryRecvError::Empty)
++    ));
++    let dropped = std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| drop(owner)));
++    assert!(dropped.is_err(), "normal Drop must retain cleanup failure");
++    assert!(matches!(
++        observations.try_recv(),
++        Err(mpsc::TryRecvError::Disconnected)
++    ));
++    let _ = writeln!(
++        std::io::stderr().lock(),
++        "RESIDENT_CACHED_FAILURE_PROBE real_node_reaped=true created_workers_finished=true cleanup_attempts=1 repeated_error_preserved=true normal_drop_expected_panic=true browser_custody=UNKNOWN"
++    );
++}

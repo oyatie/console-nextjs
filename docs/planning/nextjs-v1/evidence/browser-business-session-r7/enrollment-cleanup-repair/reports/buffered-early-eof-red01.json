@@ -1,0 +1,30 @@
+{
+  "command": [
+    "fnm",
+    "exec",
+    "--using",
+    "24.21.0",
+    "node",
+    "--test",
+    "--test-reporter=tap",
+    "--test-name-pattern=(partial|frame)-eof-before-origin$",
+    "tools/test-native-browser-enrollment.test.mjs"
+  ],
+  "exit_code": 1,
+  "inputs_before": {
+    "tools/test-native-browser-enrollment.test.mjs": "3204b466940c270897814f9100ee8f92fbddfdc937e7b71a06406dacac778ead",
+    "tools/test-native-browser-enrollment.mjs": "b0a4ef6f86493df99c10efaddebd735043d8226774d253dd41d90431008defa4",
+    "tools/test-browser-business-session.mjs": "834b9a15ef0ec70517f510e0a2347e0cb991802264b554bedbfcd5172eaf5ea9",
+    "tools/production-runtime.mjs": "7e4d05bac69900295f8777c931999f2987acd36c947f281cbea7d1bbdf673367",
+    "tools/enrollment-fault-deadlines.mjs": "6f80266162d5413bcda245b17536b991518e95e22f5b1a7001067aaa4120fc06"
+  },
+  "inputs_after": {
+    "tools/test-native-browser-enrollment.test.mjs": "3204b466940c270897814f9100ee8f92fbddfdc937e7b71a06406dacac778ead",
+    "tools/test-native-browser-enrollment.mjs": "b0a4ef6f86493df99c10efaddebd735043d8226774d253dd41d90431008defa4",
+    "tools/test-browser-business-session.mjs": "834b9a15ef0ec70517f510e0a2347e0cb991802264b554bedbfcd5172eaf5ea9",
+    "tools/production-runtime.mjs": "7e4d05bac69900295f8777c931999f2987acd36c947f281cbea7d1bbdf673367",
+    "tools/enrollment-fault-deadlines.mjs": "6f80266162d5413bcda245b17536b991518e95e22f5b1a7001067aaa4120fc06"
+  },
+  "raw_log_sha256": "217612b276980fdb66a30096de6ee3b4f6f2ce53ed7719280db3a816e9b6ed91",
+  "scope": "Four real startup EOF cases with partial header or complete frame selected in native and product runners; twelve cases intentionally unselected. Counts in raw TAP. No native/API/browser scenario acceptance."
+}

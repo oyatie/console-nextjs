@@ -1,0 +1,115 @@
+{
+  "schema": "finalnative-terminal-audit/1",
+  "verdict": "ACCEPT_TERMINAL_EVIDENCE; REQUIRED_ACCEPTANCE_FAILED",
+  "scope": "Independent read-only audit of completed finalnative01 report/log/input-map bytes and embedded real-browser payload; no test rerun, current source rescan, process census or GitHub acceptance.",
+  "inputs": {
+    "report": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-repair-final-native01.json",
+      "bytes": 1092,
+      "sha256": "7f286b98c5c4ad61836b29f6715b79c54953ab7cf405ce5a7d87a1dffbd76868"
+    },
+    "log": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-repair-final-native01.log",
+      "bytes": 24490,
+      "sha256": "0a04fd7ecaac23b39ab38e05fc5d21aaf14f614a1270c6ae0470372021ca3736"
+    },
+    "inputs": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-repair-final-native01.inputs.json",
+      "bytes": 917481,
+      "sha256": "0b834b380a7366256aff69650f30962d54f0e0954c982b424acf2c82e1b582d4"
+    }
+  },
+  "native": {
+    "announced": 121,
+    "unique_test_names_in_raw_log": 121,
+    "executed": 121,
+    "passed": 118,
+    "failed": 3,
+    "ignored": 0,
+    "measured": 0,
+    "filtered": 0,
+    "failed_test_names": [
+      "browser_sessions::account_and_company_fk_holders_refuse_removal_without_clearing_browser_proof",
+      "browser_sessions::original_short_family_deadline_expires_during_lookup_wait_without_sliding",
+      "genuine_browser::genuine_production_browser_proposal_requires_all_seventeen_scenarios"
+    ],
+    "exit_code": 101,
+    "duration_seconds": 1728.2399462499889,
+    "outer_timeout": false
+  },
+  "browser": {
+    "discovered": 17,
+    "executed": 17,
+    "passed": 16,
+    "failed": 1,
+    "skipped": 0,
+    "unreached": 0,
+    "failed_scenario": "P16",
+    "failed_subcase": "queued-react-css",
+    "queued_diagnostic": {
+      "queued_ordering_observation": null,
+      "not_restored_reasons": [],
+      "trusted_departures": 1,
+      "trusted_original_restores": 1
+    },
+    "P16_checks": {
+      "blocked-bundles": "passed",
+      "blocked-css-bundles": "passed",
+      "delayed-bundles": "passed",
+      "queued-react-css": "failed",
+      "offline": "passed",
+      "missing-guard": "passed",
+      "thrown-guard": "passed"
+    },
+    "payload_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/finalnative01-terminal-audit01/browser-payload.json",
+    "payload_sha256": "1a95e947842437152f50078102aa5dc77a8b9e5c8c03b70ab0a6eb8b1158d5de"
+  },
+  "source_inputs": {
+    "before_count": 2958,
+    "after_count": 2958,
+    "all_before_after_entries_equal": true,
+    "resident_rust_sha256": "30345239d9e8321ea9394dd5b5f75d91b5ca4d1b1a98a27c7360951a82179c45",
+    "resident_node_sha256": "b62d0d6eba89439d4194b79d4dab62ed8fd07614f93bf984bbd3ab261a71799e",
+    "restoration_runner_sha256": "7c81d3228765d28f16cfacc7bbf30ad1d94112b94e8843b3d9c68b4cf7d60b71",
+    "limit": "Runtime captured input maps verified, not independently regenerated. Root has since applied startup02; this historical run cannot certify changed Rust."
+  },
+  "failures": {
+    "fk_holder_cleanup": {
+      "observed_reason": "infrastructure: resident cleanup unconfirmed; possible orphan",
+      "browser_custody": "UNKNOWN",
+      "cause": "UNPROVEN; no specific cleanup diagnostic recorded for this case"
+    },
+    "short_family_cleanup": {
+      "observed_reason": "infrastructure: resident frame header",
+      "node_exit_code": 3,
+      "native_exit_status_raw": 768,
+      "stderr_bytes": 326,
+      "stage": "BrowserKill",
+      "child_exit_seen": true,
+      "child_close_seen": true,
+      "close_settled": false,
+      "kill_settled": false,
+      "child_exited": true,
+      "owner_age_ms": 13408,
+      "ceremony_idle_ms": 6165,
+      "sent_before": 3,
+      "sent_after": 4,
+      "checked_frames_before": 4,
+      "checked_frames_after": 4,
+      "limit": "Current diagnostic localizes shutdown completion failure after child exit/close, but no independent process-group absence or filesystem-operation observation. Historical exit3 cause remains UNPROVEN."
+    },
+    "queued_restoration": {
+      "observed": "Trusted departure and original restoration each1, but ordering observation null. Required assertion failed before verified ordering witness.",
+      "cause": "UNPROVEN exact assertion/location; no claim latch03 resolved."
+    }
+  },
+  "cleanup": {
+    "database_lane_cleanup_line_observed": true,
+    "limit": "Printed volume removal is lane evidence only; no independent resident/browser descendant census."
+  },
+  "actions": {
+    "tests_executed": 0,
+    "tracked_source_writes": 0,
+    "artifact_only_review_write": true
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "state": "CANDIDATE_ONLY_NOT_APPLIED_NOT_COMPILED_NOT_TESTED",
+  "before": "30345239d9e8321ea9394dd5b5f75d91b5ca4d1b1a98a27c7360951a82179c45",
+  "after": "2917aa92f08d8d8d49da0f5ddf0474c808bf5886683a8754e35bf69a15fcaedd",
+  "patch_sha256": "6cd1737bd9e6795088e3795f1861e4449bdb28c458e278b73cf6a4288124b4c1",
+  "design": "resident-startup-owner-design02",
+  "revision": "candidate02: best-effort nonpanicking diagnostics and pinned workspace-style rustfmt before finalreview",
+  "formatting": {
+    "command": [
+      "/Users/jasonlee/.cargo/bin/rustup",
+      "run",
+      "1.98.1",
+      "rustfmt",
+      "--edition",
+      "2024",
+      "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/resident-startup-owner-candidate02/backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs"
+    ],
+    "exit_code": 0,
+    "scope": "Artifact-only parse/format; no typecheck/runtime/tests; workspaceconfigs edition2024"
+  },
+  "source_writes": false,
+  "tests_executed": 0,
+  "focused_regression": "Pending private real-child injected setup-failure contract; not empirical OS resource-exhaustion proof"
+}

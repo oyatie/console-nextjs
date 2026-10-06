@@ -1,0 +1,34 @@
+{
+  "id": "resident-restored-context-final-discovery01",
+  "command": [
+    "/Users/jasonlee/.cargo/bin/cargo",
+    "+1.98.1",
+    "test",
+    "--locked",
+    "--offline",
+    "--features",
+    "frontend-e2e",
+    "-p",
+    "console-app",
+    "--test",
+    "auth_rest",
+    "--",
+    "--list"
+  ],
+  "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend",
+  "exit_code": 0,
+  "timed_out": false,
+  "duration_seconds": 181.79960812500212,
+  "discovered": 125,
+  "counts": {
+    "passed": 0,
+    "failed": 0,
+    "skipped": 0,
+    "filtered": 0,
+    "executed": 0
+  },
+  "log_sha256": "f38debef3b5354d3112044c562cc22b84ea2f7753583298967eb7e1a80d2fbc1",
+  "cleanup_reported": false,
+  "inputs_sha256": "c054df00ddb6a240ffaaabc6baf2a53b3a91ce07723d8ad4653692cffc2e7fc0",
+  "inputs_unchanged": true
+}

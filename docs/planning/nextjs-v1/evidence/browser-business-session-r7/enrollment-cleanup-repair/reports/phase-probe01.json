@@ -1,0 +1,35 @@
+{
+  "schema": "enrollment-parent-phase-diagnostic/1",
+  "node": "v24.21.0",
+  "head": "f5c29cc9ccb1d463f5ba76ebbf746b024311bd37",
+  "scope": "External single real-runner diagnosis; no native enrollment acceptance or historical-cause claim",
+  "unchanged_parent_ms": {
+    "fallback": 25000,
+    "force": 35000
+  },
+  "phases": [
+    {
+      "phase": "spawn",
+      "elapsed_ms": 1
+    },
+    {
+      "phase": "origin",
+      "elapsed_ms": 23823
+    },
+    {
+      "phase": "parent_fallback_sigterm",
+      "elapsed_ms": 25003
+    },
+    {
+      "phase": "final_parent_cleanup",
+      "elapsed_ms": 27491,
+      "remaining_entries": 1
+    }
+  ],
+  "stderr_bytes": 41,
+  "fallback_fired": true,
+  "error": {
+    "name": "AssertionError",
+    "message": "Expected values to be strictly equal:\n\n'cleaned' !== 'ready'\n"
+  }
+}

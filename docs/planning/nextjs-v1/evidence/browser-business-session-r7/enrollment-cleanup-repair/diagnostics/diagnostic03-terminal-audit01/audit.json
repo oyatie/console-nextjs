@@ -1,0 +1,190 @@
+{
+  "schema": "diagnostic03-terminal-audit/1",
+  "verdict": "ACCEPT_TERMINAL_EVIDENCE; REQUIRED_ACCEPTANCE_FAILED",
+  "scope": "Independent read-only audit of completed artifacts, not test execution or product/release acceptance",
+  "artifacts": {
+    "json": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-repair-native-diagnostic03.json",
+      "sha256": "ea0c3b4967de1925973af5563841e7edfabe3e0aeca13d3a4c7c9b64c6c724f9",
+      "bytes": 1097
+    },
+    "log": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-repair-native-diagnostic03.log",
+      "sha256": "a8dd1050adc59f4798b9cef2f8c05f61bbd79219a4db9db1050a398feb2f6b9e",
+      "bytes": 23399
+    },
+    "inputs.json": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-repair-native-diagnostic03.inputs.json",
+      "sha256": "c3e6726ea9e28cfa2797dd733199133f54611bd9209b07aafc9ec26657d8cb2c",
+      "bytes": 917481
+    }
+  },
+  "hash_binding": {
+    "log_matches_report": true,
+    "inputs_match_report": true
+  },
+  "command": [
+    "bash",
+    "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/tools/lanes/pgtest.sh",
+    "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork",
+    "/Users/jasonlee/.cargo/bin/cargo",
+    "+1.98.1",
+    "test",
+    "--locked",
+    "--offline",
+    "--no-fail-fast",
+    "--features",
+    "frontend-e2e",
+    "-p",
+    "console-app",
+    "--test",
+    "auth_rest",
+    "--",
+    "--test-threads=1",
+    "--nocapture"
+  ],
+  "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+  "exit_code": 101,
+  "timed_out": false,
+  "duration_seconds": 1686.6668880840298,
+  "native_terminal": {
+    "declared_running": 121,
+    "observed_unique_test_headers": 121,
+    "executed": 121,
+    "passed": 120,
+    "failed": 1,
+    "ignored": 0,
+    "measured": 0,
+    "filtered": 0,
+    "runner_discovered": null,
+    "discovery_limit": "Separate discovery count is null; running line and 121 unique execution headers were independently verified",
+    "failed_test": "genuine_browser::genuine_production_browser_proposal_requires_all_seventeen_scenarios"
+  },
+  "browser_terminal": {
+    "discovered": 17,
+    "executed": 17,
+    "passed": 16,
+    "failed": 1,
+    "unreached": 0,
+    "skipped": 0,
+    "scenario_ids": [
+      "P01",
+      "P02",
+      "P03",
+      "P04",
+      "P05",
+      "P06",
+      "P07",
+      "P08",
+      "P09",
+      "P10",
+      "P11",
+      "P12",
+      "P13",
+      "P14",
+      "P15",
+      "P16",
+      "P17"
+    ],
+    "failed_scenario": "P16"
+  },
+  "P16": {
+    "status": "failed",
+    "failed_variant": "queued-react-css",
+    "reason": "actual required restore assertion failed",
+    "diagnostic": {
+      "queued_ordering_observation": null,
+      "not_restored_reasons": [],
+      "trusted_departures": 1,
+      "trusted_original_restores": 1
+    },
+    "variant_statuses": [
+      {
+        "id": "blocked-bundles",
+        "status": "passed"
+      },
+      {
+        "id": "blocked-css-bundles",
+        "status": "passed"
+      },
+      {
+        "id": "delayed-bundles",
+        "status": "passed"
+      },
+      {
+        "id": "queued-react-css",
+        "status": "failed"
+      },
+      {
+        "id": "offline",
+        "status": "passed"
+      },
+      {
+        "id": "missing-guard",
+        "status": "passed"
+      },
+      {
+        "id": "thrown-guard",
+        "status": "passed"
+      }
+    ],
+    "evidence_limit": "Trusted original departure and persisted restoration were observed, but the verified native-denial pending-state point is unobserved (null). The exact failing assertion, started value and cause cannot be inferred."
+  },
+  "input_snapshot": {
+    "before_entries": 2958,
+    "after_entries": 2958,
+    "maps_equal": true,
+    "added": 0,
+    "removed": 0,
+    "changed": 0,
+    "all_hashes_typed_sha256": true,
+    "selected_hashes": {
+      "tools/test-resident-authenticator.mjs": "9d152c60f03827d7c5676f4e965edc56084c67d6f25d80014c3559e76d0d7c5d",
+      "backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs": "30345239d9e8321ea9394dd5b5f75d91b5ca4d1b1a98a27c7360951a82179c45",
+      "tools/browser-business-restore.mjs": "d9682e6dd85a4793f8636c18a8fd8fc939a22fada0db6359d8d30a721e5bd350",
+      "tools/test-browser-business-session.mjs": "ea936c0cdc8670261d556686b46a6d813b6479f4a8c6dd7b0925a42092e6aa2a",
+      "backend-fork/backend/app/tests/auth_rest/genuine_browser.rs": "3fc7ff40ce5b01325515803864ba2e87386562f4dd0bf744b2c22c594261879b",
+      ".next/build-inputs.json": "45001f336b372dd488fd27cce5d6d8e1119c42e9dada4025c766fd0d4558d7c7",
+      "package-lock.json": "ad526fce2fe800ee7122f39029843a69fd9a335572de82a4a71d9c1a9714bc7b"
+    },
+    "scope_limit": "Before/after snapshots bind this completed run; no claim about current unfrozen source state"
+  },
+  "resident": {
+    "original_short_family_test": "browser_sessions::original_short_family_deadline_expires_during_lookup_wait_without_sliding",
+    "original_short_family_status": "passed",
+    "cleanup_failure_marker_present": false,
+    "cleanup_stage_marker_present": false,
+    "historical_exit3_cause": "UNPROVEN",
+    "evidence_limit": "No resident cleanup failure marker in this run does not resolve the previous exit 3 or establish a mechanism repair."
+  },
+  "cleanup": {
+    "runner_reported": true,
+    "isolated_postgres_container_and_volume_removal_reported": true,
+    "runtime_independently_inspected": false,
+    "evidence_limit": "Cleanup confirmation is the lane log and report; this audit performed no live process/container checks."
+  },
+  "findings": [
+    {
+      "classification": "required_acceptance_failure",
+      "location": "P16/queued-react-css",
+      "detail": "Required real-browser restore variant failed; run remains RED."
+    },
+    {
+      "classification": "unobserved_ordering_evidence",
+      "location": "P16/queued-react-css/queued_ordering_observation",
+      "detail": "Null observation prohibits attributing failure to started=true or the verified-release-point assertion."
+    }
+  ],
+  "actions_performed": [
+    "Read completed artifacts",
+    "Independently recomputed artifact hashes",
+    "Compared input maps and terminal counts",
+    "Wrote this isolated artifact-only audit"
+  ],
+  "actions_not_performed": [
+    "Tracked source writes",
+    "Tests",
+    "Live operations",
+    "PR or merge actions"
+  ]
+}

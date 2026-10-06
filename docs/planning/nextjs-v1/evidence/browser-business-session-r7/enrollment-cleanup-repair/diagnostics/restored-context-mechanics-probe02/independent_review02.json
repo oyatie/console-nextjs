@@ -1,0 +1,46 @@
+{
+  "schema": "browser-mechanics-probe-source-review/2",
+  "verdict": "REJECT_SOURCE",
+  "source_sha256": "8697ffed498a041b453116162bf3337b0a04dca8c134ed774491e565f8b78297",
+  "reviewers": [
+    "root",
+    "/root/resident_failure_diagnostic_review/secure_origin_path_review"
+  ],
+  "findings": [
+    {
+      "id": "TEMP_SCOPE",
+      "problem": "Child env TMPDIR does not scope SDK parent os.tmpdir temp files."
+    },
+    {
+      "id": "OWNED_GROUP",
+      "problem": "Group ESRCH alone without positive prior ownership/liveness may falsely prove custody."
+    },
+    {
+      "id": "SHUTDOWN_FACTS",
+      "problem": "custodyConfirmed ignores SDK close/kill settlement and actual process exit."
+    },
+    {
+      "id": "HARD_BOUND",
+      "problem": "Hard watchdog is cleared even when cleanup remains unconfirmed, so pending resources may hang beyond60s."
+    },
+    {
+      "id": "GUARD_PIN",
+      "problem": "Actual guard literal lacks explicit approved SHA assertion."
+    },
+    {
+      "id": "LATE_STAGE",
+      "problem": "Timed-out mkdtemp may return after lost assignment and falsely satisfy no-stage custody."
+    },
+    {
+      "id": "CONCLUSIVE_BRANCH",
+      "problem": "fixture-not-reproduced allows returned-value with wrong expected tuple."
+    },
+    {
+      "id": "SHARED_DEADLINE",
+      "problem": "remainingBudget clamps expired shared deadline to1ms; prefer strict expiry."
+    }
+  ],
+  "runtime_proof": false,
+  "tests_executed_by_author": false,
+  "disposition": "Preserved02; corrected03 to receive fresh independent review before execution."
+}

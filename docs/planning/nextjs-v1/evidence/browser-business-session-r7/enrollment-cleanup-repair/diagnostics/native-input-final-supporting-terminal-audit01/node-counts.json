@@ -1,0 +1,150 @@
+{
+  "reporter": "Node spec",
+  "summary": {
+    "tests": 22,
+    "suites": 0,
+    "pass": 19,
+    "fail": 3,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0
+  },
+  "executed": 22,
+  "passed": 19,
+  "failed": 3,
+  "cancelled": 0,
+  "skipped": 0,
+  "todo": 0,
+  "duration_ms": 563440.041042,
+  "cases": [
+    {
+      "name": "slow prerequisite startup does not spend the requested cleanup budget",
+      "status": "passed",
+      "duration_ms": 1.775125
+    },
+    {
+      "name": "a ready runner that fails to exit still triggers the cleanup fallback",
+      "status": "passed",
+      "duration_ms": 1.453542
+    },
+    {
+      "name": "never-ready startup has one absolute bounded termination deadline",
+      "status": "passed",
+      "duration_ms": 0.381708
+    },
+    {
+      "name": "a second fault cannot reset an already running cleanup deadline",
+      "status": "passed",
+      "duration_ms": 0.266292
+    },
+    {
+      "name": "late cleanup cannot erase evidence of forced intervention",
+      "status": "passed",
+      "duration_ms": 0.251125
+    },
+    {
+      "name": "natural completion disposes both clocks and cannot rearm them",
+      "status": "passed",
+      "duration_ms": 0.214208
+    },
+    {
+      "name": "enrollment runner confirms cleanup after eof-before-origin",
+      "status": "passed",
+      "duration_ms": 371.375791
+    },
+    {
+      "name": "enrollment runner confirms cleanup after partial-eof-before-origin",
+      "status": "passed",
+      "duration_ms": 334.143042
+    },
+    {
+      "name": "enrollment runner confirms cleanup after frame-eof-before-origin",
+      "status": "passed",
+      "duration_ms": 333.048542
+    },
+    {
+      "name": "enrollment runner confirms cleanup after signal-after-origin",
+      "status": "passed",
+      "duration_ms": 36869.00925
+    },
+    {
+      "name": "enrollment runner confirms cleanup after eof-after-ready",
+      "status": "failed",
+      "duration_ms": 59109.05375
+    },
+    {
+      "name": "enrollment runner confirms cleanup after oversized",
+      "status": "passed",
+      "duration_ms": 62794.616292
+    },
+    {
+      "name": "enrollment runner confirms cleanup after wrong-version",
+      "status": "passed",
+      "duration_ms": 28854.517958
+    },
+    {
+      "name": "enrollment runner confirms cleanup after wrong-sequence",
+      "status": "failed",
+      "duration_ms": 84951.939583
+    },
+    {
+      "name": "enrollment runner confirms cleanup after wrong-kind",
+      "status": "passed",
+      "duration_ms": 31680.958542
+    },
+    {
+      "name": "enrollment runner confirms cleanup after legacy-selection",
+      "status": "failed",
+      "duration_ms": 84083.952833
+    },
+    {
+      "name": "enrollment runner confirms cleanup after missing-selection",
+      "status": "passed",
+      "duration_ms": 43586.924666
+    },
+    {
+      "name": "enrollment runner confirms cleanup after malformed-selection",
+      "status": "passed",
+      "duration_ms": 92710.939333
+    },
+    {
+      "name": "enrollment runner confirms cleanup after weak-uv",
+      "status": "passed",
+      "duration_ms": 36754.956084
+    },
+    {
+      "name": "business runner confirms cleanup after eof-before-origin",
+      "status": "passed",
+      "duration_ms": 357.186209
+    },
+    {
+      "name": "business runner confirms cleanup after partial-eof-before-origin",
+      "status": "passed",
+      "duration_ms": 287.572416
+    },
+    {
+      "name": "business runner confirms cleanup after frame-eof-before-origin",
+      "status": "passed",
+      "duration_ms": 294.974583
+    }
+  ],
+  "failed_cases": [
+    {
+      "name": "enrollment runner confirms cleanup after eof-after-ready",
+      "status": "failed",
+      "duration_ms": 59109.05375
+    },
+    {
+      "name": "enrollment runner confirms cleanup after wrong-sequence",
+      "status": "failed",
+      "duration_ms": 84951.939583
+    },
+    {
+      "name": "enrollment runner confirms cleanup after legacy-selection",
+      "status": "failed",
+      "duration_ms": 84083.952833
+    }
+  ],
+  "parsing_rule": "Count only first22 execution rows before the \u2139 tests summary. End-of-report repeated failing rows are details, not another3 executions.",
+  "generic_wrapper_counts": "Allzero Rust-regex counters retained in original wrapper report; they do not represent actual Node execution."
+}

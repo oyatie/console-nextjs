@@ -1,0 +1,56 @@
+{
+  "schema": "resident-startup-fault-source-review/1",
+  "state": "REQUEST_CHANGES_SOURCE_ONLY",
+  "scope": "Independent static review of four private real-child setup/cache tests, exact baseline/after unified patch, and their owning cleanup observations. Findings reported separately from SDK design review.",
+  "pins": {
+    "before_sha256": "2917aa92f08d8d8d49da0f5ddf0474c808bf5886683a8754e35bf69a15fcaedd",
+    "after_sha256": "31b7ac1a36bcde507fb76fa82d10d5cc682ccbffaa4d8f64358a5188629febd2",
+    "patch_sha256": "1fa1d07143c5cf76793d6858263b3a86ed7327a35bd27d0d2a1e34c32ecdba44",
+    "manifest_sha256": "714f8fdd0328045777575c74135383f20376f566b12f9de2d3afb4a12917b7d2"
+  },
+  "verified": {
+    "pins_match": true,
+    "patch_matches_exact_before_after_snapshots": true
+  },
+  "findings": [
+    {
+      "id": "successful-worker-join-not-proven",
+      "location": "resident_authenticator.rs:477-499,590-598,651-656",
+      "problem": "workers_settled only observes is_finished, which is also true for a panicked worker. Consuming its handle occurs even when join returns Err. The first partial-ACK/stdout-closed failure is retained by get_or_insert, masking the later join failure, so the tests can pass and print created_workers_finished=true despite a worker panic.",
+      "required_revision": "Observe actual per-created-worker join outcomes separately from the first cleanup error, using absent/not-joined versus successful/failed states. Assert successful joins for every created worker in these proof cases; retain no invented result for uncreated workers."
+    },
+    {
+      "id": "forced-or-expired-cleanup-not-separated",
+      "location": "resident_authenticator.rs:430-470,594-598,651-656",
+      "problem": "Actual Node status can be observed after forced kill or cleanup deadline expiry. node_reaped=true plus the unchanged first failure does not show that these expected EOF cleanup cases avoided forced/deadline cleanup, because their initial failure masks those later states.",
+      "required_revision": "Emit separately observed force/deadline facts after the actual cached cleanup attempt and assert the intended unforced, in-budget outcome in the proof cases. Preserve browser custody UNKNOWN and do not convert first-error masking into positive cleanup acceptance."
+    },
+    {
+      "id": "normal-drop-panic-payload-not-verified",
+      "location": "resident_authenticator.rs:662-663",
+      "problem": "catch_unwind(...).is_err() accepts any Drop panic. It does not prove that ordinary Drop retained the cached fixed cleanup error as its panic payload.",
+      "required_revision": "Decode the actual panic payload and require the exact expected fixed resident stdout-closed failure, while retaining the observation/channel check that no second cleanup attempt occurred."
+    }
+  ],
+  "accepted_elements": [
+    "Fault injection is private and occurs after an actual Node child is owned, immediately before the relevant fallible worker creation. Normal new() passes no fault/probe.",
+    "Writer/reader/stderr faults preserve the original fixed typed constructor error and exercise real pipe/channel/Drop cleanup; they do not claim actual OS thread exhaustion.",
+    "No provider, SDK, credential, browser response, or ACK is fabricated.",
+    "Observation is sent through an unbounded private channel only after real cleanup and Result caching; cached returns do not emit another attempt.",
+    "The source uses actual child status and real worker handles, and fixed printed metadata explicitly leaves browser custody UNKNOWN.",
+    "Repeated close retains the same failed Result; actual receiver disposal supplies the cache test failure trigger."
+  ],
+  "limits": [
+    "Source-only change request; no compilation, tests, browser/probe execution, or empirical OS exhaustion proof.",
+    "Node reaping and worker completion do not establish Chromium/group absence or temporary-file destruction.",
+    "Future Node diagnostic schema/source changes require exact candidate rebase and fresh source bindings before runtime proof."
+  ],
+  "actions": {
+    "tracked_source_writes": 0,
+    "candidate_source_writes": 0,
+    "tests_executed": 0,
+    "artifact_review_receipt_write": true,
+    "probe_execution": false,
+    "service_actions": false
+  }
+}

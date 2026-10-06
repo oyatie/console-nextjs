@@ -1,0 +1,313 @@
+{
+  "schema": "r7-merge-group-terminal-failure/1",
+  "created_at": "2026-10-06T02:36:10.060004+00:00",
+  "verdict": "REJECT_MERGE_GROUP_ACCEPTANCE; REQUIRED_ENROLLMENT_PROCESS_CLEANUP_GATE_FAILED; NOT_MERGED",
+  "repository": "oyatie/console-nextjs",
+  "pull_request": 16,
+  "accepted_head": "f5c29cc9ccb1d463f5ba76ebbf746b024311bd37",
+  "synthetic_head": "b3ac72c41d3d5dca9ff9c2334543098c2c8bd177",
+  "exact_tree": "f8845f3b37cbc923c9354cc3a46ad9be13035c88",
+  "run_id": 37403914643,
+  "job_id": 112077080738,
+  "run_url": "https://github.com/oyatie/console-nextjs/actions/runs/37403914643",
+  "event": "merge_group",
+  "status": "completed",
+  "conclusion": "failure",
+  "required_check_app_id": 15368,
+  "step_accounting": {
+    "reported": 42,
+    "success": 16,
+    "failure": 1,
+    "skipped": 25,
+    "pending": 0
+  },
+  "failed_steps": [
+    {
+      "name": "Run node --test tools/test-native-browser-enrollment.test.mjs",
+      "status": "completed",
+      "conclusion": "failure",
+      "number": 14,
+      "started_at": "2026-10-06T02:27:06Z",
+      "completed_at": "2026-10-06T02:31:27Z"
+    }
+  ],
+  "skipped_steps": [
+    {
+      "number": 15,
+      "name": "Run rustup toolchain install 1.98.1 --profile minimal"
+    },
+    {
+      "number": 16,
+      "name": "Run rustup component add clippy rustfmt --toolchain 1.98.1"
+    },
+    {
+      "number": 17,
+      "name": "Rust format"
+    },
+    {
+      "number": 18,
+      "name": "Rust build disk budget"
+    },
+    {
+      "number": 19,
+      "name": "PostgreSQL device-login source revocation and authentication owners"
+    },
+    {
+      "number": 20,
+      "name": "Identity REST owner and device-login regression Clippy"
+    },
+    {
+      "number": 21,
+      "name": "Authentication owners Clippy"
+    },
+    {
+      "number": 22,
+      "name": "Browser session compatible owners and regressions Clippy"
+    },
+    {
+      "number": 23,
+      "name": "Credential reset owner and regressions Clippy"
+    },
+    {
+      "number": 24,
+      "name": "PostgreSQL payroll source validation, roster and workflow recovery"
+    },
+    {
+      "number": 25,
+      "name": "Payroll owner and regression Clippy"
+    },
+    {
+      "number": 26,
+      "name": "Audited snapshot owner and regression Clippy"
+    },
+    {
+      "number": 27,
+      "name": "Workflow owner and regression Clippy"
+    },
+    {
+      "number": 28,
+      "name": "Payroll REST and UI owners and regression Clippy"
+    },
+    {
+      "number": 29,
+      "name": "Inbox owner and regression Clippy"
+    },
+    {
+      "number": 30,
+      "name": "Leave consumer and regression Clippy"
+    },
+    {
+      "number": 31,
+      "name": "PostgreSQL and real-browser inquiry"
+    },
+    {
+      "number": 32,
+      "name": "PostgreSQL sales store and runtime-role isolation"
+    },
+    {
+      "number": 33,
+      "name": "Attendance source parser regressions"
+    },
+    {
+      "number": 34,
+      "name": "PostgreSQL attendance retained history and Company isolation"
+    },
+    {
+      "number": 35,
+      "name": "Attendance read owner and regression Clippy"
+    },
+    {
+      "number": 36,
+      "name": "PostgreSQL HR attendance source fidelity, import gates and scoped raw history"
+    },
+    {
+      "number": 37,
+      "name": "PostgreSQL authorized read snapshot"
+    },
+    {
+      "number": 38,
+      "name": "HR owner and regression Clippy"
+    },
+    {
+      "number": 77,
+      "name": "Post Run actions/setup-node@820762786026740c76f36085b0efc47a31fe5020"
+    }
+  ],
+  "enrollment_process_fault_units": {
+    "counts": {
+      "tests": 10,
+      "suites": 0,
+      "pass": 1,
+      "fail": 9,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "cases": [
+      {
+        "name": "enrollment runner confirms cleanup after signal-after-origin",
+        "outcome": "passed",
+        "duration_ms": "21272.167809",
+        "raw_line": 909
+      },
+      {
+        "name": "enrollment runner confirms cleanup after eof-after-ready",
+        "outcome": "failed",
+        "duration_ms": "26926.608084",
+        "raw_line": 910
+      },
+      {
+        "name": "enrollment runner confirms cleanup after oversized",
+        "outcome": "failed",
+        "duration_ms": "26467.637816",
+        "raw_line": 911
+      },
+      {
+        "name": "enrollment runner confirms cleanup after wrong-version",
+        "outcome": "failed",
+        "duration_ms": "26753.547087",
+        "raw_line": 912
+      },
+      {
+        "name": "enrollment runner confirms cleanup after wrong-sequence",
+        "outcome": "failed",
+        "duration_ms": "26862.245777",
+        "raw_line": 913
+      },
+      {
+        "name": "enrollment runner confirms cleanup after wrong-kind",
+        "outcome": "failed",
+        "duration_ms": "25537.728594",
+        "raw_line": 914
+      },
+      {
+        "name": "enrollment runner confirms cleanup after legacy-selection",
+        "outcome": "failed",
+        "duration_ms": "26647.880803",
+        "raw_line": 915
+      },
+      {
+        "name": "enrollment runner confirms cleanup after missing-selection",
+        "outcome": "failed",
+        "duration_ms": "26535.281278",
+        "raw_line": 916
+      },
+      {
+        "name": "enrollment runner confirms cleanup after malformed-selection",
+        "outcome": "failed",
+        "duration_ms": "26764.604132",
+        "raw_line": 917
+      },
+      {
+        "name": "enrollment runner confirms cleanup after weak-uv",
+        "outcome": "failed",
+        "duration_ms": "26892.415176",
+        "raw_line": 918
+      }
+    ],
+    "native_api_or_enrollment_acceptance": false,
+    "observed_assertions": {
+      "fallback_intervention_eight_cases": {
+        "raw_lines": [
+          932,
+          950,
+          968,
+          986,
+          1022,
+          1040,
+          1058,
+          1076
+        ],
+        "source": "tools/test-native-browser-enrollment.test.mjs:94",
+        "actual": true,
+        "expected": false
+      },
+      "wrong_kind_not_ready": {
+        "raw_lines": [
+          1006
+        ],
+        "source": "tools/test-native-browser-enrollment.test.mjs:62",
+        "actual": "cleaned",
+        "expected": "ready"
+      }
+    }
+  },
+  "native_authentication_producer": {
+    "executed": 0,
+    "discovered": null,
+    "reason": "Step19 was skipped after step14 failure; no native Rust test summaries emitted."
+  },
+  "canonical_browser": {
+    "registered_scenarios_in_source": 17,
+    "executed": 0,
+    "discovered": null,
+    "report_emitted": false,
+    "reason": "Containing native producer was skipped; prior PR-head121/17 proof is not merge-group proof."
+  },
+  "queue_readback": {
+    "state": "OPEN",
+    "merged": false,
+    "merge_commit": null,
+    "queue_entry": null,
+    "auto_merge_request": null,
+    "meaning": "Previously verified queue entry was absent after failed merge-group. PR remains open; no manual dequeue performed by this auditor."
+  },
+  "observed_failure_not_root_cause": "Eight units needed parent fallback; wrong-kind did not reach ready. This does not establish whether staging/startup, cleanup, resource contention or another cause triggered it.",
+  "read_only_hypothesis": {
+    "status": "UNPROVEN",
+    "source": [
+      "tools/test-native-browser-enrollment.test.mjs:55",
+      "tools/test-native-browser-enrollment.mjs:145",
+      "tools/test-native-browser-enrollment.mjs:169"
+    ],
+    "description": "25s fallback begins afterspawn before staging/origin/ready. Phase timestamps are needed to distinguish startup consumption from cleanup failure; no timers/inputs/outcomes changed and no probes run by auditor."
+  },
+  "raw_log": {
+    "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/merge-group-b3ac72c01/job-112077080738-direct01.log",
+    "bytes": 82699,
+    "sha256": "dfe4e4bbea1600b59dda1f6152ae8a4492b26403697c54f778ba263951d943d0"
+  },
+  "raw_log_archive": {
+    "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/merge-group-b3ac72c01/run-37403914643-full01.zip",
+    "bytes": 40996,
+    "sha256": "a4796677c6ea98d9d829f032cc3fb4d1aeed73e38a2a86a597f26e9bc4d35925"
+  },
+  "run_metadata": {
+    "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/merge-group-b3ac72c01/run-37403914643.json",
+    "bytes": 8212,
+    "sha256": "c0d368fd80afb22ab3dde81a01c5cc4c9ce867a3b6b2df41ea9519210f65128e"
+  },
+  "job_metadata": {
+    "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/merge-group-b3ac72c01/job-112077080738.json",
+    "bytes": 8704,
+    "sha256": "4e5f02d011cc0dffbc6136e6ac3073b0097e8e153324c6b5611b3cc2ae283698"
+  },
+  "required_check": {
+    "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/merge-group-b3ac72c01/check-terminal01.json",
+    "bytes": 3072,
+    "sha256": "3b3b3075aaa70a2babb2d7af1cbabd4c02499fd917606409fd6b25797cbb4598"
+  },
+  "pr_readback": {
+    "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/merge-group-b3ac72c01/pr-terminal-readback01.json",
+    "bytes": 221,
+    "sha256": "a6ddcdc3f536df0b58a619250af83070b995bc416cdc79ad6c04481bee215270"
+  },
+  "verified_queue_binding": {
+    "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/merge-group-b3ac72c01/queue-tree-binding01.json",
+    "bytes": 5815,
+    "sha256": "97470cd1f017f9dd7b0c72efafb68bcbb9b9848a2787360f663757ccc93dfe37"
+  },
+  "auditor_script": {
+    "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/merge-group-b3ac72c01/failure-audit.py",
+    "bytes": 7408,
+    "sha256": "c00414cf370f04992b126dea0ebc8e686ed3aa0835c8a1980cd8eb587c12862f"
+  },
+  "mutations": {
+    "source": false,
+    "github": false,
+    "workflow_rerun": false,
+    "queue": false,
+    "merge": false
+  },
+  "scope_limit": "Exact rejected merge-group only; successful priorPR-head CI and queue admission remain historical facts, not current delivery. Inbox REST2 coverage is still outside inherited workflow."
+}

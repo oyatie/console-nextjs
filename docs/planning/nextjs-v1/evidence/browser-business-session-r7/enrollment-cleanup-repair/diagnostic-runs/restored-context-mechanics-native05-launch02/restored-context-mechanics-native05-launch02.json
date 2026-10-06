@@ -1,0 +1,23 @@
+{
+  "id": "restored-context-mechanics-native05-launch02",
+  "command": [
+    "node",
+    "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/restored-context-mechanics-probe05/probe.mjs"
+  ],
+  "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+  "exit_code": 1,
+  "timed_out": false,
+  "duration_seconds": 6.064896541996859,
+  "discovered": null,
+  "counts": {
+    "passed": 0,
+    "failed": 0,
+    "skipped": 0,
+    "filtered": 0,
+    "executed": 0
+  },
+  "log_sha256": "b141060fff2340219180c30569fabe4a814fcd52accc4780fffee878e46daef1",
+  "cleanup_reported": false,
+  "inputs_sha256": "3a29d02833f3757908a3a8fe4f08c13790a813cd7a7676dbbb92653f2c77ae14",
+  "inputs_unchanged": true
+}

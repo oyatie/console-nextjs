@@ -1,0 +1,46 @@
+{
+  "schema": "P16-combined-raw-document-diagnostic-independent-review/1",
+  "verdict": "REQUEST_CHANGES_SOURCE_ONLY",
+  "scope": "Exact frozen combined candidate01: classifier/passive receipt timeline and RAW original-Document read-only sidecar against original mandatory helper. No application/tests/runtime or product acceptance.",
+  "inputs": {
+    "before_sha256": "a23c66dc14171cc07ab6d10d6835d07d4aaa105fae90e99ee9920015cf5214b6",
+    "classifier_timeline_sha256": "63a0da2617d01fcd0fb98f6e3aeabf806e7a597a5f3924c924f9537dae8d3c40",
+    "after_sha256": "9f5255e62d410a66cc9b5cbf0b9c7bedd62ef58ffaae7622159c6024f478cffb",
+    "combined_diff_sha256": "1ccde6695173690f7242ba56c35473732086019d6cab226d6bff701fcc63ee00",
+    "sidecar_diff_sha256": "decd9e070ab4cffe5bcc88bafc3ca2d1fc03ef8105ae1597cc9968660530305e",
+    "manifest_sha256": "3d49e11b49970b4cf2792400295d54c17ac1ddff38667b387ae601a1283b74a9"
+  },
+  "verified": [
+    "Exact root-before and peer-before snapshots and both diffs independently hash/byte reconstructed; four upstream V8/DEPS snapshots verified by SHA256, bytes and Git blob SHA1.",
+    "Original mandatory Runtime.evaluate remains exact target/expression/outcome/assertion; sidecar never substitutes a returned pending snapshot for original success.",
+    "Classifier is complete fixed literal equality using native Error own data only, unknown/long/unreadable data stays fixed unrecognized; no raw error/code/URL/token/hash output.",
+    "Passive actual HTTPstatus/typed main-frame commit receipts retain Node receipt timing caveat; bounded copied failure metadata.",
+    "Raw Document is pinned from exact original world/probe token before departure; callFunctionOn verifies native Document/defaultView/document/token and reads only pending booleans.",
+    "Pending sidecar races same original20s deadline; no restarted timeout or fallback/retry/action/latch release."
+  ],
+  "findings": [
+    {
+      "id": "UNBOUNDED_DIAGNOSTIC_OBJECT_RELEASE",
+      "path": "tools/browser-business-restore.mjs",
+      "line": 913,
+      "problem": "Awaited Runtime.releaseObjectGroup uses public CDPSession.send with no timeout. A stalled diagnostic release prevents reaching mandatory owned page-close and subsequent existing cleanup.",
+      "required_fix": "Remove this added protocol-release await and rely on existing owned page-close/session retirement to dispose the remote Document. Clear retained local diagnostic handle after confirmed owner closure; preserve existing failure if close fails."
+    },
+    {
+      "id": "DIAGNOSTIC_DELAYS_REQUIRED_CONTINUATION",
+      "path": "tools/browser-business-restore.mjs",
+      "line": 464,
+      "problem": "finally awaits documentDiagnosis before original required helper return/error. If mandatory evaluate succeeds promptly and raw sidecar stalls, continuation/gate/action stays delayed until20s, crossing actual15s BFF abort and potentially creating a privacy/release failure. Same shared bound avoids deadline widening but changes required continuation timing.",
+      "required_fix": "Keep original completion/timer clearing timing. Copy diagnostic state at primary outcome and stop or mark pending observation there; never await sidecar before required continuation. Retain late protocol rejection ownership without mutating captured first-outcome metadata; existing page-close retires the owned handle/command."
+    }
+  ],
+  "limits": [
+    "Only candidate01 is reviewed; no runtime evaluation, real BFF cause, P16 repair or final125-native/all17-browser acceptance.",
+    "Shared deadline and preserving original error identity are insufficient if diagnostic work blocks inherited action continuation/cleanup."
+  ],
+  "actions": {
+    "tests_executed": 0,
+    "tracked_source_writes": 0,
+    "artifact_only_review_write": true
+  }
+}

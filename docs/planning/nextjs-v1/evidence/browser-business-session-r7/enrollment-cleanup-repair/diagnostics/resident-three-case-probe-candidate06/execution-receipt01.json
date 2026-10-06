@@ -1,0 +1,20 @@
+{
+  "schema": "resident-owned-temp-probe-parent-receipt/1",
+  "session_id": 45969,
+  "terminal_chunk_id": "3afa23",
+  "actual_tool_exit_code": 0,
+  "gate_report_sha256": "6b47914677b3b735ca188292d152c148d049ff70cea900bc52455f4823101491",
+  "gate_log_sha256": "ad661de865e53fa500523076de69feec10ad23cd7824cc46f79bb363c1fb370d",
+  "gate_inputs_sha256": "c054df00ddb6a240ffaaabc6baf2a53b3a91ce07723d8ad4653692cffc2e7fc0",
+  "source_inputs_unchanged": true,
+  "embedded_probe_report_sha256": "26f4c88309aa462732ffea497f3ad963e401948c21afcfe9e87971d5e4a33bc0",
+  "wrapper_counts_are": "Cargo summary0; actual lifecycle cases are counted separately by the probe",
+  "actual_lifecycle_counts": {
+    "expected": 3,
+    "started": 3,
+    "passed": 3,
+    "failed": 0,
+    "unreached": 0
+  },
+  "acceptance_scope": "Three real fixture lifecycle cases only; not authentication, product acceptance, exact historical cause or escaped descendant absence"
+}

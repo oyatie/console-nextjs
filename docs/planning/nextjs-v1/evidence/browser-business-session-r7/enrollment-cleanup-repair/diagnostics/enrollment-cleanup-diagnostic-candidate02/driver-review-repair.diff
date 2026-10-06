@@ -1,0 +1,39 @@
+--- candidate01/tools/test-native-browser-enrollment-diagnostic.test.mjs
++++ candidate02/tools/test-native-browser-enrollment-diagnostic.test.mjs
+@@ -71,6 +71,7 @@
+     let stderrBytes = 0;
+     let lineBytes = []; let lineLength = 0; let decodeFailed = false;
+     const diagnostics = []; let ownedTempEmpty = null; let phase = "startup";
++    let finalCleanupTermAttempted = false; let finalCleanupKillAttempted = false;
+     child.stderr.on("data", (bytes) => {
+       stderrBytes += bytes.length;
+       for (const byte of bytes) {
+@@ -179,8 +180,12 @@
+       supervision.clear();
+       child.stdin.destroy();
+       if (child.exitCode === null && child.signalCode === null) {
++        finalCleanupTermAttempted = true;
+         child.kill("SIGTERM");
+-        const forced = setTimeout(() => child.kill("SIGKILL"), 6000);
++        const forced = setTimeout(() => {
++          finalCleanupKillAttempted = true;
++          child.kill("SIGKILL");
++        }, 6000);
+         await exited;
+         clearTimeout(forced);
+       }
+@@ -188,9 +193,12 @@
+         try { ownedTempEmpty = (await readdir(owned)).length === 0; } catch {}
+       }
+       console.log("ENROLLMENT_DIAGNOSTIC_PROBE_OBSERVATION " + JSON.stringify({
+-        schema: "isolated-real-enrollment-cleanup-probe/1", phase,
++        schema: "isolated-real-enrollment-cleanup-probe/2", phase,
+         approved_producer_sha256: BUNDLE_PINS["tools/test-native-browser-enrollment.mjs"],
+-        parent_forced: supervision.forced, owned_tmp_empty_before_parent_removal: ownedTempEmpty,
++        supervisor_forced: supervision.forced,
++        final_cleanup_sigterm_attempted: finalCleanupTermAttempted,
++        final_cleanup_sigkill_attempted: finalCleanupKillAttempted,
++        owned_tmp_empty_before_parent_removal: ownedTempEmpty,
+         diagnostic_decode_failed: decodeFailed, received_cleanup_diagnostics: diagnostics,
+         scope: "one actual EOF-after-ready producer; no historical-failure resolution or full acceptance" }));
+       await rm(owned, { recursive: true, force: true });

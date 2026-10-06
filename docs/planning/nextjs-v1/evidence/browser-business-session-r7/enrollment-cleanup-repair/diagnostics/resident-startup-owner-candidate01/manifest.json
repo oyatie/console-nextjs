@@ -1,0 +1,10 @@
+{
+  "state": "CANDIDATE_ONLY_NOT_APPLIED_NOT_COMPILED_NOT_EXECUTED",
+  "before": "30345239d9e8321ea9394dd5b5f75d91b5ca4d1b1a98a27c7360951a82179c45",
+  "after": "26acac3cec2529163e5ffc6d75a9f22332656d29f6396f2b75b8b7209bd4fefa",
+  "patch_sha256": "090a449e9bfe2c19afde30e6b111d1a3ab0b6f9c8c989d3415b937e98443bd5c",
+  "design": "resident-startup-owner-design02",
+  "scope": "ImmediateexistingSelf childowner, fallibleBuilder threads, coherentexisting15+15cleanup withstickyResult/reap; focusedreal-child faultregression stilltoprepare",
+  "source_writes": false,
+  "tests_executed": 0
+}

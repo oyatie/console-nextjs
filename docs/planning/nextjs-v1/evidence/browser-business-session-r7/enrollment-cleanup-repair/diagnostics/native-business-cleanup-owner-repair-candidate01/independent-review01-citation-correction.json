@@ -1,0 +1,16 @@
+{
+  "schema": "independent-review-citation-correction/1",
+  "review_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/native-business-cleanup-owner-repair-candidate01/independent-review01.json",
+  "review_sha256": "a84b447f8da37a556b2072b7d3aac8c7b00645d67b48c4230fbfbe0375d97699",
+  "finding_id": "BUSINESS_CERTIFICATE_WRITER_NOT_OWNED",
+  "incorrect_lines": [
+    864,
+    865
+  ],
+  "correct_lines": [
+    869,
+    870
+  ],
+  "verdict_unchanged": "REQUEST_CHANGES",
+  "reason": "Correct exact frozen candidate01 writeFile source citations; no finding, evidence interpretation, or verdict change."
+}

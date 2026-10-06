@@ -1,0 +1,105 @@
+{
+  "schema": "resident-startup-owner-source-review/2",
+  "verdict": "ACCEPT_SOURCE_ONLY",
+  "scope": "Independent artifact-only candidate02 source, exact-diff, design and owning-caller review; no application, compilation or execution",
+  "supersedes": {
+    "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/resident-startup-owner-candidate01/resident_failure_source_review01.json",
+    "sha256": "0ee29e23400c5df346c962bf271527615cfbe994196f15ed7b892052afe8506e",
+    "correction": "Prior no-findings conclusion reopened after uninvolved reviewer found cleanup eprintln can panic on stderr failure. Candidate01 acceptance is superseded; candidate02 addresses all three sites with best-effort writeln."
+  },
+  "artifact_inputs": {
+    "source_before": {
+      "path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs",
+      "sha256": "30345239d9e8321ea9394dd5b5f75d91b5ca4d1b1a98a27c7360951a82179c45",
+      "bytes": 15396
+    },
+    "source_after": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/resident-startup-owner-candidate02/backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs",
+      "sha256": "2917aa92f08d8d8d49da0f5ddf0474c808bf5886683a8754e35bf69a15fcaedd",
+      "bytes": 20063
+    },
+    "patch": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/resident-startup-owner-candidate02/patch.diff",
+      "sha256": "6cd1737bd9e6795088e3795f1861e4449bdb28c458e278b73cf6a4288124b4c1",
+      "bytes": 22499
+    },
+    "manifest": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/resident-startup-owner-candidate02/manifest.json",
+      "sha256": "47974e5f1a3ffad11eac6518f8125003b015778dcf6f9b05520d2b7e4a714b94",
+      "bytes": 1193
+    },
+    "design": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/resident-startup-owner-design02/design.json",
+      "sha256": "3d711a1935a88dcacbc7fa17273fb57dda3952c0c97477a0dcc2dbe007f89d23",
+      "bytes": 5104
+    },
+    "candidate01_review": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/resident-startup-owner-candidate02/candidate01-review.json",
+      "sha256": "b5bf681f46884414d6b932c17b4d24b721f04af72e9e17042e71d8a974fe6e5c",
+      "bytes": 504
+    }
+  },
+  "exact_diff_matches_sources": true,
+  "findings": [],
+  "checks": [
+    {
+      "result": "PASS_SOURCE",
+      "property": "Original constructor error and cleanup-result preservation",
+      "evidence": "All three candidate01 eprintln sites use writeln to locked stderr with Result ignored. Fixed strings and primitive metadata remain; write error no longer panics before result caching or in constructing/unwinding Drop."
+    },
+    {
+      "result": "PASS_SOURCE",
+      "property": "Immediate construction custody",
+      "evidence": "Channels precede Child spawn; existing Self owns the actual Child before pipe extraction and fallible Builder::spawn. Each successful worker handle is retained immediately. Constructor errors remain fixed typed values."
+    },
+    {
+      "result": "PASS_SOURCE",
+      "property": "Partial construction and bounded cleanup",
+      "evidence": "constructing stays true on every constructor error. Missing-worker partial startup skips impossible ACK; parent input/output and unmoved stdin are closed. Existing 15-second ACK/natural-exit phase and second 15-second reap/worker phase remain. Kill is once and sticky failure; only observed Child status sets node_reaped. Finished workers alone are joined."
+    },
+    {
+      "result": "PASS_SOURCE",
+      "property": "Ordinary missing-worker rejection",
+      "evidence": "Absent workers permit draining during partial construction only; a fully constructed object with any absent worker explicitly records failure. is_finished proves termination, not successful worker completion; joins still catch panic."
+    },
+    {
+      "result": "PASS_SOURCE",
+      "property": "Sticky close result",
+      "evidence": "Private Copy Result caches the first completed cleanup attempt. Failed repeated close returns the same error; it cannot restart budgets or turn failure into Ok."
+    },
+    {
+      "result": "PASS_SOURCE_WITH_CONTRACT_LIMIT",
+      "property": "Failed close followed by Drop",
+      "evidence": "Sole current explicit close caller remains browser_sessions.rs723 with expect at724. It unwinds before Drop on Err; constructing or unwinding Drop uses ignored-error diagnostics. A normal non-unwinding Drop intentionally panics on cached Err; no general future close()? typed-Err preservation contract is claimed."
+    },
+    {
+      "result": "PASS_SOURCE",
+      "property": "Protocol and honest custody",
+      "evidence": "Frame/version/sequence, ready/origin/browser-PID, ACK/outcome/exit validation retained. Actual Node status and finished handles are distinct from verified browser absence. No raw payload/native stderr/PID output is added."
+    },
+    {
+      "result": "PASS_SOURCE",
+      "property": "Candidate02 delta scope",
+      "evidence": "Compared directly with candidate01: changes are the three ignored-result writeln sites and formatting/semantically equivalent condition layout. No clock, test assertion, SDK/provider or public/config surface changed."
+    }
+  ],
+  "required_runtime_proof": [
+    "Private writer/reader/stderr creation-failure points after actual Child ownership; constructor returns original exact typed Err without replacement by Drop.",
+    "Actual Node status/reaping and created-worker completion under unchanged 15+15-second phases. Injected setup-failure tests are not empirical OS-resource-exhaustion proof.",
+    "Repeated cached Err preserves reason and does not restart cleanup budgets; expected normal versus unwinding Drop behavior is explicit.",
+    "Partial cases without verified browser identity/absence retain UNKNOWN browser custody; actual Node exit alone proves no Chromium absence.",
+    "Source-pinned actual fixture done, EOF-after-ready and verified SIGSTOP lifecycle tests; immediate new()->close() is done rather than EOF.",
+    "Unchanged short-family consumer and fresh full native/browser acceptance after application. A prior-source fullfinalnative01 cannot certify candidate02."
+  ],
+  "limitations": [
+    "No focused actual-child constructor-fault candidate or runtime results have been reviewed here.",
+    "Historical resident exit3 cause remains UNPROVEN.",
+    "No integration, final product acceptance or launch readiness is inferred from source review."
+  ],
+  "actions": {
+    "tracked_source_writes": 0,
+    "tests_executed": 0,
+    "live_operations": 0,
+    "artifact_only_write": true
+  }
+}

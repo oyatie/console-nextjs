@@ -1,0 +1,24 @@
+{
+  "id": "enrollment-repair-final-custody01",
+  "command": [
+    "python3",
+    "-c",
+    "import json,sys;sys.path.insert(0,\"tools\");import acceptance;r=acceptance.inspect_fork();print(json.dumps(r,indent=2));raise SystemExit(r[\"status\"]!=\"passed\")"
+  ],
+  "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+  "exit_code": 0,
+  "timed_out": false,
+  "duration_seconds": 0.9180484169628471,
+  "discovered": null,
+  "counts": {
+    "passed": 0,
+    "failed": 0,
+    "skipped": 0,
+    "filtered": 0,
+    "executed": 0
+  },
+  "log_sha256": "098155e2a611a10b9b1d89c06667f276fc968c865884562945cfa7a1a2d523e0",
+  "cleanup_reported": false,
+  "inputs_sha256": "0b834b380a7366256aff69650f30962d54f0e0954c982b424acf2c82e1b582d4",
+  "inputs_unchanged": true
+}

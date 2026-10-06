@@ -1,0 +1,191 @@
+--- a/tools/browser-business-restore.mjs
++++ b/tools/browser-business-restore.mjs
+@@ -86,8 +86,20 @@
+   };
+   page.on("console", listener);
+   await page.addInitScript(({ selector, names, queueLogout, observeReact, key, prefix }) => {
+-    const state = { document: crypto.randomUUID(), restored: false, reactCommits: 0, logoutQueued: false, logoutStarted: false };
++    const state = { document: crypto.randomUUID(), restored: false, reactCommits: 0, logoutQueued: false, logoutStarted: false, logoutReleased: false };
+     Object.defineProperty(window, key, { value: state });
++    // Only a real persisted pageshow queues this timer. The native response
++    // witness below releases it once; cleanup never releases an unproved action.
++    let releaseLogout;
++    const logoutRelease = queueLogout ? new Promise((resolve) => { releaseLogout = resolve; }) : null;
++    state.releaseLogout = (original) => {
++      if (!queueLogout || state.document !== original || !state.restored
++        || !state.logoutQueued || state.logoutStarted || state.logoutReleased) return null;
++      const commits = state.reactCommits;
++      state.logoutReleased = true;
++      releaseLogout();
++      return commits;
++    };
+     function report(event, source) {
+       const region = document.querySelector(selector);
+       const style = region ? getComputedStyle(region) : null;
+@@ -125,14 +137,15 @@
+     addEventListener("pageshow", (event) => {
+       if (event.isTrusted && event.persisted) {
+         state.restored = true;
+-        if (queueLogout) {
++        if (queueLogout && !state.logoutQueued) {
+           state.logoutQueued = true;
+-          setTimeout(() => {
+-          state.logoutStarted = true;
+-          const button = [...(document.querySelector(selector)?.querySelectorAll("button") ?? [])]
+-            .find((item) => item.textContent.trim() === "로그아웃");
+-          if (button) button.click(); // Actual mounted product handler; real owner response required below.
+-        }, 0);
++          setTimeout(async () => {
++            await logoutRelease;
++            state.logoutStarted = true;
++            const button = [...(document.querySelector(selector)?.querySelectorAll("button") ?? [])]
++              .find((item) => item.textContent.trim() === "로그아웃");
++            if (button) button.click(); // Actual mounted product handler; real owner response required below.
++          }, 0);
+         }
+       }
+       queueMicrotask(() => report("pageshow", event));
+@@ -281,6 +294,18 @@
+   };
+   const evidence = { mode, blocked_scripts: 0, blocked_styles: 0, transformed_documents: [] };
+   let readGate; let back; let queuedResponse; let original; let consumedFault = false;
++  let tearingDown = false;
++  let readGateHeld = false;
++  let readGateReleaseAttempted = false;
++  let primaryError;
++  async function releaseReadGate() {
++    assert.ok(readGate && readGateHeld && !readGateReleaseAttempted, "release only an owned held native response once");
++    readGateReleaseAttempted = true; // A lost receipt never permits a blind retry.
++    const released = await readGate.release();
++    assert.equal(released.gate, readGate.gate);
++    assert.equal(released.released, true);
++    readGate = undefined;
++  }
+   const requestListener = (request) => {
+     if (request.isNavigationRequest() && request.frame() === page.mainFrame()) documents.push(request.url());
+   };
+@@ -301,6 +326,8 @@
+     if (request.resourceType() === "script" && mode === "delayed-bundles") {
+       const response = await route.fetch({ timeout: h.phaseMs ?? 20000 }); // Real static bytes; no cookie/header-order claim.
+       const body = await response.body();
++      // A late real fetch must not create another hold after cleanup drained it.
++      if (tearingDown) { await route.fulfill({ response, body }); return; }
+       let release; const released = new Promise((resolve) => { release = resolve; });
+       heldScripts.push({ release, digest: sha(body) });
+       await released;
+@@ -398,10 +425,9 @@
+     const seen = await until(() => probe.events.slice(eventStart).find((event) => event.event === "pageshow"
+       && event.trusted && event.persisted && event.document === original), h.phaseMs ?? 20000);
+     if (!seen) {
+-      await readGate?.release(); readGate = undefined;
+-      for (const script of heldScripts) script.release();
+-      await back;
+       assert.deepEqual(probe.errors, []);
++      // Cleanup closes the owned page and settles Back without inventing a
++      // response or releasing the private logout latch when no witness exists.
+       throw new Unreached("actual BFCache restoration unavailable for this fault; no-store not weakened");
+     }
+     const restored = assertRestored(probe.events.slice(eventStart), original);
+@@ -414,8 +440,9 @@
+     assert.equal(hiddenEvent.hidden, true); assert.equal(hiddenEvent.private_visible, false);
+     if (readGate) {
+       const held = await readGate.wait();
++      assert.equal(held.gate, readGate.gate);
++      readGateHeld = true; // Preserve release ownership even if actual status is unexpected.
+       if (queued) {
+-        assert.equal(held.gate, readGate.gate);
+         assert.equal(held.context, session.context);
+         assert.equal(held.status, 401);
+         const pending = await page.evaluate(({ key, original }) => {
+@@ -434,15 +461,19 @@
+         assert.equal(committed.hidden,true); assert.equal(committed.private_visible,false);
+       }
+       if (queued) {
++        const commitsBeforeRelease = await page.evaluate(({ key, original }) => window[key]?.releaseLogout(original),
++          { key: PROBE, original });
++        assert.ok(Number.isSafeInteger(commitsBeforeRelease) && commitsBeforeRelease > 0,
++          "release one queued logout only in the original restored Document after the actual native denial");
+         const committed = await until(() => probe.events.slice(eventStart).find((event) => event.document === original
+-          && event.event === "react-commit" && event.restored), h.phaseMs ?? 20000);
++          && event.event === "react-commit" && event.restored && event.react_commits > commitsBeforeRelease), h.phaseMs ?? 20000);
+         if (!committed) throw new Unreached("actual restored React update was not witnessed while native reload waited");
+         assert.equal(committed.hidden, true); assert.equal(committed.private_visible, false);
+         await queuedResponse;
+         assert.ok(!selectedCookie(await actor.context.cookies(), session), "only the actual confirmed logout clears its cookie");
+       }
+       await assertPrivateHidden(page, actor, h);
+-      await readGate.release(); readGate = undefined;
++      await releaseReadGate();
+     }
+     await back;
+     assertRestored(probe.events.slice(eventStart), original);
+@@ -482,6 +513,7 @@
+     assert.deepEqual(probe.errors, []);
+     return evidence;
+   } catch (error) {
++    primaryError = error;
+     if (queued) error.cacheObservation = {
+       not_restored_reasons: cacheFailures,
+       trusted_departures: probe.events.filter((event) => event.event === "pagehide" && event.trusted && event.document === original).length,
+@@ -489,19 +521,37 @@
+     };
+     throw error;
+   } finally {
+-    await actor.context.setOffline(false);
+-    await readGate?.release();
+-    for (const script of heldScripts) script.release();
+-    await back?.catch(() => {}); // Result checked above; cleanup owns an outstanding rejection.
+-    if (routed) await page.unrouteAll({ behavior: "wait" });
+-    if (cacheObserver) {
+-      cacheObserver.off("Page.backForwardCacheNotUsed", cacheFailureListener);
+-    }
+-    probe.remove(); page.off("request", requestListener); page.off("requestfailed", failureListener);
+-    await page.close();
++    tearingDown = true;
++    const cleanupFailures = [];
++    async function cleanup(step, operation) {
++      try { await operation(); } catch { cleanupFailures.push(step); }
++    }
++    await cleanup("network-online", () => actor.context.setOffline(false));
++    if (readGate) {
++      if (!readGateHeld) cleanupFailures.push("native-gate-unheld");
++      else if (readGateReleaseAttempted) cleanupFailures.push("native-gate-release-unconfirmed");
++      else await cleanup("native-gate-release", releaseReadGate);
++    }
++    await cleanup("script-release", () => { for (const script of heldScripts) script.release(); });
++    if (routed) await cleanup("routes-remove", () => page.unrouteAll({ behavior: "wait" }));
++    await cleanup("probe-listeners", () => {
++      cacheObserver?.off("Page.backForwardCacheNotUsed", cacheFailureListener);
++      probe.remove(); page.off("request", requestListener); page.off("requestfailed", failureListener);
++    });
++    // Always attempt owned page closure, independently of earlier cleanup errors.
++    // Closing also settles a pending Back when its native gate was never held.
++    await cleanup("page-close", () => page.close());
++    if (back) await cleanup("back-navigation", () => back);
+     // Each fresh real sign-in is closed to avoid accidentally testing a ninth
+     // session-cookie admission denial in an unrelated restore scenario.
+-    if (selectedCookie(await actor.context.cookies(), session)) await h.logout("a");
++    await cleanup("session-logout", async () => {
++      if (selectedCookie(await actor.context.cookies(), session)) await h.logout("a");
++    });
++    if (cleanupFailures.length) {
++      const error = primaryError ?? new Error("owned restore cleanup failed");
++      error.cleanupObservation = { cleanup_failed_steps: cleanupFailures };
++      if (!primaryError) throw error;
++    }
+   }
+ }
+ 
+@@ -528,9 +578,10 @@
+       if (!prerequisites) { checks.push({ id: name, status: prerequisiteStatus, reason: prerequisiteReason }); continue; }
+       try { checks.push({ id: name, status: "passed", evidence: await run(h) }); }
+       catch (error) {
+-        checks.push({ id: name, status: isPrerequisite(error) ? "unreached" : "failed",
++        checks.push({ id: name, status: error.cleanupObservation ? "failed" : isPrerequisite(error) ? "unreached" : "failed",
+           reason: isPrerequisite(error) ? error.message : "actual required restore assertion failed",
+-          ...(error.cacheObservation ? { diagnostic: error.cacheObservation } : {}) });
++          ...(error.cacheObservation || error.cleanupObservation
++            ? { diagnostic: { ...error.cacheObservation, ...error.cleanupObservation } } : {}) });
+         // Continue only within this owned test runner. Failures remain failures.
+       }
+     }

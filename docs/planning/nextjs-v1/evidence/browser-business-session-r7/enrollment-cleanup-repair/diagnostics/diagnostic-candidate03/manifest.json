@@ -1,0 +1,20 @@
+{
+  "scope": "diagnostics only; candidate03 addresses independent orphan and Interrupted findings; preserves assertions/deadlines",
+  "files": [
+    {
+      "path": "backend-fork/backend/app/tests/auth_rest/genuine_browser.rs",
+      "before": "3dc3de1c946b9858aa33a0f0c605a52ef46e91d245ab892f7b7746cc4f0f69cf",
+      "after_unformatted": "4ab503f4b046e30cdc92f69ad0c54a6538bc4aaaadaffb1f4e9ea42bfea76ca4"
+    },
+    {
+      "path": "backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs",
+      "before": "b61d8994aea4754e8299c1729d04a7c3982cd93e3eed16c991acc67267c5eb22",
+      "after_unformatted": "81980bb3f5090217293358b4c73d16d0d708965e3ed9a4a87068595c6490a6ca"
+    },
+    {
+      "path": "backend-fork/backend/app/tests/auth_rest/browser_sessions.rs",
+      "before": "aff44dd5c3d5d0ede460f86fc098ecfc734b154c92fba457ff10c68ee598a8a0",
+      "after_unformatted": "b9dba4274dec945cd3fe21f9febf81785773bb8ba29a7e99be95eea9510e7945"
+    }
+  ]
+}

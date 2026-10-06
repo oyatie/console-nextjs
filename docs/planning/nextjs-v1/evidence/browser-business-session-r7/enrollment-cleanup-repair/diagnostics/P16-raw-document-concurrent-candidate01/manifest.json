@@ -1,0 +1,13 @@
+{
+  "schema": "P16-raw-document-concurrent-candidate/1",
+  "status": "UNEXECUTED_SOURCE_CANDIDATE",
+  "frozen_classifier_timeline_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/real-p16-rejection-diagnostic-candidate01/tools/browser-business-restore.mjs",
+  "frozen_classifier_timeline_sha256": "63a0da2617d01fcd0fb98f6e3aeabf806e7a597a5f3924c924f9537dae8d3c40",
+  "tracked_before_sha256": "a23c66dc14171cc07ab6d10d6835d07d4aaa105fae90e99ee9920015cf5214b6",
+  "after_sha256": "9f5255e62d410a66cc9b5cbf0b9c7bedd62ef58ffaae7622159c6024f478cffb",
+  "after_bytes": 58170,
+  "sidecar_diff_sha256": "decd9e070ab4cffe5bcc88bafc3ca2d1fc03ef8105ae1597cc9968660530305e",
+  "combined_diff_sha256": "1ccde6695173690f7242ba56c35473732086019d6cab226d6bff701fcc63ee00",
+  "tests_executed": 0,
+  "tracked_source_writes": 0
+}

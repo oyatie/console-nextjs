@@ -1,0 +1,158 @@
+{
+  "schema": "cleanup-owner-process22-terminal-audit/1",
+  "verdict": "VERIFIED_REQUIRED_PROCESS22_TERMINAL_RED20_PASS2_FAIL",
+  "scope": "Exact completed root Node22 report/log/captured2958 unchanged inputs and unchanged consumer source independently audited. No test execution, tracked edits, root session use, input map regeneration, historical cause or final acceptance.",
+  "inputs": {
+    "root_report": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/cleanup-owner-final-process-faults01.json",
+      "bytes": 723,
+      "sha256": "1cb54474b5c9cf05f1d5d22325de19963557af9efb65a5be133da3f9dd7385b1"
+    },
+    "completed_log": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/cleanup-owner-final-process-faults01.log",
+      "bytes": 3593,
+      "sha256": "ea9b2ad096fad25d1927ecb02a7596d1b382f5c7573d04826e919497acd521ef"
+    },
+    "captured_input_map": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/cleanup-owner-final-process-faults01.inputs.json",
+      "bytes": 917481,
+      "sha256": "433fa937df5fb1298f20b855ca2e7af376750d61b0cdadef93087063c1e704f2"
+    },
+    "approved_cleanup02_source_review": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/native-business-cleanup-owner-repair-candidate02/independent-review02.json",
+      "bytes": 8429,
+      "sha256": "7e68f4fee14e1c38f9f5aeedcc34b1683071869dcbc7436727b4c58c01c3e3e4"
+    },
+    "prior_process22_RED_audit": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/native-input-final-supporting-terminal-audit01/audit.json",
+      "bytes": 26332,
+      "sha256": "5aceecaefa2e7bd10ffddce979f8f1ef02063d44cc48c1ad61d998015bd2bac8"
+    },
+    "node_accounting": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/cleanup-owner-final-process-faults01-terminal-audit01/node-counts.json",
+      "bytes": 4036,
+      "sha256": "85cc2b42cfe6e5ec44d5ab18e47f5cc085a5e0a0d262692b5678894af18fa283"
+    }
+  },
+  "process22": {
+    "command": [
+      "node",
+      "--test",
+      "tools/enrollment-fault-deadlines.test.mjs",
+      "tools/test-native-browser-enrollment.test.mjs"
+    ],
+    "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+    "exit_code": 1,
+    "outer_timeout": false,
+    "wrapper_duration_seconds": 476.0095950419782,
+    "node_reported_duration_ms": 475953.584333,
+    "actual_node_counts": {
+      "executed": 22,
+      "passed": 20,
+      "failed": 2,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "clock_owner_tests": 6,
+    "real_runner_fault_bodies": 16,
+    "real_runner_passed": 14,
+    "real_runner_failed": 2,
+    "generic_wrapper_counts_preserved": {
+      "passed": 0,
+      "failed": 0,
+      "skipped": 0,
+      "filtered": 0,
+      "executed": 0
+    },
+    "counting_rule": "Exactly22 unique execution rows before first \u2139 tests summary. Repeated failing-summary rows are not extra executions."
+  },
+  "failures": [
+    {
+      "name": "enrollment runner confirms cleanup after wrong-sequence",
+      "duration_ms": 86113.016125,
+      "observed_assertion": "cleaned !== ready",
+      "consumer_location": {
+        "file": "tools/test-native-browser-enrollment.test.mjs",
+        "line": 81,
+        "column": 16
+      },
+      "phase": "Prerequisite expected-ready read before beginFault or intended malformed-sequence send.",
+      "intended_fault_injection_reached": false,
+      "observed_cleaned_outcome": "UNKNOWN; kind only retained by original assertion",
+      "child_exit_signal_owner_stage_and_force_status": "UNKNOWN; original log has no such telemetry",
+      "cause": "UNPROVEN",
+      "limit": "Cannot call this an effect of wrong-sequence injection. Source locates pre-fault readiness failure; it does not identify why the producer finalized."
+    },
+    {
+      "name": "enrollment runner confirms cleanup after legacy-selection",
+      "duration_ms": 93165.170875,
+      "observed_assertion": "runner ended before cleanup acknowledgement",
+      "consumer_location": {
+        "file": "tools/test-native-browser-enrollment.test.mjs",
+        "read_line": 54,
+        "read_column": 16,
+        "call_line": 102,
+        "call_column": 21
+      },
+      "phase": "Expected cleaned read after legacy-selection send call in unchanged source.",
+      "intended_fault_send_call_source_bound": true,
+      "delivery_confirmed": false,
+      "child_exit_signal_owner_stage_and_force_status": "UNKNOWN; original log has no such telemetry",
+      "cause": "UNPROVEN",
+      "limit": "EOF without an observed ACK does not establish browser cleanup, hard timer, temp removal, parent force, or the historical root cause."
+    }
+  ],
+  "passed_case_limits": {
+    "eof_after_ready": "Passed in this run; earlier missing-ACK failure preserved without causal resolution.",
+    "successful_runner_bodies": "Passing source path requires exact ACK/outcome, creation_attempts0, expected natural exit/no signal, no supervisor force and empty owned TMPDIR before parent removal. This is case-bound proof, not an OS-wide custody survey.",
+    "six_clock_tests": "Deterministic supervisor clock tests are part of executed22; they are separately distinguished from16 real runner fault bodies."
+  },
+  "source_inputs": {
+    "before_count": 2958,
+    "after_count": 2958,
+    "every_entry_identical": true,
+    "captured_map_used_without_regeneration": true,
+    "selected_pins": {
+      "tools/browser-business-restore.mjs": "e462014ed1730297d671a07fedc5b41d9e7204ebbd9270f75956eb8ebb25a9fd",
+      "tools/test-native-browser-enrollment.mjs": "afd17a0d0a69358613e1ff6d03d24f27eb322bd558a8cf021390e32527fff22e",
+      "tools/test-native-browser-enrollment.test.mjs": "3204b466940c270897814f9100ee8f92fbddfdc937e7b71a06406dacac778ead",
+      "tools/enrollment-fault-deadlines.mjs": "6f80266162d5413bcda245b17536b991518e95e22f5b1a7001067aaa4120fc06",
+      "tools/enrollment-fault-deadlines.test.mjs": "7e4aa20a3cfac678c5f5d8b620456da7b6e74d72fd6f64824b05cde363bc4bca",
+      "tools/test-browser-business-session.mjs": "6868ac44bef0334065b3e4cd70ddfc58c3623be4070e6625f35b1738bed24280",
+      "backend-fork/backend/app/tests/auth_rest/genuine_browser.rs": "3fc7ff40ce5b01325515803864ba2e87386562f4dd0bf744b2c22c594261879b",
+      "backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs": "ac3a42f9d88b85631d46640ffed8a63b3fd7793d2b3b5983402d2853f692fed8"
+    },
+    "only_deltas_from_prior_process22_RED": [
+      {
+        "path": "tools/browser-business-restore.mjs",
+        "before_sha256": "3be5f8d095d22cd5c2588880650f26acebb92f535222232ad8da40bca16147da",
+        "after_sha256": "e462014ed1730297d671a07fedc5b41d9e7204ebbd9270f75956eb8ebb25a9fd"
+      },
+      {
+        "path": "tools/test-browser-business-session.mjs",
+        "before_sha256": "ea936c0cdc8670261d556686b46a6d813b6479f4a8c6dd7b0925a42092e6aa2a",
+        "after_sha256": "6868ac44bef0334065b3e4cd70ddfc58c3623be4070e6625f35b1738bed24280"
+      },
+      {
+        "path": "tools/test-native-browser-enrollment.mjs",
+        "before_sha256": "6cbb58a1b2eae9f01d0b4d0838afd7c5c421c496a532fde056a1f33e153027ce",
+        "after_sha256": "afd17a0d0a69358613e1ff6d03d24f27eb322bd558a8cf021390e32527fff22e"
+      }
+    ],
+    "exact_cleanup02_native_and_business_candidate_pins_match": true,
+    "consumer_test_supervisor_and_deadline_test_pins_unchanged": true
+  },
+  "preserved_limits": [
+    "Source-approved cleanup02 is not runtime-approved: actual required22 gate still fails.",
+    "Prior19pass3fail and current20pass2fail are distinct results; symptoms differ and cause remains UNKNOWN.",
+    "No failed bodies are counted as successful fault assertions. Wrong-sequence intended injection is unreached despite its Node body executing.",
+    "Full125/all17 current-source acceptance remains required and pending; focused location-native pass cannot fill it.",
+    "Portable final bindings/reviews/terminal acceptance/hostedCI/protected merge queue remain pending."
+  ],
+  "actions": {
+    "tests_executed": 0,
+    "tracked_source_writes": 0,
+    "artifact_only_audit_accounting_write": true
+  }
+}

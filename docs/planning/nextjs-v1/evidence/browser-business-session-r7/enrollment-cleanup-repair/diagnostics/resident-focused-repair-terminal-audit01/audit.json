@@ -1,0 +1,176 @@
+{
+  "schema": "resident-focused-repair-terminal-audit/1",
+  "verdict": "ACCEPT_SCOPED_TERMINAL_EVIDENCE_ONLY",
+  "scope": "Independent completed report/log/captured-map audit of four private fixture fault tests and two unchanged consumers. No rerun, current full input regeneration, external process census, P16/full-gate or release acceptance.",
+  "runs": [
+    {
+      "id": "resident-startup-and-cached-fault-native01",
+      "inputs": {
+        "report": {
+          "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/resident-startup-and-cached-fault-native01.json",
+          "bytes": 1130,
+          "sha256": "42abe25d0ba216b22fb745563cfa17e0023d9834f49a88be78f4b87c6217bd5d"
+        },
+        "log": {
+          "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/resident-startup-and-cached-fault-native01.log",
+          "bytes": 6514,
+          "sha256": "403449217e7afd81c8b79a7e545cf7f47e7761cbec85970bee5c098cfb3a48e6"
+        },
+        "inputs": {
+          "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/resident-startup-and-cached-fault-native01.inputs.json",
+          "bytes": 917481,
+          "sha256": "85386f6ca3a1a72287c32bf111311f8e52d584a7a047b0826830873645e0ad2e"
+        }
+      },
+      "actual_native": {
+        "executed": 4,
+        "passed": 4,
+        "failed": 0,
+        "ignored": 0,
+        "measured": 0,
+        "filtered": 121,
+        "raw_test_names": [
+          "browser_sessions::resident_authenticator::failed_close_is_cached_without_restarting_cleanup_and_normal_drop_stays_failing",
+          "browser_sessions::resident_authenticator::injected_reader_setup_failure_preserves_constructor_error_and_resource_custody",
+          "browser_sessions::resident_authenticator::injected_stderr_setup_failure_preserves_constructor_error_and_resource_custody",
+          "browser_sessions::resident_authenticator::injected_writer_setup_failure_preserves_constructor_error_and_resource_custody"
+        ],
+        "body_duration_seconds": 3.27,
+        "wrapper_duration_seconds": 165.31897166697308,
+        "exit_code": 0,
+        "timed_out": false
+      },
+      "database_lane_cleanup_printed": true,
+      "custody_evidence": {
+        "setup_points": [
+          "Writer",
+          "Reader",
+          "Stderr"
+        ],
+        "type": "Simulated worker setup failures running the actual Node fixture, not empirical OS resource exhaustion",
+        "asserted_facts": [
+          "Original fixed typed constructor error returned without a second Drop panic.",
+          "Actual Node status/reaping and successful joins of every created worker; no remaining handles, forced Node kill or observed phase expiry.",
+          "Exactly one actual cleanup notification and unchanged repeated fixed error.",
+          "Normal non-unwinding Drop deliberately panics with the exact retained error; this single expected panic is caught by its test."
+        ],
+        "actual_status_codes_from_raw_cleanup_metadata": {
+          "setup_failures": 3,
+          "cached_failure": 2
+        },
+        "browser_custody": "UNKNOWN",
+        "limits": [
+          "No independent browser leader/group absence or temporary-scope absence was tested by these four cases.",
+          "No claim that Chromium launched in every partial constructor failure."
+        ]
+      }
+    },
+    {
+      "id": "resident-shared-cleanup-short-family-native01",
+      "inputs": {
+        "report": {
+          "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/resident-shared-cleanup-short-family-native01.json",
+          "bytes": 1214,
+          "sha256": "f53e2420206343d25ca11a5c79581b9da91b2e89ec993645cacf545cb9128e93"
+        },
+        "log": {
+          "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/resident-shared-cleanup-short-family-native01.log",
+          "bytes": 3238,
+          "sha256": "dd79ffead7dd9c53ed1209f3324a1b26f453e9f97fbad9f4f9049683118e8eea"
+        },
+        "inputs": {
+          "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/resident-shared-cleanup-short-family-native01.inputs.json",
+          "bytes": 917481,
+          "sha256": "85386f6ca3a1a72287c32bf111311f8e52d584a7a047b0826830873645e0ad2e"
+        }
+      },
+      "actual_native": {
+        "executed": 1,
+        "passed": 1,
+        "failed": 0,
+        "ignored": 0,
+        "measured": 0,
+        "filtered": 124,
+        "raw_test_names": [
+          "browser_sessions::original_short_family_deadline_expires_during_lookup_wait_without_sliding"
+        ],
+        "body_duration_seconds": 22.01,
+        "wrapper_duration_seconds": 43.47113529208582,
+        "exit_code": 0,
+        "timed_out": false
+      },
+      "database_lane_cleanup_printed": true,
+      "custody_evidence": {
+        "observed": "The unchanged selected business-auth consumer passed against the repaired resident sources.",
+        "limit": "No independent browser group/temp-scope absence census or full native/browser acceptance; actual new lifecycle proof is separate."
+      }
+    },
+    {
+      "id": "resident-shared-cleanup-fk-native01",
+      "inputs": {
+        "report": {
+          "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/resident-shared-cleanup-fk-native01.json",
+          "bytes": 1208,
+          "sha256": "2eb6aff71c37ca8704b698661ca31cbd510bc37a4a46d4cbf517eb83546254c0"
+        },
+        "log": {
+          "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/resident-shared-cleanup-fk-native01.log",
+          "bytes": 3241,
+          "sha256": "a6ca65b12623b4058f734bc6f74ab00a7e127b8b4a58c8e5c5357c0b1f0ef503"
+        },
+        "inputs": {
+          "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/resident-shared-cleanup-fk-native01.inputs.json",
+          "bytes": 917481,
+          "sha256": "85386f6ca3a1a72287c32bf111311f8e52d584a7a047b0826830873645e0ad2e"
+        }
+      },
+      "actual_native": {
+        "executed": 1,
+        "passed": 1,
+        "failed": 0,
+        "ignored": 0,
+        "measured": 0,
+        "filtered": 124,
+        "raw_test_names": [
+          "browser_sessions::account_and_company_fk_holders_refuse_removal_without_clearing_browser_proof"
+        ],
+        "body_duration_seconds": 11.51,
+        "wrapper_duration_seconds": 27.522583000012673,
+        "exit_code": 0,
+        "timed_out": false
+      },
+      "database_lane_cleanup_printed": true,
+      "custody_evidence": {
+        "observed": "The unchanged selected business-auth consumer passed against the repaired resident sources.",
+        "limit": "No independent browser group/temp-scope absence census or full native/browser acceptance; actual new lifecycle proof is separate."
+      }
+    }
+  ],
+  "shared_input_map": {
+    "sha256": "85386f6ca3a1a72287c32bf111311f8e52d584a7a047b0826830873645e0ad2e",
+    "before_entries": 2958,
+    "after_entries": 2958,
+    "all_before_after_equal": true,
+    "all_three_run_maps_identical": true,
+    "selected_pins": {
+      "tools/test-resident-authenticator.mjs": "88cdfea200731ab32fcda0c797a96eee6ce49a42e6f174208fed29195105cd2e",
+      "backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs": "c2fc3e190d7b9933cdaf77958a8a9dc11a6ab8df83fa69362c7a42d5bc67412c",
+      "tools/browser-business-restore.mjs": "eb5e3feb387bac47b35eb9a4fb56c2d2fa18f57a92caa0ad72244519c8f8d4fc"
+    }
+  },
+  "remaining_required": [
+    "Source-reviewed actual leader/group and temporary-scope lifecycle probe.",
+    "Fresh unfiltered125-native and17-browser gate after P16 repair with exact source maps.",
+    "Independent cumulative source/final metadata approval, hosted CI and protected queue admission."
+  ],
+  "proof_limits": [
+    "Historical finalnative01 required failures remain preserved; this audit does not erase them or prove their exact filesystem/SDK cause.",
+    "Passing selected consumers is scoped regression evidence, not a full-suite pass.",
+    "Printed database volume cleanup is not independent browser or descendant custody."
+  ],
+  "actions": {
+    "tests_executed": 0,
+    "tracked_source_writes": 0,
+    "artifact_only_audit_write": true
+  }
+}

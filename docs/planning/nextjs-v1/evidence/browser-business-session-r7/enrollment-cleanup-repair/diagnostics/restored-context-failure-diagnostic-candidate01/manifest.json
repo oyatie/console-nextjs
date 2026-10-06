@@ -1,0 +1,42 @@
+{
+  "schema": "restored-context-failure-diagnostic-candidate/1",
+  "status": "ARTIFACT_ONLY_NOT_APPLIED_NOT_EXECUTED",
+  "before": {
+    "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/restored-context-failure-diagnostic-candidate01/before.mjs",
+    "sha256": "183df5e840c6fbd46c77ca7fa4ba8301801606870b970173a89ac784a27ddf4c",
+    "bytes": 41804
+  },
+  "after": {
+    "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/restored-context-failure-diagnostic-candidate01/tools/browser-business-restore.mjs",
+    "sha256": "ace3384350819891ac5d57743b11b74a2d89716d6e02ed831c8c54b63bd6f5a8",
+    "bytes": 45658
+  },
+  "patch": {
+    "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/restored-context-failure-diagnostic-candidate01/patch.diff",
+    "sha256": "2885f1820a15df1ce951c4d5ccca031c75efcb02e9f950231545070a280ce210",
+    "bytes": 10010
+  },
+  "proposal": {
+    "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/restored-context-failure-diagnostic-candidate01/proposal.json",
+    "sha256": "00d00ac2ce8f51a52c2e5741adf67469bdb1850077428f94adca468118ed1a87",
+    "bytes": 5593
+  },
+  "relied_on_sources": {
+    "sdk": {
+      "path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/node_modules/playwright-core/lib/coreBundle.js",
+      "sha256": "549070af3acabb3efcc4f55bfe6210f9f7c2fcf633cf7eaa59bfe60719969171",
+      "bytes": 3477183
+    },
+    "protocol": {
+      "path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/node_modules/playwright-core/types/protocol.d.ts",
+      "sha256": "0410ed82a9ac63269dc1471ed249b280e2d461249a3a331e71cdb54cdf10db33",
+      "bytes": 814210
+    },
+    "sanitizer": {
+      "path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/tools/browser-business-failure.mjs",
+      "sha256": "682407048049f4ff76df89c5fa9af836f1985fddb36e4f8e7c8adcb34d9052e3",
+      "bytes": 2043
+    }
+  },
+  "validation": "Text construction and source-pin check only. No Node syntax/build/runtime/tests executed by author."
+}

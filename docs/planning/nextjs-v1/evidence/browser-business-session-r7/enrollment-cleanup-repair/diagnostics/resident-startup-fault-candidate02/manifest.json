@@ -1,0 +1,45 @@
+{
+  "schema": "resident-startup-fault-candidate/2",
+  "state": "ARTIFACT_ONLY_NOT_APPLIED_NOT_COMPILED_NOT_TESTED",
+  "before_sha256": "2917aa92f08d8d8d49da0f5ddf0474c808bf5886683a8754e35bf69a15fcaedd",
+  "after_sha256": "26e2350f1224c10f6ea3095a201ead024cf7f5e040d8a8924657202cc6345311",
+  "patch_sha256": "89ea9f10862dab300d1d9a644e50ad937a28f5133806b68b30cce4592f518b57",
+  "source_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/resident-startup-fault-candidate02/backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs",
+  "tests_added": [
+    "injected_writer_setup_failure_preserves_constructor_error_and_resource_custody",
+    "injected_reader_setup_failure_preserves_constructor_error_and_resource_custody",
+    "injected_stderr_setup_failure_preserves_constructor_error_and_resource_custody",
+    "failed_close_is_cached_without_restarting_cleanup_and_normal_drop_stays_failing"
+  ],
+  "mechanism": "Private fixture-only setup failpoints and post-cached-real-cleanup observation through unbounded mpsc. Actual cleanup owner returns directly observed join outcomes, force and phase-deadline facts alongside existing sticky first Result. No new cleanup owner or changed clocks; actual Node/Chromium unchanged.",
+  "acceptance_scope": [
+    "Exact fixed typed constructor error survives without secondary Drop panic for writer/reader/stderr setup failure.",
+    "Actual Node status/reaping, successful joins for every created worker and no remaining handles; no forced Node kill or exceeded existing cleanup phase deadlines.",
+    "Actual closed output receiver produces exact first real cleanup Err; repeated close and expected normal Drop preserve that fixed error with no second cleanup notification."
+  ],
+  "proof_limits": [
+    "Injected setup error is simulated thread setup failure, not empirical OS exhaustion.",
+    "These cases have no independently verified browser process-group absence; browser custody is explicitly UNKNOWN, even where the full-ready case originally obtained a browser PID.",
+    "Node reaping and created-worker completion do not establish Chromium absence or temporary-file destruction.",
+    "No runtime or source acceptance yet; fresh final source pins and tests remain required."
+  ],
+  "formatting": {
+    "command": [
+      "/Users/jasonlee/.cargo/bin/rustup",
+      "run",
+      "1.98.1",
+      "rustfmt",
+      "--edition",
+      "2024",
+      "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/resident-startup-fault-candidate02/backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs"
+    ],
+    "exit_code": 0,
+    "scope": "Artifact-only parse/format, no compilation/test"
+  },
+  "actions": {
+    "tracked_source_writes": 0,
+    "tests_executed": 0,
+    "artifact_only_source_and_manifest_write": true
+  },
+  "supersedes": "candidate01 REQUEST_CHANGES_SOURCE_ONLY: actual join outcomes, force/deadline facts, and exact expected cached failure panic required."
+}

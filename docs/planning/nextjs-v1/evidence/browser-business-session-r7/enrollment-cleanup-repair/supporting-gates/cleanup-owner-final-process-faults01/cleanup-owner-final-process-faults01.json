@@ -1,0 +1,25 @@
+{
+  "id": "cleanup-owner-final-process-faults01",
+  "command": [
+    "node",
+    "--test",
+    "tools/enrollment-fault-deadlines.test.mjs",
+    "tools/test-native-browser-enrollment.test.mjs"
+  ],
+  "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+  "exit_code": 1,
+  "timed_out": false,
+  "duration_seconds": 476.0095950419782,
+  "discovered": null,
+  "counts": {
+    "passed": 0,
+    "failed": 0,
+    "skipped": 0,
+    "filtered": 0,
+    "executed": 0
+  },
+  "log_sha256": "ea9b2ad096fad25d1927ecb02a7596d1b382f5c7573d04826e919497acd521ef",
+  "cleanup_reported": false,
+  "inputs_sha256": "433fa937df5fb1298f20b855ca2e7af376750d61b0cdadef93087063c1e704f2",
+  "inputs_unchanged": true
+}

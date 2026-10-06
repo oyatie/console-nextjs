@@ -1,0 +1,160 @@
+{
+  "schema": "isolated-copy-source-custody/1",
+  "copy_root": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/.artifacts/enrollment-cleanup-diagnostic-candidate02",
+  "approved_root": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/enrollment-cleanup-diagnostic-candidate02",
+  "file_count": 15,
+  "files": [
+    {
+      "relative_path": "before-driver01.mjs",
+      "executed_copy_path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/.artifacts/enrollment-cleanup-diagnostic-candidate02/before-driver01.mjs",
+      "approved_candidate_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/enrollment-cleanup-diagnostic-candidate02/before-driver01.mjs",
+      "bytes": 13191,
+      "sha256": "58099e7bf5d539a35117818a76bb4d50b4af0dece3f2c35a17fe9c5f41c444f7",
+      "regular_file": true,
+      "read_only": true,
+      "bytes_identical_to_approved_candidate": true
+    },
+    {
+      "relative_path": "before.mjs",
+      "executed_copy_path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/.artifacts/enrollment-cleanup-diagnostic-candidate02/before.mjs",
+      "approved_candidate_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/enrollment-cleanup-diagnostic-candidate02/before.mjs",
+      "bytes": 13987,
+      "sha256": "6cbb58a1b2eae9f01d0b4d0838afd7c5c421c496a532fde056a1f33e153027ce",
+      "regular_file": true,
+      "read_only": true,
+      "bytes_identical_to_approved_candidate": true
+    },
+    {
+      "relative_path": "diagnostic-schema.json",
+      "executed_copy_path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/.artifacts/enrollment-cleanup-diagnostic-candidate02/diagnostic-schema.json",
+      "approved_candidate_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/enrollment-cleanup-diagnostic-candidate02/diagnostic-schema.json",
+      "bytes": 1478,
+      "sha256": "96196e0d6347177555972492f3db32eb08a92f9de0558bf15eed968ccbd60d18",
+      "regular_file": true,
+      "read_only": true,
+      "bytes_identical_to_approved_candidate": true
+    },
+    {
+      "relative_path": "driver-review-repair.diff",
+      "executed_copy_path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/.artifacts/enrollment-cleanup-diagnostic-candidate02/driver-review-repair.diff",
+      "approved_candidate_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/enrollment-cleanup-diagnostic-candidate02/driver-review-repair.diff",
+      "bytes": 2062,
+      "sha256": "483eddee72fa2b97a726122b8bf5a9d4e25b537bc5f64f5b50fb16d649be76b8",
+      "regular_file": true,
+      "read_only": true,
+      "bytes_identical_to_approved_candidate": true
+    },
+    {
+      "relative_path": "independent-review01.json",
+      "executed_copy_path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/.artifacts/enrollment-cleanup-diagnostic-candidate02/independent-review01.json",
+      "approved_candidate_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/enrollment-cleanup-diagnostic-candidate02/independent-review01.json",
+      "bytes": 6322,
+      "sha256": "2cf388701124bdb597c8864c879edb5a9de658f0bcf8cab92140d86ca5e47051",
+      "regular_file": true,
+      "read_only": true,
+      "bytes_identical_to_approved_candidate": true
+    },
+    {
+      "relative_path": "independent-review02.json",
+      "executed_copy_path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/.artifacts/enrollment-cleanup-diagnostic-candidate02/independent-review02.json",
+      "approved_candidate_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/enrollment-cleanup-diagnostic-candidate02/independent-review02.json",
+      "bytes": 7579,
+      "sha256": "911870efa3aa7101adcbfc0ee22abe10c839a7328071e202ec72246530239e9a",
+      "regular_file": true,
+      "read_only": true,
+      "bytes_identical_to_approved_candidate": true
+    },
+    {
+      "relative_path": "manifest.json",
+      "executed_copy_path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/.artifacts/enrollment-cleanup-diagnostic-candidate02/manifest.json",
+      "approved_candidate_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/enrollment-cleanup-diagnostic-candidate02/manifest.json",
+      "bytes": 1999,
+      "sha256": "c25aa3e153b2d31edd9f405142a98341cfd0e3f1faa65d6efa0c8c11e9baac08",
+      "regular_file": true,
+      "read_only": true,
+      "bytes_identical_to_approved_candidate": true
+    },
+    {
+      "relative_path": "patch.diff",
+      "executed_copy_path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/.artifacts/enrollment-cleanup-diagnostic-candidate02/patch.diff",
+      "approved_candidate_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/enrollment-cleanup-diagnostic-candidate02/patch.diff",
+      "bytes": 8442,
+      "sha256": "f323b64574abf791176372b71664742164964d56041f6eb32dafdf15e563f919",
+      "regular_file": true,
+      "read_only": true,
+      "bytes_identical_to_approved_candidate": true
+    },
+    {
+      "relative_path": "proposal.json",
+      "executed_copy_path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/.artifacts/enrollment-cleanup-diagnostic-candidate02/proposal.json",
+      "approved_candidate_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/enrollment-cleanup-diagnostic-candidate02/proposal.json",
+      "bytes": 4920,
+      "sha256": "a6c1b5c83b8e32720e3ca87e1922d6c0c8cb5223cd81725b4423b170d1e7a21d",
+      "regular_file": true,
+      "read_only": true,
+      "bytes_identical_to_approved_candidate": true
+    },
+    {
+      "relative_path": "root-input-pins.json",
+      "executed_copy_path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/.artifacts/enrollment-cleanup-diagnostic-candidate02/root-input-pins.json",
+      "approved_candidate_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/enrollment-cleanup-diagnostic-candidate02/root-input-pins.json",
+      "bytes": 1974,
+      "sha256": "dfe06bb291c2e5ddc53f6077911144ec9e8bfb58ee3f489165d09f2fb7551333",
+      "regular_file": true,
+      "read_only": true,
+      "bytes_identical_to_approved_candidate": true
+    },
+    {
+      "relative_path": "server.mjs",
+      "executed_copy_path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/.artifacts/enrollment-cleanup-diagnostic-candidate02/server.mjs",
+      "approved_candidate_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/enrollment-cleanup-diagnostic-candidate02/server.mjs",
+      "bytes": 8799,
+      "sha256": "1f0f42b227af875f580ea4d11ff3b8355eb24487b17f45d9de99e3324a62f90f",
+      "regular_file": true,
+      "read_only": true,
+      "bytes_identical_to_approved_candidate": true
+    },
+    {
+      "relative_path": "tools/enrollment-fault-deadlines.mjs",
+      "executed_copy_path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/.artifacts/enrollment-cleanup-diagnostic-candidate02/tools/enrollment-fault-deadlines.mjs",
+      "approved_candidate_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/enrollment-cleanup-diagnostic-candidate02/tools/enrollment-fault-deadlines.mjs",
+      "bytes": 1167,
+      "sha256": "6f80266162d5413bcda245b17536b991518e95e22f5b1a7001067aaa4120fc06",
+      "regular_file": true,
+      "read_only": true,
+      "bytes_identical_to_approved_candidate": true
+    },
+    {
+      "relative_path": "tools/production-runtime.mjs",
+      "executed_copy_path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/.artifacts/enrollment-cleanup-diagnostic-candidate02/tools/production-runtime.mjs",
+      "approved_candidate_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/enrollment-cleanup-diagnostic-candidate02/tools/production-runtime.mjs",
+      "bytes": 8831,
+      "sha256": "7e4d05bac69900295f8777c931999f2987acd36c947f281cbea7d1bbdf673367",
+      "regular_file": true,
+      "read_only": true,
+      "bytes_identical_to_approved_candidate": true
+    },
+    {
+      "relative_path": "tools/test-native-browser-enrollment-diagnostic.test.mjs",
+      "executed_copy_path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/.artifacts/enrollment-cleanup-diagnostic-candidate02/tools/test-native-browser-enrollment-diagnostic.test.mjs",
+      "approved_candidate_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/enrollment-cleanup-diagnostic-candidate02/tools/test-native-browser-enrollment-diagnostic.test.mjs",
+      "bytes": 13530,
+      "sha256": "1545f9c29e82dcb33212d02020a7dad9a23fbc25860af945e5f9d5b4efab518e",
+      "regular_file": true,
+      "read_only": true,
+      "bytes_identical_to_approved_candidate": true
+    },
+    {
+      "relative_path": "tools/test-native-browser-enrollment.mjs",
+      "executed_copy_path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/.artifacts/enrollment-cleanup-diagnostic-candidate02/tools/test-native-browser-enrollment.mjs",
+      "approved_candidate_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/enrollment-cleanup-diagnostic-candidate02/tools/test-native-browser-enrollment.mjs",
+      "bytes": 18733,
+      "sha256": "bcd5fb0730bdc268d35dbd220fb8c44bbf35b3219ea1deffba95b3a8a9e6d3f6",
+      "regular_file": true,
+      "read_only": true,
+      "bytes_identical_to_approved_candidate": true
+    }
+  ],
+  "no_copied_directory_symlinks": true,
+  "runtime_product_source_not_changed_by_reviewer": true
+}

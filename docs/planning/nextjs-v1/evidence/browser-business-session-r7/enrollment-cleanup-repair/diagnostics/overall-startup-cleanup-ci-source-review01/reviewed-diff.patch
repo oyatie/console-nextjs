@@ -1,0 +1,1659 @@
+diff --git a/.github/workflows/ci.yml b/.github/workflows/ci.yml
+index a9ea12c..b37c3c4 100644
+--- a/.github/workflows/ci.yml
++++ b/.github/workflows/ci.yml
+@@ -38,7 +38,7 @@ jobs:
+       - run: node --test tools/test-production-runtime.test.mjs
+       - run: node --test tools/browser-business-failure.test.mjs tools/browser-business-temporal.test.mjs
+       - run: npx playwright install --with-deps chromium
+-      - run: node --test tools/test-native-browser-enrollment.test.mjs
++      - run: node --test tools/enrollment-fault-deadlines.test.mjs tools/test-native-browser-enrollment.test.mjs
+       - run: rustup toolchain install 1.98.1 --profile minimal
+       - run: rustup component add clippy rustfmt --toolchain 1.98.1
+       - name: Rust format
+diff --git a/backend-fork/backend/app/tests/auth_rest/browser_sessions.rs b/backend-fork/backend/app/tests/auth_rest/browser_sessions.rs
+index f558a44..bc9e7c5 100644
+--- a/backend-fork/backend/app/tests/auth_rest/browser_sessions.rs
++++ b/backend-fork/backend/app/tests/auth_rest/browser_sessions.rs
+@@ -3233,17 +3233,97 @@ async fn prepare_real_worker_storage(pool: &PgPool) {
+         .expect("Apalis owner preparation must pass independently of cleanup behavior");
+ }
+ 
++// Drain every byte without retaining or publishing subprocess error contents.
++// Only bounded line prefixes are examined for fixed startup failure classes.
++#[derive(Default)]
++struct WorkerStderr {
++    bytes: usize,
++    app_error: Option<&'static str>,
++    address_in_use: bool,
++    panicked: bool,
++    thread_spawn: bool,
++    read_failed: bool,
++}
++
++impl WorkerStderr {
++    fn classify(&mut self, prefix: &[u8]) {
++        for variant in [
++            "Config",
++            "Database",
++            "Internal",
++            "Io",
++            "Storage",
++            "Telemetry",
++            "Worker",
++            "Realtime",
++        ] {
++            if prefix.starts_with(format!("Error: {variant}(").as_bytes()) {
++                self.app_error = Some(variant);
++                if variant == "Io" {
++                    self.address_in_use |= prefix
++                        .windows(b"kind: AddrInUse".len())
++                        .any(|part| part == b"kind: AddrInUse");
++                }
++            }
++        }
++        self.panicked |= prefix
++            .windows(b"panicked at".len())
++            .any(|part| part == b"panicked at");
++        self.thread_spawn |= prefix
++            .windows(b"OS can't spawn worker thread:".len())
++            .any(|part| part == b"OS can't spawn worker thread:");
++    }
++
++    fn drain(mut stderr: std::process::ChildStderr) -> Self {
++        use std::io::Read as _;
++        let mut result = Self::default();
++        let mut bytes = [0_u8; 8192];
++        let mut prefix = Vec::with_capacity(512);
++        loop {
++            match stderr.read(&mut bytes) {
++                Ok(0) => break,
++                Ok(length) => {
++                    result.bytes = result.bytes.saturating_add(length);
++                    for byte in &bytes[..length] {
++                        if *byte == b'\n' {
++                            result.classify(&prefix);
++                            prefix.clear();
++                        } else if prefix.len() < 512 {
++                            prefix.push(*byte);
++                        }
++                    }
++                }
++                Err(error) if error.kind() == std::io::ErrorKind::Interrupted => continue,
++                Err(_) => {
++                    result.read_failed = true;
++                    break;
++                }
++            }
++        }
++        result.classify(&prefix);
++        result
++    }
++}
++
+ struct RealWorker {
+     child: std::process::Child,
+     ready_url: String,
+     service: String,
+     worker_id: String,
++    stderr: Option<std::thread::JoinHandle<WorkerStderr>>,
++    spawned_at: std::time::Instant,
++    ready_verified: bool,
++    last_ready: &'static str,
++    last_registered: bool,
+ }
+ 
+ impl Drop for RealWorker {
+     fn drop(&mut self) {
+         let _ = self.child.kill();
+         let _ = self.child.wait();
++        if let Some(reader) = self.stderr.take() {
++            let _ = reader.join();
++        }
+     }
+ }
+ 
+@@ -3280,6 +3360,7 @@ impl RealWorker {
+             "fixture must use a genuinely new worker identity"
+         );
+         drop(reserve);
++        let spawned_at = std::time::Instant::now();
+         let child = std::process::Command::new(env!("CARGO_BIN_EXE_console-app"))
+             .env_clear()
+             .env("CONSOLE_APP_ROLE", "worker")
+@@ -3292,7 +3373,7 @@ impl RealWorker {
+             .env("RUST_LOG", "error")
+             .stdin(std::process::Stdio::null())
+             .stdout(std::process::Stdio::null())
+-            .stderr(std::process::Stdio::null())
++            .stderr(std::process::Stdio::piped())
+             .spawn()
+             .expect("worker fixture prerequisite: binary must spawn");
+         let mut worker = Self {
+@@ -3300,7 +3381,19 @@ impl RealWorker {
+             ready_url: format!("http://{addr}/readyz"),
+             service,
+             worker_id,
++            stderr: None,
++            spawned_at,
++            ready_verified: false,
++            last_ready: "unobserved",
++            last_registered: false,
+         };
++        // The owner guard must exist before diagnostic thread creation can fail.
++        let stderr = worker.child.stderr.take().expect("worker diagnostic pipe");
++        worker.stderr = Some(
++            std::thread::Builder::new()
++                .spawn(move || WorkerStderr::drain(stderr))
++                .unwrap_or_else(|_| panic!("worker diagnostic reader start")),
++        );
+         worker.require_ready(owner).await;
+         worker
+     }
+@@ -3313,20 +3406,28 @@ impl RealWorker {
+         loop {
+             self.require_alive();
+             let mut ready = false;
+-            if let Ok(response) = client.get(&self.ready_url).send().await
+-                && response.status() == reqwest::StatusCode::OK
+-                && let Ok(bytes) = response.bytes().await
+-                && let Ok(body) = serde_json::from_slice::<Value>(&bytes)
+-            {
+-                ready = body["service"].as_str() == Some(self.service.as_str())
+-                    && body["role"] == "worker"
+-                    && body["status"] == "ready"
+-                    && body["write_ready"] == false;
++            self.last_ready = "request_failed";
++            if let Ok(response) = client.get(&self.ready_url).send().await {
++                self.last_ready = "non_ok_status";
++                if response.status() == reqwest::StatusCode::OK {
++                    self.last_ready = "invalid_response";
++                    if let Ok(bytes) = response.bytes().await
++                        && let Ok(body) = serde_json::from_slice::<Value>(&bytes)
++                    {
++                        ready = body["service"].as_str() == Some(self.service.as_str())
++                            && body["role"] == "worker"
++                            && body["status"] == "ready"
++                            && body["write_ready"] == false;
++                        self.last_ready = if ready { "ready" } else { "identity_mismatch" };
++                    }
++                }
+             }
+             let registered:bool=sqlx::query_scalar("SELECT EXISTS(SELECT 1 FROM apalis.workers WHERE id=$1 AND worker_type='console.dispatch')")
+                 .bind(&self.worker_id).fetch_one(owner).await.unwrap();
++            self.last_registered = registered;
+             if ready && registered {
+                 self.require_alive();
++                self.ready_verified = true;
+                 return;
+             }
+             assert!(
+@@ -3337,10 +3438,31 @@ impl RealWorker {
+         }
+     }
+     fn require_alive(&mut self) {
+-        assert!(
+-            self.child.try_wait().unwrap().is_none(),
+-            "worker infrastructure failure: process exited before cleanup proof"
+-        );
++        if let Some(status) = self.child.try_wait().unwrap() {
++            let drained = self.stderr.take().map(|reader| reader.join());
++            let (drain_joined, evidence) = match drained {
++                Some(Ok(evidence)) => (true, evidence),
++                _ => (false, WorkerStderr::default()),
++            };
++            let phase = if self.ready_verified {
++                "runtime"
++            } else {
++                "startup"
++            };
++            eprintln!(
++                "REAL_WORKER_FAILURE exit_status={status:?} phase={phase} elapsed_ms={} last_ready={} registered={} drain_joined={drain_joined} stderr_bytes={} app_error={:?} address_in_use={} panicked={} thread_spawn={} read_failed={}",
++                self.spawned_at.elapsed().as_millis(),
++                self.last_ready,
++                self.last_registered,
++                evidence.bytes,
++                evidence.app_error,
++                evidence.address_in_use,
++                evidence.panicked,
++                evidence.thread_spawn,
++                evidence.read_failed
++            );
++            panic!("worker infrastructure failure: process exited before cleanup proof");
++        }
+     }
+     fn crash(&mut self) {
+         self.child.kill().expect("crash real worker");
+diff --git a/backend-fork/backend/app/tests/auth_rest/genuine_browser.rs b/backend-fork/backend/app/tests/auth_rest/genuine_browser.rs
+index 2ed1c9d..3a65a38 100644
+--- a/backend-fork/backend/app/tests/auth_rest/genuine_browser.rs
++++ b/backend-fork/backend/app/tests/auth_rest/genuine_browser.rs
+@@ -135,7 +135,14 @@ impl Browser {
+         if self.received >= self.max_frames {
+             return Err("infrastructure: frame count");
+         }
+-        let frame = timeout(self.phase, async {
++        // Runtime staging precedes the first origin frame. Keep later native
++        // ceremony phases at 20s and the enclosing probe/cleanup bounds intact.
++        let deadline = if self.received == 0 {
++            StdDuration::from_secs(90)
++        } else {
++            self.phase
++        };
++        let frame = timeout(deadline, async {
+             let length = self
+                 .output
+                 .read_u32()
+@@ -956,6 +963,12 @@ async fn run_probe(
+     )
+     .await
+     .unwrap_or(Err("infrastructure: overall deadline"));
++    if let Err(reason) = &result {
++        eprintln!(
++            "NATIVE_BROWSER_FAILURE {reason} checked_frames={}",
++            browser.received
++        );
++    }
+     if let Some(server) = server {
+         server.abort();
+         let _ = server.await;
+diff --git a/backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs b/backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs
+index 224bb0a..5b8efa6 100644
+--- a/backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs
++++ b/backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs
+@@ -18,7 +18,107 @@ const MAX_FRAME: usize = 65_536;
+ const MAX_FRAMES: u64 = 128;
+ const PHASE: Duration = Duration::from_secs(25);
+ const CLEANUP: Duration = Duration::from_secs(15);
++#[derive(serde::Deserialize, Debug)]
++#[serde(rename_all = "kebab-case")]
++enum CleanupStage {
++    Startup,
++    BrowserIdentity,
++    BrowserClose,
++    BrowserKill,
++    BrowserCleanup,
++    OwnedTemp,
++    BrowserExit,
++    Ack,
++}
++
++#[derive(serde::Deserialize, Debug)]
++#[serde(deny_unknown_fields)]
++struct CleanupDiagnostic {
++    stage: CleanupStage,
++    child_exit_seen: bool,
++    child_close_seen: bool,
++    close_settled: bool,
++    kill_settled: bool,
++    child_exited: bool,
++    owned_temp_seen: bool,
++    owned_temp_removed: bool,
++}
++
++#[derive(serde::Deserialize, Debug)]
++#[serde(rename_all = "kebab-case")]
++enum SetupStage {
++    Initial,
++    TemporaryScope,
++    BrowserLaunch,
++    BrowserConnect,
++    Context,
++    Route,
++    Page,
++    Navigate,
++    SecureUrl,
++    SecureState,
++    CdpSession,
++    WebauthnEnable,
++    VirtualAuthenticator,
++    BrowserIdentity,
++    Ready,
++}
++
++#[derive(serde::Deserialize, Debug)]
++#[serde(deny_unknown_fields)]
++struct SetupDiagnostic {
++    stage: SetupStage,
++    setup_age_ms: u32,
++    stage_age_ms: u32,
++    age_capped: bool,
++    budget_ms: Option<u32>,
++    budget_elapsed: Option<bool>,
++}
++
++impl SetupDiagnostic {
++    fn bounded(&self) -> bool {
++        self.setup_age_ms <= 600_000
++            && self.stage_age_ms <= 600_000
++            && match self.budget_ms {
++                None => self.budget_elapsed.is_none(),
++                Some(5_000 | 20_000) => self.budget_elapsed.is_some(),
++                Some(_) => false,
++            }
++    }
++}
++
++#[derive(Debug)]
++enum FirstFrameCategory {
++    Ready,
++    FixtureFailure,
++    Cleaned,
++    Other,
++}
++
+ type Result<T> = std::result::Result<T, &'static str>;
++type StderrObservation = (usize, Option<CleanupDiagnostic>, Option<SetupDiagnostic>);
++
++// Private fixture failures simulate thread setup errors, not OS exhaustion.
++// They never replace a browser, credential ceremony or provider result.
++#[derive(Clone, Copy, Debug, PartialEq, Eq)]
++enum StartupFault {
++    Writer,
++    Reader,
++    Stderr,
++}
++
++#[derive(Debug)]
++struct CleanupObservation {
++    result: Result<()>,
++    node_pid: u32,
++    node_reaped: bool,
++    workers_settled: bool,
++    created_workers: [bool; 3],
++    remaining_worker_handles: [bool; 3],
++    join_succeeded: [Option<bool>; 3],
++    forced: bool,
++    phase_deadline_exceeded: [bool; 2],
++}
+ 
+ pub(super) struct ResidentAuthenticator {
+     child: Child,
+@@ -27,16 +127,29 @@ pub(super) struct ResidentAuthenticator {
+     writes: Receiver<Result<()>>,
+     writer: Option<JoinHandle<()>>,
+     reader: Option<JoinHandle<()>>,
+-    error_reader: Option<JoinHandle<usize>>,
++    error_reader: Option<JoinHandle<StderrObservation>>,
+     sent: u64,
+     received: u64,
+     browser_pid: Option<u32>,
+     failed: bool,
+-    cleaned: bool,
++    constructing: bool,
++    close_result: Option<Result<()>>,
++    node_reaped: bool,
++    workers_settled: bool,
++    spawned_at: Instant,
++    last_ceremony_read: Option<Instant>,
++    cleanup_probe: Option<mpsc::Sender<CleanupObservation>>,
+ }
+ 
+ impl ResidentAuthenticator {
+     pub(super) fn new() -> Result<Self> {
++        Self::new_observed(None, None)
++    }
++
++    fn new_observed(
++        fault: Option<StartupFault>,
++        cleanup_probe: Option<mpsc::Sender<CleanupObservation>>,
++    ) -> Result<Self> {
+         let root = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../../..");
+         let runner = root.join("tools/test-resident-authenticator.mjs");
+         if !runner.is_file() || !root.join("package-lock.json").is_file() {
+@@ -62,89 +175,163 @@ impl ResidentAuthenticator {
+                 command.env(key, value);
+             }
+         }
+-        let mut child = command
+-            .spawn()
+-            .map_err(|_| "infrastructure: resident Node start")?;
+-        let mut stdin = child.stdin.take().ok_or("infrastructure: resident stdin")?;
+-        let mut stdout = child
+-            .stdout
+-            .take()
+-            .ok_or("infrastructure: resident stdout")?;
+-        let mut stderr = child
+-            .stderr
+-            .take()
+-            .ok_or("infrastructure: resident stderr")?;
+         let (input, commands) = mpsc::sync_channel::<Vec<u8>>(1);
+         let (written, writes) = mpsc::sync_channel(1);
+-        // Separate I/O workers let every synchronous public operation have a
+-        // deadline without blocking an async database/lock-test task indefinitely.
+-        let writer = thread::spawn(move || {
+-            while let Ok(bytes) = commands.recv() {
+-                let outcome = stdin
+-                    .write_all(&(bytes.len() as u32).to_be_bytes())
+-                    .and_then(|()| stdin.write_all(&bytes))
+-                    .and_then(|()| stdin.flush())
+-                    .map_err(|_| "infrastructure: resident frame write");
+-                let failed = outcome.is_err();
+-                if written.send(outcome).is_err() || failed {
+-                    break;
+-                }
+-            }
+-            // Disconnect/Drop closes stdin, so the Node owner performs cleanup.
+-        });
+         let (frames, output) = mpsc::sync_channel(1);
+-        let reader = thread::spawn(move || {
+-            for _ in 0..MAX_FRAMES {
+-                let outcome = (|| {
+-                    let mut header = [0_u8; 4];
+-                    stdout
+-                        .read_exact(&mut header)
+-                        .map_err(|_| "infrastructure: resident frame header")?;
+-                    let length = u32::from_be_bytes(header) as usize;
+-                    if length == 0 || length > MAX_FRAME {
+-                        return Err("infrastructure: resident frame size");
+-                    }
+-                    let mut bytes = vec![0_u8; length];
+-                    stdout
+-                        .read_exact(&mut bytes)
+-                        .map_err(|_| "infrastructure: resident frame body")?;
+-                    serde_json::from_slice(&bytes)
+-                        .map_err(|_| "infrastructure: resident frame JSON")
+-                })();
+-                let failed = outcome.is_err();
+-                if frames.send(outcome).is_err() || failed {
+-                    break;
+-                }
+-            }
+-        });
+-        let error_reader = thread::spawn(move || {
+-            let mut bytes = [0_u8; 8192];
+-            let mut count = 0_usize;
+-            while let Ok(length) = stderr.read(&mut bytes) {
+-                if length == 0 {
+-                    break;
+-                }
+-                count = count.saturating_add(length);
+-            }
+-            count
+-        });
++        let spawned_at = Instant::now();
++        let child = command
++            .spawn()
++            .map_err(|_| "infrastructure: resident Node start")?;
++        // Install the existing cleanup owner before taking pipes or creating a
++        // fallible worker. Partial construction never abandons the Child.
+         let mut value = Self {
+             child,
+             input: Some(input),
+             output: Some(output),
+             writes,
+-            writer: Some(writer),
+-            reader: Some(reader),
+-            error_reader: Some(error_reader),
++            writer: None,
++            reader: None,
++            error_reader: None,
+             sent: 0,
+             received: 0,
+             browser_pid: None,
+             failed: true,
+-            cleaned: false,
++            constructing: true,
++            close_result: None,
++            node_reaped: false,
++            workers_settled: false,
++            spawned_at,
++            last_ceremony_read: None,
++            cleanup_probe,
+         };
++        let mut stdin = value
++            .child
++            .stdin
++            .take()
++            .ok_or("infrastructure: resident stdin")?;
++        let mut stdout = value
++            .child
++            .stdout
++            .take()
++            .ok_or("infrastructure: resident stdout")?;
++        let mut stderr = value
++            .child
++            .stderr
++            .take()
++            .ok_or("infrastructure: resident stderr")?;
++        // Separate I/O workers let every synchronous public operation have a
++        // deadline without blocking an async database/lock-test task indefinitely.
++        if fault == Some(StartupFault::Writer) {
++            return Err("infrastructure: resident writer start");
++        }
++        value.writer = Some(
++            thread::Builder::new()
++                .spawn(move || {
++                    while let Ok(bytes) = commands.recv() {
++                        let outcome = stdin
++                            .write_all(&(bytes.len() as u32).to_be_bytes())
++                            .and_then(|()| stdin.write_all(&bytes))
++                            .and_then(|()| stdin.flush())
++                            .map_err(|_| "infrastructure: resident frame write");
++                        let failed = outcome.is_err();
++                        if written.send(outcome).is_err() || failed {
++                            break;
++                        }
++                    }
++                    // Disconnect/Drop closes stdin, so the Node owner performs cleanup.
++                })
++                .map_err(|_| "infrastructure: resident writer start")?,
++        );
++        if fault == Some(StartupFault::Reader) {
++            return Err("infrastructure: resident reader start");
++        }
++        value.reader = Some(
++            thread::Builder::new()
++                .spawn(move || {
++                    for _ in 0..MAX_FRAMES {
++                        let outcome = (|| {
++                            let mut header = [0_u8; 4];
++                            stdout
++                                .read_exact(&mut header)
++                                .map_err(|_| "infrastructure: resident frame header")?;
++                            let length = u32::from_be_bytes(header) as usize;
++                            if length == 0 || length > MAX_FRAME {
++                                return Err("infrastructure: resident frame size");
++                            }
++                            let mut bytes = vec![0_u8; length];
++                            stdout
++                                .read_exact(&mut bytes)
++                                .map_err(|_| "infrastructure: resident frame body")?;
++                            serde_json::from_slice(&bytes)
++                                .map_err(|_| "infrastructure: resident frame JSON")
++                        })();
++                        let failed = outcome.is_err();
++                        if frames.send(outcome).is_err() || failed {
++                            break;
++                        }
++                    }
++                })
++                .map_err(|_| "infrastructure: resident reader start")?,
++        );
++        if fault == Some(StartupFault::Stderr) {
++            return Err("infrastructure: resident stderr start");
++        }
++        value.error_reader = Some(
++            thread::Builder::new()
++                .spawn(move || {
++                    let mut bytes = [0_u8; 8192];
++                    let mut count = 0_usize;
++                    let mut prefix = Vec::with_capacity(512);
++                    while let Ok(length) = stderr.read(&mut bytes) {
++                        if length == 0 {
++                            break;
++                        }
++                        count = count.saturating_add(length);
++                        let retained = length.min(512 - prefix.len());
++                        prefix.extend_from_slice(&bytes[..retained]);
++                    }
++                    let diagnostic = prefix.split(|byte| *byte == b'\n').find_map(|line| {
++                        let payload = line.strip_prefix(b"RESIDENT_CLEANUP_DIAGNOSTIC ")?;
++                        serde_json::from_slice::<CleanupDiagnostic>(payload).ok()
++                    });
++                    let setup_diagnostic = prefix.split(|byte| *byte == b'\n').find_map(|line| {
++                        let payload = line.strip_prefix(b"RESIDENT_SETUP_DIAGNOSTIC ")?;
++                        serde_json::from_slice::<SetupDiagnostic>(payload)
++                            .ok()
++                            .filter(SetupDiagnostic::bounded)
++                    });
++                    (count, diagnostic, setup_diagnostic)
++                })
++                .map_err(|_| "infrastructure: resident stderr start")?,
++        );
++        // Observe the unchanged readiness wait from its actual start. Spawn and
++        // worker setup age do not consume read(PHASE)'s existing budget.
++        let readiness_started_at = Instant::now();
+         let ready = value.read(PHASE)?;
+         if ready["kind"] != "ready" || ready["origin"] != ORIGIN || ready["secure_context"] != true
+         {
++            // read() already checked frame version/sequence. Classify only fixed
++            // literals; never print the received JSON, URL, code or browser ID.
++            let category = match ready["kind"].as_str() {
++                Some("ready") => FirstFrameCategory::Ready,
++                Some("error") if ready["code"] == "fixture-failure" => {
++                    FirstFrameCategory::FixtureFailure
++                }
++                Some("cleaned") => FirstFrameCategory::Cleaned,
++                _ => FirstFrameCategory::Other,
++            };
++            let age_ms = value.spawned_at.elapsed().as_millis();
++            let readiness_age_ms = readiness_started_at.elapsed().as_millis();
++            let _ = writeln!(
++                std::io::stderr().lock(),
++                "RESIDENT_FIRST_FRAME_FAILURE category={category:?} owner_age_ms={} owner_age_capped={} readiness_age_ms={} phase_budget_elapsed={} origin_matches={} secure_context_true={}",
++                age_ms.min(PHASE.as_millis()),
++                age_ms > PHASE.as_millis(),
++                readiness_age_ms.min(PHASE.as_millis()),
++                readiness_age_ms >= PHASE.as_millis(),
++                ready["origin"] == ORIGIN,
++                ready["secure_context"] == true
++            );
+             return Err("infrastructure: resident secure origin not ready");
+         }
+         value.browser_pid = ready["browser_pid"]
+@@ -155,6 +342,7 @@ impl ResidentAuthenticator {
+             return Err("infrastructure: resident browser process identity");
+         }
+         value.failed = false;
++        value.constructing = false;
+         Ok(value)
+     }
+ 
+@@ -195,6 +383,7 @@ impl ResidentAuthenticator {
+         }
+         let credential = serde_json::from_value(result["credential"].clone())
+             .map_err(|_| "infrastructure: resident credential codec")?;
++        self.last_ceremony_read = Some(Instant::now());
+         self.failed = false;
+         Ok(credential)
+     }
+@@ -237,12 +426,40 @@ impl ResidentAuthenticator {
+     }
+ 
+     pub(super) fn close(&mut self) -> Result<()> {
+-        if self.cleaned {
+-            return Ok(());
++        if let Some(result) = self.close_result {
++            return result;
+         }
++        let cleanup = self.close_owned();
++        let result = cleanup.result;
++        // A finalized cleanup attempt is not necessarily successful. Retain its
++        // failure, and never start another budget during Drop or a second close.
++        self.close_result = Some(result);
++        // Test observation is emitted only after the real attempt and cache.
++        // An unbounded private channel cannot block the resource owner.
++        if let Some(probe) = &self.cleanup_probe {
++            let _ = probe.send(cleanup);
++        }
++        result
++    }
++
++    fn close_owned(&mut self) -> CleanupObservation {
++        let created_workers = [
++            self.writer.is_some(),
++            self.reader.is_some(),
++            self.error_reader.is_some(),
++        ];
++        let mut join_succeeded = [None; 3];
++        let owner_age_ms = self.spawned_at.elapsed().as_millis();
++        let ceremony_idle_ms = self
++            .last_ceremony_read
++            .map(|time| time.elapsed().as_millis());
++        let sent_before = self.sent;
++        let received_before = self.received;
++        let panicking = thread::panicking();
++        let partial = self.constructing
++            && (self.writer.is_none() || self.reader.is_none() || self.error_reader.is_none());
+         let deadline = Instant::now() + CLEANUP;
+-        // Successful close requests done. Error/panic uses EOF, as C2 does.
+-        let done = if self.failed || thread::panicking() {
++        let done = if self.failed || panicking || partial {
+             false
+         } else {
+             self.write(json!({"kind":"done"}), CLEANUP).is_ok()
+@@ -250,97 +467,360 @@ impl ResidentAuthenticator {
+         if !done {
+             self.input.take();
+         }
+-        // A timed-out command may still deliver its ordinary response before
+-        // cleanup. Drain those checked frames under one total cleanup deadline.
+-        let acknowledgement = (|| loop {
+-            let remaining = deadline
+-                .checked_duration_since(Instant::now())
+-                .ok_or("infrastructure: resident cleanup deadline")?;
+-            let frame = self.read(remaining)?;
+-            match frame["kind"].as_str() {
+-                Some("cleaned") => break Ok(frame),
+-                Some("ready" | "registered" | "authenticated" | "error") => {}
+-                _ => break Err("infrastructure: resident cleanup frame"),
+-            }
+-        })();
++        // Ordinary cleanup retains its complete ACK window. Uncreated workers
++        // cannot manufacture an ACK; partial startup is already a failure.
++        let acknowledgement = if partial {
++            Err("infrastructure: resident startup workers incomplete")
++        } else {
++            (|| loop {
++                let remaining = deadline
++                    .checked_duration_since(Instant::now())
++                    .ok_or("infrastructure: resident cleanup deadline")?;
++                let frame = self.read(remaining)?;
++                if Instant::now() >= deadline {
++                    return Err("infrastructure: resident cleanup deadline");
++                }
++                match frame["kind"].as_str() {
++                    Some("cleaned") => break Ok(frame),
++                    Some("ready" | "registered" | "authenticated" | "error") => {}
++                    _ => break Err("infrastructure: resident cleanup frame"),
++                }
++            })()
++        };
+         self.input.take();
+-        // Release any reader blocked sending EOF/error into the one-slot queue
+-        // before waiting for worker exit. Never join with its Receiver alive.
+-        self.output.take();
+-        let status = loop {
+-            if let Some(status) = self
+-                .child
+-                .try_wait()
+-                .map_err(|_| "infrastructure: resident wait")?
+-            {
+-                break status;
++        self.output.take(); // Release any reader blocked sending into its queue.
++        self.child.stdin.take(); // Also closes a pipe not yet moved into a worker.
++        let mut failure = acknowledgement.as_ref().err().copied();
++        let mut status = None;
++        let mut forced = false;
++        loop {
++            match self.child.try_wait() {
++                Ok(Some(observed)) => {
++                    status = Some(observed);
++                    if Instant::now() >= deadline {
++                        failure.get_or_insert("infrastructure: resident cleanup deadline");
++                    }
++                    break;
++                }
++                Ok(None) => {}
++                Err(_) => {
++                    failure.get_or_insert("infrastructure: resident wait");
++                    forced = true;
++                    let _ = self.child.kill();
++                    break;
++                }
+             }
+             if Instant::now() >= deadline {
++                failure
++                    .get_or_insert("infrastructure: resident cleanup unconfirmed; possible orphan");
++                forced = true;
+                 let _ = self.child.kill();
+-                self.cleaned = true;
+-                return Err("infrastructure: resident cleanup unconfirmed; possible orphan");
++                break;
+             }
+             thread::sleep(Duration::from_millis(20));
+-        };
+-        self.cleaned = true;
++        }
++        let first_phase_deadline_exceeded = Instant::now() >= deadline;
++        // Reuse the existing worker phase for actual reaping and worker drain.
++        // Force-kill is sticky failure, never a substitute for natural exit/ACK.
+         let workers_deadline = Instant::now() + CLEANUP;
+-        let workers_finished = || {
+-            self.writer.as_ref().is_some_and(JoinHandle::is_finished)
+-                && self.reader.as_ref().is_some_and(JoinHandle::is_finished)
+-                && self
++        let workers_finished = |value: &Self| {
++            value.writer.as_ref().is_none_or(JoinHandle::is_finished)
++                && value.reader.as_ref().is_none_or(JoinHandle::is_finished)
++                && value
+                     .error_reader
+                     .as_ref()
+-                    .is_some_and(JoinHandle::is_finished)
++                    .is_none_or(JoinHandle::is_finished)
+         };
+-        while !workers_finished() && Instant::now() < workers_deadline {
++        while (status.is_none() || !workers_finished(self)) && Instant::now() < workers_deadline {
++            if status.is_none() {
++                match self.child.try_wait() {
++                    Ok(Some(observed)) => status = Some(observed),
++                    Ok(None) => {}
++                    Err(_) => {
++                        failure.get_or_insert("infrastructure: resident wait");
++                    }
++                }
++            }
+             thread::sleep(Duration::from_millis(20));
+         }
+-        if !workers_finished() {
+-            return Err("infrastructure: resident worker cleanup deadline");
++        self.node_reaped = status.is_some();
++        self.workers_settled = workers_finished(self);
++        if !self.node_reaped {
++            failure.get_or_insert("infrastructure: resident Node reap unconfirmed");
++        }
++        let second_phase_deadline_exceeded = Instant::now() >= workers_deadline;
++        if !self.workers_settled || second_phase_deadline_exceeded {
++            failure.get_or_insert("infrastructure: resident worker cleanup deadline");
++        }
++        if !self.constructing
++            && (self.writer.is_none() || self.reader.is_none() || self.error_reader.is_none())
++        {
++            failure.get_or_insert("infrastructure: resident cleanup worker missing");
+         }
+-        for worker in [&mut self.writer, &mut self.reader] {
+-            if let Some(worker) = worker.take() {
+-                worker
+-                    .join()
+-                    .map_err(|_| "infrastructure: resident I/O worker failed")?;
++        for (index, worker) in [&mut self.writer, &mut self.reader].into_iter().enumerate() {
++            if worker.as_ref().is_some_and(JoinHandle::is_finished)
++                && let Some(worker) = worker.take()
++            {
++                let succeeded = worker.join().is_ok();
++                join_succeeded[index] = Some(succeeded);
++                if !succeeded {
++                    failure.get_or_insert("infrastructure: resident I/O worker failed");
++                }
+             }
+         }
+-        let count = self
++        let mut count = 0;
++        let mut diagnostic = None;
++        let mut setup_diagnostic = None;
++        if self
+             .error_reader
+-            .take()
+-            .ok_or("infrastructure: resident stderr worker missing")?
+-            .join()
+-            .map_err(|_| "infrastructure: resident stderr worker failed")?;
+-        let acknowledgement = acknowledgement?;
+-        if count > 1_048_576 || acknowledgement["kind"] != "cleaned" {
+-            return Err("infrastructure: resident cleanup acknowledgement");
++            .as_ref()
++            .is_some_and(JoinHandle::is_finished)
++            && let Some(worker) = self.error_reader.take()
++        {
++            match worker.join() {
++                Ok(observed) => {
++                    join_succeeded[2] = Some(true);
++                    count = observed.0;
++                    diagnostic = observed.1;
++                    setup_diagnostic = observed.2;
++                }
++                Err(_) => {
++                    join_succeeded[2] = Some(false);
++                    failure.get_or_insert("infrastructure: resident stderr worker failed");
++                }
++            }
+         }
+-        if let Some(pid) = self.browser_pid
+-            && (acknowledgement["browser_pid"] != pid || acknowledgement["browser_exited"] != true)
++        // A constructor error may have a successful cleanup. Preserve its fixed
++        // setup observation independently of the cleanup result.
++        if self.constructing
++            && let Some(diagnostic) = &setup_diagnostic
+         {
+-            return Err("infrastructure: resident browser cleanup identity");
++            let _ = writeln!(
++                std::io::stderr().lock(),
++                "RESIDENT_SETUP_DIAGNOSTIC stage={:?} setup_age_ms={} stage_age_ms={} age_capped={} budget_ms={:?} budget_elapsed={:?}",
++                diagnostic.stage,
++                diagnostic.setup_age_ms,
++                diagnostic.stage_age_ms,
++                diagnostic.age_capped,
++                diagnostic.budget_ms,
++                diagnostic.budget_elapsed
++            );
+         }
+-        let expected = match acknowledgement["outcome"].as_str() {
+-            Some("completed") if done => 0,
+-            Some("aborted") if !done => 2,
+-            Some("failed") if self.failed => 1,
+-            _ => return Err("infrastructure: resident cleanup outcome"),
+-        };
+-        if status.code() != Some(expected) {
+-            return Err("infrastructure: resident cleanup exit");
++        let result = (|| {
++            if let Some(reason) = failure {
++                return Err(reason);
++            }
++            let acknowledgement = acknowledgement?;
++            if count > 1_048_576 || acknowledgement["kind"] != "cleaned" {
++                return Err("infrastructure: resident cleanup acknowledgement");
++            }
++            if let Some(pid) = self.browser_pid
++                && (acknowledgement["browser_pid"] != pid
++                    || acknowledgement["browser_exited"] != true)
++            {
++                return Err("infrastructure: resident browser cleanup identity");
++            }
++            let expected = match acknowledgement["outcome"].as_str() {
++                Some("completed") if done => 0,
++                Some("aborted") if !done => 2,
++                Some("failed") if self.failed => 1,
++                _ => return Err("infrastructure: resident cleanup outcome"),
++            };
++            if status.and_then(|status| status.code()) != Some(expected) {
++                return Err("infrastructure: resident cleanup exit");
++            }
++            Ok(())
++        })();
++        if let Err(reason) = result {
++            if let Some(diagnostic) = &diagnostic {
++                let _ = writeln!(
++                    std::io::stderr().lock(),
++                    "RESIDENT_CLEANUP_DIAGNOSTIC stage={:?} child_exit_seen={} child_close_seen={} close_settled={} kill_settled={} child_exited={} owned_temp_seen={} owned_temp_removed={}",
++                    diagnostic.stage,
++                    diagnostic.child_exit_seen,
++                    diagnostic.child_close_seen,
++                    diagnostic.close_settled,
++                    diagnostic.kill_settled,
++                    diagnostic.child_exited,
++                    diagnostic.owned_temp_seen,
++                    diagnostic.owned_temp_removed
++                );
++            }
++            let _ = writeln!(
++                std::io::stderr().lock(),
++                "RESIDENT_CLEANUP_FAILURE reason={reason} exit_status={status:?} stderr_bytes={count} sent_before={sent_before} checked_frames_before={received_before} sent={} checked_frames={} done={done} failed={} panicking={panicking} owner_age_ms={owner_age_ms} ceremony_idle_ms={ceremony_idle_ms:?} constructing={} forced={forced} node_reaped={} workers_settled={}",
++                self.sent,
++                self.received,
++                self.failed,
++                self.constructing,
++                self.node_reaped,
++                self.workers_settled
++            );
++        }
++        CleanupObservation {
++            result,
++            node_pid: self.child.id(),
++            node_reaped: self.node_reaped,
++            workers_settled: self.workers_settled,
++            created_workers,
++            remaining_worker_handles: [
++                self.writer.is_some(),
++                self.reader.is_some(),
++                self.error_reader.is_some(),
++            ],
++            join_succeeded,
++            forced,
++            phase_deadline_exceeded: [
++                first_phase_deadline_exceeded,
++                second_phase_deadline_exceeded,
++            ],
+         }
+-        Ok(())
+     }
+ }
+ 
+ impl Drop for ResidentAuthenticator {
+     fn drop(&mut self) {
+         if let Err(message) = self.close() {
+-            if thread::panicking() {
+-                eprintln!("{message}");
++            if self.constructing || thread::panicking() {
++                let _ = writeln!(std::io::stderr().lock(), "{message}");
+             } else {
+                 panic!("{message}");
+             }
+         }
+     }
+ }
++
++// These tests run the actual Node/Chromium fixture. Private fault injection
++// covers ownership after spawn; it does not claim empirical thread exhaustion.
++fn assert_setup_failure(
++    fault: StartupFault,
++    expected_error: &'static str,
++    expected_created_workers: [bool; 3],
++) {
++    let (observed, observations) = mpsc::channel();
++    let outcome = std::panic::catch_unwind(|| {
++        ResidentAuthenticator::new_observed(Some(fault), Some(observed))
++    });
++    let error = match outcome {
++        Ok(Err(error)) => error,
++        Ok(Ok(mut owner)) => {
++            let _ = owner.close();
++            panic!("private setup failure did not trigger");
++        }
++        Err(_) => panic!("constructor error replaced by cleanup panic"),
++    };
++    assert_eq!(error, expected_error);
++    let cleanup = observations
++        .try_recv()
++        .expect("real cleanup observation before constructor returns");
++    assert_eq!(
++        cleanup.result,
++        Err("infrastructure: resident startup workers incomplete")
++    );
++    assert!(cleanup.node_pid > 0);
++    assert!(cleanup.node_reaped, "actual Node status was not observed");
++    assert!(cleanup.workers_settled, "created workers did not finish");
++    assert_eq!(cleanup.created_workers, expected_created_workers);
++    assert_eq!(cleanup.remaining_worker_handles, [false; 3]);
++    assert_eq!(
++        cleanup.join_succeeded,
++        expected_created_workers.map(|created| created.then_some(true))
++    );
++    assert!(
++        !cleanup.forced,
++        "constructor cleanup needed forced Node kill"
++    );
++    assert_eq!(cleanup.phase_deadline_exceeded, [false; 2]);
++    assert!(matches!(
++        observations.try_recv(),
++        Err(mpsc::TryRecvError::Disconnected)
++    ));
++    // Partial construction has no trusted ready browser identity or independent
++    // process-group absence witness. Never infer Chromium absence from Node.
++    let _ = writeln!(
++        std::io::stderr().lock(),
++        "RESIDENT_STARTUP_PROBE fault={fault:?} simulated_setup_error=true node_reaped=true created_workers_joined_successfully=true forced=false phase_deadlines_exceeded=false browser_custody=UNKNOWN"
++    );
++}
++
++#[test]
++fn injected_writer_setup_failure_preserves_constructor_error_and_resource_custody() {
++    assert_setup_failure(
++        StartupFault::Writer,
++        "infrastructure: resident writer start",
++        [false, false, false],
++    );
++}
++
++#[test]
++fn injected_reader_setup_failure_preserves_constructor_error_and_resource_custody() {
++    assert_setup_failure(
++        StartupFault::Reader,
++        "infrastructure: resident reader start",
++        [true, false, false],
++    );
++}
++
++#[test]
++fn injected_stderr_setup_failure_preserves_constructor_error_and_resource_custody() {
++    assert_setup_failure(
++        StartupFault::Stderr,
++        "infrastructure: resident stderr start",
++        [true, true, false],
++    );
++}
++
++#[test]
++fn failed_close_is_cached_without_restarting_cleanup_and_normal_drop_stays_failing() {
++    let (observed, observations) = mpsc::channel();
++    let mut owner = ResidentAuthenticator::new_observed(None, Some(observed))
++        .expect("real resident fixture ready");
++    // Dispose of the actual receiver. No frame, ACK or provider is fabricated.
++    owner.output.take();
++    owner.failed = true;
++    let first = owner.close();
++    assert_eq!(first, Err("infrastructure: resident stdout closed"));
++    let cleanup = observations
++        .try_recv()
++        .expect("first real cleanup observation");
++    assert_eq!(cleanup.result, first);
++    assert!(cleanup.node_pid > 0);
++    assert!(cleanup.node_reaped);
++    assert!(cleanup.workers_settled);
++    assert_eq!(cleanup.created_workers, [true; 3]);
++    assert_eq!(cleanup.remaining_worker_handles, [false; 3]);
++    assert_eq!(cleanup.join_succeeded, [Some(true); 3]);
++    assert!(
++        !cleanup.forced,
++        "cached-failure cleanup needed forced Node kill"
++    );
++    assert_eq!(cleanup.phase_deadline_exceeded, [false; 2]);
++    assert_eq!(owner.close(), first);
++    assert!(matches!(
++        observations.try_recv(),
++        Err(mpsc::TryRecvError::Empty)
++    ));
++    let dropped = std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| drop(owner)));
++    let expected_panic = match dropped {
++        Err(payload) => {
++            payload
++                .downcast_ref::<&'static str>()
++                .copied()
++                .or_else(|| payload.downcast_ref::<String>().map(String::as_str))
++                == Some("infrastructure: resident stdout closed")
++        }
++        Ok(()) => false,
++    };
++    assert!(
++        expected_panic,
++        "normal Drop did not preserve fixed cleanup failure"
++    );
++    assert!(matches!(
++        observations.try_recv(),
++        Err(mpsc::TryRecvError::Disconnected)
++    ));
++    let _ = writeln!(
++        std::io::stderr().lock(),
++        "RESIDENT_CACHED_FAILURE_PROBE real_node_reaped=true created_workers_joined_successfully=true forced=false phase_deadlines_exceeded=false cleanup_attempts=1 repeated_error_preserved=true normal_drop_expected_panic=true browser_custody=UNKNOWN"
++    );
++}
+diff --git a/tools/enrollment-fault-deadlines.mjs b/tools/enrollment-fault-deadlines.mjs
+index e4b76a8..7ba49a1 100644
+--- a/tools/enrollment-fault-deadlines.mjs
++++ b/tools/enrollment-fault-deadlines.mjs
+@@ -1,12 +1,26 @@
+ // Test-process supervision only; this never certifies native enrollment.
+ export function superviseEnrollmentFault(child) {
+   let forced = false;
+-  const deadline = setTimeout(() => { forced = true; child.kill("SIGTERM"); }, 25000);
+-  const force = setTimeout(() => { forced = true; child.kill("SIGKILL"); }, 35000);
++  let faultStarted = false;
++  let disposed = false;
++  const terminate = () => { forced = true; child.kill("SIGTERM"); };
++  const kill = () => { forced = true; child.kill("SIGKILL"); };
++  // One absolute prerequisite budget, bounded by the runner's 140s watchdog.
++  // It covers locked installation and real Next/Chromium startup, not cleanup.
++  let deadline = setTimeout(terminate, 140000);
++  let force = setTimeout(kill, 150000);
+   return {
+-    // Preserve the original spawn-relative clocks for the behavioral baseline.
+-    beginFault() {},
++    beginFault() {
++      if (forced || faultStarted || disposed) throw new Error("Fault deadline cannot be restarted");
++      faultStarted = true;
++      clearTimeout(deadline);
++      clearTimeout(force);
++      // Keep the original cleanup limits, starting at the actual fault input.
++      // Both the cleanup acknowledgement AND natural exit must fit this clock.
++      deadline = setTimeout(terminate, 25000);
++      force = setTimeout(kill, 35000);
++    },
+     get forced() { return forced; },
+-    clear() { clearTimeout(deadline); clearTimeout(force); },
++    clear() { disposed = true; clearTimeout(deadline); clearTimeout(force); },
+   };
+ }
+diff --git a/tools/production-runtime.mjs b/tools/production-runtime.mjs
+index ba55752..8163565 100644
+--- a/tools/production-runtime.mjs
++++ b/tools/production-runtime.mjs
+@@ -42,7 +42,9 @@ async function install(destination, signal) {
+   const npm = path.join(path.dirname(process.execPath), "npm");
+   const child = spawn(npm, ["ci", "--omit=dev", "--omit=optional", "--ignore-scripts", "--no-audit", "--no-fund"], {
+     cwd: destination, detached: process.platform !== "win32", stdio: ["ignore", "pipe", "pipe"],
+-    env: { ...process.env, NODE_ENV: "production" },
++    // npm enables Node's compile cache before installing. Keep that disposable
++    // cache out of the caller's TMPDIR; it is not part of the runtime closure.
++    env: { ...process.env, NODE_ENV: "production", NODE_DISABLE_COMPILE_CACHE: "1" },
+   });
+   let output = 0;
+   let killDeadline;
+diff --git a/tools/test-browser-business-session.mjs b/tools/test-browser-business-session.mjs
+index 27cc94c..45ae02e 100644
+--- a/tools/test-browser-business-session.mjs
++++ b/tools/test-browser-business-session.mjs
+@@ -24,12 +24,15 @@ const cleanEnv = Object.fromEntries(
+ );
+ const input = process.stdin[Symbol.asyncIterator]();
+ let buffered = Buffer.alloc(0);
++let inputEnded = false;
++let inputChanged = Promise.withResolvers();
+ let incoming = 0;
+ let outgoing = 0;
+ async function readFrameUnsafe(waitMs = PHASE_MS) {
+   const expectedSequence = incoming++; assert.ok(incoming <= MAX_FRAMES);
+   const deadline = Date.now() + waitMs;
+   while (true) {
++    assert.ok(!inputEnded && !closing);
+     if (buffered.length >= 4) {
+       const length = buffered.readUInt32BE();
+       assert.ok(length > 0 && length <= MAX_FRAME);
+@@ -44,13 +47,10 @@ async function readFrameUnsafe(waitMs = PHASE_MS) {
+     const remaining = deadline - Date.now();
+     assert.ok(remaining > 0);
+     let timer;
+-    const item = await Promise.race([
+-      input.next(),
++    await Promise.race([
++      inputChanged.promise,
+       new Promise((_, reject) => { timer = setTimeout(() => reject(new Error("IPC deadline")), remaining); }),
+     ]).finally(() => clearTimeout(timer));
+-    assert.ok(!item.done);
+-    assert.ok(buffered.length + item.value.length <= MAX_FRAME + 4);
+-    buffered = Buffer.concat([buffered, item.value]);
+   }
+ }
+ async function writeFrameUnsafe(fields) {
+@@ -130,7 +130,26 @@ function finalize(outcome, exitCode) {
+ function interrupted() { void finalize("aborted", 2); }
+ process.once("SIGTERM", interrupted);
+ process.once("SIGINT", interrupted);
+-process.stdin.once("end", () => { if (!closing) interrupted(); });
++// Own the input from startup so EOF also cancels staging. Frame decoding and
++// sequence validation stay in readFrame; early data only fills its bounded buffer.
++void (async () => {
++  try {
++    for await (const chunk of input) {
++      assert.ok(buffered.length + chunk.length <= MAX_FRAME + 4);
++      buffered = Buffer.concat([buffered, chunk]);
++      const changed = inputChanged;
++      inputChanged = Promise.withResolvers();
++      changed.resolve();
++    }
++  } catch {
++    // Malformed/failed input retains failed/1; EOF retains aborted/2.
++    void finalize("failed", 1);
++  } finally {
++    inputEnded = true;
++    inputChanged.resolve();
++    if (!closing) interrupted();
++  }
++})();
+ const watchdog = setTimeout(interrupted, 140000);
+ 
+ import { createHash, randomBytes, randomUUID } from "node:crypto";
+@@ -792,6 +811,7 @@ try {
+   let packager;
+   try { packager = await import(pathToFileURL(packagerPath).href); } catch { throw new InfrastructureError(); }
+   if (typeof packager.stageProductionRuntime !== "function" || typeof packager.verifyProductionRuntime !== "function") throw new InfrastructureError();
++  assert.ok(!closing);
+   startup = (async () => {
+     stage = await mkdtemp(path.join(tmpdir(), "console-product-browser-"));
+     const destination = path.join(stage, "runtime");
+diff --git a/tools/test-native-browser-enrollment.mjs b/tools/test-native-browser-enrollment.mjs
+index b185ad6..1c8ec7b 100644
+--- a/tools/test-native-browser-enrollment.mjs
++++ b/tools/test-native-browser-enrollment.mjs
+@@ -23,12 +23,15 @@ const cleanEnv = Object.fromEntries(
+ );
+ const input = process.stdin[Symbol.asyncIterator]();
+ let buffered = Buffer.alloc(0);
++let inputEnded = false;
++let inputChanged = Promise.withResolvers();
+ let incoming = 0;
+ let outgoing = 0;
+ async function readFrame(waitMs = PHASE_MS) {
+   assert.ok(++incoming <= MAX_FRAMES);
+   const deadline = Date.now() + waitMs;
+   while (true) {
++    assert.ok(!inputEnded && !closing);
+     if (buffered.length >= 4) {
+       const length = buffered.readUInt32BE();
+       assert.ok(length > 0 && length <= MAX_FRAME);
+@@ -43,13 +46,10 @@ async function readFrame(waitMs = PHASE_MS) {
+     const remaining = deadline - Date.now();
+     assert.ok(remaining > 0);
+     let timer;
+-    const item = await Promise.race([
+-      input.next(),
++    await Promise.race([
++      inputChanged.promise,
+       new Promise((_, reject) => { timer = setTimeout(() => reject(new Error("IPC deadline")), remaining); }),
+     ]).finally(() => clearTimeout(timer));
+-    assert.ok(!item.done);
+-    assert.ok(buffered.length + item.value.length <= MAX_FRAME + 4);
+-    buffered = Buffer.concat([buffered, item.value]);
+   }
+ }
+ async function writeFrame(fields) {
+@@ -135,7 +135,26 @@ function finalize(outcome, exitCode) {
+ function interrupted() { void finalize("aborted", 2); }
+ process.once("SIGTERM", interrupted);
+ process.once("SIGINT", interrupted);
+-process.stdin.once("end", () => { if (!closing) interrupted(); });
++// Own the input from startup so EOF also cancels staging. Frame decoding and
++// sequence validation stay in readFrame; early data only fills its bounded buffer.
++void (async () => {
++  try {
++    for await (const chunk of input) {
++      assert.ok(buffered.length + chunk.length <= MAX_FRAME + 4);
++      buffered = Buffer.concat([buffered, chunk]);
++      const changed = inputChanged;
++      inputChanged = Promise.withResolvers();
++      changed.resolve();
++    }
++  } catch {
++    // Malformed/failed input retains failed/1; EOF retains aborted/2.
++    void finalize("failed", 1);
++  } finally {
++    inputEnded = true;
++    inputChanged.resolve();
++    if (!closing) interrupted();
++  }
++})();
+ const watchdog = setTimeout(interrupted, 140000);
+ let outcome = "failed";
+ let exitCode = 1;
+diff --git a/tools/test-native-browser-enrollment.test.mjs b/tools/test-native-browser-enrollment.test.mjs
+index 1669462..7e35079 100644
+--- a/tools/test-native-browser-enrollment.test.mjs
++++ b/tools/test-native-browser-enrollment.test.mjs
+@@ -2,6 +2,9 @@
+ import assert from "node:assert/strict";
+ import { spawn } from "node:child_process";
+ import { once } from "node:events";
++import { mkdtemp, readdir, rm } from "node:fs/promises";
++import { tmpdir } from "node:os";
++import path from "node:path";
+ import test from "node:test";
+ import { fileURLToPath } from "node:url";
+ import { superviseEnrollmentFault } from "./enrollment-fault-deadlines.mjs";
+@@ -12,10 +15,19 @@ const env = Object.fromEntries(
+     .map((key) => [key, process.env[key]]),
+ );
+ 
+-for (const fault of ["signal-after-origin", "eof-after-ready", "oversized", "wrong-version", "wrong-sequence", "wrong-kind", "legacy-selection", "missing-selection", "malformed-selection", "weak-uv"]) {
+-  test(`enrollment runner confirms cleanup after ${fault}`, { timeout: 40000 }, async () => {
+-    const child = spawn(process.execPath, [fileURLToPath(new URL("./test-native-browser-enrollment.mjs", import.meta.url))], {
+-      env, stdio: ["pipe", "pipe", "pipe"],
++const startupFaults = ["eof-before-origin", "partial-eof-before-origin", "frame-eof-before-origin"];
++const enrollmentFaults = [...startupFaults, "signal-after-origin", "eof-after-ready", "oversized", "wrong-version", "wrong-sequence", "wrong-kind", "legacy-selection", "missing-selection", "malformed-selection", "weak-uv"];
++const cases = [
++  ...enrollmentFaults.map((fault) => ["test-native-browser-enrollment.mjs", fault]),
++  ...startupFaults.map((fault) => ["test-browser-business-session.mjs", fault]),
++];
++for (const [runner, fault] of cases) {
++  // 140s prerequisite + 35s fault supervision + 6s final cleanup, with margin.
++  const name = runner === "test-browser-business-session.mjs" ? "business" : "enrollment";
++  test(`${name} runner confirms cleanup after ${fault}`, { timeout: 190000 }, async () => {
++    const owned = await mkdtemp(path.join(tmpdir(), "enrollment-fault-"));
++    const child = spawn(process.execPath, [fileURLToPath(new URL(`./${runner}`, import.meta.url))], {
++      env: { ...env, TMPDIR: owned }, stdio: ["pipe", "pipe", "pipe"],
+     });
+     // Drain without retaining error stacks, server output or proof bytes.
+     let stderrBytes = 0;
+@@ -54,11 +66,18 @@ for (const fault of ["signal-after-origin", "eof-after-ready", "oversized", "wro
+     // termination cannot count as confirmed cleanup or a passed fault check.
+     const supervision = superviseEnrollmentFault(child);
+     try {
+-      assert.equal((await read()).kind, "origin");
++      if (startupFaults.includes(fault)) {
++        supervision.beginFault();
++        if (fault === "partial-eof-before-origin") child.stdin.write(Buffer.from([0, 0]));
++        if (fault === "frame-eof-before-origin") send({ v: 1, seq: 0, kind: "done" });
++        child.stdin.end();
++      } else {
++        assert.equal((await read()).kind, "origin");
++      }
+       if (fault === "signal-after-origin") {
+         supervision.beginFault();
+         child.kill("SIGTERM");
+-      } else {
++      } else if (!startupFaults.includes(fault)) {
+         assert.equal((await read()).kind, "ready");
+         supervision.beginFault();
+         if (fault === "eof-after-ready") child.stdin.end();
+@@ -85,14 +104,16 @@ for (const fault of ["signal-after-origin", "eof-after-ready", "oversized", "wro
+       if (cleaned.kind === "ready" && fault === "signal-after-origin") cleaned = await read();
+       assert.equal(cleaned.kind, "cleaned");
+       assert.equal(cleaned.creation_attempts, 0, "invalid contract cannot reach credential creation");
+-      const aborted = fault === "signal-after-origin" || fault === "eof-after-ready";
++      const aborted = startupFaults.includes(fault) || ["signal-after-origin", "eof-after-ready"].includes(fault);
+       assert.equal(cleaned.outcome, aborted ? "aborted" : "failed");
+       child.stdin.end();
+       const [code, signal] = await exited;
++      supervision.clear();
+       assert.equal(code, aborted ? 2 : 1);
+       assert.equal(signal, null);
+       assert.ok(stderrBytes <= 1048576);
+       assert.equal(supervision.forced, false, "fallback intervention cannot prove requested cleanup");
++      assert.deepEqual(await readdir(owned), [], "runner must release its owned temporary resources before parent cleanup");
+     } finally {
+       supervision.clear();
+       child.stdin.destroy();
+@@ -102,6 +123,7 @@ for (const fault of ["signal-after-origin", "eof-after-ready", "oversized", "wro
+         await exited;
+         clearTimeout(forced);
+       }
++      await rm(owned, { recursive: true, force: true });
+     }
+   });
+ }
+diff --git a/tools/test-resident-authenticator.mjs b/tools/test-resident-authenticator.mjs
+index 89191c9..84e6ce1 100644
+--- a/tools/test-resident-authenticator.mjs
++++ b/tools/test-resident-authenticator.mjs
+@@ -3,7 +3,10 @@
+ // Conditional presentation is deliberately modal in this native fixture only;
+ // unchanged C2/product runners own actual conditional/production UI evidence.
+ import assert from "node:assert/strict";
+-import { setTimeout as delay } from "node:timers/promises";
++import { writeSync } from "node:fs";
++import { lstat, mkdtemp, rm } from "node:fs/promises";
++import { tmpdir } from "node:os";
++import { join } from "node:path";
+ import { chromium } from "@playwright/test";
+ 
+ const ORIGIN = "https://auth.example.com";
+@@ -29,6 +32,7 @@ let buffered = Buffer.alloc(0);
+ let incoming = 0;
+ let outgoing = 0;
+ let browserServer;
++let ownedTempScope;
+ let browser;
+ let context;
+ let page;
+@@ -39,6 +43,31 @@ let closing = false;
+ let startup = Promise.resolve();
+ let finalization;
+ let watchdog;
++// Fixed pre-ready checkpoints only. These clocks observe existing budgets;
++// they do not arm timers, change deadlines or gate protocol outcomes.
++const setupStartedAt = performance.now();
++let setupStage = "initial";
++let setupStageAt = setupStartedAt;
++let setupBudgetStartedAt = setupStartedAt;
++let setupBudgetMs = null;
++let setupComplete = false;
++function setupCheckpoint(stage, budgetMs = null, budgetStartedAt = performance.now()) {
++  setupStage = stage;
++  setupStageAt = performance.now();
++  setupBudgetStartedAt = budgetStartedAt;
++  setupBudgetMs = budgetMs;
++}
++function setupDiagnostic() {
++  const now = performance.now();
++  const setupAgeMs = Math.max(0, Math.floor(now - setupStartedAt));
++  const stageAgeMs = Math.max(0, Math.floor(now - setupStageAt));
++  const fields = { stage: setupStage, setup_age_ms: Math.min(setupAgeMs, 600_000),
++    stage_age_ms: Math.min(stageAgeMs, 600_000), age_capped: setupAgeMs > 600_000 || stageAgeMs > 600_000,
++    budget_ms: setupBudgetMs,
++    budget_elapsed: setupBudgetMs === null ? null : now - setupBudgetStartedAt >= setupBudgetMs };
++  // No errors, paths, IDs, credentials or native payloads. Logging is best effort.
++  try { writeSync(2, `RESIDENT_SETUP_DIAGNOSTIC ${JSON.stringify(fields)}\n`); } catch {}
++}
+ 
+ async function readFrame() {
+   assert.ok(incoming < MAX_FRAMES);
+@@ -85,33 +114,117 @@ async function finalize(outcome, exitCode) {
+     clearTimeout(watchdog);
+     // Enclose the 5s launch owner plus 2s close, 2s kill and IPC headroom.
+     // Rust allows 15s. Timeout remains unconfirmed cleanup, never success.
+-    const deadline = setTimeout(() => process.exit(3), 12_000);
++    let stage = "startup";
++    let child;
++    let childExitSeen = false;
++    let childCloseSeen = false;
++    let closeSettled = false;
++    let killSettled = false;
++    let cleanupConfirmed = false;
++    let ownedTempRemoved = false;
++    const deadlineAt = performance.now() + 12_000;
++    function withinDeadline() {
++      assert.ok(performance.now() < deadlineAt);
++    }
++    async function removeOwnedTempScope() {
++      if (!ownedTempScope) return;
++      stage = "owned-temp";
++      withinDeadline();
++      // This one fresh scope is ours. Never remove the caller's TMPDIR.
++      await rm(ownedTempScope, { recursive: true, force: true, maxRetries: 10 });
++      withinDeadline();
++      try {
++        await lstat(ownedTempScope);
++      } catch (error) {
++        assert.equal(error?.code, "ENOENT");
++        withinDeadline();
++        ownedTempRemoved = true;
++        return;
++      }
++      assert.fail("owned temporary scope still exists");
++    }
++    // The fixture owns the 2s phase timer; it must release a losing timer too.
++    async function waitForShutdown(operation) {
++      let timer;
++      const phaseDeadlineAt = performance.now() + 2_000;
++      try {
++        const settled = await Promise.race([operation,
++          new Promise((resolve) => { timer = setTimeout(() => resolve(false), 2_000); })]);
++        return performance.now() < phaseDeadlineAt && settled;
++      } finally { clearTimeout(timer); }
++    }
++    function diagnostic() {
++      // Fixed failure metadata only. Never expose errors, IDs, paths or native payloads.
++      const fields = { stage, child_exit_seen: childExitSeen, child_close_seen: childCloseSeen,
++        close_settled: closeSettled, kill_settled: killSettled,
++        child_exited: Boolean(child && (child.exitCode !== null || child.signalCode !== null)),
++        owned_temp_seen: Boolean(ownedTempScope), owned_temp_removed: ownedTempRemoved };
++      try { writeSync(2, `RESIDENT_CLEANUP_DIAGNOSTIC ${JSON.stringify(fields)}\n`); } catch {}
++    }
++    const deadline = setTimeout(() => { diagnostic(); process.exit(3); }, 12_000);
+     try {
+       // EOF/signal can race launch; await its returned resource owner first.
+       await startup.catch(() => {});
++      withinDeadline();
++      if (!browserServer) {
++        // A settled startup failure can still own a real temporary scope.
++        // No returned server is not proof that no browser was spawned.
++        await removeOwnedTempScope();
++        assert.fail("no returned browser cleanup owner");
++      }
+       let browserPid = null;
+       let browserExited = null;
+       if (browserServer) {
+-        const child = browserServer.process();
++        stage = "browser-identity";
++        child = browserServer.process();
++        child.once("exit", () => { childExitSeen = true; });
++        child.once("close", () => { childCloseSeen = true; });
+         browserPid = child.pid;
+         assert.ok(Number.isSafeInteger(browserPid) && browserPid > 0);
+-        const closed = await Promise.race([
+-          browserServer.close().then(() => true, () => false), delay(2_000).then(() => false),
+-        ]);
+-        if (!closed) assert.ok(await Promise.race([
+-          browserServer.kill().then(() => true, () => false), delay(2_000).then(() => false),
+-        ]));
++        stage = "browser-close";
++        const closed = await waitForShutdown(
++          browserServer.close().then(() => { closeSettled = true; return true; },
++            () => { closeSettled = true; return false; }),
++        );
++        withinDeadline();
++        if (!closed) {
++          stage = "browser-kill";
++          const killing = browserServer.kill().then(() => { killSettled = true; return true; },
++            () => { killSettled = true; return false; });
++          const killed = await waitForShutdown(killing);
++          withinDeadline();
++          if (!killed) {
++            // close/kill share the SDK's real artifact-cleanup promise. After
++            // observed exit/close, its pending work retains the original bound.
++            assert.equal(childCloseSeen, true);
++            assert.ok(child.exitCode !== null || child.signalCode !== null);
++            stage = "browser-cleanup";
++            assert.equal(await killing, true);
++            withinDeadline();
++          }
++        }
++        stage = "browser-exit";
+         browserExited = child.exitCode !== null || child.signalCode !== null;
+         assert.equal(browserExited, true);
+       }
++      await removeOwnedTempScope();
+       registration = undefined;
+       buffered = Buffer.alloc(0);
++      stage = "ack";
++      withinDeadline();
++      assert.equal(ownedTempRemoved, true);
+       await writeFrame({ kind: "cleaned", outcome, browser_pid: browserPid, browser_exited: browserExited });
++      withinDeadline();
++      cleanupConfirmed = true;
+       process.exitCode = exitCode;
+     } catch {
++      diagnostic();
+       process.exitCode = 3; // No cleanup ACK or native-success substitute.
+     } finally {
+-      clearTimeout(deadline);
++      // Failed shutdown still owns its hard bound; an idle failure may exit
++      // naturally with code3, while pending SDK handles remain bounded by12s.
++      if (cleanupConfirmed) clearTimeout(deadline);
++      else deadline.unref();
+       process.stdin.destroy();
+     }
+   })();
+@@ -124,7 +237,9 @@ process.stdin.once("end", () => { if (!closing) interrupted(); });
+ watchdog = setTimeout(interrupted, 600_000);
+ 
+ async function secureDocument() {
++  if (!setupComplete) setupCheckpoint("secure-url");
+   assert.equal(new URL(page.url()).origin, ORIGIN);
++  if (!setupComplete) setupCheckpoint("secure-state");
+   assert.deepEqual(await page.evaluate(() => ({
+     origin: location.origin, secure: isSecureContext,
+     creation: typeof PublicKeyCredential.parseCreationOptionsFromJSON,
+@@ -148,15 +263,37 @@ async function residentMetadata(credential) {
+ let outcome = "failed";
+ let exitCode = 1;
+ try {
+-  startup = chromium.launchServer({ env: cleanEnv, timeout: STARTUP_MS })
+-    .then((server) => { browserServer = server; });
+-  await startup;
++  const startupDeadlineAt = performance.now() + STARTUP_MS;
++  startup = (async () => {
++    setupCheckpoint("temporary-scope", STARTUP_MS, startupDeadlineAt - STARTUP_MS);
++    ownedTempScope = await mkdtemp(join(tmpdir(), "console-resident-authenticator-"));
++    // This process hosts only this fixture. SDK defaults and Chromium use the
++    // same fresh scope; no host/global environment or private SDK hook changes.
++    process.env.TMPDIR = ownedTempScope;
++    assert.ok(!closing);
++    const remaining = startupDeadlineAt - performance.now();
++    assert.ok(remaining > 0);
++    setupCheckpoint("browser-launch", STARTUP_MS, startupDeadlineAt - STARTUP_MS);
++    browserServer = await chromium.launchServer({
++      env: { ...cleanEnv, TMPDIR: ownedTempScope }, timeout: remaining,
++    });
++  })();
++  let startupTimer;
++  try {
++    await Promise.race([startup, new Promise((_, reject) => {
++      startupTimer = setTimeout(() => reject(new Error("startup deadline")), STARTUP_MS);
++    })]);
++    assert.ok(performance.now() < startupDeadlineAt);
++  } finally { clearTimeout(startupTimer); }
+   assert.ok(!closing);
++  setupCheckpoint("browser-connect", PHASE_MS);
+   browser = await chromium.connect(browserServer.wsEndpoint(), { timeout: PHASE_MS });
+   assert.ok(!closing);
++  setupCheckpoint("context");
+   context = await browser.newContext({ serviceWorkers: "block", acceptDownloads: false });
+   // Only this fixed fixture document is fulfilled. Every other URL is denied;
+   // there is no native API interception and no HTTP/provider success simulation.
++  setupCheckpoint("route");
+   await context.route("**/*", (route) => {
+     if (route.request().url() === `${ORIGIN}/` && route.request().method() === "GET") {
+       return route.fulfill({ status: 200, contentType: "text/html", body:
+@@ -164,18 +301,26 @@ try {
+     }
+     return route.abort("blockedbyclient");
+   });
++  setupCheckpoint("page");
+   page = await context.newPage();
++  setupCheckpoint("navigate", PHASE_MS);
+   await page.goto(`${ORIGIN}/`, { timeout: PHASE_MS });
+   await secureDocument();
++  setupCheckpoint("cdp-session");
+   cdp = await context.newCDPSession(page);
++  setupCheckpoint("webauthn-enable");
+   await cdp.send("WebAuthn.enable");
++  setupCheckpoint("virtual-authenticator");
+   ({ authenticatorId } = await cdp.send("WebAuthn.addVirtualAuthenticator", {
+     options: { protocol: "ctap2", transport: "internal", hasResidentKey: true,
+       hasUserVerification: true, isUserVerified: true, automaticPresenceSimulation: true },
+   }));
++  setupCheckpoint("browser-identity");
+   const browserPid = browserServer.process().pid;
+   assert.ok(Number.isSafeInteger(browserPid) && browserPid > 0);
++  setupCheckpoint("ready");
+   await writeFrame({ kind: "ready", origin: ORIGIN, secure_context: true, browser_pid: browserPid });
++  setupComplete = true;
+   while (!closing) {
+     const command = await readFrame();
+     assert.ok(!closing);
+@@ -241,6 +386,7 @@ try {
+     }
+   }
+ } catch {
++  if (!setupComplete) setupDiagnostic();
+   if (!closing) {
+     process.stderr.write("resident authenticator fixture failed\n");
+     await writeFrame({ kind: "error", code: "fixture-failure" }).catch(() => {});

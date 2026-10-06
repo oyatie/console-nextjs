@@ -1,0 +1,255 @@
+{
+  "schema": "business-writer-required-full-native-terminal-audit/1",
+  "verdict": "VERIFIED_CURRENT_REQUIRED_FULL125_AND_BROWSER17_ALL_PASS",
+  "scope": "Exact completed unfiltered full125 root report/log/2958 captured maps, exact discovery125 set and embedded17-browser payload independently audited. No test execution, source writes, root sessions, regenerated maps, historicalcause, final aggregate source/evidence approval, portable seal or merge admission.",
+  "inputs": {
+    "root_report": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/business-writer-final-full-native01.json",
+      "bytes": 1093,
+      "sha256": "98ec8a8d43469c16daa7c321f5d339bf9c738bbb426cfd5566012bc1475dda5b"
+    },
+    "completed_log": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/business-writer-final-full-native01.log",
+      "bytes": 26851,
+      "sha256": "e1ac895efd241e8440d50180bd505cb2e6f8382e9d97284493515832565bc29e"
+    },
+    "captured_input_map": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/business-writer-final-full-native01.inputs.json",
+      "bytes": 917481,
+      "sha256": "860a09c23df250e4f1f95d71b64cf8056d03d88d3c52f66c80cb0ed71b56bfb6"
+    },
+    "latest125_discovery_report": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/native-input-final-discovery01.json",
+      "bytes": 1054,
+      "sha256": "7d09fff3a73a1235f3fbf169f672c23b0fca3826142a78b3a47a704fad1e3c81"
+    },
+    "latest125_discovery_log": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/native-input-final-discovery01.log",
+      "bytes": 14084,
+      "sha256": "c8105816c31eddd6a09225c80e51a553719b63af3bb53d98ffa370dbf8792885"
+    },
+    "latest125_discovery_inputs": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/native-input-final-discovery01.inputs.json",
+      "bytes": 917481,
+      "sha256": "77d09afd7c39eb07166ae64c0cb85e660c8f2b57927090464edbf198dd415d4a"
+    },
+    "native_accounting": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/business-writer-final-full-native01-terminal-audit01/native-counts.json",
+      "bytes": 12493,
+      "sha256": "fcc520ebe7a6b1a7a90debdafc8aa7579af63ea852103277787dc4b59b85cc7b"
+    },
+    "exact_browser_payload": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/business-writer-final-full-native01-terminal-audit01/browser-payload.json",
+      "bytes": 7052,
+      "sha256": "bfaedceac01cec85715fb4b8a72c549188843d7e3c491b81f7873514dcb10e38"
+    },
+    "prior_required_fullRED_audit": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/native-input-final-full-native01-terminal-audit01/audit.json",
+      "bytes": 10490,
+      "sha256": "7bf286d80ec750e4ec798bc832eebaae5175ae31c05b867143b8fe7f42db6a32"
+    },
+    "current_required22PASS_audit": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/business-writer-final-process-faults01-terminal-audit01/audit.json",
+      "bytes": 8814,
+      "sha256": "329bf7a28bf7c3e82027c5df030bca0e552f949cff2c429eae9c2c3d24c0cfb4"
+    }
+  },
+  "native": {
+    "command": [
+      "bash",
+      "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/tools/lanes/pgtest.sh",
+      "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork",
+      "/Users/jasonlee/.cargo/bin/cargo",
+      "+1.98.1",
+      "test",
+      "--locked",
+      "--offline",
+      "--no-fail-fast",
+      "--features",
+      "frontend-e2e",
+      "-p",
+      "console-app",
+      "--test",
+      "auth_rest",
+      "--",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+    "exit_code": 0,
+    "outer_timeout": false,
+    "wrapper_duration_seconds": 1499.9465588750318,
+    "body_duration_seconds": 1487.38,
+    "discovered": 125,
+    "executed": 125,
+    "passed": 125,
+    "failed": 0,
+    "ignored": 0,
+    "measured": 0,
+    "filtered": 0,
+    "exact_unique_observed_names": 125,
+    "matches_latest125_discovery_name_set": true,
+    "original121_plus_four_constructor_cache_cases": true
+  },
+  "browser": {
+    "discovered": 17,
+    "executed": 17,
+    "passed": 17,
+    "failed": 0,
+    "skipped": 0,
+    "unreached": 0,
+    "failure_class": null,
+    "unique_exact_ids": [
+      "P01",
+      "P02",
+      "P03",
+      "P04",
+      "P05",
+      "P06",
+      "P07",
+      "P08",
+      "P09",
+      "P10",
+      "P11",
+      "P12",
+      "P13",
+      "P14",
+      "P15",
+      "P16",
+      "P17"
+    ],
+    "P16_variant_status": {
+      "blocked-bundles": "passed",
+      "blocked-css-bundles": "passed",
+      "delayed-bundles": "passed",
+      "queued-react-css": "passed",
+      "offline": "passed",
+      "missing-guard": "passed",
+      "thrown-guard": "passed"
+    },
+    "payload": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/business-writer-final-full-native01-terminal-audit01/browser-payload.json",
+      "bytes": 7052,
+      "sha256": "bfaedceac01cec85715fb4b8a72c549188843d7e3c491b81f7873514dcb10e38"
+    },
+    "non_additive_counting": "All17 browser scenarios are inside the single genuine browser consumer among125 native tests."
+  },
+  "P16_actual_observations": {
+    "queued_native401_gate_context_pending": {
+      "stage": "verified-native-denial",
+      "native_gate_match": true,
+      "native_context_match": true,
+      "native_status_401": true,
+      "pending": {
+        "original": true,
+        "restored": true,
+        "queued": true,
+        "started": false
+      },
+      "pending_matches_expected": true
+    },
+    "originalF13_F14": [
+      {
+        "kind": "snapshot",
+        "sequence": 1,
+        "category": "reply-received",
+        "configured_budget_ms": 20000,
+        "observed_elapsed_ms": 7,
+        "elapsed_capped": false,
+        "native_input_completed": true,
+        "valid_original_reply_received": true,
+        "local_deadline_fired": false
+      },
+      {
+        "kind": "release",
+        "sequence": 2,
+        "category": "reply-received",
+        "configured_budget_ms": 20000,
+        "observed_elapsed_ms": 4,
+        "elapsed_capped": false,
+        "native_input_completed": true,
+        "valid_original_reply_received": true,
+        "local_deadline_fired": false
+      }
+    ],
+    "delayed_bundle_count": 16,
+    "all_seven_variant_trusted_original_restore": true,
+    "measured_guard_sha256": "a1c04481ce25603ade8e8fcd645ec27ff4730b446a4c54d81680b5c2fac76d97",
+    "measured_guard_documents": 2
+  },
+  "P16_source_bound_passing_outcomes": [
+    "Original native denial401 exact gate/context and original pending tuple are required before F13 snapshot; original private source snapshot is checked hidden and discarded before soleF14 release.",
+    "F14 requires original restored Document plus existing real React commits. Its later actual React update must remain hidden; no browser eval fallback releases the latch.",
+    "Original logout response observer matches same origin/path/POST/browsercontext and awaits real status204/no-content framing through assertNoContentResponse; selected cookie absence is checked only after that response.",
+    "Current private denial, gate release, completed Back, distinct fresh native denial Document and exactly one real hard reload are checked; independent B remains authorized.",
+    "Delayed bundles require actual held response bytes, released real script/React execution hidden in the original restored Document, current denial and one real reload.",
+    "Every variant owned-page/gate/network/route/session cleanup must succeed; failed or unreached variants prevent all17 success."
+  ],
+  "proof_granularity": "Exact payload carries native401/pending/F13-F14/trusted restore observations.204/cookies/privacy/reload/B outcomes are exact passing assertions in pinned executed source, not separately invented payload fields or raw traffic traces.",
+  "source_inputs": {
+    "before_count": 2958,
+    "after_count": 2958,
+    "all_entries_identical": true,
+    "matches_current_required22_and_static_input_closure": true,
+    "all12_implementation_CI_pins_match_and_current_source_bytes_verified": true,
+    "implementation_pins": {
+      ".github/workflows/ci.yml": "0ca66a38078c0a5ea8930312d7d1420e91d5b088859d2d477148dd79864a5c47",
+      "backend-fork/backend/app/tests/auth_rest/browser_sessions.rs": "af3da5f340ecaa1d78ad46d41fdc0a53be6d515a678727d54542fdffaff6d454",
+      "backend-fork/backend/app/tests/auth_rest/genuine_browser.rs": "3fc7ff40ce5b01325515803864ba2e87386562f4dd0bf744b2c22c594261879b",
+      "backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs": "ac3a42f9d88b85631d46640ffed8a63b3fd7793d2b3b5983402d2853f692fed8",
+      "tools/browser-business-restore.mjs": "e462014ed1730297d671a07fedc5b41d9e7204ebbd9270f75956eb8ebb25a9fd",
+      "tools/enrollment-fault-deadlines.mjs": "6f80266162d5413bcda245b17536b991518e95e22f5b1a7001067aaa4120fc06",
+      "tools/enrollment-fault-deadlines.test.mjs": "7e4aa20a3cfac678c5f5d8b620456da7b6e74d72fd6f64824b05cde363bc4bca",
+      "tools/production-runtime.mjs": "7e4d05bac69900295f8777c931999f2987acd36c947f281cbea7d1bbdf673367",
+      "tools/test-browser-business-session.mjs": "840d164c2e81b204d98347d8fc6a1f6467e3c70d5769bc1e1a815fc2ebf4bc11",
+      "tools/test-native-browser-enrollment.mjs": "afd17a0d0a69358613e1ff6d03d24f27eb322bd558a8cf021390e32527fff22e",
+      "tools/test-native-browser-enrollment.test.mjs": "3204b466940c270897814f9100ee8f92fbddfdc937e7b71a06406dacac778ead",
+      "tools/test-resident-authenticator.mjs": "3270d79e4a3511cba87b9998367b3918a00bdcebbc2935bb903019c319f13698"
+    },
+    "discovery_captured_backend_build_config_dependency_scope_entries": 2831,
+    "discovery_Rust_scope_every_hash_unchanged": true,
+    "only3_nonRust_deltas_from_discovery": [
+      {
+        "path": "tools/browser-business-restore.mjs",
+        "before_sha256": "3be5f8d095d22cd5c2588880650f26acebb92f535222232ad8da40bca16147da",
+        "after_sha256": "e462014ed1730297d671a07fedc5b41d9e7204ebbd9270f75956eb8ebb25a9fd"
+      },
+      {
+        "path": "tools/test-browser-business-session.mjs",
+        "before_sha256": "ea936c0cdc8670261d556686b46a6d813b6479f4a8c6dd7b0925a42092e6aa2a",
+        "after_sha256": "840d164c2e81b204d98347d8fc6a1f6467e3c70d5769bc1e1a815fc2ebf4bc11"
+      },
+      {
+        "path": "tools/test-native-browser-enrollment.mjs",
+        "before_sha256": "6cbb58a1b2eae9f01d0b4d0838afd7c5c421c496a532fde056a1f33e153027ce",
+        "after_sha256": "afd17a0d0a69358613e1ff6d03d24f27eb322bd558a8cf021390e32527fff22e"
+      }
+    ]
+  },
+  "cleanup": {
+    "database_lane_owned_cleanup_line_observed": true,
+    "product_protocol_completed_ACK_exit0_and_reap_before_report_print_source_bound": true,
+    "native_failure_marker_absent": true,
+    "no_independent_OS_wide_custody_survey": true,
+    "four_constructor_cache_probes": "Allfour passed; simulated setup faults labelled, expected cached-drop panic preserved, browser_custodyUNKNOWN unchanged. Their scoped Node reap/worker joins do not prove browsergroup absence."
+  },
+  "warnings_preserved": [
+    "Linker __eh_frame compact-unwind warning present.",
+    "Cargo proc-macro-error2 v2.0.1 future-incompatibility warning present."
+  ],
+  "historical_limits": [
+    "Prior full125124/1 and browser16/1 delayed-bundles RED remains preserved. This all-pass run does not reproduce or establish its historical cause.",
+    "Prior native process faults and readiness/noACK causes remain UNKNOWN despite current ordinary22 and full125 passing.",
+    "Earlier source-only reviews/copy diagnostics retain their limits and are not retroactively promoted to runtime proof."
+  ],
+  "remaining_required": [
+    "Root freezes final code and separate metadata snapshots for adversarial final aggregate source/evidence review.",
+    "Final source bindings and review receipts required before ready_to_seal; no package assembled by this audit.",
+    "Immutable-head hostedCI and protected merge queue acceptance remain separately required; no full HR/Org/Payroll/Foundry product readiness claim."
+  ],
+  "actions": {
+    "tests_executed": 0,
+    "tracked_source_writes": 0,
+    "artifact_only_audit_payload_native_accounting_write": true
+  }
+}

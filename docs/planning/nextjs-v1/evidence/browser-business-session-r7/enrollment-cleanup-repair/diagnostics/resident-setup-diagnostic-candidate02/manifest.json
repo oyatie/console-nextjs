@@ -1,0 +1,33 @@
+{
+  "schema": "resident-setup-diagnostic-candidate/2",
+  "status": "SOURCE_ONLY_NOT_APPLIED_NOT_EXECUTED",
+  "sources": {
+    "node": {
+      "before_sha256": "88cdfea200731ab32fcda0c797a96eee6ce49a42e6f174208fed29195105cd2e",
+      "after_sha256": "3270d79e4a3511cba87b9998367b3918a00bdcebbc2935bb903019c319f13698",
+      "source_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/resident-setup-diagnostic-candidate02/tools/test-resident-authenticator.mjs",
+      "before_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/resident-setup-diagnostic-candidate02/node-before.mjs"
+    },
+    "rust": {
+      "before_sha256": "c2fc3e190d7b9933cdaf77958a8a9dc11a6ab8df83fa69362c7a42d5bc67412c",
+      "after_sha256": "1a9ef29ee164cdeca5573a5b750b49f54f5e215f19a8709d9a8309ab5f71766f",
+      "source_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/resident-setup-diagnostic-candidate02/backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs",
+      "before_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/resident-setup-diagnostic-candidate02/rust-before.rs"
+    }
+  },
+  "patch_sha256": "44850cf403cdd3b3c36cd42472e26064390500be35a4ebb3a0ebedb39d86bc01",
+  "proposal_sha256": "42c4b6d6fdcce7bd24b336e2cedc26db58c727a1de4f0d6538e6e2bd652ce980",
+  "validation": "Node source unchanged from syntax-checked01; pinned Rust1.98.1 artifact-only rustfmt02 completed exit0. No compilation, runtime or tests.",
+  "ordinary_failure_prefix_bound": {
+    "setup_diagnostic_bytes_max": 164,
+    "existing_failure_text_bytes": 38,
+    "cleanup_diagnostic_bytes_max": 221,
+    "combined_bytes": 423,
+    "stderr_prefix_bytes_unchanged": 512,
+    "limit": "Existing deadline/catch can emit cleanup diagnostics twice; repeated cleanup lines remain outside the single ordinary-failure bound. No stderr-prefix capacity widening."
+  },
+  "supersedes": {
+    "candidate01_manifest_sha256": "3ddb3f9bbd474e75d784f80ff5e84a1fa7846f8a3d1e1da80877002ae41d622d",
+    "required_clock_fix": "Readiness age/budget elapsed now observed from immediately before unchanged value.read(PHASE), separately from bounded owner age and cap flag."
+  }
+}

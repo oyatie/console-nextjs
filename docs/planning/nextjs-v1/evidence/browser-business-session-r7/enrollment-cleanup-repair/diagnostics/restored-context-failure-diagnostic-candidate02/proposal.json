@@ -1,0 +1,91 @@
+{
+  "schema": "restored-context-failure-diagnostic-proposal/2",
+  "status": "ARTIFACT_ONLY_NOT_APPLIED_NOT_EXECUTED",
+  "scope": "Failure classification at the exact existing original-world CDP helper, plus fixed lifecycle equality observations. No product/SDK/authorization/crypto behavior change.",
+  "observed_basis": {
+    "browser_discovered": 17,
+    "browser_passed": 16,
+    "browser_failed": 1,
+    "variant": "queued-react-css",
+    "checkpoint": "queued-pending",
+    "actual_native_status": 401,
+    "native_gate_and_context_match": true,
+    "trusted_original_departures": 1,
+    "trusted_original_restores": 1,
+    "ordering_observation": null,
+    "failure_location": null,
+    "raw_cause": "UNPROVEN"
+  },
+  "falsifiable_mechanisms": [
+    {
+      "mechanism": "Original inspector context is no longer addressable after departure/restoration or reload initiation even while its persisted Document is observed.",
+      "evidence_needed": "Actual helper categorycdp-rejected plus lifecycle exact-unique-ID destroyed/cleared/close observations may support this path. False seen flags mean no received event, not proof availability. No captured ID may be remapped/retried."
+    },
+    {
+      "mechanism": "Runtime.evaluate returns an actual renderer exception rather than rejecting the CDP request.",
+      "evidence_needed": "Categoryreturned-exception, cdp_response_received=true, exception_returned=true and fixed standard exception class identify this branch. Class alone does not identify exact exception message or cause."
+    },
+    {
+      "mechanism": "The existing local race deadline wins before a result/rejection arrives.",
+      "evidence_needed": "Categorylocal-deadline and local_deadline_fired=true from inside the unchanged timer. Deadline and original losing promise remain owned; no tail/retry/fallback is added."
+    },
+    {
+      "mechanism": "An actual by-value reply lacks the expected value and a later pending-state access fails.",
+      "evidence_needed": "Categoryreturned-value plus fixed returned_value_kindundefined/null distinguishes post-helper failure. No result values or expected-state claims are logged."
+    }
+  ],
+  "source_blind_spot": {
+    "statement": "Public Playwright rejection wrapping can produce absolute filesystem stack frames while existing failure sanitizer permits exact fileURL forms, so null failure_location need not mean no source failure. No sanitizer change is included.",
+    "source_lines": [
+      "coreBundle.js8637-8639",
+      "coreBundle.js8655-8661",
+      "coreBundle.js57436-57444",
+      "browser-business-failure.mjs30"
+    ]
+  },
+  "mechanics_probe": {
+    "terminal": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/restored-context-mechanics-probe01/terminal.json",
+      "sha256": "5d34d9ac8e6cbe5ea15274648840aefc35d8f6736520667501c01d75ff048928",
+      "bytes": 1079
+    },
+    "source": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/restored-context-mechanics-probe01/probe.mjs",
+      "sha256": "eb0bce2a8918e86599d3e1ec14c167403b6d601fe6b71b59fddc97fece992e81",
+      "bytes": 5823
+    },
+    "status": "FAILED_INCOMPLETE_DIAGNOSTIC_NOT_ACCEPTANCE",
+    "limits": "Actual exit3/no output does not prove evaluation was reached or original unique-context usability. Its waits at58 and81 can precede terminal reporting; no new mechanics test is executed here."
+  },
+  "invariants": [
+    "Exact original uniqueContextId, expression, original Document guard, native gate/context401, pending assertion, one private latch release and all later actual React/logout204/cookie/privacy/reload/B checks remain.",
+    "Same existing CDP promise is awaited by the same Promise.race. Its existing rejection owner now records one local boolean; original rejection/error is rethrown unchanged. No fake provider/event, context remapping or retry.",
+    "Runtime.evaluate timeout and sole existing setTimeout values remain h.phaseMs??20000. No new timer or configured execution budget;600000 only bounds diagnostic age with explicit capped flag.",
+    "Fixed purposespin/pending/privacy/release, categories, JavaScript typeof kinds, fixed standard exception class allowlist and lifecycle equality/seen booleans only. No raw error/message/stack, HTML, payload/result values, context/event IDs, URLs or paths are emitted.",
+    "Lifecycle callbacks use existing public Runtime-enabled session and compare system-unique IDs transiently; no numeric-context fallback. Added listeners are removed by existing owned cleanup.",
+    "Snapshot records the actual awaited branch and then copies booleans/primitive metadata. Later losing-promise rejection/lifecycle events cannot mutate the captured diagnostic object. Missing diagnostic is absence of evidence, never GREEN.",
+    "last_created_main_world_matches_original reports equality with the last received default-main-world creation event only; it never claims that context is currently available or can be evaluated. Lifecycle seen false means event not observed, not proof absence.",
+    "Best-effort observe wraps only diagnostic computation/assignment; if it fails the diagnostic is absent and the actual original return/error still proceeds. No raw exception is emitted or consumed as acceptance."
+  ],
+  "required_next": [
+    "Uninvolved independent exact source/diff/privacy review before root application.",
+    "Root applies only exact accepted artifact after source freeze lifts; root owns syntax/build/tests.",
+    "Actual selected17 real-service consumer establishes first failure branch; preserve failed/unreached outcomes.",
+    "Fresh final-source full125/native17 plus remaining evidence/hosted/queue gates remain required; no source approval implies product/runtime/merge acceptance."
+  ],
+  "actions": {
+    "tracked_source_writes": 0,
+    "tests_executed": 0,
+    "runtime_operations": 0,
+    "artifact_only_write": true
+  },
+  "supersedes": {
+    "candidate01_manifest": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/restored-context-failure-diagnostic-candidate01/manifest.json",
+      "sha256": "14a5b748cb2b92bbdfc4db3e7825f33aef814a533950bba6278800c8269b0b1c",
+      "bytes": 2398
+    },
+    "finding": "current_main_world_matches_original incorrectly named last-created equality as current context availability after destroy/clear/close.",
+    "resolution": "Rename diagnostic to last_created_main_world_matches_original; explicitly historical equality only. Keep original targeting/lifecycle behavior unchanged. Internal observation try/catch mechanically prevents best-effort metadata failure replacing actual outcome."
+  }
+}

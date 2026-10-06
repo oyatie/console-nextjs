@@ -1,0 +1,481 @@
+{
+  "schema": "native-input-final-supporting-terminal-audit/1",
+  "verdict": "ACCEPT_TERMINAL_EVIDENCE; REQUIRED_PROCESS22_GATE_FAILED",
+  "scope": "Independently audit exact completed process-fault RED, discovery125, format and fork-source custody root artifacts. No tests/reruns/root sessions/current maps/Console operations/tracked edits. Active full125 excluded.",
+  "inputs": {
+    "native-input-final-process-faults01": {
+      "report": {
+        "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/native-input-final-process-faults01.json",
+        "bytes": 722,
+        "sha256": "c21c7eadb24bd71b492e4a4b233f7df22d5e89aa0591ae5945e9b7a95feaeab0"
+      },
+      "log": {
+        "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/native-input-final-process-faults01.log",
+        "bytes": 4621,
+        "sha256": "b794b4da32b975219deb50bb92f9207f0c0cb17b256f11137ebe9c2afedef9a1"
+      },
+      "map": {
+        "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/native-input-final-process-faults01.inputs.json",
+        "bytes": 917481,
+        "sha256": "77d09afd7c39eb07166ae64c0cb85e660c8f2b57927090464edbf198dd415d4a"
+      }
+    },
+    "native-input-final-discovery01": {
+      "report": {
+        "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/native-input-final-discovery01.json",
+        "bytes": 1054,
+        "sha256": "7d09fff3a73a1235f3fbf169f672c23b0fca3826142a78b3a47a704fad1e3c81"
+      },
+      "log": {
+        "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/native-input-final-discovery01.log",
+        "bytes": 14084,
+        "sha256": "c8105816c31eddd6a09225c80e51a553719b63af3bb53d98ffa370dbf8792885"
+      },
+      "map": {
+        "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/native-input-final-discovery01.inputs.json",
+        "bytes": 917481,
+        "sha256": "77d09afd7c39eb07166ae64c0cb85e660c8f2b57927090464edbf198dd415d4a"
+      }
+    },
+    "native-input-final-format01": {
+      "report": {
+        "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/native-input-final-format01.json",
+        "bytes": 712,
+        "sha256": "63be4fdfa166eb59ebe105dd81c3bbb00a4840f7e3bf5451ea9508db0e8c26c7"
+      },
+      "log": {
+        "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/native-input-final-format01.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "map": {
+        "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/native-input-final-format01.inputs.json",
+        "bytes": 917481,
+        "sha256": "77d09afd7c39eb07166ae64c0cb85e660c8f2b57927090464edbf198dd415d4a"
+      }
+    },
+    "native-input-final-custody01": {
+      "report": {
+        "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/native-input-final-custody01.json",
+        "bytes": 792,
+        "sha256": "f2397d0440fcdcde0c5092ca79f784537eaa7005968f962e30b64316424cf8bc"
+      },
+      "log": {
+        "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/native-input-final-custody01.log",
+        "bytes": 3370,
+        "sha256": "29d94dfa8494f72e488c8f1cb5853c3345024f0824853b22d0ceac2b5a4c1151"
+      },
+      "map": {
+        "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/native-input-final-custody01.inputs.json",
+        "bytes": 917481,
+        "sha256": "77d09afd7c39eb07166ae64c0cb85e660c8f2b57927090464edbf198dd415d4a"
+      }
+    }
+  },
+  "Node_process_fault_gate": {
+    "command": [
+      "node",
+      "--test",
+      "tools/enrollment-fault-deadlines.test.mjs",
+      "tools/test-native-browser-enrollment.test.mjs"
+    ],
+    "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+    "exit_code": 1,
+    "outer_timeout": false,
+    "wrapper_duration_seconds": 563.5119642079808,
+    "actual_node_accounting": {
+      "reporter": "Node spec",
+      "summary": {
+        "tests": 22,
+        "suites": 0,
+        "pass": 19,
+        "fail": 3,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "executed": 22,
+      "passed": 19,
+      "failed": 3,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0,
+      "duration_ms": 563440.041042,
+      "cases": [
+        {
+          "name": "slow prerequisite startup does not spend the requested cleanup budget",
+          "status": "passed",
+          "duration_ms": 1.775125
+        },
+        {
+          "name": "a ready runner that fails to exit still triggers the cleanup fallback",
+          "status": "passed",
+          "duration_ms": 1.453542
+        },
+        {
+          "name": "never-ready startup has one absolute bounded termination deadline",
+          "status": "passed",
+          "duration_ms": 0.381708
+        },
+        {
+          "name": "a second fault cannot reset an already running cleanup deadline",
+          "status": "passed",
+          "duration_ms": 0.266292
+        },
+        {
+          "name": "late cleanup cannot erase evidence of forced intervention",
+          "status": "passed",
+          "duration_ms": 0.251125
+        },
+        {
+          "name": "natural completion disposes both clocks and cannot rearm them",
+          "status": "passed",
+          "duration_ms": 0.214208
+        },
+        {
+          "name": "enrollment runner confirms cleanup after eof-before-origin",
+          "status": "passed",
+          "duration_ms": 371.375791
+        },
+        {
+          "name": "enrollment runner confirms cleanup after partial-eof-before-origin",
+          "status": "passed",
+          "duration_ms": 334.143042
+        },
+        {
+          "name": "enrollment runner confirms cleanup after frame-eof-before-origin",
+          "status": "passed",
+          "duration_ms": 333.048542
+        },
+        {
+          "name": "enrollment runner confirms cleanup after signal-after-origin",
+          "status": "passed",
+          "duration_ms": 36869.00925
+        },
+        {
+          "name": "enrollment runner confirms cleanup after eof-after-ready",
+          "status": "failed",
+          "duration_ms": 59109.05375
+        },
+        {
+          "name": "enrollment runner confirms cleanup after oversized",
+          "status": "passed",
+          "duration_ms": 62794.616292
+        },
+        {
+          "name": "enrollment runner confirms cleanup after wrong-version",
+          "status": "passed",
+          "duration_ms": 28854.517958
+        },
+        {
+          "name": "enrollment runner confirms cleanup after wrong-sequence",
+          "status": "failed",
+          "duration_ms": 84951.939583
+        },
+        {
+          "name": "enrollment runner confirms cleanup after wrong-kind",
+          "status": "passed",
+          "duration_ms": 31680.958542
+        },
+        {
+          "name": "enrollment runner confirms cleanup after legacy-selection",
+          "status": "failed",
+          "duration_ms": 84083.952833
+        },
+        {
+          "name": "enrollment runner confirms cleanup after missing-selection",
+          "status": "passed",
+          "duration_ms": 43586.924666
+        },
+        {
+          "name": "enrollment runner confirms cleanup after malformed-selection",
+          "status": "passed",
+          "duration_ms": 92710.939333
+        },
+        {
+          "name": "enrollment runner confirms cleanup after weak-uv",
+          "status": "passed",
+          "duration_ms": 36754.956084
+        },
+        {
+          "name": "business runner confirms cleanup after eof-before-origin",
+          "status": "passed",
+          "duration_ms": 357.186209
+        },
+        {
+          "name": "business runner confirms cleanup after partial-eof-before-origin",
+          "status": "passed",
+          "duration_ms": 287.572416
+        },
+        {
+          "name": "business runner confirms cleanup after frame-eof-before-origin",
+          "status": "passed",
+          "duration_ms": 294.974583
+        }
+      ],
+      "failed_cases": [
+        {
+          "name": "enrollment runner confirms cleanup after eof-after-ready",
+          "status": "failed",
+          "duration_ms": 59109.05375
+        },
+        {
+          "name": "enrollment runner confirms cleanup after wrong-sequence",
+          "status": "failed",
+          "duration_ms": 84951.939583
+        },
+        {
+          "name": "enrollment runner confirms cleanup after legacy-selection",
+          "status": "failed",
+          "duration_ms": 84083.952833
+        }
+      ],
+      "parsing_rule": "Count only first22 execution rows before the \u2139 tests summary. End-of-report repeated failing rows are details, not another3 executions.",
+      "generic_wrapper_counts": "Allzero Rust-regex counters retained in original wrapper report; they do not represent actual Node execution."
+    },
+    "original_rust_regex_wrapper_counts": {
+      "passed": 0,
+      "failed": 0,
+      "skipped": 0,
+      "filtered": 0,
+      "executed": 0
+    },
+    "observed_failure": "Three named cases reached cleanup frame read and received end-of-stream before a cleaned acknowledgment at test read54/call102.",
+    "failed_cases_outcome": "Required cleanup not acknowledged; actual child cleanup outcome/exit/forced intervention and credential-creation count are not established by this failure output.",
+    "cause": "UNPROVEN; no childphase/stderr/owner-return/exit/force telemetry is available in this log. Case durations or successful sibling cases do not establish cause.",
+    "parsing_artifact": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/native-input-final-supporting-terminal-audit01/node-counts.json",
+      "bytes": 4346,
+      "sha256": "6f03a9646f73ced8472c4c79781abf6c53e3f3fbef8b4e97c2e53a1cf83b66bd"
+    }
+  },
+  "discovery": {
+    "command": [
+      "bash",
+      "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/tools/lanes/pgtest.sh",
+      "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork",
+      "/Users/jasonlee/.cargo/bin/cargo",
+      "+1.98.1",
+      "test",
+      "--locked",
+      "--offline",
+      "--no-fail-fast",
+      "--features",
+      "frontend-e2e",
+      "-p",
+      "console-app",
+      "--test",
+      "auth_rest",
+      "--",
+      "--list"
+    ],
+    "exit_code": 0,
+    "exact_unique_test_names": [
+      "admin_credential_reset_recovers_in_branch_subordinate",
+      "admin_issue_otp_allows_in_branch_subordinate",
+      "admin_issue_otp_rejects_cross_branch_target",
+      "admin_issue_otp_rejects_non_admin",
+      "admin_issue_otp_rejects_privileged_target",
+      "approve_session_rejects_access_token_expired_during_family_lock",
+      "approve_session_rejects_generic_desktop_handoff_without_target",
+      "body_mode_without_header_is_unchanged_and_sets_no_cookie",
+      "browser_sessions::account_and_company_fk_holders_refuse_removal_without_clearing_browser_proof",
+      "browser_sessions::actual_0240_populated_upgrade_preserves_native_identity_and_sessions",
+      "browser_sessions::both_removal_owners_leave_browser_row_unlocked_while_waiting_for_account",
+      "browser_sessions::browser_context_link_count_and_rows_share_a_witnessed_snapshot",
+      "browser_sessions::browser_context_substitution_unknown_and_noncanonical_handles_deny_without_effect",
+      "browser_sessions::browser_family_and_login_audit_failures_roll_back_the_exact_signed_assertion",
+      "browser_sessions::browser_history_context_is_own_only_and_preserves_old_wire_contract",
+      "browser_sessions::browser_history_pagination_has_exact_native_integer_bounds_without_effects",
+      "browser_sessions::browser_ingress_configuration_and_debug_never_expose_service_credentials",
+      "browser_sessions::browser_ingress_gate_requires_single_canonical_key_and_verified_hop",
+      "browser_sessions::browser_login_binds_original_proof_and_parallel_resolution_never_rotates",
+      "browser_sessions::browser_logout_closes_only_bound_family_and_reconciles_idempotently",
+      "browser_sessions::browser_logout_review::cleanup_isolates_company_failure_then_retries_without_starving_other_custody",
+      "browser_sessions::browser_logout_review::closed_mapping_without_family_or_owner_removal_cannot_certify_retry",
+      "browser_sessions::browser_logout_review::recovered_family_logout_audit_failure_rolls_back_then_reconciles_once",
+      "browser_sessions::browser_mapping_is_force_rls_company_scoped_with_narrow_locator_only",
+      "browser_sessions::browser_start_is_bodyless_explicit_and_shares_legacy_limits",
+      "browser_sessions::browser_storage_function_catalog_preserves_builtin_signatures_and_restricted_grants",
+      "browser_sessions::changed_current_account_role_generation_and_company_each_deny_original_browser_proof",
+      "browser_sessions::cleared_proof_and_terminal_browser_state_cannot_be_restored",
+      "browser_sessions::committed_account_set_or_status_drift_aborts_removal_without_browser_effects",
+      "browser_sessions::consumed_native_assertion_and_bearer_otp_or_refresh_cannot_convert_to_browser_session",
+      "browser_sessions::deferred_mapping_commit_failure_does_not_consume_or_publish_the_assertion",
+      "browser_sessions::denied_removal_and_late_company_audit_failure_preserve_browser_proof",
+      "browser_sessions::encrypted_proof_or_metadata_tampering_is_denied_without_reminting_authority",
+      "browser_sessions::expired_proof_cleanup_enforces_scope_bound_and_preserves_reconciliation",
+      "browser_sessions::failed_browser_login_rolls_back_before_waiting_credential_reset_commits",
+      "browser_sessions::failed_guarded_removal_restores_custody_before_waiting_logout_commits",
+      "browser_sessions::failed_logout_audit_preserves_live_family_and_exact_retry_can_close_it",
+      "browser_sessions::forged_owner_removal_cannot_clear_live_browser_custody",
+      "browser_sessions::guarded_removal_with_actual_device_data_preserves_exact_browser_custody",
+      "browser_sessions::insert_scope_is_checked_while_exact_verified_mapping_is_still_eligible",
+      "browser_sessions::logout_waits_for_account_without_holding_browser_row_and_preserves_later_family",
+      "browser_sessions::malformed_browser_signature_preserves_custody_and_original_assertion",
+      "browser_sessions::mapping_insert_failure_rolls_back_proof_counter_family_tokens_and_audits",
+      "browser_sessions::missing_family_without_owner_removal_cannot_certify_logout",
+      "browser_sessions::missing_malformed_and_replaced_browser_key_never_weaken_original_native_login",
+      "browser_sessions::native_browser_routes_never_take_authority_from_ambient_cookie_or_bearer",
+      "browser_sessions::original_short_family_deadline_expires_during_lookup_wait_without_sliding",
+      "browser_sessions::r7_native_additions::browser_invalid_sql_proof_shapes_roll_back_genuine_login_without_constraint_bypass",
+      "browser_sessions::r7_native_additions::browser_large_current_branch_proof_is_read_without_jwt_http_transport",
+      "browser_sessions::r7_native_additions::browser_native_body_caps_and_closed_routes_preserve_owner_effects",
+      "browser_sessions::r7_native_additions::browser_native_proof_matches_independent_aad_and_standard_aes_vectors",
+      "browser_sessions::r7_native_additions::browser_nearest_signed_cap_rolls_back_atomically_without_changing_legacy_cap",
+      "browser_sessions::r7_native_additions::browser_sql_insert_binds_discoverable_outcome_account_company_and_source",
+      "browser_sessions::r7_native_additions::browser_sql_insert_requires_fresh_ceremony_and_family_in_one_transaction",
+      "browser_sessions::r7_native_additions::browser_valid_aead_wrong_signed_claims_are_denied_without_effect",
+      "browser_sessions::r7_request_context_additions::browser_hr_owner_keeps_actual_request_context_and_distinct_auth_method",
+      "browser_sessions::real_session_survives_as_token_free_terminal_evidence_after_direct_and_company_removal",
+      "browser_sessions::real_worker_boot_prerequisites_are_independent_of_new_browser_routes",
+      "browser_sessions::real_workers_clear_expired_proof_without_root_locks_and_recover_after_crash",
+      "browser_sessions::recovery_revokes_browser_family_without_revoking_another_person",
+      "browser_sessions::removed_exact_passkey_denies_browser_access_but_preserves_logout_identity",
+      "browser_sessions::resident_authenticator::failed_close_is_cached_without_restarting_cleanup_and_normal_drop_stays_failing",
+      "browser_sessions::resident_authenticator::injected_reader_setup_failure_preserves_constructor_error_and_resource_custody",
+      "browser_sessions::resident_authenticator::injected_stderr_setup_failure_preserves_constructor_error_and_resource_custody",
+      "browser_sessions::resident_authenticator::injected_writer_setup_failure_preserves_constructor_error_and_resource_custody",
+      "browser_sessions::resident_fixture_preserves_real_native_login_and_exact_family_logout",
+      "browser_sessions::same_source_uuid_reinsert_does_not_renew_a_recorded_removed_browser_credential",
+      "browser_sessions::scoped_close_checks_eligible_rows_and_every_token_before_monotonic_closure",
+      "browser_sessions::scoped_read_and_lock_reject_hostile_temporary_objects_and_exact_pair_substitutions",
+      "browser_sessions::scoped_storage_functions_cannot_forge_closure_or_clear_active_proof",
+      "browser_sessions::successful_company_removal_audits_exclude_browser_proof_and_handle_material",
+      "browser_sessions::unlinked_and_out_of_range_browser_history_are_real_distinct_states",
+      "browser_sessions::witnessed_fresh_login_and_old_family_logout_preserve_independent_families",
+      "browser_sessions::witnessed_login_and_guarded_active_company_removal_preserve_exact_terminal_custody",
+      "browser_sessions::witnessed_login_reset_winners_never_leave_pre_reset_browser_authority",
+      "browser_sessions::witnessed_logout_and_both_company_removal_winners_preserve_terminal_outcomes",
+      "cookie_mode_login_then_refresh_reads_and_rotates_cookie",
+      "cookie_mode_redeem_sets_httponly_cookie_and_omits_body_refresh",
+      "cookie_mode_refresh_allows_rapid_navigation_burst_with_device_id",
+      "device_login_failures_preserve_proof_and_poll_permit",
+      "existing_passkey_addition_succeeds_without_open_bootstrap",
+      "financial_purchase_sensitive_actions_require_fresh_passkey_step_up",
+      "first_passkey_enrollment_requires_privacy_terms",
+      "first_passkey_registration_rejects_replaced_source_after_refresh",
+      "first_passkey_registration_rejects_revoked_bootstrap_after_start",
+      "genuine_browser::genuine_browser_discoverable_enrollment_requires_two_native_logins",
+      "genuine_browser::genuine_browser_enrollment_preserves_native_options_and_owned_effects",
+      "genuine_browser::genuine_browser_failed_native_phase_is_preserved_after_confirmed_cleanup",
+      "genuine_browser::genuine_production_browser_proposal_requires_all_seventeen_scenarios",
+      "genuine_browser::native_explicit_login_is_bodyless_and_shares_conditional_limits",
+      "genuine_browser::native_registration_opt_in_preserves_legacy_options_and_authority",
+      "mobile_bound_step_up_start_gates_mobile_approval_and_poll_vote",
+      "otp_enrollment_session_cannot_create_business_work",
+      "otp_family_cannot_gain_business_authority_after_passkey_registration",
+      "otp_first_signin_then_passkey_enrollment_then_usernameless_login",
+      "otp_is_consumed_on_passkey_registration_not_on_redeem",
+      "otp_redeem_rate_limit_wires_up_on_real_clock_path",
+      "passkey_login_session_issue_failure_preserves_signed_proof",
+      "platform_admin_can_approve_and_consume_bound_device_handoff",
+      "purpose::classification_lookup_failure_fails_closed_and_restores_without_promotion",
+      "purpose::dormant_v1_enrollment_command_cannot_release_http_authority",
+      "purpose::dormant_v1_normal_family_is_denied_by_both_admission_paths",
+      "purpose::enrollment_qr_requires_signed_approval_to_create_business_session",
+      "purpose::group_mint_and_preminted_actor_use_original_home_family",
+      "purpose::mismatched_marker_cannot_disappear_from_admission",
+      "purpose::otp_admin_and_mobile_step_up_denials_have_no_effect",
+      "purpose::otp_cannot_delete_own_credential_even_with_key_present",
+      "purpose::platform_enrollment_and_realtime_keep_ordinary_purpose_boundary",
+      "purpose::retained_marker_denies_consumed_expired_revoked_and_missing_source",
+      "purpose::session_approval_rechecks_classification_after_account_lock_wait",
+      "purpose::worker_attendance_requires_fresh_login_and_replays_without_effects",
+      "refresh_keeps_zero_passkey_user_in_setup_mode_until_enrolled",
+      "refresh_signing_failure_does_not_commit_undelivered_replacement",
+      "registration_rechecks_revoked_family_after_account_wait",
+      "registration_start_rechecks_expired_bearer_after_account_wait",
+      "replaced_otp_family_cannot_create_business_work",
+      "reset_sessions::family_storage_failure_rolls_back_reset",
+      "reset_sessions::ordinary_otp_issue_and_self_handoff_do_not_revoke_established_sessions",
+      "reset_sessions::otp_audit_and_deferred_commit_failure_roll_back_sessions_and_keys",
+      "reset_sessions::reset_first_blocks_refresh_and_prevents_replacement",
+      "reset_sessions::reset_revokes_signed_sessions_and_all_tokens_without_cross_account_effects",
+      "reset_sessions::reset_with_no_keys_preserves_prior_revocation_and_sweeps_token_residue",
+      "reset_sessions::reset_wrong_company_missing_and_inactive_targets_have_no_effects",
+      "reset_sessions::rotation_first_replacement_is_revoked_by_waiting_reset",
+      "reset_sessions::token_storage_failure_rolls_back_reset"
+    ],
+    "discovered": 125,
+    "executed_test_bodies": 0,
+    "zero_benchmarks": true,
+    "database_lane_cleanup_observed": true,
+    "limit": "Discovery only. Exact original121 plus four constructor/cache cases are present; list is not execution or pass evidence."
+  },
+  "format": {
+    "command": [
+      "/Users/jasonlee/.cargo/bin/cargo",
+      "+1.98.1",
+      "fmt",
+      "--all",
+      "--",
+      "--check"
+    ],
+    "exit_code": 0,
+    "empty_stdout_log_verified": true,
+    "test_bodies_executed": 0
+  },
+  "fork_source_custody": {
+    "command": [
+      "python3",
+      "-c",
+      "import sys,json; sys.path.insert(0,\"tools\"); import acceptance; r=acceptance.inspect_fork(); print(json.dumps(r,indent=2)); raise SystemExit(r[\"status\"] != \"passed\")"
+    ],
+    "exit_code": 0,
+    "status": "passed",
+    "reference_head": "05200e43af13b527ce031b04369e05852862f1d6",
+    "expected_files": 4027,
+    "discovered_files": 4093,
+    "manifest_sha256": "e40816fe4204e6d1cacf9f9cff02dece66a0835c129745bbaa6381f6eb27ece0",
+    "delta_sha256": "31366b8dcf83591e29bace638e7f28ce63cf6946426c2400c18611ee35406217",
+    "suffix_versions": [
+      226,
+      227,
+      228,
+      229,
+      230,
+      231,
+      232,
+      233,
+      234,
+      235,
+      236,
+      237,
+      238,
+      239,
+      240,
+      241
+    ],
+    "limit": "immutable frozen manifest plus documented fork deltas; not application acceptance; not OS process/temp custody or required fault cleanup."
+  },
+  "source_inputs": {
+    "same_inputs_sha256": "77d09afd7c39eb07166ae64c0cb85e660c8f2b57927090464edbf198dd415d4a",
+    "every_before_after_count": 2958,
+    "every_before_after_map_identical": true,
+    "every_report_inputs_unchanged": true,
+    "selected_pins": {
+      "tools/browser-business-restore.mjs": "3be5f8d095d22cd5c2588880650f26acebb92f535222232ad8da40bca16147da",
+      "tools/test-native-browser-enrollment.mjs": "6cbb58a1b2eae9f01d0b4d0838afd7c5c421c496a532fde056a1f33e153027ce",
+      "tools/test-native-browser-enrollment.test.mjs": "3204b466940c270897814f9100ee8f92fbddfdc937e7b71a06406dacac778ead",
+      "tools/enrollment-fault-deadlines.mjs": "6f80266162d5413bcda245b17536b991518e95e22f5b1a7001067aaa4120fc06",
+      "tools/enrollment-fault-deadlines.test.mjs": "7e4aa20a3cfac678c5f5d8b620456da7b6e74d72fd6f64824b05cde363bc4bca",
+      "tools/test-browser-business-session.mjs": "ea936c0cdc8670261d556686b46a6d813b6479f4a8c6dd7b0925a42092e6aa2a",
+      "backend-fork/backend/app/tests/auth_rest/genuine_browser.rs": "3fc7ff40ce5b01325515803864ba2e87386562f4dd0bf744b2c22c594261879b",
+      "backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs": "ac3a42f9d88b85631d46640ffed8a63b3fd7793d2b3b5983402d2853f692fed8"
+    }
+  },
+  "preserved_limits": [
+    "Original wrapper generic Rust counts are zero for Node gate; honest actual Node22/19/3 accounting is attached separately, not silently rewritten in original artifact.",
+    "Required process22 RED cannot be replaced by focused browser17PASS, source reviews, discovery125 or format/fork-source custody.",
+    "Current full125 run was active at request and is not inspected, listed as completed or used to fill finalslot.",
+    "No cause chosen and no clean rerun inferred. Subsequent diagnostics/repair must preserve this exact terminalRED and independently prove required cleanup.",
+    "Earlier P16/CDP causal uncertainties remain preserved. Linker __eh_frame and proc-macro-error2 future-incompat warnings appear in discovery, not suppressed.",
+    "Final exact-source full125/17 and process22, final metadata/evidence review, portable seal and hosted/protected queue checks remain pending."
+  ],
+  "actions": {
+    "tests_executed": 0,
+    "tracked_source_writes": 0,
+    "artifact_only_audit_accounting_write": true
+  }
+}

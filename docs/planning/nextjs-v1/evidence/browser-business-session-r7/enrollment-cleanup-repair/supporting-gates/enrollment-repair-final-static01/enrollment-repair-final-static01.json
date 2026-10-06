@@ -1,0 +1,24 @@
+{
+  "id": "enrollment-repair-final-static01",
+  "command": [
+    "node",
+    "--check",
+    "tools/browser-business-restore.mjs"
+  ],
+  "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+  "exit_code": 0,
+  "timed_out": false,
+  "duration_seconds": 0.04047762497793883,
+  "discovered": null,
+  "counts": {
+    "passed": 0,
+    "failed": 0,
+    "skipped": 0,
+    "filtered": 0,
+    "executed": 0
+  },
+  "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "cleanup_reported": false,
+  "inputs_sha256": "0b834b380a7366256aff69650f30962d54f0e0954c982b424acf2c82e1b582d4",
+  "inputs_unchanged": true
+}

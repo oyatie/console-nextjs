@@ -1,0 +1,40 @@
+{
+  "id": "enrollment-repair-final-clippy01",
+  "command": [
+    "/Users/jasonlee/.cargo/bin/cargo",
+    "+1.98.1",
+    "clippy",
+    "--locked",
+    "--offline",
+    "-p",
+    "console-app",
+    "--features",
+    "frontend-e2e",
+    "--lib",
+    "--test",
+    "auth_rest",
+    "--test",
+    "health_readiness",
+    "--test",
+    "current_authority",
+    "--",
+    "-D",
+    "warnings"
+  ],
+  "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend",
+  "exit_code": 0,
+  "timed_out": false,
+  "duration_seconds": 47.1103123750072,
+  "discovered": null,
+  "counts": {
+    "passed": 0,
+    "failed": 0,
+    "skipped": 0,
+    "filtered": 0,
+    "executed": 0
+  },
+  "log_sha256": "db2ac6c3f31fb669fb9bb49a169b847625d906660a8c5f77fabff32d05d3a373",
+  "cleanup_reported": false,
+  "inputs_sha256": "0b834b380a7366256aff69650f30962d54f0e0954c982b424acf2c82e1b582d4",
+  "inputs_unchanged": true
+}

@@ -1,0 +1,23 @@
+{
+  "candidate": "resident-three-case-probe-candidate01",
+  "probe_sha256": "6ace24bf52f0bdd826d3dc84cea69f1626d3fbea225040d3adafadba95c518c9",
+  "verdict": "REQUEST_CHANGES",
+  "review_scope": "Independent read-only artifact source review; no execution",
+  "findings": [
+    {
+      "finding": "Parent SIGINT/SIGTERM can bypass owned cleanup after real browser group SIGSTOP",
+      "disposition": "candidate02 adds idempotent guarded cancellation, active-wait wakeup, failure report and existing6s identity-checked cleanup"
+    },
+    {
+      "finding": "Synchronous processStamp can return stopped state after25s startup deadline and start fresh cleanup window",
+      "disposition": "candidate03 checks unchanged startup deadline immediately after processStamp before accepting stopped state"
+    }
+  ],
+  "accepted_properties": [
+    "Bounded parser/queue/stderr",
+    "EOF expects cleaned/aborted and natural exit2",
+    "Pinned real SDK plus verified stop supports actual close-timeout/kill path",
+    "Fallback force remains failure",
+    "SOURCE_ONLY and UNPROVEN proof limits explicit"
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "schema": "queued-ordering-implementation-candidate/1",
+  "status": "PROPOSED_NOT_APPLIED_NOT_EXECUTED",
+  "source_path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/tools/browser-business-restore.mjs",
+  "before_sha256": "05c0dfebd791403622397f7a83568c4f5383360002ee9b96c5d366c956277b6d",
+  "candidate_sha256": "f5c086338d2b7b599d74597cdba7e6bf36694b197e125ff41fe97bf94d33c0b8",
+  "patch_sha256": "07242f456cae1f26f019a61f9c08f60b750a9f07a36dbfc3209fd4122df1c67f",
+  "scope": "Queued genuine-restoration timer ordering and error-preserving owned cleanup; all existing assertions and phase deadlines retained; root sole tracked writer",
+  "tests": "NOT_RUN"
+}

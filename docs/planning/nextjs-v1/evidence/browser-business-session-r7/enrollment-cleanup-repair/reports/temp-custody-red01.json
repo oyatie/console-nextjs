@@ -1,0 +1,44 @@
+{
+  "schema": "enrollment-temp-custody-red/1",
+  "at": "2026-10-06T03:28:37.361163+00:00",
+  "base_owner_head": "f5c29cc9ccb1d463f5ba76ebbf746b024311bd37",
+  "command": [
+    "fnm",
+    "exec",
+    "--using",
+    "24.21.0",
+    "node",
+    "--test",
+    "--test-reporter=tap",
+    "--test-name-pattern=cleanup after eof-after-ready$",
+    "tools/test-native-browser-enrollment.test.mjs"
+  ],
+  "exit_code": 1,
+  "discovered_selected": 1,
+  "executed": 1,
+  "passed": 0,
+  "failed": 1,
+  "cancelled": 0,
+  "skipped_reported": 0,
+  "other_named_fault_cases_not_selected": 9,
+  "observed_residue": [
+    "node-compile-cache"
+  ],
+  "scope": "Focused genuine runner/resource RED. Existing zero-creation, exact outcome/exit/no-fallback checks passed; only newly added temporary-resource custody check failed. Not full16 or native/browser acceptance.",
+  "raw_log": {
+    "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/temp-custody-red01.log",
+    "bytes": 1113,
+    "sha256": "f45094bef8f17c07cefc6a621342d6f473b578b7573c255196e3be826320d515"
+  },
+  "owner_snapshot": {
+    "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/temp-custody-red-owner01.mjs",
+    "bytes": 8638,
+    "sha256": "2187fa70e8ed9ac385863991d521043b0e801f5b71adf7add3b4b04c0c0374ef"
+  },
+  "parent_snapshot": {
+    "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/temp-custody-red-parent01.mjs",
+    "bytes": 5813,
+    "sha256": "d68433029c4dd4b9a5c1a8bc12b2ae184aa67a57b11391c4037ccc8df28cd89c"
+  },
+  "snapshot_provenance": "Owner bytes are exact frozen Git blob. Parent snapshot reconstructed after execution by reversing the independently reviewed clear-after-exit race fix and assertion-message correction. It is not claimed as a pre-run recorded snapshot; raw location/message align with reconstructed revision."
+}

@@ -1,0 +1,38 @@
+--- a/backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs
++++ b/backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs
+@@ -25,6 +25,8 @@
+     BrowserIdentity,
+     BrowserClose,
+     BrowserKill,
++    BrowserCleanup,
++    OwnedTemp,
+     BrowserExit,
+     Ack,
+ }
+@@ -38,6 +40,8 @@
+     close_settled: bool,
+     kill_settled: bool,
+     child_exited: bool,
++    owned_temp_seen: bool,
++    owned_temp_removed: bool,
+ }
+ 
+ type Result<T> = std::result::Result<T, &'static str>;
+@@ -530,13 +534,15 @@
+             if let Some(diagnostic) = &diagnostic {
+                 let _ = writeln!(
+                     std::io::stderr().lock(),
+-                    "RESIDENT_CLEANUP_DIAGNOSTIC stage={:?} child_exit_seen={} child_close_seen={} close_settled={} kill_settled={} child_exited={}",
++                    "RESIDENT_CLEANUP_DIAGNOSTIC stage={:?} child_exit_seen={} child_close_seen={} close_settled={} kill_settled={} child_exited={} owned_temp_seen={} owned_temp_removed={}",
+                     diagnostic.stage,
+                     diagnostic.child_exit_seen,
+                     diagnostic.child_close_seen,
+                     diagnostic.close_settled,
+                     diagnostic.kill_settled,
+-                    diagnostic.child_exited
++                    diagnostic.child_exited,
++                    diagnostic.owned_temp_seen,
++                    diagnostic.owned_temp_removed
+                 );
+             }
+             let _ = writeln!(

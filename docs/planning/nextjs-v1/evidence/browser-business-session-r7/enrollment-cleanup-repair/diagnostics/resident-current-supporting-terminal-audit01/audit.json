@@ -1,0 +1,198 @@
+{
+  "schema": "resident-current-supporting-terminal-audit/1",
+  "verdict": "ACCEPT_SCOPED_TERMINAL_EVIDENCE_ONLY",
+  "scope": "Independent hash/report/log/captured-map review of completed current static/format/custody checks and failed mechanics-probe receipt. No rerun, independent tool-session observation, live source regeneration or browser proof.",
+  "runs": [
+    {
+      "id": "restored-context-final-static01",
+      "inputs": {
+        "report": {
+          "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/restored-context-final-static01.json",
+          "bytes": 662,
+          "sha256": "37733027cfbdc4e1c746bd4b1a9bd83fc3f2ec7ffd24c85be6b6eb5fda259504"
+        },
+        "log": {
+          "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/restored-context-final-static01.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "inputs": {
+          "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/restored-context-final-static01.inputs.json",
+          "bytes": 917481,
+          "sha256": "c054df00ddb6a240ffaaabc6baf2a53b3a91ce07723d8ad4653692cffc2e7fc0"
+        }
+      },
+      "command": [
+        "node",
+        "--check",
+        "tools/browser-business-restore.mjs"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 0.039016540977172554,
+      "test_counts": {
+        "passed": 0,
+        "failed": 0,
+        "skipped": 0,
+        "filtered": 0,
+        "executed": 0
+      },
+      "scope": "Completed static check; no executed tests or runtime/browser proof."
+    },
+    {
+      "id": "resident-shared-cleanup-final-static01",
+      "inputs": {
+        "report": {
+          "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/resident-shared-cleanup-final-static01.json",
+          "bytes": 672,
+          "sha256": "75c2b16a5d6d8dafb0a33c09938ab768488beac41c3c483644943231311df384"
+        },
+        "log": {
+          "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/resident-shared-cleanup-final-static01.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "inputs": {
+          "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/resident-shared-cleanup-final-static01.inputs.json",
+          "bytes": 917481,
+          "sha256": "c054df00ddb6a240ffaaabc6baf2a53b3a91ce07723d8ad4653692cffc2e7fc0"
+        }
+      },
+      "command": [
+        "node",
+        "--check",
+        "tools/test-resident-authenticator.mjs"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 0.043414375046268106,
+      "test_counts": {
+        "passed": 0,
+        "failed": 0,
+        "skipped": 0,
+        "filtered": 0,
+        "executed": 0
+      },
+      "scope": "Completed static check; no executed tests or runtime/browser proof."
+    },
+    {
+      "id": "resident-startup-sdk-final-fmt01",
+      "inputs": {
+        "report": {
+          "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/resident-startup-sdk-final-fmt01.json",
+          "bytes": 716,
+          "sha256": "1c7bf0441dd83d74b1c7d5d73524dc7407a98546266b413ae36528f5fdad7af9"
+        },
+        "log": {
+          "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/resident-startup-sdk-final-fmt01.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "inputs": {
+          "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/resident-startup-sdk-final-fmt01.inputs.json",
+          "bytes": 917481,
+          "sha256": "c054df00ddb6a240ffaaabc6baf2a53b3a91ce07723d8ad4653692cffc2e7fc0"
+        }
+      },
+      "command": [
+        "/Users/jasonlee/.cargo/bin/cargo",
+        "+1.98.1",
+        "fmt",
+        "--all",
+        "--",
+        "--check"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 3.589662375045009,
+      "test_counts": {
+        "passed": 0,
+        "failed": 0,
+        "skipped": 0,
+        "filtered": 0,
+        "executed": 0
+      },
+      "scope": "Completed static check; no executed tests or runtime/browser proof."
+    },
+    {
+      "id": "resident-restored-context-final-custody01",
+      "inputs": {
+        "report": {
+          "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/resident-restored-context-final-custody01.json",
+          "bytes": 798,
+          "sha256": "1f1d10765cf1e89da1dcacc950f9f663a5f9feb306e3fabfae2d844748717ae6"
+        },
+        "log": {
+          "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/resident-restored-context-final-custody01.log",
+          "bytes": 3370,
+          "sha256": "6ae160bca9dbabb3c5c7f0e5455b6d2cf27e2be4ee24682ec73ed04e2bb08c93"
+        },
+        "inputs": {
+          "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/resident-restored-context-final-custody01.inputs.json",
+          "bytes": 917481,
+          "sha256": "c054df00ddb6a240ffaaabc6baf2a53b3a91ce07723d8ad4653692cffc2e7fc0"
+        }
+      },
+      "command": [
+        "python3",
+        "-c",
+        "import json,sys;sys.path.insert(0,\"tools\");import acceptance;r=acceptance.inspect_fork();print(json.dumps(r,indent=2));raise SystemExit(r[\"status\"]!=\"passed\")"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 1.3695147499674931,
+      "test_counts": {
+        "passed": 0,
+        "failed": 0,
+        "skipped": 0,
+        "filtered": 0,
+        "executed": 0
+      },
+      "scope": "Captured inspect_fork custody result passed; not an independent rescan of4093 files or application acceptance.",
+      "captured_custody": {
+        "head": "05200e43af13b527ce031b04369e05852862f1d6",
+        "manifest_sha256": "e40816fe4204e6d1cacf9f9cff02dece66a0835c129745bbaa6381f6eb27ece0",
+        "expected_files": 4027,
+        "discovered_files": 4093,
+        "status": "passed",
+        "delta_sha256": "86044b97d7882f7080b1af546ad3d41ca628a0b4ff49ac7b12cf288c3d359f32",
+        "scope": "immutable frozen manifest plus documented fork deltas; not application acceptance"
+      }
+    }
+  ],
+  "shared_input_map": {
+    "sha256": "c054df00ddb6a240ffaaabc6baf2a53b3a91ce07723d8ad4653692cffc2e7fc0",
+    "before_entries": 2958,
+    "after_entries": 2958,
+    "all_before_after_entries_equal": true,
+    "all_four_run_maps_identical": true,
+    "selected_pins": {
+      "tools/browser-business-restore.mjs": "183df5e840c6fbd46c77ca7fa4ba8301801606870b970173a89ac784a27ddf4c",
+      "tools/test-resident-authenticator.mjs": "88cdfea200731ab32fcda0c797a96eee6ce49a42e6f174208fed29195105cd2e",
+      "backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs": "c2fc3e190d7b9933cdaf77958a8a9dc11a6ab8df83fa69362c7a42d5bc67412c"
+    }
+  },
+  "failed_mechanics_probe": {
+    "terminal_receipt_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/restored-context-mechanics-probe01/terminal.json",
+    "terminal_receipt_sha256": "5d34d9ac8e6cbe5ea15274648840aefc35d8f6736520667501c01d75ff048928",
+    "source_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/restored-context-mechanics-probe01/probe.mjs",
+    "source_sha256": "eb0bce2a8918e86599d3e1ec14c167403b6d601fe6b71b59fddc97fece992e81",
+    "root_recorded_actual_exit": 3,
+    "root_recorded_output_bytes": 0,
+    "last_checkpoint": "unobserved",
+    "raw_cause": "UNPROVEN",
+    "runtime_proof": false,
+    "custody": "UNKNOWN browser group absence and temporary disposition",
+    "limits": [
+      "The terminal tool result was recorded by root; this audit verifies its preserved receipt and source bytes, not the original process execution.",
+      "No terminal diagnostics or successful uniqueContextId/BFCache use were observed.",
+      "Do not reuse this failure as acceptance or as proof of a specific mechanism."
+    ]
+  },
+  "remaining_required": [
+    "Actual125-test discovery and strict Clippy terminal reports still pending when this audit was written.",
+    "Fresh source-reviewed native lifecycle probe with independent group and scope absence.",
+    "Full current125-native/17-browser acceptance, cumulative source review and final source bindings."
+  ],
+  "actions": {
+    "tests_executed": 0,
+    "tracked_source_writes": 0,
+    "artifact_only_audit_write": true
+  }
+}

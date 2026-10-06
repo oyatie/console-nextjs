@@ -1,0 +1,89 @@
+{
+  "schema": "restored-context-mechanics05-terminal-audit/1",
+  "verdict": "ACCEPT_FAILED_PREREQUISITE_EVIDENCE_ONLY; NO_NEW_CACHE_REASON_OR_CAUSE_PROOF",
+  "scope": "Independent completed actual standalone05 launch02 terminal triple and exact embedded payload audit. Initial failed invocation is separate; no tests/reruns/session consumption/current-map regeneration or product acceptance.",
+  "inputs": {
+    "report": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/restored-context-mechanics-native05-launch02.json",
+      "bytes": 801,
+      "sha256": "e414a22617fb9bf777cf4809b814f1f3bd2970271f51ac5abe3cd229c6e015da"
+    },
+    "log": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/restored-context-mechanics-native05-launch02.log",
+      "bytes": 4931,
+      "sha256": "b141060fff2340219180c30569fabe4a814fcd52accc4780fffee878e46daef1"
+    },
+    "maps": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/restored-context-mechanics-native05-launch02.inputs.json",
+      "bytes": 917481,
+      "sha256": "3a29d02833f3757908a3a8fe4f08c13790a813cd7a7676dbbb92653f2c77ae14"
+    }
+  },
+  "source_custody": {
+    "source_sha256": "70f73116db84dd3e54b5563372bc05bc62d4863383408379947266bea2512b4e",
+    "corrected_proposal_sha256": "792f692ad9d13092a47e7a7a94e2473ff9bda73143f3ab6ae4b370c9c95e86f3",
+    "review_sha256": "0bc5fa2c4cb96a9f3e19d5c3d161a34341b7e62b642468b6f17655711d74f7e4",
+    "verdict": "ACCEPT_SOURCE_ONLY",
+    "root_declared_artifact_immutable": true,
+    "worktree_before_after2958_entries_equal": true,
+    "artifact_executable_sdk_protocol_not_in_captured_worktree_map": true,
+    "limit": "Exact separately preserved approved frozen artifact executable and proposal/review; reviewed source asserts protocol/SDK/guard hash before owned-stage checkpoint. No invented external executable self-hash/map inclusion."
+  },
+  "terminal": {
+    "exit_code": 1,
+    "outer_timeout": false,
+    "duration_seconds": 6.064896541996859,
+    "status": "terminal-observations",
+    "failure": {
+      "category": "phase-deadline",
+      "checkpoint": "fixture-second-original-request"
+    },
+    "trusted_persisted_restore_seen": false,
+    "second_original_fixture_request_seen": true,
+    "comparison_evaluations_issued": 0,
+    "cache_reason_event_seen": false,
+    "cache_reason_explanations": [],
+    "evaluation": null,
+    "handle_evaluation": null,
+    "fresh_fixture_response": null,
+    "mechanism_label": "inconclusive",
+    "specific_cause": "UNPROVEN",
+    "payload_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/restored-context-mechanics-native05-launch02-terminal-audit01/probe-payload.json",
+    "payload_sha256": "7c984aad379cf401cc53600a25cf581f0e68d8801b9e5b8d4069f5c5e4dea2aa"
+  },
+  "counts": {
+    "native_test_bodies_executed": 0,
+    "wrapper_zero_counts_are_native_regex_only": true,
+    "standalone_diagnostic_attempts": 1,
+    "failed_prerequisite": 1,
+    "product_browser17_gate_executed": false
+  },
+  "scoped_cleanup": {
+    "facts": {
+      "browser_owner_returned": true,
+      "browser_close_settled": true,
+      "browser_kill_settled": false,
+      "browser_process_exit_seen": true,
+      "browser_owner_process_live_seen": true,
+      "browser_owned_group_confirmed": true,
+      "browser_group_absent": true,
+      "stage_creation_settled": true,
+      "server_closed": true,
+      "owned_stage_removed": true
+    },
+    "confirmed": true,
+    "limit": "Captured standalone owner had positively observed live owned group, SDK close settlement, actual owner process exit then kernel ESRCH, fixture server close and owned stage removal. No kill fallback needed. Does not cover escaped descendants, earlier probes or native/product lifecycle."
+  },
+  "limits": [
+    "Second original-path request without trusted persisted original restoration may be ordinary cold Back; no proven guard reload.",
+    "No emitted scoped cache-not-used event means cause remains UNKNOWN, not proof of cache eligibility or browser reason.",
+    "Neither post-restoration comparison evaluation was issued; original pin evaluations did occur.",
+    "Fixed15s fixture response was not observed; prerequisite failed after5s and cleanup canceled timer.",
+    "No BFF abort/native401/original-world rejection/retained-handle cause or final125/all17/merge acceptance."
+  ],
+  "actions": {
+    "tests_executed": 0,
+    "tracked_source_writes": 0,
+    "artifact_only_audit_payload_write": true
+  }
+}

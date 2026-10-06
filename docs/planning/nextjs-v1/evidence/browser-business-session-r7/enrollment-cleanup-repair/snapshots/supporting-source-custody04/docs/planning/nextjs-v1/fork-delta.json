@@ -1,0 +1,2727 @@
+{
+  "version": 1,
+  "source_head": "05200e43af13b527ce031b04369e05852862f1d6",
+  "source_manifest_sha256": "e40816fe4204e6d1cacf9f9cff02dece66a0835c129745bbaa6381f6eb27ece0",
+  "backend_source_deltas": [
+    {
+      "path": "backend/Cargo.lock",
+      "before": {
+        "sha256": "df7bc0e5c8763a462e5902e91d22f8187d2fc942c1c90f8ed28b75f32dbe7aff",
+        "bytes": 221268,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "fcc3babe468e7ab667fb63cf4ec5c248afe576a14b05bc42c7bcfeee87b9096e",
+        "bytes": 227510,
+        "mode": 420
+      },
+      "reason": "Lock offline-compatible rustls dependencies for signed HTTPS object GETs; preserve existing backend dependency owners. Lock the existing hashing and mail-preparation dependencies for the immutable request/MIME contract. Retire v1 AI permission authority at every runtime door and role owner command; preserve historical policy rows, assignment identity and audit evidence with red-first regressions. Add already-workspace test dependencies for the real sales REST PostgreSQL inquiry probe; preserve the locked application dependency graph. Reviewed C2/R7 genuine resident-authenticator test dependency closure and frontend-e2e gate; locked source-only dependency additions, no provider fallback."
+    },
+    {
+      "path": "backend/Cargo.toml",
+      "before": {
+        "sha256": "909494fdc5c57f816ec3cb78f1f347b4709de5e37451e866c57e4d998d7f66d6",
+        "bytes": 20752,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "18b92e2d36a60f5cd1be9cf0b113f9470d6f549d8d084a270c273a71b4b6a8d9",
+        "bytes": 20621,
+        "mode": 420
+      },
+      "reason": "Use the existing reqwest dependency without default TLS ambiguity; keep the workspace build locked."
+    },
+    {
+      "path": "backend/app/Cargo.toml",
+      "before": {
+        "sha256": "135139859234b749638049a671a201ed41d34f2b09fe1fa212bd90deb2e9adbc",
+        "bytes": 8738,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "b624085d1307f553d127d91cf8c74a60401cb4a12ebd411e0959477cad18c6b8",
+        "bytes": 9040,
+        "mode": 420
+      },
+      "reason": "Bind ordinary and delegated access to exact live refresh families; enforce strict source and absolute deadlines after lock waits. Preserve authentication assertions using real-family test fixtures. Reviewed C2/R7 genuine resident-authenticator test dependency closure and frontend-e2e gate; locked source-only dependency additions, no provider fallback."
+    },
+    {
+      "path": "backend/app/src/browser_session_cleanup.rs",
+      "before": null,
+      "after": {
+        "sha256": "b2f936ebb845867244bb53e85cc210c2d359da274d0f5c7fbda319f7d21b2085",
+        "bytes": 3447,
+        "mode": 420
+      },
+      "reason": "R7c actual bounded periodic native cleanup reuses scoped PostgreSQL worker ownership, retained Company discovery, restart/failure isolation and proof-only expiry clearing."
+    },
+    {
+      "path": "backend/app/src/hr.rs",
+      "before": {
+        "sha256": "ec4a83eabb08833d5d5611237df86738d2262ec9abd67fb18fdc48e6b4ee910c",
+        "bytes": 467032,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "164f358fdfc7087325bf450c7ee57e3b05a0f8038016ad13cc6b8e6b52345a3f",
+        "bytes": 474774,
+        "mode": 420
+      },
+      "reason": "Preserve attendance source coordinates and reject ambiguous headers before persistence; distinguish historical source-coordinate conflicts from duplicate facts, with real session-bound PostgreSQL tests. Fixture remains test-only. Preserve authorized raw work facts through LEFT matching payroll joins in all three readers, nullable association response and existing repeatable-read owner; retain writes/current authority/period checks. Serialize new native capture with the existing Company/payroll period key after exact replay; retain the Account link with NO KEY UPDATE so freeze attestor FK KEY SHARE cannot deadlock. No schema/API/timestamp change. R7c dedicated own-history browser POST reuses HR-local same-snapshot Account/Company/link/count/row helper; preserve legacy bearer GET response and full dataset pagination."
+    },
+    {
+      "path": "backend/app/src/lib.rs",
+      "before": {
+        "sha256": "73fef04629d297f07d7b01e1cd86880692df86bad019fb34136fab7693baad35",
+        "bytes": 278594,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "e25d959c47286b1797d463e868bf0b16ab27725b62133d441af8a7899892e93b",
+        "bytes": 278819,
+        "mode": 420
+      },
+      "reason": "Coordinated authentication lock implementation from independently approved exact tests24f4a4: Account-first owners, exact locator revalidation, database validation clock, shared self-delete, sorted roster and additive0227 removal guard. Candidate pending verification/review. Retry SQLx migration advisory-lock waits in short transactions so concurrent CREATE INDEX CONCURRENTLY cannot deadlock a second migrator; restore required connection budgets after lock acquisition. Expose write_ready=false in readiness while fenced two-site write admission remains unimplemented; preserve existing availability status. Map new Employment read errors at the existing org-change composition seam: unreadable state to redacted Internal and unresolved reactivation to Conflict. Remove the inherited loopback Intelligence bind route from the v1 product; the R4 plan includes no AI/model feature. Reuse the middleware-resolved current Principal for both audit GETs, removing stale JWT branch reconstruction after revocation or scope narrowing. Keep the audit attestation registration and configured route inventory on one shared path constant. Map native Payroll SSR outcome directly to omitted, authorized empty/populated or failure; remove redundant Payroll floor only. Preserve Organization/HR composition and existing rendering/assets. R7c compose exact dedicated HR browser route and bounded cleanup worker with redacted optional auth configuration; legacy transport admission unchanged."
+    },
+    {
+      "path": "backend/app/src/schema_install.rs",
+      "before": null,
+      "after": {
+        "sha256": "41f4e40cecbaadd5f2d9feaceb366b78b8ffb8dfb37549ba2d1b96b450ab605a",
+        "bytes": 8183,
+        "mode": 420
+      },
+      "reason": "Separate fresh schema installation from historical upgrades, with SQLx lineage/checksum/ACL and interruption safety."
+    },
+    {
+      "path": "backend/app/src/workflow_studio.rs",
+      "before": {
+        "sha256": "e8c735b40d2a18b20fcf4dda69145c914cba7312c8626315dcafe7dbd91a0298",
+        "bytes": 348584,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "8dea93d1c942e0bd865abb1837244c7e35bd0fbf9f381d12675a986ba5fa7547",
+        "bytes": 346598,
+        "mode": 420
+      },
+      "reason": "Remove title-based self-approval exemptions in existing locked owner transactions; deny missing maker/checker, preserve author operations/history, pin purchase preparation and executive approval to source state and independent admin provenance. Real-session/runtime-RLS regression proofs."
+    },
+    {
+      "path": "backend/app/tests/audit_api.rs",
+      "before": {
+        "sha256": "286bf9bf6b2e0ce609980210132257a000e5cf077d9a2c0984d99a032f2bae3a",
+        "bytes": 23228,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "d7da665740d04ac6177b54f58b3c38d9abb3d367bcc755b3ea6b783b6b5e2342",
+        "bytes": 28851,
+        "mode": 420
+      },
+      "reason": "Prove revoked branch membership cannot read audit records and narrow whole-Company attestation; repair inherited audit fixtures to use real family-bound sessions without changing their assertions."
+    },
+    {
+      "path": "backend/app/tests/auth_rest.rs",
+      "before": {
+        "sha256": "17cd85f57b8c6eb3f2fe5c016bbf784a64907afaafa091218fb89b195d4e61d0",
+        "bytes": 104517,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "f487dc4a7ca6f944ca0eab32bf2d9b30a703ff142cda7fbd4430032dadabc4dd",
+        "bytes": 169494,
+        "mode": 420
+      },
+      "reason": "Keep signed device-login proof, source and scope regressions; prove refresh signing failure after rotation cannot commit an undisclosed replacement. Add a red signed HTTP regression showing an OTP-derived family's access and refresh cannot acquire business authority after its source is replaced. Bind newly redeemed legacy OTP families and passkey registration ceremonies to the exact live source in one owner transaction, recheck JWT expiry after lock waits, and retain red purpose-authority probes. This is unactivated version-0 containment, not a version-1 session cutover. Add real signed HTTP/runtime-role PostgreSQL credential reset session-revocation, isolation, interleaving and rollback regressions; preserve existing tests. Restrict positively classified legacy OTP families at shared ordinary admission and locked device approval; preserve direct enrollment, v0 compatibility and dormant v1. Add genuine runtime-role regressions and correct QR approval descriptions. C2/R7c approved actual WebAuthn/PostgreSQL/native/browser regressions, private custody and exact-family owner failures, compatibility and current-authority constructor fields. Preserve inherited assertions; reviewed prerequisite correction and whitespace-only formatting."
+    },
+    {
+      "path": "backend/app/tests/auth_rest/browser_logout_review.rs",
+      "before": null,
+      "after": {
+        "sha256": "1789a80143567bf7e79023042a503fdd75047984427d2ca5050076e5325f4ce4",
+        "bytes": 8261,
+        "mode": 420
+      },
+      "reason": "C2/R7c approved actual WebAuthn/PostgreSQL/native/browser regressions, private custody and exact-family owner failures, compatibility and current-authority constructor fields. Preserve inherited assertions; reviewed prerequisite correction and whitespace-only formatting."
+    },
+    {
+      "path": "backend/app/tests/auth_rest/browser_sessions.rs",
+      "before": null,
+      "after": {
+        "sha256": "af3da5f340ecaa1d78ad46d41fdc0a53be6d515a678727d54542fdffaff6d454",
+        "bytes": 288060,
+        "mode": 420
+      },
+      "reason": "C2/R7c approved actual WebAuthn/PostgreSQL/native/browser regressions, private custody and exact-family owner failures, compatibility and current-authority constructor fields. Preserve inherited assertions; reviewed prerequisite correction and whitespace-only formatting. Independently reviewed failure-only RealWorker exit/readiness/static stderr classification; child owner precedes fallible diagnostic reader, Interrupted reads retry, no raw output or deadline/predicate change."
+    },
+    {
+      "path": "backend/app/tests/auth_rest/genuine_browser.rs",
+      "before": null,
+      "after": {
+        "sha256": "3fc7ff40ce5b01325515803864ba2e87386562f4dd0bf744b2c22c594261879b",
+        "bytes": 110318,
+        "mode": 420
+      },
+      "reason": "C2/R7c approved actual WebAuthn/PostgreSQL/native/browser regressions, private custody and exact-family owner failures, compatibility and current-authority constructor fields. Preserve inherited assertions; reviewed prerequisite correction and whitespace-only formatting. Independently approved bounded static HTTP/failure diagnostics and fixture-only relocation of subject freshness1/1 before genuine issuance; preserve all runtime validation and17 required browser assertions. Record the static native phase error before cleanup can mask it; preserve all phase/overall/cleanup deadlines and required assertions. Independently reviewed numeric checked-frame failure diagnostic; exact original20s countzero RED authorizes first-origin-only90s staging prerequisite, preserving later20s phases, overall130s/watchdog140s and cleanup8/8/2."
+    },
+    {
+      "path": "backend/app/tests/auth_rest/purpose.rs",
+      "before": null,
+      "after": {
+        "sha256": "5dad146972b03650dc13b3eb4901f7c296a032fbb6e32b43cabff59f650bc23c",
+        "bytes": 42877,
+        "mode": 420
+      },
+      "reason": "Restrict positively classified legacy OTP families at shared ordinary admission and locked device approval; preserve direct enrollment, v0 compatibility and dormant v1. Add genuine runtime-role regressions and correct QR approval descriptions."
+    },
+    {
+      "path": "backend/app/tests/auth_rest/reset_sessions.rs",
+      "before": null,
+      "after": {
+        "sha256": "657ae6f0ab6b8cb31c719162e17cda6be6a9834f8342720d1c98452ac0651d5e",
+        "bytes": 29660,
+        "mode": 420
+      },
+      "reason": "Add real signed HTTP/runtime-role PostgreSQL credential reset session-revocation, isolation, interleaving and rollback regressions; preserve existing tests. Restrict positively classified legacy OTP families at shared ordinary admission and locked device approval; preserve direct enrollment, v0 compatibility and dormant v1. Add genuine runtime-role regressions and correct QR approval descriptions."
+    },
+    {
+      "path": "backend/app/tests/auth_rest/resident_authenticator.rs",
+      "before": null,
+      "after": {
+        "sha256": "30345239d9e8321ea9394dd5b5f75d91b5ca4d1b1a98a27c7360951a82179c45",
+        "bytes": 15396,
+        "mode": 420
+      },
+      "reason": "C2/R7c approved actual WebAuthn/PostgreSQL/native/browser regressions, private custody and exact-family owner failures, compatibility and current-authority constructor fields. Preserve inherited assertions; reviewed prerequisite correction and whitespace-only formatting. Independently reviewed failure-only numeric cleanup exit/frame/age/ceremony-idle observations captured before done, preserving typed ceremony outcomes and original cleanup errors/deadlines. Peer-approved failure-stage diagnostics with strict fixed enum/boolean stderr decoding and 512-byte transient retention; no raw data, changed outcome, deadline or ACK."
+    },
+    {
+      "path": "backend/app/tests/cedar_freshness_mint.rs",
+      "before": {
+        "sha256": "b9ae52a8e18dba186a52b5d781419f7c771319ab3f8f1703dad7fea83de5ed13",
+        "bytes": 17705,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "9577e70bb12b9172a0e550fd8d61ae04ba5a85ba12782cef0e754b8c029f58da",
+        "bytes": 18391,
+        "mode": 420
+      },
+      "reason": "Bind ordinary and delegated access to exact live refresh families; enforce strict source and absolute deadlines after lock waits. Preserve authentication assertions using real-family test fixtures."
+    },
+    {
+      "path": "backend/app/tests/console_kill_switch.rs",
+      "before": {
+        "sha256": "14ae4601375be4605aee5ec7a12bb5bc4e45d4b6fc338843efdf1675c57e6bf8",
+        "bytes": 10083,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "4f6094615e6c619d8625a7fc6e74d4eefc034748a867bcf50084378385f5b74d",
+        "bytes": 10331,
+        "mode": 420
+      },
+      "reason": "Use the existing real refresh-family test helper for authenticated kill-switch requests; keep runtime family validation intact."
+    },
+    {
+      "path": "backend/app/tests/current_authority.rs",
+      "before": null,
+      "after": {
+        "sha256": "69ec9b67fe9d40c3d5ae77f61a62f9bbdb5a04cac9cb990dea9e311b34e9aeef",
+        "bytes": 35157,
+        "mode": 420
+      },
+      "reason": "Preserve explicit hierarchy scope in family-bound access and use real family/account fixtures under runtime RLS. Strengthen reviewed foreign-Company denial and actual upload-limit/error assertions; retain existing branch and same-Company isolation proof. C2/R7c approved actual WebAuthn/PostgreSQL/native/browser regressions, private custody and exact-family owner failures, compatibility and current-authority constructor fields. Preserve inherited assertions; reviewed prerequisite correction and whitespace-only formatting. Independently approved real runtime-password prerequisite and session_user proof; no assertion weakening. Independently approved PostgreSQL-clock/stored-deadline expiry precondition; retains original lock and rejection assertions."
+    },
+    {
+      "path": "backend/app/tests/fixtures/attendance-offset.xlsx",
+      "before": null,
+      "after": {
+        "sha256": "e25635b03c286dfa6c73d287d03b347fdc45806474876de8a2880a8f88170e4a",
+        "bytes": 3060,
+        "mode": 420
+      },
+      "reason": "Preserve attendance source coordinates and reject ambiguous headers before persistence; distinguish historical source-coordinate conflicts from duplicate facts, with real session-bound PostgreSQL tests. Fixture remains test-only."
+    },
+    {
+      "path": "backend/app/tests/health_readiness.rs",
+      "before": {
+        "sha256": "4e615f972c23bcfc478ba34a06ff1f0a1006e4e683e542d4c3d4738704b60b08",
+        "bytes": 29186,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "7fabdb7b5dc22f1865dbdcac10f7e869e5962e54ca270fde3030b7d7858221f3",
+        "bytes": 42882,
+        "mode": 420
+      },
+      "reason": "Preserve all nine original tests and82 assertions with real session-family fixtures; add six real Router/PostgreSQL tests for audit/query failure and reload, authority omission and Company isolation on both SSR paths."
+    },
+    {
+      "path": "backend/app/tests/hr_attendance_manager_scope.rs",
+      "before": {
+        "sha256": "84e3c522345645f1268ace86b1a726a3a1a91569ac15233765f2a2ad3e993b78",
+        "bytes": 14894,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "410c328def6d4ccd33b2b2362ac13111276a35f4aabf878d3b1de8ce192c969b",
+        "bytes": 24622,
+        "mode": 420
+      },
+      "reason": "Test-first attendance raw fact/link contract with real router/runtime role, safe scoped pagination, closed-period replay, actual ref/audit evidence and served3.1 schema."
+    },
+    {
+      "path": "backend/app/tests/hr_attendance_self_read.rs",
+      "before": {
+        "sha256": "da70d29118fcb093302238fc2d39c4b47a5735de5db579c8f5ed4efe9eb48481",
+        "bytes": 14419,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "3d97190ebf5fac583cd6f878880bcb3ff33d464c1126096d40506551040ab3d8",
+        "bytes": 52776,
+        "mode": 420
+      },
+      "reason": "Test retained own attendance history across exit/UNKNOWN/site closure and current Account/link/session revocation; preserve inherited assertions, actual console_rt RLS and unchanged mutation controls. Use real family-bound test sessions and owner-valid branch/material fixtures; no runtime business seeds. Prove raw attendance missing/malformed payroll linkage, exact scoped pages, real-family authority and write-free closed-period replay before the owner repair. Assert each history GET has no raw/ref/audit effects at its own boundary; independently verify the genuine fresh-session audit. Add real-router PostgreSQL capture/freeze ordering, same-Account FK liveness, relink serialization and replay/Company/domain isolation regressions; disposable fixtures only."
+    },
+    {
+      "path": "backend/app/tests/hr_attendance_self_read/freeze.rs",
+      "before": null,
+      "after": {
+        "sha256": "5cf50ff57b4e4fd04e36eb3feb17a58bc495c2ff0d8b7ee12fc2c3945bf65c00",
+        "bytes": 17855,
+        "mode": 420
+      },
+      "reason": "Add real-router PostgreSQL capture/freeze ordering, same-Account FK liveness, relink serialization and replay/Company/domain isolation regressions; disposable fixtures only."
+    },
+    {
+      "path": "backend/app/tests/hr_ingest_checklist_gate.rs",
+      "before": {
+        "sha256": "44db2fe236e4529c671868087834e6ab80fc75bd3ea597f14fc80c3511c943f4",
+        "bytes": 10437,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "f4ad36152d4a1de47cd15ca018a07a61c71bd89c0c6056351655fb9fc70ce4c7",
+        "bytes": 25560,
+        "mode": 420
+      },
+      "reason": "Preserve attendance source coordinates and reject ambiguous headers before persistence; distinguish historical source-coordinate conflicts from duplicate facts, with real session-bound PostgreSQL tests. Fixture remains test-only."
+    },
+    {
+      "path": "backend/app/tests/intelligence_bind.rs",
+      "before": {
+        "sha256": "3701efc45f57b70e39d6caa030d036325a3347d6ac4f388725c06f5f3a9ca8d1",
+        "bytes": 1584,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "31f12a9d782b8c72c89a2f46ee60a15dc91654ab4de56358da535091f1414b2f",
+        "bytes": 1517,
+        "mode": 420
+      },
+      "reason": "Require the inherited Intelligence bind endpoint to be absent on loopback as well as non-loopback addresses."
+    },
+    {
+      "path": "backend/app/tests/openapi_drift.rs",
+      "before": {
+        "sha256": "13ce08b07abf8eca75df6c09b2f0466653f6dd4a47feb8c256e36f780a8d9706",
+        "bytes": 47063,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "902392bb6fa0e180398d0fc67e63c43c30b0f2d8c273771c8b14857e2f6119ee",
+        "bytes": 55866,
+        "mode": 420
+      },
+      "reason": "Remove the Intelligence bind exception from the production route census while preserving other route-contract assertions. Require the already registered audit attestation path in the configured route inventory. Require the served OpenAPI path × method response for the reachable unavailable-listing 409; preserve existing inventory assertions. C2/R7c approved actual WebAuthn/PostgreSQL/native/browser regressions, private custody and exact-family owner failures, compatibility and current-authority constructor fields. Preserve inherited assertions; reviewed prerequisite correction and whitespace-only formatting."
+    },
+    {
+      "path": "backend/app/tests/platform_onboarding_e2e.rs",
+      "before": {
+        "sha256": "c0713c0cd2bb8e64dab4a5e87cdf9e105e0dca635e019d894b47d89977845edf",
+        "bytes": 13108,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "883dcf59c9fe28cd466bf07d33ba5007f461a8b6b9b9568258d1b8faddf50225",
+        "bytes": 13181,
+        "mode": 420
+      },
+      "reason": "Preserve explicit hierarchy scope in family-bound access and use real family/account fixtures under runtime RLS. Strengthen reviewed foreign-Company denial and actual upload-limit/error assertions; retain existing branch and same-Company isolation proof."
+    },
+    {
+      "path": "backend/app/tests/realtime_authority.rs",
+      "before": null,
+      "after": {
+        "sha256": "9bd003a56048f3fcf97a3f44505d8675f04bc9ee9939d86a0b6b195de539f60a",
+        "bytes": 28660,
+        "mode": 420
+      },
+      "reason": "Revalidate WebSocket session and scope around current owner projections; bind message membership and quote scope, recipient reads, authorized replay cursors and bounded socket/replay lifetimes. Preserve existing identities, schema and behavior assertions."
+    },
+    {
+      "path": "backend/app/tests/router_layers.rs",
+      "before": {
+        "sha256": "f15db25c7fc8ce63a452551b01a2469b44da7bfc91a7767fe4d5f276cffa4260",
+        "bytes": 8815,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "e3df8e3fb86b5b69cbeaa372842dd868da8dc87f1a7ec5634eab363c8b93f4a6",
+        "bytes": 10112,
+        "mode": 420
+      },
+      "reason": "Preserve explicit hierarchy scope in family-bound access and use real family/account fixtures under runtime RLS. Strengthen reviewed foreign-Company denial and actual upload-limit/error assertions; retain existing branch and same-Company isolation proof."
+    },
+    {
+      "path": "backend/app/tests/tenant_context_e2e.rs",
+      "before": {
+        "sha256": "6f4f99f8606afe31df583b34f5fa87ffede39e359d3dc59338ae4d12f2d092d7",
+        "bytes": 9605,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "90a44c5081d435127f0454d2782fcfd913d57398eda4e715cf72eff5600048a4",
+        "bytes": 9136,
+        "mode": 420
+      },
+      "reason": "Preserve explicit hierarchy scope in family-bound access and use real family/account fixtures under runtime RLS. Strengthen reviewed foreign-Company denial and actual upload-limit/error assertions; retain existing branch and same-Company isolation proof."
+    },
+    {
+      "path": "backend/app/tests/two_site_confirmation.rs",
+      "before": null,
+      "after": {
+        "sha256": "c22a0ed6571ce1080a811482d74cf6939ac89a09229dd861902ce768ffb4593c",
+        "bytes": 2938,
+        "mode": 420
+      },
+      "reason": "Red PostgreSQL 18 probe proves local remote_apply commit and post-commit WAL bound without a standby still let readyz claim write readiness; no serving change or durability claim."
+    },
+    {
+      "path": "backend/app/tests/workflow_four_eyes_publish.rs",
+      "before": {
+        "sha256": "ec833d69577484f76ab68ac1b16e8610dbe41442dee02462f17f3f24830388b3",
+        "bytes": 38483,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "9cad8f205eaf9cbf6b91f5cf438b16f3b52aaa6643648b396eb188c5ce8de0b4",
+        "bytes": 40151,
+        "mode": 420
+      },
+      "reason": "Remove title-based self-approval exemptions in existing locked owner transactions; deny missing maker/checker, preserve author operations/history, pin purchase preparation and executive approval to source state and independent admin provenance. Real-session/runtime-RLS regression proofs."
+    },
+    {
+      "path": "backend/app/tests/workflow_runtime_finalize_api.rs",
+      "before": {
+        "sha256": "521b721b59dee2426332c4af5df8863fe66166c680a7084c5af3d4f00222d172",
+        "bytes": 31369,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "8df769a9ea54bc6cbad0d1aefa47ccc1fd067746790295cd829977f442b4225e",
+        "bytes": 31747,
+        "mode": 420
+      },
+      "reason": "Remove title-based self-approval exemptions in existing locked owner transactions; deny missing maker/checker, preserve author operations/history, pin purchase preparation and executive approval to source state and independent admin provenance. Real-session/runtime-RLS regression proofs."
+    },
+    {
+      "path": "backend/app/tests/workflow_runtime_instance_api.rs",
+      "before": {
+        "sha256": "0bb125177146c1c3bfb2ea6f3a1a056156a521b76611d3eb9510ef0b8d9034cc",
+        "bytes": 50446,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "82a17b3adc01c2141f1e9f3de6ef54a76fc52d056d2f5d88616ac3fbd0f0238f",
+        "bytes": 54389,
+        "mode": 420
+      },
+      "reason": "Remove title-based self-approval exemptions in existing locked owner transactions; deny missing maker/checker, preserve author operations/history, pin purchase preparation and executive approval to source state and independent admin provenance. Real-session/runtime-RLS regression proofs."
+    },
+    {
+      "path": "backend/app/tests/workorder_api.rs",
+      "before": {
+        "sha256": "adb23e39d0291b308ae3270ac28973ca5e98a51956b02b7fa4b29132a651a2e5",
+        "bytes": 48342,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "8981086efea6183497ed4f85792d723aa9badb69798c02ba08b17f6883f231b1",
+        "bytes": 49440,
+        "mode": 420
+      },
+      "reason": "Preserve explicit hierarchy scope in family-bound access and use real family/account fixtures under runtime RLS. Strengthen reviewed foreign-Company denial and actual upload-limit/error assertions; retain existing branch and same-Company isolation proof."
+    },
+    {
+      "path": "backend/ci/gates/personal-data-classification/src/lib.rs",
+      "before": {
+        "sha256": "2922329e642e6b7d8c87371238c3fa99c23df07694f394a64557af2abad3f706",
+        "bytes": 90623,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "b62d9c68c8b46388ff297eca1f6a74f5fa4ff2555e7a0c59c60532ca4161af19",
+        "bytes": 90702,
+        "mode": 420
+      },
+      "reason": "Recognize only the existing column-neutral LOCK TABLE and SET LOCAL lock_timeout migration statements, with regression coverage preserving unknown-DDL fail-closed behavior."
+    },
+    {
+      "path": "backend/ci/gates/personal-data-classification/tests/gate_detects_violation.rs",
+      "before": {
+        "sha256": "1bb392b2cf6f68c73ee6bef9ff155b3e1f0dab0c92df3c9cd210ec252c8d455b",
+        "bytes": 59498,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "56f0f2cae35e49019b4501c04915903e5d48d37a37ba0013f62d87fc11ce01ca",
+        "bytes": 60212,
+        "mode": 420
+      },
+      "reason": "Recognize only the existing column-neutral LOCK TABLE and SET LOCAL lock_timeout migration statements, with regression coverage preserving unknown-DDL fail-closed behavior."
+    },
+    {
+      "path": "backend/ci/gates/writer-ownership/canonical-enforce-in-container.sh",
+      "before": {
+        "sha256": "7a73814bea60dd6b120938c39d454a17f4163ea80e68c986f0b051935362019f",
+        "bytes": 4196,
+        "mode": 493
+      },
+      "after": {
+        "sha256": "ac8db1210ff761d5455ac267f8a11650e96e0fbfffa3cc20271a05fabb9ff8c0",
+        "bytes": 4515,
+        "mode": 493
+      },
+      "reason": "Run ordinary canonical-census probe migrations in a single PostgreSQL transaction while preserving explicit SQLx no-transaction migrations; repair native pgtest and CI preflights without changing migration bytes."
+    },
+    {
+      "path": "backend/crates/attendance/adapter-postgres/src/self_service.rs",
+      "before": {
+        "sha256": "68321de8a658e70fe5e1d41d9e5be3d53171e18756d9e6a8075acc5e7a0399c2",
+        "bytes": 8416,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "1b4e99bf9913ad4cba0d81e1770a3812810ce70a29e68ccf5134f1ad645537e7",
+        "bytes": 8548,
+        "mode": 420
+      },
+      "reason": "Read retained own attendance history independently of current Employment activity through the existing two-caller private read selector. Preserve active Account/current linkage/Company equality/RLS and all separate write owners; actual independently reviewed9-case behavioral RED admission."
+    },
+    {
+      "path": "backend/crates/attendance/adapter-postgres/tests/self_service.rs",
+      "before": {
+        "sha256": "ed7a37a5b8d68d41f59810e56f4ac6162d87697e7ebd97854cbe25f74ff65e4e",
+        "bytes": 8453,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "6f633644f9d4117fbdbdfcb72782efc5136baaf681d38ab4be7d783f810f63df",
+        "bytes": 16775,
+        "mode": 420
+      },
+      "reason": "Test retained own attendance history across exit/UNKNOWN/site closure and current Account/link/session revocation; preserve inherited assertions, actual console_rt RLS and unchanged mutation controls. Use real family-bound test sessions and owner-valid branch/material fixtures; no runtime business seeds."
+    },
+    {
+      "path": "backend/crates/comms/adapter-mox/Cargo.toml",
+      "before": {
+        "sha256": "044c82cd2604b04ccebfd2f146ef0087ed76cacd62b152aed0bdd12c242eabc4",
+        "bytes": 897,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "e62c4bde4ae695fa99e66ad9c8be647e5b78c64675ce66b2bd160bf46a544fcb",
+        "bytes": 753,
+        "mode": 420
+      },
+      "reason": "Lock the existing hashing and mail-preparation dependencies for the immutable request/MIME contract."
+    },
+    {
+      "path": "backend/crates/comms/adapter-mox/src/lib.rs",
+      "before": {
+        "sha256": "b90fb6a60aa47f16ee139ae440cfbf2596c18c5ab592c51cdf4d8a0f8d7d2dbd",
+        "bytes": 20085,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "70f48820611eb9e105d422770e63a3ce81338e901e17058392fc71386884414d",
+        "bytes": 13893,
+        "mode": 420
+      },
+      "reason": "Replace premature outbound SMTP submission with exact immutable mail preparation and fail-closed UNKNOWN HTTP outcome; retain inbound/read owners."
+    },
+    {
+      "path": "backend/crates/comms/adapter-postgres/Cargo.toml",
+      "before": {
+        "sha256": "fd0e99a3556d6e7248cafc067e87d1a98aba2c66025561254bebe5188675d70f",
+        "bytes": 1099,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "6d6c1980526f3757592a4b529a833262545ee343577b00aea4f79757dee97d2f",
+        "bytes": 1030,
+        "mode": 420
+      },
+      "reason": "Lock the existing hashing and mail-preparation dependencies for the immutable request/MIME contract."
+    },
+    {
+      "path": "backend/crates/comms/adapter-postgres/src/lib.rs",
+      "before": {
+        "sha256": "e1b0934a0d8f8af31b58111d6f7431ca98dbfd14a2bc9b21705548de9e7819e3",
+        "bytes": 66575,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "a536f9d535374190fc76b6cffbd0fb144b055a384be1264d0b5b142fb67e5e4c",
+        "bytes": 65003,
+        "mode": 420
+      },
+      "reason": "Replace premature outbound SMTP submission with exact immutable mail preparation and fail-closed UNKNOWN HTTP outcome; retain inbound/read owners."
+    },
+    {
+      "path": "backend/crates/comms/adapter-postgres/tests/mail_account_rls_surfaces_as_runtime_role.rs",
+      "before": {
+        "sha256": "74c74a0e16f34017363c43e5f5c3052b838748656748842c1ba90b96863dab37",
+        "bytes": 16994,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "757ecd2a51ee79b12f9510de5351e46d1709a919d59995a8ec83bfa361371e50",
+        "bytes": 22058,
+        "mode": 420
+      },
+      "reason": "Prove Company isolation, immutable/retried prepared MIME, denied payload access and no premature SENT claim. Reject a direct runtime-role prepared mail row without a matching same-transaction audit."
+    },
+    {
+      "path": "backend/crates/comms/adapter-smtp/src/lib.rs",
+      "before": {
+        "sha256": "4c2d0048ae627b34cc2da09d5735d562cd01c706dd8e142fc4c62347520432ba",
+        "bytes": 14880,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "235674364f714171bcb1375384da7388e1cf7778f1c58d086c6c9b73e9fbd641",
+        "bytes": 15219,
+        "mode": 420
+      },
+      "reason": "Replace premature outbound SMTP submission with exact immutable mail preparation and fail-closed UNKNOWN HTTP outcome; retain inbound/read owners."
+    },
+    {
+      "path": "backend/crates/comms/application/Cargo.toml",
+      "before": {
+        "sha256": "7ba499d216c8b5b4788da1b29f9edc822ceb2faed1d4beef933f0cee860df156",
+        "bytes": 776,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "bbbed9c4d7ee544ff827b656f362a7a752f869fd6b426b4c5c5e6f1b3c82c4fb",
+        "bytes": 804,
+        "mode": 420
+      },
+      "reason": "Lock the existing hashing and mail-preparation dependencies for the immutable request/MIME contract."
+    },
+    {
+      "path": "backend/crates/comms/application/src/lib.rs",
+      "before": {
+        "sha256": "8113265831bfbb47f9468fe22a320f4f3b50c5bb800c8bcd627fe4fbc7555b62",
+        "bytes": 103992,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "438c6048dfb1a0dcaf7f1328fa08a5bb4285924c820eed17ce8288c1d198f042",
+        "bytes": 111127,
+        "mode": 420
+      },
+      "reason": "Add a test-only red probe proving outbound mail transport currently runs before failed durable admission; preserve the failing behavior evidence without changing production send code. Replace premature outbound SMTP submission with exact immutable mail preparation and fail-closed UNKNOWN HTTP outcome; retain inbound/read owners."
+    },
+    {
+      "path": "backend/crates/comms/rest/openapi/paths/api__v1__mail__forward.post.yaml",
+      "before": {
+        "sha256": "d35b73cad560c5b48df80c2061ac18c685749663c53eb8c69321755f190aa9bb",
+        "bytes": 943,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "dbba98ef68fb708b3130ae13a55295be82c0d7c137da0789e348e64272ceb961",
+        "bytes": 1213,
+        "mode": 420
+      },
+      "reason": "Describe stable outbound operation IDs, conflict and truthful UNKNOWN response; synchronize the mail HTTP contract."
+    },
+    {
+      "path": "backend/crates/comms/rest/openapi/paths/api__v1__mail__reply.post.yaml",
+      "before": {
+        "sha256": "93682168753276db785291f8dde2a0f51c0e2739346e6f03d40e8b3c036039c3",
+        "bytes": 933,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "df23f78d3c40a85cc8fd6e94e95f8a15e1576973f5b7704e3dbdb02d010df2ca",
+        "bytes": 1209,
+        "mode": 420
+      },
+      "reason": "Describe stable outbound operation IDs, conflict and truthful UNKNOWN response; synchronize the mail HTTP contract."
+    },
+    {
+      "path": "backend/crates/comms/rest/openapi/paths/api__v1__mail__send.post.yaml",
+      "before": {
+        "sha256": "7276d20aba70c28d941ac9d657e7c6f0531b06c18097d480ac3e58ca35455461",
+        "bytes": 937,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "cf216eed52c130fbcd8c8ec798acffc51e8de6f962c9a45a43dd7830378167aa",
+        "bytes": 1247,
+        "mode": 420
+      },
+      "reason": "Describe stable outbound operation IDs, conflict and truthful UNKNOWN response; synchronize the mail HTTP contract."
+    },
+    {
+      "path": "backend/crates/comms/rest/openapi/schemas/SendMailRequest.yaml",
+      "before": {
+        "sha256": "92f8613b58960f0d6f6c8ebbdf90518c3960aadca14063096e241dd39ec657ed",
+        "bytes": 853,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "fb05c24b031a223825dc8e00057f010ad5a86589626e9721a812d061181aac7b",
+        "bytes": 1023,
+        "mode": 420
+      },
+      "reason": "Describe stable outbound operation IDs, conflict and truthful UNKNOWN response; synchronize the mail HTTP contract."
+    },
+    {
+      "path": "backend/crates/comms/rest/src/lib.rs",
+      "before": {
+        "sha256": "b594f700edb18df7a782679ded7973eadd8d629dc6d1ecaeb9c560d916f2d81a",
+        "bytes": 41473,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "681abc90a817cc620e96b7114258474044dacdf5db74b1a7fc0ddaaa363f5971",
+        "bytes": 42643,
+        "mode": 420
+      },
+      "reason": "Replace premature outbound SMTP submission with exact immutable mail preparation and fail-closed UNKNOWN HTTP outcome; retain inbound/read owners."
+    },
+    {
+      "path": "backend/crates/comms/rest/tests/readiness.rs",
+      "before": {
+        "sha256": "05e1e993d45de2abe548dc6cba96d59d62ffd5139b1717ac16c3c086b4727cd0",
+        "bytes": 8487,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "007aa47d8bdee6552d099cc7129cd8f901254ad47a372b2f53e93245385721f2",
+        "bytes": 8965,
+        "mode": 420
+      },
+      "reason": "Use a real family-bound test session and stable operation ID while preserving mail readiness assertions."
+    },
+    {
+      "path": "backend/crates/contracts/src/gen_registry.rs",
+      "before": {
+        "sha256": "e3748d84a1e19ef629d210de1a9d7d54cb6f1e483a4ec6f7b5b663b1dbf733ad",
+        "bytes": 351605,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "1c293f4d13adda1b2ecc7305cc6887150da6bb1f06b55a8867c94f797268582e",
+        "bytes": 354216,
+        "mode": 420
+      },
+      "reason": "C2 explicit discoverable start and R7c closed browser session/HR API path-method-response contracts under existing owners; preserve legacy aliases and exact nine-item timestamp wire schema."
+    },
+    {
+      "path": "backend/crates/financial/adapter-postgres/src/lib.rs",
+      "before": {
+        "sha256": "23d1f6c798a9cb165ff8b4ce74ecc2f0baa68618f3f3c70eec3589abb5bf9bbb",
+        "bytes": 111582,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "5bda32c3ebd93a2c72bb32a23f58883f23a86fd91b13102f60c11ba0d1c4b22a",
+        "bytes": 109949,
+        "mode": 420
+      },
+      "reason": "Remove title-based self-approval exemptions in existing locked owner transactions; deny missing maker/checker, preserve author operations/history, pin purchase preparation and executive approval to source state and independent admin provenance. Real-session/runtime-RLS regression proofs."
+    },
+    {
+      "path": "backend/crates/financial/adapter-postgres/tests/use_cases.rs",
+      "before": {
+        "sha256": "35ddc51d95f4bfd9283d97895241df3dd867821021a3e01b1f42824d70ed22e1",
+        "bytes": 49324,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "12af633562a030734386a8eb638845a1accde97e745866ef6c10fbef46e4f477",
+        "bytes": 59948,
+        "mode": 420
+      },
+      "reason": "Remove title-based self-approval exemptions in existing locked owner transactions; deny missing maker/checker, preserve author operations/history, pin purchase preparation and executive approval to source state and independent admin provenance. Real-session/runtime-RLS regression proofs."
+    },
+    {
+      "path": "backend/crates/identity/adapter-postgres/Cargo.toml",
+      "before": {
+        "sha256": "67fe21cc2af94bba85df910c9b97440aceec88247823a2e6f4908816e1f07a45",
+        "bytes": 799,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "3e79cf35b2907bae48a4fe761e7c68844e0ca0959ebc6fbc8c431e8d23189f95",
+        "bytes": 845,
+        "mode": 420
+      },
+      "reason": "Coordinated authentication lock implementation from independently approved exact tests24f4a4: Account-first owners, exact locator revalidation, database validation clock, shared self-delete, sorted roster and additive0227 removal guard. Candidate pending verification/review. Retire v1 AI permission authority at every runtime door and role owner command; preserve historical policy rows, assignment identity and audit evidence with red-first regressions."
+    },
+    {
+      "path": "backend/crates/identity/adapter-postgres/src/lib.rs",
+      "before": {
+        "sha256": "ef620495a547484ededbb8b2e080222b47a63119534ff6f48f722116c9edd32a",
+        "bytes": 103160,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "911b0d9c5a426baec96f6eaef422ca68e33d8d8890c97611d0a704628f813c44",
+        "bytes": 106487,
+        "mode": 420
+      },
+      "reason": "Coordinated authentication lock implementation from independently approved exact tests24f4a4: Account-first owners, exact locator revalidation, database validation clock, shared self-delete, sorted roster and additive0227 removal guard. Candidate pending verification/review. Retire v1 AI permission authority at every runtime door and role owner command; preserve historical policy rows, assignment identity and audit evidence with red-first regressions."
+    },
+    {
+      "path": "backend/crates/identity/adapter-postgres/tests/account_locking.rs",
+      "before": null,
+      "after": {
+        "sha256": "4c043d7da4b0d16bc2eef3f704422c9bf8fd5c1cab4a65d839064371a2e68c3c",
+        "bytes": 6943,
+        "mode": 420
+      },
+      "reason": "Coordinated authentication lock implementation from independently approved exact tests24f4a4: Account-first owners, exact locator revalidation, database validation clock, shared self-delete, sorted roster and additive0227 removal guard. Candidate pending verification/review."
+    },
+    {
+      "path": "backend/crates/identity/adapter-postgres/tests/deactivate_revokes_credentials.rs",
+      "before": {
+        "sha256": "5d5b3115555872c3a05dc4360df15b1487dc42787fd57a4fce926b99dc2aaa4e",
+        "bytes": 7532,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "accf765e1e47465863982267dae6e375487e206dd21519013a4f8e32a667e5d0",
+        "bytes": 7816,
+        "mode": 420
+      },
+      "reason": "Protected credential-removal evidence under accepted authentication design and mechanics652a3539. Exact tests-first red/green and candidate review tracked separately; full R4 incomplete."
+    },
+    {
+      "path": "backend/crates/identity/rest/Cargo.toml",
+      "before": {
+        "sha256": "5b77342b75418312f01bb6810260f991a04150713b329fb91a7b3424161e0022",
+        "bytes": 1443,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "dd6cb1ffe5414d60bdc0a2092dc09a1fdb87c9bcabc05c8ff5e16d45414e6549",
+        "bytes": 1493,
+        "mode": 420
+      },
+      "reason": "Tests-first coordinated authentication lock transition: Account mutex precedes proof/key/family mutation; actual after-wait expiry, lifecycle/locator and FK compatibility probes. No new production implementation yet."
+    },
+    {
+      "path": "backend/crates/identity/rest/openapi/manifest.json",
+      "before": {
+        "sha256": "a72544fceeaa8cf5622e0ee761ee3180bf77add5ac027c7dcac957dcf1b3fd3c",
+        "bytes": 9121,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "ce2a085a34a9253f7ffccc0a58109ae355231245ba4a73326709c5e04211d793",
+        "bytes": 9457,
+        "mode": 420
+      },
+      "reason": "C2 explicit discoverable start and R7c closed browser session/HR API path-method-response contracts under existing owners; preserve legacy aliases and exact nine-item timestamp wire schema."
+    },
+    {
+      "path": "backend/crates/identity/rest/openapi/paths/api__v1__auth__browser-session__login.post.yaml",
+      "before": null,
+      "after": {
+        "sha256": "3164241c5391368d10cdb690537a81bf29f666f8e658afe9d2a32b26707be0d1",
+        "bytes": 967,
+        "mode": 420
+      },
+      "reason": "C2 explicit discoverable start and R7c closed browser session/HR API path-method-response contracts under existing owners; preserve legacy aliases and exact nine-item timestamp wire schema."
+    },
+    {
+      "path": "backend/crates/identity/rest/openapi/paths/api__v1__auth__browser-session__logout.post.yaml",
+      "before": null,
+      "after": {
+        "sha256": "51c9d3e4af82ef7fd03f1fada1e2860f7b64048fda01881f8c4f184d78963274",
+        "bytes": 749,
+        "mode": 420
+      },
+      "reason": "C2 explicit discoverable start and R7c closed browser session/HR API path-method-response contracts under existing owners; preserve legacy aliases and exact nine-item timestamp wire schema."
+    },
+    {
+      "path": "backend/crates/identity/rest/openapi/paths/api__v1__auth__browser-session__start.post.yaml",
+      "before": null,
+      "after": {
+        "sha256": "27fa583782b5eb5db72e1dc6b7206fdcbe37975d5f308cf245d9d9d72b5c1604",
+        "bytes": 656,
+        "mode": 420
+      },
+      "reason": "C2 explicit discoverable start and R7c closed browser session/HR API path-method-response contracts under existing owners; preserve legacy aliases and exact nine-item timestamp wire schema."
+    },
+    {
+      "path": "backend/crates/identity/rest/openapi/paths/api__v1__auth__device-login__approve-session.post.yaml",
+      "before": {
+        "sha256": "16641b18a9fa293829278ff03d7d19f0fc9d6e105b7140ff5ecc1f3b842134be",
+        "bytes": 814,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "0fe6c3c4a8968d1f3ccebad26dd1de67db1fe9b4f926d6e38f73c080eca88ae5",
+        "bytes": 892,
+        "mode": 420
+      },
+      "reason": "Restrict positively classified legacy OTP families at shared ordinary admission and locked device approval; preserve direct enrollment, v0 compatibility and dormant v1. Add genuine runtime-role regressions and correct QR approval descriptions."
+    },
+    {
+      "path": "backend/crates/identity/rest/openapi/paths/api__v1__auth__otp__redeem.post.yaml",
+      "before": {
+        "sha256": "27492d680d23408fb1f34087afd1242a4720af421e10f7844a6d0ccac034ca38",
+        "bytes": 979,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "c212bf17be488ba065d8e387a2124fc3dcc6bd51d96abb4a42ccc8a26beea28b",
+        "bytes": 1118,
+        "mode": 420
+      },
+      "reason": "Correct legacy OTP enrollment-purpose and key-absence descriptions; no schema or authority change."
+    },
+    {
+      "path": "backend/crates/identity/rest/openapi/paths/api__v1__auth__passkey__login__explicit__start.post.yaml",
+      "before": null,
+      "after": {
+        "sha256": "e36bc86a7ec634a435ec4309421dd8457e6ca304bb75499674fbe67568c3c710",
+        "bytes": 821,
+        "mode": 420
+      },
+      "reason": "C2 explicit discoverable start and R7c closed browser session/HR API path-method-response contracts under existing owners; preserve legacy aliases and exact nine-item timestamp wire schema."
+    },
+    {
+      "path": "backend/crates/identity/rest/openapi/paths/api__v1__auth__passkey__login__start.post.yaml",
+      "before": {
+        "sha256": "c5b5dea5e772c46028c473d923b436841169fac19d8499cba0faf20741ccdf37",
+        "bytes": 611,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "9a7fc79ab22fa9bb966d3a186325f8ecc86d2eff354b2d08de1f98b74bc80adf",
+        "bytes": 816,
+        "mode": 420
+      },
+      "reason": "C2 explicit discoverable start and R7c closed browser session/HR API path-method-response contracts under existing owners; preserve legacy aliases and exact nine-item timestamp wire schema."
+    },
+    {
+      "path": "backend/crates/identity/rest/openapi/paths/api__v1__auth__passkey__register__start.post.yaml",
+      "before": {
+        "sha256": "c224dfc1798fcac8608445c185c85e712ce3718391ce6ec9beadceadcea72b4f",
+        "bytes": 1043,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "38b1edab96734f2864d958a516bdbc0296e108c9dedf6e6c676216b96d13d5e2",
+        "bytes": 1695,
+        "mode": 420
+      },
+      "reason": "C2 explicit discoverable start and R7c closed browser session/HR API path-method-response contracts under existing owners; preserve legacy aliases and exact nine-item timestamp wire schema."
+    },
+    {
+      "path": "backend/crates/identity/rest/openapi/schemas/BrowserSessionIdentityRequest.yaml",
+      "before": null,
+      "after": {
+        "sha256": "e1b8ec564734e1910c49524a1b989025e668dfde7b8a7d3593c5ba68398af766",
+        "bytes": 355,
+        "mode": 420
+      },
+      "reason": "C2 explicit discoverable start and R7c closed browser session/HR API path-method-response contracts under existing owners; preserve legacy aliases and exact nine-item timestamp wire schema."
+    },
+    {
+      "path": "backend/crates/identity/rest/openapi/schemas/BrowserSessionLoginResponse.yaml",
+      "before": null,
+      "after": {
+        "sha256": "4496d6152dda02e3e1f109b094b86ec79de756aa5d00b1f1b33787efc5c45f31",
+        "bytes": 414,
+        "mode": 420
+      },
+      "reason": "C2 explicit discoverable start and R7c closed browser session/HR API path-method-response contracts under existing owners; preserve legacy aliases and exact nine-item timestamp wire schema."
+    },
+    {
+      "path": "backend/crates/identity/rest/openapi/schemas/EnrollHandoffResponse.yaml",
+      "before": {
+        "sha256": "f9b52335b323d20d35d4a31f20c4fefb32666584cc4888e6b689702db481a29f",
+        "bytes": 1089,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "ad304a48f3b5d701e4df3505859758dd994b57c0a09b296efd9bcb78256457b6",
+        "bytes": 1176,
+        "mode": 420
+      },
+      "reason": "Restrict positively classified legacy OTP families at shared ordinary admission and locked device approval; preserve direct enrollment, v0 compatibility and dormant v1. Add genuine runtime-role regressions and correct QR approval descriptions."
+    },
+    {
+      "path": "backend/crates/identity/rest/openapi/schemas/OtpRedeemResponse.yaml",
+      "before": {
+        "sha256": "a0bc4722c1fad416f1f0a3e48d6f555629bd812470dccfaf2b64c7a2b5bea54a",
+        "bytes": 666,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "39f8f9de5c307b02bd798b1460991cbd28f167e87103323e1e74468c97e8b77f",
+        "bytes": 786,
+        "mode": 420
+      },
+      "reason": "Correct legacy OTP enrollment-purpose and key-absence descriptions; no schema or authority change."
+    },
+    {
+      "path": "backend/crates/identity/rest/openapi/schemas/PasskeyRegisterStartRequest.yaml",
+      "before": {
+        "sha256": "eb3897c626d3a07d5cf8a424778d2ec3c3a8243bf393a1e3da0441813f9a6422",
+        "bytes": 681,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "acce1569743cc3ab8ef01734fe1048a7c61e5235183fb57c6bddb51341026ff9",
+        "bytes": 1088,
+        "mode": 420
+      },
+      "reason": "C2 explicit discoverable start and R7c closed browser session/HR API path-method-response contracts under existing owners; preserve legacy aliases and exact nine-item timestamp wire schema."
+    },
+    {
+      "path": "backend/crates/identity/rest/openapi/schemas/TokenPairResponse.yaml",
+      "before": {
+        "sha256": "fca1e015bfe199170bb2b566a533cfb7def3a13d7bf8c7038741941ebac71a12",
+        "bytes": 835,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "7ccf46d4f1a4cc72364d6bd380e5150bc4827eec9d915ba4e1377c522a58274e",
+        "bytes": 857,
+        "mode": 420
+      },
+      "reason": "Correct legacy OTP enrollment-purpose and key-absence descriptions; no schema or authority change."
+    },
+    {
+      "path": "backend/crates/identity/rest/src/lib.rs",
+      "before": {
+        "sha256": "385736fd2a8f516702070e0f3809b47be06c054fe6dac6606aaefdc1f36b631d",
+        "bytes": 193675,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "9cf5e17a3d71bb7be3a8bddb44a2c9544ae7cddba600764c5cf70af2300be9f0",
+        "bytes": 193448,
+        "mode": 420
+      },
+      "reason": "Coordinated authentication lock implementation from independently approved exact tests24f4a4: Account-first owners, exact locator revalidation, database validation clock, shared self-delete, sorted roster and additive0227 removal guard. Candidate pending verification/review. Retire v1 AI permission authority at every runtime door and role owner command; preserve historical policy rows, assignment identity and audit evidence with red-first regressions."
+    },
+    {
+      "path": "backend/crates/identity/rest/src/openapi.rs",
+      "before": {
+        "sha256": "7a50a4672556c3ca2ae2cc0d5b2cbe8bcf553197e4e1df78f40377b4ce8d70a9",
+        "bytes": 42246,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "40d01ce9b149c494d0cfbe5d089a5c1b13964e822e262592da92eb905630db2c",
+        "bytes": 43592,
+        "mode": 420
+      },
+      "reason": "C2 explicit discoverable start and R7c closed browser session/HR API path-method-response contracts under existing owners; preserve legacy aliases and exact nine-item timestamp wire schema."
+    },
+    {
+      "path": "backend/crates/identity/rest/tests/authentication_locking.rs",
+      "before": null,
+      "after": {
+        "sha256": "5a1e93b3fb1e44c81359a7ff2f274b3125b2f27c4b89fa167075e92d0664d956",
+        "bytes": 48196,
+        "mode": 420
+      },
+      "reason": "Protected credential-removal evidence under accepted authentication design and mechanics652a3539. Add a real PostgreSQL regression for a revoked session while bound handoff approval waits on the Account lock; full R4 incomplete. Add fourteen unchanged-test-first recorded-source regressions for both approval producers, both removal aliases, exact key bindings, lock-wait revocation and valid-key single issuance; full authentication/Next/two-site acceptance remains HOLD. C2/R7c approved actual WebAuthn/PostgreSQL/native/browser regressions, private custody and exact-family owner failures, compatibility and current-authority constructor fields. Preserve inherited assertions; reviewed prerequisite correction and whitespace-only formatting."
+    },
+    {
+      "path": "backend/crates/identity/rest/tests/org_setup.rs",
+      "before": {
+        "sha256": "3198bbc2bd2ef286054492ca2c4ecae75ecf3c42253d406994715b92a2ad94e0",
+        "bytes": 141209,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "7ec7b73612c4dbba7c77be7983b6503005b5128e46eae3d40b13ea083bb99ad0",
+        "bytes": 159334,
+        "mode": 420
+      },
+      "reason": "Preserve explicit hierarchy scope in family-bound access and use real family/account fixtures under runtime RLS. Strengthen reviewed foreign-Company denial and actual upload-limit/error assertions; retain existing branch and same-Company isolation proof. Retire v1 AI permission authority at every runtime door and role owner command; preserve historical policy rows, assignment identity and audit evidence with red-first regressions."
+    },
+    {
+      "path": "backend/crates/inbox/adapter-postgres/src/lib.rs",
+      "before": {
+        "sha256": "4a436fbbe77e84eea67ece8f128efe34a739c31b58e9b2ab25555eeabbf157b7",
+        "bytes": 17316,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "f000d7cc49c7741024fe17c73e9b259cc1b594df605e2104d017f8570b7a2cd0",
+        "bytes": 16573,
+        "mode": 420
+      },
+      "reason": "Reviewed staged-roster coverage and atomic local payslip publication at existing payroll/Inbox owners, immutable dedup replay and frozen real-session/runtime-role regressions. No full-module, legal, payment or two-site claim."
+    },
+    {
+      "path": "backend/crates/inbox/adapter-postgres/tests/inbox_docs_rls_surfaces_as_runtime_role.rs",
+      "before": {
+        "sha256": "525094852d1982d3eedfe63afbf19b05747f040f77e14d8c40f04ebad83ca9e0",
+        "bytes": 13868,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "954bc8d91228ad2dd09023df7a5e664961d26e6559ad168a8ca4ee8fab303a23",
+        "bytes": 20270,
+        "mode": 420
+      },
+      "reason": "Reviewed staged-roster coverage and atomic local payslip publication at existing payroll/Inbox owners, immutable dedup replay and frozen real-session/runtime-role regressions. No full-module, legal, payment or two-site claim."
+    },
+    {
+      "path": "backend/crates/kernel/core/src/validation.rs",
+      "before": {
+        "sha256": "9cf99318cf7fa70f992df4bf11476873fcd0889bc03ad0924234f108545f0188",
+        "bytes": 11211,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "a1fb2bc062e731bde65c8744c71869ac7860b77ce03a67742beedd48b4cd6d5b",
+        "bytes": 11400,
+        "mode": 420
+      },
+      "reason": "Reject NUL in the shared bounded PostgreSQL text validator so sales and registry callers return validation errors before SQLx binding."
+    },
+    {
+      "path": "backend/crates/leave/adapter-postgres/tests/leave_rls_surfaces_as_runtime_role.rs",
+      "before": {
+        "sha256": "24b9cf1e89bde6a1d7dd0fe364e458d9e1a4c8d29771dec62127908562e5d48b",
+        "bytes": 109584,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "b0306efd0203aa43def50e5702c5dc9bb6d3b580bddbd34401944955fa478357",
+        "bytes": 113172,
+        "mode": 420
+      },
+      "reason": "Reviewed staged-roster coverage and atomic local payslip publication at existing payroll/Inbox owners, immutable dedup replay and frozen real-session/runtime-role regressions. No full-module, legal, payment or two-site claim."
+    },
+    {
+      "path": "backend/crates/messenger/adapter-postgres/src/lib.rs",
+      "before": {
+        "sha256": "5a53c91f69012ac25f986d3e41502ca1e0d21514c0b35762999c61fdc6191a08",
+        "bytes": 71342,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "052244bb85885fe499eb0dcab9b8991a04e2f49be2e4d26c47a6b52d675c4cb7",
+        "bytes": 72578,
+        "mode": 420
+      },
+      "reason": "Revalidate WebSocket session and scope around current owner projections; bind message membership and quote scope, recipient reads, authorized replay cursors and bounded socket/replay lifetimes. Preserve existing identities, schema and behavior assertions."
+    },
+    {
+      "path": "backend/crates/messenger/application/src/lib.rs",
+      "before": {
+        "sha256": "8c488732b16c6095c738bb4ad45fae4f107ae6b95ff5aabdc8ea1cede03c7aef",
+        "bytes": 11770,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "e53432f180e569cd4dc9b1c7238f9b16e23bcaacf78ea9bce24be7e654a73da8",
+        "bytes": 11951,
+        "mode": 420
+      },
+      "reason": "Revalidate WebSocket session and scope around current owner projections; bind message membership and quote scope, recipient reads, authorized replay cursors and bounded socket/replay lifetimes. Preserve existing identities, schema and behavior assertions."
+    },
+    {
+      "path": "backend/crates/messenger/rest/tests/api.rs",
+      "before": {
+        "sha256": "426c7985057eeea76a5ba774554b54a45e7ffd63deec39a68b51f0e9bf140480",
+        "bytes": 18273,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "9c10406a128f4de64ac07c948ca1c03982ba156d67bb2d97045cb805a8d21cad",
+        "bytes": 18525,
+        "mode": 420
+      },
+      "reason": "Migrate inherited messenger and notification REST fixtures to actual refresh families without changing identities, runtime RLS, roles, branches or assertions."
+    },
+    {
+      "path": "backend/crates/notifications/adapter-postgres/src/lib.rs",
+      "before": {
+        "sha256": "5b216bfc547afb31bfadc9b740868729ce72e20a53f3b2734b968377d07c4740",
+        "bytes": 39676,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "6d26d3232a71dd7bab4f919521e944911421f22e0723647ee433574da7f973fa",
+        "bytes": 40758,
+        "mode": 420
+      },
+      "reason": "Revalidate WebSocket session and scope around current owner projections; bind message membership and quote scope, recipient reads, authorized replay cursors and bounded socket/replay lifetimes. Preserve existing identities, schema and behavior assertions."
+    },
+    {
+      "path": "backend/crates/notifications/application/src/lib.rs",
+      "before": {
+        "sha256": "8ff29fe6b0145352fc0ea1de21dd462a55f99d208b3a0f00d3f20e5e0524648a",
+        "bytes": 12808,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "656f8dd62508e394af8eb2eb0a7c0a763b63f088acb2afe7019632d0f3228693",
+        "bytes": 13023,
+        "mode": 420
+      },
+      "reason": "Revalidate WebSocket session and scope around current owner projections; bind message membership and quote scope, recipient reads, authorized replay cursors and bounded socket/replay lifetimes. Preserve existing identities, schema and behavior assertions."
+    },
+    {
+      "path": "backend/crates/notifications/rest/tests/api.rs",
+      "before": {
+        "sha256": "478f11ecd55cd121d023a17f510e688ff7c509a2a654a625c1b9dd74fc929b5c",
+        "bytes": 20664,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "5af80d74808ac4c07fe98cb406a7348be6802648e51d13bed14214b48a1002d6",
+        "bytes": 21105,
+        "mode": 420
+      },
+      "reason": "Migrate inherited messenger and notification REST fixtures to actual refresh families without changing identities, runtime RLS, roles, branches or assertions."
+    },
+    {
+      "path": "backend/crates/ontology/canonical-adapter-postgres/src/employment.rs",
+      "before": {
+        "sha256": "914bf56b60182068a80c87f891f56740582352111eb81ab68077a8a7bb48da92",
+        "bytes": 49128,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "243310d697c126f51eee3920ee8772b121c9231249d1197948edce299adc74e3",
+        "bytes": 59207,
+        "mode": 420
+      },
+      "reason": "Add Company-RLS-scoped, non-serving effective Employment state at one statement-scoped PostgreSQL instant. Current get/list derive ACTIVE from immutable revisions; typed projection retains exited/unknown/not-yet-effective states. Refuse ambiguous bindings, malformed or pre-opening revisions and unresolved reactivation. Legacy employees writes and serving routes remain unchanged."
+    },
+    {
+      "path": "backend/crates/ontology/canonical-adapter-postgres/tests/employment_effective_projection_as_runtime_role.rs",
+      "before": null,
+      "after": {
+        "sha256": "c48014d44bd264d4b450b787eef680666fd4fbe498041ad36af8d326d9e3b038",
+        "bytes": 26502,
+        "mode": 420
+      },
+      "reason": "Real PostgreSQL runtime-role proof of bounded effective Employment state, source-binding cardinality, unknown/corrupt revisions, unresolved reactivation and pre-opening corruption across typed and canonical reads."
+    },
+    {
+      "path": "backend/crates/ontology/canonical-adapter-postgres/tests/employment_port_as_runtime_role.rs",
+      "before": {
+        "sha256": "b56e82801e5d03c4d61be698d034047d9863e4f1b5c2cdba4f1ee0b1a93d6e5f",
+        "bytes": 90575,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "06a03b926338944e430174609174f613a30666157238a9904a0046938935ffb6",
+        "bytes": 105708,
+        "mode": 420
+      },
+      "reason": "Prove retroactive correction, transfer, exit boundaries, foreign-Company denial, current effective appointment/transfer/exit, UNKNOWN exclusion and ambiguous-binding refusal through the runtime-role port. Move the old shared fixed test instant into the past so inherited current-read assertions keep their intended precondition without weakening temporal offsets."
+    },
+    {
+      "path": "backend/crates/orgchange/rest/openapi/manifest.json",
+      "before": {
+        "sha256": "e81f3a5aa448977461539bae316117a0e1c42653fc0513d95c05f5441a956c6b",
+        "bytes": 4484,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "1707488e4b9fd7eed5b65e1f847225b27754499424c525e233d7ee75554f971b",
+        "bytes": 4670,
+        "mode": 420
+      },
+      "reason": "C2 explicit discoverable start and R7c closed browser session/HR API path-method-response contracts under existing owners; preserve legacy aliases and exact nine-item timestamp wire schema."
+    },
+    {
+      "path": "backend/crates/orgchange/rest/openapi/paths/api__v1__hr__browser-session__attendance-records__me.post.yaml",
+      "before": null,
+      "after": {
+        "sha256": "421223246e5ee975d4c9f4f0f9d647fb91f6408d0a6f23ed1387b1d8e8c6ec48",
+        "bytes": 889,
+        "mode": 420
+      },
+      "reason": "C2 explicit discoverable start and R7c closed browser session/HR API path-method-response contracts under existing owners; preserve legacy aliases and exact nine-item timestamp wire schema."
+    },
+    {
+      "path": "backend/crates/orgchange/rest/openapi/schemas/BrowserSessionAttendanceRequest.yaml",
+      "before": null,
+      "after": {
+        "sha256": "86a2cb9c56d85b55618535c200f859645653637101b3f84e87ef18e363b3ac53",
+        "bytes": 509,
+        "mode": 420
+      },
+      "reason": "C2 explicit discoverable start and R7c closed browser session/HR API path-method-response contracts under existing owners; preserve legacy aliases and exact nine-item timestamp wire schema."
+    },
+    {
+      "path": "backend/crates/orgchange/rest/openapi/schemas/BrowserSessionAttendanceResponse.yaml",
+      "before": null,
+      "after": {
+        "sha256": "9879f4cbf6ff75fbff7a87b3624800880b042f7539e5e71b91ebc35e0dadc093",
+        "bytes": 438,
+        "mode": 420
+      },
+      "reason": "C2 explicit discoverable start and R7c closed browser session/HR API path-method-response contracts under existing owners; preserve legacy aliases and exact nine-item timestamp wire schema."
+    },
+    {
+      "path": "backend/crates/orgchange/rest/openapi/schemas/BrowserSessionContext.yaml",
+      "before": null,
+      "after": {
+        "sha256": "6e14763bdab23c0a76d8b955f8f7a90c8440fe6f8e595974faed28f07b555686",
+        "bytes": 366,
+        "mode": 420
+      },
+      "reason": "C2 explicit discoverable start and R7c closed browser session/HR API path-method-response contracts under existing owners; preserve legacy aliases and exact nine-item timestamp wire schema."
+    },
+    {
+      "path": "backend/crates/orgchange/rest/openapi/schemas/EmployeeAttendanceRecord.yaml",
+      "before": {
+        "sha256": "cc0b240afa289175835dabdb635a00d9661e3d26b7d5ba26313cb811a0d1c7bc",
+        "bytes": 807,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "928e10cedefbe66f173fbcedfa13ce33a6283e27b5fac4ef1b40be57063c18d7",
+        "bytes": 1780,
+        "mode": 420
+      },
+      "reason": "Document the required UUID/null association and LINKED/UNLINKED3.1 contract, with no payroll-success claim. C2 explicit discoverable start and R7c closed browser session/HR API path-method-response contracts under existing owners; preserve legacy aliases and exact nine-item timestamp wire schema."
+    },
+    {
+      "path": "backend/crates/orgchange/rest/src/openapi.rs",
+      "before": {
+        "sha256": "b0fd455aaf69905cf8cad9199e1ffcfc2345326435f41fe3a078b5ce9940b3c9",
+        "bytes": 20425,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "c715f32734cdad4079e87763edc943033410b5dbd917d5717ac3e743faf25704",
+        "bytes": 21191,
+        "mode": 420
+      },
+      "reason": "C2 explicit discoverable start and R7c closed browser session/HR API path-method-response contracts under existing owners; preserve legacy aliases and exact nine-item timestamp wire schema."
+    },
+    {
+      "path": "backend/crates/payroll/adapter-postgres/src/lib.rs",
+      "before": {
+        "sha256": "69e44f5c5aacde19e13254fc92d3b32b9298970e62c930de19dcb56a9b9bdec1",
+        "bytes": 23675,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "1b790dbcc72920245051d418738dfba6f07473184541641c520e31fc1db9db3d",
+        "bytes": 24682,
+        "mode": 420
+      },
+      "reason": "Use coherent Company-scoped payroll readiness snapshots, compose authenticated Account linkage and self page, and preserve audited mutation semantics; reviewed real PostgreSQL regression and session-family fixtures."
+    },
+    {
+      "path": "backend/crates/payroll/adapter-postgres/src/lifecycle.rs",
+      "before": {
+        "sha256": "070c1da569abd4dab31326f2d21953b480dd39d59b21cd5eed3df92b4aa401ae",
+        "bytes": 76183,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "b6f0bbcc614653f89b2c675087e2dc686b531abdf13372c36d4c9d3ff9f60559",
+        "bytes": 87307,
+        "mode": 420
+      },
+      "reason": "Payroll restage integrity R3, source commit b0a017a: exact Company/run/period lifecycle lock and known-state guard; preserve frozen rosters; validate locked existing runs and propagate DB errors; delegate drain period/provenance decisions to the existing owner for interrupted acknowledgment recovery. No migration/API/codec change. Add independently reviewed red-first malformed payroll source and exact runtime-role calculation-accounting regressions; production behavior remains unchanged in the test candidate. Reject malformed declared payroll evidence and optional pension values in the existing selector; preserve legitimate ancillary material, duplicates, conflict checks and existing arithmetic. Reviewed staged-roster coverage and atomic local payslip publication at existing payroll/Inbox owners, immutable dedup replay and frozen real-session/runtime-role regressions. No full-module, legal, payment or two-site claim."
+    },
+    {
+      "path": "backend/crates/payroll/adapter-postgres/src/pay_run.rs",
+      "before": {
+        "sha256": "adfa4d1b1395f03af2853b412e9a65c64966f9a573f16e1b50e29cdaea2135e3",
+        "bytes": 41641,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "d921ee4a8687e152375455780e90ad4b609fd31abc6b6cd3da0ee0099244fca5",
+        "bytes": 42630,
+        "mode": 420
+      },
+      "reason": "Payroll restage integrity R3, source commit b0a017a: exact Company/run/period lifecycle lock and known-state guard; preserve frozen rosters; validate locked existing runs and propagate DB errors; delegate drain period/provenance decisions to the existing owner for interrupted acknowledgment recovery. No migration/API/codec change."
+    },
+    {
+      "path": "backend/crates/payroll/adapter-postgres/src/roster.rs",
+      "before": {
+        "sha256": "26a04d1aad4bb59cfeab1ee5545e89cd7f06dd90f82c3efb0fbb3f7821b2009f",
+        "bytes": 12248,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "14445064cb64e26f279e87fc7ce23dc06f683982b207e5be69c71abffc8b3382",
+        "bytes": 13773,
+        "mode": 420
+      },
+      "reason": "Payroll restage integrity R3, source commit b0a017a: exact Company/run/period lifecycle lock and known-state guard; preserve frozen rosters; validate locked existing runs and propagate DB errors; delegate drain period/provenance decisions to the existing owner for interrupted acknowledgment recovery. No migration/API/codec change."
+    },
+    {
+      "path": "backend/crates/payroll/adapter-postgres/tests/pay_run_port_as_runtime_role.rs",
+      "before": {
+        "sha256": "af85e2962e5b6e45bf01aa14dd382497f7ee2fc0b7f7d1416174dae0f3869799",
+        "bytes": 53552,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "2fca79ca1f56a8a811289c16174aa06249911967507b71b17967ba05302d7701",
+        "bytes": 91414,
+        "mode": 420
+      },
+      "reason": "Test-first payroll roster restage integrity R3: actual runtime-role owner preservation, canonical and workflow retry/recovery, refusal and concurrent close ordering. Test fixtures are isolated; no product source change. Add independently reviewed red-first malformed payroll source and exact runtime-role calculation-accounting regressions; production behavior remains unchanged in the test candidate. Reviewed staged-roster coverage and atomic local payslip publication at existing payroll/Inbox owners, immutable dedup replay and frozen real-session/runtime-role regressions. No full-module, legal, payment or two-site claim."
+    },
+    {
+      "path": "backend/crates/payroll/rest/src/lib.rs",
+      "before": {
+        "sha256": "664994055e852f400eabf7446d792e106cd9c3d5db2a647bef00bd531ea60f32",
+        "bytes": 20093,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "5a57f8f42a020749846c70b855a94a71498149a72722796702cfbd8c4f5ca214",
+        "bytes": 20630,
+        "mode": 420
+      },
+      "reason": "Use coherent Company-scoped payroll readiness snapshots, compose authenticated Account linkage and self page, and preserve audited mutation semantics; reviewed real PostgreSQL regression and session-family fixtures. Share the existing audited snapshot/count/page read body between REST and SSR. Establish current PayrollRunRead before classifying subsequent read/audit failures; no REST contract, RLS, pagination, schema or monetary change."
+    },
+    {
+      "path": "backend/crates/payroll/rest/src/lifecycle.rs",
+      "before": {
+        "sha256": "49ad599ed56162070b9430a35cce3c34c4f2e18743767c6f5c28587aba834aed",
+        "bytes": 27339,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "e8f868fcf54538de85f1eea5f2d7c05509aa88e975c8e78510a1e5dac9a737fb",
+        "bytes": 26813,
+        "mode": 420
+      },
+      "reason": "Reviewed staged-roster coverage and atomic local payslip publication at existing payroll/Inbox owners, immutable dedup replay and frozen real-session/runtime-role regressions. No full-module, legal, payment or two-site claim. Use coherent Company-scoped payroll readiness snapshots, compose authenticated Account linkage and self page, and preserve audited mutation semantics; reviewed real PostgreSQL regression and session-family fixtures."
+    },
+    {
+      "path": "backend/crates/payroll/rest/tests/api.rs",
+      "before": {
+        "sha256": "2b8691e32e55b85d97524ec1f1eb9f25d64ae666da4e1b7b40effc7c9560cd8d",
+        "bytes": 31954,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "f9bf6dd90c2113b76054a7735c38e2a6e9fb7f0ca87f8d586b295b89c81b0009",
+        "bytes": 32429,
+        "mode": 420
+      },
+      "reason": "Use coherent Company-scoped payroll readiness snapshots, compose authenticated Account linkage and self page, and preserve audited mutation semantics; reviewed real PostgreSQL regression and session-family fixtures."
+    },
+    {
+      "path": "backend/crates/payroll/rest/tests/api/snapshot.rs",
+      "before": null,
+      "after": {
+        "sha256": "fa918ab318018bb9efe5226a7d8831f0d0a43d2c9f93bcf6ca437bbf8edb3cd8",
+        "bytes": 32416,
+        "mode": 420
+      },
+      "reason": "Use coherent Company-scoped payroll readiness snapshots, compose authenticated Account linkage and self page, and preserve audited mutation semantics; reviewed real PostgreSQL regression and session-family fixtures."
+    },
+    {
+      "path": "backend/crates/payroll/rest/tests/run_lifecycle_api.rs",
+      "before": {
+        "sha256": "d8427a5d13eea27123ac90bf841af8bd8393e5ec2ac2f09902e463858faf9b42",
+        "bytes": 54157,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "f7e063b2f704ba43886a3b5260d44f5c6d956d20604560478e76298f10b00f0c",
+        "bytes": 55316,
+        "mode": 420
+      },
+      "reason": "Reviewed staged-roster coverage and atomic local payslip publication at existing payroll/Inbox owners, immutable dedup replay and frozen real-session/runtime-role regressions. No full-module, legal, payment or two-site claim."
+    },
+    {
+      "path": "backend/crates/payroll/rest/tests/run_lifecycle_api/population.rs",
+      "before": null,
+      "after": {
+        "sha256": "d7dad65851d17a1106e38886e65cd68bfe6657baebc1037fd04900cc80bfffb4",
+        "bytes": 32490,
+        "mode": 420
+      },
+      "reason": "Reviewed staged-roster coverage and atomic local payslip publication at existing payroll/Inbox owners, immutable dedup replay and frozen real-session/runtime-role regressions. No full-module, legal, payment or two-site claim."
+    },
+    {
+      "path": "backend/crates/platform/auth-rest/Cargo.toml",
+      "before": {
+        "sha256": "775c9259a5b9321a19cdf89418cccaad544e322a32b4457eef3ca2e737292c3d",
+        "bytes": 1319,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "9ddb6b9891037cb49e390f3fe6c8e9ec6ffedcd81343b0a7e84ddc58db28ac73",
+        "bytes": 1380,
+        "mode": 420
+      },
+      "reason": "Bind ordinary and delegated access to exact live refresh families; enforce strict source and absolute deadlines after lock waits. Preserve authentication assertions using real-family test fixtures."
+    },
+    {
+      "path": "backend/crates/platform/auth-rest/src/browser.rs",
+      "before": null,
+      "after": {
+        "sha256": "f8de79c2fa2cc73b1c12133a34a31b81855d90b5c0538295e275f69c83137a03",
+        "bytes": 16275,
+        "mode": 420
+      },
+      "reason": "C2/R7c extend existing native authentication owners: explicit discoverable starts, fresh transactional browser issuance, fixed bounded AEAD codec, exact-family logout and shared current-authority resolution. No arbitrary bearer conversion or browser JWT exposure. Guard declared routes without altering unrelated404 fallbacks; require authenticated scoped audit context and hand kernel metadata to the native logout owner."
+    },
+    {
+      "path": "backend/crates/platform/auth-rest/src/lib.rs",
+      "before": {
+        "sha256": "b5baedb7f5e349863a02620ab1b595fb0ee4310f266ea6f484e0d272475afd82",
+        "bytes": 148414,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "aff9194b28d2e06b2eb49a7a34a45a40462f5ed7daf45f226beca70694ca7f22",
+        "bytes": 168374,
+        "mode": 420
+      },
+      "reason": "Revalidate device handoff after waits and keep refresh rotation, current authority and JWT signing in one transaction before a replacement is acknowledged. Bind newly redeemed legacy OTP families and passkey registration ceremonies to the exact live source in one owner transaction, recheck JWT expiry after lock waits, and retain red purpose-authority probes. This is unactivated version-0 containment, not a version-1 session cutover. Recheck the exact recorded approving key with Account and Company under the existing Account mutex before device-login consumption and issuance; preserve approval, clock, token/family and audit semantics. Restrict positively classified legacy OTP families at shared ordinary admission and locked device approval; preserve direct enrollment, v0 compatibility and dormant v1. Add genuine runtime-role regressions and correct QR approval descriptions. C2/R7c extend existing native authentication owners: explicit discoverable starts, fresh transactional browser issuance, fixed bounded AEAD codec, exact-family logout and shared current-authority resolution. No arbitrary bearer conversion or browser JWT exposure. Persist authenticated browser request metadata before native login/session audit insertion; preserve context-free legacy event behavior."
+    },
+    {
+      "path": "backend/crates/platform/auth-rest/tests/dev_auth_session.rs",
+      "before": {
+        "sha256": "9e39e8a4bd204395ec646bba60dccc319724383de611757c411369bb8dcbfd41",
+        "bytes": 13149,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "7a1c8558f5ad15d8aaf14c7c245f791f97807d93e399e6d91127e98e730aeddd",
+        "bytes": 13227,
+        "mode": 420
+      },
+      "reason": "C2/R7c approved actual WebAuthn/PostgreSQL/native/browser regressions, private custody and exact-family owner failures, compatibility and current-authority constructor fields. Preserve inherited assertions; reviewed prerequisite correction and whitespace-only formatting."
+    },
+    {
+      "path": "backend/crates/platform/auth-rest/tests/group_admin_tenant_context.rs",
+      "before": {
+        "sha256": "1bca4dda3edb74ec829196cbaf0e02dec0bcf9ca049e88a0795b7c8fc14e634a",
+        "bytes": 10647,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "471ad5e5f738679a86f7f875ca4fd1da3ecbcf3551a4dac1bd93ee6fb622564e",
+        "bytes": 10757,
+        "mode": 420
+      },
+      "reason": "Preserve explicit hierarchy scope in family-bound access and use real family/account fixtures under runtime RLS. Strengthen reviewed foreign-Company denial and actual upload-limit/error assertions; retain existing branch and same-Company isolation proof. C2/R7c approved actual WebAuthn/PostgreSQL/native/browser regressions, private custody and exact-family owner failures, compatibility and current-authority constructor fields. Preserve inherited assertions; reviewed prerequisite correction and whitespace-only formatting."
+    },
+    {
+      "path": "backend/crates/platform/auth/src/account.rs",
+      "before": null,
+      "after": {
+        "sha256": "eb390f073b8dc1e28e692e2400cd59873ed4eca822a032897b0c9ea8231b1dc0",
+        "bytes": 3130,
+        "mode": 420
+      },
+      "reason": "Coordinated authentication lock implementation from independently approved exact tests24f4a4: Account-first owners, exact locator revalidation, database validation clock, shared self-delete, sorted roster and additive0227 removal guard. Candidate pending verification/review."
+    },
+    {
+      "path": "backend/crates/platform/auth/src/browser_session.rs",
+      "before": null,
+      "after": {
+        "sha256": "8b7c37d4c857a8ba08d20e0375891c9a0e821cf99f946791112e7a9b211ffc1d",
+        "bytes": 7328,
+        "mode": 420
+      },
+      "reason": "C2/R7c extend existing native authentication owners: explicit discoverable starts, fresh transactional browser issuance, fixed bounded AEAD codec, exact-family logout and shared current-authority resolution. No arbitrary bearer conversion or browser JWT exposure. Reviewed R7 pinned-Clippy fixed-array chunk iterators preserve codec bytes, exact length guards and frozen cryptographic vectors."
+    },
+    {
+      "path": "backend/crates/platform/auth/src/browser_session/tests.rs",
+      "before": null,
+      "after": {
+        "sha256": "9781d079b783c30876b7e9da9f657e84d16c2e27bc5e879d663d1f1e8e24f3c7",
+        "bytes": 11359,
+        "mode": 420
+      },
+      "reason": "C2/R7c approved actual WebAuthn/PostgreSQL/native/browser regressions, private custody and exact-family owner failures, compatibility and current-authority constructor fields. Preserve inherited assertions; reviewed prerequisite correction and whitespace-only formatting. Reviewed R7 pinned-Clippy fixed-array chunk iterators preserve codec bytes, exact length guards and frozen cryptographic vectors."
+    },
+    {
+      "path": "backend/crates/platform/auth/src/jwt.rs",
+      "before": {
+        "sha256": "a67e2204bdbe8b3dfe1cbf96851e38ce3b331c760939e697136fa97528ed367f",
+        "bytes": 20858,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "1252f390205860d397923a8b4eb992a42c63d15f13b85907663bfe1ceef03426",
+        "bytes": 24353,
+        "mode": 420
+      },
+      "reason": "Preserve explicit hierarchy scope in family-bound access and use real family/account fixtures under runtime RLS. Strengthen reviewed foreign-Company denial and actual upload-limit/error assertions; retain existing branch and same-Company isolation proof."
+    },
+    {
+      "path": "backend/crates/platform/auth/src/lib.rs",
+      "before": {
+        "sha256": "823734fdbc64973b9868343cf56b4a8336520dd776c0aa39ca1fc882794d2878",
+        "bytes": 1193,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "aa7cb62ea2296f91a55d7e9cce631e3d1659d9e19d74a552a6c1edbf76fbff11",
+        "bytes": 1357,
+        "mode": 420
+      },
+      "reason": "Export the refresh owner's transaction outcome for REST to commit terminal security effects and roll back failed token signing. C2/R7c extend existing native authentication owners: explicit discoverable starts, fresh transactional browser issuance, fixed bounded AEAD codec, exact-family logout and shared current-authority resolution. No arbitrary bearer conversion or browser JWT exposure."
+    },
+    {
+      "path": "backend/crates/platform/auth/src/refresh.rs",
+      "before": {
+        "sha256": "429402bb25a003481b15ca30abbd1847f558720c9db1c7741ab64856bfa0fc38",
+        "bytes": 18825,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "1baa330c765c0710f3aba4c7685ad58a8be59d99049e94f1b6239e11fe6a960f",
+        "bytes": 27082,
+        "mode": 420
+      },
+      "reason": "Preserve Account-first family issuance and expose transaction-scoped rotation so REST can sign access before committing a spent refresh token; terminal revocations still commit. Add a dormant source-bound first-enrollment family issue within the restricted authentication owner transaction. C2/R7c extend existing native authentication owners: explicit discoverable starts, fresh transactional browser issuance, fixed bounded AEAD codec, exact-family logout and shared current-authority resolution. No arbitrary bearer conversion or browser JWT exposure. Preserve compatible context-free logout entry and pass authenticated transport metadata to the same native owner; reuse shared audit insertion instead of duplicate raw SQL, keeping revocation/audit atomic."
+    },
+    {
+      "path": "backend/crates/platform/auth/src/webauthn.rs",
+      "before": {
+        "sha256": "4ecaa2656040482112872b795daecee16b2d15ee1ad7d6052018410755672b57",
+        "bytes": 43766,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "0c2125b6c29bb354594915c30b3cb6d286c90a56ff1437712f865edfad4c71ab",
+        "bytes": 40172,
+        "mode": 420
+      },
+      "reason": "Expose transaction-taking signed passkey authentication so proof consumption and session issuance can commit together; preserve existing WebAuthn verification, Account-first locks and owner wrapper. C2/R7c extend existing native authentication owners: explicit discoverable starts, fresh transactional browser issuance, fixed bounded AEAD codec, exact-family logout and shared current-authority resolution. No arbitrary bearer conversion or browser JWT exposure."
+    },
+    {
+      "path": "backend/crates/platform/auth/tests/credential_identity.rs",
+      "before": null,
+      "after": {
+        "sha256": "ed7eb4f3882ff446bd61abee69eabfb98acacde2faa46307983a6e4148ae7f03",
+        "bytes": 20579,
+        "mode": 420
+      },
+      "reason": "Enforce immutable credential row/key identity and pinned WebAuthn V5 UPDATE codec without Account locks, preserving original key JSON and allowed monotonic counter/backup transitions. Add genuine signature, malformed-state and upgrade preservation tests. C2/R7c approved actual WebAuthn/PostgreSQL/native/browser regressions, private custody and exact-family owner failures, compatibility and current-authority constructor fields. Preserve inherited assertions; reviewed prerequisite correction and whitespace-only formatting."
+    },
+    {
+      "path": "backend/crates/platform/auth/tests/jwt_es256.rs",
+      "before": {
+        "sha256": "3c91384d6f602f7ad6828d0579007644fd56451a6def89836959c9da063a292d",
+        "bytes": 17779,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "f01a8fb2538db6cb3a68400a0f012fa4ca1c2696dace478e7fe85d937e0e366b",
+        "bytes": 18505,
+        "mode": 420
+      },
+      "reason": "Bind ordinary and delegated access to exact live refresh families; enforce strict source and absolute deadlines after lock waits. Preserve authentication assertions using real-family test fixtures."
+    },
+    {
+      "path": "backend/crates/platform/auth/tests/session_locking.rs",
+      "before": null,
+      "after": {
+        "sha256": "f757b4e8ce9099f7d7802b3e945557b635e091fa0869590e9f1e207e41ca047b",
+        "bytes": 17766,
+        "mode": 420
+      },
+      "reason": "Tests-first coordinated authentication lock transition: Account mutex precedes proof/key/family mutation; actual after-wait expiry, lifecycle/locator and FK compatibility probes. No new production implementation yet."
+    },
+    {
+      "path": "backend/crates/platform/auth/tests/webauthn_contention.rs",
+      "before": null,
+      "after": {
+        "sha256": "1626bab4512763396c45fd0afd2e33ef8b8982f545ce75ce630075b96de76940",
+        "bytes": 37812,
+        "mode": 420
+      },
+      "reason": "Tests-first coordinated authentication lock transition: Account mutex precedes proof/key/family mutation; actual after-wait expiry, lifecycle/locator and FK compatibility probes. No new production implementation yet."
+    },
+    {
+      "path": "backend/crates/platform/authz/Cargo.toml",
+      "before": {
+        "sha256": "0d9869c581218ac020f51d71905edc75c3e1ddd9a0b993293fd0244bf9990fe2",
+        "bytes": 771,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "4112360f70afdc2daa0eb182173a8637b4a71589bb237559688a0037df794511",
+        "bytes": 796,
+        "mode": 420
+      },
+      "reason": "Native Cargo migration-directory invalidation under approved mechanics10bed6f7 and exact tests5eafd977. SQL, baseline, lockfile and runtime behavior are unchanged; full R4 incomplete."
+    },
+    {
+      "path": "backend/crates/platform/authz/src/cedar_pbac.rs",
+      "before": {
+        "sha256": "edfa49add7699810ec894d9098a65bbb57bd08bcb82d4902c4d8e89a69fd824c",
+        "bytes": 32425,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "31bcab959fed98a006989ca8e02cce7ceba0e9129d95df8d74efb7814588f60e",
+        "bytes": 32714,
+        "mode": 420
+      },
+      "reason": "Retire v1 AI permission authority at every runtime door and role owner command; preserve historical policy rows, assignment identity and audit evidence with red-first regressions."
+    },
+    {
+      "path": "backend/crates/platform/authz/src/lib.rs",
+      "before": {
+        "sha256": "1e663e5ef898c129b9e6cdfc1a5eb16574b57c7e0dab1e8ab1ade8dbd9e0f65d",
+        "bytes": 137077,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "c01a9eab0dfb270b50d269e79fc2849db78c386c0454a6dac51c0d36fd2bc447",
+        "bytes": 139240,
+        "mode": 420
+      },
+      "reason": "Resolve branch scope and effective feature grants inside an already Company-armed authentication owner transaction, avoiding a second pooled connection during proof-to-session admission. Retire v1 AI permission authority at every runtime door and role owner command; preserve historical policy rows, assignment identity and audit evidence with red-first regressions."
+    },
+    {
+      "path": "backend/crates/platform/authz/tests/policy.rs",
+      "before": {
+        "sha256": "8ad7b86225f6a8570c41f03848010cdfede3428c1720eab45c776ac6fc6561a4",
+        "bytes": 67149,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "7f5ceb7ec4f10df73fa61fcccc440e032150de1d958ebc80d54e1916092386d6",
+        "bytes": 69168,
+        "mode": 420
+      },
+      "reason": "Retire v1 AI permission authority at every runtime door and role owner command; preserve historical policy rows, assignment identity and audit evidence with red-first regressions."
+    },
+    {
+      "path": "backend/crates/platform/db/Cargo.toml",
+      "before": {
+        "sha256": "b87704abc29f051cf096f2f1a800e03d2e53a31d107cba86c651355c04dd187d",
+        "bytes": 980,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "e53b560b8c354121e4f116eb00c942b6cfc6fb3ba4e9f6e3c6989128d28a18c0",
+        "bytes": 1169,
+        "mode": 420
+      },
+      "reason": "Declare the unarmed physical-replication observer test dependency and feature."
+    },
+    {
+      "path": "backend/crates/platform/db/baseline/0000_schema_at_0225.sql",
+      "before": null,
+      "after": {
+        "sha256": "30fdb9d5cea24ddbded0de37c940dfbeb19478185259c8aa08f81f924b7ea1f1",
+        "bytes": 1830014,
+        "mode": 420
+      },
+      "reason": "Separate fresh schema installation from historical upgrades, with SQLx lineage/checksum/ACL and interruption safety."
+    },
+    {
+      "path": "backend/crates/platform/db/build.rs",
+      "before": null,
+      "after": {
+        "sha256": "977a62ee1dcdae1d6aeab1332a4bf16b061c4e19a6a0db8a23a3273ab64eb50c",
+        "bytes": 126,
+        "mode": 420
+      },
+      "reason": "Native Cargo migration-directory invalidation under approved mechanics10bed6f7 and exact tests5eafd977. SQL, baseline, lockfile and runtime behavior are unchanged; full R4 incomplete."
+    },
+    {
+      "path": "backend/crates/platform/db/migrations/0226_immutable_webauthn_credential_updates.sql",
+      "before": null,
+      "after": {
+        "sha256": "a04bdd1a6406eb2d48dc3917bb17f21806622753a9c719a02c808d1e5ef66ee2",
+        "bytes": 4057,
+        "mode": 420
+      },
+      "reason": "Enforce immutable credential row/key identity and pinned WebAuthn V5 UPDATE codec without Account locks, preserving original key JSON and allowed monotonic counter/backup transitions. Add genuine signature, malformed-state and upgrade preservation tests."
+    },
+    {
+      "path": "backend/crates/platform/db/migrations/0227_coordinated_authentication_account_locks.sql",
+      "before": null,
+      "after": {
+        "sha256": "f96d93ecb3d5aaaf32711970f42fa5539441a3d6243dcc8e8e366c139498948a",
+        "bytes": 13015,
+        "mode": 420
+      },
+      "reason": "Coordinated authentication lock implementation from independently approved exact tests24f4a4: Account-first owners, exact locator revalidation, database validation clock, shared self-delete, sorted roster and additive0227 removal guard. Candidate pending verification/review."
+    },
+    {
+      "path": "backend/crates/platform/db/migrations/0228_account_identity_reservations.sql",
+      "before": null,
+      "after": {
+        "sha256": "1b4e8cbb65bdcc352f3e486fa332b0b71ed51d433a4a92cdb21a1ccb339f18b2",
+        "bytes": 15022,
+        "mode": 420
+      },
+      "reason": "Account UUID allocation/retirement prerequisite under approved ownership design and mechanics83d9c9. Exact test source and production candidate review tracked separately; full R4 incomplete."
+    },
+    {
+      "path": "backend/crates/platform/db/migrations/0229_credential_removal_evidence.sql",
+      "before": null,
+      "after": {
+        "sha256": "75cfcfdf1f8a6b36f3a0692a737b8c09cf5d256027925f8013575ac798587476",
+        "bytes": 2425,
+        "mode": 420
+      },
+      "reason": "Protected credential-removal evidence under accepted authentication design and mechanics652a3539. Exact tests-first red/green and candidate review tracked separately; full R4 incomplete."
+    },
+    {
+      "path": "backend/crates/platform/db/migrations/0230_authentication_state_expand.sql",
+      "before": null,
+      "after": {
+        "sha256": "ebcf94e28e4b18df973cc0fbaa56b47cce1412d31845c327432dce505a047945",
+        "bytes": 12919,
+        "mode": 420
+      },
+      "reason": "Add conservative private Account authentication state and immutable versioned OTP/session provenance without reinterpreting historical families or changing previous migrations."
+    },
+    {
+      "path": "backend/crates/platform/db/migrations/0231_authentication_admission_expand.sql",
+      "before": null,
+      "after": {
+        "sha256": "1bb67c176f04d4846ecf460d59565d8df9ee86f82c0d0f5db373a80a2692619c",
+        "bytes": 10523,
+        "mode": 420
+      },
+      "reason": "Add private proof-to-family admission and exact registration-intent custody with terminal immutability; no runtime authority or serving role grant."
+    },
+    {
+      "path": "backend/crates/platform/db/migrations/0232_authentication_command_role_expand.sql",
+      "before": null,
+      "after": {
+        "sha256": "108e7ae085a4bd0306bf29475c2c2f88ee5afa60d99c094f50dcde3326681172",
+        "bytes": 5512,
+        "mode": 420
+      },
+      "reason": "Expand private authentication command custody with a non-login role and narrow grants; retain existing runtime grants for later caller cutover."
+    },
+    {
+      "path": "backend/crates/platform/db/migrations/0233_authentication_account_lock.sql",
+      "before": null,
+      "after": {
+        "sha256": "3aab93e624adf13c3bdef2586d6cfff3d3bd7dcbe572b87a99aa549fb8c0ca77",
+        "bytes": 768,
+        "mode": 420
+      },
+      "reason": "Give the isolated auth command role a Company-scoped Account row mutex through a fixed-search-path SECURITY DEFINER function, without direct Account updates."
+    },
+    {
+      "path": "backend/crates/platform/db/migrations/0234_authentication_private_company_rls.sql",
+      "before": null,
+      "after": {
+        "sha256": "9c83b8d860804b1527b96d44215723b2cfcece914af0e849b9dc61d562f844da",
+        "bytes": 3384,
+        "mode": 420
+      },
+      "reason": "Add FORCE RLS and armed-Company policies to four private authentication tables plus composite Account/Company custody constraints, without activating the dormant command role."
+    },
+    {
+      "path": "backend/crates/platform/db/migrations/0235_first_enrollment_audit_owner.sql",
+      "before": null,
+      "after": {
+        "sha256": "ec2efd8f56f3c55d56f32f038b6b6b5b231f65f879947f306264743152b38cbb",
+        "bytes": 10587,
+        "mode": 420
+      },
+      "reason": "Expand restricted first-enrollment audit ownership and deferred transaction-completeness guards; refuse unreconciled preexisting v1 effects. Close the fabricated pending-to-committed enrollment admission path with deferred source/family/token/audit evidence and a restricted-role regression."
+    },
+    {
+      "path": "backend/crates/platform/db/migrations/0236_platform_durability_epoch.sql",
+      "before": null,
+      "after": {
+        "sha256": "b83e32eb0206395c6ea9d2575af31960327f8f69d74f59283219af145d315ad0",
+        "bytes": 1801,
+        "mode": 420
+      },
+      "reason": "Add an inert monotonic physical-writer epoch marker without minting a lease or granting serving access."
+    },
+    {
+      "path": "backend/crates/platform/db/migrations/0237_prepare_outbound_mail.sql",
+      "before": null,
+      "after": {
+        "sha256": "f3c3e75f707dc1b72a874aacaacbb412f168ae03c67e8e8b852b3e6d401a5658",
+        "bytes": 493,
+        "mode": 420
+      },
+      "reason": "Build the populated mail-account composite key concurrently before the prepared-mail foreign key; invalid failed indexes require inspected cleanup."
+    },
+    {
+      "path": "backend/crates/platform/db/migrations/0238_outbound_mail_preparation_table.sql",
+      "before": null,
+      "after": {
+        "sha256": "f91a09df9db63edca97e8e74f3a2762b2196a84279622c26e3e7dca7ddc46eb1",
+        "bytes": 5085,
+        "mode": 420
+      },
+      "reason": "Add Company-scoped immutable PREPARED mail custody, exact MIME/envelope hashes and restricted runtime read rights without arming egress."
+    },
+    {
+      "path": "backend/crates/platform/db/migrations/0239_outbound_mail_preparation_audit_required.sql",
+      "before": null,
+      "after": {
+        "sha256": "d3943f7e38f1578e8551005f016cffcf2db6d267b82b37a3b342276e85f521a9",
+        "bytes": 2467,
+        "mode": 420
+      },
+      "reason": "Require same-transaction audit for prepared outbound mail and fail populated upgrade on unaudited existing rows; do not claim authenticated principal provenance."
+    },
+    {
+      "path": "backend/crates/platform/db/migrations/0240_legacy_otp_source_bindings.sql",
+      "before": null,
+      "after": {
+        "sha256": "8692a696984974de45d404edf10360cb01232a58eeb3d49aa4679cd6d4e18d91",
+        "bytes": 4256,
+        "mode": 420
+      },
+      "reason": "Bind newly redeemed legacy OTP families and passkey registration ceremonies to the exact live source in one owner transaction, recheck JWT expiry after lock waits, and retain red purpose-authority probes. This is unactivated version-0 containment, not a version-1 session cutover."
+    },
+    {
+      "path": "backend/crates/platform/db/migrations/0241_browser_session_custody.sql",
+      "before": null,
+      "after": {
+        "sha256": "8fd42a9b592ae08517a7f3f1c97f5ad18c43aa348c162c5f7e7ec01f13790b7f",
+        "bytes": 20001,
+        "mode": 420
+      },
+      "reason": "R7c additive private browser custody: exact scoped auth-owner functions, immutable encrypted proof, current identity/removal and bounded retained-Company cleanup. Preserve all applied migrations and baseline bytes."
+    },
+    {
+      "path": "backend/crates/platform/db/src/audit_tx.rs",
+      "before": {
+        "sha256": "6d749bd55cf98fbce524a8152b046db492068dccbc8b9f2a459e7c6cb3a4952c",
+        "bytes": 38719,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "60d4ab52d33d22593f6e80354d5304b0ddc999a27d5d591a5308c02730b2e1c6",
+        "bytes": 41145,
+        "mode": 420
+      },
+      "reason": "Add a tenant-scoped read-only repeatable-read transaction so multi-query owner reads use one PostgreSQL snapshot; retain the existing scoped read behavior. Use coherent Company-scoped payroll readiness snapshots, compose authenticated Account linkage and self page, and preserve audited mutation semantics; reviewed real PostgreSQL regression and session-family fixtures."
+    },
+    {
+      "path": "backend/crates/platform/db/src/durability.rs",
+      "before": null,
+      "after": {
+        "sha256": "33c2ce0ddb3615890ad4d51d9ca6eda208d18dc2d31ec64ffaae7ae3eb3992c9",
+        "bytes": 23737,
+        "mode": 420
+      },
+      "reason": "Add dormant exact Company audit-row custody on a physical standby with one fixed post-read primary INSERT-LSN, explicit UNKNOWN retry token and no serving/egress conversion."
+    },
+    {
+      "path": "backend/crates/platform/db/src/lib.rs",
+      "before": {
+        "sha256": "81383dfe3f1232517131a36a67816e6d1454123c1da50affb1f4289dfebb5121",
+        "bytes": 1692,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "945a3649043a25dfc9bd7802357c60891a3c399e3ae598771e593b890b35ee67",
+        "bytes": 1754,
+        "mode": 420
+      },
+      "reason": "Expose the unarmed physical WAL-prefix observer module. Export the snapshot transaction helper for owning adapters. Use coherent Company-scoped payroll readiness snapshots, compose authenticated Account linkage and self page, and preserve audited mutation semantics; reviewed real PostgreSQL regression and session-family fixtures."
+    },
+    {
+      "path": "backend/crates/platform/db/src/lifecycle.rs",
+      "before": {
+        "sha256": "5bb6385b1008b84ae38dc223b926b3dd13cb4e9b9945d37e80d413b7ea466bb2",
+        "bytes": 18957,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "9113185998f3bb3c2f7fc51a4679927253f89c7bed2bc2a891a59ace063482f2",
+        "bytes": 15808,
+        "mode": 420
+      },
+      "reason": "Remove title-based self-approval exemptions in existing locked owner transactions; deny missing maker/checker, preserve author operations/history, pin purchase preparation and executive approval to source state and independent admin provenance. Real-session/runtime-RLS regression proofs."
+    },
+    {
+      "path": "backend/crates/platform/db/tests/auth_command_role.rs",
+      "before": null,
+      "after": {
+        "sha256": "36c1b5b56cfcede0c4174ebe2bc0910b7858d27d3ade42229cfdaf3181c73308",
+        "bytes": 22466,
+        "mode": 420
+      },
+      "reason": "Prove command-role privilege and Account locking, private-table Company RLS, and rejection of mismatched Account/Company admission and intent rows. Prove restricted command-role privileges and first-enrollment migration upgrade behavior on PostgreSQL. Bind newly redeemed legacy OTP families and passkey registration ceremonies to the exact live source in one owner transaction, recheck JWT expiry after lock waits, and retain red purpose-authority probes. This is unactivated version-0 containment, not a version-1 session cutover."
+    },
+    {
+      "path": "backend/crates/platform/db/tests/auth_security_state.rs",
+      "before": null,
+      "after": {
+        "sha256": "3460b86488ffa0110c0d8b520c3483b2c8383c0a818da2e6710002eb8821842c",
+        "bytes": 18901,
+        "mode": 420
+      },
+      "reason": "Prove private Account state and exact auth provenance; use a real Account/Company parent in admission and registration terminal-state tests after composite custody constraints. Prove source/admission security state remains fail closed with first-enrollment owner migration. Close the fabricated pending-to-committed enrollment admission path with deferred source/family/token/audit evidence and a restricted-role regression."
+    },
+    {
+      "path": "backend/crates/platform/db/tests/durability_physical.rs",
+      "before": null,
+      "after": {
+        "sha256": "8ac8526c6134bb1712ce2bb8531fa4eb7e584a9f11e83fb7f7d65a8bc674bbc1",
+        "bytes": 25866,
+        "mode": 420
+      },
+      "reason": "Prove exact-row RLS, canceled SyncRep, paused replay, fixed-bound retry, permission-error retention, hint WAL and quiet-WAL forced flush on disposable PostgreSQL 18."
+    },
+    {
+      "path": "backend/crates/platform/db/tests/lifecycle_maker_checker.rs",
+      "before": {
+        "sha256": "b7fe643139e64150b72ac27314cba1b6f65c9e7521e1b688eca4443f06f5f290",
+        "bytes": 14074,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "8d12ce5b4ec00106ebb65407a9194eb37a6f9f2e14ab511e4e8228313d6e75d4",
+        "bytes": 14145,
+        "mode": 420
+      },
+      "reason": "Remove title-based self-approval exemptions in existing locked owner transactions; deny missing maker/checker, preserve author operations/history, pin purchase preparation and executive approval to source state and independent admin provenance. Real-session/runtime-RLS regression proofs."
+    },
+    {
+      "path": "backend/crates/platform/db/tests/outbound_mail_preparation_upgrade.rs",
+      "before": null,
+      "after": {
+        "sha256": "3c2dd61cb41f94c76cc4c11fafbcd12a25d3279b235308cf5e107fd0678e3f6f",
+        "bytes": 4104,
+        "mode": 420
+      },
+      "reason": "Prove populated mail-account upgrade, valid concurrent index and idempotent migrator retry. Prove migration 0239 stops on unaudited existing prepared mail and succeeds after accountable repair."
+    },
+    {
+      "path": "backend/crates/platform/db/tests/rls_isolation.rs",
+      "before": {
+        "sha256": "3efe74418048c7aba5155f7f87dce6b191cd937c4fbb5f2f016d045f400ef527",
+        "bytes": 18244,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "1eadb0536280bf7c21418f00aa32d08aaa79d9fed0cacf62eb2f19808a4795bf",
+        "bytes": 20739,
+        "mode": 420
+      },
+      "reason": "Verify tenant context, read-only repeatable-read mode and stable visibility across a concurrent committed update."
+    },
+    {
+      "path": "backend/crates/platform/db/tests/run-durability-physical.sh",
+      "before": null,
+      "after": {
+        "sha256": "68a7e018750cb96139e4f4e9d61e52786f8958006e53600203b93754bd706543",
+        "bytes": 4214,
+        "mode": 493
+      },
+      "reason": "Run isolated direct PostgreSQL 18 primary/standby and non-BYPASSRLS observer role for exact-row custody faults."
+    },
+    {
+      "path": "backend/crates/platform/platform-rest/Cargo.toml",
+      "before": {
+        "sha256": "398903bcecb2106c597db03daf2320c8ac6a2ba4369918d93d422c1c4eb4674b",
+        "bytes": 1463,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "e66bbe91b101c160268a151e58f66e8965a815698b7753526384a629a8d562e5",
+        "bytes": 1524,
+        "mode": 420
+      },
+      "reason": "Bind ordinary and delegated access to exact live refresh families; enforce strict source and absolute deadlines after lock waits. Preserve authentication assertions using real-family test fixtures."
+    },
+    {
+      "path": "backend/crates/platform/platform-rest/src/lib.rs",
+      "before": {
+        "sha256": "3a5349b0e428ca0b6b1e59e573bf832a14d86510bc015ea8dbf7576a6177b0f5",
+        "bytes": 37202,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "96cdaa74aa4227695731bffe84c80f572e2668fb7479f9037825dcba4dd6bcd6",
+        "bytes": 37243,
+        "mode": 420
+      },
+      "reason": "Validate current home-account/session and target Company authority; preserve target Cedar claims and bind delegated source sessions. Tests retain existing behavior assertions with real account fixtures."
+    },
+    {
+      "path": "backend/crates/platform/platform-rest/src/view_as.rs",
+      "before": {
+        "sha256": "3d3ea2738bf8aaf7410ad36216e5e5df83158bce27356552bc02a12a54903755",
+        "bytes": 27872,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "bef727490d16193dae4c5ea14347be33ec66b96761f8ae226ecc1b37919cacc5",
+        "bytes": 29714,
+        "mode": 420
+      },
+      "reason": "Bind ordinary and delegated access to exact live refresh families; enforce strict source and absolute deadlines after lock waits. Preserve authentication assertions using real-family test fixtures."
+    },
+    {
+      "path": "backend/crates/platform/platform-rest/tests/onboard_seeds_config_objects.rs",
+      "before": {
+        "sha256": "ef3d79d61598a65c17f4e7dd5370183af909e2e38d194fdeadd10007e5481f88",
+        "bytes": 11388,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "876051478af50f7bf5273d9113dea739926b7da517a54b65ff6ae39441d3236e",
+        "bytes": 11514,
+        "mode": 420
+      },
+      "reason": "Preserve explicit hierarchy scope in family-bound access and use real family/account fixtures under runtime RLS. Strengthen reviewed foreign-Company denial and actual upload-limit/error assertions; retain existing branch and same-Company isolation proof."
+    },
+    {
+      "path": "backend/crates/platform/platform-rest/tests/ops_dashboard.rs",
+      "before": {
+        "sha256": "742449564a0c4c9cc568e6a8b6f8555875190a3f861ac2fcc9d72dfaacb53c78",
+        "bytes": 7657,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "44a46d8e2b044019f40a11804cbe16271df98c0e5f35a965e6dd0f9d1ad38672",
+        "bytes": 8022,
+        "mode": 420
+      },
+      "reason": "Preserve explicit hierarchy scope in family-bound access and use real family/account fixtures under runtime RLS. Strengthen reviewed foreign-Company denial and actual upload-limit/error assertions; retain existing branch and same-Company isolation proof."
+    },
+    {
+      "path": "backend/crates/platform/platform-rest/tests/platform_groups.rs",
+      "before": {
+        "sha256": "9ba15f6b44f2198a498e9eafd659e6ec381752583a824e4b731d98cb85dd22f5",
+        "bytes": 12581,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "d2d730871073f179a412909b6817bdb34f8271f4ea9dbefb3e6ac3325a554b44",
+        "bytes": 12707,
+        "mode": 420
+      },
+      "reason": "Preserve explicit hierarchy scope in family-bound access and use real family/account fixtures under runtime RLS. Strengthen reviewed foreign-Company denial and actual upload-limit/error assertions; retain existing branch and same-Company isolation proof."
+    },
+    {
+      "path": "backend/crates/platform/platform-rest/tests/remove_tenant.rs",
+      "before": {
+        "sha256": "9d69859d5f815caf32c22a5ab909c8a0316b5e25bf375b31f050c3d17a591a05",
+        "bytes": 36843,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "6f4d3b71a3625a763a309d0f4a9f4a33c8c95f063fce0a1cc4548ebce2e810c2",
+        "bytes": 37513,
+        "mode": 420
+      },
+      "reason": "Preserve explicit hierarchy scope in family-bound access and use real family/account fixtures under runtime RLS. Strengthen reviewed foreign-Company denial and actual upload-limit/error assertions; retain existing branch and same-Company isolation proof."
+    },
+    {
+      "path": "backend/crates/platform/platform-rest/tests/view_as.rs",
+      "before": {
+        "sha256": "af71dea9d06bd160924a00508c420274f29d37a9d6d40090166f01b8c9f4401e",
+        "bytes": 34350,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "a815b8ff228b2f4a07d3f45b27f340e02785d928e8823ae0672ee3b4401ea30d",
+        "bytes": 35390,
+        "mode": 420
+      },
+      "reason": "Preserve explicit hierarchy scope in family-bound access and use real family/account fixtures under runtime RLS. Strengthen reviewed foreign-Company denial and actual upload-limit/error assertions; retain existing branch and same-Company isolation proof."
+    },
+    {
+      "path": "backend/crates/platform/provisioning/src/lib.rs",
+      "before": {
+        "sha256": "e4892c3e83014cbde9a7432810af61a5f32f8b678f2e4f7342dcc22e29d53815",
+        "bytes": 102523,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "a25878021c2e6b133736bdd67de997e9a2f319885b6efc44c9c68cb9aa572e6b",
+        "bytes": 126001,
+        "mode": 420
+      },
+      "reason": "Keep legacy version-0 OTP behavior while dormant version-1 first-enrollment redemption locks protected Account generation and consumes its exact source once inside the caller transaction; the verify-only wrapper rolls back version-1. Add a dormant source-bound first-enrollment command that atomically consumes proof, issues a restricted family, and records receipt and audit. Bind newly redeemed legacy OTP families and passkey registration ceremonies to the exact live source in one owner transaction, recheck JWT expiry after lock waits, and retain red purpose-authority probes. This is unactivated version-0 containment, not a version-1 session cutover. Revoke all target Account/Company sessions atomically in the existing credential-reset owner, retaining previous revocations and auditing counts; preserve ordinary OTP and enrollment handoffs."
+    },
+    {
+      "path": "backend/crates/platform/provisioning/tests/account_identity.rs",
+      "before": null,
+      "after": {
+        "sha256": "0728175778a4cbaec42b545272f62ae7deb0a8eed2ea4d53ccc0cc062db24ec5",
+        "bytes": 45409,
+        "mode": 420
+      },
+      "reason": "Preserve complete historical upgrade rows while explicitly accounting for 0230 provenance expansion; nonempty legacy OTP history and unchanged authenticated-login negatives."
+    },
+    {
+      "path": "backend/crates/platform/provisioning/tests/account_locking.rs",
+      "before": null,
+      "after": {
+        "sha256": "80aae48541009c3ba921532fa83f54201a5c3c14f2b44a2d17f82caaef950681",
+        "bytes": 28777,
+        "mode": 420
+      },
+      "reason": "Tests-first coordinated authentication lock transition: Account mutex precedes proof/key/family mutation; actual after-wait expiry, lifecycle/locator and FK compatibility probes. No new production implementation yet."
+    },
+    {
+      "path": "backend/crates/platform/provisioning/tests/bootstrap_passkey.rs",
+      "before": {
+        "sha256": "7d06753929c07f337d224c8f4fc9ccdc127d884fd75337b45c0081a0bb3a0614",
+        "bytes": 15441,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "ec20940bb12aa3e138b30435297391f0a751a7615b238862411a4e96dbf3766d",
+        "bytes": 29025,
+        "mode": 420
+      },
+      "reason": "Prove version-1 one-use consumption, exact generation and prior-enrollment denial, including wrapper rollback without an accepted audit; preserve legacy OTP positives. Bind newly redeemed legacy OTP families and passkey registration ceremonies to the exact live source in one owner transaction, recheck JWT expiry after lock waits, and retain red purpose-authority probes. This is unactivated version-0 containment, not a version-1 session cutover."
+    },
+    {
+      "path": "backend/crates/platform/provisioning/tests/company_locking.rs",
+      "before": null,
+      "after": {
+        "sha256": "a5ff33dd7181d355b3b4e6e5118308b7b397062fae7b0b12d414851ffb45f260",
+        "bytes": 20245,
+        "mode": 420
+      },
+      "reason": "Coordinated authentication lock implementation from independently approved exact tests24f4a4: Account-first owners, exact locator revalidation, database validation clock, shared self-delete, sorted roster and additive0227 removal guard. Candidate pending verification/review."
+    },
+    {
+      "path": "backend/crates/platform/provisioning/tests/first_enrollment_command.rs",
+      "before": null,
+      "after": {
+        "sha256": "7dd5ffab5a173912c1bc74765e1223134e12aca317e9da1e30186ad4cc284a03",
+        "bytes": 23010,
+        "mode": 420
+      },
+      "reason": "Exercise real PostgreSQL first-enrollment command success, retry, rollback, isolation, and denied partial commits. Close the fabricated pending-to-committed enrollment admission path with deferred source/family/token/audit evidence and a restricted-role regression."
+    },
+    {
+      "path": "backend/crates/platform/provisioning/tests/self_enroll_handoff_as_runtime_role.rs",
+      "before": {
+        "sha256": "2209d74316e7b90211a5928b2ab43bdbac00f17771ceb62733ac3bf1eb515318",
+        "bytes": 16810,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "b80f3efe068f284616119e03b421dbeaba4555d8d3aefe0ba425beac1f9cfbf1",
+        "bytes": 16938,
+        "mode": 420
+      },
+      "reason": "Correct expired-handoff fixture to redeem after the actual database-clock expiry introduced by the prior issuance-clock fix; preserve denial assertion."
+    },
+    {
+      "path": "backend/crates/platform/realtime/Cargo.toml",
+      "before": {
+        "sha256": "848cccf3efd82eef5d5ce4d45a2bcb7522e052645deaad90c5a8bb74da6b0b69",
+        "bytes": 1154,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "50072014521f60da33c42bd7ae46940815f65e4710baae3208ea01e07c118a67",
+        "bytes": 1216,
+        "mode": 420
+      },
+      "reason": "Revalidate WebSocket session and scope around current owner projections; bind message membership and quote scope, recipient reads, authorized replay cursors and bounded socket/replay lifetimes. Preserve existing identities, schema and behavior assertions."
+    },
+    {
+      "path": "backend/crates/platform/realtime/src/lib.rs",
+      "before": {
+        "sha256": "86bfb41466a48a8a678a32e5134396f96db3755ccc328cb10fe9ee59cfffe260",
+        "bytes": 54989,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "9dd96a7f4ccd7f4207f65564b27e1af0558224d65d645f327d234721006ee33c",
+        "bytes": 62022,
+        "mode": 420
+      },
+      "reason": "Revalidate WebSocket session and scope around current owner projections; bind message membership and quote scope, recipient reads, authorized replay cursors and bounded socket/replay lifetimes. Preserve existing identities, schema and behavior assertions."
+    },
+    {
+      "path": "backend/crates/platform/realtime/tests/hub.rs",
+      "before": {
+        "sha256": "b96818d77ddc51f6bcfb2576751a7e580432073c27a152b507ddd3d6edeaeed2",
+        "bytes": 5434,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "27204b6282a3c2569cb22fbf2630cfe5e6466ddd2381de2d65eee5cdff2a5217",
+        "bytes": 7619,
+        "mode": 420
+      },
+      "reason": "Bind realtime fan-out to the owning Company and canonical notification recipient; preserve behavior and prove hostile wake denial through runtime RLS."
+    },
+    {
+      "path": "backend/crates/platform/realtime/tests/postgres_bridge.rs",
+      "before": {
+        "sha256": "e2c0da5f5fa3e5a4e065b7e185bad071e03e738f6dfab0a3ecb22f1bc03cbadc",
+        "bytes": 17884,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "f15d98079f2eddcf4111e9c71e00d3dc9f89d6303ce698f2c74f921d5ff2e1d7",
+        "bytes": 28083,
+        "mode": 420
+      },
+      "reason": "Bind realtime fan-out to the owning Company and canonical notification recipient; preserve behavior and prove hostile wake denial through runtime RLS."
+    },
+    {
+      "path": "backend/crates/platform/request-context/Cargo.toml",
+      "before": {
+        "sha256": "54ced229032cbf0f0c5ffe7cb3924b0a924df3fe646ec1a034661c065cd9201b",
+        "bytes": 642,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "e95d0992a8af0c06bb6fb907ba7fec03dced8718fd59bc0f9f71b90d90403ddf",
+        "bytes": 683,
+        "mode": 420
+      },
+      "reason": "Validate current home-account/session and target Company authority; preserve target Cedar claims and bind delegated source sessions. Tests retain existing behavior assertions with real account fixtures."
+    },
+    {
+      "path": "backend/crates/platform/request-context/src/lib.rs",
+      "before": {
+        "sha256": "83ca8ec103174d2e706da28b39515aa1852316de2c5d24faef0c56105dc05e63",
+        "bytes": 36546,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "761743fff2a0ff749175e1710d22a7819d6dd6f914d6c79d6840255bdb509c71",
+        "bytes": 45067,
+        "mode": 420
+      },
+      "reason": "Bind ordinary and delegated access to exact live refresh families; enforce strict source and absolute deadlines after lock waits. Preserve authentication assertions using real-family test fixtures. Restrict positively classified legacy OTP families at shared ordinary admission and locked device approval; preserve direct enrollment, v0 compatibility and dormant v1. Add genuine runtime-role regressions and correct QR approval descriptions. R7c authenticated browser ingress extends shared positive socket-forwarding provenance and accurate audit authentication method without weakening legacy direct-peer fallback. Reviewed R7 pinned-Clippy Option early-return syntax correction; missing/invalid forwarding and trusted-suffix/peer fallback semantics retained."
+    },
+    {
+      "path": "backend/crates/platform/storage/Cargo.toml",
+      "before": {
+        "sha256": "5d0b79a1cab2c45a2456687864ea4418cf0d553cc0c5a628248ea76bad296cb3",
+        "bytes": 1058,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "9139e8023bc7a28e6fe26b99e51403efdbea1fca1901c37132936887cc66a8e8",
+        "bytes": 1112,
+        "mode": 420
+      },
+      "reason": "Enable reqwest rustls at the existing S3 storage adapter owner for the deployed HTTPS endpoint."
+    },
+    {
+      "path": "backend/crates/platform/storage/src/lib.rs",
+      "before": {
+        "sha256": "4da3d50595afaabcbe2b42bd3118656f1485560d814fee5085de44b80ababf69",
+        "bytes": 138826,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "eae4b9cfd98c47f54bb828bd3e4fab19fd48e6e811d6966c434e2eb28f882988",
+        "bytes": 148125,
+        "mode": 420
+      },
+      "reason": "Stream signed public image GETs with exact HTTP 200, 25 MiB body bound, bounded buffering, independent total/idle deadlines, and missing-object distinction; retain focused localhost regressions."
+    },
+    {
+      "path": "backend/crates/platform/test-support/Cargo.toml",
+      "before": {
+        "sha256": "5aefeb1d038fea12d6ef0ef74f6e8897a3f4ced3d9b4a4024c7535e0a0d7ee8e",
+        "bytes": 421,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "3df9b5e20f0fd2409553fc41c771b9450718d2fe409c50cfaae230dd67f1710e",
+        "bytes": 494,
+        "mode": 420
+      },
+      "reason": "Bind ordinary and delegated access to exact live refresh families; enforce strict source and absolute deadlines after lock waits. Preserve authentication assertions using real-family test fixtures."
+    },
+    {
+      "path": "backend/crates/platform/test-support/src/lib.rs",
+      "before": {
+        "sha256": "3a8773084adb443faf8c119fba8c407ae58b3e6b9a809f93744e3f934feaa3e9",
+        "bytes": 11513,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "61253af4d293a4fd1696fbb5e256e9ba91782f5447185d80e8ce5df6180478f8",
+        "bytes": 12509,
+        "mode": 420
+      },
+      "reason": "Preserve explicit hierarchy scope in family-bound access and use real family/account fixtures under runtime RLS. Strengthen reviewed foreign-Company denial and actual upload-limit/error assertions; retain existing branch and same-Company isolation proof."
+    },
+    {
+      "path": "backend/crates/sales/adapter-postgres/src/lib.rs",
+      "before": {
+        "sha256": "8a49ad964dd51c2f89ebaa8ca658b5ac2eb42e54216fa035ea9b135300d616ec",
+        "bytes": 31562,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "9ebf13ecc086f4a64fa7173fb988058d039b14c0d131da9ac557e691e656d02b",
+        "bytes": 32098,
+        "mode": 420
+      },
+      "reason": "Make public and admin catalog pagination deterministic by extending the existing order with unique listing ID; preserve filters, RLS and response shape. Read catalog count, rows and media inside one tenant-scoped snapshot while preserving the unique listing-ID pagination order and existing media mapping. Validate Company and public listing state under a row share lock in the same audited inquiry-insert transaction; reject withdrawn or foreign links without recording a general inquiry."
+    },
+    {
+      "path": "backend/crates/sales/adapter-postgres/tests/inquiry_rls_surfaces_as_runtime_role.rs",
+      "before": {
+        "sha256": "158180ee665528a00a65100101e00cfcebe136939acf9940de48b180d822cc84",
+        "bytes": 6827,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "aea1311c8917187d681b744223201f77746b98f6552922caec5f829ce8c4e982",
+        "bytes": 9073,
+        "mode": 420
+      },
+      "reason": "Exercise same-Company published acceptance and foreign-Company conflict under console_rt RLS, with no rejected inquiry row."
+    },
+    {
+      "path": "backend/crates/sales/adapter-postgres/tests/sales_store.rs",
+      "before": {
+        "sha256": "69c3f1271000083c0434437ff0f991795e19e4230fa0bba18df28c33b027eb58",
+        "bytes": 13114,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "09156cc3bb95f3ceea36bc705bef19e10cce48dbdff499b22235178239e862ce",
+        "bytes": 20893,
+        "mode": 420
+      },
+      "reason": "Pin a real PostgreSQL storefront page-order regression with tied rank and timestamp, fixed IDs and multiple offsets; isolated red-first proof. Exercise withdrawal count/rows race and list/detail media mapping alongside the existing tied-page regression."
+    },
+    {
+      "path": "backend/crates/sales/rest/Cargo.toml",
+      "before": {
+        "sha256": "68c57f016550e4b604a8c18400dd6594cf38ef628464c09e949c869f709b8ca5",
+        "bytes": 862,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "dcc34e2777a010cb817d9f63bc3b94254ca27466e93fa4e3a925b8aac6e65d4e",
+        "bytes": 1198,
+        "mode": 420
+      },
+      "reason": "Use existing workspace dev dependencies for the HTTP-to-PostgreSQL inquiry regression. Gate the real Next-to-Rust-to-PostgreSQL browser target behind an explicit frontend-e2e feature so default backend tests remain self-contained."
+    },
+    {
+      "path": "backend/crates/sales/rest/openapi/paths/api__v1__storefront__inquiries.post.yaml",
+      "before": {
+        "sha256": "30ccd65c910ffcbe41aacb143db03c88869a9349ded641f95ba1595b349a40c0",
+        "bytes": 663,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "39ae5b481bbc58b56e6c25df5ac1ddba8d5247d331264161a78cfc953e9fa598",
+        "bytes": 857,
+        "mode": 420
+      },
+      "reason": "Document unavailable selected listing as a 409 requiring an explicit general inquiry."
+    },
+    {
+      "path": "backend/crates/sales/rest/openapi/paths/api__v1__storefront__listings__id__media__media_id.get.yaml",
+      "before": {
+        "sha256": "fbd4baf1c9e6d0f6d91d7802122a2d46fac0966777804336952f9dccfb1509d6",
+        "bytes": 801,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "1b1df8d8236124af19f9558f238de7c73d02190ea99675b6400f9f97d2a58f83",
+        "bytes": 1085,
+        "mode": 420
+      },
+      "reason": "Document the real public media byte stream, response headers and missing/unavailable outcomes."
+    },
+    {
+      "path": "backend/crates/sales/rest/src/lib.rs",
+      "before": {
+        "sha256": "512cd663cc3b123d9f7776592bae902e9c4efed3d854c5c04363afd804636f67",
+        "bytes": 39152,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "1d74d7682336fd57a591892417990469f608208dc46fed5c4b745261e6b43fd2",
+        "bytes": 42450,
+        "mode": 420
+      },
+      "reason": "Preserve the tenant-bound public storefront listing, media and inquiry REST owner, including streamed storefront-visible raster media with no-store/nosniff headers and generic PII-safe intake errors. Reject raw over-bound inquiry text and NUL with generic 400 through the shared PostgreSQL text validator; admin listing model_name rejects over-bound and NUL text with 422. Pass the chosen listing to the sales owner instead of silently dropping it, and return a generic PII-safe 409 on owner conflict."
+    },
+    {
+      "path": "backend/crates/sales/rest/tests/public_inquiry.rs",
+      "before": null,
+      "after": {
+        "sha256": "7fc9bb3427521722ba2dd712e72f657333dfc862686adc9b74537a0b4a0e7eb0",
+        "bytes": 13732,
+        "mode": 420
+      },
+      "reason": "Exercise exact and raw-over-bound inquiry fields through real HTTP and PostgreSQL, including no extra inquiry or audit row. Cover NUL on every inquiry text field and assert the public error body remains generic and PII-free. Prove unavailable, foreign, draft, sold and unknown listings do not submit or audit; published/reserved/general remain valid; withdrawal and inquiry serialize."
+    },
+    {
+      "path": "backend/crates/sales/rest/tests/real_browser_inquiry.rs",
+      "before": null,
+      "after": {
+        "sha256": "cb9090931ff7c460161fc4bcccc96b68cacea49f72cb34e345e65654c84639fb",
+        "bytes": 7675,
+        "mode": 420
+      },
+      "reason": "Exercise actual SSR and browser form through Next, Rust sales REST and disposable PostgreSQL, including withdrawal conflict, no silent submit, explicit switch, and exact saved fields."
+    },
+    {
+      "path": "backend/crates/workflow/adapter-postgres/src/lib.rs",
+      "before": {
+        "sha256": "4b22816b36ae67a0aea4ab68e7cce1ba2e8be8c8fc61c7aa8bd82ce5f8423df5",
+        "bytes": 133468,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "e25cac41784d4ccd535bc86f192a9eb7b70025dd0254a7eda172387479ade06a",
+        "bytes": 129661,
+        "mode": 420
+      },
+      "reason": "Remove title-based self-approval exemptions in existing locked owner transactions; deny missing maker/checker, preserve author operations/history, pin purchase preparation and executive approval to source state and independent admin provenance. Real-session/runtime-RLS regression proofs. Payroll restage integrity R3, source commit b0a017a: exact Company/run/period lifecycle lock and known-state guard; preserve frozen rosters; validate locked existing runs and propagate DB errors; delegate drain period/provenance decisions to the existing owner for interrupted acknowledgment recovery. No migration/API/codec change."
+    },
+    {
+      "path": "backend/crates/workflow/adapter-postgres/tests/payroll_drain_period_lock.rs",
+      "before": {
+        "sha256": "32cd4cef612f5444428f0da22d4952dfd680ec900469ec62d03ec38335f78685",
+        "bytes": 9935,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "76b0ba1e98982543b73cd37d35e09c03530da3ed0c9f59c3ac3e8293a72674d6",
+        "bytes": 23019,
+        "mode": 420
+      },
+      "reason": "Test-first payroll roster restage integrity R3: actual runtime-role owner preservation, canonical and workflow retry/recovery, refusal and concurrent close ordering. Test fixtures are isolated; no product source change."
+    },
+    {
+      "path": "backend/openapi/openapi.yaml",
+      "before": {
+        "sha256": "60c9ade6d6efdde1c2543e236dc713e10bab44f8e499de71767456e9c6285a97",
+        "bytes": 1213697,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "4facb01d0e66448ee4c60e3e87598e40119e6e8cd44ab4d8729a20d9bcbd741c",
+        "bytes": 1226745,
+        "mode": 420
+      },
+      "reason": "Describe stable outbound operation IDs, conflict and truthful UNKNOWN response; synchronize the mail HTTP contract. Publish the inquiry 409 in the served OpenAPI document without unrelated generated-media drift. Regenerate exact canonical composition including reviewed attendance contract and inherited storefront-media projection drift; no storefront owner/fragment change. Restrict positively classified legacy OTP families at shared ordinary admission and locked device approval; preserve direct enrollment, v0 compatibility and dormant v1. Add genuine runtime-role regressions and correct QR approval descriptions. C2 explicit discoverable start and R7c closed browser session/HR API path-method-response contracts under existing owners; preserve legacy aliases and exact nine-item timestamp wire schema."
+    },
+    {
+      "path": "backend/openapi/shared/manifest.json",
+      "before": {
+        "sha256": "002619c975a8d8cb23d59d6b98861d20df03c959f82ae38142969e894018b36f",
+        "bytes": 1662,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "0eb4bf2059f0a011cd6657a333e071351f7c6ec135d9bea8399719baf1caa0c4",
+        "bytes": 1684,
+        "mode": 420
+      },
+      "reason": "C2 explicit discoverable start and R7c closed browser session/HR API path-method-response contracts under existing owners; preserve legacy aliases and exact nine-item timestamp wire schema."
+    },
+    {
+      "path": "backend/openapi/shared/schemas/ErrorBody.yaml",
+      "before": {
+        "sha256": "72fd184b9cb1695a31c47cd5300b90cc22dfaeeee928cad798b28148b6c5fd7b",
+        "bytes": 602,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "43d95df7f18e8dd6fd2284f0bee15057acab2874623763545b994e5f41becea5",
+        "bytes": 777,
+        "mode": 420
+      },
+      "reason": "Describe stable outbound operation IDs, conflict and truthful UNKNOWN response; synchronize the mail HTTP contract."
+    },
+    {
+      "path": "backend/openapi/shared/securitySchemes/BrowserIngress.yaml",
+      "before": null,
+      "after": {
+        "sha256": "7a81c3fd28453e2b9e424fe6248299a550efd3325c283f6f1b8b3e7693a03e2c",
+        "bytes": 288,
+        "mode": 420
+      },
+      "reason": "C2 explicit discoverable start and R7c closed browser session/HR API path-method-response contracts under existing owners; preserve legacy aliases and exact nine-item timestamp wire schema."
+    },
+    {
+      "path": "ops/postgres-reconcile-topology.sh",
+      "before": {
+        "sha256": "296f16f95f8a7293c73f67387c51840891b66b17ec4aca1f18519b94e543fd37",
+        "bytes": 55375,
+        "mode": 493
+      },
+      "after": {
+        "sha256": "35a17a616688b8fc27d31dd75aa3fd5a8a2176700d87e51664352f0abb2899e1",
+        "bytes": 56045,
+        "mode": 493
+      },
+      "reason": "Preprovision and reconcile the non-login authentication command role without granting caller access."
+    },
+    {
+      "path": "ops/postgres-topology.integration.test.sh",
+      "before": {
+        "sha256": "d50808c22a7babc1c1e02136b45171edb6269619a63208d9f16483a510f8a1fa",
+        "bytes": 42463,
+        "mode": 493
+      },
+      "after": {
+        "sha256": "38a4150a1c4f5f049f12b2e8b6d3beee04f24b3db7f6bba97090505f4f1ecc33",
+        "bytes": 42663,
+        "mode": 493
+      },
+      "reason": "Include the authentication command role in topology prerequisite, drift repair, attribute and membership assertions."
+    },
+    {
+      "path": "scripts/check-ci-preflight.mjs",
+      "before": {
+        "sha256": "d2ef1bd7cc69536cd050dc6c7c98106aca04f8a357c74bb86b49684bf9c2a6c3",
+        "bytes": 169286,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "3a325daa00b53361cf9bc2f4af467d2c229e92ee80a707e1744e7535d0f9fb44",
+        "bytes": 169393,
+        "mode": 420
+      },
+      "reason": "Register the sales REST PostgreSQL test in the existing wrapper contract; full workflow verification remains unavailable in the frozen fork."
+    },
+    {
+      "path": "tools/buck/gen_first_party.py",
+      "before": {
+        "sha256": "eada0ae62e1744a997ac3025bc358c90c82edddd3ff49bb41576a39eef285fac",
+        "bytes": 63982,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "518aad0ae0087898144c015116135301f92381f624676492c94e82e898c1ba07",
+        "bytes": 65108,
+        "mode": 420
+      },
+      "reason": "Declare reviewed PostgreSQL resources for the new sales REST test and 17 already-present fork tests so generated target discovery is total."
+    },
+    {
+      "path": "tools/ci/postgres-cargo-map.json",
+      "before": {
+        "sha256": "ce49538199629e4d12798b9b52e3976692da9c8618c27f6ffe6420e043699501",
+        "bytes": 183496,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "ad9a0a1c958b5f2ece56258c765d9c1cdaa95db4e8a8b9377b5276e8445f1259",
+        "bytes": 184195,
+        "mode": 420
+      },
+      "reason": "Run the real sales REST inquiry test through the locked PostgreSQL Cargo harness and keep map counts and partition weights coherent."
+    },
+    {
+      "path": "tools/lanes/fanout.py",
+      "before": {
+        "sha256": "91af181b8af55e2397388b5b532713b958f57588014de5084ee9f9292fdfbf67",
+        "bytes": 17876,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "2b8907ebc153307082b5b4a8c40e7049ff4fb8335cc8b64d2225268872612885",
+        "bytes": 17912,
+        "mode": 420
+      },
+      "reason": "Allow the existing red-lane harness to use an isolated worktree root inside the independent frontend workspace when the historical default path is not writable. Preserve Git porcelain leading status columns so lane ownership checks do not truncate changed paths."
+    },
+    {
+      "path": "tools/lanes/fanout.test.py",
+      "before": {
+        "sha256": "73daa890418f5b0c02dba7ad2c5c415c90d7f5de46a7f8d74bfb8f7410674fca",
+        "bytes": 11987,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "5def9d19bc8a8a8fcc288373e09c6f81390d0ae9856c127b03e48536382e40bb",
+        "bytes": 12426,
+        "mode": 420
+      },
+      "reason": "Regress the porcelain leading-space path truncation in the lane checker."
+    },
+    {
+      "path": "tools/lanes/pgtest.sh",
+      "before": {
+        "sha256": "4ba4364883f589370295bd31b9f610d9c8dadabf95f78fb3c7283310fb740370",
+        "bytes": 4082,
+        "mode": 493
+      },
+      "after": {
+        "sha256": "8c4396ddf962d50ce05b4c625ed1a290e1c6608c63eaf6416e03ec782100deec",
+        "bytes": 4211,
+        "mode": 493
+      },
+      "reason": "Expose only generated runtime and force fixture password aliases to Cargo tests; preserve credential argv guard and owned disposable cleanup. R7c reviewed test prerequisite: export only generated console_app owner password alias for actual bounded cleanup worker startup; preserve argv guard and owned disposable cleanup."
+    }
+  ],
+  "notes": [
+    "No existing Console files or Git metadata were written.",
+    "Required embedded WASM, legacy deployment test inputs, and vendor license were added to the allowlist after discovery; no previously copied bytes changed.",
+    "Legacy deployment inputs are retained only for reference and existing tests; they were not applied.",
+    "No historical migration bytes/checksums changed. No assertions were weakened. Additive claim expectations and real account/family fixtures were updated; independent review approved replacing an obsolete foreign-Company200/empty-layout assertion with exact401 and strengthening the upload-limit error proof.",
+    "Historical migrations 1–225 are unchanged. Fresh installs execute baseline version 0; existing ledgers retain their original versions and records. No production database was migrated.",
+    "R4-reviewed title-exemption success assertions replaced by denial/state-preservation proofs; positive workflow advance uses a different actual approver. Historical results and migration bytes retained.",
+    "WebAuthn contention correction preserves existing signatures, key/RP formats and every inherited assertion; new genuine-signature/PostgreSQL regressions cover expiry, key deletion, ordered counters, rollback and cancellation. Broader auth ownership/proofing remains required.",
+    "0226 credential UPDATE guard is additive only; no new enrollment history or raw INSERT/DELETE isolation. All225 original migrations and baseline0 bytes remain frozen; complete auth/proofing/recovery and all R4 modules remain required.",
+    "Coordinated authentication lock transition tests are incomplete/pending exact approval. WebAuthn-only production change is not authorized; reset/teardown/refresh/handoff/roster dependencies remain required. Accepted0226 bytes are preserved.",
+    "Coordinated authentication lock implementation in progress after exact tests24f4a4 approval and final named red. All coordinated owners changed together; actual0227 upgrade/fault and independent candidate review remain required. Accepted0226 and historical/baseline SQL bytes are preserved.",
+    "Account UUID allocation/retirement prerequisite in progress; exact tests-first review, named red, additive migration, actual interruption/retry and candidate review required. Accepted0227 and all previous migration bytes are preserved.",
+    "Embedded migration build dependency correction: actual added-file red preserved; one shared native build script and authz path. Exact green and candidate review required. All migration/baseline/lock bytes preserved.",
+    "Credential-removal evidence prerequisite in progress. OLD-only private AFTER DELETE capture, no reverse parent locks or authorization claims; all earlier migration bytes preserved. Exact tests and candidate review required.",
+    "Audit attestation route inventory uses the same registered path constant; path coverage is proven, while path×method/response parity remains separate.",
+    "Storefront listing order is now total under tied rank/time keys; count/items/media snapshot consistency and cross-request mutation remain separately unproved.",
+    "Sales catalog count, rows and media now share one tenant-scoped repeatable-read snapshot; this does not establish two-site safe reads or cross-request consistency.",
+    "Sales inquiry raw text bounds now match persisted PostgreSQL constraints. Local Cargo harness proof passed; full original CI wrapper/preflight proof is unavailable because this frozen fork excludes its workflow and root Buck files.",
+    "Payroll run/readiness GET and standalone pages use one local snapshot. Emission authority, exact decimal transport, authenticated Next serving and two-site confirmation remain separate HOLDs.",
+    "R7c source closure updated cumulatively including prior C2/admitted tests. Migration0241 is additive; historical migrations and baseline bytes remain frozen. Whole-R7 browser/native gates and protected merge evidence remain pending; no deployment or launch claim."
+  ],
+  "frontend_changes": [
+    "Pinned Next/React and Node LTS server runtime",
+    "Removed static export, serve dependency and Nginx static configuration",
+    "Added server redirect, dynamic responses, immutable server container image and isolation excludes",
+    "Added reproducible source-freeze and acceptance tooling; launch gates remain unaccepted",
+    "Protected PR/merge-group CI retains every producer and adds complete Payroll REST, Inbox and leave targets plus strict Clippy for their existing owners.",
+    "Protected CI retains every producer and adds Payroll REST api/lib, standalone payroll RLS and platform DB targets plus strict snapshot-owner Clippy.",
+    "R7c actual passkey/own attendance/exact-family logout SSR path, authenticated socket ingress, one checked custom runtime and locked source-free packager; unrelated production prototype exclusions remain. Source and local proof do not establish two-site durability or complete modules."
+  ]
+}

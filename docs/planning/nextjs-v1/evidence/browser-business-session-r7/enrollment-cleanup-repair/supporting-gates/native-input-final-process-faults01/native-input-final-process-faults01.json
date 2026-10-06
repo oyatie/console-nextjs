@@ -1,0 +1,25 @@
+{
+  "id": "native-input-final-process-faults01",
+  "command": [
+    "node",
+    "--test",
+    "tools/enrollment-fault-deadlines.test.mjs",
+    "tools/test-native-browser-enrollment.test.mjs"
+  ],
+  "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+  "exit_code": 1,
+  "timed_out": false,
+  "duration_seconds": 563.5119642079808,
+  "discovered": null,
+  "counts": {
+    "passed": 0,
+    "failed": 0,
+    "skipped": 0,
+    "filtered": 0,
+    "executed": 0
+  },
+  "log_sha256": "b794b4da32b975219deb50bb92f9207f0c0cb17b256f11137ebe9c2afedef9a1",
+  "cleanup_reported": false,
+  "inputs_sha256": "77d09afd7c39eb07166ae64c0cb85e660c8f2b57927090464edbf198dd415d4a",
+  "inputs_unchanged": true
+}

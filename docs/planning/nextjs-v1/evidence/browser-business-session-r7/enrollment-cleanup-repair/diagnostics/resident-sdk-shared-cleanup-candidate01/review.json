@@ -1,0 +1,55 @@
+{
+  "schema": "resident-sdk-shared-cleanup-source-review/1",
+  "state": "REQUEST_CHANGES_SOURCE_ONLY",
+  "scope": "Independent static source review against accepted design03 of paired Node owner and Rust diagnostic schema, exact before/after snapshots, dependency order, deadlines, per-child scope, and unchanged real ceremony/ACK validation.",
+  "pins": {
+    "manifest_sha256": "8314c3fa4f14a0faa1f11bd3bfddc4574663b0c5e6f5a090e8c36a71754306e3",
+    "design_sha256": "706993f6545e022b20c96bee286bdb795ff2f82fdf732ab5738da31b1dd76d56",
+    "node_before_sha256": "b62d0d6eba89439d4194b79d4dab62ed8fd07614f93bf984bbd3ab261a71799e",
+    "node_after_sha256": "8e75a75ffa579fc2ec0f221d58faee55856e93f9b81ee13c053a1f54c7c85655",
+    "rust_before_sha256": "26e2350f1224c10f6ea3095a201ead024cf7f5e040d8a8924657202cc6345311",
+    "rust_after_sha256": "c2fc3e190d7b9933cdaf77958a8a9dc11a6ab8df83fa69362c7a42d5bc67412c",
+    "combined_patch_sha256": "7a5862ebbda0781ecee44903af30864bad14fbe49330168101e694c4b919352d",
+    "node_patch_sha256": "00285a159129f72fcdffda1465cb18c35c106a6890e393c8272162c96525f68f",
+    "rust_patch_sha256": "a0d50d87ec75931809154e172ec5b8bd28ff6f57c51149bd064efd42e1957b85"
+  },
+  "verified": {
+    "pins_match": true,
+    "combined_patch_matches_exact_snapshots": true,
+    "rust_before_matches_accepted_startup_fault02": true
+  },
+  "findings": [
+    {
+      "id": "stale-pending-assertion-rejects-real-settlement",
+      "location": "tools/test-resident-authenticator.mjs:122-128,171-179",
+      "problem": "waitForShutdown returns false when its real operation is observed at/after the two-second monotonic deadline, even if that operation fulfilled true and already set killSettled=true. A timeout can also win before the actual promise settles, with the settlement callback running before the awaiting branch checks the flag. The later killSettled===false assertion rejects that genuine settlement despite actual child exit/close and completion inside the original twelve-second budget.",
+      "required_revision": "After unsuccessful/timed-out kill-window observation, require actual child exit and observed close, then await the same retained killing promise and require its actual true outcome under the original total deadline. Do not require that it remains pending at the later continuation. Rejection/false must remain failure; no extra close/kill, clock, or synthetic completion.",
+      "classification": "Concrete source timing/state issue; no runtime reproduction executed."
+    }
+  ],
+  "accepted_elements": [
+    "Original startup owner is retained across its observational timeout, and successful mkdtemp/browser results are assigned before late-budget assertions.",
+    "One exact mkdtemp-created scope is used only in this child-local TMPDIR environment; only that known path is removed.",
+    "Actual rm errors propagate; ENOENT-only lstat plus original monotonic checks gates owned_temp_removed=true.",
+    "Settled startup without a returned BrowserServer cleans its known scope and emits no cleaned frame; it remains Node3 with unobserved browser custody.",
+    "Original five-second startup, two-second close/kill observation, twelve-second finalize, and Rust phase constants remain.",
+    "Same-total monotonic checks occur after waits/removal and around actual ACK completion. A late ACK completion preserves failure status, which Rust separately validates.",
+    "Paired Rust stages/boolean fields align with Node fixed metadata. Real credential, framing, origin, browser identity/outcome/status ACK checks and prior startup-fault tests remain unchanged.",
+    "Manifest correctly requires the accepted startup-fault02 source first, then the paired Node/Rust changes, without mixed-schema execution."
+  ],
+  "limits": [
+    "Source-only change request. Syntax/rustfmt checks are author-reported static checks, not re-executed here.",
+    "No compilation, tests, fixture/probe/browser execution, process census, or real filesystem deletion was performed.",
+    "Source cleanup observations do not prove independent descendant absence, secure erasure, historical cause, business P16, native/browser gate, or release readiness."
+  ],
+  "actions": {
+    "tracked_source_writes": 0,
+    "candidate_source_writes": 0,
+    "artifact_review_receipt_write": true,
+    "patch_applied": false,
+    "compilation": false,
+    "tests_executed": 0,
+    "fixture_or_probe_execution": false,
+    "service_actions": false
+  }
+}

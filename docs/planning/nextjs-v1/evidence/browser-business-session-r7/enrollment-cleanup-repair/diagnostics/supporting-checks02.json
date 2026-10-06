@@ -1,0 +1,96 @@
+{
+  "schema": "enrollment-repair-supporting-checks/1",
+  "recorded_at": "2026-10-06T04:12:29.493398+00:00",
+  "runs": [
+    {
+      "id": "lint",
+      "command": [
+        "fnm",
+        "exec",
+        "--using",
+        "24.21.0",
+        "npm",
+        "run",
+        "lint"
+      ],
+      "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+      "exit_code": 0,
+      "status": "passed",
+      "executed_tests": null,
+      "raw_log": {
+        "file": "lint-green02.log",
+        "bytes": 42,
+        "sha256": "3e98dcbd24835eb29288dab5790e519db6a485457e666a6774fdbce08459740e"
+      }
+    },
+    {
+      "id": "frontend-units",
+      "command": [
+        "fnm",
+        "exec",
+        "--using",
+        "24.21.0",
+        "npm",
+        "test"
+      ],
+      "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+      "exit_code": 0,
+      "status": "passed",
+      "executed_tests": 112,
+      "raw_log": {
+        "file": "frontend-unit-green02.log",
+        "bytes": 768,
+        "sha256": "376f5c227a6f84844865797184b24e05711f835f4e20ed8d385b8b39489cbb7e"
+      }
+    },
+    {
+      "id": "tooling",
+      "command": [
+        "fnm",
+        "exec",
+        "--using",
+        "24.21.0",
+        "npm",
+        "run",
+        "test:source-closure"
+      ],
+      "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+      "exit_code": 0,
+      "status": "passed",
+      "executed_tests": 18,
+      "raw_log": {
+        "file": "tooling-green02.log",
+        "bytes": 214,
+        "sha256": "3099bc28e6396eecd17726badd6eafb0f3f1f0c317ac94a7ad7d0aeb418dcf02"
+      }
+    },
+    {
+      "id": "rust-format",
+      "command": [
+        "/Users/jasonlee/.cargo/bin/cargo",
+        "+1.98.1",
+        "fmt",
+        "--all",
+        "--",
+        "--check"
+      ],
+      "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend",
+      "exit_code": 0,
+      "status": "passed",
+      "executed_tests": null,
+      "raw_log": {
+        "file": "rust-format-green02.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    }
+  ],
+  "unreached_attempts": [
+    {
+      "check": "rust-format",
+      "status": "not_executed",
+      "reason": "Initial shell log redirection used an incorrect relative directory and failed before Cargo started. Corrected absolute redirection; actual formatter then exited0."
+    }
+  ],
+  "scope": "Supporting current-source checks only; native/browser and hosted/merge outcomes are separate."
+}

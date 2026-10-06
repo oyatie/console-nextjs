@@ -1,0 +1,144 @@
+{
+  "schema": "resident-terminal-evidence-audit06/1",
+  "verdict": "ACCEPT_SCOPED_TERMINAL_EVIDENCE_ONLY",
+  "actions": "Read completed artifacts, recomputed hashes, compared outcomes/sourcepins/maps; no tests/reruns/application writes",
+  "probe": {
+    "report": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/resident-three-case-probe-candidate04/resident-three-case-report01.json",
+      "bytes": 7140,
+      "sha256": "a3a8c3a1e69aeb1973e1c7fcdf5bdfae6a82053733ac9f80cdbad8eb9b3fda2b"
+    },
+    "receipt": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/resident-three-case-probe-candidate04/execution-receipt01.json",
+      "bytes": 1383,
+      "sha256": "d2867c69acdb6dc45d97149f3917b12cd44953a51812b54b6cbb888db9c0ac80"
+    },
+    "source": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/resident-three-case-probe-candidate04/resident-three-case-probe.mjs",
+      "bytes": 21989,
+      "sha256": "dbdad3d7e20f231b1fa0798ccaba659e9e6d8a3ba22df409aabe0a67f008adc3"
+    },
+    "counts": {
+      "expected": 3,
+      "started": 3,
+      "passed": 3,
+      "failed": 0,
+      "unreached": 0
+    },
+    "case_audit": [
+      {
+        "id": "ready-done",
+        "ack": "completed",
+        "natural_exit_code": 0,
+        "ack_after_input_ms": 20,
+        "exit_after_input_ms": 27,
+        "all_fallback_flags_false": true,
+        "owner_and_absence_observed": true,
+        "fault_injection": {
+          "stdin_eof_sent": false,
+          "browser_stop_sent": false,
+          "browser_stopped_observed": false
+        }
+      },
+      {
+        "id": "eof-after-ready",
+        "ack": "aborted",
+        "natural_exit_code": 2,
+        "ack_after_input_ms": 22,
+        "exit_after_input_ms": 29,
+        "all_fallback_flags_false": true,
+        "owner_and_absence_observed": true,
+        "fault_injection": {
+          "stdin_eof_sent": true,
+          "browser_stop_sent": false,
+          "browser_stopped_observed": false
+        }
+      },
+      {
+        "id": "owned-browser-stop-before-done",
+        "ack": "completed",
+        "natural_exit_code": 0,
+        "ack_after_input_ms": 2011,
+        "exit_after_input_ms": 2020,
+        "all_fallback_flags_false": true,
+        "owner_and_absence_observed": true,
+        "fault_injection": {
+          "stdin_eof_sent": false,
+          "browser_stop_sent": true,
+          "browser_stopped_observed": true
+        }
+      }
+    ],
+    "source_pins": [
+      {
+        "path": "tools/test-resident-authenticator.mjs",
+        "sha256": "b62d0d6eba89439d4194b79d4dab62ed8fd07614f93bf984bbd3ab261a71799e",
+        "current_bytes_verified": true
+      },
+      {
+        "path": "package-lock.json",
+        "sha256": "ad526fce2fe800ee7122f39029843a69fd9a335572de82a4a71d9c1a9714bc7b",
+        "current_bytes_verified": true
+      },
+      {
+        "path": "backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs",
+        "sha256": "30345239d9e8321ea9394dd5b5f75d91b5ca4d1b1a98a27c7360951a82179c45",
+        "current_bytes_verified": true
+      },
+      {
+        "path": "node_modules/@playwright/test/package.json",
+        "sha256": "5587f932b8979b6889654b60e3c28aeb7ca0abbac00eec8c176c939a16149536",
+        "current_bytes_verified": true
+      },
+      {
+        "path": "node_modules/playwright-core/package.json",
+        "sha256": "f061c58427e47e843e26d201f0a57076c734e57c734ecbbd87d4a23b7a20db9b",
+        "current_bytes_verified": true
+      },
+      {
+        "path": "node_modules/playwright-core/lib/coreBundle.js",
+        "sha256": "549070af3acabb3efcc4f55bfe6210f9f7c2fcf633cf7eaa59bfe60719969171",
+        "current_bytes_verified": true
+      }
+    ],
+    "node_binary_sha256": "e4b5a3af0e05c75de2eae013904145f40fe7fc2a6e6f17510128bf45cca4e79b",
+    "observed_parent_exit_code": 0,
+    "parent_exit_provenance": "Root-recorded actual tool terminal result; not independently signed monitor",
+    "independent_review": "Independent read-only reviewer also verified completed report,receipt,sourcepins and all3 outcomes; no remaining findings"
+  },
+  "short_family": {
+    "report": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/resident-timer-short-family-green01.json",
+      "bytes": 1205,
+      "sha256": "2e23144996cafbc560f76b40efc9e8349a1bb87eba6e910c93c2a65a21565ef7"
+    },
+    "log": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/resident-timer-short-family-green01.log",
+      "bytes": 3238,
+      "sha256": "a76e88f1a3f3b7e3c669f25e9433a0c214ba28b68dbcb8926672cbf750fd6f8c"
+    },
+    "inputs": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/resident-timer-short-family-green01.inputs.json",
+      "bytes": 917481,
+      "sha256": "0b834b380a7366256aff69650f30962d54f0e0954c982b424acf2c82e1b582d4"
+    },
+    "counts": {
+      "passed": 1,
+      "failed": 0,
+      "skipped": 0,
+      "filtered": 120,
+      "executed": 1
+    },
+    "runner_discovered": null,
+    "input_entries": 2958,
+    "before_after_maps_equal": true,
+    "cleanup": "Captured lane log/report confirm isolated PostgreSQL cleanup; no independent live runtime inspection"
+  },
+  "proof_limits": {
+    "failed_kill_retained_unref_deadline": "SOURCE_ONLY",
+    "historical_exit3_cause": "UNPROVEN",
+    "registration_or_authentication": "Not exercised by3case lifecycle probe",
+    "full_native_gate": "Still pending when this scoped audit was created",
+    "release_or_queue": "Not approved"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "id": "resident-fork-custody04",
+  "command": [
+    "python3",
+    "-c",
+    "import acceptance,json; r=acceptance.inspect_fork(); print(json.dumps(r,indent=2)); raise SystemExit(r[\"status\"] != \"passed\")"
+  ],
+  "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+  "exit_code": 0,
+  "timed_out": false,
+  "duration_seconds": 0.9227740840287879,
+  "discovered": null,
+  "counts": {
+    "passed": 0,
+    "failed": 0,
+    "skipped": 0,
+    "filtered": 0,
+    "executed": 0
+  },
+  "log_sha256": "098155e2a611a10b9b1d89c06667f276fc968c865884562945cfa7a1a2d523e0",
+  "cleanup_reported": false,
+  "inputs_sha256": "c3e6726ea9e28cfa2797dd733199133f54611bd9209b07aafc9ec26657d8cb2c",
+  "inputs_unchanged": true
+}

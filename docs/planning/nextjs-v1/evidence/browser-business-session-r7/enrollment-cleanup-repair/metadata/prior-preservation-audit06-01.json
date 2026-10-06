@@ -1,0 +1,21 @@
+{
+  "schema": "prior-portable-preservation-audit06/1",
+  "verdict": "ACCEPT_PRIOR_INTEGRITY",
+  "index": {
+    "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/portable-review05-final01/index.json",
+    "bytes": 160514,
+    "sha256": "d0d7974037d0d02c6c4ba668fa092597b65c986a6fc5101e4973b23972e25e29"
+  },
+  "assets": 205,
+  "asset_bytes": 17897040,
+  "discovered_files": 206,
+  "unindexed": [
+    "index.json"
+  ],
+  "path_collision_traversal_symlink_nonregular_findings": [],
+  "alias_bindings_verified": 31,
+  "metadata_pointer_fields_verified": 5,
+  "historical_runs": 13,
+  "independent_review": "Read-only independent audit recomputed all205 bytecounts/hashbindings; no tests/reruns/writes",
+  "preservation_required": "All prior205 files/assetrows,13 runrows and exact originalindex remain byte-identical/unchanged. Preserve historicalRED/HOLD, candidate states, excluded diagnostic03 as old snapshot, source-unavailable/external limits; append later terminal outcomes separately."
+}

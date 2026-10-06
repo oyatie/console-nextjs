@@ -1,0 +1,49 @@
+--- a/tools/browser-business-restore.mjs
++++ b/tools/browser-business-restore.mjs
+@@ -86,7 +86,7 @@
+   };
+   page.on("console", listener);
+   await page.addInitScript(({ selector, names, queueLogout, observeReact, key, prefix }) => {
+-    const state = { document: crypto.randomUUID(), restored: false, reactCommits: 0 };
++    const state = { document: crypto.randomUUID(), restored: false, reactCommits: 0, logoutQueued: false, logoutStarted: false };
+     Object.defineProperty(window, key, { value: state });
+     function report(event, source) {
+       const region = document.querySelector(selector);
+@@ -125,11 +125,15 @@
+     addEventListener("pageshow", (event) => {
+       if (event.isTrusted && event.persisted) {
+         state.restored = true;
+-        if (queueLogout) setTimeout(() => {
++        if (queueLogout) {
++          state.logoutQueued = true;
++          setTimeout(() => {
++          state.logoutStarted = true;
+           const button = [...(document.querySelector(selector)?.querySelectorAll("button") ?? [])]
+             .find((item) => item.textContent.trim() === "로그아웃");
+           if (button) button.click(); // Actual mounted product handler; real owner response required below.
+         }, 0);
++        }
+       }
+       queueMicrotask(() => report("pageshow", event));
+     });
+@@ -409,7 +413,19 @@
+     assert.equal(hiddenEvent.persisted, true);
+     assert.equal(hiddenEvent.hidden, true); assert.equal(hiddenEvent.private_visible, false);
+     if (readGate) {
+-      await readGate.wait();
++      const held = await readGate.wait();
++      if (queued) {
++        assert.equal(held.gate, readGate.gate);
++        assert.equal(held.context, session.context);
++        assert.equal(held.status, 401);
++        const pending = await page.evaluate(({ key, original }) => {
++          const state = window[key];
++          return { original: state?.document === original, restored: state?.restored,
++            queued: state?.logoutQueued, started: state?.logoutStarted };
++        }, { key: PROBE, original });
++        assert.deepEqual(pending, { original: true, restored: true, queued: true, started: false },
++          "actual queued logout must remain pending until the exact native reload denial is witnessed");
++      }
+       if (mode === "delayed-bundles") {
+         for (const script of heldScripts) script.release();
+         const committed=await until(() => probe.events.slice(eventStart).find((event) => event.document===original

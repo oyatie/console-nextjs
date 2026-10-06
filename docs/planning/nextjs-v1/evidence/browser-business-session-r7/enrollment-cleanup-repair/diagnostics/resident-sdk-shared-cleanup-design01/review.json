@@ -1,0 +1,69 @@
+{
+  "schema": "resident-sdk-shared-cleanup-design-review/1",
+  "state": "REQUEST_CHANGES_DESIGN_ONLY",
+  "scope": "Independent static inspection of proposed state transitions, pinned Node/Rust fixture sources, actual installed SDK implementation, supplied terminal audit, and owned-temp empirical probe plan. No tests, service execution, or tracked edits.",
+  "pins": {
+    "design_sha256": "f87e4690f539a28c22b1ce229a46fea3de5a2483b84514fd824494996fb1cc55",
+    "node_fixture_sha256": "b62d0d6eba89439d4194b79d4dab62ed8fd07614f93bf984bbd3ab261a71799e",
+    "rust_fixture_sha256": "2917aa92f08d8d8d49da0f5ddf0474c808bf5886683a8754e35bf69a15fcaedd",
+    "installed_sdk_sha256": "549070af3acabb3efcc4f55bfe6210f9f7c2fcf633cf7eaa59bfe60719969171",
+    "supplied_terminal_audit_sha256": "3b3090ee129f08250f5c9e48e154f9a5018824ba376cca2c611f5c47db5f0a27"
+  },
+  "verified": {
+    "all_input_pins_match": true,
+    "shared_cleanup_promise_trace_matches_installed_sdk": true,
+    "upstream_folder_errors_are_swallowed": true
+  },
+  "findings": [
+    {
+      "id": "original-deadline-late-settlement",
+      "location": "design.json:80-85",
+      "problem": "The proposed extra await relies only on the still-running setTimeout callback to enforce the original 12-second acceptance deadline. An overdue fs/event-loop continuation can fulfill the issued cleanup promise and resume async microtasks before an overdue timer callback executes. If it writes an ACK and clears that timer, cleanup beyond the original total budget can become accepted.",
+      "required_revision": "Store the original finalize-started monotonic deadline and recheck that same deadline after awaited cleanup and before ACK; recheck ACK completion before setting cleanupConfirmed or clearing the original hard timer. Expiry remains sticky exit3/unconfirmed failure. These checks consume the existing 12-second budget and do not add or re-arm any timer.",
+      "source_basis": "The current fixture clears its original timer only after writeFrame returns; proposed same-promise waiting adds another acceptance point that needs an elapsed-budget guard. In-process setTimeout is a scheduling mechanism, not proof that a continuation ran before its nominal deadline.",
+      "classification": "Source/design deadline safeguard; no runtime reproduction performed."
+    }
+  ],
+  "contract_clarification": {
+    "location": "design.json:73-89,116",
+    "assessment": "Numeric 2-second close, 2-second kill, and 12-second total constants can remain unchanged, but full SDK completion after the kill observation changes from terminal failure to a process-closed cleanup-pending transition. This is an intentional acceptance/state-contract change and must be described explicitly rather than claiming all phase semantics are unchanged.",
+    "acceptable_boundary": "Only an expired-pending kill observation plus observed child close and actual exit status can enter the cleanup-pending state; a rejected/false kill result must remain failure. Await only the already-issued original promise under the original total deadline, with no repeat close/kill or synthetic settlement.",
+    "source_review_guard": "Use an explicit pending/fulfilled/rejected-or-false distinction, not a boolean that conflates timeout and rejection."
+  },
+  "accepted_design_elements": [
+    "The installed SDK BrowserServer methods delegate to browserProcess close/kill; graceful close and killAndWait share waitForCleanup.",
+    "waitForCleanup is fulfilled only after the child-close handler reaches cleanup and the folder-removal attempts settle.",
+    "Child exit/close and unsettled method promises are distinct observations. They do not establish the exact filesystem cause.",
+    "SDK removeFolders catches individual fs.rm errors and still fulfills cleanup, so method fulfillment proves settled attempts rather than successful erasure.",
+    "The proposed single existing promise owner, no repeated SDK operations, paired Rust diagnostic stage update, original total-budget containment, and preserved failure catch/finally are appropriate.",
+    "A normal lifecycle or dedicated SDK probe cannot certify credential ceremonies, native consumer acceptance, business P16, or release."
+  ],
+  "owned_temp_probe_assessment": {
+    "state": "SOURCE_DESIGN_ACCEPTABLE_WITH_IMPLEMENTATION_GUARDS",
+    "guards": [
+      "Create a fresh private root per real child and verify exact filesystem/process ownership before any removal or signal.",
+      "Observe classified directory existence/residual counts before any harness cleanup or fallback intervention. Concurrent harness removal while the SDK promise is pending would contaminate delay evidence.",
+      "Keep raw paths, directory entries, bytes, process identities, and SDK raw logs transient and excluded from reports/telemetry.",
+      "Record actual event and promise timing without fs.rm interception or node_modules mutation; retain the actual provider promises.",
+      "Verify process-group/descendant absence independently; child status, child-close, promise settlement, and directory absence are separate facts.",
+      "Separate provider lifecycle results from fallback custody results; a fallback intervention cannot create fixture cleanup acceptance.",
+      "If delay is not reproduced, record NOT_REPRODUCED and retain precise filesystem cause UNPROVEN.",
+      "Use an outer bounded owner for interruption/Node hard exit/host failure; in-process timers do not prove cleanup custody in those cases."
+    ]
+  },
+  "limits": [
+    "Design review only; no Node implementation candidate exists in this review.",
+    "The supplied terminal audit was read and hash-checked; raw run bytes were not re-audited here.",
+    "Historical exit3, precise filesystem delay, FK-holder cleanup, and queued P16 assertion causes remain UNPROVEN.",
+    "No actual directory removal, process-group census, browser absence, or runtime timing was observed.",
+    "No source, business, native gate, browser, release, or deployment acceptance is granted."
+  ],
+  "actions": {
+    "tracked_source_writes": 0,
+    "artifact_review_receipt_write": true,
+    "tests_executed": 0,
+    "fixture_or_probe_execution": false,
+    "service_actions": false,
+    "sdk_modification": false
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "id": "isolated-enrollment-cleanup-diagnostic02",
+  "command": [
+    "node",
+    ".artifacts/enrollment-cleanup-diagnostic-candidate02/tools/test-native-browser-enrollment-diagnostic.test.mjs",
+    ".artifacts/enrollment-cleanup-diagnostic-candidate02/tools/test-native-browser-enrollment.mjs"
+  ],
+  "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+  "exit_code": 0,
+  "timed_out": false,
+  "duration_seconds": 26.166950165992603,
+  "discovered": null,
+  "counts": {
+    "passed": 0,
+    "failed": 0,
+    "skipped": 0,
+    "filtered": 0,
+    "executed": 0
+  },
+  "log_sha256": "b40cb34dbc425937ee24079241aed5450ce254fab3d4f3464bda6180d65a4128",
+  "cleanup_reported": false,
+  "inputs_sha256": "77d09afd7c39eb07166ae64c0cb85e660c8f2b57927090464edbf198dd415d4a",
+  "inputs_unchanged": true
+}

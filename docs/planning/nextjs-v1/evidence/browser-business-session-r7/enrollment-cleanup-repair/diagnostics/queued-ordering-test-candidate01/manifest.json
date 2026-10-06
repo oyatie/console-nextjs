@@ -1,0 +1,11 @@
+{
+  "schema": "queued-ordering-test-candidate/1",
+  "path": "tools/browser-business-restore.mjs",
+  "before": "7423b8c14aaf703d785aadff36701afc5a29355b5c0b56e7eccf470a759e719f",
+  "after": "05c0dfebd791403622397f7a83568c4f5383360002ee9b96c5d366c956277b6d",
+  "patch_sha256": "1d64fc33fa3f7269e49ff7e2db9aeb28c198ad13d4b341aba3bb1b6bfd1f6bc2",
+  "scope": "test-only observations and behavior assertion; original immediate timer unchanged, private latch not implemented",
+  "expected_red": "genuine queued logout started before the explicit verified native-gate release point; earlier prerequisites may separately remain unreached",
+  "not_claimed": "This does not establish whether old action preceded actual native server gate arrival, nor explain old missing cachedDocument failure",
+  "source_state": "NOT_APPLIED; full02runningfrozen"
+}

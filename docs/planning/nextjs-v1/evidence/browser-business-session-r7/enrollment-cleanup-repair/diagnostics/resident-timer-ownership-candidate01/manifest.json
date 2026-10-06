@@ -1,0 +1,21 @@
+{
+  "path": "tools/test-resident-authenticator.mjs",
+  "before": "9d152c60f03827d7c5676f4e965edc56084c67d6f25d80014c3559e76d0d7c5d",
+  "after": "b62d0d6eba89439d4194b79d4dab62ed8fd07614f93bf984bbd3ab261a71799e",
+  "patch_sha256": "82e65c23d1ea3e547979ea8230cb4918bd6f7db800c9aa020c2a92b7d716f1db",
+  "state": "CANDIDATE_ONLY_NOT_APPLIED",
+  "scope": "Cancel losing owned phase timers; retain/unref failed hard bound; all2s/2s/12s clocks,ACK/exit rules unchanged",
+  "observed40_scope": "Actual ready/done lifecycle only; not authentication or historical-failure cause proof",
+  "observed_ranges": {
+    "ack_after_done_ms": {
+      "min": 19,
+      "max": 129
+    },
+    "exit_after_done_ms": {
+      "min": 2010,
+      "max": 2070
+    }
+  },
+  "historical_exit3_cause": "UNPROVEN; neither ownership fix identifies old failure",
+  "verification": "Sameactualfixture/consumer and fullnative; no arbitrary exit latency threshold, no fake shutdown/provider success"
+}
