@@ -2695,11 +2695,11 @@
       "path": "scripts/test_private_import_artifacts.py",
       "before": null,
       "after": {
-        "sha256": "c9c7c7c7129739cf54e08bc94e699288f08be63a5a167c13a4e3c9691b6e56a0",
-        "bytes": 11611,
+        "sha256": "7704a18593e7cec035039ba28e540ffa4a928f33f43784affd99c36b8732bb82",
+        "bytes": 11708,
         "mode": 420
       },
-      "reason": "PR17 test-first security regressions for actual bulk admission, source-parser bounds, private artifact publication and CLI errors; synthetic local-only inputs."
+      "reason": "PR17 test-first security regressions for actual bulk admission, source-parser bounds, private artifact publication and CLI errors; synthetic local-only inputs. Private CLI regression diagnostics compare booleans and retain no raw response/paths on assertion failure."
     },
     {
       "path": "tools/buck/gen_first_party.py",
