@@ -767,11 +767,11 @@
         "mode": 420
       },
       "after": {
-        "sha256": "f000d7cc49c7741024fe17c73e9b259cc1b594df605e2104d017f8570b7a2cd0",
-        "bytes": 16573,
+        "sha256": "1ed3378ac948a68f9ccead84150a574eb8b45e7480f65438960d988bc197ba6a",
+        "bytes": 16688,
         "mode": 420
       },
-      "reason": "Reviewed staged-roster coverage and atomic local payslip publication at existing payroll/Inbox owners, immutable dedup replay and frozen real-session/runtime-role regressions. No full-module, legal, payment or two-site claim."
+      "reason": "Reviewed staged-roster coverage and atomic local payslip publication at existing payroll/Inbox owners, immutable dedup replay and frozen real-session/runtime-role regressions. No full-module, legal, payment or two-site claim. Preserve recipient/Company/filter and owned chronological anchors while terminating exact-full Inbox pages using bounded authorized lookahead; test-first real PostgreSQL cursor, clamp and immutable-read regressions."
     },
     {
       "path": "backend/crates/inbox/adapter-postgres/tests/inbox_docs_rls_surfaces_as_runtime_role.rs",
@@ -781,11 +781,11 @@
         "mode": 420
       },
       "after": {
-        "sha256": "954bc8d91228ad2dd09023df7a5e664961d26e6559ad168a8ca4ee8fab303a23",
-        "bytes": 20270,
+        "sha256": "90a3e04921997e825dc025e3c6f2c54210cc8bc956b238027e62b5e21eafa06c",
+        "bytes": 31763,
         "mode": 420
       },
-      "reason": "Reviewed staged-roster coverage and atomic local payslip publication at existing payroll/Inbox owners, immutable dedup replay and frozen real-session/runtime-role regressions. No full-module, legal, payment or two-site claim."
+      "reason": "Reviewed staged-roster coverage and atomic local payslip publication at existing payroll/Inbox owners, immutable dedup replay and frozen real-session/runtime-role regressions. No full-module, legal, payment or two-site claim. Preserve recipient/Company/filter and owned chronological anchors while terminating exact-full Inbox pages using bounded authorized lookahead; test-first real PostgreSQL cursor, clamp and immutable-read regressions."
     },
     {
       "path": "backend/crates/kernel/core/src/validation.rs",
