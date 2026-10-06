@@ -1,0 +1,53 @@
+{
+  "schema": "diagnostic-independent-source-review/1",
+  "at": "2026-10-06T04:39:31.162084+00:00",
+  "source_commit": "c3793f92dab565de104224fc705578c543d85b64",
+  "source_state": "uncommitted reviewed diagnostics plus existing process repair",
+  "scope": "source review only, no cause or native acceptance claimed",
+  "reviewers": [
+    {
+      "reviewer": "native_worker_failure_review",
+      "patch_sha256": "ce1fa322394a4381d26d370cb888afbdf03ba847af4dd519585a94e3af613e03",
+      "verdict": "ACCEPT",
+      "findings_fixed": [
+        "own child before fallible drain-thread start",
+        "retry Interrupted reads",
+        "match Io kind: AddrInUse"
+      ]
+    },
+    {
+      "reviewer": "resident_failure_diagnostic_review",
+      "patch_sha256": "5b04b150391fa3cd1836438f06030d27341d7fde04e5aff668f9e4fd3e568c04",
+      "verdict": "ACCEPT",
+      "findings_fixed": [
+        "do not replace original error with diagnostic detach rejection"
+      ]
+    }
+  ],
+  "current_formatted_sources": [
+    {
+      "path": "backend-fork/backend/app/tests/auth_rest/genuine_browser.rs",
+      "sha256": "8b9e98135a3d5c7db8b6e58d697a3c469cb428295e8ee97c1adbf15268b1c0e5",
+      "bytes": 110024
+    },
+    {
+      "path": "backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs",
+      "sha256": "feb30ff385b2231c09bea95f9f71d12eaf498f206a9c035e84b278baa11a3491",
+      "bytes": 14011
+    },
+    {
+      "path": "backend-fork/backend/app/tests/auth_rest/browser_sessions.rs",
+      "sha256": "af3da5f340ecaa1d78ad46d41fdc0a53be6d515a678727d54542fdffaff6d454",
+      "bytes": 288060
+    },
+    {
+      "path": "tools/browser-business-restore.mjs",
+      "sha256": "7423b8c14aaf703d785aadff36701afc5a29355b5c0b56e7eccf470a759e719f",
+      "bytes": 31398
+    }
+  ],
+  "limits": [
+    "worker and resident exact diagnostic probes pass but original intermittent failures remain unexplained",
+    "native first-frame90 conditional approval not exercised; all deadlines unchanged"
+  ]
+}

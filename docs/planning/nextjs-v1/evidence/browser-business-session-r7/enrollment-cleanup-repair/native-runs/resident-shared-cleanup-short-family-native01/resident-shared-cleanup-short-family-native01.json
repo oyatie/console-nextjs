@@ -1,0 +1,41 @@
+{
+  "id": "resident-shared-cleanup-short-family-native01",
+  "command": [
+    "bash",
+    "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/tools/lanes/pgtest.sh",
+    "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork",
+    "/Users/jasonlee/.cargo/bin/cargo",
+    "+1.98.1",
+    "test",
+    "--locked",
+    "--offline",
+    "--no-fail-fast",
+    "--features",
+    "frontend-e2e",
+    "-p",
+    "console-app",
+    "--test",
+    "auth_rest",
+    "browser_sessions::original_short_family_deadline_expires_during_lookup_wait_without_sliding",
+    "--",
+    "--exact",
+    "--test-threads=1",
+    "--nocapture"
+  ],
+  "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+  "exit_code": 0,
+  "timed_out": false,
+  "duration_seconds": 43.47113529208582,
+  "discovered": null,
+  "counts": {
+    "passed": 1,
+    "failed": 0,
+    "skipped": 0,
+    "filtered": 124,
+    "executed": 1
+  },
+  "log_sha256": "dd79ffead7dd9c53ed1209f3324a1b26f453e9f97fbad9f4f9049683118e8eea",
+  "cleanup_reported": true,
+  "inputs_sha256": "85386f6ca3a1a72287c32bf111311f8e52d584a7a047b0826830873645e0ad2e",
+  "inputs_unchanged": true
+}

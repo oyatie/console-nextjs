@@ -1,0 +1,77 @@
+{
+  "schema": "native-enrollment-after-owner-repair-cleanup-diagnostic-candidate/1",
+  "state": "UNAPPLIED_UNEXECUTED_REQUIRES_INDEPENDENT_SOURCE_REVIEW_AND_ROOT_GATE_TERMINAL",
+  "created_at_utc": "2026-10-06T10:55:40.323684+00:00",
+  "source_before_sha256": "afd17a0d0a69358613e1ff6d03d24f27eb322bd558a8cf021390e32527fff22e",
+  "source_after_sha256": "ef53481448b7b9fb261a31ea594a2deed9604b5c3536c7101d8d3b13cd22bd2b",
+  "based_on": {
+    "cleanup_owner_repair02": "Applied exact independently accepted native afd17; no cleanup semantics are changed here",
+    "prior_diagnostic02": "Approved failure-only prefix, bounded metadata parser, root-copy provenance and parent-signal flags are adapted to the repaired owner path"
+  },
+  "current_runtime_observation": {
+    "suite": "cleanup-owner-final-process-faults01",
+    "state": "ROOT_REPORTS_TERMINAL_RED",
+    "root_reported_counts": {
+      "executed": 22,
+      "passed": 20,
+      "failed": 2,
+      "skipped": 0,
+      "cancelled": 0
+    },
+    "duration_seconds": 476.0096,
+    "wrong_sequence": "Before ready: original ready read assertion received cleaned; beginFault/send were not reached. Not evidence malformed-sequence input caused cleanup failure.",
+    "legacy_selection": "Original post-injection cleaned read ended withoutACK; owner localization unavailable.",
+    "cause": "UNKNOWN separately for each failed case; no shared-cause inference; full gate report pins remain root responsibility"
+  },
+  "intent": "Failure-only main/prerequisite stage and typed readiness snapshots remain distinct from cleanup owner stages/statuses and selected error. Exact copied existing16process cases plus unchanged6clock tests retain sequencing and coverage.",
+  "metadata_semantics": {
+    "first_observed_rejected_owner": "First passive rejection observer callback, not causal ordering of concurrent failures",
+    "selected_failure_owner": "The existing stop first rejected result in stable browser,next,reservation,runtime owner order; none before selection",
+    "false_event_flags": "No event observed by late-installed listener, not proof no event happened",
+    "owner_status": "Observer-set pending/fulfilled/rejected/skipped/unstarted state; no raw rejection reason retained",
+    "cleanup_elapsed_ms": "Rounded down monotonic elapsed from existing deadlineAt minus6000, capped600000; no extra timer",
+    "hard_deadline": "Synchronous fixed write before unchanged process.exit3; pending owners need not reach catch",
+    "shared_cleanup_completed": "True only when the existing post-phase same killing promise actually fulfills; not a process-group absence claim",
+    "main_phase": "staging/reservation/origin/Next readiness/browser launch/connect/ready/validation/completion from existing statements; separate main failure prefix. Cleanup snapshots also include fixed current phase/readiness fields.",
+    "error_type": "Only allowlisted JavaScript error-name classes mapped to fixed labels; no raw name/message/code/body/server output retained. Probe classes describe observations, not inferred causes.",
+    "fault_input_attempted": "Driver flag set only immediately before existing fault input calls after required frames. False on pre-ready failure; true means attempted input, not remote acceptance.",
+    "received_frame": "Driver records only fixed expected/received frame kind and exact allowlisted cleanup outcome/zero-creation Boolean. No origin or payload is emitted."
+  },
+  "preserved": [
+    "Every original2s race,6s hard timer and absolute checks,140s watchdog,140/150s startup,25/35s fault and6s parent fallback remains unchanged.",
+    "Actual child close/exit gates before same pending killing await; original kill error, allSettled owner results, safe stage guard and selected primary rejection unchanged.",
+    "Original failure timer unref and confirmed-only timer clearing; no deadline repair, retry, forced success, parallel removal or extra wait.",
+    "Original ACK fields,outcome,sequence,creation count and exact process/file proof unchanged; no metadata can authorize ACK or change success.",
+    "Separate browser/Next/main stages; no raw errors,paths,IDs,credentials,bodies,native proof or broad fixture expansion.",
+    "Original negative fault cases and original6supervisor unit tests retained; original same-producer business runner copied unchanged. New source phase checkpoints and passive typed observations never determine control, readiness, ACK or outcome."
+  ],
+  "probe": {
+    "path": "tools/test-native-browser-enrollment-diagnostic.test.mjs",
+    "case": "Exact original13native+3business process cases in original order; unchanged6supervisor tests",
+    "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+    "command_template": [
+      "node",
+      "--test",
+      "W/.artifacts/COPY/tools/enrollment-fault-deadlines.test.mjs",
+      "W/.artifacts/COPY/tools/test-native-browser-enrollment-diagnostic.test.mjs"
+    ],
+    "prerequisite": "Current full22 gate terminal; exact candidate independently accepted by source reviewers before root execution",
+    "staging": "Root ordinary copied bundle beneathW/.artifacts cwdW. Applied business6868 copied unchanged with its failure helper; server/packager/supervisor and6clock tests copied unchanged. Exact root/build/SDK/bundle pins checked before each real process spawn.",
+    "assertions": "Original frame,ACK,outcome,zero credential creation,natural exit,no supervisor force,owned TMPDIR emptiness and190s case bound preserved. Only bounded allowlisted metadata decoded: up to2cleanup records and1main record,2048byte line cap.",
+    "limits": "Native producer instrumentation covers13native cases; copied business3startup cases remain original with no added producer diagnostics. A failure there with no metadata remainsUNKNOWN. No lone retry/retry-until-green or broader synthetic fixture; this22 diagnostic run cannot replace full125/17 or clear earlier failures alone."
+  },
+  "actions": {
+    "tests_executed": 0,
+    "tracked_source_writes": 0,
+    "process_actions": 0,
+    "isolated_artifact_only": true
+  },
+  "revision": 3,
+  "previous_candidate": "enrollment-cleanup-after-owner-repair-diagnostic-candidate02",
+  "review_repair": {
+    "reviewer": "/root/p16_owner_mechanism",
+    "finding": "Driver02 reported the native producer hash for three business cases although actual business producer was independently pinned6868",
+    "change": "Use the existing fixed per-case runner to select its exact BUNDLE_PINS producer hash; no new input or behavior",
+    "unchanged": "Native producer, schemas, clocks, cases/order, assertions, copied business and all other execution inputs"
+  }
+}

@@ -57,6 +57,8 @@ pub const HR_ATTENDANCE_IMPORT_APPLY_PATH_TEMPLATE: &str =
     "/api/v1/hr/attendance-import/{run_id}/apply";
 pub const HR_ATTENDANCE_IMPORT_SUMMARY_PATH: &str = "/api/v1/hr/attendance-import/summary";
 pub const HR_MY_ATTENDANCE_RECORDS_PATH: &str = "/api/v1/hr/attendance-records/me";
+pub const HR_BROWSER_ATTENDANCE_RECORDS_PATH: &str =
+    "/api/v1/hr/browser-session/attendance-records/me";
 pub const HR_ATTENDANCE_RECORDS_PATH: &str = "/api/v1/hr/attendance-records";
 pub const HR_ABSENCE_EXIT_DASHBOARD_PATH: &str = "/api/v1/hr/absence-exit-dashboard";
 pub const HR_EXIT_CASES_PATH: &str = "/api/v1/hr/exit-cases";
@@ -82,6 +84,7 @@ pub const HR_ROUTE_PATHS: &[&str] = &[
     HR_ATTENDANCE_IMPORT_APPLY_PATH_TEMPLATE,
     HR_ATTENDANCE_IMPORT_SUMMARY_PATH,
     HR_MY_ATTENDANCE_RECORDS_PATH,
+    HR_BROWSER_ATTENDANCE_RECORDS_PATH,
     HR_ATTENDANCE_RECORDS_PATH,
     HR_ABSENCE_EXIT_DASHBOARD_PATH,
     HR_EXIT_CASES_PATH,
@@ -1744,26 +1747,125 @@ async fn list_my_attendance_records(
 
     let page = with_org_snapshot::<_, _, HrError>(&state.pool, org, move |tx| {
         Box::pin(async move {
-            // Self-scoped read, no role gate: an authenticated user with no
-            // linked employee — an ADMIN/system account — has zero personal
-            // records, so return an empty page rather than a 403. (Writes still
-            // require a link via `load_linked_employee_for_user`.)
-            match load_optional_linked_employee_id(tx, org, user_id).await? {
-                Some(employee_id) => {
-                    list_attendance_records_for_employee(tx, employee_id, None, limit, offset).await
-                }
-                None => Ok(EmployeeAttendanceRecordPage {
-                    items: Vec::new(),
-                    total: 0,
-                    limit,
-                    offset,
-                }),
-            }
+            own_attendance_in_tx(tx, org, user_id, limit, offset)
+                .await
+                .map(|(_, page)| page)
         })
     })
     .await?;
 
     Ok(Json(page))
+}
+
+// The browser transport has its own explicit ingress and body authentication;
+// it is composed outside the legacy bearer middleware.
+pub fn browser_router(pool: PgPool, auth: console_platform_auth_rest::AuthRestState) -> Router {
+    let state = (pool, auth.clone());
+    console_platform_auth_rest::with_browser_ingress(
+        Router::new()
+            .route(HR_BROWSER_ATTENDANCE_RECORDS_PATH, post(browser_attendance))
+            .layer(DefaultBodyLimit::max(4096))
+            .with_state(state),
+        auth,
+    )
+}
+
+#[derive(Deserialize)]
+#[serde(deny_unknown_fields)]
+struct BrowserAttendanceRequest {
+    session_token: String,
+    browser_context: String,
+    limit: i64,
+    offset: i64,
+}
+
+#[derive(Serialize)]
+struct BrowserAttendanceContext {
+    company_id: Uuid,
+    company_name: String,
+    account_display_name: String,
+    employee_linked: bool,
+}
+
+#[derive(Serialize)]
+struct BrowserAttendanceResponse {
+    context: BrowserAttendanceContext,
+    history: EmployeeAttendanceRecordPage,
+    browser_context: Uuid,
+    #[serde(with = "time::serde::rfc3339")]
+    expires_at: OffsetDateTime,
+}
+
+async fn browser_attendance(
+    State((pool, auth)): State<(PgPool, console_platform_auth_rest::AuthRestState)>,
+    Json(body): Json<BrowserAttendanceRequest>,
+) -> Response {
+    if !(1..=MAX_LIMIT).contains(&body.limit) || body.offset < 0 {
+        return HrError::validation("limit must be 1..1000 and offset must be nonnegative")
+            .into_response();
+    }
+    let session = match auth
+        .resolve_browser_session(&body.session_token, &body.browser_context)
+        .await
+    {
+        Ok(session) => session,
+        Err(error) => return error.into_response(),
+    };
+    let org = session.principal.org_id;
+    let user = session.principal.user_id;
+    record_hr_read("employee_attendance_self");
+    let (context, history) = match console_platform_request_context::scope_org(org,
+        with_org_snapshot::<_, _, HrError>(&pool, org, move |tx| {
+            Box::pin(async move {
+                let names: (String, String) = sqlx::query_as(
+                    "SELECT o.name,u.display_name FROM users u JOIN organizations o ON o.id=u.org_id WHERE u.id=$1 AND u.org_id=$2 AND u.is_active AND o.status='ACTIVE'",
+                ).bind(*user.as_uuid()).bind(*org.as_uuid()).fetch_one(tx.as_mut()).await?;
+                let (linked, history) = own_attendance_in_tx(tx, org, user, body.limit, body.offset).await?;
+                Ok((BrowserAttendanceContext {
+                    company_id: *org.as_uuid(), company_name: names.0,
+                    account_display_name: names.1, employee_linked: linked,
+                }, history))
+            })
+        })
+    ).await {
+        Ok(result) => result,
+        Err(error) => return error.into_response(),
+    };
+    if session.expires_at <= OffsetDateTime::now_utc() {
+        return (StatusCode::UNAUTHORIZED, "browser session expired").into_response();
+    }
+    Json(BrowserAttendanceResponse {
+        context,
+        history,
+        browser_context: session.browser_context,
+        expires_at: session.expires_at,
+    })
+    .into_response()
+}
+
+async fn own_attendance_in_tx(
+    tx: &mut sqlx::Transaction<'_, Postgres>,
+    org: OrgId,
+    user: UserId,
+    limit: i64,
+    offset: i64,
+) -> Result<(bool, EmployeeAttendanceRecordPage), HrError> {
+    // An authenticated account without an employee link has no personal records.
+    match load_optional_linked_employee_id(tx, org, user).await? {
+        Some(employee) => Ok((
+            true,
+            list_attendance_records_for_employee(tx, employee, None, limit, offset).await?,
+        )),
+        None => Ok((
+            false,
+            EmployeeAttendanceRecordPage {
+                items: Vec::new(),
+                total: 0,
+                limit,
+                offset,
+            },
+        )),
+    }
 }
 
 async fn list_attendance_records(

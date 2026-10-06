@@ -1,0 +1,15 @@
+{
+  "schema": "restored-context-failure-diagnostic-application/1",
+  "manifest_sha256": "a08b7740108e197d74a838c92cfba1be4d1aaba09cd1ba28942243ae93e08f1f",
+  "after_sha256": "a23c66dc14171cc07ab6d10d6835d07d4aaa105fae90e99ee9920015cf5214b6",
+  "before_sha256": "183df5e840c6fbd46c77ca7fa4ba8301801606870b970173a89ac784a27ddf4c",
+  "independent_source_reviewer": "secure_origin_path_review",
+  "independent_verdict": "ACCEPT_SOURCE_ONLY",
+  "exact_hashes_verified": true,
+  "syntax_check": {
+    "node": "24.21.0",
+    "exit_code": 0,
+    "chunk_id": "3c0e9c"
+  },
+  "runtime_proof": false
+}

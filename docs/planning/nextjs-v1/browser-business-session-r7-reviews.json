@@ -1,0 +1,3270 @@
+{
+  "version": 1,
+  "base": "7bbb48cc24952ec1639c393767e11bc0de6cc63c",
+  "tree": "d55ebc8cab2197f872c117146ead47f81df54c2a",
+  "status": "IMPLEMENTATION_ADMITTED",
+  "source_writer": "root only, feat/browser-business-session-r7",
+  "implementation_admitted": true,
+  "new_tests_executed": 4,
+  "prior_revisions": [
+    {
+      "version": "R7a",
+      "design_sha256": "30ea55553a05c1c93045d908b2ae43b961b596684cb86b75297c5df63ba3ad32",
+      "status": "REVISE",
+      "recorded_at": "2026-10-05T09:10:33.486440+00:00",
+      "reviewers": [
+        {
+          "reviewer": "r6_transport_readiness",
+          "round": 1,
+          "verdict": "ACCEPT_DESIGN_ROUND_1",
+          "scope": "Complete R7a design only, including independent crypto vectors"
+        },
+        {
+          "reviewer": "session_ui_path_trace",
+          "round": 1,
+          "verdict": "ACCEPT_DESIGN_ROUND_1",
+          "scope": "Complete R7a design only"
+        },
+        {
+          "reviewer": "session_ui_path_trace",
+          "round": 2,
+          "verdict": "REVISE",
+          "finding": "Missing authenticated browser-to-Next original-client-IP ingress contract. Next preserves supplied XFF and exposes no socket IP. Dynamic/no-store alone does not prove browser Back/BFCache safety."
+        }
+      ],
+      "implementation_admitted": false,
+      "tests_executed": 0,
+      "prior_r6_approval_counted": false
+    },
+    {
+      "version": "R7b",
+      "design_sha256": "c8b64aaa7b9e9bf987c1fdd9f0a4b4c6698788cf8786866b94d9b7b3dd5792b8",
+      "status": "REVISE",
+      "reviews": [
+        {
+          "reviewer": "r6_transport_readiness",
+          "round": 1,
+          "verdict": "ACCEPT_DESIGN_ROUND_1"
+        },
+        {
+          "reviewer": "session_ui_path_trace",
+          "round": 1,
+          "verdict": "ACCEPT_DESIGN_ROUND_1"
+        },
+        {
+          "reviewer": "r6_transport_readiness",
+          "round": 2,
+          "verdict": "REVISE",
+          "findings": [
+            "Specify same-transaction fresh consumption coupled to native AuthenticationOutcome; discoverable ceremony has NULL user_id, so it does not prove identity itself.",
+            "Distinguish SQL/production-helper invalid-shape rejection from shape-valid lookup corruption; no guards disabled or accepted mappings rewritten."
+          ]
+        },
+        {
+          "reviewer": "session_ui_path_trace",
+          "round": 2,
+          "verdict": "REVISE",
+          "findings": [
+            "Require same issuer-transaction ceremony consumption/new family freshness and explicit native outcome/locked credential Account/source binding; preserve v0 limitation."
+          ]
+        }
+      ],
+      "tests_executed": 0,
+      "implementation_admitted": false
+    }
+  ],
+  "current_revision": {
+    "version": "R7c",
+    "sha256": "8ef4ad7d85602c94aac05acfe0edf163b5ee3ede819d9e3cbb1e3c6d8b99b2ad",
+    "status": "DESIGN_APPROVED",
+    "reviews": [
+      {
+        "reviewer": "r6_transport_readiness",
+        "round": 1,
+        "verdict": "ACCEPT_DESIGN_ROUND_1",
+        "scope": "Complete exact-hash design only"
+      },
+      {
+        "reviewer": "session_ui_path_trace",
+        "round": 1,
+        "verdict": "ACCEPT_DESIGN_ROUND_1",
+        "scope": "Complete exact-hash design only"
+      },
+      {
+        "reviewer": "r6_transport_readiness",
+        "round": 2,
+        "verdict": "ACCEPT_DESIGN_ROUND_2",
+        "scope": "Complete unchanged exact-hash design only"
+      },
+      {
+        "reviewer": "session_ui_path_trace",
+        "round": 2,
+        "verdict": "ACCEPT_DESIGN_ROUND_2",
+        "scope": "Complete unchanged exact-hash design only"
+      },
+      {
+        "reviewer": "r6_transport_readiness",
+        "round": 3,
+        "verdict": "ACCEPT_DESIGN_ROUND_3",
+        "scope": "Complete unchanged exact-hash design only"
+      },
+      {
+        "reviewer": "session_ui_path_trace",
+        "round": 3,
+        "verdict": "ACCEPT_DESIGN_ROUND_3",
+        "scope": "Complete unchanged exact-hash design only"
+      },
+      {
+        "reviewer": "session_ui_path_trace",
+        "round": 4,
+        "verdict": "ACCEPT_DESIGN_ROUND_4",
+        "scope": "Complete unchanged exact-hash design only; DESIGN_APPROVED"
+      },
+      {
+        "reviewer": "r6_transport_readiness",
+        "round": 4,
+        "verdict": "ACCEPT_DESIGN_ROUND_4",
+        "scope": "Complete unchanged exact-hash design only; DESIGN_APPROVED"
+      }
+    ],
+    "implementation_caveats": [
+      "xmin establishes the latest tuple writer, not cryptographic proof; native successful outcome and original locks/call order remain authority within explicit v0 limitation",
+      "Fully qualify SQL built-in types including pg_catalog.xid; pg_temp remains an adversarial test boundary",
+      "Invalid shape is rejected by SQL and production helper; persisted lookup faults must remain shape-valid with all guards intact",
+      "Proof cleanup remains live when browser routes/keys are disabled; rollback must not strand custody",
+      "Witness a real pageshow.persisted; synthetic dispatch alone is not BFCache proof",
+      "Never prohibit the legitimate standard signed WebAuthn assertion in login-finish while excluding JWT/refresh/opaque session handle from browser-visible bodies/storage"
+    ]
+  },
+  "inherited_custody": {
+    "r6_design_sha256": "be0beee7817e051b597d32758df76aabeb967258aaa21d82a29c8d71ebf11ed3",
+    "old_dirty_worktree_preserved": true,
+    "prior_acceptances_counted_as_current": false
+  },
+  "acceptance_limits": [
+    "Current frontend baseline105 tests do not prove new production sign-in/attendance path",
+    "Named real-resident missing-start-route RED admitted on exact approved test commit e033ff0; product and production-browser GREEN remain required",
+    "No product code or applied migration modified",
+    "No release, legal, physical-passkey, two-site durability or full-module acceptance"
+  ],
+  "test_approval": {
+    "status": "APPROVED_REVISED_TEST_SET",
+    "source_sha256": "e15430ba74a40b2f8138e688b7933ed7de534134c319462c384591248d6041a6",
+    "test_manifest": "browser-business-session-r7-tests.json",
+    "reviewer": "r7_browser_test_review",
+    "compiled": true,
+    "discovered_auth_rest": 118,
+    "discovered_openapi": 19,
+    "behavioral_executed": 1,
+    "behavioral_passed": 1,
+    "implementation_admitted": true,
+    "approval": {
+      "reviewer": "r7_browser_test_review",
+      "verdict": "APPROVED_TEST_SET",
+      "scope": "Exact revised test-only commit and subsequent named genuine behavioral RED; no implementation or merge approval",
+      "design_sha256": "8ef4ad7d85602c94aac05acfe0edf163b5ee3ede819d9e3cbb1e3c6d8b99b2ad",
+      "test_source_sha256": "e15430ba74a40b2f8138e688b7933ed7de534134c319462c384591248d6041a6",
+      "candidate_manifest_sha256": "67db8b9745f0b2daa7665fb25a9e776e964b58e03f36d20c4eb83e535ebcc63b",
+      "recorded_at": "2026-10-05T13:22:40.896051+00:00",
+      "execution_approval": false,
+      "merge_approval": false
+    }
+  },
+  "red_lane_admission": {
+    "head": "e033ff0f1630b3f53116a71a6c3c362bdaf25ae2",
+    "command": [
+      "bash",
+      "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/tools/lanes/pgtest.sh",
+      "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork",
+      "/Users/jasonlee/.cargo/bin/cargo",
+      "+1.98.1",
+      "test",
+      "--locked",
+      "--offline",
+      "-p",
+      "console-app",
+      "--features",
+      "frontend-e2e",
+      "--test",
+      "auth_rest",
+      "browser_sessions::browser_login_binds_original_proof_and_parallel_resolution_never_rotates",
+      "--",
+      "--exact",
+      "--test-threads=1",
+      "--nocapture"
+    ],
+    "docker_adapter_sha256": "bbc6894539e90f37863e3f27e139aa98d36db83ac1e5c71bb117060a8ac988fe",
+    "recorded_at": "2026-10-05T13:24:32.752999+00:00",
+    "duration_seconds": 10.517335708020255,
+    "process_exit_code": 101,
+    "probe_exit_code": 1,
+    "behavioral_executed": 1,
+    "missing_route_failure": true,
+    "green": false,
+    "cleanup_reported": true,
+    "infrastructure_error": false,
+    "log_sha256": "c9ef1dbcf8e35a82e80661d349bdfaed67bbdb09001df0ef3dacfbc47c3704ec",
+    "tool": "backend-fork/tools/lanes/fanout.py admit",
+    "fanout_exit_code": 0,
+    "implementation_admitted": true,
+    "source_set_sha256": "e15430ba74a40b2f8138e688b7933ed7de534134c319462c384591248d6041a6",
+    "probe_sha256": "2659ae48f3d2a2131e5fa31380983b99d5912e11fe43aeb5df09a9c5fed73adc",
+    "resource_readback": {
+      "command": [
+        "/opt/homebrew/bin/docker",
+        "--context",
+        "colima-nextjs-v1-auth",
+        "events",
+        "--since",
+        "2026-10-05T13:24:20Z",
+        "--until",
+        "2026-10-05T13:24:45Z",
+        "--filter",
+        "type=container",
+        "--filter",
+        "container=console-conformance-83422",
+        "--format",
+        "{{json .}}"
+      ],
+      "events": [
+        {
+          "action": "create",
+          "id": "bc01878ecb330214254335951f07c50e68c45d26f79ba92283027a83c2fa1f9e",
+          "time": 1791206662,
+          "name": "console-conformance-83422"
+        },
+        {
+          "action": "destroy",
+          "id": "bc01878ecb330214254335951f07c50e68c45d26f79ba92283027a83c2fa1f9e",
+          "time": 1791206672,
+          "name": "console-conformance-83422"
+        }
+      ],
+      "container_absent": true
+    }
+  },
+  "test_fixture_findings": [
+    {
+      "test_commit": "a3f1698d5ef8ef4e942cfd131a333cd58ea5c6ca",
+      "test": "browser_sessions::browser_login_binds_original_proof_and_parallel_resolution_never_rotates",
+      "finding": "Installed SoftPasskey rejects requireResidentKey=true before creating a registration proof; this run is not missing-route RED",
+      "executed": 1,
+      "failed": 1,
+      "disposition": "Replace native-only test authenticator with real Chromium resident WebAuthn; preserve required enrollment and native owners; independently reapprove revised sources",
+      "fixture_direction_reviewer": "r7_browser_test_review",
+      "fixture_direction_verdict": "APPROVED_FIXTURE_DIRECTION_ONLY"
+    }
+  ],
+  "test_approval_history": [
+    {
+      "status": "CORRECTION_REQUIRED_AFTER_EXECUTION",
+      "source_sha256": "6ee942541e07d6d316d667f31fb75eb8b30fe1cd1671455760f892b065521f36",
+      "test_manifest": "browser-business-session-r7-tests.json",
+      "reviewer": "r7_browser_test_review",
+      "compiled": true,
+      "discovered_auth_rest": 117,
+      "discovered_openapi": 19,
+      "behavioral_executed": 0,
+      "implementation_admitted": false
+    }
+  ],
+  "resident_fixture_source_review": {
+    "reviewer": "r7_browser_test_review",
+    "verdict": "ACCEPT_FIXTURE_SOURCE",
+    "rust_sha256": "9d3b7f6bd7badf4d152e832933ca8d9ca558300861a1d8ce21ff41e406e9a1b6",
+    "node_sha256": "3fed2df601a952073775f00397d692de20a2413c0387629f6ba36ded3db901fe",
+    "corrections": [
+      "Bounded drain of late replies; drop receiver before worker joins",
+      "5-second browser launch; 12-second Node cleanup; 15-second Rust cleanup",
+      "Eager one-item input prefetch observes startup EOF",
+      "Native positive prerequisite passes cookie token value, preserving actual header contract"
+    ],
+    "scope": "Source import/compile/fixture prerequisite only; no implementation or merge authority"
+  },
+  "resident_fixture_prerequisite": {
+    "compile": {
+      "head": "a3f1698d5ef8ef4e942cfd131a333cd58ea5c6ca",
+      "command": [
+        "/Users/jasonlee/.cargo/bin/cargo",
+        "+1.98.1",
+        "test",
+        "--locked",
+        "--offline",
+        "-p",
+        "console-app",
+        "--features",
+        "frontend-e2e",
+        "--test",
+        "auth_rest",
+        "--test",
+        "openapi_drift",
+        "--no-run"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 28.072303249966353,
+      "log_sha256": "974fb21a07b7652e2d77ec54d9196012025c18839c666170fef4aed9863e3478",
+      "recorded_at": "2026-10-05T13:15:06.725954+00:00"
+    },
+    "discovery": {
+      "head": "a3f1698d5ef8ef4e942cfd131a333cd58ea5c6ca",
+      "command": [
+        "/Users/jasonlee/.cargo/bin/cargo",
+        "+1.98.1",
+        "test",
+        "--locked",
+        "--offline",
+        "-p",
+        "console-app",
+        "--features",
+        "frontend-e2e",
+        "--test",
+        "auth_rest",
+        "--test",
+        "openapi_drift",
+        "--",
+        "--list"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 0.71625983400736,
+      "log_sha256": "066ee50c7111852a8e71b952a51ad4e0796b306925b4f913e9b64a1e64d41a20",
+      "recorded_at": "2026-10-05T13:15:43.462268+00:00"
+    },
+    "prerequisite": {
+      "head": "a3f1698d5ef8ef4e942cfd131a333cd58ea5c6ca",
+      "command": [
+        "bash",
+        "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/tools/lanes/pgtest.sh",
+        "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork",
+        "/Users/jasonlee/.cargo/bin/cargo",
+        "+1.98.1",
+        "test",
+        "--locked",
+        "--offline",
+        "-p",
+        "console-app",
+        "--features",
+        "frontend-e2e",
+        "--test",
+        "auth_rest",
+        "browser_sessions::resident_fixture_preserves_real_native_login_and_exact_family_logout",
+        "--",
+        "--exact",
+        "--test-threads=1",
+        "--nocapture"
+      ],
+      "docker_adapter_sha256": "bbc6894539e90f37863e3f27e139aa98d36db83ac1e5c71bb117060a8ac988fe",
+      "recorded_at": "2026-10-05T13:15:53.857097+00:00",
+      "duration_seconds": 12.30997204198502,
+      "process_exit_code": 0,
+      "probe_exit_code": 0,
+      "behavioral_executed": 1,
+      "missing_route_failure": false,
+      "green": true,
+      "cleanup_reported": true,
+      "infrastructure_error": false,
+      "log_sha256": "bc7173455b769682f4bca582b8342883610cebd950fd2ff525c01f9cd2ce1bc6"
+    },
+    "resource_readback": {
+      "command": [
+        "/opt/homebrew/bin/docker",
+        "--context",
+        "colima-nextjs-v1-auth",
+        "events",
+        "--since",
+        "2026-10-05T13:15:40Z",
+        "--until",
+        "2026-10-05T13:16:10Z",
+        "--filter",
+        "type=container",
+        "--filter",
+        "container=console-conformance-58269",
+        "--format",
+        "{{json .}}"
+      ],
+      "events": [
+        {
+          "action": "create",
+          "id": "5f5cc30fedd067ad7ad037a83ab5f6b99e5b52487f9327fc8e70e74fd82acbeb",
+          "time": 1791206141,
+          "name": "console-conformance-58269"
+        },
+        {
+          "action": "destroy",
+          "id": "5f5cc30fedd067ad7ad037a83ab5f6b99e5b52487f9327fc8e70e74fd82acbeb",
+          "time": 1791206153,
+          "name": "console-conformance-58269"
+        }
+      ],
+      "container_absent": true
+    },
+    "source_set_sha256": "e15430ba74a40b2f8138e688b7933ed7de534134c319462c384591248d6041a6",
+    "working_tree_source_bound": true,
+    "static_fixture_document_only": true,
+    "production_ui_proof": false,
+    "two_site_or_disk_durability_proof": false
+  },
+  "execution_totals": {
+    "native_executed": 4,
+    "native_passed": 1,
+    "native_failed": 3,
+    "fixture_failure": 1,
+    "preliminary_missing_route_red": 1,
+    "revised_missing_route_red": 1,
+    "crypto_executed": 0,
+    "ts_boundary_executed": 0,
+    "production_browser_scenarios_executed": 0,
+    "merge_approval": false
+  },
+  "red_lane_history": [
+    {
+      "head": "a3f1698d5ef8ef4e942cfd131a333cd58ea5c6ca",
+      "command": [
+        "bash",
+        "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/tools/lanes/pgtest.sh",
+        "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork",
+        "/Users/jasonlee/.cargo/bin/cargo",
+        "+1.98.1",
+        "test",
+        "--locked",
+        "--offline",
+        "-p",
+        "console-app",
+        "--features",
+        "frontend-e2e",
+        "--test",
+        "auth_rest",
+        "browser_sessions::browser_ingress_configuration_and_debug_never_expose_service_credentials",
+        "--",
+        "--exact",
+        "--test-threads=1",
+        "--nocapture"
+      ],
+      "docker_adapter_sha256": "bbc6894539e90f37863e3f27e139aa98d36db83ac1e5c71bb117060a8ac988fe",
+      "recorded_at": "2026-10-05T12:45:25.392085+00:00",
+      "duration_seconds": 10.157256709062494,
+      "process_exit_code": 101,
+      "probe_exit_code": 1,
+      "behavioral_executed": 1,
+      "missing_route_failure": true,
+      "green": false,
+      "cleanup_reported": true,
+      "log_sha256": "8ec0a22034317ce63d0275a4e78e884f45cd877e43c223076608c80329af089e",
+      "tool": "backend-fork/tools/lanes/fanout.py admit",
+      "fanout_exit_code": 0,
+      "implementation_admitted": false,
+      "reason": "Resident fixture correction requires renewed test approval and exact corrected test commit before implementation",
+      "container": {
+        "name": "console-conformance-26282",
+        "id": "f62fee7636dc852c5c9e9d0321d99de97af4b47cccb3a17550279a7ed6a51152",
+        "destroy_event_observed": true,
+        "absent_after_run": true
+      }
+    }
+  ],
+  "native_implementation_checkpoint": {
+    "recorded_at": "2026-10-05T14:18:20.803648+00:00",
+    "base_test_commit": "e033ff0f1630b3f53116a71a6c3c362bdaf25ae2",
+    "implementation_committed": false,
+    "source_files": {
+      "backend-fork/backend/crates/platform/auth/src/browser_session.rs": "8b77cd4d9089f70d55d4090ca5f74ede1c22089df8ce82ecafd21ed3a63c6f78",
+      "backend-fork/backend/crates/platform/auth/src/refresh.rs": "cf63b42054ad8c7c213968aa38576fea055482bdde2862653f413e1eab85f669",
+      "backend-fork/backend/crates/platform/auth-rest/src/browser.rs": "26d1937eb6e7007a0d848bd714df4125b47539092e7d091bdbbb01daa1f15f5b",
+      "backend-fork/backend/crates/platform/request-context/src/lib.rs": "9a8f78592a97947f42d5884c0e325af025a6a38b6ed9abb2e2f2ce7d974a0e1a",
+      "backend-fork/backend/app/src/hr.rs": "1436b7ee0918f4c5e7e42c1c1128570eb68118cf8ac4b08cfbbfdedfa8e3bb57",
+      "backend-fork/backend/app/src/browser_session_cleanup.rs": "b2f936ebb845867244bb53e85cc210c2d359da274d0f5c7fbda319f7d21b2085",
+      "backend-fork/backend/app/src/lib.rs": "e25d959c47286b1797d463e868bf0b16ab27725b62133d441af8a7899892e93b",
+      "backend-fork/backend/crates/platform/db/migrations/0241_browser_session_custody.sql": "8fd42a9b592ae08517a7f3f1c97f5ad18c43aa348c162c5f7e7ec01f13790b7f",
+      "backend-fork/backend/openapi/openapi.yaml": "4facb01d0e66448ee4c60e3e87598e40119e6e8cd44ab4d8729a20d9bcbd741c"
+    },
+    "reviews": [
+      {
+        "reviewer": "r7_native_owner_trace",
+        "verdict": "ACCEPT_BOUNDED_SOURCE",
+        "fixed_findings": [
+          "Pre-revoked explicit logout requires its audit",
+          "Closed retry needs parent or committed removal evidence",
+          "Audit preserves actual prior revocation reason",
+          "One Company cleanup failure cannot starve later scopes"
+        ],
+        "limitation": "Source review only; subsequent formatting and explicit oversized-proof413 guard require final candidate readback."
+      },
+      {
+        "reviewer": "r7_test_gap_map",
+        "verdict": "ACCEPT_BOUNDED_SQL_AND_API_SOURCE",
+        "sql_sha256": "8fd42a9b592ae08517a7f3f1c97f5ad18c43aa348c162c5f7e7ec01f13790b7f",
+        "openapi_sha256": "4facb01d0e66448ee4c60e3e87598e40119e6e8cd44ab4d8729a20d9bcbd741c",
+        "fixed_findings": [
+          "Discovery includes expired retained removed Companies",
+          "Supported single classification marker per column",
+          "Published security declaration matches admitted contract",
+          "413 explains both body and original-proof limits"
+        ],
+        "limitation": "No tests/services executed; no whole-R7 or merge approval."
+      }
+    ],
+    "remaining": [
+      "Real PostgreSQL same-probe GREEN",
+      "All applicable native/contract/concurrency/upgrade/cleanup tests",
+      "Next public paths/custom runtime/packaging and real production browser evidence",
+      "Full audit/exact-head independent COMMENT/protected PR queue"
+    ]
+  },
+  "supplemental_test_source_approval": {
+    "reviewer": "r7_browser_test_review",
+    "verdict": "APPROVED_SUPPLEMENTAL_TEST_SOURCE",
+    "source_files": {
+      "backend-fork/backend/app/tests/auth_rest/browser_sessions.rs": "74793e552396a0864ab6ad30047caf6f7a187f297c58b1731b6fd895a1a1a5b0",
+      "backend-fork/backend/app/tests/auth_rest/browser_logout_review.rs": "104fb71965709e39d61209bd31399ee034999d268e25a280b239515d8a79279a"
+    },
+    "ordered_two_file_manifest_sha256": "457ff5482ceea5e6e6f546c9dc3cb833b7a6d587011dc86eba5c6bc69374f66f",
+    "additional_tests": 3,
+    "executed": 0,
+    "original_browser_tests_preserved": 61,
+    "scope": "Supplemental review regressions; historical61-source approval remains separately retained."
+  },
+  "implementation_followups": [
+    {
+      "recorded_at": "2026-10-05T14:45:02.099823+00:00",
+      "reviewer": "r7_test_gap_map",
+      "verdict": "APPROVE_TEST_PREREQUISITE_CORRECTION",
+      "patch_sha256": "c1f25b9803eb3e3154d0da6401c51472c0afd1f4af121cd8e28f09dd77436b45",
+      "files": [
+        {
+          "path": "backend-fork/backend/app/tests/auth_rest/browser_sessions.rs",
+          "before_sha256": "74793e552396a0864ab6ad30047caf6f7a187f297c58b1731b6fd895a1a1a5b0",
+          "proposed_sha256": "1745dfb21cdd58bb16ba078ce83d9c4a1af4f88eb3c6182302ae8d2de757d061"
+        },
+        {
+          "path": "backend-fork/backend/app/tests/auth_rest/browser_logout_review.rs",
+          "before_sha256": "104fb71965709e39d61209bd31399ee034999d268e25a280b239515d8a79279a",
+          "proposed_sha256": "1789a80143567bf7e79023042a503fdd75047984427d2ca5050076e5325f4ce4"
+        },
+        {
+          "path": "backend-fork/tools/lanes/pgtest.sh",
+          "before_sha256": "d0bf2cd1fa76571d3c569bd0ee6e1251c7f763e0e011a1c427d9d9c52537864f",
+          "proposed_sha256": "8c4396ddf962d50ce05b4c625ed1a290e1c6608c63eaf6416e03ec782100deec"
+        }
+      ],
+      "reason": "Actual native run56 passed/8 failed. Preserve all behavior assertions; provide lawful recovery branch scope, scoped worker owner password and shape-valid fresh expiry fault. Runtime/full-R7/merge acceptance pending."
+    },
+    {
+      "recorded_at": "2026-10-05T15:04:44.991609+00:00",
+      "reviewers": [
+        "r7_next_runtime_trace",
+        "r7_next_security_review"
+      ],
+      "verdict": "BOUNDED_SOURCE_ACCEPT",
+      "source_sha256": {
+        "server.mjs": "2b8967d1b1fb311badeca4822b7831fe959ce9acbff84309e576c2719f531665",
+        "next.config.mjs": "3aebec5b91e53eae74f3e6d8e0c6468255d63c47455769acd266c5a2028f33f2",
+        "tools/production-runtime.mjs": "6dd822491a1ddc48e50855c2b2d09b563d7b5ef695a0de9bd2d301d62f16113b",
+        "src/lib/server/backend.ts": "780f6e341eb6ef8e9313c85eada48527941c437feec980bad83491ee6e64885b",
+        "src/lib/server/browser-session.ts": "5863d56192da2e13c884121bb9b26018893ff303b8d40ba6c4fc1b6d3eb45fcd",
+        "src/components/browser-session/SessionControls.tsx": "c074070a1ab90e5bbc45b7e1b5e6adff3a8f288c90daf961281249847d144992",
+        "src/app/layout.public.tsx": "c7049779098c70c199715872fb7b3d4774c4cf52e2f21bafcaa0993f817931b7",
+        "src/app/login/page.public.tsx": "668591ab41751b260bf6e9fa3b3d25241ac5f1221115bc7e60ad051d76ccbfc7",
+        "src/app/me/[context]/attendance/page.public.tsx": "07a0cab1c7970a346425e4a0415f195070af86ba7bec4aa9affd12ddcd88035f",
+        "src/styles/browser-session.css": "c659bb1f1f702b55d1b5d1329ec5cb37cd30e297a6ac8fc2db3bd4446711d14c"
+      },
+      "fixes": [
+        "accessible alerts and502 malformed-source states",
+        "native WebAuthn optional fields and parent-domain RP compatibility",
+        "post-submission cancellation remains UNKNOWN",
+        "exact native history page coverage",
+        "bounded npm TERM/KILL/reap",
+        "complete runtime inventories, source/build/public before-and-after custody"
+      ],
+      "packaging_clarification": "Locked npm ci --omit=dev --omit=optional --ignore-scripts removes Next devOptional Playwright peer. Full source install remains npm ci; required runtime tests passed. Approved plan bytes unchanged.",
+      "limits": "Read-only source approvals only. Real-service production browser, all fault/restoration gates, 16-lens audit and exact-head COMMENT/queue remain pending."
+    },
+    {
+      "recorded_at": "2026-10-05T15:36:01.360884+00:00",
+      "reviewer": "r7_native_full_review",
+      "verdict": "FULL_NATIVE_SOURCE_ACCEPT",
+      "scope": "Complete native owner/crypto/RLS/lock/removal/cleanup/API source trace; execution/exact-head gates separate",
+      "limits": "Source approval does not clear failed browser proof, actual production-owner migration, deferred emission/two-site/physical-passkey or launch gates."
+    },
+    {
+      "recorded_at": "2026-10-05T15:36:01.360884+00:00",
+      "reviewer": "session_ui_path_trace",
+      "verdict": "FULL_UI_SOURCE_ACCEPT_AFTER_FIX",
+      "source_sha256": {
+        "src/lib/server/mutation-guard.ts": "ff0d4d1a5a56de1827ff5f2a872786d3add983d2980fe6c6c580df0283cecf3b",
+        "tests/server-mutation-guard.test.ts": "d93ebe92314164574cc61e5d81369ba9a2415a5a7b1b1c727798eeaa941cf6b8"
+      },
+      "finding": "Supported canonical IPv6 loopback origin was rejected by shared mutation guard. Added exact loopback admission with neighboring-host denials. Observed focused RED1/5 then GREEN5/5.",
+      "limits": "Read-only source approval; real browser matrix remains separate."
+    },
+    {
+      "recorded_at": "2026-10-05T15:36:01.360884+00:00",
+      "reviewer": "r7_native_full_review",
+      "verdict": "SIXTEEN_LENS_SOURCE_ACCEPT_AFTER_FIX",
+      "source_sha256": {
+        "src/lib/server/browser-session.ts": "144c4081437e9976fb6d25388f537e296c70ce3aefda6eedfc140a5d98f228e7",
+        "tests/browser-session-boundary.test.ts": "614e9730ac54507a57528a3caccc5e6e3a3a4a4ce66f4fb683c1d4cf9ff7a44a"
+      },
+      "finding": "Native malformed expiry/work dates were normalized by JavaScript. Reuse installed Zod date/datetime calendar validators; retain RFC3339 precision/finite bounds. Observed focused RED1/6 then GREEN6/6.",
+      "lenses": [
+        "Cartesian doubt",
+        "Essentialism / YAGNI",
+        "Chesterton’s Fence",
+        "Contrarian / outside-the-box",
+        "Socratic",
+        "Pragmatism",
+        "Red Team",
+        "Systems Thinking",
+        "Operability / Day-2",
+        "Opportunity Cost",
+        "Blast-radius / cell-based",
+        "Constant-work / anti-fragility",
+        "Shared-nothing / eventual consistency",
+        "FinOps / unit-cost",
+        "Telemetry-first",
+        "Zero-trust / defense-in-depth"
+      ],
+      "limits": "All source lenses accepted; browser/native/fresh-install/strict checks and final exact-head/hosted merge gates remain execution inputs."
+    },
+    {
+      "recorded_at": "2026-10-05T15:36:01.360884+00:00",
+      "reviewer": "r7_native_full_review",
+      "verdict": "APPROVE_TEST_PREREQUISITE_CORRECTION",
+      "patch_sha256": "ecf54c43352a2d5c8b290d3383170f090af9bddf2da22806680cb56d6870fa07",
+      "before_sha256": "bf89784fbee13207824b96e56e0771c590de9d6c3e24259d41e33b21812f6ca2",
+      "proposed_sha256": "7a68e42599cd41de3032e5f1c729537607cc47c9a71cf5c2e0e594db7ce8c230",
+      "diagnostic": "Real fixture bearer signed freshness0/0 before fixture inserted1/1; native correctly returned401. Move identical isolated product fixture baseline before genuine issuance. Approved diagnostics print only static errors and two bounded HTTP integers.",
+      "assertions_weakened": false,
+      "nonproduct_c2_unchanged": true,
+      "current_source_sha256": {
+        "backend-fork/backend/app/tests/auth_rest/genuine_browser.rs": "7a68e42599cd41de3032e5f1c729537607cc47c9a71cf5c2e0e594db7ce8c230"
+      }
+    },
+    {
+      "recorded_at": "2026-10-05T15:41:56.624582+00:00",
+      "reviewer": "r7_native_full_review",
+      "verdict": "APPROVE_TEST_RESPONSE_OBSERVATION_CORRECTION",
+      "patch_sha256": "eff423a9416eaf33108820534313e7a08a8653b0a76f216b4941e40f8ba7f9b1",
+      "before_sha256": "09fce485fcd89af6c9d10106a0c166c8f1a43f0e80b9924e95c0c5375113b52d",
+      "current_source_sha256": "8bbf521b2c65f072c0b4159680daf19aa966ab0390261e976cc21512620179ca",
+      "reason": "Actual finish200 was followed by full-document navigation before delayed Playwright response-body lookup. Capture the real body immediately in the original response promise; preserve every assertion and immediate rejection ownership. No product delay, network interception, mock or synthesized response.",
+      "assertions_weakened": false,
+      "limits": "Required real browser rerun remains pending; no acceptance inferred from correction."
+    },
+    {
+      "recorded_at": "2026-10-05T16:00:15.425469+00:00",
+      "scope": "Real no-store finish-body observer and same-page test lifecycle; source acceptance only",
+      "patch_sha256": "755c9f1abc51373cf80f9ec49fc8cc26570e9240aaa53d7411fe9c18c40b4dad",
+      "source_sha256": {
+        "tools/test-browser-business-session.mjs": "2c29934649ae28e156438c2d48eb9223a7931f3e0cc62022102a45cceb1d6e19",
+        "tools/browser-business-temporal.mjs": "af91edc701ef46385f02ab0e840cc7b864c2e0cf731cf5fa59ced4dd8c52012d"
+      },
+      "reviewers": [
+        {
+          "reviewer": "r7_native_full_review",
+          "verdict": "ACCEPT"
+        },
+        {
+          "reviewer": "session_ui_path_trace",
+          "verdict": "ACCEPT"
+        }
+      ],
+      "disposition": "Applied exact R3; all original business/native/browser assertions retained; execution remains required. R1/R2 rejected proposals and earlier failed attempts preserved in ignored evidence. CDP observation pause is not untouched-latency proof."
+    },
+    {
+      "recorded_at": "2026-10-05T16:11:17.295834+00:00",
+      "scope": "Current-authority19-case disposable direct-role login prerequisite",
+      "patch_sha256": "60f486ec9567cdb1be72e64797791e56cbaf574a341fb19430fd552bc2cab77e",
+      "reviewer": "r7_native_full_review",
+      "verdict": "ACCEPT",
+      "formatted_source_sha256": "85a60ce909a094915287e9df61e512877c2e4a1baeb5d03aaa6a8e8af79d8b64",
+      "disposition": "Applied reviewed password/session_user change plus approved whitespace-only rustfmt; failed60-case attempt retained; required execution remains pending."
+    },
+    {
+      "recorded_at": "2026-10-05T16:16:53.407091+00:00",
+      "scope": "Real browser expiry observation separated from exact native HTTP deadline",
+      "patch_sha256": "18ea31bb434be409b07090c705689a371b11272157c9cbf0ffaac04e1b217045",
+      "source_sha256": {
+        "test-browser-business-session.mjs": "93490f27113ef5b839ae874f1468d5c6343e9965e6484a5c2a8bef604fdc8eba",
+        "browser-business-boundary.mjs": "fe74cb152cb7959f306d51dc3ccebe040de70c6ef0680245b868e579503d194e",
+        "browser-business-temporal.mjs": "cc57ff9b8b4c64431d6736ca39fbd5ba44b87effcdf63f52af7e63d369e8a703"
+      },
+      "reviewers": [
+        {
+          "reviewer": "r7_native_full_review",
+          "verdict": "ACCEPT"
+        },
+        {
+          "reviewer": "session_ui_path_trace",
+          "verdict": "ACCEPT"
+        }
+      ],
+      "disposition": "Applied exact proposal; native checkpoint unchanged; wire Expires/public deadline remains exact; raw browser expiry/skew checked separately; prior failed attempts retained. Real execution required."
+    },
+    {
+      "recorded_at": "2026-10-05T16:20:00.405955+00:00",
+      "scope": "Stored PostgreSQL family deadline under witnessed rotation lock",
+      "patch_sha256": "234bac1d3688f5dcf40659191224f89f2fdbd27d6e25768b740d5475cdc1a155",
+      "reviewer": "r7_native_full_review",
+      "verdict": "ACCEPT",
+      "formatted_source_sha256": "69ec9b67fe9d40c3d5ae77f61a62f9bbdb5a04cac9cb990dea9e311b34e9aeef",
+      "disposition": "Applied exact proposal plus approved whitespace-only rustfmt. Native owner and stale-input/lock/no-replacement assertions unchanged. Prior18/19 attempt preserved; rerun pending."
+    },
+    {
+      "recorded_at": "2026-10-05T16:37:32.323473+00:00",
+      "scope": "Out-of-range attendance caption",
+      "reviewer": "session_ui_path_trace",
+      "verdict": "ACCEPT",
+      "source_sha256": "89ed8f68a315fb73d8cfccfff8274048d385d598601253e6af02edaad9c95d65",
+      "disposition": "Accurately distinguish requested page outside existing total; true-empty/unlinked predicates and tests unchanged. Rebuild passed; complete browser execution still pending."
+    },
+    {
+      "recorded_at": "2026-10-05T16:37:32.323768+00:00",
+      "scope": "R7 CI producers",
+      "reviewer": "r7_native_full_review",
+      "verdict": "SOURCE_ACCEPT",
+      "source_sha256": "f7585aca588ac5e5bb2443dd5b1304e1083fd42a7f1b36cf81824ff84dae40cd",
+      "disposition": "Actual fork custody/tooling, pinned format and separate dev-auth lib producer added; all inherited producers retained. Hosted proof remains required."
+    },
+    {
+      "recorded_at": "2026-10-05T16:37:32.323805+00:00",
+      "scope": "Actual production console_app install/upgrade",
+      "reviewer": "r7_verification_map",
+      "verdict": "ACCEPT_BOUNDED_EVIDENCE",
+      "report_path": ".artifacts/empty-install-20261005T162813.047965Z/report.json",
+      "report_sha256": "894deb901c7d033ec19a361f34957181936f3a3c1bcf670dff47eb5aac00ad03",
+      "fresh_schema_sha256": "8778735966d36ad7d5d177931a4748b5941aa4e60df771d555141b8c46d61029",
+      "app_sha256": "b77c7711da81b81f7c2d187917e541ecab79e04ba1234a2c6f038bf52bc8d1f3",
+      "counts": {
+        "passed": 667,
+        "failed": 0,
+        "skipped": 0,
+        "unreached": 5
+      },
+      "disposition": "Verified all156command-log hashes, zero300business-table facts, exact17/241lineages and populated/repeated preservation.0241schema/table/all7function ownership/grants/FORCE_RLS proven with production console_app. Five optional inherited suffix-interruption probes remain unreached. Single-site only; actual shutdown and temp-dir erasure confirmed."
+    },
+    {
+      "recorded_at": "2026-10-05T16:44:39.930163+00:00",
+      "scope": "Real empty/unlinked/out-of-range history-state proof",
+      "patch_sha256": "ef651f13872ec188ac905cbf2421990a32bf9ae58cc17096ae06b24d5dd00c1b",
+      "reviewer": "session_ui_path_trace",
+      "verdict": "ACCEPT_SOURCE",
+      "source_sha256": "dcb599b03cf729bcd8b89ec3f8ba71a22a1198f8cb5ffbe633015dcb468c717a",
+      "disposition": "Applied exact reviewed proposal. Correct Korean unlinked phrase and reuse real checkTable visibility/count/range/cross-Company/secret/browser-storage assertions. Prior failed runtime attempts preserved. All17 scenarios still require execution."
+    },
+    {
+      "recorded_at": "2026-10-05T16:45:19.883096+00:00",
+      "scope": "Native browser ingress fallback ownership",
+      "patch_sha256": "d9e2cb7909d9a6b3621186f7e603576b7d9e55f13fc169eb0aa5b0b04a99777b",
+      "reviewer": "r7_native_full_review",
+      "verdict": "ACCEPT_SOURCE",
+      "source_sha256": {
+        "backend-fork/backend/crates/platform/auth-rest/src/browser.rs": "ead1de3d92b150bff87d53294c2200a0233ec543f493bdcae1e5ccd97f075793",
+        "backend-fork/backend/app/tests/auth_rest/browser_sessions.rs": "9a94000e983fd937071bc9d456ac93eb9d885bbcbd00ce3929906d0befda15d2"
+      },
+      "disposition": "Applied exact proposal. Router route_layer preserves unrelated404 while guarding every registered browser action. Configured/disabled unknown-route regressions added without altering existing dev_auth_absence. Original503 failure retained. Default absence, complete auth_rest/browser and strictClippy reruns pending."
+    },
+    {
+      "recorded_at": "2026-10-05T17:01:54.008314+00:00",
+      "scope": "P05 scoped browser audit metadata at native owners",
+      "patch_sha256": "ad82167953e63fd7201abdcaa9f26bcee1e81e8aa8a36c9b6821cb98afc9ea52",
+      "reviewer": "r7_native_full_review",
+      "verdict": "ACCEPT_SOURCE",
+      "source_sha256": {
+        "backend-fork/backend/crates/platform/auth-rest/src/lib.rs": "aff9194b28d2e06b2eb49a7a34a45a40462f5ed7daf45f226beca70694ca7f22",
+        "backend-fork/backend/crates/platform/auth-rest/src/browser.rs": "55108e8aed32f18372dc3256cdb5ebc6e908ef3d3e0aa75cb202984276ab4824",
+        "backend-fork/backend/crates/platform/auth/src/refresh.rs": "1baa330c765c0710f3aba4c7685ad58a8be59d99049e94f1b6239e11fe6a960f"
+      },
+      "disposition": "Applied exact proposal; real header witness passed but durable audit fields failed in retry08/phase09. Shared rest decorator, required browser scope and compatible kernel-only logout variant preserve atomic audit/owner effects and legacy behavior. Shared19-column DB writer replaces raw duplicate. Existing P05 assertions untouched. Complete affected runtime/Clippy proof pending."
+    },
+    {
+      "recorded_at": "2026-10-05T17:01:54.008486+00:00",
+      "scope": "P05 scoped browser audit metadata at native owners",
+      "patch_sha256": "ad82167953e63fd7201abdcaa9f26bcee1e81e8aa8a36c9b6821cb98afc9ea52",
+      "reviewer": "session_ui_path_trace",
+      "verdict": "ACCEPT_SOURCE",
+      "source_sha256": {
+        "backend-fork/backend/crates/platform/auth-rest/src/lib.rs": "aff9194b28d2e06b2eb49a7a34a45a40462f5ed7daf45f226beca70694ca7f22",
+        "backend-fork/backend/crates/platform/auth-rest/src/browser.rs": "55108e8aed32f18372dc3256cdb5ebc6e908ef3d3e0aa75cb202984276ab4824",
+        "backend-fork/backend/crates/platform/auth/src/refresh.rs": "1baa330c765c0710f3aba4c7685ad58a8be59d99049e94f1b6239e11fe6a960f"
+      },
+      "disposition": "Applied exact proposal; real header witness passed but durable audit fields failed in retry08/phase09. Shared rest decorator, required browser scope and compatible kernel-only logout variant preserve atomic audit/owner effects and legacy behavior. Shared19-column DB writer replaces raw duplicate. Existing P05 assertions untouched. Complete affected runtime/Clippy proof pending."
+    },
+    {
+      "recorded_at": "2026-10-05T17:17:37.762680+00:00",
+      "scope": "pending-response-gates",
+      "patch_sha256": "92d470afedbf1fb222b7e692bb31da1a4d2ef054889bd5005e63cdcecf4acea8",
+      "reviewer": "session_ui_path_trace",
+      "verdict": "ACCEPT_SOURCE",
+      "source_sha256": {
+        "tools/browser-business-boundary.mjs": "7e9a53cee7c46fb223c5915923b4aaebf3a202e91943cbde22183de4ad32e0e9"
+      },
+      "disposition": "Applied exact independently accepted proposal. All native/business assertions retained; fresh execution required; prior failures preserved."
+    },
+    {
+      "recorded_at": "2026-10-05T17:17:37.765524+00:00",
+      "scope": "fixed-byte-chunks",
+      "patch_sha256": "d7bf0c30edb58881ec4faca9cd23b6cb8091218e0331d3423c094fe373c784e8",
+      "reviewer": "r7_native_full_review",
+      "verdict": "ACCEPT_SOURCE",
+      "source_sha256": {
+        "backend-fork/backend/crates/platform/auth/src/browser_session.rs": "8b7c37d4c857a8ba08d20e0375891c9a0e821cf99f946791112e7a9b211ffc1d",
+        "backend-fork/backend/crates/platform/auth/src/browser_session/tests.rs": "9781d079b783c30876b7e9da9f657e84d16c2e27bc5e879d663d1f1e8e24f3c7"
+      },
+      "disposition": "Applied exact independently accepted proposal. All native/business assertions retained; fresh execution required; prior failures preserved."
+    },
+    {
+      "recorded_at": "2026-10-05T17:21:38.592146+00:00",
+      "scope": "Storefront production-runtime consumers acquisition and independent cleanup",
+      "patch_sha256": "656a19133e8e55f610a9db1cc2d465ec3ca50ac39c864ab29cdca07d7a7fff05",
+      "reviewer": "r7_verification_map",
+      "verdict": "ACCEPT_SOURCE_PROPOSAL",
+      "source_sha256": {
+        "tools/test-storefront-form.mjs": "867a6306f34c77cbe784f717259fbca651a87b0c7e00d7dd340cfe926d276e9e",
+        "tools/test-storefront-real-service.mjs": "ed44f3faeef115c6a0232e9e7c43a99a6b8cbba6fd41b08d28619385ab829f02"
+      },
+      "disposition": "Applied exact approved proposal. Same assertions/checkpoints retained. Actual staging-failure cleanup and original journeys need execution; concurrent primary/teardown failure can replace primary diagnostic, inherited fail-closed semantics preserved."
+    },
+    {
+      "recorded_at": "2026-10-05T17:29:56.135234+00:00",
+      "scope": "forwarded-option-lint",
+      "patch_sha256": "4ab4d8dd8f595bed94c4d6e07592499ba626532a229e3d6ff07cfa7f696478fb",
+      "reviewer": "r7_native_full_review",
+      "verdict": "ACCEPT_SOURCE_AND_TEST_PROPOSAL",
+      "source_sha256": {
+        "backend-fork/backend/crates/platform/request-context/src/lib.rs": "761743fff2a0ff749175e1710d22a7819d6dd6f914d6c79d6840255bdb509c71"
+      },
+      "disposition": "Applied exact independently accepted proposal. Earlier assertions preserved. Real runtime proof required; prior failures retained."
+    },
+    {
+      "recorded_at": "2026-10-05T17:29:56.138063+00:00",
+      "scope": "validation-focus-fix",
+      "patch_sha256": "ca1f5df8f591b8c4a795806e9c9a854958d3461c8b378981d78eb18097816002",
+      "reviewer": "session_ui_path_trace",
+      "verdict": "ACCEPT_SOURCE_AND_TEST_PROPOSAL",
+      "source_sha256": {
+        "src/app/me/[context]/attendance/page.public.tsx": "aa7490ae041b69096e4a26f6bd5dcbebed9c170c3b2c49d9e27a708cfdf8a7c9",
+        "src/styles/browser-session.css": "aa39fc2594ec5ed2b469cec74a81005c58fe01318be5794576b8aa1b5679d130",
+        "tools/browser-business-boundary.mjs": "2eed1559afaa98fea300d8c044c84b5386dc66b266f390d07768d96932d989ef",
+        "tools/browser-business-temporal.mjs": "b4868183ff29c88c216d6728e04edbc6e308dd7f385438c9a6b43c33bb755876"
+      },
+      "disposition": "Applied exact independently accepted proposal. Earlier assertions preserved. Real runtime proof required; prior failures retained."
+    },
+    {
+      "recorded_at": "2026-10-05T17:29:56.138671+00:00",
+      "scope": "consumer-cleanup-regression",
+      "patch_sha256": "3e34badd18b8e6a6bfad3ccfb6208109c30c01bf524cd02ea49983fdf7d3f297",
+      "reviewer": "r7_verification_map",
+      "verdict": "ACCEPT_SOURCE_AND_TEST_PROPOSAL",
+      "source_sha256": {
+        "tools/test-production-runtime.test.mjs": "66ac7652b4079353b9344da6bfdfc8e3afa69c0f58c16cae62ca0c47cb74f75d"
+      },
+      "disposition": "Applied exact independently accepted proposal. Earlier assertions preserved. Real runtime proof required; prior failures retained."
+    },
+    {
+      "recorded_at": "2026-10-05T17:35:16.523748+00:00",
+      "scope": "R7 implementation checkpoint after independent cleanup/UX fixes",
+      "verdict": "PARTIAL_RUNTIME_PROOF",
+      "counts": {
+        "runtime_packaging_and_cleanup": {
+          "passed": 3,
+          "failed": 0,
+          "skipped": 0
+        },
+        "vitest": {
+          "passed": 112,
+          "failed": 0,
+          "skipped": 0
+        },
+        "python_tooling": {
+          "passed": 18,
+          "failed": 0
+        },
+        "product_browser_retry10": {
+          "discovered": 17,
+          "executed": 7,
+          "passed": 6,
+          "failed": 1,
+          "skipped": 0,
+          "unreached": 10
+        }
+      },
+      "commands": [
+        "runtime-final04",
+        "frontend-final04-unit",
+        "tools-final04",
+        "frontend-final04-lint",
+        "frontend-final04-build",
+        "rust-format-final04",
+        "fork-custody-final06",
+        "storefront-fixture-final04",
+        "product-browser-retry10"
+      ],
+      "disposition": "Applied approved fixed-array/Option syntax, test-gate cleanup, runtime-consumer cleanup and distinct validation/high-contrast focus changes. Original assertions retained. Retry10 passed P01 and P03–P07; P02 temporal remainder failed. Corrected-source phase10 diagnostics active. Strict-final04 failed request-context Option lint before accepted correction; prior failures including mode-encoding custody-final05 remain preserved. Runtime cleanup proves empty owned temporary storage after actual custody rejection; natural process exit alone does not prove explicit API socket closure. Full native121, final canonical17, strict-current and install/upgrade remain required. No commit/PR/queue or launch acceptance."
+    },
+    {
+      "recorded_at": "2026-10-05T17:40:38.129119+00:00",
+      "scope": "Separate validated-route access failure from pagination recovery",
+      "patch_sha256": "9304041a3919b759a07e55786a68d5787c317c461e3eceb943f8d58c0bfbb70f",
+      "reviewer": "r7_verification_map",
+      "verdict": "ACCEPT_SOURCE_AND_TEST_PROPOSAL",
+      "source_sha256": {
+        "src/app/me/[context]/attendance/page.public.tsx": "9ad069b05eecd88df21135ddebfd8ab46c0f56349e13341299ece4c370a5f6f9",
+        "tools/browser-business-boundary.mjs": "fc52a1835a609d7e4a35a99ceac54ceaf8718b1f759a69028b5b893f4749b38f"
+      },
+      "disposition": "Applied exact approved correction; malformed cookie/native failures retain access/unavailable recovery. Existing cookie secrecy/effect tests strengthened. Real browser rerun required."
+    },
+    {
+      "recorded_at": "2026-10-05T17:41:27.420126+00:00",
+      "scope": "Immediate high-contrast keyboard focus",
+      "patch_sha256": "2a39834a35cfb244999f5d8c0041128325298dc0f521f6f2f3f3db7decc6e28e",
+      "reviewer": "session_ui_path_trace",
+      "verdict": "ACCEPT_SOURCE",
+      "source_sha256": {
+        "src/styles/browser-session.css": "ca0fe5bd45cc16f99da078186725e6f5abdbf0918afc1807b1c9861e126e8519"
+      },
+      "diagnostic_log_sha256": "2c0bb2c90cb26bf1bd17acd45f9942702d9b5f60ef60207243a2f41d58c870c3",
+      "disposition": "Applied exact reviewed CSS. Actual frames established white initial outline caused by inherited outline-color transition. Scoped text/background/border transitions retained; immediate focus assertions unchanged. Fresh production rebuild and actual full browser proof required."
+    },
+    {
+      "recorded_at": "2026-10-05T17:52:35.081696+00:00",
+      "scope": "Real browser204 no-content response observation",
+      "patch_sha256": "2a640c76d3f5b4f5bd2e6b55d76f6763ff889ef6d2aad8879b7ff396f8cc81c9",
+      "supersedes_rejected_proposal": "3ebc7850339b648d2c212978c9259700b9df6d82044b9e75861e950700ac21b2",
+      "reviewers": [
+        {
+          "reviewer": "r7_native_full_review",
+          "verdict": "ACCEPT_SOURCE"
+        },
+        {
+          "reviewer": "session_ui_path_trace",
+          "verdict": "ACCEPT_TEST_SOURCE_PROPOSAL"
+        }
+      ],
+      "source_sha256": {
+        "tools/test-browser-business-session.mjs": "1ee9c4272d655b3c62d16d5cba36d100c7dfbfba5ba416da414489367ff11920",
+        "tools/browser-business-temporal.mjs": "97b5770a6558bb2e8dac052b546fa1d13fe38c753b364bb86e4dc07b1b185592"
+      },
+      "disposition": "Applied exact R2. R1 allowed Content-Length0 contrary to HTTP204; rejected and never applied. Actual status/completion/strict no-content framing replace impossible late Chromium body-handle query at both browser callers. Exact native closure/cookie/identity/no-private-denial and direct/native byte checks retained. Phase11 established late body-query failure, not cancellation failure. Full corrected runtime required."
+    },
+    {
+      "recorded_at": "2026-10-05T18:13:57.721751+00:00",
+      "scope": "Native owner error surface",
+      "patch_sha256": "806f09d26e7dd16b25834b7f2a37ab12e08226c2e33c13c6e0afd817c353eb28",
+      "reviewer": "r7_native_full_review",
+      "verdict": "ACCEPT_SOURCE",
+      "source_sha256": {
+        "backend-fork/backend/crates/platform/auth-rest/src/browser.rs": "f8de79c2fa2cc73b1c12133a34a31b81855d90b5c0538295e275f69c83137a03"
+      },
+      "disposition": "Applied exact approved source. Preserve private RestError through public impl IntoResponse until same wire conversion at HR caller. strict-final06 reached the additional actual HR Response-size lint; this record does not claim strict acceptance."
+    },
+    {
+      "recorded_at": "2026-10-05T18:13:57.721751+00:00",
+      "scope": "HR handler response surface",
+      "patch_sha256": "44abb8ac2a05f78efad316de3a7f77c08e9ff05ddceacb37479588857279d567",
+      "reviewer": "r7_native_full_review",
+      "verdict": "ACCEPT_SOURCE",
+      "source_sha256": {
+        "backend-fork/backend/app/src/hr.rs": "5f69f92b747222d4b660eab7b05a6b8bafb5f88c0c7a3a903c52af0cd92aa412"
+      },
+      "disposition": "Applied exact approved handler after-image; same validation/auth/snapshot/expiry/success responses and effects. rust-format-final05 requires only formatter newline before .into_response; strict-final07 and diagnostic phase14 running. Runtime/strict/custody rebind pending."
+    },
+    {
+      "recorded_at": "2026-10-05T18:13:57.721751+00:00",
+      "scope": "Logout diagnostic observations before R3 application",
+      "commands": [
+        "product-browser-phase12",
+        "product-browser-phase13"
+      ],
+      "disposition": "Both failed and are diagnostics only. Phase12 finished() waited until native frame deadline; no cancellation conclusion. Phase13 accidentally referenced signIn-local bounded helper and failed ReferenceError after actual204; later ERR_ABORTED was observed during failure cleanup, so it does not prove product-navigation cancellation. Corrected phase14 uses an owned five-second deadline and observes actual login navigation separately. Preserve all logs and diagnostic source generations. R3 is independently source-approved but not applied; final17/121 remain required."
+    },
+    {
+      "recorded_at": "2026-10-05T18:24:11.969939+00:00",
+      "scope": "Real browser204 receipt and product navigation observation R3",
+      "patch_sha256": "d432f8135acfaf3fbcc669534d8fd811a4dfc7f3c2726a1dbe623964427c94dc",
+      "reviewers": [
+        {
+          "reviewer": "r7_native_full_review",
+          "verdict": "ACCEPT_SOURCE"
+        },
+        {
+          "reviewer": "session_ui_path_trace",
+          "verdict": "ACCEPT_SOURCE"
+        }
+      ],
+      "source_sha256": {
+        "tools/test-browser-business-session.mjs": "72106849957c6d89283395cc6c7dd212eae2812eae9147e1fcd60ac1809c0cef",
+        "tools/browser-business-temporal.mjs": "06ae56ace259ea5d16dc26190014ea799caa7672156dace80918e4eba7dd557b"
+      },
+      "diagnostic": {
+        "command": "product-browser-phase14",
+        "log_sha256": "3c76273eb0c9499c6683d6bfcfcb30cf1f01ff7108b53eb278ee3cbcb701a0da",
+        "status": "failed_diagnostic",
+        "observation": "Actual204 → requestfailed ERR_ABORTED → actualproduct/login navigation → ownedfive-second finished observation deadline, all before failure cleanup."
+      },
+      "disposition": "Applied exact independently reviewed R3. HTTP204 receipt ends at headers; actual strict absent framing plus pre-owned context/origin/POST response and actual product navigation/heading replace non-settling Playwright finish wait. Direct/native emptybyte evidence, exact nativeclosed/cookie/preservation/private-read denial assertions remain. product-browser-retry11 running; final17/121 acceptance pending."
+    },
+    {
+      "recorded_at": "2026-10-05T18:24:11.969939+00:00",
+      "scope": "Strict native test lint discovery",
+      "command": "strict-final07-app",
+      "log_sha256": "40e8366f0061039dcbd5cb71734a3ed153a6a7a4966d7b39c861a70a15950992",
+      "disposition": "Production owner/app now passes result-large-err checking; actual test compilation exposes7lintfailures: optionalPIDnestedcondition, two distinct wide rowtypes and four repeated-resource argument lists. Other four strict07producers passed. Exact test-only proposal ee3eaf17 independently source accepted; not yet applied while canonical browser run owns source snapshot. No waiver/test deletion; strict source and full affected runtime rebind remain required."
+    },
+    {
+      "recorded_at": "2026-10-05T18:43:13.627542+00:00",
+      "scope": "Native test lint ownership",
+      "patch_sha256": "ee3eaf1742026f7d1906dd7668d3c5bd0c0e570fab1cd645a1d059877c750e52",
+      "reviewers": [
+        {
+          "reviewer": "r7_native_full_review",
+          "verdict": "ACCEPT_SOURCE"
+        },
+        {
+          "reviewer": "session_ui_path_trace",
+          "verdict": "ACCEPT_SOURCE"
+        }
+      ],
+      "source_sha256": {
+        "backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs": "b61d8994aea4754e8299c1729d04a7c3982cd93e3eed16c991acc67267c5eb22",
+        "backend-fork/backend/app/tests/auth_rest/browser_sessions.rs": "aff44dd5c3d5d0ede460f86fc098ecfc734b154c92fba457ff10c68ee598a8a0",
+        "backend-fork/backend/app/tests/auth_rest/genuine_browser.rs": "eaa0a1a32a14b3c724939bcd65fdd453a2da663f382bd7926123c0e823573366"
+      },
+      "disposition": "Applied exact reviewed test-only context/enrollment/tuple aliases/PIDletchain. Every effect, assertion, distinct row codec and original resource retained. strict-final08-app, rust-format-final07 and fork-custody-final07 passed; exact162app/HR tests rediscovered. Complete native runtime still required."
+    },
+    {
+      "recorded_at": "2026-10-05T18:43:13.627542+00:00",
+      "scope": "Owned product alert and terminal cancellation observation",
+      "patch_sha256": "9bf13c1ff06103ff8dac40e56763d4ce576d73ef8c29aa0c0edb868aab898ede",
+      "reviewers": [
+        {
+          "reviewer": "r7_native_full_review",
+          "verdict": "ACCEPT_SOURCE"
+        },
+        {
+          "reviewer": "session_ui_path_trace",
+          "verdict": "ACCEPT_SOURCE"
+        }
+      ],
+      "source_sha256": {
+        "tools/test-browser-business-session.mjs": "51edc164c7a03fe543a8a78e9f4f8d212f3176e2a014a47b60aafd4fd8d532a5",
+        "tools/browser-business-temporal.mjs": "d0a5de44a09b9c5256958b499eefb60212552009a1e89054fe3169615749a155"
+      },
+      "disposition": "Applied exact reviewed main-scoped alert and outer listener ownership correction. Phase16 proved actual productPalert inside main plus shadowNextDIValert outside main and strict-mode violation; no product cancellation failure established. Exact terminalcancelcopy/cancelabsence, singlevisible nonemptyfailure/secrecy/no-success assertions strengthened. product-browser-retry12 running; full17/121 gates pending."
+    },
+    {
+      "recorded_at": "2026-10-05T18:43:13.627542+00:00",
+      "scope": "Current additional auth owner proofs",
+      "commands": [
+        "native-final03-owner-libs",
+        "native-final03-authrest-default",
+        "native-final03-authrest-dev"
+      ],
+      "counts": {
+        "owner_libs": {
+          "passed": 27,
+          "failed": 0,
+          "skipped": 0
+        },
+        "default_additional_tests": {
+          "passed": 2,
+          "failed": 0,
+          "skipped": 0
+        },
+        "dev_auth_feature": {
+          "passed": 14,
+          "failed": 0,
+          "skipped": 0
+        }
+      },
+      "disposition": "All three genuine PostgreSQL invocations passed with inputsunchanged and confirmedcleanup. Default auth-rest8 is its6lib tests within27 plus2additional tests; do not add8to27. These are test executions for selected feature/configurations, not an assertion of43unique business requirements or broad acceptance."
+    },
+    {
+      "recorded_at": "2026-10-05T19:16:20.456712+00:00",
+      "scope": "Completed inherited gates and independently reviewed observation corrections",
+      "evidence": [
+        {
+          "id": "sales-real-service-final03",
+          "command": [
+            "bash",
+            "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/tools/lanes/pgtest.sh",
+            "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork",
+            "/Users/jasonlee/.cargo/bin/cargo",
+            "+1.98.1",
+            "test",
+            "--locked",
+            "--offline",
+            "--no-fail-fast",
+            "--features",
+            "frontend-e2e",
+            "-p",
+            "console-sales-rest",
+            "--test",
+            "public_inquiry",
+            "--test",
+            "real_browser_inquiry",
+            "--",
+            "--test-threads=1",
+            "--nocapture"
+          ],
+          "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+          "exit_code": 0,
+          "duration_seconds": 613.2650110000977,
+          "log_sha256": "e222ef4a14e2ca3fa2eca63f5050759c7a4b377c519d65f02bc8bf0285e2582c",
+          "inputs_sha256": "eb684e0b234a10a093ecf8a5f270f3dd292b570857f6cf43fbc061c4be7b426a",
+          "inputs_unchanged": true
+        },
+        {
+          "id": "production-install-final03",
+          "command": [
+            "python3",
+            "tools/check-empty-install.py",
+            "--postgres-bin",
+            "/opt/homebrew/Cellar/postgresql@18/18.6/bin",
+            "--app",
+            "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/production-app/290257092df5cac4cbb7a31cb06db36cf0def5be78464b43582a36f88e3da8ea/console-app",
+            "--legacy-app",
+            "/Users/jasonlee/Developer/frontend/.artifacts/legacy-console-app",
+            "--baseline-app",
+            "/Users/jasonlee/Developer/frontend/.artifacts/baseline-installers/bc91c46ff6a7eb3c0f6b57ed75f87334f397210a7901ac64e337c6eb85ef10bd/console-app"
+          ],
+          "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+          "exit_code": 0,
+          "duration_seconds": 57.656181791913696,
+          "log_sha256": "0138324f9336fba1801c543e807be34df4bdfd6516b3405f8d1123dcacfaf5ba",
+          "inputs_sha256": "eb684e0b234a10a093ecf8a5f270f3dd292b570857f6cf43fbc061c4be7b426a",
+          "inputs_unchanged": true
+        },
+        {
+          "id": "production-routes-final06",
+          "command": [
+            "npm",
+            "run",
+            "test:production-routes"
+          ],
+          "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+          "exit_code": 0,
+          "duration_seconds": 11.963167916052043,
+          "log_sha256": "512901c3a5e50a2917b8d01feb4f8538f69890debfe194f13904f75b1b739000",
+          "inputs_sha256": "eb684e0b234a10a093ecf8a5f270f3dd292b570857f6cf43fbc061c4be7b426a",
+          "inputs_unchanged": true
+        },
+        {
+          "id": "product-browser-retry12",
+          "command": [
+            "bash",
+            "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/tools/lanes/pgtest.sh",
+            "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork",
+            "/Users/jasonlee/.cargo/bin/cargo",
+            "+1.98.1",
+            "test",
+            "--locked",
+            "--offline",
+            "--no-fail-fast",
+            "-p",
+            "console-app",
+            "--features",
+            "frontend-e2e",
+            "--test",
+            "auth_rest",
+            "genuine_browser::genuine_production_browser_proposal_requires_all_seventeen_scenarios",
+            "--",
+            "--exact",
+            "--test-threads=1",
+            "--nocapture"
+          ],
+          "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+          "exit_code": 101,
+          "duration_seconds": 907.1038097080309,
+          "log_sha256": "38f9d072d14eff7f36a8a1b1cb18adbead8e89383b273e3b0bf989e5abe0e453",
+          "inputs_sha256": "eb684e0b234a10a093ecf8a5f270f3dd292b570857f6cf43fbc061c4be7b426a",
+          "inputs_unchanged": true
+        },
+        {
+          "id": "product-browser-phase17",
+          "command": [
+            "bash",
+            "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/tools/lanes/pgtest.sh",
+            "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork",
+            "/Users/jasonlee/.cargo/bin/cargo",
+            "+1.98.1",
+            "test",
+            "--locked",
+            "--offline",
+            "--no-fail-fast",
+            "-p",
+            "console-app",
+            "--features",
+            "frontend-e2e",
+            "--test",
+            "auth_rest",
+            "genuine_browser::genuine_production_browser_proposal_requires_all_seventeen_scenarios",
+            "--",
+            "--exact",
+            "--test-threads=1",
+            "--nocapture"
+          ],
+          "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+          "exit_code": 101,
+          "duration_seconds": 566.6961018340662,
+          "log_sha256": "55b345e3b86ac51296a77cae7fcd354841a2aa583ec6eb8d79555938c3193d9e",
+          "inputs_sha256": "eb684e0b234a10a093ecf8a5f270f3dd292b570857f6cf43fbc061c4be7b426a",
+          "inputs_unchanged": true
+        },
+        {
+          "id": "timestamp-width-red",
+          "command": [
+            "npm",
+            "test",
+            "--",
+            "tests/browser-session-boundary.test.ts"
+          ],
+          "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+          "exit_code": 1,
+          "duration_seconds": 0.6568400000687689,
+          "log_sha256": "aeba5aeef6e924b00e1b26a50ed9f78d50d794e43dafbff73cf7703b5f4d6ea6",
+          "inputs_sha256": "eb684e0b234a10a093ecf8a5f270f3dd292b570857f6cf43fbc061c4be7b426a",
+          "inputs_unchanged": true
+        },
+        {
+          "id": "timestamp-width-green",
+          "command": [
+            "npm",
+            "test",
+            "--",
+            "tests/browser-session-boundary.test.ts"
+          ],
+          "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+          "exit_code": 0,
+          "duration_seconds": 1.0676583329914138,
+          "log_sha256": "53b31b2c20ced0d4891b2264a80979ec6e06cfa4d756fe18f03f7001b7c82316",
+          "inputs_sha256": "3fa92568931692f0f1a40a57f7b01948a56b8ec55b2cab4c664991e3a7144797",
+          "inputs_unchanged": true
+        },
+        {
+          "id": "frontend-unit-final05",
+          "command": [
+            "npm",
+            "test"
+          ],
+          "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+          "exit_code": 0,
+          "duration_seconds": 0.9742280419450253,
+          "log_sha256": "13be58e09a1af94a97a3335ad1e2ddb34a44ea96794386968cb75140f44c4788",
+          "inputs_sha256": "e57f2c46a68ab8f55e9070368578c1360fd9c7c5060d55e65de9ba6715281b3d",
+          "inputs_unchanged": true
+        },
+        {
+          "id": "frontend-lint-final05",
+          "command": [
+            "npm",
+            "run",
+            "lint"
+          ],
+          "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+          "exit_code": 0,
+          "duration_seconds": 1.8606224169488996,
+          "log_sha256": "3e98dcbd24835eb29288dab5790e519db6a485457e666a6774fdbce08459740e",
+          "inputs_sha256": "e57f2c46a68ab8f55e9070368578c1360fd9c7c5060d55e65de9ba6715281b3d",
+          "inputs_unchanged": true
+        },
+        {
+          "id": "frontend-build-final05",
+          "command": [
+            "npm",
+            "run",
+            "build"
+          ],
+          "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+          "exit_code": 0,
+          "duration_seconds": 11.736133042024449,
+          "log_sha256": "9ca40c94fd59b76f7d835d9456483ea2284a89797a0a2139a1a3e9b8037d5083",
+          "inputs_sha256": "5326c5e352b5676150c47b4c647e5cb2423173f259c65611b0eedef6df39503a",
+          "inputs_unchanged": false
+        }
+      ],
+      "accurate_counts": {
+        "sales": {
+          "passed": 5,
+          "failed": 0,
+          "skipped": 0
+        },
+        "install": {
+          "passed": 667,
+          "failed": 0,
+          "optional_unreached": 5,
+          "empty_business_auth_tables": 300,
+          "enumerated_ordinary_tables": 307
+        },
+        "routes": {
+          "console_routes_404": 17
+        },
+        "canonical_retry12": {
+          "native_passed": 0,
+          "native_failed": 1,
+          "filtered": 120,
+          "child_report_returned": false
+        },
+        "diagnostic_phase17": {
+          "native_passed": 0,
+          "native_failed": 1,
+          "filtered": 120,
+          "child_report_returned": false,
+          "acceptance": false
+        },
+        "timestamp_regression_red": {
+          "passed": 5,
+          "failed": 1
+        },
+        "timestamp_regression_green": {
+          "passed": 6,
+          "failed": 0
+        },
+        "frontend_unit": {
+          "passed": 112,
+          "failed": 0,
+          "skipped": 0
+        }
+      },
+      "installer_custody": {
+        "report_sha256": "c2075fc90511e307e05d9837c64c259aab551008f64bdcb1c15cabf49f2237e7",
+        "verified_command_log_hashes": 156,
+        "business_table_list_sha256": "056343d3ed520bc5fcd2936afbd6d8d44d6a68e22f8eeb736905d3ab90db98fa",
+        "postgres_shutdown_log_sha256": "9fe07e4d58958c575a6032ef0a85d712c7628adb4ce020f8099b3b5a0859423c",
+        "independent_cleanup": "evidence reviewer read-back: postmaster59795 absent and owned temp directory absent; recorded shutdown confirmed"
+      },
+      "disposition": "Retry12 yielded no child report. Diagnostic17 identifies P13 late failureResponse.text after Document navigation; marker outcomes are diagnostic, not acceptance totals. Preserve both failures. Three exact source/test corrections independently approved and applied; source/runtime readback pending. Build changes only expected .next/build-inputs.json; internal production builder independently enforces source stability. Full canonical17 and unfiltered121+41 remain required."
+    },
+    {
+      "recorded_at": "2026-10-05T19:16:20.456712+00:00",
+      "scope": "timestamp-width-proposal",
+      "patch_sha256": "2ff681d22a630e9bc188ce60b3596bb5d5ad73c4e8925502f8c36fd11d7c6ee6",
+      "reviewers": [
+        {
+          "reviewer": "r7_wait_trace",
+          "verdict": "ACCEPT_SOURCE_AND_TEST_PROPOSAL"
+        },
+        {
+          "reviewer": "r7_source_review",
+          "verdict": "ACCEPT_SOURCE_AND_TEST_PROPOSAL"
+        }
+      ],
+      "source_sha256": {
+        "src/lib/server/browser-session.ts": "c890caf4d9904175cce5611919de992fe289fc5db22829f2bcf08999b4a1dfe6",
+        "tests/browser-session-boundary.test.ts": "d78d82e773854a24002a53bc5666009163a893e9ae319d2c48301a85fb4e6c77"
+      },
+      "disposition": "Exact approved proposal applied; no native owner, validation, assertion or timeout weakened. Runtime acceptance remains pending."
+    },
+    {
+      "recorded_at": "2026-10-05T19:16:20.456712+00:00",
+      "scope": "logout-failure-body-order-proposal",
+      "patch_sha256": "17ed26803e5e59fa0f8cd7fe1dc59b5d6943e5a118a1e84fb0916353de12d4c3",
+      "reviewers": [
+        {
+          "reviewer": "r7_wait_trace",
+          "verdict": "ACCEPT_SOURCE_AND_TEST_PROPOSAL"
+        },
+        {
+          "reviewer": "r7_source_review",
+          "verdict": "ACCEPT_SOURCE_AND_TEST_PROPOSAL"
+        }
+      ],
+      "source_sha256": {
+        "tools/browser-business-temporal.mjs": "6bdbdc57bbff6733d23791f30ae68f03ff382006e95215100a1fc0d91d713564"
+      },
+      "disposition": "Exact approved proposal applied; no native owner, validation, assertion or timeout weakened. Runtime acceptance remains pending."
+    },
+    {
+      "recorded_at": "2026-10-05T19:16:20.456712+00:00",
+      "scope": "restore204-observer-proposal",
+      "patch_sha256": "360ce6179a63808b39576cc04c0a1fed8f55ad162a1526c5391730a00aa5ebcd",
+      "reviewers": [
+        {
+          "reviewer": "r7_wait_trace",
+          "verdict": "ACCEPT_SOURCE_AND_TEST_PROPOSAL"
+        },
+        {
+          "reviewer": "r7_source_review",
+          "verdict": "ACCEPT_SOURCE_AND_TEST_PROPOSAL"
+        }
+      ],
+      "source_sha256": {
+        "tools/browser-business-restore.mjs": "663edc84970e42d80be714804110536ab5bbaa41c00a21f2e1adb34c5df1a435"
+      },
+      "disposition": "Exact approved proposal applied; no native owner, validation, assertion or timeout weakened. Runtime acceptance remains pending."
+    },
+    {
+      "recorded_at": "2026-10-05T19:49:06.515834+00:00",
+      "scope": "R7 P13 response completion and final-source checkpoint",
+      "gates": [
+        {
+          "id": "product-browser-retry13",
+          "command": [
+            "bash",
+            "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/tools/lanes/pgtest.sh",
+            "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork",
+            "/Users/jasonlee/.cargo/bin/cargo",
+            "+1.98.1",
+            "test",
+            "--locked",
+            "--offline",
+            "--no-fail-fast",
+            "-p",
+            "console-app",
+            "--features",
+            "frontend-e2e",
+            "--test",
+            "auth_rest",
+            "genuine_browser::genuine_production_browser_proposal_requires_all_seventeen_scenarios",
+            "--",
+            "--exact",
+            "--test-threads=1",
+            "--nocapture"
+          ],
+          "exit_code": 101,
+          "counts": {
+            "passed": 0,
+            "failed": 1,
+            "skipped": 0,
+            "filtered": 120,
+            "executed": 1
+          },
+          "log_sha256": "560dbe8b7e3032d9c7c885ee601a03fa986d288408ee32f963558d2ae7a862b8",
+          "inputs_sha256": "1b16f688d52bb2528069eea192b434b3857d69da307d85d48b9a155fd8bef55e",
+          "inputs_unchanged": true,
+          "cleanup_reported": true
+        },
+        {
+          "id": "product-browser-phase18",
+          "command": [
+            "bash",
+            "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/tools/lanes/pgtest.sh",
+            "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork",
+            "/Users/jasonlee/.cargo/bin/cargo",
+            "+1.98.1",
+            "test",
+            "--locked",
+            "--offline",
+            "--no-fail-fast",
+            "-p",
+            "console-app",
+            "--features",
+            "frontend-e2e",
+            "--test",
+            "auth_rest",
+            "genuine_browser::genuine_production_browser_proposal_requires_all_seventeen_scenarios",
+            "--",
+            "--exact",
+            "--test-threads=1",
+            "--nocapture"
+          ],
+          "exit_code": 101,
+          "counts": {
+            "passed": 0,
+            "failed": 1,
+            "skipped": 0,
+            "filtered": 120,
+            "executed": 1
+          },
+          "log_sha256": "20403a6a0d77d844d9e3dc8f0e7d8b06e5ee8c9357509acaf1e902fc7c4d06d9",
+          "inputs_sha256": "f50641f9f0dcaf63d13d6e3ca96cdc0f84b7ce6924d603a8514446615eee9802",
+          "inputs_unchanged": true,
+          "cleanup_reported": true
+        },
+        {
+          "id": "native-final04-auth-regressions",
+          "command": [
+            "bash",
+            "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/tools/lanes/pgtest.sh",
+            "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork",
+            "/Users/jasonlee/.cargo/bin/cargo",
+            "+1.98.1",
+            "test",
+            "--locked",
+            "--offline",
+            "--no-fail-fast",
+            "-p",
+            "console-platform-auth",
+            "--test",
+            "credential_identity",
+            "--test",
+            "refresh_tokens",
+            "--test",
+            "session_locking",
+            "--test",
+            "webauthn_ceremony_replay",
+            "--test",
+            "webauthn_registration_deactivated_user",
+            "--test",
+            "webauthn_contention",
+            "--test",
+            "webauthn_ceremony",
+            "--",
+            "--test-threads=1",
+            "--nocapture"
+          ],
+          "exit_code": 0,
+          "counts": {
+            "passed": 53,
+            "failed": 0,
+            "skipped": 0,
+            "filtered": 0,
+            "executed": 53
+          },
+          "log_sha256": "d7a3ca1752db90cdfd0214b79a96f9227c33502eb7e56f19af37c5c635353f29",
+          "inputs_sha256": "f50641f9f0dcaf63d13d6e3ca96cdc0f84b7ce6924d603a8514446615eee9802",
+          "inputs_unchanged": true,
+          "cleanup_reported": true
+        },
+        {
+          "id": "runtime-consumer-final05",
+          "command": [
+            "node",
+            "--test",
+            "tools/test-production-runtime.test.mjs"
+          ],
+          "exit_code": 0,
+          "counts": {
+            "passed": 0,
+            "failed": 0,
+            "skipped": 0,
+            "filtered": 0,
+            "executed": 0
+          },
+          "log_sha256": "d159a3f24c882228753f021502c21bfb1a9d94cbc296fa8910cc84cb830d4241",
+          "inputs_sha256": "1b16f688d52bb2528069eea192b434b3857d69da307d85d48b9a155fd8bef55e",
+          "inputs_unchanged": true,
+          "cleanup_reported": false
+        },
+        {
+          "id": "production-routes-final07",
+          "command": [
+            "npm",
+            "run",
+            "test:production-routes"
+          ],
+          "exit_code": 0,
+          "counts": {
+            "passed": 0,
+            "failed": 0,
+            "skipped": 0,
+            "filtered": 0,
+            "executed": 0
+          },
+          "log_sha256": "512901c3a5e50a2917b8d01feb4f8538f69890debfe194f13904f75b1b739000",
+          "inputs_sha256": "1b16f688d52bb2528069eea192b434b3857d69da307d85d48b9a155fd8bef55e",
+          "inputs_unchanged": true,
+          "cleanup_reported": false
+        },
+        {
+          "id": "tooling-final05",
+          "command": [
+            "npm",
+            "run",
+            "test:source-closure"
+          ],
+          "exit_code": 0,
+          "counts": {
+            "passed": 0,
+            "failed": 0,
+            "skipped": 0,
+            "filtered": 0,
+            "executed": 0
+          },
+          "log_sha256": "d9be73937b0813642d644b0aa9fd9950f89ce538d8972c38e6c57d70ae6535d4",
+          "inputs_sha256": "1b16f688d52bb2528069eea192b434b3857d69da307d85d48b9a155fd8bef55e",
+          "inputs_unchanged": true,
+          "cleanup_reported": false
+        }
+      ],
+      "accurate_counts": {
+        "runtime_consumer": {
+          "passed": 3,
+          "failed": 0
+        },
+        "tooling": {
+          "passed": 18,
+          "failed": 0
+        },
+        "prototype_routes": {
+          "not_found": 17
+        },
+        "native_auth_regressions": {
+          "passed": 53,
+          "failed": 0,
+          "skipped": 0,
+          "filtered": 0
+        },
+        "canonical_retry13": {
+          "native_passed": 0,
+          "native_failed": 1,
+          "filtered": 120,
+          "child_report_returned": false
+        },
+        "diagnostic_phase18": {
+          "native_passed": 0,
+          "native_failed": 1,
+          "filtered": 120,
+          "child_report_returned": false,
+          "acceptance": false
+        }
+      },
+      "source_approved_change": {
+        "scope": "viewport1440-proposal",
+        "patch_sha256": "8902ecf1a8edee62cb154fdab03cb9434436ce35da53062b086188bec9dfb7ba",
+        "source_sha256": {
+          "tools/browser-business-boundary.mjs": "403565a16afe604f2e69574d26e4f42598b2eb3f3884e9a3262e864dd89e4346"
+        },
+        "reviewers": [
+          {
+            "reviewer": "r7_source_review",
+            "verdict": "ACCEPT_SOURCE_AND_TEST_PROPOSAL"
+          },
+          {
+            "reviewer": "r7_wait_trace",
+            "verdict": "ACCEPT_SOURCE_AND_TEST_PROPOSAL"
+          }
+        ]
+      },
+      "observed_phase18": "Actual P13 uncertain-logout notice and public503 headers, then failureResponse.text stalls before navigation; no requestfinished or post-header requestfailed before native timeout. Body read rejects during teardown. Markers are diagnostic only.",
+      "reviewer_verdicts": [
+        {
+          "reviewer": "r7_source_review",
+          "verdict": "ACCEPT_BOUNDED_SOURCE_AFTER_FIX",
+          "runtime_acceptance": false
+        },
+        {
+          "reviewer": "r7_wait_trace",
+          "verdict": "REQUIRE_PASSIVE_CDP_COMPLETION_EVIDENCE",
+          "runtime_acceptance": false
+        }
+      ],
+      "disposition": "Preserve all red runs. Installed-source tracing does not substantiate a Next cache/revalidation owner for this no-store signaled POST. Diagnostic19 uses a dedicated passive Network observer; no product networking change yet. Identity47 is running, not counted. Canonical17, unfiltered auth_rest121 and remaining final-source gates are required before PR/queue. No release, physical-passkey or two-site durability claim."
+    },
+    {
+      "recorded_at": "2026-10-05T19:54:10.462088+00:00",
+      "scope": "R7 passive diagnostic19 admission and build-lock interruption",
+      "interrupted_gate": {
+        "id": "product-browser-phase19",
+        "command": [
+          "bash",
+          "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/tools/lanes/pgtest.sh",
+          "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork",
+          "/Users/jasonlee/.cargo/bin/cargo",
+          "+1.98.1",
+          "test",
+          "--locked",
+          "--offline",
+          "--no-fail-fast",
+          "-p",
+          "console-app",
+          "--features",
+          "frontend-e2e",
+          "--test",
+          "auth_rest",
+          "genuine_browser::genuine_production_browser_proposal_requires_all_seventeen_scenarios",
+          "--",
+          "--exact",
+          "--test-threads=1",
+          "--nocapture"
+        ],
+        "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+        "exit_code": 143,
+        "timed_out": false,
+        "duration_seconds": 208.13110537501052,
+        "discovered": null,
+        "counts": {
+          "passed": 0,
+          "failed": 0,
+          "skipped": 0,
+          "filtered": 0,
+          "executed": 0
+        },
+        "log_sha256": "35edb2fcf6ae5f8543c13b0b214121dac5f15f0a5ebcc49c0528bddf74350170",
+        "cleanup_reported": true,
+        "inputs_sha256": "f50641f9f0dcaf63d13d6e3ca96cdc0f84b7ce6924d603a8514446615eee9802",
+        "inputs_unchanged": true
+      },
+      "diagnostic_custody": {
+        "temporal_sha256": "eda9717bcbff01ce9c7e95a1c53655cb40ef8945e36f4088142dac2b6031cd6f",
+        "runner_sha256": "d3546d016117e14d193e96df2fd2a01e648a27d0edafa000110bc256f3c9815b",
+        "server_preload_sha256": "e7269f2749be21945a087e3700c3a4768818ca0f7adef6d954e86f0580bef884",
+        "frozen_runner_sha256": "a1ca0cce206749488e240c66811f9b19aec6e5dc04adb0d0b8a8c0abc465d18f",
+        "frozen_test_binary_sha256": "d6c8d7fbe67c884212f1f3eccc2371029c2a853638f2566af91662dc5f172857",
+        "frozen_test_binary_bytes": 309000624,
+        "historical_provenance_limit": "retry13 and phase18 log the same path and current native source bytes match their snapshots; prior runs did not record a binary content hash, so path/mtime/fingerprint are supporting provenance only"
+      },
+      "reviewers": [
+        {
+          "reviewer": "r7_wait_trace",
+          "verdict": "ACCEPT_DIAGNOSTIC_AUGMENTATION_ONLY"
+        },
+        {
+          "reviewer": "r7_source_review",
+          "verdict": "ACCEPT_DIAGNOSTIC19_ONLY"
+        },
+        {
+          "reviewer": "r7_evidence_audit",
+          "verdict": "ACCEPT_FROZEN_BINARY_DIAGNOSTIC_ONLY"
+        }
+      ],
+      "disposition": "Cargo diagnostic stopped143 before Node started, after waiting for owned build-directory lock; zero tests executed, disposable resource cleanup confirmed. Same independently reviewed passive diagnostic is running via a readonly frozen binary through unchanged PostgreSQL harness. Canonical source, assertions, timeouts and production runtime artifacts are unmodified by diagnostic instrumentation. This bypass clears no acceptance gate. Current native identity run remains pending in rustc deps-directory enumeration; sample records actual filesystem wait. Preserve all limits."
+    },
+    {
+      "recorded_at": "2026-10-05T20:01:36.474723+00:00",
+      "scope": "R7 empirical response lifecycle discriminator and fresh identity proof",
+      "gates": [
+        {
+          "id": "native-final04-identity",
+          "command": [
+            "bash",
+            "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/tools/lanes/pgtest.sh",
+            "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork",
+            "/Users/jasonlee/.cargo/bin/cargo",
+            "+1.98.1",
+            "test",
+            "--locked",
+            "--offline",
+            "--no-fail-fast",
+            "-p",
+            "console-identity-rest",
+            "--lib",
+            "--test",
+            "authentication_locking",
+            "--",
+            "--test-threads=1",
+            "--nocapture"
+          ],
+          "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+          "exit_code": 0,
+          "timed_out": false,
+          "duration_seconds": 1416.1503669170197,
+          "discovered": null,
+          "counts": {
+            "passed": 47,
+            "failed": 0,
+            "skipped": 0,
+            "filtered": 0,
+            "executed": 47
+          },
+          "log_sha256": "f6337cb6eddeeab3fd6a96d22f59c567d2126b9ae23c4af38fa1d0aa2eebd361",
+          "cleanup_reported": true,
+          "inputs_sha256": "f50641f9f0dcaf63d13d6e3ca96cdc0f84b7ce6924d603a8514446615eee9802",
+          "inputs_unchanged": true
+        },
+        {
+          "id": "product-browser-phase19-frozen",
+          "command": [
+            "bash",
+            "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/tools/lanes/pgtest.sh",
+            "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork",
+            "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/frozen-auth-rest-phase19",
+            "genuine_browser::genuine_production_browser_proposal_requires_all_seventeen_scenarios",
+            "--exact",
+            "--test-threads=1",
+            "--nocapture"
+          ],
+          "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+          "exit_code": 101,
+          "timed_out": false,
+          "duration_seconds": 493.0420476249419,
+          "discovered": null,
+          "counts": {
+            "passed": 0,
+            "failed": 1,
+            "skipped": 0,
+            "filtered": 120,
+            "executed": 1
+          },
+          "log_sha256": "019ea3aa6a516d454d92b26a75fd3ffe412c531c75fb9ae60de3f5d3abd0d0a6",
+          "cleanup_reported": true,
+          "inputs_sha256": "f50641f9f0dcaf63d13d6e3ca96cdc0f84b7ce6924d603a8514446615eee9802",
+          "inputs_unchanged": true,
+          "frozen_test_binary_sha256": "d6c8d7fbe67c884212f1f3eccc2371029c2a853638f2566af91662dc5f172857",
+          "frozen_test_binary_unchanged": true,
+          "scope": "diagnostic only: pre-existing phase18/retry13 native test binary; no fresh Cargo compilation claim"
+        }
+      ],
+      "diagnostic_artifact_sha256": {
+        "phases19.jsonl": "3b23449760e2114daf2838a36bd5540007b8b65eb5e8feedccb5824f37317905",
+        "server19.jsonl": "4d069c543b18c045d498a779a0eac71437cc9ed606c044112d5fb3e436284453"
+      },
+      "observed": {
+        "p13_original_request_bound_monotonic_ms": 1167830290,
+        "server_pid": 27223,
+        "server_status": 503,
+        "server_headers_finish_close_monotonic_ms": 1167845293,
+        "server_finish_writable_ended": true,
+        "server_finish_writable_finished": true,
+        "exact_request_cdp_status": 503,
+        "exact_request_cdp_data_bytes": 142,
+        "cdp_response_data_monotonic_ms": 1167845295,
+        "playwright_body_begin_monotonic_ms": 1167845601,
+        "cdp_loading_finished_before_teardown": false,
+        "child_report_returned": false
+      },
+      "independent_diagnosis": [
+        {
+          "reviewer": "r7_source_review",
+          "finding": "Completed Node503 followed by unread no-store renderer completion deferral matches pinned Chromium153.0.8010.12 and installed Playwright completion/body path; excludes unfinished server stream for this request."
+        },
+        {
+          "reviewer": "r7_wait_trace",
+          "finding": "Independent timestamp/status correlation excludes claimed Next pendingWaitUntil/res.end stall; distinguishes browser completion gap from a fabricated successful body read."
+        }
+      ],
+      "interpretation_limits": [
+        "CDP byte counts do not validate the error body or its secrecy.",
+        "Diagnostic snapshots are not canonical P13 acceptance.",
+        "Page-close diagnostic detach attempts log cleanup-failed; root owned runtime/database cleanup and input stability are separately recorded.",
+        "No body capture is credited because no raw loadingFinished occurred."
+      ],
+      "proposal_review_finding": {
+        "patch_v1_sha256": "ffb18a0b587382e8b9cb05bcf74d4dcef8a974f341509d7695a69d1830ead02d",
+        "reviewer": "r7_source_review",
+        "verdict": "REQUEST_CHANGES",
+        "finding": "A captured body followed by an actual request failure could bypass callback-only secrecy assertion; every captured decoded body must be checked inside observer."
+      },
+      "disposition": "Fresh canonical identity47 passes zero skips/filters. Diagnostic remains0passed/1failed/120filtered with no returned child report. Preserve red evidence. Revised exact test-observer proposal checks every captured body before unchanged continuation, reuses existing signIn capture owner and preserves request/body/identity/failure checks; source review pending/application separate."
+    },
+    {
+      "recorded_at": "2026-10-05T20:03:11.455664+00:00",
+      "scope": "R7 bounded response-capture correction",
+      "patch_sha256": "e9899befbc6f8a28ab35e393caef173b7b86de19702ed4f03f5b40ef26f53332",
+      "superseded_patch_sha256": "ffb18a0b587382e8b9cb05bcf74d4dcef8a974f341509d7695a69d1830ead02d",
+      "reviewers": [
+        {
+          "reviewer": "r7_source_review",
+          "verdict": "ACCEPT_CONDITIONAL_CAPTURE_PROPOSAL"
+        },
+        {
+          "reviewer": "r7_wait_trace",
+          "verdict": "ACCEPT_REVISED_EXACT_SOURCE_PATCH"
+        }
+      ],
+      "source_sha256": {
+        "tools/test-browser-business-session.mjs": "0ec0e0de2d9e97dd810653bd86907e256b18f38cc34d848a75ee5dbce30f1642",
+        "tools/browser-business-temporal.mjs": "f51ab6fd723d241f0b7357a76a5c8c49cfac13eae973cec20fb35e8b74ba9087"
+      },
+      "disposition": "Applied exact independently approved after-images after all preceding gates released snapshots. Shared existing signIn observer captures unchanged original response bytes and checks every captured body, including subsequent browser aborts. P13 verifies exact URL/POST/status/postData/context and secrecy before recovery; all owner/expiry/UNKNOWN/B-continuity assertions remain. Canonical runtime proof pending. Observation pause supplies no untouched-latency claim. No product network, authority, body, timeout, seed or fixture changes."
+    },
+    {
+      "recorded_at": "2026-10-05T20:22:28.514792+00:00",
+      "scope": "R7 canonical15/17 checkpoint and completed native refresh batch",
+      "gates": [
+        {
+          "id": "native-final04-provisioning",
+          "command": [
+            "bash",
+            "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/tools/lanes/pgtest.sh",
+            "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork",
+            "/Users/jasonlee/.cargo/bin/cargo",
+            "+1.98.1",
+            "test",
+            "--locked",
+            "--offline",
+            "--no-fail-fast",
+            "-p",
+            "console-platform-provisioning",
+            "--test",
+            "account_locking",
+            "--test",
+            "account_identity",
+            "--test",
+            "rls_auth_chain_as_runtime_role",
+            "--",
+            "--test-threads=1",
+            "--nocapture"
+          ],
+          "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+          "exit_code": 0,
+          "timed_out": false,
+          "duration_seconds": 79.69206324999686,
+          "discovered": null,
+          "counts": {
+            "passed": 48,
+            "failed": 0,
+            "skipped": 0,
+            "filtered": 0,
+            "executed": 48
+          },
+          "log_sha256": "f18ee3be51fe3cd6ac31602f4a79443325f84817ed6fee71e56076c523d2e026",
+          "cleanup_reported": true,
+          "inputs_sha256": "d4daba4e3968495dc8f6a683fbcb23a0decdd12f467af759867a22895d0dbf2e",
+          "inputs_unchanged": true
+        },
+        {
+          "id": "native-final04-db",
+          "command": [
+            "bash",
+            "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/tools/lanes/pgtest.sh",
+            "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork",
+            "/Users/jasonlee/.cargo/bin/cargo",
+            "+1.98.1",
+            "test",
+            "--locked",
+            "--offline",
+            "--no-fail-fast",
+            "-p",
+            "console-platform-db",
+            "--test",
+            "auth_security_state",
+            "--test",
+            "auth_command_role",
+            "--",
+            "--test-threads=1",
+            "--nocapture"
+          ],
+          "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+          "exit_code": 0,
+          "timed_out": false,
+          "duration_seconds": 14.3978904170217,
+          "discovered": null,
+          "counts": {
+            "passed": 8,
+            "failed": 0,
+            "skipped": 0,
+            "filtered": 0,
+            "executed": 8
+          },
+          "log_sha256": "f01c486869dd74560de74e4627dab80c6a21dd2e8028a3f015e25db72f5d1b18",
+          "cleanup_reported": true,
+          "inputs_sha256": "d4daba4e3968495dc8f6a683fbcb23a0decdd12f467af759867a22895d0dbf2e",
+          "inputs_unchanged": true
+        },
+        {
+          "id": "native-final04-attendance",
+          "command": [
+            "bash",
+            "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/tools/lanes/pgtest.sh",
+            "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork",
+            "/Users/jasonlee/.cargo/bin/cargo",
+            "+1.98.1",
+            "test",
+            "--locked",
+            "--offline",
+            "--no-fail-fast",
+            "-p",
+            "console-attendance-adapter-postgres",
+            "--test",
+            "self_service",
+            "--",
+            "--test-threads=1",
+            "--nocapture"
+          ],
+          "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+          "exit_code": 0,
+          "timed_out": false,
+          "duration_seconds": 428.5687637500232,
+          "discovered": null,
+          "counts": {
+            "passed": 3,
+            "failed": 0,
+            "skipped": 0,
+            "filtered": 0,
+            "executed": 3
+          },
+          "log_sha256": "261bdcc9c5ba10290b058daebfa4d16bae00e5f829863d2f4dfdae8a31b85e6f",
+          "cleanup_reported": true,
+          "inputs_sha256": "d4daba4e3968495dc8f6a683fbcb23a0decdd12f467af759867a22895d0dbf2e",
+          "inputs_unchanged": true
+        },
+        {
+          "id": "native-final04-app-authority-health-hr",
+          "command": [
+            "bash",
+            "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/tools/lanes/pgtest.sh",
+            "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork",
+            "/Users/jasonlee/.cargo/bin/cargo",
+            "+1.98.1",
+            "test",
+            "--locked",
+            "--offline",
+            "--no-fail-fast",
+            "-p",
+            "console-app",
+            "--test",
+            "current_authority",
+            "--test",
+            "health_readiness",
+            "--test",
+            "hr_attendance_self_read",
+            "--test",
+            "hr_attendance_manager_scope",
+            "--test",
+            "hr_ingest_checklist_gate",
+            "--test",
+            "openapi_drift",
+            "--",
+            "--test-threads=1",
+            "--nocapture"
+          ],
+          "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+          "exit_code": 0,
+          "timed_out": false,
+          "duration_seconds": 110.74409712501802,
+          "discovered": null,
+          "counts": {
+            "passed": 75,
+            "failed": 0,
+            "skipped": 0,
+            "filtered": 0,
+            "executed": 75
+          },
+          "log_sha256": "4cb0ca06eb59155600e108b2eacc806f41f6c6cce2ff8b8ab07dd1504414d485",
+          "cleanup_reported": true,
+          "inputs_sha256": "d4daba4e3968495dc8f6a683fbcb23a0decdd12f467af759867a22895d0dbf2e",
+          "inputs_unchanged": true
+        },
+        {
+          "id": "native-final04-attendance-import",
+          "command": [
+            "/Users/jasonlee/.cargo/bin/cargo",
+            "+1.98.1",
+            "test",
+            "--locked",
+            "--offline",
+            "-p",
+            "console-app",
+            "--lib",
+            "hr::tests::attendance_import",
+            "--",
+            "--test-threads=1"
+          ],
+          "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend",
+          "exit_code": 0,
+          "timed_out": false,
+          "duration_seconds": 15.33108000003267,
+          "discovered": null,
+          "counts": {
+            "passed": 8,
+            "failed": 0,
+            "skipped": 0,
+            "filtered": 158,
+            "executed": 8
+          },
+          "log_sha256": "c4a037ee347e453d2804e2fb18fb3cab0429225f05feba55289a909ee5a54003",
+          "cleanup_reported": false,
+          "inputs_sha256": "d4daba4e3968495dc8f6a683fbcb23a0decdd12f467af759867a22895d0dbf2e",
+          "inputs_unchanged": true
+        },
+        {
+          "id": "product-browser-retry14",
+          "command": [
+            "bash",
+            "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/tools/lanes/pgtest.sh",
+            "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork",
+            "/Users/jasonlee/.cargo/bin/cargo",
+            "+1.98.1",
+            "test",
+            "--locked",
+            "--offline",
+            "--no-fail-fast",
+            "-p",
+            "console-app",
+            "--features",
+            "frontend-e2e",
+            "--test",
+            "auth_rest",
+            "genuine_browser::genuine_production_browser_proposal_requires_all_seventeen_scenarios",
+            "--",
+            "--exact",
+            "--test-threads=1",
+            "--nocapture"
+          ],
+          "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+          "exit_code": 101,
+          "timed_out": false,
+          "duration_seconds": 637.575000458979,
+          "discovered": null,
+          "counts": {
+            "passed": 0,
+            "failed": 1,
+            "skipped": 0,
+            "filtered": 120,
+            "executed": 1
+          },
+          "log_sha256": "bea2825330a5339cb4a8d9fd437b0ae9cf39a052b4de18352ffa496119641bab",
+          "cleanup_reported": true,
+          "inputs_sha256": "d4daba4e3968495dc8f6a683fbcb23a0decdd12f467af759867a22895d0dbf2e",
+          "inputs_unchanged": true
+        }
+      ],
+      "canonical_child_report": {
+        "v": 1,
+        "seq": 619,
+        "kind": "report",
+        "discovered": 17,
+        "executed": 15,
+        "counts": {
+          "passed": 15,
+          "failed": 0,
+          "unreached": 2,
+          "skipped": 0
+        },
+        "failure_class": "infrastructure",
+        "scenarios": [
+          {
+            "id": "P01",
+            "name": "runtime/exclusion/launcher/config negatives",
+            "status": "passed"
+          },
+          {
+            "id": "P02",
+            "name": "two genuine product sign-ins and native family logout",
+            "status": "passed"
+          },
+          {
+            "id": "P03",
+            "name": "real own-history count, rows, pagination and reload",
+            "status": "passed"
+          },
+          {
+            "id": "P04",
+            "name": "responsive keyboard and inaccessible-script recovery",
+            "status": "passed"
+          },
+          {
+            "id": "P05",
+            "name": "two actual source peers and ingress spoofing negatives",
+            "status": "passed"
+          },
+          {
+            "id": "P06",
+            "name": "Origin/CSRF/context/duplicate-cookie/body boundaries",
+            "status": "passed"
+          },
+          {
+            "id": "P07",
+            "name": "eight-preauth/eight-session admission boundaries",
+            "status": "passed"
+          },
+          {
+            "id": "P08",
+            "name": "independent tabs, stable reads and no context fallback",
+            "status": "passed"
+          },
+          {
+            "id": "P09",
+            "name": "reversed actual start responses",
+            "status": "passed"
+          },
+          {
+            "id": "P10",
+            "name": "reversed actual finish/header-arrival responses",
+            "status": "passed"
+          },
+          {
+            "id": "P11",
+            "name": "reversed logout versus a new independent login",
+            "status": "passed"
+          },
+          {
+            "id": "P12",
+            "name": "lost committed login result and consumed-assertion handling",
+            "status": "passed"
+          },
+          {
+            "id": "P13",
+            "name": "lost logout across genuine short-family expiry",
+            "status": "passed",
+            "checks": [
+              {
+                "id": "lost-result-expired-access",
+                "status": "passed",
+                "evidence": {
+                  "observed": {
+                    "kind": "http-failure",
+                    "status": 503
+                  },
+                  "native_owner_status": 204,
+                  "actual_cookie_expired": true,
+                  "unknown_before_refresh": true,
+                  "conservative_absent_after_refresh": true,
+                  "same_sender_alive": true,
+                  "late_header_claim": false
+                }
+              },
+              {
+                "id": "near-expiry-intact-late-headers",
+                "status": "passed",
+                "evidence": {
+                  "native_owner_status": 204,
+                  "original_public_status": 204,
+                  "empty_body": true,
+                  "actual_cookie_expired": true,
+                  "recovery_document_refreshed": true,
+                  "original_request_pending_until_b_cookie": true,
+                  "exact_original_generation_headers": true,
+                  "same_sender_alive": true,
+                  "newer_b_cookie_and_reads_preserved": true
+                }
+              }
+            ]
+          },
+          {
+            "id": "P14",
+            "name": "current authority, key replacement and cleanup restart",
+            "status": "passed"
+          },
+          {
+            "id": "P15",
+            "name": "logout Back and witnessed real BFCache restore",
+            "status": "unreached",
+            "checks": [
+              {
+                "id": "ordinary-logout-back",
+                "status": "passed",
+                "evidence": {
+                  "ordinary_back": true,
+                  "cached_restore_seen": false
+                }
+              },
+              {
+                "id": "native-revocation-real-bfcache",
+                "status": "unreached",
+                "reason": "trusted pagehide observation unavailable"
+              }
+            ],
+            "measured_guard_sha256": "a1c04481ce25603ade8e8fcd645ec27ff4730b446a4c54d81680b5c2fac76d97",
+            "measured_guard_documents": 2,
+            "reason": "required restore proof not reached"
+          },
+          {
+            "id": "P16",
+            "name": "actual restore before hydration with CSS/React/offline faults",
+            "status": "unreached",
+            "checks": [
+              {
+                "id": "blocked-bundles",
+                "status": "unreached",
+                "reason": "trusted pagehide observation unavailable"
+              },
+              {
+                "id": "blocked-css-bundles",
+                "status": "unreached",
+                "reason": "trusted pagehide observation unavailable"
+              },
+              {
+                "id": "delayed-bundles",
+                "status": "unreached",
+                "reason": "trusted pagehide observation unavailable"
+              },
+              {
+                "id": "queued-react-css",
+                "status": "unreached",
+                "reason": "trusted pagehide observation unavailable"
+              },
+              {
+                "id": "offline",
+                "status": "unreached",
+                "reason": "trusted pagehide observation unavailable"
+              },
+              {
+                "id": "missing-guard",
+                "status": "unreached",
+                "reason": "trusted pagehide observation unavailable"
+              },
+              {
+                "id": "thrown-guard",
+                "status": "unreached",
+                "reason": "trusted pagehide observation unavailable"
+              }
+            ],
+            "measured_guard_sha256": "a1c04481ce25603ade8e8fcd645ec27ff4730b446a4c54d81680b5c2fac76d97",
+            "measured_guard_documents": 2,
+            "reason": "required restore proof not reached"
+          },
+          {
+            "id": "P17",
+            "name": "real unavailable/malformed service and failure cleanup",
+            "status": "passed"
+          }
+        ]
+      },
+      "source_review": [
+        {
+          "reviewer": "r7_source_review",
+          "verdict": "ACCEPT_BOUNDED_SOURCE_AFTER_FIX; SIXTEEN_LENS_SOURCE_ACCEPT_AFTER_FIX"
+        },
+        {
+          "reviewer": "r7_wait_trace",
+          "verdict": "ACCEPT_REVISED_EXACT_SOURCE_PATCH"
+        }
+      ],
+      "disposition": "Canonical retry14 returns its actual child report:15passed,0failed,2requiredunreached,0skipped. Both P13 loss and intact late-header checks pass. P15/P16 lack trusted original-Document pagehide observation before any Back attempt, so no BFCache ineligibility or restoration acceptance is inferred. Native refreshes pass48+8+3+75+8; focused import has158 unrelated filtered tests, and library run allocates no adapter. Earlier commentary briefly misidentified a DB subtarget3 as attendance; corrected immediately before actualattendance3pass. Preserve failed canonical gate0/1/120 and no queue admission. Required fullunfilteredauth_rest121 is still pending. Diagnose console/context/lifecycle channel versus incomplete-load navigation before any additional source change."
+    },
+    {
+      "recorded_at": "2026-10-05T20:23:46.261635+00:00",
+      "scope": "R7 focused restoration diagnostic20 source admission",
+      "diagnostic_artifact_sha256": {
+        "restore": "b76ab17139e693298a0e8db2c8bc8b9215ea453a4f35013dd814c5de4ed2e091",
+        "runner": "f5b109551756751894f6845afe6e4d5716ae7bcfcf65b59b1c5af9f881a2a510"
+      },
+      "reviewers": [
+        {
+          "reviewer": "r7_source_review",
+          "verdict": "ACCEPT_DIAGNOSTIC20_ONLY"
+        },
+        {
+          "reviewer": "r7_wait_trace",
+          "verdict": "ACCEPT_DIAGNOSTIC20_SOURCE"
+        }
+      ],
+      "scope_limit": "Real nativeA/B sign-ins and two-document guard measurement feed only the normal restoration check. Other16scenarios receive no completion credit. New diagnostics log enums/booleans/counts and no raw URLs, body strings, Account/Company/credential/context identifiers. Existing successful-check report may include the random test Document UUID; it is a noncredential diagnostic identity, so UUID-only-memory applies to new phase logging, not inherited successful-check evidence.",
+      "disposition": "Record synchronous pagehide entry alongside unchanged microtask sample; compare raw CDP versus Playwright console and context/exception/load state. A diagnostic Back attempt when the hook is absent still ends Unreached. Never evaluate a frozen Document, weaken no-store, synthesize trusted events or relax current private-content checks. Diagnostic-only run cannot clear canonical P15/P16 or queue admission."
+    },
+    {
+      "recorded_at": "2026-10-05T20:30:08.983003+00:00",
+      "scope": "R7 diagnostic20 result and exact full-Chromium launch correction",
+      "diagnostic": {
+        "id": "product-browser-phase20",
+        "command": [
+          "bash",
+          "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/tools/lanes/pgtest.sh",
+          "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork",
+          "/Users/jasonlee/.cargo/bin/cargo",
+          "+1.98.1",
+          "test",
+          "--locked",
+          "--offline",
+          "--no-fail-fast",
+          "-p",
+          "console-app",
+          "--features",
+          "frontend-e2e",
+          "--test",
+          "auth_rest",
+          "genuine_browser::genuine_production_browser_proposal_requires_all_seventeen_scenarios",
+          "--",
+          "--exact",
+          "--test-threads=1",
+          "--nocapture"
+        ],
+        "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+        "exit_code": 101,
+        "timed_out": false,
+        "duration_seconds": 60.336363333044574,
+        "discovered": null,
+        "counts": {
+          "passed": 0,
+          "failed": 1,
+          "skipped": 0,
+          "filtered": 120,
+          "executed": 1
+        },
+        "log_sha256": "429db4f2ffddae51a842244bb6ab8fa6413bb4a805d1b1ca369f98e018a7c4bc",
+        "cleanup_reported": true,
+        "inputs_sha256": "d4daba4e3968495dc8f6a683fbcb23a0decdd12f467af759867a22895d0dbf2e",
+        "inputs_unchanged": true
+      },
+      "child_counts": {
+        "discovered": 17,
+        "executed": 0,
+        "passed": 0,
+        "failed": 0,
+        "unreached": 17,
+        "skipped": 0
+      },
+      "phase_sha256": "c2840215014cc1d55c8ebcc90b442cdac265d84684bf08e4b74e29b34e3745b0",
+      "observed": "Trusted initial-load/pageshow and complete readyState; neither channel observed original-Document pagehide. Actual Back produced Navigation/new Document/persisted=false and BrowsingInstanceNotSwapped plus BackForwardCacheDisabledForDelegate.",
+      "mechanism": "Installed Playwright defaults to chromium-headless-shell, whose pinned Chromium153 delegate requires an absent explicit BFCache-enable switch. Documented channel chromium selects already-installed full Chromium/new headless at identical1243/153.0.8010.12.",
+      "proposal": {
+        "before_sha256": "0ec0e0de2d9e97dd810653bd86907e256b18f38cc34d848a75ee5dbce30f1642",
+        "after_sha256": "aff324edf6416cdd674ba256780520ec41471cad8e1445048861bde7cb8a918f",
+        "patch_sha256": "f3550144d2ea42b6dbd219cfacbee7ad9054549844f014a27ae7541dd626055e",
+        "change": "Select installed full Chromium via documented new-headless channel; preserve pinned version/default cache switch removal and all original-document/private-content assertions."
+      },
+      "reviews": [
+        {
+          "reviewer": "r7_source_review",
+          "verdict": "ACCEPT_EXACT_FULL_CHROMIUM_LAUNCH_PROPOSAL"
+        },
+        {
+          "reviewer": "r7_wait_trace",
+          "verdict": "ACCEPT_EXACT_FULL_CHROMIUM_LAUNCH_PROPOSAL"
+        }
+      ],
+      "evidence_audit": "r7_evidence_audit independently verifies runtime counts/hashes, cleanup and source applicability.",
+      "disposition": "Apply only supported browser selection. Keep every trusted original-Document/BFCache/private-denial assertion, no-store and deadlines. No product/build/dependency change. Focused diagnostic then complete unfiltered auth_rest target including canonical17 remain required; queue held."
+    },
+    {
+      "recorded_at": "2026-10-05T20:32:29.935650+00:00",
+      "scope": "R7 focused diagnostic21 full-Chromium runtime and split trace custody",
+      "native_report": {
+        "id": "product-browser-phase21",
+        "command": [
+          "bash",
+          "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/tools/lanes/pgtest.sh",
+          "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork",
+          "/Users/jasonlee/.cargo/bin/cargo",
+          "+1.98.1",
+          "test",
+          "--locked",
+          "--offline",
+          "--no-fail-fast",
+          "-p",
+          "console-app",
+          "--features",
+          "frontend-e2e",
+          "--test",
+          "auth_rest",
+          "genuine_browser::genuine_production_browser_proposal_requires_all_seventeen_scenarios",
+          "--",
+          "--exact",
+          "--test-threads=1",
+          "--nocapture"
+        ],
+        "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+        "exit_code": 101,
+        "timed_out": false,
+        "duration_seconds": 41.09109958296176,
+        "discovered": null,
+        "counts": {
+          "passed": 0,
+          "failed": 1,
+          "skipped": 0,
+          "filtered": 120,
+          "executed": 1
+        },
+        "log_sha256": "bdda6423852741273820fb760ecf76561178fb93bdea7d2b944cc6c58940df70",
+        "cleanup_reported": true,
+        "inputs_sha256": "6a854679af16ac893d591202bb441acaec16bfa5d3b698f73207a9bed0267903",
+        "inputs_unchanged": true
+      },
+      "child_counts": {
+        "discovered": 17,
+        "executed": 0,
+        "passed": 0,
+        "failed": 0,
+        "unreached": 17,
+        "skipped": 0
+      },
+      "trace_custody": {
+        "cause": "Diagnostic21 copied runner trace path but reused immutable restore20 source with its hardcoded phases20 path. Restore21 appended records to that file; original20 bytes remain exact prefix. Original file is not truncated.",
+        "boundary_original_lines": 67,
+        "files": {
+          "diagnostic21-restore-suffix.jsonl": "ac0af1e847039ed6542723ccc6e99cae448681caec9abefdf998657f4ace08cd",
+          "original20-prefix.jsonl": "c2840215014cc1d55c8ebcc90b442cdac265d84684bf08e4b74e29b34e3745b0",
+          "diagnostic21-runner.jsonl": "439be94f83ff277dbdcf8c5e879c956c0f888fc08111f7a49b5394d53f03a6ff",
+          "full-appended20-file.jsonl": "8b00e169e72b8e8eb0bc0356149fc6be72509d6a892e0063bc9b22c42e363e66"
+        },
+        "acceptance_credit": "Diagnostics only; no canonical acceptance."
+      },
+      "observed": "Before Back cached original-Document console records unavailable. Actual Back delivers buffered original pagehide entry/microtask and trusted original persisted:true pageshow; CDP BackForwardCacheRestore. Pagehide samples hidden=false/private_visible=true, restored pageshow hidden=true/private_visible=false.",
+      "disposition": "Browser selection removes demonstrated delegate blocker. Current pre-Back receipt wait and sampling registration order require independent investigation; no product-guard failure or canonical acceptance inferred. Fix loop and queue remain held."
+    },
+    {
+      "recorded_at": "2026-10-05T20:36:33.415666+00:00",
+      "scope": "R7 exact restoration observation order repair",
+      "proposal": {
+        "before_sha256": "663edc84970e42d80be714804110536ab5bbaa41c00a21f2e1adb34c5df1a435",
+        "after_sha256": "be24bf1df68937b474522078396fc7be61b0cc0080a81fa576b0c201bc6a5c22",
+        "patch_sha256": "65e0a9a749ccd1fc9793ab8714e21f28175392d9183360a2e466fc81f1b1b9cc",
+        "change": "Once-only original-active-Document arm after parser guard; synchronous departure sample; require original trusted persisted departure BEFORE original trusted persisted restoration, consuming delayed CDP records after actual Back.",
+        "v1_finding": "r7_wait_trace: unbounded departure lookup could accept later reload departure; pin record ordering, persisted state and once-only original identity.",
+        "v2_finding": "r7_source_review independently flags later reload event substitution; explicit !event.restored reinforces preceding-position and persisted identity."
+      },
+      "reviews": [
+        {
+          "reviewer": "r7_source_review",
+          "verdict": "ACCEPT_EXACT_RESTORE_OBSERVATION_ORDER_FINAL_PROPOSAL"
+        },
+        {
+          "reviewer": "r7_wait_trace",
+          "verdict": "ACCEPT_EXACT_RESTORE_OBSERVATION_ORDER_FINAL_PROPOSAL"
+        }
+      ],
+      "facts": "Full-Chromium diagnostic21 demonstrates delayed cached-context console replay on actual Back. Existing init observer microtask ran before the later production listener. Pinned EventTarget/native-callback microtask checkpoints support the observed ordering; exact entire browser transport replay chain is not claimed.",
+      "disposition": "Apply only exact independently reviewed test observation fix. Require once-only original active-Document arming after production parser listener; original trusted persisted not-yet-restored departure BEFORE original trusted persisted restoration and unchanged hidden/private checks. Preserve all fault variants, no-store, actual revocation, hard reload, B authority and cleanup. Diagnostic22 exercises all P15/P16 variants only, then unfiltered auth_rest including canonical17 is required."
+    },
+    {
+      "recorded_at": "2026-10-05T20:45:04.575853+00:00",
+      "scope": "R7 restoration diagnostics22/23 and exact cached-commit correction",
+      "diagnostic22": {
+        "id": "product-browser-phase22",
+        "command": [
+          "bash",
+          "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/tools/lanes/pgtest.sh",
+          "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork",
+          "/Users/jasonlee/.cargo/bin/cargo",
+          "+1.98.1",
+          "test",
+          "--locked",
+          "--offline",
+          "--no-fail-fast",
+          "-p",
+          "console-app",
+          "--features",
+          "frontend-e2e",
+          "--test",
+          "auth_rest",
+          "genuine_browser::genuine_production_browser_proposal_requires_all_seventeen_scenarios",
+          "--",
+          "--exact",
+          "--test-threads=1",
+          "--nocapture"
+        ],
+        "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+        "exit_code": 101,
+        "timed_out": false,
+        "duration_seconds": 80.04652249999344,
+        "discovered": null,
+        "counts": {
+          "passed": 0,
+          "failed": 1,
+          "skipped": 0,
+          "filtered": 120,
+          "executed": 1
+        },
+        "log_sha256": "06ac0fe8b68f06eb3d3ba73e56f5b6f2c4a6e3e461d492e51fc0de25550cd7fb",
+        "cleanup_reported": true,
+        "inputs_sha256": "a6207ee8efa19b1ecbd6348db0203f0d52ff8fe45efaf85f2b6fe51ae89527c6",
+        "inputs_unchanged": true
+      },
+      "child22_counts": {
+        "discovered": 17,
+        "executed": 2,
+        "passed": 1,
+        "failed": 1,
+        "unreached": 15,
+        "skipped": 0
+      },
+      "variant22_results": "P15 both checks pass. P16 blocked bundles/CSS, delayed bundles, queued React/CSS and offline pass; missing/thrown guard fail.",
+      "diagnostic23": {
+        "id": "product-browser-phase23",
+        "command": [
+          "bash",
+          "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/tools/lanes/pgtest.sh",
+          "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork",
+          "/Users/jasonlee/.cargo/bin/cargo",
+          "+1.98.1",
+          "test",
+          "--locked",
+          "--offline",
+          "--no-fail-fast",
+          "-p",
+          "console-app",
+          "--features",
+          "frontend-e2e",
+          "--test",
+          "auth_rest",
+          "genuine_browser::genuine_production_browser_proposal_requires_all_seventeen_scenarios",
+          "--",
+          "--exact",
+          "--test-threads=1",
+          "--nocapture"
+        ],
+        "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+        "exit_code": 101,
+        "timed_out": false,
+        "duration_seconds": 58.95290387503337,
+        "discovered": null,
+        "counts": {
+          "passed": 0,
+          "failed": 1,
+          "skipped": 0,
+          "filtered": 120,
+          "executed": 1
+        },
+        "log_sha256": "a1133b7dc5b20b7264ac94d78adc4ac6384f5147d3f0871676b33b3d9bb4eaaa",
+        "cleanup_reported": true,
+        "inputs_sha256": "a6207ee8efa19b1ecbd6348db0203f0d52ff8fe45efaf85f2b6fe51ae89527c6",
+        "inputs_unchanged": true
+      },
+      "child23_counts": {
+        "discovered": 17,
+        "executed": 1,
+        "passed": 0,
+        "failed": 1,
+        "unreached": 16,
+        "skipped": 0
+      },
+      "phase23_sha256": "c3e74a86e23ca8155fa8f0a48eb42b3bdd190cadc3db2582518b0c4cac6085ad",
+      "observed": "Both faults fail with TimeoutError at actual page.goBack waiting DOMContentLoaded. Numeric locations alone do not prove either actual restoration or private exposure.",
+      "diagnostic23_source_fix": "r7_source_review rejected inherited outer raw stack/errorname/code diagnostic dump. Removed before execution; both reviewers admitted runner13957062/helper14cc5a92 with bounded numeric local-location logging only. Rejected artifact retained.",
+      "proposal": {
+        "before_sha256": "be24bf1df68937b474522078396fc7be61b0cc0080a81fa576b0c201bc6a5c22",
+        "after_sha256": "10c7fcd5b9fe088248fe7c7207c3d4efb8857e6bb72f0ee3a8d1dfa41a55d6fb",
+        "patch_sha256": "c701c78bcae8d3f6cf2a443cc29783447753939ae0e2eb289280661a134aa5fd",
+        "change": "Await actual cached navigation commit, not absent new DOMContentLoaded; preserve explicit trusted original-document restoration, original hidden departure, current-owner reload/denial, fault and B authority checks."
+      },
+      "reviews": [
+        {
+          "reviewer": "r7_source_review",
+          "verdict": "ACCEPT_EXACT_CACHE_BACK_COMMIT_PROPOSAL"
+        },
+        {
+          "reviewer": "r7_wait_trace",
+          "verdict": "ACCEPT_EXACT_CACHE_BACK_COMMIT_PROPOSAL"
+        }
+      ],
+      "mechanism": "Pinned Playwright frame handler treats cached navigation as new document, clears lifecycle and emits commit; cached original does not issue a new DOMContentLoaded. Framework documents BFCache unsupported, so pinned source/CDP/trusted actual native probes supply independent proof rather than generic navigation completion.",
+      "disposition": "Apply exact wait primitive change; every required trusted original departure/restoration/private/fault/native denial/recovery/B check remains. Focused24 all restore variants then complete native target required; no canonical or queue acceptance."
+    },
+    {
+      "recorded_at": "2026-10-05T20:54:10.509647+00:00",
+      "scope": "R7 exact unavailable-read recovery RED and source repair; offline bound-event tightening",
+      "diagnostic24": {
+        "id": "product-browser-phase24",
+        "command": [
+          "bash",
+          "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/tools/lanes/pgtest.sh",
+          "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork",
+          "/Users/jasonlee/.cargo/bin/cargo",
+          "+1.98.1",
+          "test",
+          "--locked",
+          "--offline",
+          "--no-fail-fast",
+          "-p",
+          "console-app",
+          "--features",
+          "frontend-e2e",
+          "--test",
+          "auth_rest",
+          "genuine_browser::genuine_production_browser_proposal_requires_all_seventeen_scenarios",
+          "--",
+          "--exact",
+          "--test-threads=1",
+          "--nocapture"
+        ],
+        "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+        "exit_code": 101,
+        "timed_out": false,
+        "duration_seconds": 55.74547729094047,
+        "discovered": null,
+        "counts": {
+          "passed": 0,
+          "failed": 1,
+          "skipped": 0,
+          "filtered": 120,
+          "executed": 1
+        },
+        "log_sha256": "9c4aafb4e396bf87cccecdf9501d7e22ac873a012f17012e38c3809f6d0753ad",
+        "cleanup_reported": true,
+        "inputs_sha256": "e2c0f6f3499ef02d116f5541b0a81676f3f731fc733b2908aed907352b163ecd",
+        "inputs_unchanged": true
+      },
+      "child24_counts": {
+        "passed": 1,
+        "failed": 1,
+        "unreached": 15,
+        "skipped": 0
+      },
+      "diagnostic24_limits": "All restore checks except offline pass, including both real missing/thrown guard transformations. Offline fails generically; exact24 failed assertion not captured.",
+      "diagnostic25": {
+        "id": "product-browser-phase25",
+        "command": [
+          "bash",
+          "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/tools/lanes/pgtest.sh",
+          "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork",
+          "/Users/jasonlee/.cargo/bin/cargo",
+          "+1.98.1",
+          "test",
+          "--locked",
+          "--offline",
+          "--no-fail-fast",
+          "-p",
+          "console-app",
+          "--features",
+          "frontend-e2e",
+          "--test",
+          "auth_rest",
+          "genuine_browser::genuine_production_browser_proposal_requires_all_seventeen_scenarios",
+          "--",
+          "--exact",
+          "--test-threads=1",
+          "--nocapture"
+        ],
+        "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+        "exit_code": 101,
+        "timed_out": false,
+        "duration_seconds": 32.58455170900561,
+        "discovered": null,
+        "counts": {
+          "passed": 0,
+          "failed": 1,
+          "skipped": 0,
+          "filtered": 120,
+          "executed": 1
+        },
+        "log_sha256": "595975cf37edcc6d3039764b802486c1bb01ac19b75a91db00bc3498f87c095a",
+        "cleanup_reported": true,
+        "inputs_sha256": "6cb53a5f7fab323a12776d1767a855ae81bf8cb5fb7ae7e118e2e132624fa5f0",
+        "inputs_unchanged": true
+      },
+      "diagnostic26": {
+        "id": "product-browser-phase26",
+        "command": [
+          "bash",
+          "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/tools/lanes/pgtest.sh",
+          "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork",
+          "/Users/jasonlee/.cargo/bin/cargo",
+          "+1.98.1",
+          "test",
+          "--locked",
+          "--offline",
+          "--no-fail-fast",
+          "-p",
+          "console-app",
+          "--features",
+          "frontend-e2e",
+          "--test",
+          "auth_rest",
+          "genuine_browser::genuine_production_browser_proposal_requires_all_seventeen_scenarios",
+          "--",
+          "--exact",
+          "--test-threads=1",
+          "--nocapture"
+        ],
+        "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+        "exit_code": 101,
+        "timed_out": false,
+        "duration_seconds": 43.4973823329201,
+        "discovered": null,
+        "counts": {
+          "passed": 0,
+          "failed": 1,
+          "skipped": 0,
+          "filtered": 120,
+          "executed": 1
+        },
+        "log_sha256": "2399930cfcf84e6ee8dbd017c5210ae1eb9bb406aed9a8390b4c15936f9f16a7",
+        "cleanup_reported": true,
+        "inputs_sha256": "6cb53a5f7fab323a12776d1767a855ae81bf8cb5fb7ae7e118e2e132624fa5f0",
+        "inputs_unchanged": true
+      },
+      "phase26_sha256": "3455400d2b61dac27644f5952ac8293bcd6c8bbc28b4c92d354017cb67ff77c5",
+      "red_binding": "Diagnostic26 P17 fails exactly at temporal548:10: visible retry-link count expected1 on unchanged before-source9ad069b. Actual outage heading/table/private/effect preconditions precede it. Numeric local location independently observed. No fabricated provider success.",
+      "ui_proposal": {
+        "files": {
+          "src/app/me/[context]/attendance/page.public.tsx": {
+            "before": "9ad069b05eecd88df21135ddebfd8ab46c0f56349e13341299ece4c370a5f6f9",
+            "after": "a74bd09a039e0f9348a8982d48134a6acef023b5dbf1e712486b79112a8f206d"
+          },
+          "tools/browser-business-temporal.mjs": {
+            "before": "f51ab6fd723d241f0b7357a76a5c8c49cfac13eae973cec20fb35e8b74ba9087",
+            "after": "44e6b3b0eae19e562a6baa520ae9e4d25914bcfb18b7cc30b5cde339f887b4e3"
+          }
+        },
+        "patch_sha256": "e483f1fb48a7944eef4360953ac88cd8c0d36008853b37bc590111e0a55a29e3",
+        "change": "Keep malformed user input separate; classify only known auth failures as denied, unexpected/other owner failures as unavailable; retry the exact context/page via fresh authorized SSR. Strengthen existing real-service P17 outage and malformed-byte recovery checks."
+      },
+      "ui_reviews": [
+        {
+          "reviewer": "ai_impl_review",
+          "verdict": "ACCEPT_EXACT_ATTENDANCE_READ_RECOVERY_PROPOSAL"
+        },
+        {
+          "reviewer": "r7_source_review",
+          "verdict": "ACCEPT_EXACT_ATTENDANCE_READ_RECOVERY_PROPOSAL"
+        }
+      ],
+      "offline_proposal": {
+        "before_sha256": "10c7fcd5b9fe088248fe7c7207c3d4efb8857e6bb72f0ee3a8d1dfa41a55d6fb",
+        "after_sha256": "5cd8957eb9d3613bbe61b0aa723cc8cb95ac3f3492e1c55767353b4e2b228345",
+        "patch_sha256": "aeebe7862cd36aedcc341cd739cb324bc32a233c7fe506d320e4b978b4308a23",
+        "change": "Bind requestfailed proof to the exact main-frame attendance reload; wait within the unchanged phase bound for actual failure before asserting exact reload count. For online variants assert count after witnessed fresh Document.",
+        "evidence_limit": "Diagnostic24 offline fails generically; diagnostic25 passes. Exact24 failure location was not observed, so no exclusive cause asserted. Existing immediate failure/count claims race independent post-commit request events; reviewed tightening prevents unrelated asset failure substitution and guarantees event receipt before count claim."
+      },
+      "offline_reviews": [
+        {
+          "reviewer": "r7_source_review",
+          "verdict": "ACCEPT_EXACT_OFFLINE_RELOAD_OBSERVATION_PROPOSAL"
+        },
+        {
+          "reviewer": "r7_wait_trace",
+          "verdict": "ACCEPT_EXACT_OFFLINE_RELOAD_OBSERVATION_PROPOSAL"
+        }
+      ],
+      "disposition": "Apply exact source after test-only RED and reviewed bound-event patch after owning gates close. Only known authority status is labeled denied; retry is current validated context/page through fresh authorized SSR. Current native history has no429 path; actual503/502 recovery awaits runtime proof, generic other-status classification source reviewed. Rebuild/focused GREEN/full121/canonical17/final review and queue remain required."
+    },
+    {
+      "recorded_at": "2026-10-05T20:59:02.038426+00:00",
+      "scope": "R7 fresh frontend and focused restoration/recovery GREEN27",
+      "frontend_reports": {
+        "frontend-lint-final06": {
+          "id": "frontend-lint-final06",
+          "command": [
+            "npm",
+            "run",
+            "lint"
+          ],
+          "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+          "exit_code": 0,
+          "timed_out": false,
+          "duration_seconds": 1.7057640419807285,
+          "discovered": null,
+          "counts": {
+            "passed": 0,
+            "failed": 0,
+            "skipped": 0,
+            "filtered": 0,
+            "executed": 0
+          },
+          "log_sha256": "3e98dcbd24835eb29288dab5790e519db6a485457e666a6774fdbce08459740e",
+          "cleanup_reported": false,
+          "inputs_sha256": "ddafa3020c7be370a698eba009ab8ee03e04b4d79f2e8fe5d22e557ca8495592",
+          "inputs_unchanged": true
+        },
+        "frontend-unit-final06": {
+          "id": "frontend-unit-final06",
+          "command": [
+            "npm",
+            "test"
+          ],
+          "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+          "exit_code": 0,
+          "timed_out": false,
+          "duration_seconds": 1.1348635830217972,
+          "discovered": null,
+          "counts": {
+            "passed": 0,
+            "failed": 0,
+            "skipped": 0,
+            "filtered": 0,
+            "executed": 0
+          },
+          "log_sha256": "f82ded2c4d503a764798eade304ec7e3d8f76aa19327067fd163cfd78019f6a5",
+          "cleanup_reported": false,
+          "inputs_sha256": "ddafa3020c7be370a698eba009ab8ee03e04b4d79f2e8fe5d22e557ca8495592",
+          "inputs_unchanged": true
+        },
+        "frontend-build-final06": {
+          "id": "frontend-build-final06",
+          "command": [
+            "npm",
+            "run",
+            "build"
+          ],
+          "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+          "exit_code": 0,
+          "timed_out": false,
+          "duration_seconds": 10.699157958035357,
+          "discovered": null,
+          "counts": {
+            "passed": 0,
+            "failed": 0,
+            "skipped": 0,
+            "filtered": 0,
+            "executed": 0
+          },
+          "log_sha256": "86eea7e4ffc406027a968c48be9cb43e3f87cc0f5f2b67714cb5385e51b9b306",
+          "cleanup_reported": false,
+          "inputs_sha256": "aaeafce1b77d1e13e11361f9e53c98d37a62d3a6396fb02933be6a480fac7898",
+          "inputs_unchanged": false
+        },
+        "runtime-consumer-final06": {
+          "id": "runtime-consumer-final06",
+          "command": [
+            "node",
+            "--test",
+            "tools/test-production-runtime.test.mjs"
+          ],
+          "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+          "exit_code": 0,
+          "timed_out": false,
+          "duration_seconds": 50.22628100006841,
+          "discovered": null,
+          "counts": {
+            "passed": 0,
+            "failed": 0,
+            "skipped": 0,
+            "filtered": 0,
+            "executed": 0
+          },
+          "log_sha256": "0f245295f09d6eedbe5f997c482b04b7435663ddcea156d67b25dcc0bdbfa515",
+          "cleanup_reported": false,
+          "inputs_sha256": "f78a5d44ecf060f2dba4a2d36f6fa89e342c8d6702d9143af2470af03d18e5e5",
+          "inputs_unchanged": true
+        }
+      },
+      "raw_reporter_totals": {
+        "vitest_files": 9,
+        "vitest_tests_passed": 112,
+        "node_runtime_consumer_passed": 3,
+        "generic_count_parser": "Rust-only parser records zero for these reporters; use actual raw reporter totals."
+      },
+      "build_input_change": "Only generated .next/build-inputs.json changed:606611bd0236dc800800ad93a7ccd17af445453ef24f4983feeb5f0664eab3d2 to2265734d; all2953 postbuild source/build entries equal current.",
+      "evidence_audit": "r7_evidence_audit independently verifies diagnostics21–26/custody and fresh frontend counts/hashes/applicability. Corrected prior future-proof wording; RED was not recovery proof.",
+      "applied_source_sha256": {
+        "src/app/me/[context]/attendance/page.public.tsx": "a74bd09a039e0f9348a8982d48134a6acef023b5dbf1e712486b79112a8f206d",
+        "tools/browser-business-temporal.mjs": "44e6b3b0eae19e562a6baa520ae9e4d25914bcfb18b7cc30b5cde339f887b4e3",
+        "tools/browser-business-restore.mjs": "5cd8957eb9d3613bbe61b0aa723cc8cb95ac3f3492e1c55767353b4e2b228345",
+        "tools/test-browser-business-session.mjs": "aff324edf6416cdd674ba256780520ec41471cad8e1445048861bde7cb8a918f"
+      },
+      "focused27": {
+        "id": "product-browser-phase27",
+        "command": [
+          "bash",
+          "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/tools/lanes/pgtest.sh",
+          "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork",
+          "/Users/jasonlee/.cargo/bin/cargo",
+          "+1.98.1",
+          "test",
+          "--locked",
+          "--offline",
+          "--no-fail-fast",
+          "-p",
+          "console-app",
+          "--features",
+          "frontend-e2e",
+          "--test",
+          "auth_rest",
+          "genuine_browser::genuine_production_browser_proposal_requires_all_seventeen_scenarios",
+          "--",
+          "--exact",
+          "--test-threads=1",
+          "--nocapture"
+        ],
+        "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+        "exit_code": 101,
+        "timed_out": false,
+        "duration_seconds": 92.57352520793211,
+        "discovered": null,
+        "counts": {
+          "passed": 0,
+          "failed": 1,
+          "skipped": 0,
+          "filtered": 120,
+          "executed": 1
+        },
+        "log_sha256": "252462b01fc25fe370059961649e94b8adc00aa32248a53dbce118218f784a49",
+        "cleanup_reported": true,
+        "inputs_sha256": "f78a5d44ecf060f2dba4a2d36f6fa89e342c8d6702d9143af2470af03d18e5e5",
+        "inputs_unchanged": true
+      },
+      "focused27_child_counts": {
+        "passed": 3,
+        "failed": 0,
+        "unreached": 14,
+        "skipped": 0
+      },
+      "focused27_phase_sha256": "5dd10f68aef15a5c8f509e8df17160b75d9b8feb30a96f9cdbb4d965bc341b45",
+      "disposition": "Focused canonical helper P15/P16/P17 all pass, including all7faultvariants, current exact-mainframe offline fail, real same-context/page outage retry and malformed-byte recovery. Other14 remain deliberately unreached; native outer0/1/120 failure remains visible and gives no full canonical acceptance. Complete unfiltered auth_rest121 including canonical17 is next; source stays fixed. Final source/runtime/evidence and exact-head review plus protected CI/queue remain pending."
+    },
+    {
+      "recorded_at": "2026-10-05T21:21:10.606381+00:00",
+      "scope": "R7 complete unfiltered native121 and canonical production browser17 acceptance",
+      "gates": [
+        {
+          "id": "native-auth-final05-discovery",
+          "command": [
+            "/Users/jasonlee/.cargo/bin/cargo",
+            "+1.98.1",
+            "test",
+            "--locked",
+            "--offline",
+            "-p",
+            "console-app",
+            "--features",
+            "frontend-e2e",
+            "--test",
+            "auth_rest",
+            "--",
+            "--list"
+          ],
+          "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend",
+          "exit_code": 0,
+          "timed_out": false,
+          "duration_seconds": 0.8681301670148969,
+          "discovered": 121,
+          "counts": {
+            "passed": 0,
+            "failed": 0,
+            "skipped": 0,
+            "filtered": 0,
+            "executed": 0
+          },
+          "log_sha256": "09de1adc219c4ea1bb8f20a6f6bc0d093d35a1a19ae1e14d0c2b0462d27ca955",
+          "cleanup_reported": false,
+          "inputs_sha256": "f78a5d44ecf060f2dba4a2d36f6fa89e342c8d6702d9143af2470af03d18e5e5",
+          "inputs_unchanged": true
+        },
+        {
+          "id": "native-auth-final05-complete",
+          "command": [
+            "bash",
+            "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/tools/lanes/pgtest.sh",
+            "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork",
+            "/Users/jasonlee/.cargo/bin/cargo",
+            "+1.98.1",
+            "test",
+            "--locked",
+            "--offline",
+            "--no-fail-fast",
+            "-p",
+            "console-app",
+            "--features",
+            "frontend-e2e",
+            "--test",
+            "auth_rest",
+            "--",
+            "--test-threads=1",
+            "--nocapture"
+          ],
+          "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+          "exit_code": 0,
+          "timed_out": false,
+          "duration_seconds": 1170.169342334033,
+          "discovered": null,
+          "counts": {
+            "passed": 121,
+            "failed": 0,
+            "skipped": 0,
+            "filtered": 0,
+            "executed": 121
+          },
+          "log_sha256": "35cc0148e03fe59c702fa87c4c5cab0dd9ffea0ea90216ff12d22e7fb949f74d",
+          "cleanup_reported": true,
+          "inputs_sha256": "f78a5d44ecf060f2dba4a2d36f6fa89e342c8d6702d9143af2470af03d18e5e5",
+          "inputs_unchanged": true
+        }
+      ],
+      "browser_report": {
+        "path": "docs/planning/nextjs-v1/evidence/browser-business-session-r7/native-auth-final05-complete.child-report.json",
+        "sha256": "eb41d139c60c8f7769ca698c211b0a63932ca34b807b865a3e6fafa9cc454a15",
+        "discovered": 17,
+        "executed": 17,
+        "counts": {
+          "passed": 17,
+          "failed": 0,
+          "unreached": 0,
+          "skipped": 0
+        },
+        "failure_class": null
+      },
+      "source_inputs": {
+        "count": 2953,
+        "before_after_current_match": true,
+        "sha256": "f78a5d44ecf060f2dba4a2d36f6fa89e342c8d6702d9143af2470af03d18e5e5"
+      },
+      "reviews": [
+        {
+          "reviewer": "r7_wait_trace",
+          "verdict": "ACCEPT_BOUNDED_RUNTIME",
+          "finding": "Independently verified121unique test names equal discovery,17required scenarios including all variants, canonical launcher without diagnostic override, all2953input hashes current and cleanup."
+        },
+        {
+          "reviewer": "r7_source_review",
+          "verdict": "ACCEPT_BOUNDED_R7_SOURCE_AFTER_FIX",
+          "scope": "all16source lenses; exact-head review pending"
+        }
+      ],
+      "disposition": "Full121native and embedded17browser pass with zero failed/skipped/filtered/unreached cases. This supersedes focused27 partial acceptance only for bounded R7. Earlier failures retained. Final metadata, immutable-head review, hostedCI and protected queue remain pending; complete product/release unaccepted."
+    },
+    {
+      "recorded_at": "2026-10-05T21:22:25.363816+00:00",
+      "scope": "R7 final metadata and product review",
+      "gates": [
+        {
+          "id": "tooling-delivery-final06",
+          "command": [
+            "npm",
+            "run",
+            "test:source-closure"
+          ],
+          "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+          "exit_code": 0,
+          "timed_out": false,
+          "duration_seconds": 0.35793612501583993,
+          "discovered": null,
+          "counts": {
+            "passed": 0,
+            "failed": 0,
+            "skipped": 0,
+            "filtered": 0,
+            "executed": 0
+          },
+          "log_sha256": "4b3f790506726989c27fe32acd70342b79b8468f4bc9fd2bbb824461ae52c4bb",
+          "cleanup_reported": false,
+          "inputs_sha256": "f78a5d44ecf060f2dba4a2d36f6fa89e342c8d6702d9143af2470af03d18e5e5",
+          "inputs_unchanged": true
+        },
+        {
+          "id": "fork-custody-delivery-final08",
+          "command": [
+            "python3",
+            "-c",
+            "import sys,json;sys.path.insert(0,\"tools\");import acceptance;result=acceptance.inspect_fork();print(json.dumps(result,indent=2));raise SystemExit(result[\"status\"]!=\"passed\")"
+          ],
+          "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+          "exit_code": 0,
+          "timed_out": false,
+          "duration_seconds": 0.5026341669727117,
+          "discovered": null,
+          "counts": {
+            "passed": 0,
+            "failed": 0,
+            "skipped": 0,
+            "filtered": 0,
+            "executed": 0
+          },
+          "log_sha256": "ab7186404fa5c4f825a75033f723a99494cbdf539a009b03d80ec3539aac2068",
+          "cleanup_reported": false,
+          "inputs_sha256": "f78a5d44ecf060f2dba4a2d36f6fa89e342c8d6702d9143af2470af03d18e5e5",
+          "inputs_unchanged": true
+        },
+        {
+          "id": "production-routes-delivery-final08",
+          "command": [
+            "npm",
+            "run",
+            "test:production-routes"
+          ],
+          "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+          "exit_code": 1,
+          "timed_out": false,
+          "duration_seconds": 4.874449249939062,
+          "discovered": null,
+          "counts": {
+            "passed": 0,
+            "failed": 0,
+            "skipped": 0,
+            "filtered": 0,
+            "executed": 0
+          },
+          "log_sha256": "75a155bc0dfd1cc81811dd4e489c2b184d523930fe2c299d842bf1f1b37aab60",
+          "cleanup_reported": false,
+          "inputs_sha256": "f78a5d44ecf060f2dba4a2d36f6fa89e342c8d6702d9143af2470af03d18e5e5",
+          "inputs_unchanged": true
+        },
+        {
+          "id": "production-routes-delivery-final09",
+          "command": [
+            "npm",
+            "run",
+            "test:production-routes"
+          ],
+          "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+          "exit_code": 0,
+          "timed_out": false,
+          "duration_seconds": 6.071706000017002,
+          "discovered": null,
+          "counts": {
+            "passed": 0,
+            "failed": 0,
+            "skipped": 0,
+            "filtered": 0,
+            "executed": 0
+          },
+          "log_sha256": "512901c3a5e50a2917b8d01feb4f8538f69890debfe194f13904f75b1b739000",
+          "cleanup_reported": false,
+          "inputs_sha256": "f78a5d44ecf060f2dba4a2d36f6fa89e342c8d6702d9143af2470af03d18e5e5",
+          "inputs_unchanged": true
+        }
+      ],
+      "actual_counts": {
+        "tooling": 18,
+        "fork_discovered_files": 4093,
+        "excluded_prototype_routes": 17,
+        "excluded_url_variants": 34
+      },
+      "environment_failure": "production-routes-delivery-final08 preserved: sandbox rejects local loopback listen with EPERM after source scan; identical-final09 passes with allowed local socket. No product change or failed assertion masked.",
+      "reviews": [
+        {
+          "reviewer": "ai_impl_review",
+          "verdict": "APPROVE_BOUNDED_FINAL_UX_SOURCE",
+          "scope": "actual login/attendance/logout and current source without new blocker"
+        }
+      ],
+      "disposition": "Fresh metadata/custody/routes pass with unchanged2953inputs. Exact immutable-head review, hosted CI and protected queue/readback pending; no full product/release claim."
+    },
+    {
+      "recorded_at": "2026-10-05T22:39:09.895306+00:00",
+      "scope": "Hosted exact-head PR16 acceptance failure and privacy-safe diagnostic response",
+      "candidate": "e24dac928d1e53967ac9ff23959d25ab464a089a",
+      "verdict": "REVISE_hosted_acceptance_diagnostics_SOURCE_ACCEPT",
+      "evidence": "https://github.com/oyatie/console-nextjs/actions/runs/37375753030/job/111983951062",
+      "raw_log_sha256": "a5ab3f3e87d31aa82af446f00149f738ba4b1cb039dd6ec2f0840a7073148998",
+      "native": {
+        "executed": 121,
+        "passed": 120,
+        "failed": 1,
+        "ignored": 0,
+        "filtered": 0
+      },
+      "browser": {
+        "passed": 12,
+        "failed": 1,
+        "unreached": 4,
+        "skipped": 0
+      },
+      "diagnostic_review": {
+        "reviewer": "p14_diagnostic_review",
+        "verdict": "ACCEPT_for_execution_and_publication",
+        "helper_sha256": "682407048049f4ff76df89c5fa9af836f1985fddb36e4f8e7c8adcb34d9052e3",
+        "tests_sha256": "e9ae841c59edfbc47344af9a2df2fde9cffc84f9abd059699fe6d031a525cd34"
+      },
+      "disposition": "Disabled automatic merging after required hosted RED. Exact P14 assertion absent from original report. Corrected diagnostic parser excludes complete multiline message and inherited getters, emits only fixed basename and bounded line/column to report. Assertions, phase budgets, journeys and counts unchanged. Five diagnostic unit tests pass; full canonical local execution started and hosted localization pending; no product cause established.",
+      "diagnostic_unit": {
+        "path": "docs/planning/nextjs-v1/evidence/browser-business-session-r7/hosted-diagnostic-unit01.json",
+        "sha256": "cc6c6675c920050274a216141f6399bd8e78babfa10bbee07e47fd8c7644bc20",
+        "actual_counts": {
+          "discovered": 5,
+          "executed": 5,
+          "passed": 5,
+          "failed": 0,
+          "skipped": 0,
+          "cancelled": 0
+        }
+      },
+      "diagnostic_tooling": {
+        "path": "docs/planning/nextjs-v1/evidence/browser-business-session-r7/hosted-diagnostic-tooling01.json",
+        "sha256": "08cea8a186665742cbd2f97aa5836f867fe31f6bc1485258e35416627f832638",
+        "actual_counts": {
+          "executed": 18,
+          "passed": 18,
+          "failed": 0
+        }
+      },
+      "publication_review": {
+        "reviewer": "p14_diagnostic_review",
+        "verdict": "ACCEPT_diagnostic_only_publication",
+        "pre_receipt_changed_file_manifest_sha256": "f2654319e23d324b54b4b568c788a68a1b47835ffe42a9fd93ef6b5c60a43f35",
+        "files": 12,
+        "verified_evidence_refs": 33,
+        "source_inputs": 2955,
+        "scope": "Human-attributed commit/push for hosted P14 localization; original hosted RED still blocks queue. This receipt alone added after exact-diff review."
+      }
+    },
+    {
+      "recorded_at": "2026-10-06T00:36:46.040096+00:00",
+      "scope": "Reviewed P14 real-clock/cookie-expiry test observations and exact canonical regression proof",
+      "verdict": "SOURCE_ACCEPT_local_complete_current_head_hosted_pending",
+      "evidence": {
+        "path": "docs/planning/nextjs-v1/evidence/browser-business-session-r7/p14-timing-repair.json",
+        "sha256": "3672e6ecc8076a2a25c14aa89da285bd07f287ca5dcc70a3f5015cb594f94209"
+      },
+      "reviews": [
+        {
+          "reviewer": "p14_trace_review",
+          "verdict": "ACCEPT_exact_four_sources_for_execution"
+        },
+        {
+          "reviewer": "p14_diagnostic_review",
+          "verdict": "CONDITIONAL_DIAGNOSTIC_ACCEPT_original_and_repaired_fragments_custody_cleanup"
+        }
+      ],
+      "source_files": {
+        "tools/browser-business-temporal.mjs": "f4113ee8101ad8d28d043d0e8713288e8aca2dbb086bbbd506e20dab166d606d",
+        "tools/test-browser-business-session.mjs": "834b9a15ef0ec70517f510e0a2347e0cb991802264b554bedbfcd5172eaf5ea9",
+        "tools/browser-business-temporal.test.mjs": "027b086dd367804a85fbc7ced3ad7201c89613623b9cccb08b374a8af76a63a5",
+        ".github/workflows/ci.yml": "b1066d1aa0c1ac5a14c20f0b4c1fff4160ddf1a49e33afacae22dc7c05b167dc"
+      },
+      "disposition": "Original hosted P14 and private short-repaired01 causes remain unlocalized; passing later runs do not prove those causes fixed. Both demonstrated harness defects repaired with strict surviving/live-cookie, header, native-effect and actual expiry checks. Full121/17 now passed; independent full artifact/publication review, immutable candidate COMMENT and exact-head required CI pending before protected queue admission.",
+      "publication_review": {
+        "recorded_at": "2026-10-06T00:46:52.253586+00:00",
+        "verdict": "ACCEPT_bounded_publication",
+        "pre_receipt_manifest_sha256": "d644195b9917c23b1e183588285613b2d028f6e70847bd120842bdd59c771c5c",
+        "files": 14,
+        "reviewers": [
+          "p14_trace_review",
+          "p14_diagnostic_review"
+        ],
+        "scope": "Both independent reviewers accepted exact fourteen-file manifest02, complete121/17 local proof, twelve units and eighteen tooling tests; only this publication receipt and corresponding metadata/hash updates follow. Exact immutable-head review and current-head required PR CI remain gates before protected queue admission. Required merge-group checks follow. No wider product or launch approval."
+      }
+    }
+  ],
+  "execution_totals_scope": "Historical red-lane admission checkpoint; current runtime/source evidence is recorded in implementation_followups and remains incomplete.",
+  "admission_fields_scope": "new_tests_executed and acceptance_limits retain historical admission evidence; superseded current implementation and test facts are recorded in implementation_followups. They are not current totals or a current no-product-modifications assertion."
+}

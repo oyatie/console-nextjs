@@ -1,0 +1,19 @@
+{
+  "schema": "independent-diagnostic-source-review/2",
+  "reviewer": "p16_owner_mechanism",
+  "created_at_utc": "2026-10-06T10:57:27.821217+00:00",
+  "verdict": "REVISE_SOURCE_ONLY",
+  "tests_executed": 0,
+  "tracked_edits": 0,
+  "manifest_sha256": "5914f546e404d64c3028ffea76254db54d1649299e222c2bfa6bec5baf4ca709",
+  "native_sha256": "ef53481448b7b9fb261a31ea594a2deed9604b5c3536c7101d8d3b13cd22bd2b",
+  "driver_sha256": "7cbac396eb844548e2065005a42983eb43f71351d1ab409ae3da5ede1404b522",
+  "findings": [
+    {
+      "location": "tools/test-native-browser-enrollment-diagnostic.test.mjs:235",
+      "problem": "The per-case approved_producer_sha256 always identifies the native candidate even for the three copied business producer cases. Actual ROOT/BUNDLE pin checks are correct, but this emitted evidence field misidentifies those producers.",
+      "required_change": "Select BUNDLE_PINS[`tools/${runner}`] for the current original-case runner.",
+      "disposition": "Fixed by candidate03 sole-line driver revision; candidate02 preserved."
+    }
+  ]
+}

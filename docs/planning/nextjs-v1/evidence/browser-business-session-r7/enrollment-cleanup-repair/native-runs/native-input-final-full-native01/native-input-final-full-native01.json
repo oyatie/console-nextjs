@@ -1,0 +1,39 @@
+{
+  "id": "native-input-final-full-native01",
+  "command": [
+    "bash",
+    "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/tools/lanes/pgtest.sh",
+    "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork",
+    "/Users/jasonlee/.cargo/bin/cargo",
+    "+1.98.1",
+    "test",
+    "--locked",
+    "--offline",
+    "--no-fail-fast",
+    "--features",
+    "frontend-e2e",
+    "-p",
+    "console-app",
+    "--test",
+    "auth_rest",
+    "--",
+    "--nocapture",
+    "--test-threads=1"
+  ],
+  "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+  "exit_code": 101,
+  "timed_out": false,
+  "duration_seconds": 1548.2597577499691,
+  "discovered": null,
+  "counts": {
+    "passed": 124,
+    "failed": 1,
+    "skipped": 0,
+    "filtered": 0,
+    "executed": 125
+  },
+  "log_sha256": "efc7415614eda7c09d02382e34ba3f8720ae99ccb216f6893c734bc149d951f6",
+  "cleanup_reported": true,
+  "inputs_sha256": "77d09afd7c39eb07166ae64c0cb85e660c8f2b57927090464edbf198dd415d4a",
+  "inputs_unchanged": true
+}

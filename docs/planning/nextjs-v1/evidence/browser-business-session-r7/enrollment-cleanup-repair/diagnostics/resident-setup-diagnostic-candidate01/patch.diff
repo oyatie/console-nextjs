@@ -1,0 +1,257 @@
+--- a/tools/test-resident-authenticator.mjs
++++ b/tools/test-resident-authenticator.mjs
+@@ -43,6 +43,31 @@
+ let startup = Promise.resolve();
+ let finalization;
+ let watchdog;
++// Fixed pre-ready checkpoints only. These clocks observe existing budgets;
++// they do not arm timers, change deadlines or gate protocol outcomes.
++const setupStartedAt = performance.now();
++let setupStage = "initial";
++let setupStageAt = setupStartedAt;
++let setupBudgetStartedAt = setupStartedAt;
++let setupBudgetMs = null;
++let setupComplete = false;
++function setupCheckpoint(stage, budgetMs = null, budgetStartedAt = performance.now()) {
++  setupStage = stage;
++  setupStageAt = performance.now();
++  setupBudgetStartedAt = budgetStartedAt;
++  setupBudgetMs = budgetMs;
++}
++function setupDiagnostic() {
++  const now = performance.now();
++  const setupAgeMs = Math.max(0, Math.floor(now - setupStartedAt));
++  const stageAgeMs = Math.max(0, Math.floor(now - setupStageAt));
++  const fields = { stage: setupStage, setup_age_ms: Math.min(setupAgeMs, 600_000),
++    stage_age_ms: Math.min(stageAgeMs, 600_000), age_capped: setupAgeMs > 600_000 || stageAgeMs > 600_000,
++    budget_ms: setupBudgetMs,
++    budget_elapsed: setupBudgetMs === null ? null : now - setupBudgetStartedAt >= setupBudgetMs };
++  // No errors, paths, IDs, credentials or native payloads. Logging is best effort.
++  try { writeSync(2, `RESIDENT_SETUP_DIAGNOSTIC ${JSON.stringify(fields)}\n`); } catch {}
++}
+ 
+ async function readFrame() {
+   assert.ok(incoming < MAX_FRAMES);
+@@ -212,7 +237,9 @@
+ watchdog = setTimeout(interrupted, 600_000);
+ 
+ async function secureDocument() {
++  if (!setupComplete) setupCheckpoint("secure-url");
+   assert.equal(new URL(page.url()).origin, ORIGIN);
++  if (!setupComplete) setupCheckpoint("secure-state");
+   assert.deepEqual(await page.evaluate(() => ({
+     origin: location.origin, secure: isSecureContext,
+     creation: typeof PublicKeyCredential.parseCreationOptionsFromJSON,
+@@ -238,6 +265,7 @@
+ try {
+   const startupDeadlineAt = performance.now() + STARTUP_MS;
+   startup = (async () => {
++    setupCheckpoint("temporary-scope", STARTUP_MS, startupDeadlineAt - STARTUP_MS);
+     ownedTempScope = await mkdtemp(join(tmpdir(), "console-resident-authenticator-"));
+     // This process hosts only this fixture. SDK defaults and Chromium use the
+     // same fresh scope; no host/global environment or private SDK hook changes.
+@@ -245,6 +273,7 @@
+     assert.ok(!closing);
+     const remaining = startupDeadlineAt - performance.now();
+     assert.ok(remaining > 0);
++    setupCheckpoint("browser-launch", STARTUP_MS, startupDeadlineAt - STARTUP_MS);
+     browserServer = await chromium.launchServer({
+       env: { ...cleanEnv, TMPDIR: ownedTempScope }, timeout: remaining,
+     });
+@@ -257,11 +286,14 @@
+     assert.ok(performance.now() < startupDeadlineAt);
+   } finally { clearTimeout(startupTimer); }
+   assert.ok(!closing);
++  setupCheckpoint("browser-connect", PHASE_MS);
+   browser = await chromium.connect(browserServer.wsEndpoint(), { timeout: PHASE_MS });
+   assert.ok(!closing);
++  setupCheckpoint("context");
+   context = await browser.newContext({ serviceWorkers: "block", acceptDownloads: false });
+   // Only this fixed fixture document is fulfilled. Every other URL is denied;
+   // there is no native API interception and no HTTP/provider success simulation.
++  setupCheckpoint("route");
+   await context.route("**/*", (route) => {
+     if (route.request().url() === `${ORIGIN}/` && route.request().method() === "GET") {
+       return route.fulfill({ status: 200, contentType: "text/html", body:
+@@ -269,18 +301,26 @@
+     }
+     return route.abort("blockedbyclient");
+   });
++  setupCheckpoint("page");
+   page = await context.newPage();
++  setupCheckpoint("navigate", PHASE_MS);
+   await page.goto(`${ORIGIN}/`, { timeout: PHASE_MS });
+   await secureDocument();
++  setupCheckpoint("cdp-session");
+   cdp = await context.newCDPSession(page);
++  setupCheckpoint("webauthn-enable");
+   await cdp.send("WebAuthn.enable");
++  setupCheckpoint("virtual-authenticator");
+   ({ authenticatorId } = await cdp.send("WebAuthn.addVirtualAuthenticator", {
+     options: { protocol: "ctap2", transport: "internal", hasResidentKey: true,
+       hasUserVerification: true, isUserVerified: true, automaticPresenceSimulation: true },
+   }));
++  setupCheckpoint("browser-identity");
+   const browserPid = browserServer.process().pid;
+   assert.ok(Number.isSafeInteger(browserPid) && browserPid > 0);
++  setupCheckpoint("ready");
+   await writeFrame({ kind: "ready", origin: ORIGIN, secure_context: true, browser_pid: browserPid });
++  setupComplete = true;
+   while (!closing) {
+     const command = await readFrame();
+     assert.ok(!closing);
+@@ -346,6 +386,7 @@
+     }
+   }
+ } catch {
++  if (!setupComplete) setupDiagnostic();
+   if (!closing) {
+     process.stderr.write("resident authenticator fixture failed\n");
+     await writeFrame({ kind: "error", code: "fixture-failure" }).catch(() => {});
+--- a/backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs
++++ b/backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs
+@@ -44,6 +44,57 @@
+     owned_temp_removed: bool,
+ }
+ 
++#[derive(serde::Deserialize, Debug)]
++#[serde(rename_all = "kebab-case")]
++enum SetupStage {
++    Initial,
++    TemporaryScope,
++    BrowserLaunch,
++    BrowserConnect,
++    Context,
++    Route,
++    Page,
++    Navigate,
++    SecureUrl,
++    SecureState,
++    CdpSession,
++    WebauthnEnable,
++    VirtualAuthenticator,
++    BrowserIdentity,
++    Ready,
++}
++
++#[derive(serde::Deserialize, Debug)]
++#[serde(deny_unknown_fields)]
++struct SetupDiagnostic {
++    stage: SetupStage,
++    setup_age_ms: u32,
++    stage_age_ms: u32,
++    age_capped: bool,
++    budget_ms: Option<u32>,
++    budget_elapsed: Option<bool>,
++}
++
++impl SetupDiagnostic {
++    fn bounded(&self) -> bool {
++        self.setup_age_ms <= 600_000
++            && self.stage_age_ms <= 600_000
++            && match self.budget_ms {
++                None => self.budget_elapsed.is_none(),
++                Some(5_000 | 20_000) => self.budget_elapsed.is_some(),
++                Some(_) => false,
++            }
++    }
++}
++
++#[derive(Debug)]
++enum FirstFrameCategory {
++    Ready,
++    FixtureFailure,
++    Cleaned,
++    Other,
++}
++
+ type Result<T> = std::result::Result<T, &'static str>;
+ 
+ // Private fixture failures simulate thread setup errors, not OS exhaustion.
+@@ -75,7 +126,7 @@
+     writes: Receiver<Result<()>>,
+     writer: Option<JoinHandle<()>>,
+     reader: Option<JoinHandle<()>>,
+-    error_reader: Option<JoinHandle<(usize, Option<CleanupDiagnostic>)>>,
++    error_reader: Option<JoinHandle<(usize, Option<CleanupDiagnostic>, Option<SetupDiagnostic>)>>,
+     sent: u64,
+     received: u64,
+     browser_pid: Option<u32>,
+@@ -242,13 +293,38 @@
+                         let payload = line.strip_prefix(b"RESIDENT_CLEANUP_DIAGNOSTIC ")?;
+                         serde_json::from_slice::<CleanupDiagnostic>(payload).ok()
+                     });
+-                    (count, diagnostic)
++                    let setup_diagnostic = prefix.split(|byte| *byte == b'\n').find_map(|line| {
++                        let payload = line.strip_prefix(b"RESIDENT_SETUP_DIAGNOSTIC ")?;
++                        serde_json::from_slice::<SetupDiagnostic>(payload)
++                            .ok()
++                            .filter(SetupDiagnostic::bounded)
++                    });
++                    (count, diagnostic, setup_diagnostic)
+                 })
+                 .map_err(|_| "infrastructure: resident stderr start")?,
+         );
+         let ready = value.read(PHASE)?;
+         if ready["kind"] != "ready" || ready["origin"] != ORIGIN || ready["secure_context"] != true
+         {
++            // read() already checked frame version/sequence. Classify only fixed
++            // literals; never print the received JSON, URL, code or browser ID.
++            let category = match ready["kind"].as_str() {
++                Some("ready") => FirstFrameCategory::Ready,
++                Some("error") if ready["code"] == "fixture-failure" => {
++                    FirstFrameCategory::FixtureFailure
++                }
++                Some("cleaned") => FirstFrameCategory::Cleaned,
++                _ => FirstFrameCategory::Other,
++            };
++            let age_ms = value.spawned_at.elapsed().as_millis();
++            let _ = writeln!(
++                std::io::stderr().lock(),
++                "RESIDENT_FIRST_FRAME_FAILURE category={category:?} owner_age_ms={} phase_budget_elapsed={} origin_matches={} secure_context_true={}",
++                age_ms.min(PHASE.as_millis()),
++                age_ms >= PHASE.as_millis(),
++                ready["origin"] == ORIGIN,
++                ready["secure_context"] == true
++            );
+             return Err("infrastructure: resident secure origin not ready");
+         }
+         value.browser_pid = ready["browser_pid"]
+@@ -487,6 +563,7 @@
+         }
+         let mut count = 0;
+         let mut diagnostic = None;
++        let mut setup_diagnostic = None;
+         if self
+             .error_reader
+             .as_ref()
+@@ -498,12 +575,29 @@
+                     join_succeeded[2] = Some(true);
+                     count = observed.0;
+                     diagnostic = observed.1;
++                    setup_diagnostic = observed.2;
+                 }
+                 Err(_) => {
+                     join_succeeded[2] = Some(false);
+                     failure.get_or_insert("infrastructure: resident stderr worker failed");
+                 }
+             }
++        }
++        // A constructor error may have a successful cleanup. Preserve its fixed
++        // setup observation independently of the cleanup result.
++        if self.constructing
++            && let Some(diagnostic) = &setup_diagnostic
++        {
++            let _ = writeln!(
++                std::io::stderr().lock(),
++                "RESIDENT_SETUP_DIAGNOSTIC stage={:?} setup_age_ms={} stage_age_ms={} age_capped={} budget_ms={:?} budget_elapsed={:?}",
++                diagnostic.stage,
++                diagnostic.setup_age_ms,
++                diagnostic.stage_age_ms,
++                diagnostic.age_capped,
++                diagnostic.budget_ms,
++                diagnostic.budget_elapsed
++            );
+         }
+         let result = (|| {
+             if let Some(reason) = failure {

@@ -1,0 +1,14 @@
+{
+  "schema": "resident-startup-owner-design-review/1",
+  "verdict": "ACCEPT_DESIGN_ONLY",
+  "design_sha256": "3d711a1935a88dcacbc7fa17273fb57dda3952c0c97477a0dcc2dbe007f89d23",
+  "constraints": [
+    "OrdinaryACKbeforeoutputchannelrelease; failedpartialstartupmayreleaseimmediately",
+    "DeadlinerecheckafterACK/statusobservations; latecustodyneveracceptance",
+    "Oneexisting15sworkerphasecoversreapandjoins; noextra/newbudget orcleanup-bypassingearlyerror",
+    "Joinonlyfinishedhandles; cacheboundedresultsticky; constructorprimaryErrsurvivesDrop",
+    "Ordinarysuccessrequiresall3workers andoriginalACK/browser/outcome/exitchecks",
+    "RealNode reap+partialworkersmustbeobserved; Chromiumabsence independentlywitnessedwherelaunchedorUNKNOWN"
+  ],
+  "scope": "Independentreadonlydesignreview; nocodeimplementation/runtime/releaseapproval"
+}

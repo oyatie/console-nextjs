@@ -1,0 +1,222 @@
+{
+  "schema": "bounded-pr16-typescript-discovery-repair-review/1",
+  "reviewer": "p16_owner_mechanism",
+  "created_at_utc": "2026-10-06T12:32:45.953799+00:00",
+  "verdict": "ACCEPT_BOUNDED_PR16_TYPESCRIPT_DISCOVERY_REPAIR_SOURCE_METADATA_EVIDENCE",
+  "scope": "Exact configuration-only follow-up, two metadata deltas and26-asset evidence sidecar after published PR16 repair894ae36. Local discovery/import-negative/lint/build proof and separate production staging/verification only. No fresh hostedCI, protected queue, deployment, MVP or launch acceptance.",
+  "source_parent": "894ae36e7170245b027d0688b26b6e46da461c13",
+  "configuration": {
+    "baseline_sha256": "1632796cde2881ef7091052486f75a0385e22e98a1862e6436da25c4f3424810",
+    "candidate_sha256": "ccf246d7611d18b133521c0db25ad40448d2f4706a8b84ed6d313415b09d1ee8",
+    "diff_sha256": "d1d72a37c52dc60ac8bcf9dae65b7ae31887cee9542b68fc10bd7813bd73a8b1",
+    "sole_tracked_code_delta": true,
+    "change": "Add only docs/planning/nextjs-v1/evidence to exclude. All compiler options/includes unchanged; ignoreBuildErrors remains false. No test/assertion/timeout changes.",
+    "ownership": "Exclude documentary partial snapshots from wildcard root discovery; explicit imports remain typechecked."
+  },
+  "installed_guidance_read": {
+    "next": "16.3.8",
+    "typescript": "5.9.3",
+    "next_guide": "node_modules/next/dist/docs/01-app/03-api-reference/05-config/02-typescript.md",
+    "next_options": "node_modules/next/dist/docs/01-app/03-api-reference/05-config/01-next-config-js/typescript.md",
+    "rules_verified": "Complete tsconfig project including tests and generated Next types stays checked. TypeScript root exclude does not block imported modules; actual negative2322 confirms it."
+  },
+  "current_metadata": {
+    "sha256": {
+      "docs/planning/nextjs-v1/IMPLEMENTATION.md": "4bfb0198aa52ad779720618abdeca31baf8925d469e906f1893970ba6c334f68",
+      "docs/planning/nextjs-v1/requirements-and-evidence.json": "b5cb2ddb98b6c95cd542a1fb11244ee0a0da226f85f5549278c04a3b3d35471d"
+    },
+    "complete_exact_deltas_read": true,
+    "claims_match_evidence": true,
+    "scope_preserved": "Published894ae36/failing hostedCI are identified; prior22/125/17 remain original-config proof, newconfig local proof separate; both config and generated-manifest deltas explicit; HR/Org/Payroll/Foundry/full release remain incomplete."
+  },
+  "portable_sidecar": {
+    "path": "docs/planning/nextjs-v1/evidence/browser-business-session-r7/typescript-discovery-repair/index.json",
+    "index_sha256": "561948036cc0a207107e6736ea02df8f1e6be415dabdb4ad144044dfe0158f2e",
+    "index_bytes": 6925,
+    "assets": 26,
+    "asset_bytes": 1093962,
+    "every_asset_size_and_hash_verified": true,
+    "direct_current_original_source_or_configuration_diff_copies_verified": 25,
+    "historical_claim_provenance": "Remaining production-runtime-custody-claim01.json matches prior independently reviewed exact original stage-report688cc225. Its old live source path now contains corrected metadata; no invented current-path equality claimed.",
+    "all_regular_no_symlink_duplicate_or_traversal_paths": true,
+    "no_extra_files_before_external_review_copy": true,
+    "final_review_path_only_reference": "independent-review.json"
+  },
+  "discovery": {
+    "probe_sha256": "4963ce9c93f55658ac8b48cc5b747ba0b9ff615a2a0e9a5c1e758a50d76c4ffb",
+    "report_sha256": "68758f9900a0bbe454fd973d80652b0208496d166a9143815a6daf819c2fe9ae",
+    "roots_before": 110,
+    "roots_after": 107,
+    "program_before": 786,
+    "program_after": 783,
+    "removed": [
+      "docs/planning/nextjs-v1/evidence/browser-business-session-r7/enrollment-cleanup-repair/diagnostics/P16-native-gate-bff-deadline-source-trace01/sources/src/app/me/[context]/attendance/page.public.tsx",
+      "docs/planning/nextjs-v1/evidence/browser-business-session-r7/enrollment-cleanup-repair/diagnostics/P16-native-gate-bff-deadline-source-trace01/sources/src/lib/server/backend.ts",
+      "docs/planning/nextjs-v1/evidence/browser-business-session-r7/enrollment-cleanup-repair/diagnostics/P16-native-gate-bff-deadline-source-trace01/sources/src/lib/server/browser-session.ts"
+    ],
+    "added": [],
+    "all_other_roots_and_imported_files_retained": true,
+    "retained_root_coverage": {
+      "src/": 81,
+      "tests/": 9,
+      "e2e/": 6,
+      ".next/types/": 4,
+      ".next/dev/types/": 0,
+      ".next-e2e/types/": 0,
+      ".next-e2e/dev/types/": 4
+    },
+    "candidate_diagnostics": 0,
+    "explicit_import_of_excluded_file_enters_program_and_reports": 2322,
+    "limit": "Compiler/probe proof only. Absent generated-type directories have zero counts, not invented coverage."
+  },
+  "current_local_commands": {
+    "candidate-lint": {
+      "name": "candidate-lint",
+      "command": [
+        "fnm",
+        "exec",
+        "--using",
+        "24.21.0",
+        "npm",
+        "run",
+        "lint"
+      ],
+      "exit": 0,
+      "duration_seconds": 0.799,
+      "log_sha256": "3e98dcbd24835eb29288dab5790e519db6a485457e666a6774fdbce08459740e"
+    },
+    "candidate-build": {
+      "name": "candidate-build",
+      "command": [
+        "fnm",
+        "exec",
+        "--using",
+        "24.21.0",
+        "npm",
+        "run",
+        "build"
+      ],
+      "exit": 0,
+      "duration_seconds": 7.215,
+      "log_sha256": "d95b91ae3daa5e2e46a0366876b9966b3e12e88cfb2a1a0d6ebd612863e97cd8"
+    },
+    "production-runtime-custody": {
+      "command": [
+        "fnm",
+        "exec",
+        "--using",
+        "24.21.0",
+        "node",
+        "tools/production-runtime.mjs",
+        ".",
+        "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/pr16-publication/typescript-discovery-repair/verified-production-runtime"
+      ],
+      "exit": 0,
+      "owner": "tools/production-runtime.mjs",
+      "staged_manifest_files": 15798,
+      "source_build_custody_verified": true,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "scope": "Production staging/source-build custody only. Separate standalone verification recorded in production-runtime-verification.json. No browser/business test bodies.",
+      "standalone_runtime_verifier_invoked": false,
+      "stage_inventory_written": true
+    },
+    "production-runtime-verification": {
+      "command": [
+        "fnm",
+        "exec",
+        "--using",
+        "24.21.0",
+        "node",
+        "--input-type=module",
+        "--eval",
+        "import { verifyProductionRuntime } from './tools/production-runtime.mjs'; await verifyProductionRuntime('/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/pr16-publication/typescript-discovery-repair/verified-production-runtime'); console.log('Existing runtime verifier PASS');"
+      ],
+      "exit": 0,
+      "owner": "verifyProductionRuntime in tools/production-runtime.mjs",
+      "verifier_actually_invoked": true,
+      "staged_runtime_closure_verified": true,
+      "log_sha256": "8eb6003f462a7cec37ab473e02d3e78c432125de026e01a6ed7a758e1a313f97",
+      "scope": "Separate actual runtime closure verification after staging. No browser/business test bodies."
+    }
+  },
+  "source_build_continuity": {
+    "original_binding_sha256": "88bcca57962c0c7a40650872e4bc5a930a7389bd1fcc075f05c6115d93ec8add",
+    "before_map_sha256": "07d55a73060ebdc4c4a2d456673079cd2132fefa7e3d81c6f047fd5a77fffb65",
+    "after_map_sha256": "512d42ba1b704ffa54a5952ca6c7a976f6264794e1a1bb1afba661231b74d689",
+    "captured_entries": 2958,
+    "every_current_after_input_rehashed_matches": true,
+    "original_to_candidate_before_delta": [
+      "tsconfig.json"
+    ],
+    "during_commands_delta": [
+      ".next/build-inputs.json"
+    ],
+    "original_to_current_after_delta": [
+      "tsconfig.json",
+      ".next/build-inputs.json"
+    ],
+    "stable_entries_during_commands": 2957,
+    "generated_manifest_sha256": "dae93797cef464387c9a74f479e9791f3c81f475b01fe666a54a4a703a64cf4a",
+    "source_manifest_hashes_verified": 90,
+    "build_output_manifest_hashes_verified": 96,
+    "original_map_not_relabelled_current_unchanged": true
+  },
+  "runtime_closure_integrity": {
+    "manifest_sha256": "4abc520a3f172fab810d4c60be611bbff9ea38491c9a33c6909bd9f0cc1d026d",
+    "files_independently_rehashed": 15798,
+    "safe_internal_dependency_symlinks_verified": 3,
+    "complete_inventory_topology_hashes_verified": true,
+    "no_unexpected_missing_or_extra_runtime_files": true,
+    "same_indexed_current_build_inputs": true,
+    "method": "Read-only independent inventory/byte comparison follows existing runtimeInventory allowlist/link rules on the frozen staged closure. Parent then separately invokes unchanged verifyProductionRuntime via --eval and passes; manifest remains identical. No server launch/deployment/business behavior inferred."
+  },
+  "findings": [
+    {
+      "finding": "Initial stage-only report claimed separate runtime verification.",
+      "disposition": "FIXED_AND_VERIFIED",
+      "historical_claim_sha256": "688cc225173ae25e59387d271e1ac907def964f8922ab93b67047173f6f38ce8",
+      "corrected_stage_sha256": "6082df391a890caa016ba1451095fb0b21534525acf28201b3156623e57c1879",
+      "actual_separate_verifier_sha256": "7ddd51f2a443681730b479952d658eceac3e77a5d34e296c13cfbcb0985d3890",
+      "actual_separate_verifier_log_sha256": "8eb6003f462a7cec37ab473e02d3e78c432125de026e01a6ed7a758e1a313f97"
+    }
+  ],
+  "preserved_failures": {
+    "hosted_run": 37461335987,
+    "head": "894ae36e7170245b027d0688b26b6e46da461c13",
+    "conclusion": "failure",
+    "steps": 42,
+    "step_counts": {
+      "success": 7,
+      "failure": 1,
+      "skipped": 34
+    },
+    "failed_step": "Run npm run lint",
+    "failure": "TS2307 in archived partial browser-session.ts missing ./mutation-guard; local baseline reproduces exit2.",
+    "later_required_gates": "34 steps skipped/unreached; no hosted acceptance.",
+    "compiler_probe_attempt01": "HARNESS TS5074 due omitted configFileName. Harness corrected only; record preserved.",
+    "local_gates_attempt01": "Wrapper equality guard failed after lint/build passed because generated manifest changed. Original before/after maps and failed guard preserved; no command rerun or product/assertion weakening.",
+    "runtime_custody_attempt01": "Node stdin argv[1]=- causes ENOENT before staging. Original failure preserved; documented CLI used later.",
+    "initial_runtime_claim": "Inaccurate report preserved; current stage and actually invoked verifier are separate."
+  },
+  "prior_proof_and_seal": {
+    "sealed_index_sha256": "5a0dcdf8cb10fc09bf364a29272124fa412598b5c05c033146257963cdc84037",
+    "all781_assets_verified_unchanged": true,
+    "original22_process125_native17_embedded_browser_proof_relabelled": false,
+    "historical_unknown_causes_reinterpreted": false,
+    "no_index_binding_or_asset_mutation": true
+  },
+  "remaining_required": [
+    "Root publishes exact reviewed config/metadata/evidence with human-only attribution.",
+    "Fresh full required hostedCI on that exact commit; failed previous run is not acceptance.",
+    "Normal protected merge queue/merge-group acceptance without bypass.",
+    "Full HR/Organization/Payroll/Foundry, physical identity, two-site durability, performance/restore and launch remain incomplete."
+  ],
+  "cycle_free_publication": "Root may copy this exact external receipt verbatim to the linked independent-review.json sibling outside the index asset list. Do not modify existing sealed781 package or add recursive review/index hashes. Receipt has no selfhash.",
+  "actions": {
+    "tests_executed_by_reviewer": 0,
+    "tracked_edits": 0,
+    "product_or_packaged_evidence_mutations": 0,
+    "git_github_infrastructure_or_process_mutations": 0,
+    "external_review_receipt_only": true
+  }
+}

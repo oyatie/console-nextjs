@@ -5,12 +5,12 @@ COPY package.json package-lock.json ./
 RUN npm ci
 COPY . .
 RUN npm run lint && npm test && npm run build
+RUN node tools/production-runtime.mjs /app /runtime
 
 FROM node:24-bookworm-slim@sha256:0e0ff40c39bc087845bfb27465a0df4ea419520094bc35842ff83dd8cbe6f9b6 AS runner
 WORKDIR /app
 ENV NODE_ENV=production NEXT_TELEMETRY_DISABLED=1 PORT=5173 HOSTNAME=0.0.0.0
-COPY --from=builder --chown=node:node /app/.next/standalone ./
-COPY --from=builder --chown=node:node /app/.next/static ./.next/static
+COPY --from=builder --chown=node:node /runtime ./
 USER node
 EXPOSE 5173
-CMD ["node", "server.js"]
+CMD ["node", "server.mjs"]

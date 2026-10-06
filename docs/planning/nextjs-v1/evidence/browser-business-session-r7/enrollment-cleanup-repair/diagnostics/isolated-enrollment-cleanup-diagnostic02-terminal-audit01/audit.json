@@ -1,0 +1,115 @@
+{
+  "schema": "isolated-enrollment-cleanup-diagnostic-terminal-audit/2",
+  "verdict": "ACCEPT_ISOLATED_TERMINAL_DIAGNOSTIC_EVIDENCE; FAILURE_NOT_REPRODUCED; REQUIRED_PROCESS22_STILL_FAILED",
+  "scope": "Exact completed copied-candidate02 EOF-after-ready run and source custody audit. No test rerun, tracked edits, root sessions, current input-map regeneration or active location-native run access.",
+  "inputs": {
+    "report": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/isolated-enrollment-cleanup-diagnostic02.json",
+      "bytes": 830,
+      "sha256": "4d49d9dae9ba08f24b0da11c814abc6d2a983428dd65eaa90849884eac4fbbee"
+    },
+    "log": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/isolated-enrollment-cleanup-diagnostic02.log",
+      "bytes": 729,
+      "sha256": "b40cb34dbc425937ee24079241aed5450ce254fab3d4f3464bda6180d65a4128"
+    },
+    "maps": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/isolated-enrollment-cleanup-diagnostic02.inputs.json",
+      "bytes": 917481,
+      "sha256": "77d09afd7c39eb07166ae64c0cb85e660c8f2b57927090464edbf198dd415d4a"
+    },
+    "approved_source_review": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/enrollment-cleanup-diagnostic-candidate02/independent-review02.json",
+      "bytes": 7579,
+      "sha256": "911870efa3aa7101adcbfc0ee22abe10c839a7328071e202ec72246530239e9a"
+    },
+    "copied_bundle": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/isolated-enrollment-cleanup-diagnostic02-terminal-audit01/copied-bundle-pins.json",
+      "bytes": 10917,
+      "sha256": "807fac51491046d2ab80ff2b51c2ba68a995b7c702b56242e06a37cb473d88ca"
+    },
+    "exact_observation": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/isolated-enrollment-cleanup-diagnostic02-terminal-audit01/probe-observation.json",
+      "bytes": 496,
+      "sha256": "e621155cdeae334e34668b387bb9a05e7f628ac45d211f202dfca2dd271e8d15"
+    }
+  },
+  "actual_node": {
+    "reporter": "Node spec",
+    "command": [
+      "node",
+      ".artifacts/enrollment-cleanup-diagnostic-candidate02/tools/test-native-browser-enrollment-diagnostic.test.mjs",
+      ".artifacts/enrollment-cleanup-diagnostic-candidate02/tools/test-native-browser-enrollment.mjs"
+    ],
+    "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+    "exit_code": 0,
+    "outer_timeout": false,
+    "wrapper_duration_seconds": 26.166950165992603,
+    "test_duration_ms": 26076.0475,
+    "executed": 1,
+    "passed": 1,
+    "failed": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0,
+    "original_generic_Rust_wrapper_counts": {
+      "passed": 0,
+      "failed": 0,
+      "skipped": 0,
+      "filtered": 0,
+      "executed": 0
+    },
+    "wrapper_counts_limit": "Originalallzero fields are Rustregex output, not Node execution; preservedunaltered."
+  },
+  "observation": {
+    "schema": "isolated-real-enrollment-cleanup-probe/2",
+    "phase": "checked-natural-exit",
+    "approved_producer_sha256": "bcd5fb0730bdc268d35dbd220fb8c44bbf35b3219ea1deffba95b3a8a9e6d3f6",
+    "supervisor_forced": false,
+    "final_cleanup_sigterm_attempted": false,
+    "final_cleanup_sigkill_attempted": false,
+    "owned_tmp_empty_before_parent_removal": true,
+    "diagnostic_decode_failed": false,
+    "received_cleanup_diagnostics": [],
+    "scope": "one actual EOF-after-ready producer; no historical-failure resolution or full acceptance"
+  },
+  "copy_custody": {
+    "file_count": 15,
+    "every_file_regular_readonly_and_identical_to_approved_A_candidate02": true,
+    "copied_directories_no_symlinks": true,
+    "approved_producer_sha256": "bcd5fb0730bdc268d35dbd220fb8c44bbf35b3219ea1deffba95b3a8a9e6d3f6",
+    "approved_driver_sha256": "1545f9c29e82dcb33212d02020a7dad9a23fbc25860af945e5f9d5b4efab518e",
+    "manifest_sha256": "c25aa3e153b2d31edd9f405142a98341cfd0e3f1faa65d6efa0c8c11e9baac08",
+    "root_inputs_and_bundle_checked_before_spawn_source_bound": true,
+    "limit": "Copiedcandidatepins supplement ordinary2958rootmap, which excludes diagnosticartifacts/SDK output. Regularcopiedsource and exactdrivervalidatedroot/build/package/SDK manifest establishthisdiagnosticpath, not independentruntimebinaryattestation."
+  },
+  "cleanup_scope": {
+    "source_bound_exact_cleaned_ack_aborted_exit2_zero_credential_attempts_checked": true,
+    "source_bound_natural_child_exit_no_supervisor_or_final_parent_signal_attempt": true,
+    "owned_test_TMPDIR_empty_before_parent_removal_observed": true,
+    "parent_owned_temp_removed_after_observation_source_bound_success": true,
+    "validated_failure_metadata_received": 0,
+    "limit": "Successfuloneownedtemporaryscope andchild/ACK path, not OSwideChromiumgroupcustody or remedyofhistoricalfailures. Emptyfailureonlyarraymeans norecordreceived here; it isnot generalproofnoemission elsewhere."
+  },
+  "source_inputs": {
+    "before_count": 2958,
+    "after_count": 2958,
+    "every_before_after_entry_equal": true,
+    "inputs_sha256": "77d09afd7c39eb07166ae64c0cb85e660c8f2b57927090464edbf198dd415d4a",
+    "root_producer": "6cbb58a1b2eae9f01d0b4d0838afd7c5c421c496a532fde056a1f33e153027ce",
+    "isolated_producer": "bcd5fb0730bdc268d35dbd220fb8c44bbf35b3219ea1deffba95b3a8a9e6d3f6",
+    "captured_restore_before_this_completed_run": "3be5f8d095d22cd5c2588880650f26acebb92f535222232ad8da40bca16147da"
+  },
+  "limits": [
+    "No failure was reproduced and no cleanupstage causelocalized. Thisisolated1PASS doesnot repair orfill requiredprocess22, whosecurrentterminalis19PASS3FAIL.",
+    "Historicalcause remainsUNPROVEN; SDKcontract/source defects mayjustify separatelyreviewed repair without claimingthisprobe provedhistoricalcausality.",
+    "Requiredfull125 latest124PASS1FAIL/browser16PASS1FAIL remainspreserved; no acceptanceupgrade fromthisdiagnostic.",
+    "Active real-all-variant-restore-location-native01 excluded, no terminal/currentfinalbinding inferred.",
+    "Finalprocess22/full125/17, currentmetadata/evidence, portableseal andimmutableheadhosted/protectedqueue remainrequired."
+  ],
+  "actions": {
+    "tests_executed": 0,
+    "tracked_source_writes": 0,
+    "artifact_only_audit_observation_copy_pins_write": true
+  }
+}

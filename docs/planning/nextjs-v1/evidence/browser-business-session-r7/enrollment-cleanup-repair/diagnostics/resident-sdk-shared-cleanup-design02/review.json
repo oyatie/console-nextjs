@@ -1,0 +1,47 @@
+{
+  "schema": "resident-sdk-shared-cleanup-design-review/2",
+  "state": "REQUEST_CHANGES_DESIGN_ONLY",
+  "design_sha256": "bccff06235ae457e9f379b1ff854c4de36c83be0cc13a3dd9cb4452b13a9fbda",
+  "scope": "Independent static re-review of design02, design01 delta, unchanged pinned Node/Rust/SDK inputs, and new per-child temporary scope custody. No tests or implementation.",
+  "previous_findings": {
+    "original_monotonic_deadline_guard": "RESOLVED",
+    "intentional_kill_pending_phase_semantics": "EXPLICITLY_DOCUMENTED"
+  },
+  "findings": [
+    {
+      "id": "owned-scope-without-returned-browser",
+      "location": "design.json:68-69,88-93",
+      "problem": "A fresh scope may be created successfully before SDK launch is skipped, fails, or rejects without returning BrowserServer. The only described scope-removal transition is gated by real SDK cleanup settlement plus actual browser child exit, so that known owned scope has no explicit cleanup path in this startup branch.",
+      "required_revision": "In the same existing finalize owner, await the retained original startup/resource-owner promise and define the no-returned-browser branch. Remove and independently check only a known freshly created scope under the same original total deadline. Never infer browser/descendant absence from a rejected launch or synthesize browser-cleanup success/ACK; keep unobserved browser custody UNKNOWN and preserve failure.",
+      "late_resource_guard": "Capture any successful mkdtemp result immediately in the original startup owner before elapsed-budget assertions or launch. Observation timeout must not replace/drop that owner. A later returned scope/browser stays owned by the same finalizer; hard-bound interruption stays unconfirmed with outer harness custody."
+    }
+  ],
+  "accepted_elements": [
+    "Original total-budget monotonic checks after cleanup observations and around actual ACK completion now prevent overdue timer cancellation from becoming accepted late success.",
+    "Two-second close/kill observations and intentional cleanup-pending transition are described honestly under unchanged twelve-second total.",
+    "A single fresh mkdtemp scope and child-local TMPDIR override are a minimal ownership mechanism; no private SDK fields, provider substitution, global host environment mutation, or new cleanup engine is needed.",
+    "Actual scoped rm with propagated errors and a separate ENOENT-only lstat check can establish absence of this owned root at the gate, without claiming secure erasure, outside-scope destruction, or descendant absence.",
+    "All resource operations, scope removal, and ACK handling remain within the existing owner and original total budget.",
+    "Actual probe residual observations precede fallback intervention; provider promise settlement remains distinct from destruction and process-group absence."
+  ],
+  "implementation_guards": [
+    "Only the exact mkdtemp-created path may be recursively removed; never the inherited caller TMPDIR or unrelated SDK/host paths.",
+    "Check the original startup budget before accepting scope/launch success; assign owned resources before a late-success check can throw.",
+    "Keep pending, fulfilled, and rejected/false SDK outcomes distinct; no fresh close/kill call may provide alternate completion.",
+    "Pair Node fixed diagnostic stages/fields with the strict private Rust schema and fresh exact source maps.",
+    "No-returned-browser cleanup failure or any original deadline expiry remains unconfirmed; ACK bytes alone cannot override Node failure status.",
+    "Outer harness custody remains required after Node hard exit, SIGKILL, or host failure."
+  ],
+  "limits": [
+    "Design-only review; no new implementation source, compilation, test, filesystem cleanup, or process census was executed.",
+    "Historical exit3, FK-holder filesystem cause, P16, and precise removal delay remain UNPROVEN.",
+    "Scope absence is an observed root fact, not independent descendant absence or secure-erasure proof."
+  ],
+  "actions": {
+    "tracked_source_writes": 0,
+    "tests_executed": 0,
+    "artifact_review_receipt_write": true,
+    "probe_execution": false,
+    "service_actions": false
+  }
+}

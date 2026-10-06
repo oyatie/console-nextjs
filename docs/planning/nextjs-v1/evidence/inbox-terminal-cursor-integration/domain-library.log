@@ -1,0 +1,19 @@
+    Finished `test` profile [unoptimized] target(s) in 0.97s
+     Running unittests src/lib.rs (/Users/jasonlee/Developer/frontend/.artifacts/cargo-target/debug/deps/console_inbox_application-43ee24bd3ecaba4f)
+
+running 1 test
+test tests::filter_parses_aliases_and_defaults_to_all ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/lib.rs (/Users/jasonlee/Developer/frontend/.artifacts/cargo-target/debug/deps/console_inbox_domain-8cac74fc76311f91)
+
+running 5 tests
+test tests::blank_and_overlong_title_rejected ... ok
+test tests::kind_roundtrip_and_receipt_semantics ... ok
+test tests::legal_notice_requires_notice_type ... ok
+test tests::payslip_rejects_notice_type_and_requires_object_payload ... ok
+test tests::source_ref_must_be_paired ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

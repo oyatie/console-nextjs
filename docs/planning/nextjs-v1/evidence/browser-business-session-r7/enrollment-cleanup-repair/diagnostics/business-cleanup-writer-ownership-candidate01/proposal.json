@@ -1,0 +1,101 @@
+{
+  "schema": "business-cleanup-writer-ownership-candidate/1",
+  "state": "UNAPPLIED_UNEXECUTED_REQUIRES_INDEPENDENT_SOURCE_REVIEW",
+  "created_at_utc": "2026-10-06T11:06:24.479625+00:00",
+  "source_root": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+  "source_before_sha256": "6868ac44bef0334065b3e4cd70ddfc58c3623be4070e6625f35b1738bed24280",
+  "source_after_sha256": "840d164c2e81b204d98347d8fc6a1f6467e3c70d5769bc1e1a815fc2ebf4bc11",
+  "supporting_source_pins": {
+    "tools/test-native-browser-enrollment.mjs": "afd17a0d0a69358613e1ff6d03d24f27eb322bd558a8cf021390e32527fff22e",
+    "tools/test-native-browser-enrollment.test.mjs": "3204b466940c270897814f9100ee8f92fbddfdc937e7b71a06406dacac778ead",
+    "tools/enrollment-fault-deadlines.mjs": "6f80266162d5413bcda245b17536b991518e95e22f5b1a7001067aaa4120fc06",
+    "tools/enrollment-fault-deadlines.test.mjs": "7e4aa20a3cfac678c5f5d8b620456da7b6e74d72fd6f64824b05cde363bc4bca",
+    "tools/browser-business-failure.mjs": "682407048049f4ff76df89c5fa9af836f1985fddb36e4f8e7c8adcb34d9052e3",
+    "tools/production-runtime.mjs": "7e4d05bac69900295f8777c931999f2987acd36c947f281cbea7d1bbdf673367",
+    "package.json": "1b9a58f08e845d1eefa4f124c345f84a347875593a515f9c9eaaff43f40e77cc",
+    "package-lock.json": "ad526fce2fe800ee7122f39029843a69fd9a335572de82a4a71d9c1a9714bc7b",
+    ".next/build-inputs.json": "45001f336b372dd488fd27cce5d6d8e1119c42e9dada4025c766fd0d4558d7c7",
+    "node_modules/playwright-core/lib/coreBundle.js": "549070af3acabb3efcc4f55bfe6210f9f7c2fcf633cf7eaa59bfe60719969171"
+  },
+  "observed": {
+    "suite": "cleanup-owner-full-fault-diagnostic03",
+    "root_reported_terminal": {
+      "executed": 22,
+      "passed": 21,
+      "failed": 1
+    },
+    "log_sha256": "5c6993ff8d1a36e2f404571946f7367840920e22dec2e350e061785c6d0b445f",
+    "failed_case": "business frame-eof-before-origin",
+    "actual_terminal_assertion": "report !== cleaned",
+    "safe_driver_facts": {
+      "expected_frame_kind": "cleaned",
+      "last_received_frame_kind": "other",
+      "fault_input_attempted": true,
+      "cleanup_ack_received": false,
+      "producer_exit_code_class": "2",
+      "producer_signal_class": "none",
+      "supervisor_forced": false,
+      "final_cleanup_sigterm_attempted": true,
+      "final_cleanup_sigkill_attempted": false,
+      "owned_tmp_empty_before_parent_removal": true
+    },
+    "limits": [
+      "Driver stopped reading after unexpected report; later cleaned emission is not established or excluded.",
+      "Exit2 and empty scope do not establish natural/no-intervention success because the final parent SIGTERM was attempted.",
+      "All13 native and6clock cases passed this diagnostic run; earlier native wrong-sequence/legacy-selection causes remainUNKNOWN."
+    ]
+  },
+  "source_trace": [
+    {
+      "path": "tools/test-browser-business-session.mjs",
+      "lines": "157-178",
+      "fact": "EOF or SIGTERM enters memoized finalize; finalize marks closing before cleanup and owns the cleaned acknowledgement."
+    },
+    {
+      "path": "tools/test-browser-business-session.mjs",
+      "lines": "991-995",
+      "fact": "Main finally unconditionally attempts productExchange report even when EOF finalization already marked closing."
+    },
+    {
+      "path": "tools/test-browser-business-session.mjs",
+      "lines": "210-218",
+      "fact": "productExchange schedules writeFrame in its existing serialized chain; its actual write can occur after closing."
+    },
+    {
+      "path": "tools/test-browser-business-session.mjs",
+      "lines": "192-194 and56-67",
+      "fact": "Ordinary writeFrame facade currently delegates to private writeFrameUnsafe without closing gate; unsafe increments outgoing and writes bytes synchronously before awaiting its callback."
+    },
+    {
+      "path": "tools/test-browser-business-session.mjs",
+      "lines": "133-150",
+      "fact": "Only finalizer calls cleaned; cleanup promises/process/stage and absolute6s checks already precede its frame. No other direct private writer caller exists except ordinary facade."
+    }
+  ],
+  "mechanism": "A delayed main-finally report exchange can begin after EOF transfers stream ownership to finalization, so it writes report before the expected cleaned ACK. This observed business interleave is distinct from unresolved earlier native failures.",
+  "change": "Ordinary writeFrame asserts !closing before delegating, preserving its existing InfrastructureError normalization. Finalizer alone calls the existing private primitive for its cleaned frame; no caller-selected kind grants a facade bypass.",
+  "ownership_and_pending_writes": [
+    "The guard is checked at actual ordinary-write invocation, including productExchange callbacks queued before closing; those starting after closing emit no frame and do not consume outgoing sequence.",
+    "Writes already started before closing were submitted synchronously to the same stdout writable queue. Cleanup frame remains ordered behind those writes; no separate sender, queue, deadline or drain promise is introduced.",
+    "Awaiting productIpcChain during cleanup is not added: exchanges may await input that closing forbids, and that would change/deadlock the existing6s cleanup budget.",
+    "Normal open main-finally17scenario report still uses the ordinary facade and waits its real done response before outcome completed/finalize. Existing report failure catch still records infrastructure failure and proceeds to cleanup."
+  ],
+  "preserved": [
+    "Every original2s owner phase,6s hard/absolute cleanup checks,140s native startup/watchdog and30min business watchdog,25/35s fault and6s parent fallback.",
+    "Original main/report/control validation,scenario counts,failure_class,transport-unavailable catch,outcomes,frame versions/sequences/max bounds and sole cleaned payload.",
+    "Existing startup/certificate owner,allSettled owner cleanup,SDK settlement and actual child-exit/close gates,conservative safe stage removal and first owner error.",
+    "Ordinary writer errors remain normalized by its existing InfrastructureError catch. Cleanup write errors remain caught by finalize as unconfirmed exit3 with no success substitute; no raw error output added.",
+    "Native runner unchanged. No broader native race is claimed or repaired without evidence. No tests changed or weakened."
+  ],
+  "root_verification_required": [
+    "Existing exact22 process/clock suite with unchanged ACK/outcome/zero creation/natural exit/no intervention/empty owned TMPDIR assertions.",
+    "Normal actual native/business full125 plus all17 real browser scenarios including real final report and cleaned receipt remain required.",
+    "Exact metadata/evidence/source review and hosted/protected merge gates after application; no retry-until-green claim or historical cause closure."
+  ],
+  "actions": {
+    "tests_executed": 0,
+    "tracked_source_writes": 0,
+    "process_actions": 0,
+    "isolated_artifact_only": true
+  }
+}

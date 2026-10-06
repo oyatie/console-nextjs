@@ -1,0 +1,80 @@
+✔ slow prerequisite startup does not spend the requested cleanup budget (1.775125ms)
+✔ a ready runner that fails to exit still triggers the cleanup fallback (1.453542ms)
+✔ never-ready startup has one absolute bounded termination deadline (0.381708ms)
+✔ a second fault cannot reset an already running cleanup deadline (0.266292ms)
+✔ late cleanup cannot erase evidence of forced intervention (0.251125ms)
+✔ natural completion disposes both clocks and cannot rearm them (0.214208ms)
+✔ enrollment runner confirms cleanup after eof-before-origin (371.375791ms)
+✔ enrollment runner confirms cleanup after partial-eof-before-origin (334.143042ms)
+✔ enrollment runner confirms cleanup after frame-eof-before-origin (333.048542ms)
+✔ enrollment runner confirms cleanup after signal-after-origin (36869.00925ms)
+✖ enrollment runner confirms cleanup after eof-after-ready (59109.05375ms)
+✔ enrollment runner confirms cleanup after oversized (62794.616292ms)
+✔ enrollment runner confirms cleanup after wrong-version (28854.517958ms)
+✖ enrollment runner confirms cleanup after wrong-sequence (84951.939583ms)
+✔ enrollment runner confirms cleanup after wrong-kind (31680.958542ms)
+✖ enrollment runner confirms cleanup after legacy-selection (84083.952833ms)
+✔ enrollment runner confirms cleanup after missing-selection (43586.924666ms)
+✔ enrollment runner confirms cleanup after malformed-selection (92710.939333ms)
+✔ enrollment runner confirms cleanup after weak-uv (36754.956084ms)
+✔ business runner confirms cleanup after eof-before-origin (357.186209ms)
+✔ business runner confirms cleanup after partial-eof-before-origin (287.572416ms)
+✔ business runner confirms cleanup after frame-eof-before-origin (294.974583ms)
+ℹ tests 22
+ℹ suites 0
+ℹ pass 19
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 563440.041042
+
+✖ failing tests:
+
+test at tools/test-native-browser-enrollment.test.mjs:27:3
+✖ enrollment runner confirms cleanup after eof-after-ready (59109.05375ms)
+  AssertionError [ERR_ASSERTION]: runner ended before cleanup acknowledgement
+      at read (file:///Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/tools/test-native-browser-enrollment.test.mjs:54:16)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async TestContext.<anonymous> (file:///Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/tools/test-native-browser-enrollment.test.mjs:102:21)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tools/test-native-browser-enrollment.test.mjs:27:3
+✖ enrollment runner confirms cleanup after wrong-sequence (84951.939583ms)
+  AssertionError [ERR_ASSERTION]: runner ended before cleanup acknowledgement
+      at read (file:///Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/tools/test-native-browser-enrollment.test.mjs:54:16)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async TestContext.<anonymous> (file:///Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/tools/test-native-browser-enrollment.test.mjs:102:21)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tools/test-native-browser-enrollment.test.mjs:27:3
+✖ enrollment runner confirms cleanup after legacy-selection (84083.952833ms)
+  AssertionError [ERR_ASSERTION]: runner ended before cleanup acknowledgement
+      at read (file:///Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/tools/test-native-browser-enrollment.test.mjs:54:16)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async TestContext.<anonymous> (file:///Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/tools/test-native-browser-enrollment.test.mjs:102:21)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }

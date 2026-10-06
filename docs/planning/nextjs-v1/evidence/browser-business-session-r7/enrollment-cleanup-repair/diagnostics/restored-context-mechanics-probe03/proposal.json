@@ -1,0 +1,65 @@
+{
+  "schema": "browser-mechanics-probe-proposal/3",
+  "status": "ARTIFACT_ONLY_NOT_EXECUTED_NOT_PRODUCT_ACCEPTANCE",
+  "source": {
+    "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/restored-context-mechanics-probe03/probe.mjs",
+    "sha256": "f481728a0e87b6b020f9c0c2c90639a320b9d49582d863e374e5f094afb358e1",
+    "bytes": 22113
+  },
+  "purpose": "Cheapest bounded actual Chromium witness for exact original-world command behavior while the pinned production restoration guard starts a hard reload. Fixed15s fixture response models the candidate interruption mechanism; does not prove actual BFF causality.",
+  "observations": [
+    "Real HTTPS secure context and cache-control private,no-store",
+    "Original production parser guard pinned by source and literal hash",
+    "Original unique main-world identity and original Document JSHandle pinned before departure",
+    "Real trusted persisted original-Document pageshow; refusal remains unreached/failure without synthetic fallback",
+    "Actual fixture reload receipt; fixed15s fixture timer fires from that receipt; real response and main-frame navigation",
+    "Concurrent exact original uniqueContextId Runtime.evaluate and standard original Document handle evaluation, separately retained outcomes under one20s shared bound",
+    "Fixed checkpoint and Node-received monotonic event observations without raw text,HTML,IDs,URLs,exceptions or payloads",
+    "SDK owned server close/kill; actual process exit and exact owned group absence observed via kernel ESRCH; no general browser absence inferred",
+    "Owned HTTPS/browser temporary stage removed only after owned group absence; no unrelated process cleanup"
+  ],
+  "deadlines": {
+    "phase_ms": 5000,
+    "fixture_response_ms": 15000,
+    "shared_evaluation_ms": 20000,
+    "browser_close_ms": 2000,
+    "browser_kill_ms": 2000,
+    "group_observation_ms": 1000,
+    "server_close_ms": 1000,
+    "stage_remove_ms": 1000,
+    "hard_ms": 60000
+  },
+  "limits": [
+    "Fixture timing is not an actual BFF abort/native401/authentication observation",
+    "No business API, passkey ceremony, React commit, actual mounted logout action, cookie revocation or product acceptance",
+    "Receiving a browser event at a Node timestamp does not independently date browser occurrence",
+    "Kernel ESRCH verifies only the exact captured owned process group, not arbitrary escaped descendants",
+    "A failed SDK launch without returned owner remains custody UNKNOWN; no ownerless broad process cleanup",
+    "No context remap, retry, sole product latch release or deadline widening",
+    "Fresh-response HTTP200 is explicit fixture behavior; not asserted as actual attendance-page transport status",
+    "No author-run syntax/runtime/tests; root executes only after independent source review"
+  ],
+  "prior_failed_probe": {
+    "source_sha256": "eb0bce2a8918e86599d3e1ec14c167403b6d601fe6b71b59fddc97fece992e81",
+    "terminal_receipt_sha256": "5d34d9ac8e6cbe5ea15274648840aefc35d8f6736520667501c01d75ff048928",
+    "status": "FAILED_INCOMPLETE_DIAGNOSTIC_NOT_ACCEPTANCE",
+    "retained": true
+  },
+  "supersedes": {
+    "candidate02_source_sha256": "8697ffed498a041b453116162bf3337b0a04dca8c134ed774491e565f8b78297",
+    "candidate02_review_sha256": "3eb6298398ebc78503726d90ef07e1b38065dce13bd0d8edac8a29adeb95d85d",
+    "status": "REJECTED_SOURCE_NOT_EXECUTED"
+  },
+  "corrections": [
+    "Assert exact approved guardliteral SHAa1c04481ce25603ade8e8fcd645ec27ff4730b446a4c54d81680b5c2fac76d97",
+    "Scope SDK parent process.env.TMPDIR and childenv before requiring/launching browser",
+    "Retain stage creation promise and late assignment; pending creation blocks confirmed custody",
+    "Bounded actual psPGID confirms captured live owner leads its own process group; positive kernel group observation required",
+    "SDK close/kill settlement, actual process exit, positive captured group ownership and final kernelESRCH are all required before stage removal/confirmed custody",
+    "Retain hard60 timer on unconfirmed paths; unref permits early failed exit without claiming absence",
+    "Strict shared20s deadline expiry instead of1ms extension",
+    "Conclusive not-reproduced requires exact original/restored/queued/notstarted tuple",
+    "Reproduced fixture pattern requires real matching main-frame navigation and unavailable fixture response"
+  ],
+  "handle_owner_source_caveat": "Installed JSHandle evaluate retains Playwright context19675; destroyed scope19598\u201319601 races evaluation19609\u201319611; Chromium adapter uses Runtime.callFunctionOn objectId35596\u201335613. Handle-owner rejection alone says nothing about restored renderer usability."
+}

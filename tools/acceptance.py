@@ -30,7 +30,7 @@ def preflight(root=ROOT):
         ("no-plaintext-business-storage", "src/lib/store.ts", "localStorage.setItem"),
         ("no-api-success-fallback", "src/lib/api-client.ts", "data: fallbackData"),
         ("no-invented-secure-offline-mode", "src/lib/api-client.ts", 'mode: "AUTONOMOUS_SECURE"'),
-        ("no-static-export", "next.config.ts", 'output: "export"'),
+        ("no-static-export", "next.config.mjs", 'output: "export"'),
         ("no-static-serving", "package.json", "serve out"),
     ]
     results = production_preflights([], root)
@@ -54,8 +54,8 @@ def known_fixture_artifacts(root):
         "limits": "Bytewise known-marker scan; does not prove other or encoded seeds, backend responses, or database rows",
     }
     source = root / "src/lib/seed-data.ts"
-    folders = [root / path for path in (".next/static", ".next/server", ".next/standalone/.next/server")]
-    server = root / ".next/standalone/server.js"
+    folders = [root / path for path in (".next/static", ".next/server", ".artifacts/production-runtime/.next/static", ".artifacts/production-runtime/.next/server")]
+    server = root / ".artifacts/production-runtime/server.mjs"
     if (not source.is_file() or source.is_symlink() or not server.is_file() or server.is_symlink()
             or any(not folder.is_dir() or folder.is_symlink() for folder in folders)):
         result["reason"] = "Fixture source or production output missing"
@@ -81,7 +81,7 @@ def known_fixture_artifacts(root):
         if public.is_dir():
             entries.append(list(public.rglob("*")))
             files.extend(file for file in entries[-1] if file.is_file())
-        if (not literals or any(not any(file.is_file() for file in group) for group in entries[:3])
+        if (not literals or any(not any(file.is_file() for file in group) for group in entries[:len(folders)])
                 or any(file.is_symlink() for group in entries for file in group)):
             result["reason"] = "Fixture markers or regular production output missing"
             return result
@@ -273,7 +273,7 @@ def main():
         "unreached_suites": ["real-passkey-browser", "direct-protocol-isolation", "two-site-faults", "capacity", "maximum-size-restore", "cutover-rollback", "72-hour-soak", "seven-day-rehearsal"],
         "schema_install": {"status": "unreached", "scope": "Requires the real PostgreSQL probe; historical seed SQL is intentionally preserved for existing ledgers"},
     }
-    inputs = [ROOT / p for p in ("package.json", "package-lock.json", "next.config.ts", "tsconfig.json", "Dockerfile", ".node-version")]
+    inputs = [ROOT / p for p in ("package.json", "package-lock.json", "next.config.mjs", "tsconfig.json", "Dockerfile", ".node-version")]
     inputs += [p for folder in ("src", "tests", "e2e", "tools") for p in (ROOT / folder).rglob("*") if p.is_file() and "__pycache__" not in p.parts]
     report["inputs"] = {str(p.relative_to(ROOT)): sha(p.read_bytes()) for p in sorted(inputs)}
     if index["plan_sha256"] != sha(plan):

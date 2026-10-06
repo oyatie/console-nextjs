@@ -1,0 +1,29 @@
+{
+  "schema": "resident-setup-diagnostic-candidate/1",
+  "status": "SOURCE_ONLY_NOT_APPLIED_NOT_EXECUTED",
+  "sources": {
+    "node": {
+      "before_sha256": "88cdfea200731ab32fcda0c797a96eee6ce49a42e6f174208fed29195105cd2e",
+      "after_sha256": "3270d79e4a3511cba87b9998367b3918a00bdcebbc2935bb903019c319f13698",
+      "source_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/resident-setup-diagnostic-candidate01/tools/test-resident-authenticator.mjs",
+      "before_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/resident-setup-diagnostic-candidate01/node-before.mjs"
+    },
+    "rust": {
+      "before_sha256": "c2fc3e190d7b9933cdaf77958a8a9dc11a6ab8df83fa69362c7a42d5bc67412c",
+      "after_sha256": "33d6ff9430b877f47ad7f86974e5099011dc436f360de0f21298cf5b8d011856",
+      "source_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/resident-setup-diagnostic-candidate01/backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs",
+      "before_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/resident-setup-diagnostic-candidate01/rust-before.rs"
+    }
+  },
+  "patch_sha256": "202374bc4a0802d4374420497d23374774ced89030921ffe7f4cc073624afd2a",
+  "proposal_sha256": "4efd590b5c627fe2b182a5f859e59623e001fef367aeb322f815a015ed484bf3",
+  "validation": "Actual Node24 syntax check and pinned Rust1.98.1 artifact-only rustfmt completed exit0; no compilation/runtime/tests.",
+  "ordinary_failure_prefix_bound": {
+    "setup_diagnostic_bytes_max": 164,
+    "existing_failure_text_bytes": 38,
+    "cleanup_diagnostic_bytes_max": 221,
+    "combined_bytes": 423,
+    "stderr_prefix_bytes_unchanged": 512,
+    "limit": "Existing deadline/catch can emit cleanup diagnostics twice; repeated cleanup lines remain outside the single ordinary-failure bound. No stderr-prefix capacity widening."
+  }
+}

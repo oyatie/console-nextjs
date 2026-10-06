@@ -1,0 +1,34 @@
+{
+  "id": "native-auth-final05-discovery",
+  "command": [
+    "/Users/jasonlee/.cargo/bin/cargo",
+    "+1.98.1",
+    "test",
+    "--locked",
+    "--offline",
+    "-p",
+    "console-app",
+    "--features",
+    "frontend-e2e",
+    "--test",
+    "auth_rest",
+    "--",
+    "--list"
+  ],
+  "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend",
+  "exit_code": 0,
+  "timed_out": false,
+  "duration_seconds": 0.8681301670148969,
+  "discovered": 121,
+  "counts": {
+    "passed": 0,
+    "failed": 0,
+    "skipped": 0,
+    "filtered": 0,
+    "executed": 0
+  },
+  "log_sha256": "09de1adc219c4ea1bb8f20a6f6bc0d093d35a1a19ae1e14d0c2b0462d27ca955",
+  "cleanup_reported": false,
+  "inputs_sha256": "f78a5d44ecf060f2dba4a2d36f6fa89e342c8d6702d9143af2470af03d18e5e5",
+  "inputs_unchanged": true
+}

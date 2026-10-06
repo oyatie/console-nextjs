@@ -1,0 +1,96 @@
+{
+  "schema": "resident-startup-owner-source-review/1",
+  "verdict": "ACCEPT_SOURCE_ONLY",
+  "scope": "Independent direct design/source/owning-caller review of isolated candidate01; no application, compilation or runtime acceptance",
+  "source_path": "backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs",
+  "artifact_inputs": {
+    "source_before": {
+      "path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs",
+      "sha256": "30345239d9e8321ea9394dd5b5f75d91b5ca4d1b1a98a27c7360951a82179c45",
+      "bytes": 15396
+    },
+    "source_after": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/resident-startup-owner-candidate01/backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs",
+      "sha256": "26acac3cec2529163e5ffc6d75a9f22332656d29f6396f2b75b8b7209bd4fefa",
+      "bytes": 18707
+    },
+    "patch": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/resident-startup-owner-candidate01/patch.diff",
+      "sha256": "090a449e9bfe2c19afde30e6b111d1a3ab0b6f9c8c989d3415b937e98443bd5c",
+      "bytes": 17366
+    },
+    "manifest": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/resident-startup-owner-candidate01/manifest.json",
+      "sha256": "62d92e738f8bb96004d457533e485f7938b3bbc2ceae029703b4dde184c9b638",
+      "bytes": 585
+    },
+    "design": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/resident-startup-owner-design02/design.json",
+      "sha256": "3d711a1935a88dcacbc7fa17273fb57dda3952c0c97477a0dcc2dbe007f89d23",
+      "bytes": 5104
+    }
+  },
+  "exact_diff_matches_sources": true,
+  "findings": [],
+  "checks": [
+    {
+      "result": "PASS_SOURCE",
+      "property": "Immediate construction custody",
+      "evidence": "Bounded channels are created before Child spawn; existing Self owns Child before pipe extraction or fallible Builder::spawn. Each successful handle is immediately installed. Startup errors remain fixed typed values."
+    },
+    {
+      "result": "PASS_SOURCE",
+      "property": "Partial-construction drop ordering",
+      "evidence": "Missing workers mark partial only while constructing=true. Partial skips ACK rather than waiting on predeclared channel senders. Input/output and remaining child stdin are closed before wait; only present finished handles are joined. Constructor-local captured pipes are dropped during return/unwind."
+    },
+    {
+      "result": "PASS_SOURCE",
+      "property": "Original constructor error preserved",
+      "evidence": "constructing remains true through all failed pipe/thread/ready validation paths, so Drop reports cleanup error without a second panic. It becomes false only immediately before successful constructor return."
+    },
+    {
+      "result": "PASS_SOURCE",
+      "property": "Common bounded cleanup/reap",
+      "evidence": "Ordinary ACK and natural Node exit keep existing 15s phase. Kill is attempted once on timeout/wait error; the existing second 15s worker phase observes actual try_wait status and drains workers. Force/unreaped/missing ACK stays Err; Node exit is not labelled Chromium absence."
+    },
+    {
+      "result": "PASS_SOURCE",
+      "property": "Missing-handle safety",
+      "evidence": "is_none_or permits uncreated handles for settling, but missing handles in a fully constructed ordinary object independently force Err before successful ACK/outcome validation."
+    },
+    {
+      "result": "PASS_SOURCE",
+      "property": "Sticky cleanup failure",
+      "evidence": "Copy close_result caches exact first Ok or Err after one attempt. Repeated close and Drop cannot restart cleanup budgets or turn forced/unconfirmed failure into Ok."
+    },
+    {
+      "result": "PASS_SOURCE_WITH_CONTRACT_LIMIT",
+      "property": "Explicit failed close followed by Drop",
+      "evidence": "The sole current explicit ResidentAuthenticator close caller uses .expect at browser_sessions.rs722-724. Err initiates unwinding before Drop, which prints rather than replaces primary panic. Construction errors are protected separately. A normal non-unwinding Drop intentionally panics on an unhandled cached Err; this is a test failure floor, not a general future .close()? Result-preservation contract."
+    },
+    {
+      "result": "PASS_SOURCE",
+      "property": "Protocol, privacy and honest custody",
+      "evidence": "Existing frame/version/sequence, ready/origin/PID, actual ACK/outcome/status checks retained. New output is fixed reason/counter/bool metadata; no raw stderr/native payloads/PIDs published. node_reaped records actual Child status; workers_settled describes finished handles, not verified browser cleanup."
+    }
+  ],
+  "required_runtime_proof": [
+    "Private writer/reader/stderr thread-creation failure points after an actual Child is owned; exact constructor Err survives without Drop replacing it.",
+    "Observe real Node status/reaping and created-worker completion within existing15+15s phases for all three partial points; no provider-success substitution.",
+    "Check repeated cached Err has the same reason and does not run a new cleanup budget; bind expected Drop failure behavior.",
+    "Retain UNKNOWN browser custody for partial cases without verified browser identity/absence; Node exit alone is insufficient.",
+    "Run unchanged real short-family consumer, source-pinned actual fixture lifecycle/fault proof and fresh full native/browser acceptance after application."
+  ],
+  "limitations": [
+    "Focused real-child failure regression has not been supplied; final acceptance is withheld pending it.",
+    "Current fullfinalnative01 is running against unchanged prior source and cannot certify this candidate.",
+    "Historical resident exit3 cause remains UNPROVEN.",
+    "No code or clock assertion was executed by this review."
+  ],
+  "actions": {
+    "tracked_source_writes": 0,
+    "tests_executed": 0,
+    "live_operations": 0,
+    "artifact_only_write": true
+  }
+}

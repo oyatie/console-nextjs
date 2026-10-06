@@ -1,0 +1,41 @@
+{
+  "id": "enrollment-native90-interruption01",
+  "command": [
+    "bash",
+    "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/tools/lanes/pgtest.sh",
+    "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork",
+    "/Users/jasonlee/.cargo/bin/cargo",
+    "+1.98.1",
+    "test",
+    "--locked",
+    "--offline",
+    "--no-fail-fast",
+    "--features",
+    "frontend-e2e",
+    "-p",
+    "console-app",
+    "--test",
+    "auth_rest",
+    "genuine_browser::genuine_browser_failed_native_phase_is_preserved_after_confirmed_cleanup",
+    "--",
+    "--exact",
+    "--test-threads=1",
+    "--nocapture"
+  ],
+  "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+  "exit_code": 0,
+  "timed_out": false,
+  "duration_seconds": 45.246200249996036,
+  "discovered": null,
+  "counts": {
+    "passed": 1,
+    "failed": 0,
+    "skipped": 0,
+    "filtered": 120,
+    "executed": 1
+  },
+  "log_sha256": "6edd9af350a409c4ec4740a9bb8bb546d4136cb041c7f4e46293964057a95bc4",
+  "cleanup_reported": true,
+  "inputs_sha256": "5e2fabd786c4be6ea45d9cb9f01ba8d273bfbc57c26ddcfd194f4b01223d5177",
+  "inputs_unchanged": true
+}

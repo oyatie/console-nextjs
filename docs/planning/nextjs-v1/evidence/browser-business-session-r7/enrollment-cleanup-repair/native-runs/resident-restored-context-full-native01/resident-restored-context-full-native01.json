@@ -1,0 +1,39 @@
+{
+  "id": "resident-restored-context-full-native01",
+  "command": [
+    "bash",
+    "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/tools/lanes/pgtest.sh",
+    "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork",
+    "/Users/jasonlee/.cargo/bin/cargo",
+    "+1.98.1",
+    "test",
+    "--locked",
+    "--offline",
+    "--no-fail-fast",
+    "--features",
+    "frontend-e2e",
+    "-p",
+    "console-app",
+    "--test",
+    "auth_rest",
+    "--",
+    "--test-threads=1",
+    "--nocapture"
+  ],
+  "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+  "exit_code": 101,
+  "timed_out": false,
+  "duration_seconds": 1579.495316207991,
+  "discovered": null,
+  "counts": {
+    "passed": 123,
+    "failed": 2,
+    "skipped": 0,
+    "filtered": 0,
+    "executed": 125
+  },
+  "log_sha256": "94f7244bc3b0454ef7075553d1347b4d5d7857abef97ff8c0e9a5ffc85cbaad2",
+  "cleanup_reported": true,
+  "inputs_sha256": "c054df00ddb6a240ffaaabc6baf2a53b3a91ce07723d8ad4653692cffc2e7fc0",
+  "inputs_unchanged": true
+}

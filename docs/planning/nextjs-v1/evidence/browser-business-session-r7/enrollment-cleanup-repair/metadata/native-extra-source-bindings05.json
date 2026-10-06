@@ -1,0 +1,104 @@
+{
+  "schema": "portable-extra-source-bindings/5",
+  "prior_bindings": "metadata/native-run-source-bindings.json",
+  "prior_portable04_index_sha256": "e5bcfaa008ef60d6b2adb19de2221224ff9b9eadd77f48dba461da41ba43bb6a",
+  "completed_runs": {
+    "queued-ordering-red02": {
+      "input_map_sha256": "48b058ceebb36224ebd144055c7e8f9708c0e6bea4b357a9ea5b3dc3e79f91c2",
+      "relation": "Byte-identical to prior queued-ordering-red01 map; exact queued candidate binding preserved."
+    },
+    "resident-cleanup-stage-exact01": {
+      "input_map_sha256": "767f886a75fda77a3d197f39b3d72af3f04d3043cd999933186cf1b5245d8197",
+      "paths": 2958,
+      "before_after_identical": true,
+      "delta_from_queued_red02": [
+        {
+          "path": "backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs",
+          "before": "feb30ff385b2231c09bea95f9f71d12eaf498f206a9c035e84b278baa11a3491",
+          "after": "30345239d9e8321ea9394dd5b5f75d91b5ca4d1b1a98a27c7360951a82179c45"
+        },
+        {
+          "path": "tools/test-resident-authenticator.mjs",
+          "before": "3fed2df601a952073775f00397d692de20a2413c0387629f6ba36ded3db901fe",
+          "after": "9d152c60f03827d7c5676f4e965edc56084c67d6f25d80014c3559e76d0d7c5d"
+        }
+      ],
+      "verified_archived_sources": 16,
+      "verified_immutable_git_sources": 2942
+    }
+  },
+  "extra_sources": [
+    {
+      "path": "tools/browser-business-restore.mjs",
+      "sha256": "05c0dfebd791403622397f7a83568c4f5383360002ee9b96c5d366c956277b6d",
+      "binding": {
+        "archive_path": "diagnostics/queued-ordering-test-candidate01/browser-business-restore.mjs"
+      }
+    },
+    {
+      "path": "tools/test-resident-authenticator.mjs",
+      "sha256": "9d152c60f03827d7c5676f4e965edc56084c67d6f25d80014c3559e76d0d7c5d",
+      "binding": {
+        "archive_path": "diagnostics/resident-cleanup-diagnostic-candidate04/tools/test-resident-authenticator.mjs"
+      }
+    },
+    {
+      "path": "backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs",
+      "sha256": "30345239d9e8321ea9394dd5b5f75d91b5ca4d1b1a98a27c7360951a82179c45",
+      "binding": {
+        "archive_path": "diagnostics/resident-cleanup-diagnostic-candidate04/backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs"
+      }
+    }
+  ],
+  "stress_sources": [
+    {
+      "path": "tools/test-resident-authenticator.mjs",
+      "sha256": "9d152c60f03827d7c5676f4e965edc56084c67d6f25d80014c3559e76d0d7c5d",
+      "binding": {
+        "archive_path": "diagnostics/resident-cleanup-diagnostic-candidate04/tools/test-resident-authenticator.mjs"
+      }
+    },
+    {
+      "path": "package-lock.json",
+      "sha256": "ad526fce2fe800ee7122f39029843a69fd9a335572de82a4a71d9c1a9714bc7b",
+      "binding": {
+        "git_commit": "f5c29cc9ccb1d463f5ba76ebbf746b024311bd37",
+        "git_path": "package-lock.json",
+        "git_oid": "bc66594ff2a9d6b925389ee68c1bd8f1ee49c852",
+        "provenance": "Exact published immutable baseline Git blob independently SHA256 hashed; fetch via repository history."
+      }
+    },
+    {
+      "path": "backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs",
+      "sha256": "30345239d9e8321ea9394dd5b5f75d91b5ca4d1b1a98a27c7360951a82179c45",
+      "binding": {
+        "archive_path": "diagnostics/resident-cleanup-diagnostic-candidate04/backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs"
+      }
+    },
+    {
+      "path": "node_modules/@playwright/test/package.json",
+      "sha256": "5587f932b8979b6889654b60e3c28aeb7ca0abbac00eec8c176c939a16149536",
+      "binding": {
+        "archive_path": "snapshots/stress-dependencies05/node_modules/@playwright/test/package.json"
+      },
+      "provenance": "Post-run package metadata capture, exact reported hash match; not pre-run capture."
+    },
+    {
+      "path": "node_modules/playwright-core/package.json",
+      "sha256": "f061c58427e47e843e26d201f0a57076c734e57c734ecbbd87d4a23b7a20db9b",
+      "binding": {
+        "archive_path": "snapshots/stress-dependencies05/node_modules/playwright-core/package.json"
+      },
+      "provenance": "Post-run package metadata capture, exact reported hash match; not pre-run capture."
+    }
+  ],
+  "runtime_external": {
+    "original_path": "/Users/jasonlee/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
+    "sha256": "e4b5a3af0e05c75de2eae013904145f40fe7fc2a6e6f17510128bf45cca4e79b",
+    "bytes": 122129232,
+    "status": "VERIFIED_EXTERNAL_RUNTIME_BINARY",
+    "archive_path": null,
+    "limit": "Exact binary hash matches report; binary intentionally not duplicated. Browser executable hash is not present in stress report."
+  },
+  "current_tree": "No whole-current-tree hash/equality claim; active diagnostic03 excluded."
+}

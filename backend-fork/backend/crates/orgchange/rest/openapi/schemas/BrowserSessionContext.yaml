@@ -1,0 +1,14 @@
+type: object
+additionalProperties: false
+required: [company_id, company_name, account_display_name, employee_linked]
+properties:
+  company_id:
+    type: string
+    format: uuid
+    pattern: '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'
+  company_name:
+    type: string
+  account_display_name:
+    type: string
+  employee_linked:
+    type: boolean

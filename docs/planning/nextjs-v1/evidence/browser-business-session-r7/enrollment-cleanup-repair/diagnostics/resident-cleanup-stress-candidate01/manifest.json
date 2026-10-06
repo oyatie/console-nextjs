@@ -1,0 +1,23 @@
+{
+  "schema": "resident-cleanup-stress-candidate/1",
+  "status": "PREPARED_NOT_EXECUTED",
+  "probe_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/resident-cleanup-stress-candidate01/resident-cleanup-stress.mjs",
+  "probe_sha256": "fc4f239d03ca7315f57bc75e70112028852a5d42609fceaa9e15b92c8ac2e65e",
+  "bytes": 17599,
+  "command": [
+    "fnm",
+    "exec",
+    "--using",
+    "24.21.0",
+    "node",
+    "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/resident-cleanup-stress-candidate01/resident-cleanup-stress.mjs"
+  ],
+  "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+  "output_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/resident-cleanup-stress-candidate01/resident-cleanup-stress-report01.json",
+  "max_attempts": 40,
+  "stop": "First failed acknowledgement, natural exit, diagnostic, source drift or custody observation",
+  "scope": "Actual frozen approved diagnostic resident ready/done lifecycle only; no authentication proof; no shutdown replacement; no tracked source edits",
+  "tests": "NOT_EXECUTED",
+  "fixture_sha256": "9d152c60f03827d7c5676f4e965edc56084c67d6f25d80014c3559e76d0d7c5d",
+  "consumer_sha256": "30345239d9e8321ea9394dd5b5f75d91b5ca4d1b1a98a27c7360951a82179c45"
+}

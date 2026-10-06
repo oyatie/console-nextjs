@@ -1,0 +1,40 @@
+{
+  "id": "resident-startup-and-cached-fault-native01",
+  "command": [
+    "bash",
+    "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/tools/lanes/pgtest.sh",
+    "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork",
+    "/Users/jasonlee/.cargo/bin/cargo",
+    "+1.98.1",
+    "test",
+    "--locked",
+    "--offline",
+    "--no-fail-fast",
+    "--features",
+    "frontend-e2e",
+    "-p",
+    "console-app",
+    "--test",
+    "auth_rest",
+    "resident_authenticator::",
+    "--",
+    "--test-threads=1",
+    "--nocapture"
+  ],
+  "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+  "exit_code": 0,
+  "timed_out": false,
+  "duration_seconds": 165.31897166697308,
+  "discovered": null,
+  "counts": {
+    "passed": 4,
+    "failed": 0,
+    "skipped": 0,
+    "filtered": 121,
+    "executed": 4
+  },
+  "log_sha256": "403449217e7afd81c8b79a7e545cf7f47e7761cbec85970bee5c098cfb3a48e6",
+  "cleanup_reported": true,
+  "inputs_sha256": "85386f6ca3a1a72287c32bf111311f8e52d584a7a047b0826830873645e0ad2e",
+  "inputs_unchanged": true
+}

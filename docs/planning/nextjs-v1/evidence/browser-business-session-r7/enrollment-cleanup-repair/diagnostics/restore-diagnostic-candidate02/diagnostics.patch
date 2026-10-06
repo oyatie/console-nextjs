@@ -1,0 +1,76 @@
+--- a/tools/browser-business-restore.mjs
++++ b/tools/browser-business-restore.mjs
+@@ -253,6 +253,28 @@
+   const queued = mode === "queued-react-css";
+   const probe = await installProbe(page, h.guardContract.privateRegionSelector, actor.facts, queued, mode === "delayed-bundles");
+   const documents = []; const failedRequests = []; const heldScripts = [];
++  const cacheFailures = [];
++  let cacheObserver;
++  // This diagnostic retains fixed browser enums only, never event IDs/URLs/details.
++  const cacheReasonAllowlist = new Set([
++    "BackForwardCacheDisabled", "RelatedActiveContentsExist", "Loading", "Timeout", "CacheLimit",
++    "JavaScriptExecution", "RendererProcessKilled", "RendererProcessCrashed", "CacheFlushed",
++    "TimeoutPuttingInCache", "BackForwardCacheDisabledByLowMemory", "BackForwardCacheDisabledByCommandLine",
++    "NetworkRequestTimeout", "NetworkExceedsBufferLimit", "NavigationCancelledWhileRestoring",
++    "CacheControlNoStore", "CacheControlNoStoreCookieModified", "CacheControlNoStoreHTTPOnlyCookieModified",
++    "OutstandingNetworkRequestOthers", "OutstandingNetworkRequestFetch", "OutstandingNetworkRequestXHR",
++    "InjectedJavascript", "InjectedStyleSheet", "KeepaliveRequest", "CacheLimitPrunedOnModerateMemoryPressure",
++    "CacheLimitPrunedOnCriticalMemoryPressure", "ContentWebAuthenticationAPI", "Unknown",
++  ]);
++  const cacheFailureListener = ({ notRestoredExplanations }) => {
++    for (const explanation of notRestoredExplanations ?? []) {
++      if (cacheFailures.length >= 32) break;
++      const type = ["SupportPending", "PageSupportNeeded", "Circumstantial"].includes(explanation.type)
++        ? explanation.type : "unrecognized";
++      const reason = cacheReasonAllowlist.has(explanation.reason) ? explanation.reason : "unrecognized";
++      cacheFailures.push({ type, reason });
++    }
++  };
+   const evidence = { mode, blocked_scripts: 0, blocked_styles: 0, transformed_documents: [] };
+   let readGate; let back; let queuedResponse; let original; let consumedFault = false;
+   const requestListener = (request) => {
+@@ -304,6 +326,11 @@
+   };
+   const routed = ["blocked-bundles", "blocked-css-bundles", "delayed-bundles", "missing-guard", "thrown-guard"].includes(mode);
+   try {
++    if (queued) {
++      cacheObserver = await actor.context.newCDPSession(page);
++      cacheObserver.on("Page.backForwardCacheNotUsed", cacheFailureListener);
++      await cacheObserver.send("Page.enable");
++    }
+     if (routed) await page.route("**/*", intercept);
+     const response = await page.goto(url, { waitUntil: mode === "delayed-bundles" ? "commit" : "domcontentloaded" });
+     assert.equal(response.status(), 200); const html = await response.text(); h.assertNoProof(html);
+@@ -438,12 +465,22 @@
+     await assertBStillAuthorized(h);
+     assert.deepEqual(probe.errors, []);
+     return evidence;
++  } catch (error) {
++    if (queued) error.cacheObservation = {
++      not_restored_reasons: cacheFailures,
++      trusted_departures: probe.events.filter((event) => event.event === "pagehide" && event.trusted && event.document === original).length,
++      trusted_original_restores: probe.events.filter((event) => event.event === "pageshow" && event.trusted && event.persisted && event.document === original).length,
++    };
++    throw error;
+   } finally {
+     await actor.context.setOffline(false);
+     await readGate?.release();
+     for (const script of heldScripts) script.release();
+     await back?.catch(() => {}); // Result checked above; cleanup owns an outstanding rejection.
+     if (routed) await page.unrouteAll({ behavior: "wait" });
++    if (cacheObserver) {
++      cacheObserver.off("Page.backForwardCacheNotUsed", cacheFailureListener);
++    }
+     probe.remove(); page.off("request", requestListener); page.off("requestfailed", failureListener);
+     await page.close();
+     // Each fresh real sign-in is closed to avoid accidentally testing a ninth
+@@ -476,7 +513,8 @@
+       try { checks.push({ id: name, status: "passed", evidence: await run(h) }); }
+       catch (error) {
+         checks.push({ id: name, status: isPrerequisite(error) ? "unreached" : "failed",
+-          reason: isPrerequisite(error) ? error.message : "actual required restore assertion failed" });
++          reason: isPrerequisite(error) ? error.message : "actual required restore assertion failed",
++          ...(error.cacheObservation ? { diagnostic: error.cacheObservation } : {}) });
+         // Continue only within this owned test runner. Failures remain failures.
+       }
+     }

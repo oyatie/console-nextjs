@@ -1,0 +1,119 @@
+{
+  "schema": "P16-native-input-owner-independent-review/3",
+  "verdict": "ACCEPT_SOURCE_ONLY",
+  "scope": "Exact frozen candidate03 authorized test-only native F13 original-Document snapshot and F14 sole pending-latch release. Root alone applies and executes. No runtime, full125/17, PR merge or full product acceptance.",
+  "inputs": {
+    "tools/browser-business-restore.mjs": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/P16-native-input-owner-candidate03/tools/browser-business-restore.mjs",
+      "bytes": 49825,
+      "sha256": "3be5f8d095d22cd5c2588880650f26acebb92f535222232ad8da40bca16147da"
+    },
+    "before.mjs": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/P16-native-input-owner-candidate03/before.mjs",
+      "bytes": 57938,
+      "sha256": "33bbfcc9e60abdc5f6eb6e9d8c800667bac46ced34cbbde6154744ed7da61a7b"
+    },
+    "patch.diff": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/P16-native-input-owner-candidate03/patch.diff",
+      "bytes": 36073,
+      "sha256": "7cef2ca6837f35c87271002c59fc81b9788d82e94dc89a69d5289ce8bee2c8a6"
+    },
+    "candidate01-revision.diff": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/P16-native-input-owner-candidate03/candidate01-revision.diff",
+      "bytes": 7719,
+      "sha256": "04e296e876097a9fadca64a189a5cc8f6a62b76351e99aafd0c02f1365098d19"
+    },
+    "revision.diff": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/P16-native-input-owner-candidate03/revision.diff",
+      "bytes": 4253,
+      "sha256": "f000576af1e083d1273585ba95b3afad10f86d7780c23e9e17146ae58eddff66"
+    },
+    "manifest.json": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/P16-native-input-owner-candidate03/manifest.json",
+      "bytes": 1186,
+      "sha256": "592ef59155fb5fd34168d8c91fa481733b63bd613fa32a0197f7bd69dac7e337"
+    }
+  },
+  "prior_request_changes": {
+    "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/P16-native-input-owner-candidate01/independent-review01.json",
+    "bytes": 6899,
+    "sha256": "452916d3be24e61035470c1824c41c789bfecf5d821cf5a22cea8133788408c0"
+  },
+  "installed_sdk_pins": {
+    "lib/coreBundle.js": {
+      "path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/node_modules/playwright-core/lib/coreBundle.js",
+      "bytes": 3477183,
+      "sha256": "549070af3acabb3efcc4f55bfe6210f9f7c2fcf633cf7eaa59bfe60719969171"
+    },
+    "types/protocol.d.ts": {
+      "path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/node_modules/playwright-core/types/protocol.d.ts",
+      "bytes": 814210,
+      "sha256": "0410ed82a9ac63269dc1471ed249b280e2d461249a3a331e71cdb54cdf10db33"
+    }
+  },
+  "checks": {
+    "root_patch_and_candidate01_revision_reconstruct_exact_frozen_bytes": true,
+    "candidate_and_before_pins_match_manifest": true,
+    "failed_restored_world_evaluator_and_raw_sidecar_removed_unconditionally": true,
+    "no_product_guard_change_new_window_broadcast_channel_session_fallback_retry_or_fake_result": true,
+    "original_document_token_and_native_listener_captured_at_original_init": true,
+    "existing_arm_pagehide_captures_actual_sdk_binding_before_original_departure_and_fails_if_missing": true,
+    "no_initial_script_execution_order_dependency_for_reply_capture": true,
+    "trusted_nonrepeat_F13_F14_requires_actual_trusted_persisted_restore_and_exact_original_document": true,
+    "node_binding_checks_exact_page_mainframe_nonce_sequence_kind_original_token_trusted_and_persisted": true,
+    "exact_native401_gate_context_assertions_precede_F13_input": true,
+    "atomic_pending_and_private_snapshot_from_captured_document_verified_before_sole_F14": true,
+    "node_completion_and_attempt_order_plus_browser_sequence_and_latch_prevent_retry_duplicate_release": true,
+    "raw_snapshot_transient_node_binding_only_not_console_diagnostics_or_receipts": true,
+    "same_existing20s_budget_covers_send_and_reply_with_first_outcome_timer_clear": true,
+    "outstanding_reply_rejected_before_waiter_clear_on_failure_deadline_or_removal": true,
+    "late_native_command_rejections_owned_and_stopped_prevents_late_keyup_dispatch": true,
+    "original_and_cache_probe_installation_inside_existing_owned_page_try_finally": true,
+    "partial_console_listener_removed_on_init_rejection_exact_primary_error_preserved": true,
+    "cache_failure_observations_and_cleanup_allow_absent_probe": true,
+    "owned_page_close_remains_independently_attempted_no_new_unbounded_protocol_cleanup": true,
+    "actual_react_update_logout204_cookie_removal_current_privacy_one_reload_actorB_proofs_preserved": true,
+    "SDK_invokes_node_binding_callback_before_retiring_context_result_delivery": true
+  },
+  "resolved_findings": [
+    {
+      "id": "ABANDONED_NATIVE_INPUT_REPLY",
+      "resolution": "originalInput finally rejects still-pending waiter with fixed non-sensitive error before clear; no new await, retry or timer."
+    },
+    {
+      "id": "PROBE_INSTALLATION_OUTSIDE_OWNED_CLEANUP",
+      "resolution": "ordinary/cache variants install inside existing ownedpage try/finally with optional probe cleanup; installProbe removes partial console listener on addInitScript failure and preserves exact first error. Newlyfallible binding setup is also inside caller ownedpage boundary."
+    }
+  ],
+  "findings": [],
+  "sdk_source_evidence": [
+    {
+      "path": "lib/coreBundle.js",
+      "line": 22434,
+      "fact": "Awaited page exposeBinding completes registered init and existing-frame setup before the probe caller returns."
+    },
+    {
+      "path": "lib/coreBundle.js",
+      "line": 23031,
+      "fact": "PageBinding.dispatch receives serializedargs and invokes Node callback before result-delivery evaluateExpressionHandle. Browser fire-and-forget rejection-caught reply does not await that delivery."
+    },
+    {
+      "path": "lib/coreBundle.js",
+      "line": 37889,
+      "fact": "Runtime.bindingCalled associates incoming payload with actual registered execution context; callback source carries that frame/page."
+    }
+  ],
+  "limits": [
+    "Source acceptance authorizes only exact candidate03 instrumentation. No successful native-input, restored binding callback, handler effect or cleanup is inferred before actual root consumer.",
+    "Unavailable original Document/context/binding or send/reply failure remains truthful failure; no successor context remap is provided.",
+    "An outstanding native protocol command is not claimed canceled at local deadline; owned page closure retires it.",
+    "This is an isolated owned test mechanism, not a production identity attestation or cryptographic authorization layer.",
+    "Node receipt ordering does not establish independently dated browser/BFF event timing or earlier15s abort causality.",
+    "Prior RED and UNKNOWN results remain preserved. Exact current full125 native/17 browser zero ignored/filtered/skipped/unreached terminal proof, independent audit, hosted checks and protected queue are still required."
+  ],
+  "actions": {
+    "tests_executed": 0,
+    "tracked_source_writes": 0,
+    "artifact_only_review_write": true
+  }
+}

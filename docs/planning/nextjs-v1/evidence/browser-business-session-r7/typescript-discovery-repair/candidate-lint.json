@@ -1,0 +1,15 @@
+{
+  "name": "candidate-lint",
+  "command": [
+    "fnm",
+    "exec",
+    "--using",
+    "24.21.0",
+    "npm",
+    "run",
+    "lint"
+  ],
+  "exit": 0,
+  "duration_seconds": 0.799,
+  "log_sha256": "3e98dcbd24835eb29288dab5790e519db6a485457e666a6774fdbce08459740e"
+}

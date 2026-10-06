@@ -1,0 +1,126 @@
+--- a/tools/browser-business-restore.mjs
++++ b/tools/browser-business-restore.mjs
+@@ -134,7 +134,8 @@
+       category = "reply-received"; completedInputs += 1;
+       return value;
+     } finally {
+-      stopped = true; clearTimeout(timer); inputWaiter = undefined;
++      stopped = true; clearTimeout(timer);
++      inputWaiter?.reject(new Error("original native input attempt ended")); inputWaiter = undefined;
+       const elapsed = Math.max(0, Math.floor(performance.now() - startedAt));
+       inputObservations.push({ kind, sequence, category: deadlineFired ? "local-deadline" : category,
+         configured_budget_ms: Number.isSafeInteger(budget) && budget > 0 && budget <= 600000 ? budget : null,
+@@ -154,12 +155,12 @@
+     } catch { errors.push("invalid restore probe frame"); }
+   };
+   page.on("console", listener);
+-  await page.addInitScript(({ selector, names, queueLogout, observeReact, key, prefix, bindingName, inputNonce }) => {
++  try {
++    await page.addInitScript(({ selector, names, queueLogout, observeReact, key, prefix, bindingName, inputNonce }) => {
+     const state = { document: crypto.randomUUID(), restored: false, reactCommits: 0, logoutQueued: false, logoutStarted: false, logoutReleased: false };
+     Object.defineProperty(window, key, { value: state });
+     const originalDocument = document; const originalToken = state.document;
+-    const reply = queueLogout ? window[bindingName] : null;
+-    if (queueLogout && typeof reply !== "function") throw new Error("native input reply binding absent");
++    let reply; // Capture the SDK binding while this original Document is active, before departure.
+     let trustedRestore = false; let inputSequence = 0;
+     // Only a real persisted pageshow queues this timer. The native response
+     // witness below releases it once; cleanup never releases an unproved action.
+@@ -174,7 +175,7 @@
+       return commits;
+     };
+     if (queueLogout) addEventListener("keydown", (event) => {
+-      if (!event.isTrusted || event.repeat || !["F13", "F14"].includes(event.code)
++      if (typeof reply !== "function" || !event.isTrusted || event.repeat || !["F13", "F14"].includes(event.code)
+         || !trustedRestore || !state.restored || !state.logoutQueued || state.logoutStarted
+         || state.document !== originalToken || document !== originalDocument
+         || originalDocument.defaultView?.document !== originalDocument) return;
+@@ -231,7 +232,12 @@
+     // Native listener callbacks can checkpoint microtasks between listeners;
+     // registration after the production listener permits a synchronous sample.
+     state.armPagehide = (original) => {
+-      if (state.document !== original || state.pagehideArmed) return false;
++      if (state.document !== original || state.pagehideArmed || document !== originalDocument) return false;
++      if (queueLogout) {
++        const candidate = window[bindingName];
++        if (typeof candidate !== "function") return false;
++        reply = candidate;
++      }
+       state.pagehideArmed = true;
+       addEventListener("pagehide", (event) => report("pagehide", event));
+       return true;
+@@ -257,6 +263,11 @@
+   }, { selector, names: [facts.company_name, facts.account_name,
+     ...facts.first_page.items.map((item) => item.note)], queueLogout, observeReact, key: PROBE, prefix: PREFIX,
+     bindingName, inputNonce });
++  } catch (error) {
++    closed = true; page.off("console", listener);
++    inputWaiter?.reject(new Error("original native input probe installation failed")); inputWaiter = undefined;
++    throw error; // The caller's owned-page finally still closes a partially installed binding.
++  }
+   return { events, errors, inputObservations, originalInput,
+     async armPagehide(original) {
+       assert.equal(await page.evaluate(({ key, original }) => window[key].armPagehide(original),
+@@ -346,8 +357,9 @@
+   await h.signIn("a");
+   const actor = h.actors.get("a"); const session = { ...h.sessions.get("a") };
+   const page = await actor.context.newPage();
+-  const probe = await installProbe(page, h.guardContract.privateRegionSelector, actor.facts, false);
++  let probe;
+   try {
++    probe = await installProbe(page, h.guardContract.privateRegionSelector, actor.facts, false);
+     await page.goto(`${actor.origin}/me/${session.context}/attendance/`);
+     await page.getByRole("table").waitFor({ state: "visible", timeout: h.phaseMs ?? 20000 });
+     const original = await page.evaluate((key) => window[key].document, PROBE);
+@@ -369,7 +381,7 @@
+       assert.equal(event.hidden, true); assert.equal(event.private_visible, false);
+     }
+     return { ordinary_back: true, cached_restore_seen: probe.events.some((event) => event.persisted && event.trusted) };
+-  } finally { probe.remove(); await page.close(); }
++  } finally { probe?.remove(); await page.close(); }
+ }
+ 
+ async function cacheVariant(h, mode) {
+@@ -378,7 +390,7 @@
+   const url = `${actor.origin}/me/${session.context}/attendance/`;
+   const page = await actor.context.newPage();
+   const queued = mode === "queued-react-css";
+-  const probe = await installProbe(page, h.guardContract.privateRegionSelector, actor.facts, queued, mode === "delayed-bundles");
++  let probe;
+   const documents = []; const failedRequests = []; const heldScripts = [];
+   const cacheFailures = [];
+   let cacheObserver;
+@@ -509,6 +521,7 @@
+   };
+   const routed = ["blocked-bundles", "blocked-css-bundles", "delayed-bundles", "missing-guard", "thrown-guard"].includes(mode);
+   try {
++    probe = await installProbe(page, h.guardContract.privateRegionSelector, actor.facts, queued, mode === "delayed-bundles");
+     if (queued) {
+       queuedCheckpoint = "cache-observer";
+       cacheObserver = await actor.context.newCDPSession(page);
+@@ -735,13 +748,13 @@
+       failure_location: browserFailureLocation(error) ?? null,
+       queued_native_observation: queuedNativeObservation ?? null,
+       queued_ordering_observation: queuedOrderingObservation ?? null,
+-      original_input_observations: probe.inputObservations.map((item) => ({ ...item })),
++      original_input_observations: (probe?.inputObservations ?? []).map((item) => ({ ...item })),
+       // Copy at failure reporting; late callbacks/cleanup cannot rewrite it.
+       queued_phase_timeline: queuedPhaseTimeline.map((entry) => ({ ...entry,
+         ...(entry.cdp_rejection ? { cdp_rejection: { ...entry.cdp_rejection } } : {}) })),
+       not_restored_reasons: cacheFailures,
+-      trusted_departures: probe.events.filter((event) => event.event === "pagehide" && event.trusted && event.document === original).length,
+-      trusted_original_restores: probe.events.filter((event) => event.event === "pageshow" && event.trusted && event.persisted && event.document === original).length,
++      trusted_departures: (probe?.events ?? []).filter((event) => event.event === "pagehide" && event.trusted && event.document === original).length,
++      trusted_original_restores: (probe?.events ?? []).filter((event) => event.event === "pageshow" && event.trusted && event.persisted && event.document === original).length,
+     };
+     throw error;
+   } finally {
+@@ -761,7 +774,7 @@
+     await cleanup("probe-listeners", () => {
+       cacheObserver?.off("Page.backForwardCacheNotUsed", cacheFailureListener);
+       cacheObserver?.off("Page.frameNavigated", frameNavigatedListener);
+-      probe.remove(); page.off("request", requestListener); page.off("requestfailed", failureListener);
++      probe?.remove(); page.off("request", requestListener); page.off("requestfailed", failureListener);
+       if (queued) page.off("response", responseListener);
+     });
+     // Always attempt owned page closure, independently of earlier cleanup errors.

@@ -1,0 +1,35 @@
+{
+  "id": "resident-setup-diagnostic-clippy01",
+  "command": [
+    "/Users/jasonlee/.cargo/bin/cargo",
+    "+1.98.1",
+    "clippy",
+    "--locked",
+    "--offline",
+    "--features",
+    "frontend-e2e",
+    "-p",
+    "console-app",
+    "--test",
+    "auth_rest",
+    "--",
+    "-D",
+    "warnings"
+  ],
+  "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend",
+  "exit_code": 101,
+  "timed_out": false,
+  "duration_seconds": 639.7950352500193,
+  "discovered": null,
+  "counts": {
+    "passed": 0,
+    "failed": 0,
+    "skipped": 0,
+    "filtered": 0,
+    "executed": 0
+  },
+  "log_sha256": "72116faa5201efcaace371fae15cde38221ad825d5915c57c35e3f5e22f27a7b",
+  "cleanup_reported": false,
+  "inputs_sha256": "90131bea32cf92be29be3b9b6332316eabb7534409cdc1cf463e5363626288da",
+  "inputs_unchanged": true
+}

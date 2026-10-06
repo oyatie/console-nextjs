@@ -1,0 +1,145 @@
+{
+  "schema": "resident-current-supporting-terminal-audit/2",
+  "verdict": "ACCEPT_SCOPED_TERMINAL_EVIDENCE_ONLY",
+  "scope": "Independent hash/report/log/captured-map audit of completed 125-test discovery and strict Clippy. No rerun, current map regeneration, independent process observation, runtime, browser or release proof. Prior audit01 remains unchanged.",
+  "runs": [
+    {
+      "id": "resident-startup-sdk-final-clippy01",
+      "inputs": {
+        "report": {
+          "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/resident-startup-sdk-final-clippy01.json",
+          "bytes": 852,
+          "sha256": "2df839573ff86d41e8dcafe65d2d59bf576c5114aa40f7499db3780ae855e978"
+        },
+        "log": {
+          "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/resident-startup-sdk-final-clippy01.log",
+          "bytes": 449,
+          "sha256": "b2ec61c39654158bf7cb126d1b8af31a91ddad03f1c7e16bed29e5a49330f24c"
+        },
+        "inputs": {
+          "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/resident-startup-sdk-final-clippy01.inputs.json",
+          "bytes": 917481,
+          "sha256": "c054df00ddb6a240ffaaabc6baf2a53b3a91ce07723d8ad4653692cffc2e7fc0"
+        }
+      },
+      "command": [
+        "/Users/jasonlee/.cargo/bin/cargo",
+        "+1.98.1",
+        "clippy",
+        "--locked",
+        "--offline",
+        "--features",
+        "frontend-e2e",
+        "-p",
+        "console-app",
+        "--test",
+        "auth_rest",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "wrapper_duration_seconds": 248.87911974999588,
+      "wrapper_test_counts": {
+        "passed": 0,
+        "failed": 0,
+        "skipped": 0,
+        "filtered": 0,
+        "executed": 0
+      },
+      "scope": "Strict Clippy command completed for auth_rest; no application test execution or full workspace check.",
+      "log_note": "Cargo printed a future incompatibility warning for existing proc-macro-error2 v2.0.1 after successful Clippy completion; preserved verbatim, not represented as a current compile failure."
+    },
+    {
+      "id": "resident-restored-context-final-discovery01",
+      "inputs": {
+        "report": {
+          "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/resident-restored-context-final-discovery01.json",
+          "bytes": 845,
+          "sha256": "a8a5efdecdce36f77594ac5d168dd880e7226c3070f46306cc77059e9fd28c9b"
+        },
+        "log": {
+          "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/resident-restored-context-final-discovery01.log",
+          "bytes": 11938,
+          "sha256": "f38debef3b5354d3112044c562cc22b84ea2f7753583298967eb7e1a80d2fbc1"
+        },
+        "inputs": {
+          "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/resident-restored-context-final-discovery01.inputs.json",
+          "bytes": 917481,
+          "sha256": "c054df00ddb6a240ffaaabc6baf2a53b3a91ce07723d8ad4653692cffc2e7fc0"
+        }
+      },
+      "command": [
+        "/Users/jasonlee/.cargo/bin/cargo",
+        "+1.98.1",
+        "test",
+        "--locked",
+        "--offline",
+        "--features",
+        "frontend-e2e",
+        "-p",
+        "console-app",
+        "--test",
+        "auth_rest",
+        "--",
+        "--list"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "wrapper_duration_seconds": 181.79960812500212,
+      "wrapper_test_counts": {
+        "passed": 0,
+        "failed": 0,
+        "skipped": 0,
+        "filtered": 0,
+        "executed": 0
+      },
+      "actual_discovery": {
+        "unique_tests": 125,
+        "benchmarks": 0,
+        "executed_tests": 0,
+        "inherited_tests": 121,
+        "added_private_constructor_and_cache_tests": [
+          "browser_sessions::resident_authenticator::failed_close_is_cached_without_restarting_cleanup_and_normal_drop_stays_failing",
+          "browser_sessions::resident_authenticator::injected_reader_setup_failure_preserves_constructor_error_and_resource_custody",
+          "browser_sessions::resident_authenticator::injected_stderr_setup_failure_preserves_constructor_error_and_resource_custody",
+          "browser_sessions::resident_authenticator::injected_writer_setup_failure_preserves_constructor_error_and_resource_custody"
+        ]
+      },
+      "scope": "Actual Cargo list discovery only; does not execute or pass 125 tests."
+    }
+  ],
+  "shared_input_map": {
+    "sha256": "c054df00ddb6a240ffaaabc6baf2a53b3a91ce07723d8ad4653692cffc2e7fc0",
+    "before_entries": 2958,
+    "after_entries": 2958,
+    "all_before_after_entries_equal": true,
+    "all_two_run_maps_identical": true,
+    "selected_pins": {
+      "tools/browser-business-restore.mjs": "183df5e840c6fbd46c77ca7fa4ba8301801606870b970173a89ac784a27ddf4c",
+      "tools/test-resident-authenticator.mjs": "88cdfea200731ab32fcda0c797a96eee6ce49a42e6f174208fed29195105cd2e",
+      "backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs": "c2fc3e190d7b9933cdaf77958a8a9dc11a6ab8df83fa69362c7a42d5bc67412c"
+    }
+  },
+  "fixed_final_native121_material_semantics": {
+    "required_slot": "final_native121_browser17_gate_terminal_report_log_inputs_payload_and_independent_audit",
+    "inherited_native_tests": 121,
+    "additional_constructor_and_cache_tests": 4,
+    "required_actual_native_execution": 125,
+    "required_browser_execution": 17,
+    "required_ignored": 0,
+    "required_filtered": 0,
+    "limit": "Discovery alone cannot fill final acceptance slot; all 125 native and 17 browser cases must actually execute and pass on final pinned sources."
+  },
+  "remaining_required": [
+    "Fresh actual reviewed lifecycle06 runtime with independent owned group and scope absence.",
+    "Full current unfiltered 125-native/17-browser terminal acceptance and independent audit.",
+    "Author-separated cumulative source review, final source bindings, metadata review, immutable-head hosted CI and protected queue admission."
+  ],
+  "actions": {
+    "tests_executed": 0,
+    "tracked_source_writes": 0,
+    "artifact_only_audit_write": true
+  }
+}

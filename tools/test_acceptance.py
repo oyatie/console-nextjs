@@ -21,7 +21,7 @@ class AcceptanceTests(unittest.TestCase):
             (planning / "requirements-and-evidence.json").write_text(json.dumps({
                 "plan_sha256": acceptance.sha(b"plan"), "requirements": [],
             }))
-            for name in ("package.json", "package-lock.json", "next.config.ts", "tsconfig.json", "Dockerfile", ".node-version"):
+            for name in ("package.json", "package-lock.json", "next.config.mjs", "tsconfig.json", "Dockerfile", ".node-version"):
                 (root / name).write_text("")
 
             def failed_probe(name, command, directory, evidence, env):
@@ -124,13 +124,14 @@ class AcceptanceTests(unittest.TestCase):
             source = root / "src/lib/seed-data.ts"
             source.parent.mkdir(parents=True)
             source.write_text('export const SEED_LISTING = { name: "Fixture Business 123" };\n')
-            for folder in (".next/static", ".next/server", ".next/standalone/.next/server"):
+            for folder in (".next/static", ".next/server", ".artifacts/production-runtime/.next/static", ".artifacts/production-runtime/.next/server"):
                 (root / folder).mkdir(parents=True)
             asset = root / ".next/static/storefront.js"
             asset.write_text('console.log("live data only");')
             (root / ".next/server/page.js").write_text("module.exports = {};")
-            (root / ".next/standalone/.next/server/page.js").write_text("module.exports = {};")
-            (root / ".next/standalone/server.js").write_text("// server")
+            (root / ".artifacts/production-runtime/.next/server/page.js").write_text("module.exports = {};")
+            (root / ".artifacts/production-runtime/.next/static/page.js").write_text("module.exports = {};")
+            (root / ".artifacts/production-runtime/server.mjs").write_text("// server")
             probe = {p["id"]: p for p in acceptance.production_preflights([build, routes], root)}
             self.assertEqual(probe["known-business-fixture-artifacts-excluded"]["status"], "passed")
             self.assertEqual(probe["no-business-seeds"]["status"], "unreached")
@@ -153,7 +154,7 @@ class AcceptanceTests(unittest.TestCase):
                 (planning / "requirements-and-evidence.json").write_text(json.dumps({
                     "plan_sha256": acceptance.sha(b"plan"), "requirements": [],
                 }))
-                for name in ("package.json", "package-lock.json", "next.config.ts", "tsconfig.json", "Dockerfile", ".node-version"):
+                for name in ("package.json", "package-lock.json", "next.config.mjs", "tsconfig.json", "Dockerfile", ".node-version"):
                     (root / name).write_text("")
                 called = []
 

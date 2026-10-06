@@ -1,0 +1,253 @@
+source-and-inquiry	Set up job	﻿2026-10-06T12:10:09.4726999Z Current runner version: '2.337.0'
+source-and-inquiry	Set up job	2026-10-06T12:10:09.4758549Z ##[group]Runner Image Provisioner
+source-and-inquiry	Set up job	2026-10-06T12:10:09.4759512Z Hosted Compute Agent
+source-and-inquiry	Set up job	2026-10-06T12:10:09.4760387Z Version: 20260901.588
+source-and-inquiry	Set up job	2026-10-06T12:10:09.4761208Z Commit: f88ec8081b781fac6c440065ac7ff9e710ce3d0b
+source-and-inquiry	Set up job	2026-10-06T12:10:09.4762263Z Build Date: 2026-09-01T19:56:44Z
+source-and-inquiry	Set up job	2026-10-06T12:10:09.4763135Z Worker ID: {ef573ec8-e860-412f-b87f-0c2ea7d57a4b}
+source-and-inquiry	Set up job	2026-10-06T12:10:09.4764086Z Azure Region: eastus
+source-and-inquiry	Set up job	2026-10-06T12:10:09.4764971Z ##[endgroup]
+source-and-inquiry	Set up job	2026-10-06T12:10:09.4766579Z ##[group]Operating System
+source-and-inquiry	Set up job	2026-10-06T12:10:09.4767479Z Ubuntu
+source-and-inquiry	Set up job	2026-10-06T12:10:09.4768163Z 24.04.5
+source-and-inquiry	Set up job	2026-10-06T12:10:09.4768845Z LTS
+source-and-inquiry	Set up job	2026-10-06T12:10:09.4769505Z ##[endgroup]
+source-and-inquiry	Set up job	2026-10-06T12:10:09.4770220Z ##[group]Runner Image
+source-and-inquiry	Set up job	2026-10-06T12:10:09.4771100Z Image: ubuntu-24.04
+source-and-inquiry	Set up job	2026-10-06T12:10:09.4771808Z Version: 20260927.320.1
+source-and-inquiry	Set up job	2026-10-06T12:10:09.4773246Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260927.320/images/ubuntu/Ubuntu2404-Readme.md
+source-and-inquiry	Set up job	2026-10-06T12:10:09.4775826Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260927.320
+source-and-inquiry	Set up job	2026-10-06T12:10:09.4777146Z ##[endgroup]
+source-and-inquiry	Set up job	2026-10-06T12:10:09.4778467Z ##[group]GITHUB_TOKEN Permissions
+source-and-inquiry	Set up job	2026-10-06T12:10:09.4780745Z Contents: read
+source-and-inquiry	Set up job	2026-10-06T12:10:09.4781473Z Metadata: read
+source-and-inquiry	Set up job	2026-10-06T12:10:09.4782255Z ##[endgroup]
+source-and-inquiry	Set up job	2026-10-06T12:10:09.4784648Z Secret source: Actions
+source-and-inquiry	Set up job	2026-10-06T12:10:09.4786100Z Cache mode: write
+source-and-inquiry	Set up job	2026-10-06T12:10:09.4786946Z Prepare workflow directory
+source-and-inquiry	Set up job	2026-10-06T12:10:09.5220666Z Prepare all required actions
+source-and-inquiry	Set up job	2026-10-06T12:10:09.5275177Z Getting action download info
+source-and-inquiry	Set up job	2026-10-06T12:10:09.7458729Z Download action repository 'actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1' (SHA:3d3c42e5aac5ba805825da76410c181273ba90b1)
+source-and-inquiry	Set up job	2026-10-06T12:10:10.6725996Z Download action repository 'actions/setup-node@820762786026740c76f36085b0efc47a31fe5020' (SHA:820762786026740c76f36085b0efc47a31fe5020)
+source-and-inquiry	Set up job	2026-10-06T12:10:11.8587963Z Complete job name: source-and-inquiry
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	﻿2026-10-06T12:10:11.9537773Z ##[group]Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:11.9538928Z with:
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:11.9539403Z   repository: oyatie/console-nextjs
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:11.9546290Z   token: ***
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:11.9546747Z   ssh-strict: true
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:11.9547211Z   ssh-user: git
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:11.9547688Z   persist-credentials: true
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:11.9548232Z   clean: true
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:11.9548720Z   sparse-checkout-cone-mode: true
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:11.9549311Z   fetch-depth: 1
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:11.9549765Z   fetch-tags: false
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:11.9550242Z   show-progress: true
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:11.9550727Z   lfs: false
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:11.9551167Z   submodules: false
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:11.9551694Z   set-safe-directory: true
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:11.9552279Z   allow-unsafe-pr-checkout: false
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:11.9553260Z env:
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:11.9553679Z   CARGO_BUILD_JOBS: 1
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:11.9554176Z   CARGO_INCREMENTAL: 0
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:11.9554801Z   CARGO_PROFILE_DEV_DEBUG: 0
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:11.9555433Z   CARGO_PROFILE_TEST_DEBUG: 0
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:11.9555993Z ##[endgroup]
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:12.0787841Z Syncing repository: oyatie/console-nextjs
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:12.0791630Z ##[group]Getting Git version info
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:12.0793923Z Working directory is '/home/runner/work/console-nextjs/console-nextjs'
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:12.0797324Z [command]/usr/bin/git version
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:12.0948244Z git version 2.55.0
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:12.0971419Z ##[endgroup]
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:12.0985205Z Temporarily overriding HOME='/home/runner/work/_temp/2b55db0c-e0d2-4ba1-a1fb-9b7842442d02' before making global git config changes
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:12.0988578Z Adding repository directory to the temporary git global config as a safe directory
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:12.0991699Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/console-nextjs/console-nextjs
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:12.1060417Z Deleting the contents of '/home/runner/work/console-nextjs/console-nextjs'
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:12.1064381Z ##[group]Determining repository object format
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:12.1069061Z ##[endgroup]
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:12.1071007Z ##[group]Initializing the repository
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:12.1074652Z [command]/usr/bin/git init /home/runner/work/console-nextjs/console-nextjs
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:12.1369827Z hint: Using 'master' as the name for the initial branch. This default branch name
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:12.1372574Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:12.1375269Z hint: to use in all of your new repositories, which will suppress this warning,
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:12.1377037Z hint: call:
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:12.1378041Z hint:
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:12.1379193Z hint: 	git config --global init.defaultBranch <name>
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:12.1380801Z hint:
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:12.1382118Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:12.1384649Z hint: 'development'. The just-created branch can be renamed via this command:
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:12.1389474Z hint:
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:12.1390758Z hint: 	git branch -m <name>
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:12.1393060Z hint:
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:12.1394820Z hint: Disable this message with "git config set advice.defaultBranchName false"
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:12.1397731Z Initialized empty Git repository in /home/runner/work/console-nextjs/console-nextjs/.git/
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:12.1402492Z [command]/usr/bin/git remote add origin https://github.com/oyatie/console-nextjs
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:12.1584184Z ##[endgroup]
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:12.1585902Z ##[group]Disabling automatic garbage collection
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:12.1587383Z [command]/usr/bin/git config --local gc.auto 0
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:12.1687037Z ##[endgroup]
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:12.1688417Z ##[group]Setting up auth
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:12.1689494Z Removing SSH command configuration
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:12.1691154Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:12.1716544Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:12.2197763Z Removing HTTP extra header
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:12.2203807Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:12.2238503Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:12.2451114Z Removing includeIf entries pointing to credentials config files
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:12.2453370Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:12.2492424Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:12.2733169Z [command]/usr/bin/git config --file /home/runner/work/_temp/git-credentials-c1453b12-a3ad-49b4-83ab-faed5662e435.config http.https://github.com/.extraheader AUTHORIZATION: basic ***
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:12.2817740Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/console-nextjs/console-nextjs/.git.path /home/runner/work/_temp/git-credentials-c1453b12-a3ad-49b4-83ab-faed5662e435.config
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:12.3070653Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/console-nextjs/console-nextjs/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-c1453b12-a3ad-49b4-83ab-faed5662e435.config
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:12.3213015Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-c1453b12-a3ad-49b4-83ab-faed5662e435.config
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:12.3722068Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-c1453b12-a3ad-49b4-83ab-faed5662e435.config
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:12.3993827Z ##[endgroup]
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:12.3994559Z ##[group]Fetching the repository
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:12.3997041Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +cc1b0fc13466b0537fcbeed162ab2f3c7e6749a7:refs/remotes/pull/16/merge
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:14.4344965Z From https://github.com/oyatie/console-nextjs
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:14.4355185Z  * [new ref]         cc1b0fc13466b0537fcbeed162ab2f3c7e6749a7 -> pull/16/merge
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:14.4367380Z ##[endgroup]
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:14.4368038Z ##[group]Determining the checkout info
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:14.4368737Z ##[endgroup]
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:14.4369355Z [command]/usr/bin/git sparse-checkout disable
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:14.4408658Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:14.4455872Z ##[group]Checking out the ref
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:14.4460641Z [command]/usr/bin/git checkout --progress --force refs/remotes/pull/16/merge
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:14.8613566Z Note: switching to 'refs/remotes/pull/16/merge'.
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:14.8625929Z 
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:14.8629685Z You are in 'detached HEAD' state. You can look around, make experimental
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:14.8630772Z changes and commit them, and you can discard any commits you make in this
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:14.8633897Z state without impacting any branches by switching back to a branch.
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:14.8634498Z 
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:14.8635219Z If you want to create a new branch to retain commits you create, you may
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:14.8635950Z do so (now or later) by using -c with the switch command. Example:
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:14.8636448Z 
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:14.8636734Z   git switch -c <new-branch-name>
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:14.8637094Z 
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:14.8637391Z Or undo this operation with:
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:14.8638372Z 
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:14.8638695Z   git switch -
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:14.8639175Z 
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:14.8639733Z Turn off this advice by setting config variable advice.detachedHead to false
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:14.8640335Z 
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:14.8640908Z HEAD is now at cc1b0fc Merge 894ae36e7170245b027d0688b26b6e46da461c13 into 7bbb48cc24952ec1639c393767e11bc0de6cc63c
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:14.8656938Z ##[endgroup]
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:14.8738256Z [command]/usr/bin/git log -1 --format=%H
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:14.8785394Z cc1b0fc13466b0537fcbeed162ab2f3c7e6749a7
+source-and-inquiry	Run actions/setup-node@820762786026740c76f36085b0efc47a31fe5020	﻿2026-10-06T12:10:14.9063318Z ##[group]Run actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
+source-and-inquiry	Run actions/setup-node@820762786026740c76f36085b0efc47a31fe5020	2026-10-06T12:10:14.9063658Z with:
+source-and-inquiry	Run actions/setup-node@820762786026740c76f36085b0efc47a31fe5020	2026-10-06T12:10:14.9063855Z   node-version-file: .node-version
+source-and-inquiry	Run actions/setup-node@820762786026740c76f36085b0efc47a31fe5020	2026-10-06T12:10:14.9064075Z   cache: npm
+source-and-inquiry	Run actions/setup-node@820762786026740c76f36085b0efc47a31fe5020	2026-10-06T12:10:14.9064254Z   check-latest: false
+source-and-inquiry	Run actions/setup-node@820762786026740c76f36085b0efc47a31fe5020	2026-10-06T12:10:14.9066917Z   token: ***
+source-and-inquiry	Run actions/setup-node@820762786026740c76f36085b0efc47a31fe5020	2026-10-06T12:10:14.9067127Z   package-manager-cache: true
+source-and-inquiry	Run actions/setup-node@820762786026740c76f36085b0efc47a31fe5020	2026-10-06T12:10:14.9067370Z env:
+source-and-inquiry	Run actions/setup-node@820762786026740c76f36085b0efc47a31fe5020	2026-10-06T12:10:14.9067627Z   CARGO_BUILD_JOBS: 1
+source-and-inquiry	Run actions/setup-node@820762786026740c76f36085b0efc47a31fe5020	2026-10-06T12:10:14.9067881Z   CARGO_INCREMENTAL: 0
+source-and-inquiry	Run actions/setup-node@820762786026740c76f36085b0efc47a31fe5020	2026-10-06T12:10:14.9068153Z   CARGO_PROFILE_DEV_DEBUG: 0
+source-and-inquiry	Run actions/setup-node@820762786026740c76f36085b0efc47a31fe5020	2026-10-06T12:10:14.9068461Z   CARGO_PROFILE_TEST_DEBUG: 0
+source-and-inquiry	Run actions/setup-node@820762786026740c76f36085b0efc47a31fe5020	2026-10-06T12:10:14.9068756Z ##[endgroup]
+source-and-inquiry	Run actions/setup-node@820762786026740c76f36085b0efc47a31fe5020	2026-10-06T12:10:15.0146805Z Node version file is not JSON file
+source-and-inquiry	Run actions/setup-node@820762786026740c76f36085b0efc47a31fe5020	2026-10-06T12:10:15.0148375Z Resolved .node-version as 24.21.0
+source-and-inquiry	Run actions/setup-node@820762786026740c76f36085b0efc47a31fe5020	2026-10-06T12:10:15.0306232Z Found in cache @ /opt/hostedtoolcache/node/24.21.0/x64
+source-and-inquiry	Run actions/setup-node@820762786026740c76f36085b0efc47a31fe5020	2026-10-06T12:10:15.0308617Z ##[group]Environment details
+source-and-inquiry	Run actions/setup-node@820762786026740c76f36085b0efc47a31fe5020	2026-10-06T12:10:17.8478879Z node: v24.21.0
+source-and-inquiry	Run actions/setup-node@820762786026740c76f36085b0efc47a31fe5020	2026-10-06T12:10:17.8484595Z npm: 11.19.0
+source-and-inquiry	Run actions/setup-node@820762786026740c76f36085b0efc47a31fe5020	2026-10-06T12:10:17.8485570Z yarn: 1.22.22
+source-and-inquiry	Run actions/setup-node@820762786026740c76f36085b0efc47a31fe5020	2026-10-06T12:10:17.8487851Z ##[endgroup]
+source-and-inquiry	Run actions/setup-node@820762786026740c76f36085b0efc47a31fe5020	2026-10-06T12:10:17.8501090Z [command]/opt/hostedtoolcache/node/24.21.0/x64/bin/npm config get cache
+source-and-inquiry	Run actions/setup-node@820762786026740c76f36085b0efc47a31fe5020	2026-10-06T12:10:18.0945739Z /home/runner/.npm
+source-and-inquiry	Run actions/setup-node@820762786026740c76f36085b0efc47a31fe5020	2026-10-06T12:10:18.1956970Z Cache hit for: node-cache-Linux-x64-npm-522eab0ad5d10fdff36f01bf1ae1595c6e4536f45fd86786a87b315f0bfe82c9
+source-and-inquiry	Run actions/setup-node@820762786026740c76f36085b0efc47a31fe5020	2026-10-06T12:10:18.9240471Z Received 128984841 of 128984841 (100.0%), 182.8 MBs/sec
+source-and-inquiry	Run actions/setup-node@820762786026740c76f36085b0efc47a31fe5020	2026-10-06T12:10:18.9241583Z Cache Size: ~123 MB (128984841 B)
+source-and-inquiry	Run actions/setup-node@820762786026740c76f36085b0efc47a31fe5020	2026-10-06T12:10:18.9372493Z [command]/usr/bin/tar -xf /home/runner/work/_temp/67031d4b-1de5-4fdf-a2e4-91546399cbd3/cache.tzst -P -C /home/runner/work/console-nextjs/console-nextjs --use-compress-program unzstd
+source-and-inquiry	Run actions/setup-node@820762786026740c76f36085b0efc47a31fe5020	2026-10-06T12:10:19.3394443Z Cache restored successfully
+source-and-inquiry	Run actions/setup-node@820762786026740c76f36085b0efc47a31fe5020	2026-10-06T12:10:19.3454358Z Cache restored from key: node-cache-Linux-x64-npm-522eab0ad5d10fdff36f01bf1ae1595c6e4536f45fd86786a87b315f0bfe82c9
+source-and-inquiry	Run npm ci	﻿2026-10-06T12:10:19.3633319Z ##[group]Run npm ci
+source-and-inquiry	Run npm ci	2026-10-06T12:10:19.3633582Z ^[[36;1mnpm ci^[[0m
+source-and-inquiry	Run npm ci	2026-10-06T12:10:19.4696865Z shell: /usr/bin/bash -e {0}
+source-and-inquiry	Run npm ci	2026-10-06T12:10:19.4697147Z env:
+source-and-inquiry	Run npm ci	2026-10-06T12:10:19.4697334Z   CARGO_BUILD_JOBS: 1
+source-and-inquiry	Run npm ci	2026-10-06T12:10:19.4697532Z   CARGO_INCREMENTAL: 0
+source-and-inquiry	Run npm ci	2026-10-06T12:10:19.4697726Z   CARGO_PROFILE_DEV_DEBUG: 0
+source-and-inquiry	Run npm ci	2026-10-06T12:10:19.4697932Z   CARGO_PROFILE_TEST_DEBUG: 0
+source-and-inquiry	Run npm ci	2026-10-06T12:10:19.4698140Z ##[endgroup]
+source-and-inquiry	Run npm ci	2026-10-06T12:10:28.5964618Z npm warn deprecated eslint@9.39.5: This version is no longer supported. Please see https://eslint.org/version-support for other options.
+source-and-inquiry	Run npm ci	2026-10-06T12:10:33.7050923Z 
+source-and-inquiry	Run npm ci	2026-10-06T12:10:33.7064007Z added 437 packages, and audited 438 packages in 14s
+source-and-inquiry	Run npm ci	2026-10-06T12:10:33.7064956Z 
+source-and-inquiry	Run npm ci	2026-10-06T12:10:33.7069439Z 163 packages are looking for funding
+source-and-inquiry	Run npm ci	2026-10-06T12:10:33.7070120Z   run `npm fund` for details
+source-and-inquiry	Run npm ci	2026-10-06T12:10:33.7434563Z 
+source-and-inquiry	Run npm ci	2026-10-06T12:10:33.7435765Z 9 vulnerabilities (1 moderate, 6 high, 2 critical)
+source-and-inquiry	Run npm ci	2026-10-06T12:10:33.7436480Z 
+source-and-inquiry	Run npm ci	2026-10-06T12:10:33.7437222Z To address issues that do not require attention, run:
+source-and-inquiry	Run npm ci	2026-10-06T12:10:33.7452518Z npm warn install-scripts 2 packages have install scripts not yet covered by allowScripts:
+source-and-inquiry	Run npm ci	2026-10-06T12:10:33.7453546Z   npm audit fix
+source-and-inquiry	Run npm ci	2026-10-06T12:10:33.7466903Z npm warn install-scripts   esbuild@0.28.2 (postinstall: node install.js)
+source-and-inquiry	Run npm ci	2026-10-06T12:10:33.7467465Z 
+source-and-inquiry	Run npm ci	2026-10-06T12:10:33.7467984Z To address all issues (including breaking changes), run:
+source-and-inquiry	Run npm ci	2026-10-06T12:10:33.7468739Z   npm audit fix --force
+source-and-inquiry	Run npm ci	2026-10-06T12:10:33.7469176Z 
+source-and-inquiry	Run npm ci	2026-10-06T12:10:33.7485627Z npm warn install-scripts   unrs-resolver@1.12.2 (postinstall: node postinstall.js)
+source-and-inquiry	Run npm ci	2026-10-06T12:10:33.7486374Z Run `npm audit` for details.
+source-and-inquiry	Run npm ci	2026-10-06T12:10:33.7495671Z npm warn install-scripts
+source-and-inquiry	Run npm ci	2026-10-06T12:10:33.7496671Z npm warn install-scripts Run `npm install-scripts ls` to review, or `npm install-scripts approve <pkg>` to allow.
+source-and-inquiry	Run npm run lint	﻿2026-10-06T12:10:33.8345448Z ##[group]Run npm run lint
+source-and-inquiry	Run npm run lint	2026-10-06T12:10:33.8345732Z ^[[36;1mnpm run lint^[[0m
+source-and-inquiry	Run npm run lint	2026-10-06T12:10:33.8402674Z shell: /usr/bin/bash -e {0}
+source-and-inquiry	Run npm run lint	2026-10-06T12:10:33.8402902Z env:
+source-and-inquiry	Run npm run lint	2026-10-06T12:10:33.8403086Z   CARGO_BUILD_JOBS: 1
+source-and-inquiry	Run npm run lint	2026-10-06T12:10:33.8403284Z   CARGO_INCREMENTAL: 0
+source-and-inquiry	Run npm run lint	2026-10-06T12:10:33.8403478Z   CARGO_PROFILE_DEV_DEBUG: 0
+source-and-inquiry	Run npm run lint	2026-10-06T12:10:33.8403691Z   CARGO_PROFILE_TEST_DEBUG: 0
+source-and-inquiry	Run npm run lint	2026-10-06T12:10:33.8403913Z ##[endgroup]
+source-and-inquiry	Run npm run lint	2026-10-06T12:10:33.9316552Z 
+source-and-inquiry	Run npm run lint	2026-10-06T12:10:33.9326041Z > console-web@1.0.0 lint
+source-and-inquiry	Run npm run lint	2026-10-06T12:10:33.9328026Z > tsc --noEmit
+source-and-inquiry	Run npm run lint	2026-10-06T12:10:33.9328335Z 
+source-and-inquiry	Run npm run lint	2026-10-06T12:10:40.4772031Z ##[error]docs/planning/nextjs-v1/evidence/browser-business-session-r7/enrollment-cleanup-repair/diagnostics/P16-native-gate-bff-deadline-source-trace01/sources/src/lib/server/browser-session.ts(5,46): error TS2307: Cannot find module './mutation-guard' or its corresponding type declarations.
+source-and-inquiry	Run npm run lint	2026-10-06T12:10:40.5235816Z ##[error]Process completed with exit code 2.
+source-and-inquiry	Rust build disk readback	﻿2026-10-06T12:10:40.5368559Z ##[group]Run df -h .
+source-and-inquiry	Rust build disk readback	2026-10-06T12:10:40.5368805Z ^[[36;1mdf -h .^[[0m
+source-and-inquiry	Rust build disk readback	2026-10-06T12:10:40.5425782Z shell: /usr/bin/bash -e {0}
+source-and-inquiry	Rust build disk readback	2026-10-06T12:10:40.5426016Z env:
+source-and-inquiry	Rust build disk readback	2026-10-06T12:10:40.5426245Z   CARGO_BUILD_JOBS: 1
+source-and-inquiry	Rust build disk readback	2026-10-06T12:10:40.5426533Z   CARGO_INCREMENTAL: 0
+source-and-inquiry	Rust build disk readback	2026-10-06T12:10:40.5426817Z   CARGO_PROFILE_DEV_DEBUG: 0
+source-and-inquiry	Rust build disk readback	2026-10-06T12:10:40.5427110Z   CARGO_PROFILE_TEST_DEBUG: 0
+source-and-inquiry	Rust build disk readback	2026-10-06T12:10:40.5427413Z ##[endgroup]
+source-and-inquiry	Rust build disk readback	2026-10-06T12:10:40.5599110Z Filesystem      Size  Used Avail Use% Mounted on
+source-and-inquiry	Rust build disk readback	2026-10-06T12:10:40.5599845Z /dev/root        72G   60G   13G  83% /
+source-and-inquiry	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	﻿2026-10-06T12:10:40.5699570Z Post job cleanup.
+source-and-inquiry	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:40.6468992Z [command]/usr/bin/git version
+source-and-inquiry	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:40.6541722Z git version 2.55.0
+source-and-inquiry	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:40.6610101Z Temporarily overriding HOME='/home/runner/work/_temp/6a91997e-1f40-49e3-b7a1-c347cbf48fff' before making global git config changes
+source-and-inquiry	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:40.6645380Z Adding repository directory to the temporary git global config as a safe directory
+source-and-inquiry	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:40.6646752Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/console-nextjs/console-nextjs
+source-and-inquiry	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:40.6648551Z Removing SSH command configuration
+source-and-inquiry	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:40.6649156Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+source-and-inquiry	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:40.6662669Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+source-and-inquiry	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:40.6960014Z Removing HTTP extra header
+source-and-inquiry	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:40.6961173Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+source-and-inquiry	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:40.7013067Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+source-and-inquiry	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:40.7355753Z Removing includeIf entries pointing to credentials config files
+source-and-inquiry	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:40.7356865Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+source-and-inquiry	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:40.7396589Z includeif.gitdir:/home/runner/work/console-nextjs/console-nextjs/.git.path
+source-and-inquiry	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:40.7408547Z includeif.gitdir:/home/runner/work/console-nextjs/console-nextjs/.git/worktrees/*.path
+source-and-inquiry	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:40.7409520Z includeif.gitdir:/github/workspace/.git.path
+source-and-inquiry	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:40.7410290Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+source-and-inquiry	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:40.7417303Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/console-nextjs/console-nextjs/.git.path
+source-and-inquiry	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:40.7453465Z /home/runner/work/_temp/git-credentials-c1453b12-a3ad-49b4-83ab-faed5662e435.config
+source-and-inquiry	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:40.7477051Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/console-nextjs/console-nextjs/.git.path \/home\/runner\/work\/_temp\/git\-credentials\-c1453b12\-a3ad\-49b4\-83ab\-faed5662e435\.config
+source-and-inquiry	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:40.7539078Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/console-nextjs/console-nextjs/.git/worktrees/*.path
+source-and-inquiry	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:40.7618046Z /home/runner/work/_temp/git-credentials-c1453b12-a3ad-49b4-83ab-faed5662e435.config
+source-and-inquiry	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:40.7620379Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/console-nextjs/console-nextjs/.git/worktrees/*.path \/home\/runner\/work\/_temp\/git\-credentials\-c1453b12\-a3ad\-49b4\-83ab\-faed5662e435\.config
+source-and-inquiry	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:40.7665846Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git.path
+source-and-inquiry	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:40.7685677Z /github/runner_temp/git-credentials-c1453b12-a3ad-49b4-83ab-faed5662e435.config
+source-and-inquiry	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:40.7697173Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git.path \/github\/runner_temp\/git\-credentials\-c1453b12\-a3ad\-49b4\-83ab\-faed5662e435\.config
+source-and-inquiry	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:40.7752957Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+source-and-inquiry	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:40.7770703Z /github/runner_temp/git-credentials-c1453b12-a3ad-49b4-83ab-faed5662e435.config
+source-and-inquiry	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:40.7779874Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path \/github\/runner_temp\/git\-credentials\-c1453b12\-a3ad\-49b4\-83ab\-faed5662e435\.config
+source-and-inquiry	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:40.7865863Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+source-and-inquiry	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-06T12:10:40.8156002Z Removing credentials config '/home/runner/work/_temp/git-credentials-c1453b12-a3ad-49b4-83ab-faed5662e435.config'
+source-and-inquiry	Complete job	﻿2026-10-06T12:10:40.8333064Z Cleaning up orphan processes

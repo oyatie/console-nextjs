@@ -1,0 +1,94 @@
+{
+  "version": 1,
+  "created_at": "2026-10-06T16:40:23.500213+00:00",
+  "reviewer": "pr17_reconciliation_review",
+  "verdict": "ACCEPT",
+  "scope": "Static independent reconciliation, source correctness and staged Git publication custody only; fresh execution, final metadata, hosted CI and queue admission remain pending.",
+  "parents": {
+    "main": "412d65611795b7b1e382fe75f3ee26f04a70a1a8",
+    "prior_pr17": "8ca17fbf1197d7c990e65f2a247a96a514c6db57"
+  },
+  "staged_inputs": [
+    {
+      "path": ".github/workflows/ci.yml",
+      "sha256": "e066860461a669b8c9742ea727113702f51dfbc4ab952c3cc48c01783b9797fe",
+      "bytes": 12791
+    },
+    {
+      "path": "backend-fork/backend/crates/inbox/adapter-postgres/src/lib.rs",
+      "sha256": "1ed3378ac948a68f9ccead84150a574eb8b45e7480f65438960d988bc197ba6a",
+      "bytes": 16688
+    },
+    {
+      "path": "backend-fork/backend/crates/inbox/adapter-postgres/tests/inbox_docs_rls_surfaces_as_runtime_role.rs",
+      "sha256": "90a3e04921997e825dc025e3c6f2c54210cc8bc956b238027e62b5e21eafa06c",
+      "bytes": 31763
+    },
+    {
+      "path": "backend-fork/backend/crates/inbox/rest/tests/api.rs",
+      "sha256": "d62ba4cb6abcc5b28bb50c46b9d4afbdd964e8f3a668a68068afa8a4a6227a7d",
+      "bytes": 25635
+    },
+    {
+      "path": "docs/planning/nextjs-v1/IMPLEMENTATION.md",
+      "sha256": "f3f7f8284d3d0a3a19aaa66f96db2fc4a1c0c93e075f19a6b46ce27cfc403e0d",
+      "bytes": 219651
+    },
+    {
+      "path": "docs/planning/nextjs-v1/fork-delta.json",
+      "sha256": "66645514571a563c27ed4c339ae49ad0103b876333d03788ce7e92c5ad9811a9",
+      "bytes": 148455
+    },
+    {
+      "path": "docs/planning/nextjs-v1/inbox-terminal-cursor-evidence.json",
+      "sha256": "bb0e43442bb763b2a8175201740e9eb5516f77000f7da85657a565bb53324a1a",
+      "bytes": 34822
+    },
+    {
+      "path": "docs/planning/nextjs-v1/requirements-and-evidence.json",
+      "sha256": "2e190316453f62bd3176faa96e0cbbab5ff23e774c23c12255b6a9674fbdd1a0",
+      "bytes": 235813
+    }
+  ],
+  "findings": [],
+  "observations": {
+    "changed_paths_vs_main": 8,
+    "backend_changed_paths_vs_main": [
+      "backend-fork/backend/crates/inbox/adapter-postgres/src/lib.rs",
+      "backend-fork/backend/crates/inbox/adapter-postgres/tests/inbox_docs_rls_surfaces_as_runtime_role.rs",
+      "backend-fork/backend/crates/inbox/rest/tests/api.rs"
+    ],
+    "manifest_identical_both_parents_and_index": true,
+    "fork_entries": 212,
+    "fork_unique_paths": 212,
+    "fork_paths_exact_parent_union": true,
+    "fork_after_hash_bytes_mode_match_staged_git": true,
+    "fork_before_preserved_from_existing_parent_entries": true,
+    "main_historical_evidence_paths_byte_preserved": 838,
+    "prior_inbox_evidence_paths_byte_preserved": 1,
+    "main_implementation_exact_prefix_preserved": true,
+    "non_B06_requirements_unchanged": 44,
+    "foundation_evidence_all_parent_entries_preserved": {
+      "main": 37,
+      "prior_pr17": 37,
+      "combined": 38
+    },
+    "verification_runs_all_parent_entries_preserved": {
+      "main": 77,
+      "prior_pr17": 78,
+      "combined": 78
+    },
+    "ci_diff_vs_main": "Adds Inbox REST api target and strict Inbox REST lib/api Clippy only; every main R7 gate preserved.",
+    "inherited_HTTP_assertion_bodies_preserved": 50,
+    "inherited_adapter_assertion_bodies_preserved": 38,
+    "new_adapter_tests": 4,
+    "new_adapter_assertion_bodies": 35,
+    "runtime_reasoning": "Authorized query/filter and cursor subquery are unchanged. Clamp 1..200 precedes bounded limit+1, only first limit summaries are returned, cursor is last returned row iff extra authorized eligible row exists. HTTP fixtures extend existing shared real session-family owner without assertion or runtime authentication weakening."
+  },
+  "limitations": [
+    "No tests were executed by this reviewer.",
+    "Exact staged inputs must be rebound after final integration checkpoint/evidence changes.",
+    "Historical pending/failure and unverified full module statuses are preserved, not certified by this ACCEPT.",
+    "No full Payroll/browser/legal/two-site/launch acceptance."
+  ]
+}

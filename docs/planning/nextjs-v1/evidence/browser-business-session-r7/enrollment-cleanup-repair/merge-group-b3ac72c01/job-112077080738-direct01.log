@@ -1,0 +1,1135 @@
+﻿2026-10-06T02:23:49.7186873Z Current runner version: '2.337.0'
+2026-10-06T02:23:49.7255595Z ##[group]Runner Image Provisioner
+2026-10-06T02:23:49.7257038Z Hosted Compute Agent
+2026-10-06T02:23:49.7258014Z Version: 20260901.588
+2026-10-06T02:23:49.7259277Z Commit: f88ec8081b781fac6c440065ac7ff9e710ce3d0b
+2026-10-06T02:23:49.7260602Z Build Date: 2026-09-01T19:56:44Z
+2026-10-06T02:23:49.7272408Z Worker ID: {05717c56-c01f-4a17-bff0-975abb5d032b}
+2026-10-06T02:23:49.7273673Z Azure Region: eastus2
+2026-10-06T02:23:49.7274628Z ##[endgroup]
+2026-10-06T02:23:49.7277648Z ##[group]Operating System
+2026-10-06T02:23:49.7278775Z Ubuntu
+2026-10-06T02:23:49.7279960Z 24.04.5
+2026-10-06T02:23:49.7280884Z LTS
+2026-10-06T02:23:49.7302476Z ##[endgroup]
+2026-10-06T02:23:49.7303479Z ##[group]Runner Image
+2026-10-06T02:23:49.7304588Z Image: ubuntu-24.04
+2026-10-06T02:23:49.7305687Z Version: 20260927.320.1
+2026-10-06T02:23:49.7307732Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260927.320/images/ubuntu/Ubuntu2404-Readme.md
+2026-10-06T02:23:49.7310548Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260927.320
+2026-10-06T02:23:49.7312566Z ##[endgroup]
+2026-10-06T02:23:49.7314556Z ##[group]GITHUB_TOKEN Permissions
+2026-10-06T02:23:49.7317469Z Contents: read
+2026-10-06T02:23:49.7318591Z Metadata: read
+2026-10-06T02:23:49.7319623Z ##[endgroup]
+2026-10-06T02:23:49.7343130Z Secret source: Actions
+2026-10-06T02:23:49.7344661Z Cache mode: write
+2026-10-06T02:23:49.7345952Z Prepare workflow directory
+2026-10-06T02:23:49.8392902Z Prepare all required actions
+2026-10-06T02:23:49.8464218Z Getting action download info
+2026-10-06T02:23:50.1475644Z Download action repository 'actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1' (SHA:3d3c42e5aac5ba805825da76410c181273ba90b1)
+2026-10-06T02:23:50.2646677Z Download action repository 'actions/setup-node@820762786026740c76f36085b0efc47a31fe5020' (SHA:820762786026740c76f36085b0efc47a31fe5020)
+2026-10-06T02:23:50.4602335Z Complete job name: source-and-inquiry
+2026-10-06T02:23:50.5477779Z ##[group]Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+2026-10-06T02:23:50.5478925Z with:
+2026-10-06T02:23:50.5479387Z   repository: oyatie/console-nextjs
+2026-10-06T02:23:50.5483355Z   token: ***
+2026-10-06T02:23:50.5483799Z   ssh-strict: true
+2026-10-06T02:23:50.5484232Z   ssh-user: git
+2026-10-06T02:23:50.5484670Z   persist-credentials: true
+2026-10-06T02:23:50.5485157Z   clean: true
+2026-10-06T02:23:50.5485600Z   sparse-checkout-cone-mode: true
+2026-10-06T02:23:50.5486124Z   fetch-depth: 1
+2026-10-06T02:23:50.5486547Z   fetch-tags: false
+2026-10-06T02:23:50.5487024Z   show-progress: true
+2026-10-06T02:23:50.5487468Z   lfs: false
+2026-10-06T02:23:50.5487875Z   submodules: false
+2026-10-06T02:23:50.5488314Z   set-safe-directory: true
+2026-10-06T02:23:50.5488818Z   allow-unsafe-pr-checkout: false
+2026-10-06T02:23:50.5489589Z env:
+2026-10-06T02:23:50.5489997Z   CARGO_BUILD_JOBS: 1
+2026-10-06T02:23:50.5490460Z   CARGO_INCREMENTAL: 0
+2026-10-06T02:23:50.5490961Z   CARGO_PROFILE_DEV_DEBUG: 0
+2026-10-06T02:23:50.5491647Z   CARGO_PROFILE_TEST_DEBUG: 0
+2026-10-06T02:23:50.5492140Z ##[endgroup]
+2026-10-06T02:23:50.6848030Z Syncing repository: oyatie/console-nextjs
+2026-10-06T02:23:50.6850490Z ##[group]Getting Git version info
+2026-10-06T02:23:50.6852148Z Working directory is '/home/runner/work/console-nextjs/console-nextjs'
+2026-10-06T02:23:50.6853974Z [command]/usr/bin/git version
+2026-10-06T02:23:50.8069043Z git version 2.55.0
+2026-10-06T02:23:50.8075221Z ##[endgroup]
+2026-10-06T02:23:50.8084859Z Temporarily overriding HOME='/home/runner/work/_temp/163288d5-3a23-4497-9aaa-7279df3396ee' before making global git config changes
+2026-10-06T02:23:50.8087725Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-06T02:23:50.8093450Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/console-nextjs/console-nextjs
+2026-10-06T02:23:50.8096291Z Deleting the contents of '/home/runner/work/console-nextjs/console-nextjs'
+2026-10-06T02:23:50.8098527Z ##[group]Determining repository object format
+2026-10-06T02:23:50.8099914Z ##[endgroup]
+2026-10-06T02:23:50.8101306Z ##[group]Initializing the repository
+2026-10-06T02:23:50.8102528Z [command]/usr/bin/git init /home/runner/work/console-nextjs/console-nextjs
+2026-10-06T02:23:50.8104097Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-10-06T02:23:50.8105639Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-10-06T02:23:50.8107169Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-10-06T02:23:50.8108386Z hint: call:
+2026-10-06T02:23:50.8109018Z hint:
+2026-10-06T02:23:50.8109817Z hint: 	git config --global init.defaultBranch <name>
+2026-10-06T02:23:50.8110812Z hint:
+2026-10-06T02:23:50.8112747Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-10-06T02:23:50.8114491Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-10-06T02:23:50.8117298Z hint:
+2026-10-06T02:23:50.8118060Z hint: 	git branch -m <name>
+2026-10-06T02:23:50.8118880Z hint:
+2026-10-06T02:23:50.8119922Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-10-06T02:23:50.8122017Z Initialized empty Git repository in /home/runner/work/console-nextjs/console-nextjs/.git/
+2026-10-06T02:23:50.8125071Z [command]/usr/bin/git remote add origin https://github.com/oyatie/console-nextjs
+2026-10-06T02:23:50.8127821Z ##[endgroup]
+2026-10-06T02:23:50.8129123Z ##[group]Disabling automatic garbage collection
+2026-10-06T02:23:50.8130264Z [command]/usr/bin/git config --local gc.auto 0
+2026-10-06T02:23:50.8132796Z ##[endgroup]
+2026-10-06T02:23:50.8133898Z ##[group]Setting up auth
+2026-10-06T02:23:50.8134699Z Removing SSH command configuration
+2026-10-06T02:23:50.8135880Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-06T02:23:50.8139579Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-06T02:23:50.8704889Z Removing HTTP extra header
+2026-10-06T02:23:50.8706359Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-06T02:23:50.8710441Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-06T02:23:50.8715203Z Removing includeIf entries pointing to credentials config files
+2026-10-06T02:23:50.8716871Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-06T02:23:50.8720042Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-06T02:23:50.9114147Z [command]/usr/bin/git config --file /home/runner/work/_temp/git-credentials-256f7dd5-1b54-432e-9509-9f3e2bde0a3f.config http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-10-06T02:23:50.9119304Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/console-nextjs/console-nextjs/.git.path /home/runner/work/_temp/git-credentials-256f7dd5-1b54-432e-9509-9f3e2bde0a3f.config
+2026-10-06T02:23:50.9122895Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/console-nextjs/console-nextjs/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-256f7dd5-1b54-432e-9509-9f3e2bde0a3f.config
+2026-10-06T02:23:50.9139693Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-256f7dd5-1b54-432e-9509-9f3e2bde0a3f.config
+2026-10-06T02:23:50.9180861Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-256f7dd5-1b54-432e-9509-9f3e2bde0a3f.config
+2026-10-06T02:23:50.9216342Z ##[endgroup]
+2026-10-06T02:23:50.9218291Z ##[group]Fetching the repository
+2026-10-06T02:23:50.9225010Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +b3ac72c41d3d5dca9ff9c2334543098c2c8bd177:refs/remotes/origin/gh-readonly-queue/main/pr-16-7bbb48cc24952ec1639c393767e11bc0de6cc63c
+2026-10-06T02:23:52.3869170Z From https://github.com/oyatie/console-nextjs
+2026-10-06T02:23:52.3872778Z  * [new ref]         b3ac72c41d3d5dca9ff9c2334543098c2c8bd177 -> origin/gh-readonly-queue/main/pr-16-7bbb48cc24952ec1639c393767e11bc0de6cc63c
+2026-10-06T02:23:52.3881613Z [command]/usr/bin/git branch --list --remote origin/gh-readonly-queue/main/pr-16-7bbb48cc24952ec1639c393767e11bc0de6cc63c
+2026-10-06T02:23:52.3909348Z   origin/gh-readonly-queue/main/pr-16-7bbb48cc24952ec1639c393767e11bc0de6cc63c
+2026-10-06T02:23:52.3923430Z [command]/usr/bin/git rev-parse refs/remotes/origin/gh-readonly-queue/main/pr-16-7bbb48cc24952ec1639c393767e11bc0de6cc63c
+2026-10-06T02:23:52.3955787Z b3ac72c41d3d5dca9ff9c2334543098c2c8bd177
+2026-10-06T02:23:52.3962180Z ##[endgroup]
+2026-10-06T02:23:52.3964812Z ##[group]Determining the checkout info
+2026-10-06T02:23:52.3967967Z ##[endgroup]
+2026-10-06T02:23:52.3969772Z [command]/usr/bin/git sparse-checkout disable
+2026-10-06T02:23:52.4033532Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-10-06T02:23:52.4083840Z ##[group]Checking out the ref
+2026-10-06T02:23:52.4139093Z [command]/usr/bin/git checkout --progress --force -B gh-readonly-queue/main/pr-16-7bbb48cc24952ec1639c393767e11bc0de6cc63c refs/remotes/origin/gh-readonly-queue/main/pr-16-7bbb48cc24952ec1639c393767e11bc0de6cc63c
+2026-10-06T02:23:52.8373400Z Switched to a new branch 'gh-readonly-queue/main/pr-16-7bbb48cc24952ec1639c393767e11bc0de6cc63c'
+2026-10-06T02:23:52.8379926Z branch 'gh-readonly-queue/main/pr-16-7bbb48cc24952ec1639c393767e11bc0de6cc63c' set up to track 'origin/gh-readonly-queue/main/pr-16-7bbb48cc24952ec1639c393767e11bc0de6cc63c'.
+2026-10-06T02:23:52.8403526Z ##[endgroup]
+2026-10-06T02:23:52.8454088Z [command]/usr/bin/git log -1 --format=%H
+2026-10-06T02:23:52.8487337Z b3ac72c41d3d5dca9ff9c2334543098c2c8bd177
+2026-10-06T02:23:52.8760178Z ##[group]Run actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
+2026-10-06T02:23:52.8760668Z with:
+2026-10-06T02:23:52.8760936Z   node-version-file: .node-version
+2026-10-06T02:23:52.8761716Z   cache: npm
+2026-10-06T02:23:52.8761979Z   check-latest: false
+2026-10-06T02:23:52.8764457Z   token: ***
+2026-10-06T02:23:52.8764741Z   package-manager-cache: true
+2026-10-06T02:23:52.8765050Z env:
+2026-10-06T02:23:52.8765293Z   CARGO_BUILD_JOBS: 1
+2026-10-06T02:23:52.8765574Z   CARGO_INCREMENTAL: 0
+2026-10-06T02:23:52.8765861Z   CARGO_PROFILE_DEV_DEBUG: 0
+2026-10-06T02:23:52.8766187Z   CARGO_PROFILE_TEST_DEBUG: 0
+2026-10-06T02:23:52.8766494Z ##[endgroup]
+2026-10-06T02:23:53.0043152Z Node version file is not JSON file
+2026-10-06T02:23:53.0045793Z Resolved .node-version as 24.21.0
+2026-10-06T02:23:53.0068393Z Found in cache @ /opt/hostedtoolcache/node/24.21.0/x64
+2026-10-06T02:23:53.0071890Z ##[group]Environment details
+2026-10-06T02:23:53.5130070Z node: v24.21.0
+2026-10-06T02:23:53.5137675Z npm: 11.19.0
+2026-10-06T02:23:53.5146564Z yarn: 1.22.22
+2026-10-06T02:23:53.5149080Z ##[endgroup]
+2026-10-06T02:23:53.5169166Z [command]/opt/hostedtoolcache/node/24.21.0/x64/bin/npm config get cache
+2026-10-06T02:23:53.6837527Z /home/runner/.npm
+2026-10-06T02:23:53.7798960Z Cache hit for: node-cache-Linux-x64-npm-522eab0ad5d10fdff36f01bf1ae1595c6e4536f45fd86786a87b315f0bfe82c9
+2026-10-06T02:23:54.6321390Z Received 128984841 of 128984841 (100.0%), 169.9 MBs/sec
+2026-10-06T02:23:54.6329568Z Cache Size: ~123 MB (128984841 B)
+2026-10-06T02:23:54.6410843Z [command]/usr/bin/tar -xf /home/runner/work/_temp/58225129-5485-4038-a4e4-74bbfc455158/cache.tzst -P -C /home/runner/work/console-nextjs/console-nextjs --use-compress-program unzstd
+2026-10-06T02:23:54.9608370Z Cache restored successfully
+2026-10-06T02:23:54.9669055Z Cache restored from key: node-cache-Linux-x64-npm-522eab0ad5d10fdff36f01bf1ae1595c6e4536f45fd86786a87b315f0bfe82c9
+2026-10-06T02:23:54.9874281Z ##[group]Run npm ci
+2026-10-06T02:23:54.9874624Z [36;1mnpm ci[0m
+2026-10-06T02:23:55.0182386Z shell: /usr/bin/bash -e {0}
+2026-10-06T02:23:55.0182707Z env:
+2026-10-06T02:23:55.0182933Z   CARGO_BUILD_JOBS: 1
+2026-10-06T02:23:55.0183186Z   CARGO_INCREMENTAL: 0
+2026-10-06T02:23:55.0183429Z   CARGO_PROFILE_DEV_DEBUG: 0
+2026-10-06T02:23:55.0183701Z   CARGO_PROFILE_TEST_DEBUG: 0
+2026-10-06T02:23:55.0183962Z ##[endgroup]
+2026-10-06T02:24:07.8918307Z npm warn deprecated eslint@9.39.5: This version is no longer supported. Please see https://eslint.org/version-support for other options.
+2026-10-06T02:24:14.3352408Z 
+2026-10-06T02:24:14.3353618Z added 437 packages, and audited 438 packages in 19s
+2026-10-06T02:24:14.3356179Z 
+2026-10-06T02:24:14.3356574Z 163 packages are looking for funding
+2026-10-06T02:24:14.3357199Z   run `npm fund` for details
+2026-10-06T02:24:14.3820627Z 
+2026-10-06T02:24:14.3821805Z 9 vulnerabilities (1 moderate, 6 high, 2 critical)
+2026-10-06T02:24:14.3823034Z 
+2026-10-06T02:24:14.3823876Z To address issues that do not require attention, run:
+2026-10-06T02:24:14.3825314Z   npm audit fix
+2026-10-06T02:24:14.3826025Z 
+2026-10-06T02:24:14.3827192Z To address all issues (including breaking changes), run:
+2026-10-06T02:24:14.3830178Z   npm audit fix --force
+2026-10-06T02:24:14.3830502Z 
+2026-10-06T02:24:14.3830768Z Run `npm audit` for details.
+2026-10-06T02:24:14.3836074Z npm warn install-scripts 2 packages have install scripts not yet covered by allowScripts:
+2026-10-06T02:24:14.3837927Z npm warn install-scripts   esbuild@0.28.2 (postinstall: node install.js)
+2026-10-06T02:24:14.3839971Z npm warn install-scripts   unrs-resolver@1.12.2 (postinstall: node postinstall.js)
+2026-10-06T02:24:14.3841619Z npm warn install-scripts
+2026-10-06T02:24:14.3843680Z npm warn install-scripts Run `npm install-scripts ls` to review, or `npm install-scripts approve <pkg>` to allow.
+2026-10-06T02:24:14.4894608Z ##[group]Run npm run lint
+2026-10-06T02:24:14.4894974Z [36;1mnpm run lint[0m
+2026-10-06T02:24:14.4961714Z shell: /usr/bin/bash -e {0}
+2026-10-06T02:24:14.4961983Z env:
+2026-10-06T02:24:14.4962181Z   CARGO_BUILD_JOBS: 1
+2026-10-06T02:24:14.4962411Z   CARGO_INCREMENTAL: 0
+2026-10-06T02:24:14.4962642Z   CARGO_PROFILE_DEV_DEBUG: 0
+2026-10-06T02:24:14.4962911Z   CARGO_PROFILE_TEST_DEBUG: 0
+2026-10-06T02:24:14.4963161Z ##[endgroup]
+2026-10-06T02:24:14.6029037Z 
+2026-10-06T02:24:14.6031705Z > console-web@1.0.0 lint
+2026-10-06T02:24:14.6035622Z > tsc --noEmit
+2026-10-06T02:24:14.6035892Z 
+2026-10-06T02:24:22.8342413Z ##[group]Run npm test
+2026-10-06T02:24:22.8342718Z [36;1mnpm test[0m
+2026-10-06T02:24:22.8406351Z shell: /usr/bin/bash -e {0}
+2026-10-06T02:24:22.8406617Z env:
+2026-10-06T02:24:22.8406820Z   CARGO_BUILD_JOBS: 1
+2026-10-06T02:24:22.8407050Z   CARGO_INCREMENTAL: 0
+2026-10-06T02:24:22.8407283Z   CARGO_PROFILE_DEV_DEBUG: 0
+2026-10-06T02:24:22.8407545Z   CARGO_PROFILE_TEST_DEBUG: 0
+2026-10-06T02:24:22.8407789Z ##[endgroup]
+2026-10-06T02:24:22.9542359Z 
+2026-10-06T02:24:22.9543168Z > console-web@1.0.0 test
+2026-10-06T02:24:22.9544441Z > vitest run
+2026-10-06T02:24:22.9544981Z 
+2026-10-06T02:24:23.3376170Z 
+2026-10-06T02:24:23.3382517Z [1m[46m RUN [49m[22m [36mv3.2.7 [39m[90m/home/runner/work/console-nextjs/console-nextjs[39m
+2026-10-06T02:24:23.3458440Z 
+2026-10-06T02:24:24.0110555Z  [32m✓[39m tests/domain.test.ts [2m([22m[2m52 tests[22m[2m)[22m[32m 41[2mms[22m[39m
+2026-10-06T02:24:24.2948227Z  [32m✓[39m tests/workflows.test.ts [2m([22m[2m14 tests[22m[2m)[22m[32m 23[2mms[22m[39m
+2026-10-06T02:24:24.5725613Z  [32m✓[39m tests/ui-workflows.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 10[2mms[22m[39m
+2026-10-06T02:24:24.9379048Z  [32m✓[39m tests/storefront.test.ts [2m([22m[2m15 tests[22m[2m)[22m[32m 49[2mms[22m[39m
+2026-10-06T02:24:25.1905855Z  [32m✓[39m tests/integration-lifecycle.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 17[2mms[22m[39m
+2026-10-06T02:24:25.4302857Z  [32m✓[39m tests/adversarial-fuzz.test.ts [2m([22m[2m11 tests[22m[2m)[22m[32m 33[2mms[22m[39m
+2026-10-06T02:24:25.6953899Z  [32m✓[39m tests/browser-session-boundary.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 28[2mms[22m[39m
+2026-10-06T02:24:25.8983418Z  [32m✓[39m tests/server-mutation-guard.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 6[2mms[22m[39m
+2026-10-06T02:24:26.1368273Z  [32m✓[39m tests/store-persistence.test.ts [2m([22m[2m1 test[22m[2m)[22m[32m 46[2mms[22m[39m
+2026-10-06T02:24:26.1509414Z 
+2026-10-06T02:24:26.1531654Z [2m Test Files [22m [1m[32m9 passed[39m[22m[90m (9)[39m
+2026-10-06T02:24:26.1542271Z [2m      Tests [22m [1m[32m112 passed[39m[22m[90m (112)[39m
+2026-10-06T02:24:26.1543355Z [2m   Start at [22m 02:24:23
+2026-10-06T02:24:26.1564947Z [2m   Duration [22m 2.83s[2m (transform 417ms, setup 0ms, collect 788ms, tests 254ms, environment 1ms, prepare 553ms)[22m
+2026-10-06T02:24:26.1582395Z 
+2026-10-06T02:24:26.2890496Z ##[group]Run npm run build
+2026-10-06T02:24:26.2890810Z [36;1mnpm run build[0m
+2026-10-06T02:24:26.2954905Z shell: /usr/bin/bash -e {0}
+2026-10-06T02:24:26.2955176Z env:
+2026-10-06T02:24:26.2955397Z   CARGO_BUILD_JOBS: 1
+2026-10-06T02:24:26.2955631Z   CARGO_INCREMENTAL: 0
+2026-10-06T02:24:26.2955878Z   CARGO_PROFILE_DEV_DEBUG: 0
+2026-10-06T02:24:26.2956127Z   CARGO_PROFILE_TEST_DEBUG: 0
+2026-10-06T02:24:26.2956379Z ##[endgroup]
+2026-10-06T02:24:26.4021919Z 
+2026-10-06T02:24:26.4022788Z > console-web@1.0.0 build
+2026-10-06T02:24:26.4023764Z > node tools/production-runtime.mjs --build
+2026-10-06T02:24:26.4024340Z 
+2026-10-06T02:24:26.9692648Z ▲ Next.js 16.3.8 (webpack)
+2026-10-06T02:24:26.9928931Z ✓ Running next.config.mjs took 23ms
+2026-10-06T02:24:26.9933616Z ⚠ No build cache found. Please configure build caching for faster rebuilds. Read more: https://nextjs.org/docs/messages/no-cache
+2026-10-06T02:24:27.0025846Z Attention: Next.js now collects completely anonymous telemetry regarding usage.
+2026-10-06T02:24:27.0027423Z This information is used to shape Next.js' roadmap and prioritize features.
+2026-10-06T02:24:27.0029631Z You can learn more, including how to opt-out if you'd not like to participate in this anonymous program, by visiting the following URL:
+2026-10-06T02:24:27.0032087Z https://nextjs.org/telemetry
+2026-10-06T02:24:27.0032796Z 
+2026-10-06T02:24:27.0322026Z 
+2026-10-06T02:24:27.0827745Z   Creating an optimized production build ...
+2026-10-06T02:24:37.9861256Z ✓ Compiled successfully in 8.5s
+2026-10-06T02:24:37.9885798Z   Running TypeScript ...
+2026-10-06T02:24:45.9202592Z   Finished TypeScript in 7.9s ...
+2026-10-06T02:24:45.9232468Z   Collecting page data using 1 worker ...
+2026-10-06T02:24:47.3860552Z   Generating static pages using 1 worker (0/1) ...
+2026-10-06T02:24:47.6328881Z ✓ Generating static pages using 1 worker (1/1) in 247ms
+2026-10-06T02:24:47.9051408Z   Finalizing page optimization ...
+2026-10-06T02:24:47.9051815Z   Collecting build traces ...
+2026-10-06T02:24:56.8028335Z 
+2026-10-06T02:24:56.8048200Z Route (app)
+2026-10-06T02:24:56.8049199Z ┌ ƒ /
+2026-10-06T02:24:56.8050062Z ├ ƒ /_not-found
+2026-10-06T02:24:56.8051342Z ├ ƒ /api/browser-session/login
+2026-10-06T02:24:56.8052287Z ├ ƒ /api/browser-session/logout
+2026-10-06T02:24:56.8053355Z ├ ƒ /api/browser-session/start
+2026-10-06T02:24:56.8054776Z ├ ƒ /login
+2026-10-06T02:24:56.8055602Z ├ ƒ /me/[context]/attendance
+2026-10-06T02:24:56.8056443Z ├ ƒ /storefront
+2026-10-06T02:24:56.8057210Z ├ ƒ /storefront/[id]
+2026-10-06T02:24:56.8058861Z └ ƒ /storefront/[id]/media/[mediaId]
+2026-10-06T02:24:56.8059412Z 
+2026-10-06T02:24:56.8059959Z 
+2026-10-06T02:24:56.8060556Z ƒ  (Dynamic)  server-rendered on demand
+2026-10-06T02:24:56.8061360Z 
+2026-10-06T02:24:56.9436231Z ##[group]Run npm run test:source-closure
+2026-10-06T02:24:56.9436592Z [36;1mnpm run test:source-closure[0m
+2026-10-06T02:24:56.9505108Z shell: /usr/bin/bash -e {0}
+2026-10-06T02:24:56.9505383Z env:
+2026-10-06T02:24:56.9505593Z   CARGO_BUILD_JOBS: 1
+2026-10-06T02:24:56.9505828Z   CARGO_INCREMENTAL: 0
+2026-10-06T02:24:56.9506270Z   CARGO_PROFILE_DEV_DEBUG: 0
+2026-10-06T02:24:56.9506523Z   CARGO_PROFILE_TEST_DEBUG: 0
+2026-10-06T02:24:56.9506774Z ##[endgroup]
+2026-10-06T02:24:57.0611928Z 
+2026-10-06T02:24:57.0612826Z > console-web@1.0.0 test:source-closure
+2026-10-06T02:24:57.0614031Z > python3 -m unittest discover -s tools -p 'test_*.py'
+2026-10-06T02:24:57.0614819Z 
+2026-10-06T02:24:57.2666097Z ..................
+2026-10-06T02:24:57.2667008Z ----------------------------------------------------------------------
+2026-10-06T02:24:57.2667937Z Ran 18 tests in 0.084s
+2026-10-06T02:24:57.2668416Z 
+2026-10-06T02:24:57.2668729Z OK
+2026-10-06T02:24:57.2906108Z ##[group]Run PYTHONPATH=tools python3 -c 'import json,acceptance; result=acceptance.inspect_fork(); print(json.dumps(result,indent=2)); raise SystemExit(result["status"] != "passed")'
+2026-10-06T02:24:57.2908515Z [36;1mPYTHONPATH=tools python3 -c 'import json,acceptance; result=acceptance.inspect_fork(); print(json.dumps(result,indent=2)); raise SystemExit(result["status"] != "passed")'[0m
+2026-10-06T02:24:57.3000976Z shell: /usr/bin/bash -e {0}
+2026-10-06T02:24:57.3001795Z env:
+2026-10-06T02:24:57.3002191Z   CARGO_BUILD_JOBS: 1
+2026-10-06T02:24:57.3002592Z   CARGO_INCREMENTAL: 0
+2026-10-06T02:24:57.3003005Z   CARGO_PROFILE_DEV_DEBUG: 0
+2026-10-06T02:24:57.3003469Z   CARGO_PROFILE_TEST_DEBUG: 0
+2026-10-06T02:24:57.3003942Z ##[endgroup]
+2026-10-06T02:24:58.2246754Z {
+2026-10-06T02:24:58.2247573Z   "head": "05200e43af13b527ce031b04369e05852862f1d6",
+2026-10-06T02:24:58.2248761Z   "manifest_sha256": "e40816fe4204e6d1cacf9f9cff02dece66a0835c129745bbaa6381f6eb27ece0",
+2026-10-06T02:24:58.2249839Z   "expected_files": 4027,
+2026-10-06T02:24:58.2250417Z   "discovered_files": 4093,
+2026-10-06T02:24:58.2251200Z   "status": "passed",
+2026-10-06T02:24:58.2252072Z   "delta_sha256": "3067b31e9cc0525774df56e5657c4de30e87b8654e35eca2e5df30690a34de0a",
+2026-10-06T02:24:58.2252917Z   "suffix_versions": [
+2026-10-06T02:24:58.2253443Z     226,
+2026-10-06T02:24:58.2253916Z     227,
+2026-10-06T02:24:58.2254382Z     228,
+2026-10-06T02:24:58.2254833Z     229,
+2026-10-06T02:24:58.2255292Z     230,
+2026-10-06T02:24:58.2255768Z     231,
+2026-10-06T02:24:58.2256232Z     232,
+2026-10-06T02:24:58.2256692Z     233,
+2026-10-06T02:24:58.2257150Z     234,
+2026-10-06T02:24:58.2257635Z     235,
+2026-10-06T02:24:58.2258112Z     236,
+2026-10-06T02:24:58.2258567Z     237,
+2026-10-06T02:24:58.2259030Z     238,
+2026-10-06T02:24:58.2259498Z     239,
+2026-10-06T02:24:58.2259948Z     240,
+2026-10-06T02:24:58.2260401Z     241
+2026-10-06T02:24:58.2260869Z   ],
+2026-10-06T02:24:58.2261553Z   "lineages": {
+2026-10-06T02:24:58.2262081Z     "fresh": [
+2026-10-06T02:24:58.2262578Z       0,
+2026-10-06T02:24:58.2263049Z       226,
+2026-10-06T02:24:58.2263524Z       227,
+2026-10-06T02:24:58.2264004Z       228,
+2026-10-06T02:24:58.2264470Z       229,
+2026-10-06T02:24:58.2264943Z       230,
+2026-10-06T02:24:58.2265423Z       231,
+2026-10-06T02:24:58.2265899Z       232,
+2026-10-06T02:24:58.2266372Z       233,
+2026-10-06T02:24:58.2266853Z       234,
+2026-10-06T02:24:58.2267336Z       235,
+2026-10-06T02:24:58.2267773Z       236,
+2026-10-06T02:24:58.2268235Z       237,
+2026-10-06T02:24:58.2268713Z       238,
+2026-10-06T02:24:58.2269218Z       239,
+2026-10-06T02:24:58.2269726Z       240,
+2026-10-06T02:24:58.2270215Z       241
+2026-10-06T02:24:58.2270705Z     ],
+2026-10-06T02:24:58.2271609Z     "historical": [
+2026-10-06T02:24:58.2280948Z       1,
+2026-10-06T02:24:58.2281763Z       2,
+2026-10-06T02:24:58.2282295Z       3,
+2026-10-06T02:24:58.2282847Z       4,
+2026-10-06T02:24:58.2283340Z       5,
+2026-10-06T02:24:58.2283830Z       6,
+2026-10-06T02:24:58.2284349Z       7,
+2026-10-06T02:24:58.2284851Z       8,
+2026-10-06T02:24:58.2285343Z       9,
+2026-10-06T02:24:58.2285814Z       10,
+2026-10-06T02:24:58.2286266Z       11,
+2026-10-06T02:24:58.2286771Z       12,
+2026-10-06T02:24:58.2287278Z       13,
+2026-10-06T02:24:58.2287771Z       14,
+2026-10-06T02:24:58.2288267Z       15,
+2026-10-06T02:24:58.2288761Z       16,
+2026-10-06T02:24:58.2289249Z       17,
+2026-10-06T02:24:58.2290206Z       18,
+2026-10-06T02:24:58.2290711Z       19,
+2026-10-06T02:24:58.2291613Z       20,
+2026-10-06T02:24:58.2295785Z       21,
+2026-10-06T02:24:58.2296426Z       22,
+2026-10-06T02:24:58.2296941Z       23,
+2026-10-06T02:24:58.2297532Z       24,
+2026-10-06T02:24:58.2298017Z       25,
+2026-10-06T02:24:58.2298544Z       26,
+2026-10-06T02:24:58.2299036Z       27,
+2026-10-06T02:24:58.2299515Z       28,
+2026-10-06T02:24:58.2300013Z       29,
+2026-10-06T02:24:58.2300514Z       30,
+2026-10-06T02:24:58.2301233Z       31,
+2026-10-06T02:24:58.2301947Z       32,
+2026-10-06T02:24:58.2302793Z       33,
+2026-10-06T02:24:58.2303328Z       34,
+2026-10-06T02:24:58.2303969Z       35,
+2026-10-06T02:24:58.2306691Z       36,
+2026-10-06T02:24:58.2307257Z       37,
+2026-10-06T02:24:58.2307760Z       38,
+2026-10-06T02:24:58.2308268Z       39,
+2026-10-06T02:24:58.2308792Z       40,
+2026-10-06T02:24:58.2309305Z       41,
+2026-10-06T02:24:58.2309816Z       42,
+2026-10-06T02:24:58.2310321Z       43,
+2026-10-06T02:24:58.2310841Z       44,
+2026-10-06T02:24:58.2311602Z       45,
+2026-10-06T02:24:58.2312105Z       46,
+2026-10-06T02:24:58.2312617Z       47,
+2026-10-06T02:24:58.2313113Z       48,
+2026-10-06T02:24:58.2313622Z       49,
+2026-10-06T02:24:58.2314112Z       50,
+2026-10-06T02:24:58.2314572Z       51,
+2026-10-06T02:24:58.2315025Z       52,
+2026-10-06T02:24:58.2315468Z       53,
+2026-10-06T02:24:58.2315934Z       54,
+2026-10-06T02:24:58.2316398Z       55,
+2026-10-06T02:24:58.2316847Z       56,
+2026-10-06T02:24:58.2317317Z       57,
+2026-10-06T02:24:58.2317803Z       58,
+2026-10-06T02:24:58.2318293Z       59,
+2026-10-06T02:24:58.2318794Z       60,
+2026-10-06T02:24:58.2319247Z       61,
+2026-10-06T02:24:58.2319682Z       62,
+2026-10-06T02:24:58.2320145Z       63,
+2026-10-06T02:24:58.2320690Z       64,
+2026-10-06T02:24:58.2321494Z       65,
+2026-10-06T02:24:58.2321989Z       66,
+2026-10-06T02:24:58.2322528Z       67,
+2026-10-06T02:24:58.2322960Z       68,
+2026-10-06T02:24:58.2323418Z       69,
+2026-10-06T02:24:58.2323906Z       70,
+2026-10-06T02:24:58.2324366Z       71,
+2026-10-06T02:24:58.2324825Z       72,
+2026-10-06T02:24:58.2325283Z       73,
+2026-10-06T02:24:58.2325727Z       74,
+2026-10-06T02:24:58.2326169Z       75,
+2026-10-06T02:24:58.2326613Z       76,
+2026-10-06T02:24:58.2327063Z       77,
+2026-10-06T02:24:58.2327505Z       78,
+2026-10-06T02:24:58.2327959Z       79,
+2026-10-06T02:24:58.2328411Z       80,
+2026-10-06T02:24:58.2328852Z       81,
+2026-10-06T02:24:58.2329291Z       82,
+2026-10-06T02:24:58.2329743Z       83,
+2026-10-06T02:24:58.2330189Z       84,
+2026-10-06T02:24:58.2330633Z       85,
+2026-10-06T02:24:58.2331279Z       86,
+2026-10-06T02:24:58.2331897Z       87,
+2026-10-06T02:24:58.2332435Z       88,
+2026-10-06T02:24:58.2332904Z       89,
+2026-10-06T02:24:58.2333352Z       90,
+2026-10-06T02:24:58.2333795Z       91,
+2026-10-06T02:24:58.2334247Z       92,
+2026-10-06T02:24:58.2334711Z       93,
+2026-10-06T02:24:58.2335193Z       94,
+2026-10-06T02:24:58.2335668Z       95,
+2026-10-06T02:24:58.2336207Z       96,
+2026-10-06T02:24:58.2336693Z       97,
+2026-10-06T02:24:58.2337174Z       98,
+2026-10-06T02:24:58.2337649Z       99,
+2026-10-06T02:24:58.2338125Z       100,
+2026-10-06T02:24:58.2338603Z       101,
+2026-10-06T02:24:58.2339072Z       102,
+2026-10-06T02:24:58.2339544Z       103,
+2026-10-06T02:24:58.2340024Z       104,
+2026-10-06T02:24:58.2340494Z       105,
+2026-10-06T02:24:58.2340964Z       106,
+2026-10-06T02:24:58.2341732Z       107,
+2026-10-06T02:24:58.2342188Z       108,
+2026-10-06T02:24:58.2342651Z       109,
+2026-10-06T02:24:58.2343104Z       110,
+2026-10-06T02:24:58.2343565Z       111,
+2026-10-06T02:24:58.2344020Z       112,
+2026-10-06T02:24:58.2344480Z       113,
+2026-10-06T02:24:58.2344925Z       114,
+2026-10-06T02:24:58.2345378Z       115,
+2026-10-06T02:24:58.2345823Z       116,
+2026-10-06T02:24:58.2346294Z       117,
+2026-10-06T02:24:58.2346767Z       118,
+2026-10-06T02:24:58.2347231Z       119,
+2026-10-06T02:24:58.2347685Z       120,
+2026-10-06T02:24:58.2348136Z       121,
+2026-10-06T02:24:58.2348871Z       122,
+2026-10-06T02:24:58.2349947Z       123,
+2026-10-06T02:24:58.2350507Z       124,
+2026-10-06T02:24:58.2353897Z       125,
+2026-10-06T02:24:58.2354430Z       126,
+2026-10-06T02:24:58.2354959Z       127,
+2026-10-06T02:24:58.2355496Z       128,
+2026-10-06T02:24:58.2356026Z       129,
+2026-10-06T02:24:58.2356517Z       130,
+2026-10-06T02:24:58.2357016Z       131,
+2026-10-06T02:24:58.2357515Z       132,
+2026-10-06T02:24:58.2357968Z       133,
+2026-10-06T02:24:58.2358463Z       134,
+2026-10-06T02:24:58.2358935Z       135,
+2026-10-06T02:24:58.2359416Z       136,
+2026-10-06T02:24:58.2360179Z       137,
+2026-10-06T02:24:58.2360771Z       138,
+2026-10-06T02:24:58.2361586Z       139,
+2026-10-06T02:24:58.2362109Z       140,
+2026-10-06T02:24:58.2362608Z       141,
+2026-10-06T02:24:58.2363092Z       142,
+2026-10-06T02:24:58.2363581Z       143,
+2026-10-06T02:24:58.2364066Z       144,
+2026-10-06T02:24:58.2364570Z       145,
+2026-10-06T02:24:58.2365119Z       146,
+2026-10-06T02:24:58.2365630Z       147,
+2026-10-06T02:24:58.2366209Z       148,
+2026-10-06T02:24:58.2366533Z       149,
+2026-10-06T02:24:58.2366859Z       150,
+2026-10-06T02:24:58.2367180Z       151,
+2026-10-06T02:24:58.2367500Z       152,
+2026-10-06T02:24:58.2367801Z       153,
+2026-10-06T02:24:58.2368106Z       154,
+2026-10-06T02:24:58.2368410Z       155,
+2026-10-06T02:24:58.2368712Z       156,
+2026-10-06T02:24:58.2369018Z       157,
+2026-10-06T02:24:58.2369319Z       158,
+2026-10-06T02:24:58.2369617Z       159,
+2026-10-06T02:24:58.2369921Z       160,
+2026-10-06T02:24:58.2370227Z       161,
+2026-10-06T02:24:58.2370530Z       162,
+2026-10-06T02:24:58.2370860Z       163,
+2026-10-06T02:24:58.2371439Z       164,
+2026-10-06T02:24:58.2371785Z       165,
+2026-10-06T02:24:58.2371989Z       166,
+2026-10-06T02:24:58.2372179Z       167,
+2026-10-06T02:24:58.2372360Z       168,
+2026-10-06T02:24:58.2372543Z       169,
+2026-10-06T02:24:58.2372727Z       170,
+2026-10-06T02:24:58.2372915Z       171,
+2026-10-06T02:24:58.2373098Z       172,
+2026-10-06T02:24:58.2373288Z       173,
+2026-10-06T02:24:58.2373478Z       174,
+2026-10-06T02:24:58.2373664Z       175,
+2026-10-06T02:24:58.2373880Z       176,
+2026-10-06T02:24:58.2374070Z       177,
+2026-10-06T02:24:58.2374249Z       178,
+2026-10-06T02:24:58.2374426Z       179,
+2026-10-06T02:24:58.2374611Z       180,
+2026-10-06T02:24:58.2374791Z       181,
+2026-10-06T02:24:58.2374968Z       182,
+2026-10-06T02:24:58.2375150Z       183,
+2026-10-06T02:24:58.2375338Z       184,
+2026-10-06T02:24:58.2375519Z       185,
+2026-10-06T02:24:58.2375697Z       186,
+2026-10-06T02:24:58.2375886Z       187,
+2026-10-06T02:24:58.2376071Z       188,
+2026-10-06T02:24:58.2376250Z       189,
+2026-10-06T02:24:58.2376431Z       190,
+2026-10-06T02:24:58.2376615Z       191,
+2026-10-06T02:24:58.2376801Z       192,
+2026-10-06T02:24:58.2376982Z       193,
+2026-10-06T02:24:58.2377170Z       194,
+2026-10-06T02:24:58.2377357Z       195,
+2026-10-06T02:24:58.2377536Z       196,
+2026-10-06T02:24:58.2377715Z       197,
+2026-10-06T02:24:58.2377900Z       198,
+2026-10-06T02:24:58.2378084Z       199,
+2026-10-06T02:24:58.2378265Z       200,
+2026-10-06T02:24:58.2378451Z       201,
+2026-10-06T02:24:58.2378630Z       202,
+2026-10-06T02:24:58.2378812Z       203,
+2026-10-06T02:24:58.2378988Z       204,
+2026-10-06T02:24:58.2379173Z       205,
+2026-10-06T02:24:58.2379354Z       206,
+2026-10-06T02:24:58.2379538Z       207,
+2026-10-06T02:24:58.2379726Z       208,
+2026-10-06T02:24:58.2379909Z       209,
+2026-10-06T02:24:58.2380089Z       210,
+2026-10-06T02:24:58.2380277Z       211,
+2026-10-06T02:24:58.2380461Z       212,
+2026-10-06T02:24:58.2380641Z       213,
+2026-10-06T02:24:58.2380825Z       214,
+2026-10-06T02:24:58.2381453Z       215,
+2026-10-06T02:24:58.2381717Z       216,
+2026-10-06T02:24:58.2381906Z       217,
+2026-10-06T02:24:58.2382093Z       218,
+2026-10-06T02:24:58.2382271Z       219,
+2026-10-06T02:24:58.2382448Z       220,
+2026-10-06T02:24:58.2382628Z       221,
+2026-10-06T02:24:58.2382811Z       222,
+2026-10-06T02:24:58.2382989Z       223,
+2026-10-06T02:24:58.2383375Z       224,
+2026-10-06T02:24:58.2383557Z       225,
+2026-10-06T02:24:58.2383737Z       226,
+2026-10-06T02:24:58.2383917Z       227,
+2026-10-06T02:24:58.2384096Z       228,
+2026-10-06T02:24:58.2384281Z       229,
+2026-10-06T02:24:58.2384458Z       230,
+2026-10-06T02:24:58.2384639Z       231,
+2026-10-06T02:24:58.2384826Z       232,
+2026-10-06T02:24:58.2385003Z       233,
+2026-10-06T02:24:58.2385184Z       234,
+2026-10-06T02:24:58.2385364Z       235,
+2026-10-06T02:24:58.2385547Z       236,
+2026-10-06T02:24:58.2385726Z       237,
+2026-10-06T02:24:58.2385906Z       238,
+2026-10-06T02:24:58.2386091Z       239,
+2026-10-06T02:24:58.2386407Z       240,
+2026-10-06T02:24:58.2386592Z       241
+2026-10-06T02:24:58.2386777Z     ]
+2026-10-06T02:24:58.2386969Z   },
+2026-10-06T02:24:58.2387442Z   "scope": "immutable frozen manifest plus documented fork deltas; not application acceptance"
+2026-10-06T02:24:58.2387912Z }
+2026-10-06T02:24:58.2428437Z ##[group]Run npm run test:production-routes
+2026-10-06T02:24:58.2428819Z [36;1mnpm run test:production-routes[0m
+2026-10-06T02:24:58.2491451Z shell: /usr/bin/bash -e {0}
+2026-10-06T02:24:58.2491729Z env:
+2026-10-06T02:24:58.2491925Z   CARGO_BUILD_JOBS: 1
+2026-10-06T02:24:58.2492153Z   CARGO_INCREMENTAL: 0
+2026-10-06T02:24:58.2492383Z   CARGO_PROFILE_DEV_DEBUG: 0
+2026-10-06T02:24:58.2492639Z   CARGO_PROFILE_TEST_DEBUG: 0
+2026-10-06T02:24:58.2492881Z ##[endgroup]
+2026-10-06T02:24:58.3543974Z 
+2026-10-06T02:24:58.3544854Z > console-web@1.0.0 test:production-routes
+2026-10-06T02:24:58.3545804Z > node tools/test-production-routes.mjs
+2026-10-06T02:24:58.3546341Z 
+2026-10-06T02:25:18.0479318Z Production / redirects to /storefront; 17 console routes return 404; fixture chunks absent; media reports unavailable backend.
+2026-10-06T02:25:18.0870697Z ##[group]Run node --test tools/test-production-runtime.test.mjs
+2026-10-06T02:25:18.0871962Z [36;1mnode --test tools/test-production-runtime.test.mjs[0m
+2026-10-06T02:25:18.0964708Z shell: /usr/bin/bash -e {0}
+2026-10-06T02:25:18.0965167Z env:
+2026-10-06T02:25:18.0965553Z   CARGO_BUILD_JOBS: 1
+2026-10-06T02:25:18.0965971Z   CARGO_INCREMENTAL: 0
+2026-10-06T02:25:18.0966397Z   CARGO_PROFILE_DEV_DEBUG: 0
+2026-10-06T02:25:18.0966847Z   CARGO_PROFILE_TEST_DEBUG: 0
+2026-10-06T02:25:18.0967291Z ##[endgroup]
+2026-10-06T02:25:39.2482824Z ✔ deployment and browser consumers stage the same locked production closure (21055.780297ms)
+2026-10-06T02:26:40.1501492Z ✔ runtime verification rejects changed config, runtime bytes and extra secret files (60901.964289ms)
+2026-10-06T02:26:41.2066950Z ✔ storefront consumers release owned staging resources after custody rejection (1057.851494ms)
+2026-10-06T02:26:41.2439467Z ℹ tests 3
+2026-10-06T02:26:41.2440280Z ℹ suites 0
+2026-10-06T02:26:41.2441698Z ℹ pass 3
+2026-10-06T02:26:41.2443823Z ℹ fail 0
+2026-10-06T02:26:41.2444657Z ℹ cancelled 0
+2026-10-06T02:26:41.2445396Z ℹ skipped 0
+2026-10-06T02:26:41.2446081Z ℹ todo 0
+2026-10-06T02:26:41.2446818Z ℹ duration_ms 83108.011595
+2026-10-06T02:26:41.2557363Z ##[group]Run node --test tools/browser-business-failure.test.mjs tools/browser-business-temporal.test.mjs
+2026-10-06T02:26:41.2558826Z [36;1mnode --test tools/browser-business-failure.test.mjs tools/browser-business-temporal.test.mjs[0m
+2026-10-06T02:26:41.2651973Z shell: /usr/bin/bash -e {0}
+2026-10-06T02:26:41.2652332Z env:
+2026-10-06T02:26:41.2652537Z   CARGO_BUILD_JOBS: 1
+2026-10-06T02:26:41.2652782Z   CARGO_INCREMENTAL: 0
+2026-10-06T02:26:41.2653025Z   CARGO_PROFILE_DEV_DEBUG: 0
+2026-10-06T02:26:41.2653279Z   CARGO_PROFILE_TEST_DEBUG: 0
+2026-10-06T02:26:41.2653529Z ##[endgroup]
+2026-10-06T02:26:41.3692657Z ✔ only the first exact probe frame yields a fixed basename and bounded numbers (1.87711ms)
+2026-10-06T02:26:41.3694196Z ✔ sensitive assertion headers and unrelated paths never enter diagnostic output (0.379907ms)
+2026-10-06T02:26:41.3695563Z ✔ absent, malformed, overlong, and unsafe diagnostic inputs are omitted (0.379045ms)
+2026-10-06T02:26:41.3708813Z ✔ native multiline assertion messages cannot forge a source location (0.872656ms)
+2026-10-06T02:26:41.3710980Z ✔ unverified or accessor-backed messages are omitted without invoking their getter (0.305165ms)
+2026-10-06T02:26:41.4704505Z ✔ an elapsed preauthentication cookie may disappear while every live cookie survives unchanged (1.34171ms)
+2026-10-06T02:26:41.4724094Z ✔ a live or session cookie cannot disappear (1.095717ms)
+2026-10-06T02:26:41.4726540Z ✔ an observation before expiry cannot excuse later disappearance (0.242127ms)
+2026-10-06T02:26:41.4732697Z ✔ no cookie may be added even when its expiry has elapsed (0.21708ms)
+2026-10-06T02:26:41.4734067Z ✔ every surviving cookie attribute must remain exact (2.520794ms)
+2026-10-06T02:26:41.4735437Z ✔ duplicate names in either observation fail closed (0.4456ms)
+2026-10-06T02:26:41.4736815Z ✔ an invalid observation time cannot authorize disappearance (4.982678ms)
+2026-10-06T02:26:41.4832604Z ℹ tests 12
+2026-10-06T02:26:41.4856954Z ℹ suites 0
+2026-10-06T02:26:41.4863856Z ℹ pass 12
+2026-10-06T02:26:41.4864625Z ℹ fail 0
+2026-10-06T02:26:41.4865549Z ℹ cancelled 0
+2026-10-06T02:26:41.4866321Z ℹ skipped 0
+2026-10-06T02:26:41.4866941Z ℹ todo 0
+2026-10-06T02:26:41.4867568Z ℹ duration_ms 174.158506
+2026-10-06T02:26:41.4945906Z ##[group]Run npx playwright install --with-deps chromium
+2026-10-06T02:26:41.4946356Z [36;1mnpx playwright install --with-deps chromium[0m
+2026-10-06T02:26:41.5017389Z shell: /usr/bin/bash -e {0}
+2026-10-06T02:26:41.5017649Z env:
+2026-10-06T02:26:41.5017851Z   CARGO_BUILD_JOBS: 1
+2026-10-06T02:26:41.5018084Z   CARGO_INCREMENTAL: 0
+2026-10-06T02:26:41.5018325Z   CARGO_PROFILE_DEV_DEBUG: 0
+2026-10-06T02:26:41.5018579Z   CARGO_PROFILE_TEST_DEBUG: 0
+2026-10-06T02:26:41.5018825Z ##[endgroup]
+2026-10-06T02:26:42.3600056Z Installing dependencies...
+2026-10-06T02:26:42.4217846Z Switching to root user to install dependencies...
+2026-10-06T02:26:42.5537565Z Get:1 file:/etc/apt/apt-mirrors.txt Mirrorlist [144 B]
+2026-10-06T02:26:42.6112449Z Hit:2 http://azure.archive.ubuntu.com/ubuntu noble InRelease
+2026-10-06T02:26:42.6118333Z Get:3 http://azure.archive.ubuntu.com/ubuntu noble-updates InRelease [126 kB]
+2026-10-06T02:26:42.6305859Z Get:6 https://packages.microsoft.com/ubuntu/24.04/prod noble InRelease [3600 B]
+2026-10-06T02:26:42.6333753Z Get:4 http://azure.archive.ubuntu.com/ubuntu noble-backports InRelease [126 kB]
+2026-10-06T02:26:42.6463320Z Get:5 http://azure.archive.ubuntu.com/ubuntu noble-security InRelease [126 kB]
+2026-10-06T02:26:42.8173283Z Get:7 http://azure.archive.ubuntu.com/ubuntu noble-updates/main amd64 Packages [1370 kB]
+2026-10-06T02:26:42.8317482Z Get:8 http://azure.archive.ubuntu.com/ubuntu noble-updates/main Translation-en [305 kB]
+2026-10-06T02:26:42.8555352Z Get:9 http://azure.archive.ubuntu.com/ubuntu noble-updates/main amd64 Components [181 kB]
+2026-10-06T02:26:42.8580613Z Get:10 http://azure.archive.ubuntu.com/ubuntu noble-updates/universe amd64 Packages [1701 kB]
+2026-10-06T02:26:42.8611673Z Get:11 http://azure.archive.ubuntu.com/ubuntu noble-updates/universe Translation-en [341 kB]
+2026-10-06T02:26:42.8751583Z Get:12 http://azure.archive.ubuntu.com/ubuntu noble-updates/universe amd64 Components [388 kB]
+2026-10-06T02:26:42.8753853Z Get:13 http://azure.archive.ubuntu.com/ubuntu noble-updates/restricted amd64 Packages [1728 kB]
+2026-10-06T02:26:42.8757190Z Get:14 http://azure.archive.ubuntu.com/ubuntu noble-updates/restricted Translation-en [395 kB]
+2026-10-06T02:26:42.8764789Z Get:15 http://azure.archive.ubuntu.com/ubuntu noble-updates/multiverse Translation-en [13.3 kB]
+2026-10-06T02:26:42.8770278Z Get:16 http://azure.archive.ubuntu.com/ubuntu noble-updates/multiverse amd64 Components [940 B]
+2026-10-06T02:26:42.9086385Z Get:17 https://packages.microsoft.com/ubuntu/24.04/prod noble/main amd64 Packages [515 kB]
+2026-10-06T02:26:42.9087754Z Get:18 https://packages.microsoft.com/ubuntu/24.04/prod noble/main armhf Packages [12.6 kB]
+2026-10-06T02:26:42.9312512Z Get:19 https://packages.microsoft.com/ubuntu/24.04/prod noble/main arm64 Packages [458 kB]
+2026-10-06T02:26:43.0153684Z Get:20 http://azure.archive.ubuntu.com/ubuntu noble-backports/main amd64 Components [5764 B]
+2026-10-06T02:26:43.0155494Z Get:21 http://azure.archive.ubuntu.com/ubuntu noble-backports/universe amd64 Components [12.6 kB]
+2026-10-06T02:26:43.0192995Z Get:22 http://azure.archive.ubuntu.com/ubuntu noble-security/main amd64 Packages [1071 kB]
+2026-10-06T02:26:43.0257846Z Get:23 http://azure.archive.ubuntu.com/ubuntu noble-security/main Translation-en [222 kB]
+2026-10-06T02:26:43.0292687Z Get:24 http://azure.archive.ubuntu.com/ubuntu noble-security/main amd64 Components [46.4 kB]
+2026-10-06T02:26:43.0309804Z Get:25 http://azure.archive.ubuntu.com/ubuntu noble-security/universe amd64 Packages [1216 kB]
+2026-10-06T02:26:43.0390521Z Get:26 http://azure.archive.ubuntu.com/ubuntu noble-security/universe Translation-en [244 kB]
+2026-10-06T02:26:43.0404691Z Get:27 http://azure.archive.ubuntu.com/ubuntu noble-security/universe amd64 Components [76.3 kB]
+2026-10-06T02:26:43.0432605Z Get:28 http://azure.archive.ubuntu.com/ubuntu noble-security/restricted amd64 Packages [1566 kB]
+2026-10-06T02:26:43.0650656Z Get:29 http://azure.archive.ubuntu.com/ubuntu noble-security/restricted Translation-en [361 kB]
+2026-10-06T02:26:47.3023499Z Fetched 12.6 MB in 2s (7796 kB/s)
+2026-10-06T02:26:48.1077210Z Reading package lists...
+2026-10-06T02:26:48.1323694Z Reading package lists...
+2026-10-06T02:26:48.2956485Z Building dependency tree...
+2026-10-06T02:26:48.2965095Z Reading state information...
+2026-10-06T02:26:48.4268863Z libasound2t64 is already the newest version (1.2.11-1ubuntu0.3).
+2026-10-06T02:26:48.4269933Z libasound2t64 set to manually installed.
+2026-10-06T02:26:48.4271333Z libatk-bridge2.0-0t64 is already the newest version (2.52.0-1build1).
+2026-10-06T02:26:48.4272539Z libatk-bridge2.0-0t64 set to manually installed.
+2026-10-06T02:26:48.4273615Z libatk1.0-0t64 is already the newest version (2.52.0-1build1).
+2026-10-06T02:26:48.4274574Z libatk1.0-0t64 set to manually installed.
+2026-10-06T02:26:48.4275714Z libatspi2.0-0t64 is already the newest version (2.52.0-1build1).
+2026-10-06T02:26:48.4276807Z libatspi2.0-0t64 set to manually installed.
+2026-10-06T02:26:48.4277884Z libcairo2 is already the newest version (1.18.0-3build1).
+2026-10-06T02:26:48.4278755Z libcairo2 set to manually installed.
+2026-10-06T02:26:48.4279655Z libcups2t64 is already the newest version (2.4.7-1.2ubuntu7.14).
+2026-10-06T02:26:48.4280402Z libcups2t64 set to manually installed.
+2026-10-06T02:26:48.4281289Z libdbus-1-3 is already the newest version (1.14.10-4ubuntu4.1).
+2026-10-06T02:26:48.4282196Z libdbus-1-3 set to manually installed.
+2026-10-06T02:26:48.4282941Z libdrm2 is already the newest version (2.4.125-1ubuntu0.1~24.04.2).
+2026-10-06T02:26:48.4283614Z libdrm2 set to manually installed.
+2026-10-06T02:26:48.4284306Z libglib2.0-0t64 is already the newest version (2.80.0-6ubuntu3.9).
+2026-10-06T02:26:48.4284995Z libglib2.0-0t64 set to manually installed.
+2026-10-06T02:26:48.4285714Z libnspr4 is already the newest version (2:4.35-1.1build1).
+2026-10-06T02:26:48.4286384Z libnspr4 set to manually installed.
+2026-10-06T02:26:48.4287081Z libnss3 is already the newest version (2:3.98-1ubuntu0.2).
+2026-10-06T02:26:48.4287611Z libnss3 set to manually installed.
+2026-10-06T02:26:48.4288036Z libpango-1.0-0 is already the newest version (1.52.1+ds-1build1).
+2026-10-06T02:26:48.4288462Z libpango-1.0-0 set to manually installed.
+2026-10-06T02:26:48.4288864Z libx11-6 is already the newest version (2:1.8.7-1build1).
+2026-10-06T02:26:48.4289248Z libx11-6 set to manually installed.
+2026-10-06T02:26:48.4289630Z libxcb1 is already the newest version (1.15-1ubuntu2).
+2026-10-06T02:26:48.4289992Z libxcb1 set to manually installed.
+2026-10-06T02:26:48.4290431Z libxcomposite1 is already the newest version (1:0.4.5-1build3).
+2026-10-06T02:26:48.4290855Z libxcomposite1 set to manually installed.
+2026-10-06T02:26:48.4291755Z libxdamage1 is already the newest version (1:1.1.6-1build1).
+2026-10-06T02:26:48.4292178Z libxdamage1 set to manually installed.
+2026-10-06T02:26:48.4292603Z libxext6 is already the newest version (2:1.3.4-1build2).
+2026-10-06T02:26:48.4293339Z libxext6 set to manually installed.
+2026-10-06T02:26:48.4293748Z libxfixes3 is already the newest version (1:6.0.0-2build1).
+2026-10-06T02:26:48.4294155Z libxfixes3 set to manually installed.
+2026-10-06T02:26:48.4294577Z libxkbcommon0 is already the newest version (1.6.0-1build1).
+2026-10-06T02:26:48.4294994Z libxkbcommon0 set to manually installed.
+2026-10-06T02:26:48.4295412Z libxrandr2 is already the newest version (2:1.5.2-2build1).
+2026-10-06T02:26:48.4295806Z libxrandr2 set to manually installed.
+2026-10-06T02:26:48.4296214Z xvfb is already the newest version (2:21.1.12-1ubuntu1.8).
+2026-10-06T02:26:48.4296776Z fonts-noto-color-emoji is already the newest version (2.047-0ubuntu0.24.04.1).
+2026-10-06T02:26:48.4297355Z libfontconfig1 is already the newest version (2.15.0-1.1ubuntu2).
+2026-10-06T02:26:48.4297780Z libfontconfig1 set to manually installed.
+2026-10-06T02:26:48.4298232Z libfreetype6 is already the newest version (2.13.2+dfsg-1ubuntu0.1).
+2026-10-06T02:26:48.4298669Z libfreetype6 set to manually installed.
+2026-10-06T02:26:48.4299092Z fonts-liberation is already the newest version (1:2.1.5-3).
+2026-10-06T02:26:48.4299673Z fonts-liberation set to manually installed.
+2026-10-06T02:26:48.4300102Z The following additional packages will be installed:
+2026-10-06T02:26:48.4300606Z   libgl1-mesa-dri libglx-mesa0 mesa-libgallium xfonts-encodings xfonts-utils
+2026-10-06T02:26:48.4301360Z Recommended packages:
+2026-10-06T02:26:48.4301877Z   fonts-ipafont-mincho fonts-tlwg-loma
+2026-10-06T02:26:48.4489246Z The following NEW packages will be installed:
+2026-10-06T02:26:48.4490566Z   fonts-freefont-ttf fonts-ipafont-gothic fonts-tlwg-loma-otf fonts-unifont
+2026-10-06T02:26:48.4495758Z   fonts-wqy-zenhei xfonts-cyrillic xfonts-encodings xfonts-scalable
+2026-10-06T02:26:48.4496787Z   xfonts-utils
+2026-10-06T02:26:48.4500866Z The following packages will be upgraded:
+2026-10-06T02:26:48.4506132Z   libgbm1 libgl1-mesa-dri libglx-mesa0 mesa-libgallium
+2026-10-06T02:26:48.4672237Z 4 upgraded, 9 newly installed, 0 to remove and 21 not upgraded.
+2026-10-06T02:26:48.4673230Z Need to get 32.1 MB of archives.
+2026-10-06T02:26:48.4674782Z After this operation, 79.5 MB of additional disk space will be used.
+2026-10-06T02:26:48.4675923Z Get:1 file:/etc/apt/apt-mirrors.txt Mirrorlist [144 B]
+2026-10-06T02:26:48.5662302Z Get:2 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 fonts-ipafont-gothic all 00303-21ubuntu1 [3513 kB]
+2026-10-06T02:26:48.7349559Z Get:3 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 fonts-freefont-ttf all 20211204+svn4273-2 [5641 kB]
+2026-10-06T02:26:48.9867557Z Get:4 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 fonts-tlwg-loma-otf all 1:0.7.3-1 [107 kB]
+2026-10-06T02:26:49.0725310Z Get:5 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 fonts-unifont all 1:15.1.01-1build1 [2993 kB]
+2026-10-06T02:26:49.2884055Z Get:6 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 fonts-wqy-zenhei all 0.9.45-8 [7472 kB]
+2026-10-06T02:26:49.7175837Z Get:7 http://azure.archive.ubuntu.com/ubuntu noble-updates/main amd64 libgl1-mesa-dri amd64 25.2.8-0ubuntu0.24.04.4 [38.0 kB]
+2026-10-06T02:26:49.8010396Z Get:8 http://azure.archive.ubuntu.com/ubuntu noble-updates/main amd64 libglx-mesa0 amd64 25.2.8-0ubuntu0.24.04.4 [110 kB]
+2026-10-06T02:26:49.8858935Z Get:9 http://azure.archive.ubuntu.com/ubuntu noble-updates/main amd64 libgbm1 amd64 25.2.8-0ubuntu0.24.04.4 [34.2 kB]
+2026-10-06T02:26:49.9680929Z Get:10 http://azure.archive.ubuntu.com/ubuntu noble-updates/main amd64 mesa-libgallium amd64 25.2.8-0ubuntu0.24.04.4 [10.8 MB]
+2026-10-06T02:26:50.5690000Z Get:11 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 xfonts-encodings all 1:1.0.5-0ubuntu2 [578 kB]
+2026-10-06T02:26:50.6671292Z Get:12 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 xfonts-utils amd64 1:7.7+6build3 [94.4 kB]
+2026-10-06T02:26:50.7504519Z Get:13 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 xfonts-cyrillic all 1:1.0.5+nmu1 [384 kB]
+2026-10-06T02:26:50.8449584Z Get:14 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 xfonts-scalable all 1:1.0.3-1.3 [304 kB]
+2026-10-06T02:26:51.0978817Z Fetched 32.1 MB in 2s (13.4 MB/s)
+2026-10-06T02:26:51.1221748Z Selecting previously unselected package fonts-ipafont-gothic.
+2026-10-06T02:26:51.1658590Z (Reading database ... 
+2026-10-06T02:26:51.1659767Z (Reading database ... 5%
+2026-10-06T02:26:51.1660475Z (Reading database ... 10%
+2026-10-06T02:26:51.1660939Z (Reading database ... 15%
+2026-10-06T02:26:51.1661617Z (Reading database ... 20%
+2026-10-06T02:26:51.1662061Z (Reading database ... 25%
+2026-10-06T02:26:51.1662487Z (Reading database ... 30%
+2026-10-06T02:26:51.1662916Z (Reading database ... 35%
+2026-10-06T02:26:51.1663334Z (Reading database ... 40%
+2026-10-06T02:26:51.1663759Z (Reading database ... 45%
+2026-10-06T02:26:51.1664186Z (Reading database ... 50%
+2026-10-06T02:26:51.1711764Z (Reading database ... 55%
+2026-10-06T02:26:51.2460825Z (Reading database ... 60%
+2026-10-06T02:26:51.4519711Z (Reading database ... 65%
+2026-10-06T02:26:51.6954524Z (Reading database ... 70%
+2026-10-06T02:26:51.8423433Z (Reading database ... 75%
+2026-10-06T02:26:51.9631073Z (Reading database ... 80%
+2026-10-06T02:26:52.1071064Z (Reading database ... 85%
+2026-10-06T02:26:52.2612534Z (Reading database ... 90%
+2026-10-06T02:26:52.4023479Z (Reading database ... 95%
+2026-10-06T02:26:52.4024226Z (Reading database ... 100%
+2026-10-06T02:26:52.4025164Z (Reading database ... 202296 files and directories currently installed.)
+2026-10-06T02:26:52.4051497Z Preparing to unpack .../00-fonts-ipafont-gothic_00303-21ubuntu1_all.deb ...
+2026-10-06T02:26:52.4164690Z Unpacking fonts-ipafont-gothic (00303-21ubuntu1) ...
+2026-10-06T02:26:52.6565091Z Selecting previously unselected package fonts-freefont-ttf.
+2026-10-06T02:26:52.6632054Z Preparing to unpack .../01-fonts-freefont-ttf_20211204+svn4273-2_all.deb ...
+2026-10-06T02:26:52.6638592Z Unpacking fonts-freefont-ttf (20211204+svn4273-2) ...
+2026-10-06T02:26:52.7469247Z Selecting previously unselected package fonts-tlwg-loma-otf.
+2026-10-06T02:26:52.7596004Z Preparing to unpack .../02-fonts-tlwg-loma-otf_1%3a0.7.3-1_all.deb ...
+2026-10-06T02:26:52.7602220Z Unpacking fonts-tlwg-loma-otf (1:0.7.3-1) ...
+2026-10-06T02:26:52.7804717Z Selecting previously unselected package fonts-unifont.
+2026-10-06T02:26:52.7928969Z Preparing to unpack .../03-fonts-unifont_1%3a15.1.01-1build1_all.deb ...
+2026-10-06T02:26:52.7935909Z Unpacking fonts-unifont (1:15.1.01-1build1) ...
+2026-10-06T02:26:52.9068562Z Selecting previously unselected package fonts-wqy-zenhei.
+2026-10-06T02:26:52.9196804Z Preparing to unpack .../04-fonts-wqy-zenhei_0.9.45-8_all.deb ...
+2026-10-06T02:26:52.9293597Z Unpacking fonts-wqy-zenhei (0.9.45-8) ...
+2026-10-06T02:26:53.4150004Z Preparing to unpack .../05-libgl1-mesa-dri_25.2.8-0ubuntu0.24.04.4_amd64.deb ...
+2026-10-06T02:26:53.4295793Z Unpacking libgl1-mesa-dri:amd64 (25.2.8-0ubuntu0.24.04.4) over (25.2.8-0ubuntu0.24.04.2) ...
+2026-10-06T02:26:53.4787193Z Preparing to unpack .../06-libglx-mesa0_25.2.8-0ubuntu0.24.04.4_amd64.deb ...
+2026-10-06T02:26:53.4818879Z Unpacking libglx-mesa0:amd64 (25.2.8-0ubuntu0.24.04.4) over (25.2.8-0ubuntu0.24.04.2) ...
+2026-10-06T02:26:53.5179555Z Preparing to unpack .../07-libgbm1_25.2.8-0ubuntu0.24.04.4_amd64.deb ...
+2026-10-06T02:26:53.5211388Z Unpacking libgbm1:amd64 (25.2.8-0ubuntu0.24.04.4) over (25.2.8-0ubuntu0.24.04.2) ...
+2026-10-06T02:26:53.5571079Z Preparing to unpack .../08-mesa-libgallium_25.2.8-0ubuntu0.24.04.4_amd64.deb ...
+2026-10-06T02:26:53.5594925Z Unpacking mesa-libgallium:amd64 (25.2.8-0ubuntu0.24.04.4) over (25.2.8-0ubuntu0.24.04.2) ...
+2026-10-06T02:26:53.7400941Z Selecting previously unselected package xfonts-encodings.
+2026-10-06T02:26:53.7534311Z Preparing to unpack .../09-xfonts-encodings_1%3a1.0.5-0ubuntu2_all.deb ...
+2026-10-06T02:26:53.7541530Z Unpacking xfonts-encodings (1:1.0.5-0ubuntu2) ...
+2026-10-06T02:26:53.7841905Z Selecting previously unselected package xfonts-utils.
+2026-10-06T02:26:53.7968594Z Preparing to unpack .../10-xfonts-utils_1%3a7.7+6build3_amd64.deb ...
+2026-10-06T02:26:53.7980925Z Unpacking xfonts-utils (1:7.7+6build3) ...
+2026-10-06T02:26:53.8348674Z Selecting previously unselected package xfonts-cyrillic.
+2026-10-06T02:26:53.8476936Z Preparing to unpack .../11-xfonts-cyrillic_1%3a1.0.5+nmu1_all.deb ...
+2026-10-06T02:26:53.8483523Z Unpacking xfonts-cyrillic (1:1.0.5+nmu1) ...
+2026-10-06T02:26:53.8942151Z Selecting previously unselected package xfonts-scalable.
+2026-10-06T02:26:53.9057561Z Preparing to unpack .../12-xfonts-scalable_1%3a1.0.3-1.3_all.deb ...
+2026-10-06T02:26:53.9070249Z Unpacking xfonts-scalable (1:1.0.3-1.3) ...
+2026-10-06T02:26:53.9516668Z Setting up mesa-libgallium:amd64 (25.2.8-0ubuntu0.24.04.4) ...
+2026-10-06T02:26:53.9542002Z Setting up libgbm1:amd64 (25.2.8-0ubuntu0.24.04.4) ...
+2026-10-06T02:26:53.9561909Z Setting up libgl1-mesa-dri:amd64 (25.2.8-0ubuntu0.24.04.4) ...
+2026-10-06T02:26:53.9635542Z Setting up fonts-wqy-zenhei (0.9.45-8) ...
+2026-10-06T02:26:53.9749310Z Setting up fonts-freefont-ttf (20211204+svn4273-2) ...
+2026-10-06T02:26:53.9766281Z Setting up fonts-tlwg-loma-otf (1:0.7.3-1) ...
+2026-10-06T02:26:53.9785599Z Setting up xfonts-encodings (1:1.0.5-0ubuntu2) ...
+2026-10-06T02:26:53.9804221Z Setting up fonts-ipafont-gothic (00303-21ubuntu1) ...
+2026-10-06T02:26:53.9868719Z update-alternatives: using /usr/share/fonts/opentype/ipafont-gothic/ipag.ttf to provide /usr/share/fonts/truetype/fonts-japanese-gothic.ttf (fonts-japanese-gothic.ttf) in auto mode
+2026-10-06T02:26:53.9885352Z Setting up fonts-unifont (1:15.1.01-1build1) ...
+2026-10-06T02:26:53.9905048Z Setting up libglx-mesa0:amd64 (25.2.8-0ubuntu0.24.04.4) ...
+2026-10-06T02:26:53.9925088Z Setting up xfonts-utils (1:7.7+6build3) ...
+2026-10-06T02:26:53.9963406Z Setting up xfonts-cyrillic (1:1.0.5+nmu1) ...
+2026-10-06T02:26:54.0264015Z Setting up xfonts-scalable (1:1.0.3-1.3) ...
+2026-10-06T02:26:54.0546481Z Processing triggers for libc-bin (2.39-0ubuntu8.9) ...
+2026-10-06T02:26:54.0886841Z Processing triggers for man-db (2.12.0-4build2) ...
+2026-10-06T02:26:54.0908747Z Not building database; man-db/auto-update is not 'true'.
+2026-10-06T02:26:54.0920864Z Processing triggers for fontconfig (2.15.0-1.1ubuntu2) ...
+2026-10-06T02:26:54.8282151Z 
+2026-10-06T02:26:54.8286296Z Running kernel seems to be up-to-date.
+2026-10-06T02:26:54.8288997Z 
+2026-10-06T02:26:54.8302749Z No services need to be restarted.
+2026-10-06T02:26:54.8303085Z 
+2026-10-06T02:26:54.8303344Z No containers need to be restarted.
+2026-10-06T02:26:54.8303644Z 
+2026-10-06T02:26:54.8303936Z No user sessions are running outdated binaries.
+2026-10-06T02:26:54.8304344Z 
+2026-10-06T02:26:54.8304873Z No VM guests are running outdated hypervisor (qemu) binaries on this host.
+2026-10-06T02:26:55.6491889Z Downloading Chrome for Testing 153.0.8010.12 (playwright chromium v1243) from https://cdn.playwright.dev/builds/cft/153.0.8010.12/linux64/chrome-linux64.zip
+2026-10-06T02:26:56.0632580Z |                                                                                |   0% of 186.8 MiB
+2026-10-06T02:26:56.3328606Z |■■■■■■■■                                                                        |  10% of 186.8 MiB
+2026-10-06T02:26:56.4768233Z |■■■■■■■■■■■■■■■■                                                                |  20% of 186.8 MiB
+2026-10-06T02:26:56.6246258Z |■■■■■■■■■■■■■■■■■■■■■■■■                                                        |  30% of 186.8 MiB
+2026-10-06T02:26:56.7099081Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                                |  40% of 186.8 MiB
+2026-10-06T02:26:56.8227687Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                        |  50% of 186.8 MiB
+2026-10-06T02:26:56.9476496Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                |  60% of 186.8 MiB
+2026-10-06T02:26:57.0307403Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                        |  70% of 186.8 MiB
+2026-10-06T02:26:57.1446156Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                |  80% of 186.8 MiB
+2026-10-06T02:26:57.3180455Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■        |  90% of 186.8 MiB
+2026-10-06T02:26:57.4633722Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■| 100% of 186.8 MiB
+2026-10-06T02:27:01.6304433Z Chrome for Testing 153.0.8010.12 (playwright chromium v1243) downloaded to /home/runner/.cache/ms-playwright/chromium-1243
+2026-10-06T02:27:01.6310877Z Downloading FFmpeg (playwright ffmpeg v1011) from https://cdn.playwright.dev/dbazure/download/playwright/builds/ffmpeg/1011/ffmpeg-linux.zip
+2026-10-06T02:27:02.0127838Z |                                                                                |   0% of 2.3 MiB
+2026-10-06T02:27:02.0254931Z |■■■■■■■■                                                                        |  10% of 2.3 MiB
+2026-10-06T02:27:02.0314706Z |■■■■■■■■■■■■■■■■                                                                |  20% of 2.3 MiB
+2026-10-06T02:27:02.0370311Z |■■■■■■■■■■■■■■■■■■■■■■■■                                                        |  30% of 2.3 MiB
+2026-10-06T02:27:02.0410858Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                                |  40% of 2.3 MiB
+2026-10-06T02:27:02.0432105Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                        |  50% of 2.3 MiB
+2026-10-06T02:27:02.0474210Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                |  60% of 2.3 MiB
+2026-10-06T02:27:02.0488255Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                        |  70% of 2.3 MiB
+2026-10-06T02:27:02.0520660Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                |  80% of 2.3 MiB
+2026-10-06T02:27:02.0540615Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■        |  90% of 2.3 MiB
+2026-10-06T02:27:02.0570488Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■| 100% of 2.3 MiB
+2026-10-06T02:27:02.1290189Z FFmpeg (playwright ffmpeg v1011) downloaded to /home/runner/.cache/ms-playwright/ffmpeg-1011
+2026-10-06T02:27:02.1294626Z Downloading Chrome Headless Shell 153.0.8010.12 (playwright chromium-headless-shell v1243) from https://cdn.playwright.dev/builds/cft/153.0.8010.12/linux64/chrome-headless-shell-linux64.zip
+2026-10-06T02:27:02.5275426Z |                                                                                |   0% of 114.3 MiB
+2026-10-06T02:27:02.6647334Z |■■■■■■■■                                                                        |  10% of 114.3 MiB
+2026-10-06T02:27:02.7698967Z |■■■■■■■■■■■■■■■■                                                                |  20% of 114.3 MiB
+2026-10-06T02:27:02.8357653Z |■■■■■■■■■■■■■■■■■■■■■■■■                                                        |  30% of 114.3 MiB
+2026-10-06T02:27:02.9095874Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                                |  40% of 114.3 MiB
+2026-10-06T02:27:03.0018125Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                        |  50% of 114.3 MiB
+2026-10-06T02:27:03.0584644Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                |  60% of 114.3 MiB
+2026-10-06T02:27:03.1157075Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                        |  70% of 114.3 MiB
+2026-10-06T02:27:03.2046453Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                |  80% of 114.3 MiB
+2026-10-06T02:27:03.2533867Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■        |  90% of 114.3 MiB
+2026-10-06T02:27:03.3355390Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■| 100% of 114.3 MiB
+2026-10-06T02:27:06.5099372Z Chrome Headless Shell 153.0.8010.12 (playwright chromium-headless-shell v1243) downloaded to /home/runner/.cache/ms-playwright/chromium_headless_shell-1243
+2026-10-06T02:27:06.5453119Z ##[group]Run node --test tools/test-native-browser-enrollment.test.mjs
+2026-10-06T02:27:06.5454121Z [36;1mnode --test tools/test-native-browser-enrollment.test.mjs[0m
+2026-10-06T02:27:06.5526299Z shell: /usr/bin/bash -e {0}
+2026-10-06T02:27:06.5526580Z env:
+2026-10-06T02:27:06.5526775Z   CARGO_BUILD_JOBS: 1
+2026-10-06T02:27:06.5527004Z   CARGO_INCREMENTAL: 0
+2026-10-06T02:27:06.5527229Z   CARGO_PROFILE_DEV_DEBUG: 0
+2026-10-06T02:27:06.5527478Z   CARGO_PROFILE_TEST_DEBUG: 0
+2026-10-06T02:27:06.5527713Z ##[endgroup]
+2026-10-06T02:27:27.9209878Z ✔ enrollment runner confirms cleanup after signal-after-origin (21272.167809ms)
+2026-10-06T02:27:54.8483240Z ✖ enrollment runner confirms cleanup after eof-after-ready (26926.608084ms)
+2026-10-06T02:28:21.3133167Z ✖ enrollment runner confirms cleanup after oversized (26467.637816ms)
+2026-10-06T02:28:48.0672514Z ✖ enrollment runner confirms cleanup after wrong-version (26753.547087ms)
+2026-10-06T02:29:14.9300914Z ✖ enrollment runner confirms cleanup after wrong-sequence (26862.245777ms)
+2026-10-06T02:29:40.4677034Z ✖ enrollment runner confirms cleanup after wrong-kind (25537.728594ms)
+2026-10-06T02:30:07.1156910Z ✖ enrollment runner confirms cleanup after legacy-selection (26647.880803ms)
+2026-10-06T02:30:33.6517518Z ✖ enrollment runner confirms cleanup after missing-selection (26535.281278ms)
+2026-10-06T02:31:00.4169800Z ✖ enrollment runner confirms cleanup after malformed-selection (26764.604132ms)
+2026-10-06T02:31:27.3060437Z ✖ enrollment runner confirms cleanup after weak-uv (26892.415176ms)
+2026-10-06T02:31:27.3172429Z ℹ tests 10
+2026-10-06T02:31:27.3173048Z ℹ suites 0
+2026-10-06T02:31:27.3173586Z ℹ pass 1
+2026-10-06T02:31:27.3174099Z ℹ fail 9
+2026-10-06T02:31:27.3174590Z ℹ cancelled 0
+2026-10-06T02:31:27.3175084Z ℹ skipped 0
+2026-10-06T02:31:27.3175508Z ℹ todo 0
+2026-10-06T02:31:27.3176909Z ℹ duration_ms 260723.177672
+2026-10-06T02:31:27.3206759Z 
+2026-10-06T02:31:27.3207263Z ✖ failing tests:
+2026-10-06T02:31:27.3207832Z 
+2026-10-06T02:31:27.3208657Z test at tools/test-native-browser-enrollment.test.mjs:15:3
+2026-10-06T02:31:27.3210175Z ✖ enrollment runner confirms cleanup after eof-after-ready (26926.608084ms)
+2026-10-06T02:31:27.3212623Z   AssertionError [ERR_ASSERTION]: fallback intervention cannot prove requested cleanup
+2026-10-06T02:31:27.3213731Z   
+2026-10-06T02:31:27.3214352Z   true !== false
+2026-10-06T02:31:27.3214999Z   
+2026-10-06T02:31:27.3217389Z       at TestContext.<anonymous> (file:///home/runner/work/console-nextjs/console-nextjs/tools/test-native-browser-enrollment.test.mjs:94:14)
+2026-10-06T02:31:27.3219330Z       at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+2026-10-06T02:31:27.3220685Z       at async Test.run (node:internal/test_runner/test:1409:7)
+2026-10-06T02:31:27.3222316Z       at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+2026-10-06T02:31:27.3223458Z     generatedMessage: false,
+2026-10-06T02:31:27.3224228Z     code: 'ERR_ASSERTION',
+2026-10-06T02:31:27.3224864Z     actual: true,
+2026-10-06T02:31:27.3225524Z     expected: false,
+2026-10-06T02:31:27.3226170Z     operator: 'strictEqual',
+2026-10-06T02:31:27.3226896Z     diff: 'simple'
+2026-10-06T02:31:27.3227494Z   }
+2026-10-06T02:31:27.3227986Z 
+2026-10-06T02:31:27.3228689Z test at tools/test-native-browser-enrollment.test.mjs:15:3
+2026-10-06T02:31:27.3230193Z ✖ enrollment runner confirms cleanup after oversized (26467.637816ms)
+2026-10-06T02:31:27.3232001Z   AssertionError [ERR_ASSERTION]: fallback intervention cannot prove requested cleanup
+2026-10-06T02:31:27.3233060Z   
+2026-10-06T02:31:27.3233650Z   true !== false
+2026-10-06T02:31:27.3234244Z   
+2026-10-06T02:31:27.3235672Z       at TestContext.<anonymous> (file:///home/runner/work/console-nextjs/console-nextjs/tools/test-native-browser-enrollment.test.mjs:94:14)
+2026-10-06T02:31:27.3237494Z       at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+2026-10-06T02:31:27.3239194Z       at async Test.run (node:internal/test_runner/test:1409:7)
+2026-10-06T02:31:27.3240551Z       at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+2026-10-06T02:31:27.3241963Z     generatedMessage: false,
+2026-10-06T02:31:27.3243558Z     code: 'ERR_ASSERTION',
+2026-10-06T02:31:27.3245479Z     actual: true,
+2026-10-06T02:31:27.3246154Z     expected: false,
+2026-10-06T02:31:27.3246715Z     operator: 'strictEqual',
+2026-10-06T02:31:27.3247299Z     diff: 'simple'
+2026-10-06T02:31:27.3247819Z   }
+2026-10-06T02:31:27.3248164Z 
+2026-10-06T02:31:27.3248709Z test at tools/test-native-browser-enrollment.test.mjs:15:3
+2026-10-06T02:31:27.3249966Z ✖ enrollment runner confirms cleanup after wrong-version (26753.547087ms)
+2026-10-06T02:31:27.3251391Z   AssertionError [ERR_ASSERTION]: fallback intervention cannot prove requested cleanup
+2026-10-06T02:31:27.3252319Z   
+2026-10-06T02:31:27.3252833Z   true !== false
+2026-10-06T02:31:27.3253364Z   
+2026-10-06T02:31:27.3254685Z       at TestContext.<anonymous> (file:///home/runner/work/console-nextjs/console-nextjs/tools/test-native-browser-enrollment.test.mjs:94:14)
+2026-10-06T02:31:27.3256372Z       at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+2026-10-06T02:31:27.3257524Z       at async Test.run (node:internal/test_runner/test:1409:7)
+2026-10-06T02:31:27.3258638Z       at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+2026-10-06T02:31:27.3259581Z     generatedMessage: false,
+2026-10-06T02:31:27.3260195Z     code: 'ERR_ASSERTION',
+2026-10-06T02:31:27.3260774Z     actual: true,
+2026-10-06T02:31:27.3261534Z     expected: false,
+2026-10-06T02:31:27.3262119Z     operator: 'strictEqual',
+2026-10-06T02:31:27.3262742Z     diff: 'simple'
+2026-10-06T02:31:27.3263270Z   }
+2026-10-06T02:31:27.3263610Z 
+2026-10-06T02:31:27.3264215Z test at tools/test-native-browser-enrollment.test.mjs:15:3
+2026-10-06T02:31:27.3265526Z ✖ enrollment runner confirms cleanup after wrong-sequence (26862.245777ms)
+2026-10-06T02:31:27.3266785Z   AssertionError [ERR_ASSERTION]: fallback intervention cannot prove requested cleanup
+2026-10-06T02:31:27.3267746Z   
+2026-10-06T02:31:27.3268257Z   true !== false
+2026-10-06T02:31:27.3269130Z   
+2026-10-06T02:31:27.3270455Z       at TestContext.<anonymous> (file:///home/runner/work/console-nextjs/console-nextjs/tools/test-native-browser-enrollment.test.mjs:94:14)
+2026-10-06T02:31:27.3272682Z       at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+2026-10-06T02:31:27.3273877Z       at async Test.run (node:internal/test_runner/test:1409:7)
+2026-10-06T02:31:27.3274974Z       at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+2026-10-06T02:31:27.3276701Z     generatedMessage: false,
+2026-10-06T02:31:27.3277996Z     code: 'ERR_ASSERTION',
+2026-10-06T02:31:27.3278445Z     actual: true,
+2026-10-06T02:31:27.3278839Z     expected: false,
+2026-10-06T02:31:27.3279250Z     operator: 'strictEqual',
+2026-10-06T02:31:27.3279664Z     diff: 'simple'
+2026-10-06T02:31:27.3280033Z   }
+2026-10-06T02:31:27.3280304Z 
+2026-10-06T02:31:27.3280722Z test at tools/test-native-browser-enrollment.test.mjs:15:3
+2026-10-06T02:31:27.3282153Z ✖ enrollment runner confirms cleanup after wrong-kind (25537.728594ms)
+2026-10-06T02:31:27.3283181Z   AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+2026-10-06T02:31:27.3283829Z   
+2026-10-06T02:31:27.3284156Z   'cleaned' !== 'ready'
+2026-10-06T02:31:27.3284524Z   
+2026-10-06T02:31:27.3285640Z       at TestContext.<anonymous> (file:///home/runner/work/console-nextjs/console-nextjs/tools/test-native-browser-enrollment.test.mjs:62:16)
+2026-10-06T02:31:27.3287191Z       at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+2026-10-06T02:31:27.3288080Z       at async Test.run (node:internal/test_runner/test:1409:7)
+2026-10-06T02:31:27.3288616Z       at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+2026-10-06T02:31:27.3289064Z     generatedMessage: true,
+2026-10-06T02:31:27.3289330Z     code: 'ERR_ASSERTION',
+2026-10-06T02:31:27.3289778Z     actual: 'cleaned',
+2026-10-06T02:31:27.3290018Z     expected: 'ready',
+2026-10-06T02:31:27.3290264Z     operator: 'strictEqual',
+2026-10-06T02:31:27.3290518Z     diff: 'simple'
+2026-10-06T02:31:27.3290722Z   }
+2026-10-06T02:31:27.3290832Z 
+2026-10-06T02:31:27.3292120Z test at tools/test-native-browser-enrollment.test.mjs:15:3
+2026-10-06T02:31:27.3293045Z ✖ enrollment runner confirms cleanup after legacy-selection (26647.880803ms)
+2026-10-06T02:31:27.3293686Z   AssertionError [ERR_ASSERTION]: fallback intervention cannot prove requested cleanup
+2026-10-06T02:31:27.3294125Z   
+2026-10-06T02:31:27.3294311Z   true !== false
+2026-10-06T02:31:27.3294510Z   
+2026-10-06T02:31:27.3295166Z       at TestContext.<anonymous> (file:///home/runner/work/console-nextjs/console-nextjs/tools/test-native-browser-enrollment.test.mjs:94:14)
+2026-10-06T02:31:27.3296025Z       at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+2026-10-06T02:31:27.3296578Z       at async Test.run (node:internal/test_runner/test:1409:7)
+2026-10-06T02:31:27.3297119Z       at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+2026-10-06T02:31:27.3297565Z     generatedMessage: false,
+2026-10-06T02:31:27.3297823Z     code: 'ERR_ASSERTION',
+2026-10-06T02:31:27.3298068Z     actual: true,
+2026-10-06T02:31:27.3298280Z     expected: false,
+2026-10-06T02:31:27.3298508Z     operator: 'strictEqual',
+2026-10-06T02:31:27.3298746Z     diff: 'simple'
+2026-10-06T02:31:27.3298950Z   }
+2026-10-06T02:31:27.3299050Z 
+2026-10-06T02:31:27.3299295Z test at tools/test-native-browser-enrollment.test.mjs:15:3
+2026-10-06T02:31:27.3299937Z ✖ enrollment runner confirms cleanup after missing-selection (26535.281278ms)
+2026-10-06T02:31:27.3300564Z   AssertionError [ERR_ASSERTION]: fallback intervention cannot prove requested cleanup
+2026-10-06T02:31:27.3301733Z   
+2026-10-06T02:31:27.3301962Z   true !== false
+2026-10-06T02:31:27.3302179Z   
+2026-10-06T02:31:27.3302839Z       at TestContext.<anonymous> (file:///home/runner/work/console-nextjs/console-nextjs/tools/test-native-browser-enrollment.test.mjs:94:14)
+2026-10-06T02:31:27.3303981Z       at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+2026-10-06T02:31:27.3304544Z       at async Test.run (node:internal/test_runner/test:1409:7)
+2026-10-06T02:31:27.3305078Z       at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+2026-10-06T02:31:27.3305500Z     generatedMessage: false,
+2026-10-06T02:31:27.3305754Z     code: 'ERR_ASSERTION',
+2026-10-06T02:31:27.3305988Z     actual: true,
+2026-10-06T02:31:27.3306196Z     expected: false,
+2026-10-06T02:31:27.3306424Z     operator: 'strictEqual',
+2026-10-06T02:31:27.3306658Z     diff: 'simple'
+2026-10-06T02:31:27.3306852Z   }
+2026-10-06T02:31:27.3306954Z 
+2026-10-06T02:31:27.3307189Z test at tools/test-native-browser-enrollment.test.mjs:15:3
+2026-10-06T02:31:27.3307861Z ✖ enrollment runner confirms cleanup after malformed-selection (26764.604132ms)
+2026-10-06T02:31:27.3308487Z   AssertionError [ERR_ASSERTION]: fallback intervention cannot prove requested cleanup
+2026-10-06T02:31:27.3308904Z   
+2026-10-06T02:31:27.3309096Z   true !== false
+2026-10-06T02:31:27.3309288Z   
+2026-10-06T02:31:27.3309910Z       at TestContext.<anonymous> (file:///home/runner/work/console-nextjs/console-nextjs/tools/test-native-browser-enrollment.test.mjs:94:14)
+2026-10-06T02:31:27.3310740Z       at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+2026-10-06T02:31:27.3311576Z       at async Test.run (node:internal/test_runner/test:1409:7)
+2026-10-06T02:31:27.3312114Z       at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+2026-10-06T02:31:27.3312548Z     generatedMessage: false,
+2026-10-06T02:31:27.3312799Z     code: 'ERR_ASSERTION',
+2026-10-06T02:31:27.3313027Z     actual: true,
+2026-10-06T02:31:27.3313243Z     expected: false,
+2026-10-06T02:31:27.3313464Z     operator: 'strictEqual',
+2026-10-06T02:31:27.3313698Z     diff: 'simple'
+2026-10-06T02:31:27.3314037Z   }
+2026-10-06T02:31:27.3314150Z 
+2026-10-06T02:31:27.3314394Z test at tools/test-native-browser-enrollment.test.mjs:15:3
+2026-10-06T02:31:27.3314991Z ✖ enrollment runner confirms cleanup after weak-uv (26892.415176ms)
+2026-10-06T02:31:27.3315559Z   AssertionError [ERR_ASSERTION]: fallback intervention cannot prove requested cleanup
+2026-10-06T02:31:27.3315973Z   
+2026-10-06T02:31:27.3316150Z   true !== false
+2026-10-06T02:31:27.3316339Z   
+2026-10-06T02:31:27.3316964Z       at TestContext.<anonymous> (file:///home/runner/work/console-nextjs/console-nextjs/tools/test-native-browser-enrollment.test.mjs:94:14)
+2026-10-06T02:31:27.3317787Z       at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+2026-10-06T02:31:27.3318306Z       at async Test.run (node:internal/test_runner/test:1409:7)
+2026-10-06T02:31:27.3318819Z       at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+2026-10-06T02:31:27.3319238Z     generatedMessage: false,
+2026-10-06T02:31:27.3319493Z     code: 'ERR_ASSERTION',
+2026-10-06T02:31:27.3319724Z     actual: true,
+2026-10-06T02:31:27.3319934Z     expected: false,
+2026-10-06T02:31:27.3320158Z     operator: 'strictEqual',
+2026-10-06T02:31:27.3320396Z     diff: 'simple'
+2026-10-06T02:31:27.3320586Z   }
+2026-10-06T02:31:27.3333969Z ##[error]Process completed with exit code 1.
+2026-10-06T02:31:27.3484296Z ##[group]Run df -h .
+2026-10-06T02:31:27.3484580Z [36;1mdf -h .[0m
+2026-10-06T02:31:27.3546974Z shell: /usr/bin/bash -e {0}
+2026-10-06T02:31:27.3547232Z env:
+2026-10-06T02:31:27.3547434Z   CARGO_BUILD_JOBS: 1
+2026-10-06T02:31:27.3547665Z   CARGO_INCREMENTAL: 0
+2026-10-06T02:31:27.3547893Z   CARGO_PROFILE_DEV_DEBUG: 0
+2026-10-06T02:31:27.3548136Z   CARGO_PROFILE_TEST_DEBUG: 0
+2026-10-06T02:31:27.3548380Z ##[endgroup]
+2026-10-06T02:31:27.3654312Z Filesystem      Size  Used Avail Use% Mounted on
+2026-10-06T02:31:27.3655159Z /dev/root        72G   61G   12G  85% /
+2026-10-06T02:31:27.3774927Z Post job cleanup.
+2026-10-06T02:31:27.4701813Z [command]/usr/bin/git version
+2026-10-06T02:31:27.4771727Z git version 2.55.0
+2026-10-06T02:31:27.4842932Z Temporarily overriding HOME='/home/runner/work/_temp/a65e1dd6-749d-40ed-83f8-b637f8b3cb5c' before making global git config changes
+2026-10-06T02:31:27.4854513Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-06T02:31:27.4856120Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/console-nextjs/console-nextjs
+2026-10-06T02:31:27.4930194Z Removing SSH command configuration
+2026-10-06T02:31:27.4931672Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-06T02:31:27.4984970Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-06T02:31:27.5380576Z Removing HTTP extra header
+2026-10-06T02:31:27.5412405Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-06T02:31:27.5503196Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-06T02:31:27.5790867Z Removing includeIf entries pointing to credentials config files
+2026-10-06T02:31:27.5813904Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-06T02:31:27.5842159Z includeif.gitdir:/home/runner/work/console-nextjs/console-nextjs/.git.path
+2026-10-06T02:31:27.5843480Z includeif.gitdir:/home/runner/work/console-nextjs/console-nextjs/.git/worktrees/*.path
+2026-10-06T02:31:27.5844487Z includeif.gitdir:/github/workspace/.git.path
+2026-10-06T02:31:27.5845301Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-10-06T02:31:27.5847417Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/console-nextjs/console-nextjs/.git.path
+2026-10-06T02:31:27.5848938Z /home/runner/work/_temp/git-credentials-256f7dd5-1b54-432e-9509-9f3e2bde0a3f.config
+2026-10-06T02:31:27.5852927Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/console-nextjs/console-nextjs/.git.path \/home\/runner\/work\/_temp\/git\-credentials\-256f7dd5\-1b54\-432e\-9509\-9f3e2bde0a3f\.config
+2026-10-06T02:31:27.6017222Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/console-nextjs/console-nextjs/.git/worktrees/*.path
+2026-10-06T02:31:27.6018849Z /home/runner/work/_temp/git-credentials-256f7dd5-1b54-432e-9509-9f3e2bde0a3f.config
+2026-10-06T02:31:27.6098102Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/console-nextjs/console-nextjs/.git/worktrees/*.path \/home\/runner\/work\/_temp\/git\-credentials\-256f7dd5\-1b54\-432e\-9509\-9f3e2bde0a3f\.config
+2026-10-06T02:31:27.6212138Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git.path
+2026-10-06T02:31:27.6240726Z /github/runner_temp/git-credentials-256f7dd5-1b54-432e-9509-9f3e2bde0a3f.config
+2026-10-06T02:31:27.6331746Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git.path \/github\/runner_temp\/git\-credentials\-256f7dd5\-1b54\-432e\-9509\-9f3e2bde0a3f\.config
+2026-10-06T02:31:27.6368639Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-10-06T02:31:27.6387380Z /github/runner_temp/git-credentials-256f7dd5-1b54-432e-9509-9f3e2bde0a3f.config
+2026-10-06T02:31:27.6433314Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path \/github\/runner_temp\/git\-credentials\-256f7dd5\-1b54\-432e\-9509\-9f3e2bde0a3f\.config
+2026-10-06T02:31:27.6551552Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-06T02:31:27.8012624Z Removing credentials config '/home/runner/work/_temp/git-credentials-256f7dd5-1b54-432e-9509-9f3e2bde0a3f.config'
+2026-10-06T02:31:27.8076905Z Cleaning up orphan processes

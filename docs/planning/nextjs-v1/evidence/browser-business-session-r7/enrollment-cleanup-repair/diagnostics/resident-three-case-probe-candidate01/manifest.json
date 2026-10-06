@@ -1,0 +1,55 @@
+{
+  "state": "PREPARED_ONLY_NOT_EXECUTED",
+  "probe_sha256": "6ace24bf52f0bdd826d3dc84cea69f1626d3fbea225040d3adafadba95c518c9",
+  "candidate_source_sha256": "b62d0d6eba89439d4194b79d4dab62ed8fd07614f93bf984bbd3ab261a71799e",
+  "candidate_patch_sha256": "82e65c23d1ea3e547979ea8230cb4918bd6f7db800c9aa020c2a92b7d716f1db",
+  "inherited_probe_sha256": "fc4f239d03ca7315f57bc75e70112028852a5d42609fceaa9e15b92c8ac2e65e",
+  "command": [
+    "fnm",
+    "exec",
+    "--using",
+    "24.21.0",
+    "node",
+    "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/resident-three-case-probe-candidate01/resident-three-case-probe.mjs"
+  ],
+  "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+  "output": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/resident-three-case-probe-candidate01/resident-three-case-report01.json",
+  "cases": [
+    {
+      "id": "ready-done",
+      "expected": {
+        "ack": "cleaned/completed",
+        "natural_exit": 0
+      }
+    },
+    {
+      "id": "eof-after-ready",
+      "expected": {
+        "ack": "cleaned/aborted",
+        "natural_exit": 2
+      }
+    },
+    {
+      "id": "owned-browser-stop-before-done",
+      "expected": {
+        "ack": "cleaned/completed",
+        "natural_exit": 0
+      },
+      "fault": "Identity-verified fixture-owned real Chromium group SIGSTOP before done; never shadow SDK methods"
+    }
+  ],
+  "bounds_ms": {
+    "startup": 25000,
+    "cleanup_ack_and_natural_exit": 15000,
+    "failure_cleanup": 6000
+  },
+  "proof_limits": [
+    "No authentication/registration/native acceptance claim",
+    "No arbitrary faster exit threshold",
+    "Failed-kill retained unref deadline branch is SOURCE_ONLY",
+    "Historical exit3 cause remains UNPROVEN",
+    "Any fallback TERM/KILL intervention is failure, never a cleanup-success substitute"
+  ],
+  "source_writes": false,
+  "test_execution": false
+}

@@ -1,0 +1,134 @@
+{
+  "schema": "independent-diagnostic-source-review/3",
+  "reviewer": "p16_owner_mechanism",
+  "created_at_utc": "2026-10-06T10:57:27.821217+00:00",
+  "verdict": "ACCEPT_SOURCE_ONLY",
+  "manifest_sha256": "51919b380b889423da0fea407cbbaf546d94324a25aec74d1b3766722e8e9ba3",
+  "artifact_pins": {
+    "before-driver-candidate02.mjs": {
+      "sha256": "7cbac396eb844548e2065005a42983eb43f71351d1ab409ae3da5ede1404b522",
+      "bytes": 19546
+    },
+    "before-driver02.mjs": {
+      "sha256": "1545f9c29e82dcb33212d02020a7dad9a23fbc25860af945e5f9d5b4efab518e",
+      "bytes": 13530
+    },
+    "before-process-driver.mjs": {
+      "sha256": "3204b466940c270897814f9100ee8f92fbddfdc937e7b71a06406dacac778ead",
+      "bytes": 6611
+    },
+    "before.mjs": {
+      "sha256": "afd17a0d0a69358613e1ff6d03d24f27eb322bd558a8cf021390e32527fff22e",
+      "bytes": 15154
+    },
+    "diagnostic-schema.json": {
+      "sha256": "1e15853e9eebd227d036a6aa402f0b9bf22e7391edbdfa0c79963c7b5f9f40c3",
+      "bytes": 5473
+    },
+    "driver-baseline.diff": {
+      "sha256": "75a018563d9a304dee6ecc2189fd2bf0b4aa2f012aaa6de2d321d90cbef418e2",
+      "bytes": 17981
+    },
+    "driver-review-repair.diff": {
+      "sha256": "16c28a74731d3faa0497e8a871788e13bc39f2a4e57a76d45034479a4058ad52",
+      "bytes": 891
+    },
+    "driver-revision.diff": {
+      "sha256": "ff3f9357e8069026cb8087d5ec80e68b88d9fd659211007c6e964426e863850a",
+      "bytes": 18986
+    },
+    "patch.diff": {
+      "sha256": "5480af219d1675031bf1f16592a2ecfab7f78b88b1cf4659a26109b84b311ca9",
+      "bytes": 18217
+    },
+    "proposal.json": {
+      "sha256": "2f73bd83826cedeaba7e8054b2e3ebec948b365370cc5980c55f3bfaf9218f9f",
+      "bytes": 6696
+    },
+    "root-input-pins.json": {
+      "sha256": "7770788205f3df883a8f4845393950d622bbd63cd240defcecf0155d30bda020",
+      "bytes": 2662
+    },
+    "server.mjs": {
+      "sha256": "1f0f42b227af875f580ea4d11ff3b8355eb24487b17f45d9de99e3324a62f90f",
+      "bytes": 8799
+    },
+    "tools/browser-business-failure.mjs": {
+      "sha256": "682407048049f4ff76df89c5fa9af836f1985fddb36e4f8e7c8adcb34d9052e3",
+      "bytes": 2043
+    },
+    "tools/enrollment-fault-deadlines.mjs": {
+      "sha256": "6f80266162d5413bcda245b17536b991518e95e22f5b1a7001067aaa4120fc06",
+      "bytes": 1167
+    },
+    "tools/enrollment-fault-deadlines.test.mjs": {
+      "sha256": "7e4aa20a3cfac678c5f5d8b620456da7b6e74d72fd6f64824b05cde363bc4bca",
+      "bytes": 2938
+    },
+    "tools/production-runtime.mjs": {
+      "sha256": "7e4d05bac69900295f8777c931999f2987acd36c947f281cbea7d1bbdf673367",
+      "bytes": 8831
+    },
+    "tools/test-browser-business-session.mjs": {
+      "sha256": "6868ac44bef0334065b3e4cd70ddfc58c3623be4070e6625f35b1738bed24280",
+      "bytes": 54371
+    },
+    "tools/test-native-browser-enrollment-diagnostic.test.mjs": {
+      "sha256": "81206713f661ce12f5327330010ba624d77cc8d6c3f798b3a1596639e30a2c12",
+      "bytes": 19521
+    },
+    "tools/test-native-browser-enrollment.mjs": {
+      "sha256": "ef53481448b7b9fb261a31ea594a2deed9604b5c3536c7101d8d3b13cd22bd2b",
+      "bytes": 25965
+    }
+  },
+  "baseline_sha256": "afd17a0d0a69358613e1ff6d03d24f27eb322bd558a8cf021390e32527fff22e",
+  "native_sha256": "ef53481448b7b9fb261a31ea594a2deed9604b5c3536c7101d8d3b13cd22bd2b",
+  "driver_sha256": "81206713f661ce12f5327330010ba624d77cc8d6c3f798b3a1596639e30a2c12",
+  "patch_sha256": "5480af219d1675031bf1f16592a2ecfab7f78b88b1cf4659a26109b84b311ca9",
+  "review_repair_diff_sha256": "16c28a74731d3faa0497e8a871788e13bc39f2a4e57a76d45034479a4058ad52",
+  "prior_finding_receipt": {
+    "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/enrollment-cleanup-after-owner-repair-diagnostic-candidate02/independent-source-review02.json",
+    "sha256": "bef5cfb3e38013f5c36ea708929a738c8bdaae92eeb6dc201c9563106b53b635",
+    "status": "FIXED"
+  },
+  "tests_executed": 0,
+  "tracked_edits": 0,
+  "process_actions": 0,
+  "runtime_acceptance": false,
+  "code_findings": [],
+  "verification": {
+    "all_19_manifest_artifacts_match_sizes_hashes": true,
+    "all_15_root_input_pins_match": true,
+    "native_baseline_matches_current_tracked_afd17": true,
+    "native_patch_reproduces_candidate_from_baseline": true,
+    "candidate03_native_identical_candidate02": true,
+    "candidate03_driver_sole_change_is_producer_pin_selection": true,
+    "original_13_native_plus_3_business_case_definitions_and_order_unchanged": true,
+    "copied_6_clock_tests_exact_unchanged_sha256": "7e4aa20a3cfac678c5f5d8b620456da7b6e74d72fd6f64824b05cde363bc4bca",
+    "business_runner_exact_unchanged_sha256": "6868ac44bef0334065b3e4cd70ddfc58c3623be4070e6625f35b1738bed24280",
+    "maximum_cleanup_line_bytes_including_prefix_newline": 1919,
+    "maximum_main_line_bytes_including_prefix_newline": 491,
+    "driver_line_cap_bytes": 2048,
+    "driver_max_cleanup_records": 2,
+    "driver_max_main_records": 1
+  },
+  "reviewed_properties": [
+    "Main failure phase/readiness/error-type metadata is separate from cleanup owner stages/statuses and selected failure. The main prefix is emitted only in the existing outer catch even when cleanup later succeeds.",
+    "Error names map to fixed labels; no arbitrary name, message, code, stack, native body, server bytes, path, ID, credential or key is emitted. Both prefixes use synchronous bounded writeSync with caught logging failure.",
+    "Cleanup rejection and original hard6s timer emit a current snapshot; hard snapshot precedes unchanged process.exit3. Metadata uses the existing deadlineAt minus6000, introducing no timer or additional wait.",
+    "Original startup, Promise.allSettled owner order, child close/exit checks, same pending SDK killing promise, guarded stage removal, selected first rejected result and original error object remain.",
+    "Added fulfillment/rejection callbacks only update fixed passive observations and rethrow original failures. Added listeners observe actual child events; false flags do not prove an event never occurred.",
+    "Original2s close/kill races, absolute6s checks, ACK payload/version/sequence/outcomes, confirmed-only timer clearing and failed timer unref remain unchanged.",
+    "Original fault sequencing remains: ready is asserted before beginFault/send for wrong-sequence and legacy-selection. Driver expected/received frame and fault_input_attempted flags distinguish prerequisite failure from attempted injection.",
+    "The driver retains original IPC bounds/version/sequence, zero credential creation, cleanup outcome, natural exit, no supervisor force, owned TMPDIR emptiness,190s case timeout and6s final parent fallback. No injected fault is silently accepted or test omitted.",
+    "All15 root and7 bundle input pins are checked before original process spawn; copies are regular files beneath root .artifacts, without source symlinks or sandbox-specific bypass.",
+    "Candidate03 per-case approved_producer_sha256 now identifies the actual native or business source. The isolated driver does not change tracked CI, product behavior, credentials or test discovery."
+  ],
+  "runtime_limits": [
+    "Root reported prior terminal full22RED20pass2fail. wrong-sequence received cleaned before ready and its intended fault was not injected; legacy-selection lacked cleanup ACK. Their causes remain independently UNKNOWN.",
+    "No runtime has been executed for this candidate; ACCEPT_SOURCE_ONLY authorizes root copying/running exact inputs, not declaring the prior failures fixed.",
+    "Missing or late stderr observations remain UNKNOWN; first observed rejection callback is not causal ordering, and process exit or SDK fulfillment is not an independently proved process-group absence.",
+    "Root must retain terminal diagnostic counts, exact input before/after pins, faults actually reached, fallback flags and historical REDs. This copied22 diagnostic suite does not replace full125/17, final evidence review, exact-head hostedCI or protected queue admission."
+  ]
+}

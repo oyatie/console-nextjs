@@ -1,0 +1,12 @@
+{
+  "schema": "cache-variant-failure-location-candidate/1",
+  "status": "UNEXECUTED_DIAGNOSTIC_SOURCE_CANDIDATE",
+  "before_sha256": "3be5f8d095d22cd5c2588880650f26acebb92f535222232ad8da40bca16147da",
+  "after_sha256": "e462014ed1730297d671a07fedc5b41d9e7204ebbd9270f75956eb8ebb25a9fd",
+  "after_bytes": 49926,
+  "patch_sha256": "7a126a0ff65144a1d1f239180f05ac789a5b194dbe42c62ce90313c7f1ea1d02",
+  "unchanged_allowlisted_failure_helper_sha256": "682407048049f4ff76df89c5fa9af836f1985fddb36e4f8e7c8adcb34d9052e3",
+  "tests_executed": 0,
+  "tracked_source_writes": 0,
+  "changes": "One diagnostic assignment for nonqueued cacheVariant errors, exposing controlled internal literal mode and existing allowlisted browserFailureLocation or explicitnull. Existing queueddiagnostics unchanged; originalerror rethrownunchanged, all assertions/actions/events/timeouts/cleanup unchanged. No sourcecause claim or acceptance substitution."
+}

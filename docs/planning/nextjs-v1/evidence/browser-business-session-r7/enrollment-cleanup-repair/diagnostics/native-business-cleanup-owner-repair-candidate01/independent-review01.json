@@ -1,0 +1,102 @@
+{
+  "schema": "native-business-cleanup-owner-independent-review/1",
+  "verdict": "REQUEST_CHANGES",
+  "scope": "Exact immutable two-runner cleanup-owner candidate01, source only. No runtime cause, process22/full125/browser17 acceptance, portable seal, CI, or merge authorization.",
+  "inputs": {
+    "manifest.json": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/native-business-cleanup-owner-repair-candidate01/manifest.json",
+      "bytes": 1033,
+      "sha256": "bec4f421e84a6142866a53644536bbd45a47e2378645a86d5650eafefedb7e97"
+    },
+    "before/tools/test-browser-business-session.mjs": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/native-business-cleanup-owner-repair-candidate01/before/tools/test-browser-business-session.mjs",
+      "bytes": 52767,
+      "sha256": "ea936c0cdc8670261d556686b46a6d813b6479f4a8c6dd7b0925a42092e6aa2a"
+    },
+    "before/tools/test-native-browser-enrollment.mjs": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/native-business-cleanup-owner-repair-candidate01/before/tools/test-native-browser-enrollment.mjs",
+      "bytes": 13987,
+      "sha256": "6cbb58a1b2eae9f01d0b4d0838afd7c5c421c496a532fde056a1f33e153027ce"
+    },
+    "patch.diff": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/native-business-cleanup-owner-repair-candidate01/patch.diff",
+      "bytes": 7181,
+      "sha256": "b82177755a8bd2d6994e1cd8754152f49ff3cdf7463a5b2733816b94cc6de12b"
+    },
+    "proposal.json": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/native-business-cleanup-owner-repair-candidate01/proposal.json",
+      "bytes": 6732,
+      "sha256": "8b498fe59925c23c13c1590ff4b46c110a31c329cd30f68b20c19e88528faa42"
+    },
+    "tools/test-browser-business-session.mjs": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/native-business-cleanup-owner-repair-candidate01/tools/test-browser-business-session.mjs",
+      "bytes": 54246,
+      "sha256": "45f21ae3a40bf0d9e9b77a8558bd564ae61f62a067dab163d09b24bca8074dcb"
+    },
+    "tools/test-native-browser-enrollment.mjs": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/native-business-cleanup-owner-repair-candidate01/tools/test-native-browser-enrollment.mjs",
+      "bytes": 15154,
+      "sha256": "afd17a0d0a69358613e1ff6d03d24f27eb322bd558a8cf021390e32527fff22e"
+    }
+  },
+  "checks": {
+    "manifest_files_match": true,
+    "candidate_files_ordinary_read_only": true,
+    "supporting_source_pins_match": true,
+    "current_before_sources_match": true,
+    "exact_diff_matches": true,
+    "SDK_close_and_kill_share_waitForCleanup_after_child_close_and_async_temp_cleanup": true,
+    "same_existing_killing_promise_awaited_after_observed_child_close": true,
+    "all_grouped_business_close_attempts_settle_before_group_rejection": true,
+    "existing2s_close_2s_kill6s_finalization_watchdog_and_parent_budgets_unchanged": true,
+    "exact_ACK_protocol_creation_count_outcomes_and_process_exit_assertions_unchanged": true,
+    "first_owner_rejection_retained_before_file_removal_rejection": true,
+    "failure_does_not_clear_original_hard_timer_for_remaining_live_handles": true,
+    "business_stage_file_writer_is_owned_before_removal": false
+  },
+  "findings": [
+    {
+      "id": "BUSINESS_CERTIFICATE_WRITER_NOT_OWNED",
+      "severity": "contract_blocker",
+      "new_regression": false,
+      "path": "tools/test-browser-business-session.mjs",
+      "lines": [
+        864,
+        865
+      ],
+      "evidence": "The sequential cert/key writeFile awaits run outside startup. On interrupted finalization stop waits the already-fulfilled reservation listening startup promise, then can fulfill empty browser/runtime groups and remove stage while either file write remains pending. The revised process-only removal gate does not prove the relevant file writer settled.",
+      "requested_change": "Capture the same existing sequential cert/key writes in the existing startup promise, await that promise, then assert !closing before continuing. Keep operations, ordering, permissions, timers, ACK/outcome/count assertions, and owner paths otherwise unchanged.",
+      "scope_note": "This race predates candidate01. It blocks the stated no-stage-removal-before-relevant-owner-stop source contract; it is not evidence for the historical three runtime failures."
+    }
+  ],
+  "SDK_evidence": {
+    "path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/node_modules/playwright-core/lib/coreBundle.js",
+    "sha256": "549070af3acabb3efcc4f55bfe6210f9f7c2fcf633cf7eaa59bfe60719969171",
+    "lines": [
+      "9326-9333",
+      "9361-9368",
+      "9380-9391",
+      "9430-9432",
+      "39803-39849",
+      "57210-57214"
+    ],
+    "interpretation": "Actual close/kill ownership includes asynchronous SDK temp removal after child close. Promise fulfillment is the SDK contract, not an OS-wide process-group or physical absence proof; SDK logs and suppresses temp-removal errors."
+  },
+  "limits": [
+    "Historical cause remains UNKNOWN; isolated passing diagnostic did not reproduce or resolve prior RED.",
+    "Child exit/close and SDK owner fulfillment do not independently establish process-group absence or exact TMPDIR emptiness. The unchanged real-process tests must prove their own scoped assertions.",
+    "ACK bytes can enter the pipe before their write callback and post-write budget check; parent success still requires both exact ACK and expected natural exit within its unchanged clock.",
+    "Source review executed no test bodies and inspected no active-run logs."
+  ],
+  "required_root_verification": [
+    "Fresh current22 all-pass fault suite with exact ACK/outcome/zero credential attempts, expected natural exit, no supervisor forcing and empty owned TMPDIR.",
+    "Fresh full125/all17 browser pass on final pinned closure, with zero ignored/filtered/skipped/unreached required tests.",
+    "Current final metadata/evidence review, portable seal, immutable-head hosted CI and protected merge queue proof."
+  ],
+  "actions": {
+    "tests_executed": 0,
+    "tracked_source_writes": 0,
+    "process_actions": 0,
+    "artifact_only_review_write": true
+  }
+}

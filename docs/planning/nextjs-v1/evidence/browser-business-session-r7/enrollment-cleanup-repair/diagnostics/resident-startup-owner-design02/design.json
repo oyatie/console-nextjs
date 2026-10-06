@@ -1,0 +1,45 @@
+{
+  "schema": "resident-startup-owner-design/1",
+  "state": "REVISED_PROPOSED_NOT_IMPLEMENTED_NOT_EXECUTED",
+  "scope": "Narrow inheritedtest-only ResidentAuthenticator construction ownership repair; no product/business engine orSDK interface change. Root tracksources frozen untilfinalnative01terminal.",
+  "source_before_sha256": "30345239d9e8321ea9394dd5b5f75d91b5ca4d1b1a98a27c7360951a82179c45",
+  "finding": {
+    "location": "backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs90-163",
+    "failure": "Child launched beforethread::spawn calls106/121/145 canpanic, beforeSelf/Drop exists163; Node neitherkillednorwaited byChilddrop, earlierthreadsdetach; EOFdoesnotconfirmcleanup/reaping",
+    "introduced_by_current_diff": false
+  },
+  "constructor": [
+    "Create boundedinput/write/framechannels beforecommand.spawn; channel endpoints remain the same private protocol.",
+    "Immediately aftersuccessful childspawn initializeexistingSelf withChild, parent input/output/write channels, handlesNone, existingcounters/browserpid/failed=true/cleaned=false/timestamps, plus private constructing=true.",
+    "Takepipes and start3 workers withfalliblethread::Builder::spawn; install eachsuccessfulJoinHandle immediately inSelf; propagate fixedtyped pipe/threadstartup error. No panic-based threadcreation.",
+    "Retain all normal frame/schema/deadline/origin/browseridentity validation. Setconstructing=false onlyat fullysuccessful constructorreturn; readyvalidationfailures remain constructionfailures."
+  ],
+  "partial_cleanup": [
+    "Reuse existing close owner forcomplete andpartialstartup cleanup; constructing=true routesDrop cleanup errors tofixedmetadata instead ofsecondpanic sooriginalconstructorErr survives.",
+    "Closeinput/outputchannels andanyremainingchildstdin beforewaiting. Missinguncreatedworkers areallowedonlywithconstructing=true; ordinaryobjects stillrequireall3createdworkers andactualstderrworker result.",
+    "Keep entireordinary15s ACK/naturalexit budget unchanged. Partialstartupwithmissing readercannot awaitfabricatedACK; recordsfixedstartupincompletefailure whileactualEOF/Childstatus cleanup continues.",
+    "On15s Node-exit timeout invokeactualChild::kill once, retainstickyunconfirmed/forcedfailure, then use alreadyexisting15s workerphase forboundedtry_wait/reap pluspresentworker drain. No extra tailclock; totalfunctionphasebudget remains existingmax30s.",
+    "ObserveactualChildstatus beforeclaimingreaped; kill deliveryalone is notcleaned. Joinonlyfinishedthreads, neverunboundedwait/join. Absentthreads countasnotcreatedonlyinconstructionfailure; timedout/panickedthreads remainfailure.",
+    "CacheprivateCopy close_result afterthe oneboundedcleanupattempt toretainstickyfailure andpreventDrop retryingfreshbudgets. Completedattempt andsuccessfulcleanup are separate; noforced/unreaped/missingACK outcome canbecomeOk onsecondclose.",
+    "MaintainoriginalACKvalidation/browseridentity/outcome/exit checks onlyafterdurableactualobservations. Node-exit alone doesnotproveChromiumabsence. Anyunconfirmed browser/stdio orreaping custody remainsfailure/UNKNOWN."
+  ],
+  "open_design_question": {
+    "inherited_ordinary_close_timeout_kill_without_reap": "Addresswithinexistingsecond15s workerphase using actualtry_wait/reap andstickyfailure; no longer claimkilldeliverycleaned or skipreap. Rootexplicitlypermitsreuseexisting30s totalphasebudget, notwidened clocks."
+  },
+  "focused_regression": [
+    "Private fixed threadfailurepoints simulateonlythreadcreationErr afteractualChildowner exists. new() alwaysnormal/no-fault; noenvironment/public/SDK surface orprovider-success simulation.",
+    "Forwriter/reader/stderr creationfailures againstrealNodefixture, verifyexacttypedconstructorErr surviveswithoutsecondDroppanic, actualNodestatus observed/reaped andcreatedworkers finished underexistingboundedcleanup; anyforce/unconfirmed resource result isfailed, notpositivefixtureacceptance.",
+    "Do notinferChromiumabsence solelyfromNodeexit; observeactualownedbrowser identity/absence whereavailable orrecordbrowsercustodyUNKNOWN forpartialconstruction. Separate unchangedactualfixture done/EOF/verifiedSIGSTOP tests coveritspositiveBrowserServer lifecycle, notunobservedpartialcase.",
+    "Run unchangedshortfamilyconsumer andupdatedsource-pinned3caseprobe, thenfreshfull121/17. Preservecurrentfinalnative01ashistorical ifRustsourcechanges."
+  ],
+  "requirements_preserved": [
+    "NoSDKshadowing/providerfake-success",
+    "No newpublic/configsurface or secondengine",
+    "Normalprotocol and25/15/2/2/12 clocks unchanged",
+    "Partialuncreatedworkers never qualify ordinarysuccess",
+    "No rawerrors/IDs/business/secrets logged",
+    "No trackedwrites/tests untilroot appliesreviewedcandidate afterterminalgate"
+  ],
+  "review_request": "Independentadversarialdesignreview beforeartifactimplementation; reject/resolveopenordinarytimeout custodyquestion ratherthanclaimcompletefix.",
+  "revision": "Rootguidance: coherentexistingcleanupowner,15s ACK/naturalexit plus existing15s workerphase; no extra clock/duplicatedconstructionengine"
+}

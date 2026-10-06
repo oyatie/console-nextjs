@@ -1,0 +1,25 @@
+{
+  "schema": "queued-restore-ordering-design/1",
+  "at": "2026-10-06T05:03:46.269735+00:00",
+  "state": "PROPOSED_NOT_IMPLEMENTED; currentfull02sourcesfrozen",
+  "finding": "Actual pageshow timer can run logout before native reload response is confirmed held; logout cookie removal can bypass the native hold through local SSR denial. This is a structural test race, not established cause of no-cached-Document RED.",
+  "source_owner": "tools/browser-business-restore.mjs init probe and cacheVariant",
+  "proposal": [
+    "A trusted persisted pageshow queues the existing real mounted logout callback; callback awaits one private unresolved probe promise",
+    "After actual native readGate.wait confirms exact context and actual401, release validates original restoredDocument and single-use queued state",
+    "Snapshot React commit counter at release; require later sameDocument commit with strictly greater counter",
+    "Keep actual204, cookie removal, privacy latch, no-store, one reload, B independence and originalDocument assertions",
+    "Do not release the queued task during cleanup if native read never arrived",
+    "Preserve primary errors and attach only static cleanup-step failure labels; always attempt owned page closure; no invented gate acknowledgement or new cancel API"
+  ],
+  "review": [
+    "resident_failure_diagnostic_review accepts latch design and flags cleanup error masking",
+    "Independent second design review pending"
+  ],
+  "requirements_preserved": [
+    "all17scenario assertions remain mandatory",
+    "no synthetic pageshow, API response, credential or React state",
+    "all existing deadlines unchanged"
+  ],
+  "next_proof": "Reviewed stronger test against existing behavior before latch repair; exact real-service browser proof then full native acceptance; retain all REDs"
+}

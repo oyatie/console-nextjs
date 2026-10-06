@@ -1,0 +1,46 @@
+TAP version 13
+# Subtest: slow prerequisite startup does not spend the requested cleanup budget
+ok 1 - slow prerequisite startup does not spend the requested cleanup budget
+  ---
+  duration_ms: 1.539375
+  type: 'test'
+  ...
+# Subtest: a ready runner that fails to exit still triggers the cleanup fallback
+ok 2 - a ready runner that fails to exit still triggers the cleanup fallback
+  ---
+  duration_ms: 1.112459
+  type: 'test'
+  ...
+# Subtest: never-ready startup has one absolute bounded termination deadline
+ok 3 - never-ready startup has one absolute bounded termination deadline
+  ---
+  duration_ms: 0.9125
+  type: 'test'
+  ...
+# Subtest: a second fault cannot reset an already running cleanup deadline
+ok 4 - a second fault cannot reset an already running cleanup deadline
+  ---
+  duration_ms: 0.267375
+  type: 'test'
+  ...
+# Subtest: late cleanup cannot erase evidence of forced intervention
+ok 5 - late cleanup cannot erase evidence of forced intervention
+  ---
+  duration_ms: 0.29675
+  type: 'test'
+  ...
+# Subtest: natural completion disposes both clocks and cannot rearm them
+ok 6 - natural completion disposes both clocks and cannot rearm them
+  ---
+  duration_ms: 0.251416
+  type: 'test'
+  ...
+1..6
+# tests 6
+# suites 0
+# pass 6
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 62.780708

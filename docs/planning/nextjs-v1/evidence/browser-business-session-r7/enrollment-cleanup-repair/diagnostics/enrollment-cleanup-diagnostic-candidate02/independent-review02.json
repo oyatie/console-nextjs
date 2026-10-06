@@ -1,0 +1,105 @@
+{
+  "schema": "enrollment-cleanup-diagnostic-independent-review/2",
+  "verdict": "ACCEPT_SOURCE_ONLY",
+  "scope": "Exact candidate02 unchanged failure-only producer diagnostic plus corrected isolated same-producer EOF-after-ready driver. Root alone copies/executes. No semantic cleanup repair, actual cause, process22/full125/17 or merge acceptance.",
+  "inputs": {
+    "manifest.json": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/enrollment-cleanup-diagnostic-candidate02/manifest.json",
+      "bytes": 1999,
+      "sha256": "c25aa3e153b2d31edd9f405142a98341cfd0e3f1faa65d6efa0c8c11e9baac08"
+    },
+    "before.mjs": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/enrollment-cleanup-diagnostic-candidate02/before.mjs",
+      "bytes": 13987,
+      "sha256": "6cbb58a1b2eae9f01d0b4d0838afd7c5c421c496a532fde056a1f33e153027ce"
+    },
+    "tools/test-native-browser-enrollment.mjs": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/enrollment-cleanup-diagnostic-candidate02/tools/test-native-browser-enrollment.mjs",
+      "bytes": 18733,
+      "sha256": "bcd5fb0730bdc268d35dbd220fb8c44bbf35b3219ea1deffba95b3a8a9e6d3f6"
+    },
+    "tools/test-native-browser-enrollment-diagnostic.test.mjs": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/enrollment-cleanup-diagnostic-candidate02/tools/test-native-browser-enrollment-diagnostic.test.mjs",
+      "bytes": 13530,
+      "sha256": "1545f9c29e82dcb33212d02020a7dad9a23fbc25860af945e5f9d5b4efab518e"
+    },
+    "before-driver01.mjs": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/enrollment-cleanup-diagnostic-candidate02/before-driver01.mjs",
+      "bytes": 13191,
+      "sha256": "58099e7bf5d539a35117818a76bb4d50b4af0dece3f2c35a17fe9c5f41c444f7"
+    },
+    "driver-review-repair.diff": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/enrollment-cleanup-diagnostic-candidate02/driver-review-repair.diff",
+      "bytes": 2062,
+      "sha256": "483eddee72fa2b97a726122b8bf5a9d4e25b537bc5f64f5b50fb16d649be76b8"
+    },
+    "patch.diff": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/enrollment-cleanup-diagnostic-candidate02/patch.diff",
+      "bytes": 8442,
+      "sha256": "f323b64574abf791176372b71664742164964d56041f6eb32dafdf15e563f919"
+    },
+    "root-input-pins.json": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/enrollment-cleanup-diagnostic-candidate02/root-input-pins.json",
+      "bytes": 1974,
+      "sha256": "dfe06bb291c2e5ddc53f6077911144ec9e8bfb58ee3f489165d09f2fb7551333"
+    },
+    "diagnostic-schema.json": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/enrollment-cleanup-diagnostic-candidate02/diagnostic-schema.json",
+      "bytes": 1478,
+      "sha256": "96196e0d6347177555972492f3db32eb08a92f9de0558bf15eed968ccbd60d18"
+    },
+    "proposal.json": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/enrollment-cleanup-diagnostic-candidate02/proposal.json",
+      "bytes": 4920,
+      "sha256": "a6c1b5c83b8e32720e3ca87e1922d6c0c8cb5223cd81725b4423b170d1e7a21d"
+    }
+  },
+  "prior_request_changes": {
+    "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/enrollment-cleanup-diagnostic-candidate01/independent-review01.json",
+    "bytes": 6322,
+    "sha256": "2cf388701124bdb597c8864c879edb5a9de658f0bcf8cab92140d86ca5e47051"
+  },
+  "checks": {
+    "every_frozen_artifact_matches_manifest": true,
+    "exact_driver_revision_reconstructs_frozen_bytes": true,
+    "producer_identical_to_reviewed01_bcd5_pin": true,
+    "actual_root_helpers_server_supervisor_buildinput_package_SDK_and_bundle_pins_match_before_execution": true,
+    "driver_ROOT_and_BUNDLE_literals_match_manifest_provenance": true,
+    "same_real_producer_and_existing_EOF_after_ready_action": true,
+    "copies_beneath_worktree_artifacts_with_cwd_root_no_tracked_or_build_source_writes": true,
+    "original2s_owner_races_6s_harddeadline140_150s_startup25_35s_fault_and6s_final_fallback_preserved": true,
+    "original_rejections_exit_checks_ACK_fields_outcome_failure_timer_clear_and_skipped_stage_rm_preserved": true,
+    "only_failure_fixed_enums_booleans_no_raw_error_path_ID_credential_or_payload": true,
+    "browser_next_and_main_stage_separate_SDK_settlement_distinct_from_exit_close": true,
+    "bounded_transient_stderr_line_decode_exact_schema_max2_records": true,
+    "late_observers_cannot_rewrite_prior_serialized_diagnostic": true,
+    "no_metadata_can_release_ACK_or_replace_failed_cleanup_with_success": true,
+    "unchanged_natural_exit_exact_ACK_zero_credential_attempts_no_supervisor_force_owned_scope_empty_assertions": true,
+    "supervisor_forced_separate_from_existing_final_cleanup_signal_attempt_flags": true,
+    "signal_attempt_flags_set_before_unchanged_signal_calls_and_do_not_claim_delivery": true
+  },
+  "resolved_findings": [
+    {
+      "id": "PARENT_FORCE_OBSERVATION_OMITS_FINAL_FALLBACK",
+      "resolution": "Observation schema2 names supervisor_forced accurately and separately records final cleanup SIGTERM/SIGKILL attempted flags before original calls. No timer/wait/retry or cleanup assertion change."
+    }
+  ],
+  "findings": [],
+  "execution_conditions": [
+    "Root-only ordinary copy of exact reviewed bundle beneath W/.artifacts; no source symlinks or mutation of tracked/build inputs.",
+    "Invoke copied driver and producer from the same bundle with cwd W. Driver verifies exact root producer/helper/server/supervisor/package/build manifest/SDK and bundle bytes before spawn; root preserves candidate/root closure pins in run evidence.",
+    "Existing full125 input closure remains frozen. This copied diagnostic run is separate, not a replacement acceptance body."
+  ],
+  "limits": [
+    "Diagnostic retains existing RED cleanup behavior deliberately, including early failure timer clearing and skipped stage removal; source acceptance is not repair approval.",
+    "SDK promise settlement and Node child exit/close do not prove Chromium process-group absence. False event flags mean unobserved, not no event.",
+    "Signal-attempt flags prove only calls attempted, not delivery, effect or successful custody.",
+    "Failure-only metadata is a synchronous bounded snapshot, not independent causal ordering. Emission/validation absence remains unknown.",
+    "A green isolated retry does not resolve prior19/22RED. Required process22 and full125/17 plus current final metadata/evidence/portable/hosted/protectedqueue proof remain required."
+  ],
+  "actions": {
+    "tests_executed": 0,
+    "tracked_source_writes": 0,
+    "artifact_only_review_write": true
+  }
+}

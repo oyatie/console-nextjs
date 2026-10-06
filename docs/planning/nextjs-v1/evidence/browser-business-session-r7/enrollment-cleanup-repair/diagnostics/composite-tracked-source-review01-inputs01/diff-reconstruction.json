@@ -1,0 +1,19 @@
+{
+  "schema": "frozen-composite-diff-reconstruction/1",
+  "status": "EXACT_RECONSTRUCTED_REVIEWED_DIFF",
+  "sha256": "3a9db7d1bc977675a1d466ced5ff797c63fa03790acac0d4a2cba7bffc976a9e",
+  "expected_reviewed_sha256": "3a9db7d1bc977675a1d466ced5ff797c63fa03790acac0d4a2cba7bffc976a9e",
+  "bytes": 112402,
+  "expected_reviewed_bytes": 112402,
+  "base": "c3793f92dab565de104224fc705578c543d85b64",
+  "source_manifest02_sha256": "ea36491cfa0b483c30f7d55e4b2739be0c1fb2b5e3dcbdc30b8dc7ec10b35f9e",
+  "method": "Temporary GIT_INDEX_FILE initialized at HEAD, immutable snapshot blobs via hash-object, update-index cacheinfo, git diff --cached HEAD --binary --no-ext-diff. Actual repository index, refs and tracked source not modified.",
+  "limit": "Artifact-only byte reconstruction; source-only reviewer acceptance remains separate from runtime/merge approval.",
+  "actions": {
+    "tests_executed": 0,
+    "tracked_source_writes": 0,
+    "real_index_or_ref_writes": 0,
+    "immutable_git_blob_objects_added": true,
+    "artifact_only_write": true
+  }
+}

@@ -1,0 +1,72 @@
+{
+  "schema": "resident-setup-diagnostic-tampering-terminal-audit/1",
+  "verdict": "ACCEPT_SCOPED_PASS_TERMINAL_EVIDENCE_ONLY",
+  "scope": "Independent exact report/log/captured-map audit of one actual selected encrypted-proof tampering native test after reviewed paired diagnostic02. No test rerun, original root session consumption, source regeneration, current full-gate or cause proof.",
+  "inputs": {
+    "report": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/resident-setup-diagnostic-tampering-native01.json",
+      "bytes": 1215,
+      "sha256": "7a70eb04364566ea3df9434b2907835be6d7721f5288a2cd43c60ba191429b88"
+    },
+    "log": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/resident-setup-diagnostic-tampering-native01.log",
+      "bytes": 3373,
+      "sha256": "23b7dc8c03b62b13d66a0ae1cab37b58f14adf49abc97f014dd5a7776d184dfc"
+    },
+    "inputs": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/resident-setup-diagnostic-tampering-native01.inputs.json",
+      "bytes": 917481,
+      "sha256": "0bbeaf06882e9ca46babb7414e88f0b39e50924d43ff2daa5aff549ce0955b14"
+    }
+  },
+  "actual_native": {
+    "test_name": "browser_sessions::encrypted_proof_or_metadata_tampering_is_denied_without_reminting_authority",
+    "executed": 1,
+    "passed": 1,
+    "failed": 0,
+    "ignored": 0,
+    "measured": 0,
+    "filtered": 124,
+    "body_duration_seconds": 3.69,
+    "wrapper_duration_seconds": 46.62316954205744,
+    "exit_code": 0,
+    "outer_timeout": false
+  },
+  "source_inputs": {
+    "sha256": "0bbeaf06882e9ca46babb7414e88f0b39e50924d43ff2daa5aff549ce0955b14",
+    "before_entries": 2958,
+    "after_entries": 2958,
+    "all_before_after_equal": true,
+    "selected_pins": {
+      "tools/test-resident-authenticator.mjs": "3270d79e4a3511cba87b9998367b3918a00bdcebbc2935bb903019c319f13698",
+      "backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs": "1a9ef29ee164cdeca5573a5b750b49f54f5e215f19a8709d9a8309ab5f71766f",
+      "tools/browser-business-restore.mjs": "183df5e840c6fbd46c77ca7fa4ba8301801606870b970173a89ac784a27ddf4c"
+    },
+    "limit": "Captured map checked, no independent regeneration. Source changed from full125 frozen run; this selected pass does not certify all125 or17 browser cases."
+  },
+  "failure_diagnostic": {
+    "fixed_tag_occurrences": {
+      "RESIDENT_SETUP_DIAGNOSTIC": 0,
+      "RESIDENT_FIRST_FRAME_FAILURE": 0,
+      "RESIDENT_CLEANUP_DIAGNOSTIC": 0
+    },
+    "recurring_first_frame_failure_observed": false,
+    "historical_first_frame_setup_phase": "UNOBSERVED",
+    "historical_first_frame_specific_cause": "UNPROVEN",
+    "limit": "Successful selected rerun produced no setup failure/first-frame diagnostic. It does not establish or fix the historical full-run failure cause; do not fabricate a failure to obtain diagnosis."
+  },
+  "cleanup": {
+    "database_lane_cleanup_line_observed": true,
+    "independent_browser_group_and_temp_custody": "NOT_TESTED_BY_THIS_SELECTED_CASE"
+  },
+  "remaining_required": [
+    "Unresolved P16 queued-react-css full-browser failure must be diagnosed/repaired with exact evidence.",
+    "Fresh final-source unfiltered125-native/all17-browser gate; required failures are not cleared by isolated pass.",
+    "Fresh source/metadata bindings and accepted evidence/hosted CI/protected merge admission."
+  ],
+  "actions": {
+    "tests_executed": 0,
+    "tracked_source_writes": 0,
+    "artifact_only_audit_write": true
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "command": [
+    "fnm",
+    "exec",
+    "--using",
+    "24.21.0",
+    "node",
+    "--test",
+    "--test-reporter=tap",
+    "tools/enrollment-fault-deadlines.test.mjs",
+    "tools/test-native-browser-enrollment.test.mjs"
+  ],
+  "exit_code": 0,
+  "counts": {
+    "tests": 22,
+    "pass": 22,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0
+  },
+  "inputs_before": {
+    "tools/test-native-browser-enrollment.test.mjs": "3204b466940c270897814f9100ee8f92fbddfdc937e7b71a06406dacac778ead",
+    "tools/test-native-browser-enrollment.mjs": "6cbb58a1b2eae9f01d0b4d0838afd7c5c421c496a532fde056a1f33e153027ce",
+    "tools/test-browser-business-session.mjs": "ea936c0cdc8670261d556686b46a6d813b6479f4a8c6dd7b0925a42092e6aa2a",
+    "tools/production-runtime.mjs": "7e4d05bac69900295f8777c931999f2987acd36c947f281cbea7d1bbdf673367",
+    "tools/enrollment-fault-deadlines.mjs": "6f80266162d5413bcda245b17536b991518e95e22f5b1a7001067aaa4120fc06",
+    "tools/enrollment-fault-deadlines.test.mjs": "7e4aa20a3cfac678c5f5d8b620456da7b6e74d72fd6f64824b05cde363bc4bca"
+  },
+  "inputs_after": {
+    "tools/test-native-browser-enrollment.test.mjs": "3204b466940c270897814f9100ee8f92fbddfdc937e7b71a06406dacac778ead",
+    "tools/test-native-browser-enrollment.mjs": "6cbb58a1b2eae9f01d0b4d0838afd7c5c421c496a532fde056a1f33e153027ce",
+    "tools/test-browser-business-session.mjs": "ea936c0cdc8670261d556686b46a6d813b6479f4a8c6dd7b0925a42092e6aa2a",
+    "tools/production-runtime.mjs": "7e4d05bac69900295f8777c931999f2987acd36c947f281cbea7d1bbdf673367",
+    "tools/enrollment-fault-deadlines.mjs": "6f80266162d5413bcda245b17536b991518e95e22f5b1a7001067aaa4120fc06",
+    "tools/enrollment-fault-deadlines.test.mjs": "7e4aa20a3cfac678c5f5d8b620456da7b6e74d72fd6f64824b05cde363bc4bca"
+  },
+  "raw_log_sha256": "ae17b8d10a24dfa5d6522050ac09e7b0bcbdc09c9dbbe7222d2e788ae2ad79ef",
+  "scope": "Full unfiltered six deadline-policy units and sixteen real-process faults (thirteen native, three product), including all original ten faults and six startup-EOF variants. No native/API/browser scenario acceptance."
+}

@@ -1,0 +1,108 @@
+{
+  "schema": "bounded-pr16-staged-publication-custody-review/1",
+  "reviewer": "p16_owner_mechanism",
+  "created_at_utc": "2026-10-06T12:41:21.643545+00:00",
+  "verdict": "ACCEPT_BOUNDED_PR16_STAGED_PUBLICATION_AND_METADATA_CORRECTION",
+  "scope": "Exact staged publication tree and final checkpoint metadata. Reuses accepted config/source/local evidence and original local-seal review. No tests, hostedCI/queue, deployment, MVP or launch acceptance.",
+  "source_parent": "894ae36e7170245b027d0688b26b6e46da461c13",
+  "reviewed_custody_report": {
+    "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/pr16-publication/git-publication-custody-report01.json",
+    "sha256": "c9173298822b5498c01038073384655d8231c913f3db78b48e73efa962cf9f9f",
+    "bytes": 299254,
+    "records": 818
+  },
+  "independent_git_index_verification": {
+    "original_reviewed_files": 787,
+    "followup_reviewed_files": 28,
+    "source_metadata_files": 3,
+    "total_expected_paths": 818,
+    "unique_actual_git_blobs_read_and_verified": 608,
+    "all_path_stage_zero_and_regular_file_modes": true,
+    "all_worktree_bytes_sizes_sha256_match_frozen_report": true,
+    "all_staged_oids_match_frozen_report_and_actual_git_blob_hash": true,
+    "all_git_cat_file_actual_blob_bytes_sizes_sha256_match_reviewed_records": true,
+    "missing_files": 0,
+    "unstaged_tracked_changes": 0,
+    "unrelated_staged_paths": 0,
+    "staged_diff_paths": 109,
+    "staged_diff_exact_composition": {
+      "original_omitted_assets_restored": 78,
+      "complete_followup_files_added": 28,
+      "source_metadata_files": 3
+    },
+    "method": "Read git ls-files --stage; compare exact818 expected path set and every recorded SHA/size/OID against worktree; read all608 unique staged objects using git cat-file --batch and compare actual Git blob bytes; compare staged diff path set and clean tracked worktree."
+  },
+  "published_parent_gap": {
+    "head": "894ae36e7170245b027d0688b26b6e46da461c13",
+    "actual_original_evidence_files_in_commit": 709,
+    "reviewed_local_original_files": 787,
+    "omitted_reviewed_assets": 78,
+    "omitted_logs": 76,
+    "omitted_archived_dependency_manifests": 2,
+    "omitted_nonlog_paths": [
+      "snapshots/stress-dependencies05/node_modules/@playwright/test/package.json",
+      "snapshots/stress-dependencies05/node_modules/playwright-core/package.json"
+    ],
+    "all_omissions_independently_confirmed_from_immutable_parent_git_tree": true,
+    "all_omitted_assets_match_original_sealed_bytes": true,
+    "parent_package_complete": false,
+    "disposition": "Exact78 already reviewed artifact paths explicitly added to current index. No archive-byte or sealed-index change; no broad force-add of unrelated data."
+  },
+  "metadata_delta_review": {
+    "current_sha256": {
+      "docs/planning/nextjs-v1/IMPLEMENTATION.md": "12f3465bb5201adc4e8ce7603d85c1b4be48143862dea0171e4e4f899b1be55b",
+      "docs/planning/nextjs-v1/requirements-and-evidence.json": "a38468289719d3b406bd3d1c726938b3217fb4495eb90bb70ce3e4a04a4101e2"
+    },
+    "prior_config_review_metadata_sha256": {
+      "docs/planning/nextjs-v1/IMPLEMENTATION.md": "4bfb0198aa52ad779720618abdeca31baf8925d469e906f1893970ba6c334f68",
+      "docs/planning/nextjs-v1/requirements-and-evidence.json": "b5cb2ddb98b6c95cd542a1fb11244ee0a0da226f85f5549278c04a3b3d35471d"
+    },
+    "complete_staged_deltas_read": true,
+    "added_claims_verified": [
+      "894ae36 omitted78 reviewed assets through ignore coverage; remote package was incomplete.",
+      "Local copied-package integrity is distinct from Git-index/publication custody.",
+      "Current correction adds exact original bytes and complete followup assets.",
+      "Separate path-only publication review is required before commit."
+    ],
+    "no_new_product_api_runtime_or_acceptance_claims": true
+  },
+  "unchanged_prior_acceptance_reused": {
+    "configuration_source_metadata_local_evidence_review_sha256": "ecfa0e95577a9839a8665a40dd70e2e1810323763d0a4455f2a44f2f073dde95",
+    "original_local_copy_postseal_review_sha256": "63a8f00eb973041e2d7daa32bff2747977892322a871255322a1bb0fa8f60ff4",
+    "original_sealed_index_sha256": "5a0dcdf8cb10fc09bf364a29272124fa412598b5c05c033146257963cdc84037",
+    "followup_26asset_index_sha256": "561948036cc0a207107e6736ea02df8f1e6be415dabdb4ad144044dfe0158f2e",
+    "candidate_tsconfig_sha256": "ccf246d7611d18b133521c0db25ad40448d2f4706a8b84ed6d313415b09d1ee8",
+    "all_original781_and_followup26_indexed_asset_bytes_unchanged_in_actual_git_index": true,
+    "new_product_code_delta": false,
+    "limit": "ecfa source/config/local proof reused; its previous metadata hashes are historical, current added checkpoint metadata is reviewed here. 63a8 attests local copied-package integrity, not successful earlier Git publication."
+  },
+  "preserved_acceptance_limits": [
+    "Original hostedCI37461335987 at894ae36 failed lint;34 steps skipped. No repaired hostedCI pass is inferred.",
+    "Compiler/HARNESS/wrapper/stdin failures and corrected staging-only claim remain preserved in followup evidence.",
+    "Prior22process/125native/17embeddedbrowser proof remains on original configuration; not relabelled to currentconfig.",
+    "Original native and delayed-bundle causes remain UNKNOWN where previously unproven.",
+    "HR/Organization/Payroll/Foundry, physical identity, two-site durability, capacity/restore/migration and full release remain incomplete."
+  ],
+  "cycle_free_final_receipt_publication": {
+    "this_receipt_outside_both_index_asset_lists": true,
+    "receipt_has_no_selfhash": true,
+    "root_next_step": "Copy this exact accepted external receipt verbatim to typescript-discovery-repair/git-publication-review.json, then verify its accepted SHA, stage that exact path and compare its actual Git blob separately. The frozen818-record report precedes that copy; do not relabel its28 followup count as including this future receipt or mutate either sealed index.",
+    "expected_additional_file": 1,
+    "expected_followup_files_after_final_receipt_copy": 29,
+    "expected_total_reviewed_paths_after_final_receipt_copy": 819
+  },
+  "remaining_required": [
+    "Root verifies and stages final copied review receipt separately, then publishes exact human-attributed commit.",
+    "Verify committed tree/remote head contains all reviewed evidence and exact source bytes.",
+    "Fresh full required hostedCI on that exact head.",
+    "Normal protected merge queue/merge-group acceptance without bypass."
+  ],
+  "actions": {
+    "tests_executed": 0,
+    "tracked_edits": 0,
+    "index_staging_mutations": 0,
+    "sealed_evidence_mutations": 0,
+    "git_github_infrastructure_or_process_mutations": 0,
+    "external_review_receipt_only": true
+  }
+}

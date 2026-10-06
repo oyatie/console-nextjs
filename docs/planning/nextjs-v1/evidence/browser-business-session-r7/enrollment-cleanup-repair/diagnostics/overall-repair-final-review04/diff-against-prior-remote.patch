@@ -1,0 +1,3289 @@
+diff --git a/.github/workflows/ci.yml b/.github/workflows/ci.yml
+index a9ea12c..b37c3c4 100644
+--- a/.github/workflows/ci.yml
++++ b/.github/workflows/ci.yml
+@@ -38,7 +38,7 @@ jobs:
+       - run: node --test tools/test-production-runtime.test.mjs
+       - run: node --test tools/browser-business-failure.test.mjs tools/browser-business-temporal.test.mjs
+       - run: npx playwright install --with-deps chromium
+-      - run: node --test tools/test-native-browser-enrollment.test.mjs
++      - run: node --test tools/enrollment-fault-deadlines.test.mjs tools/test-native-browser-enrollment.test.mjs
+       - run: rustup toolchain install 1.98.1 --profile minimal
+       - run: rustup component add clippy rustfmt --toolchain 1.98.1
+       - name: Rust format
+diff --git a/backend-fork/backend/app/tests/auth_rest/browser_sessions.rs b/backend-fork/backend/app/tests/auth_rest/browser_sessions.rs
+index f558a44..bc9e7c5 100644
+--- a/backend-fork/backend/app/tests/auth_rest/browser_sessions.rs
++++ b/backend-fork/backend/app/tests/auth_rest/browser_sessions.rs
+@@ -3233,17 +3233,97 @@ async fn prepare_real_worker_storage(pool: &PgPool) {
+         .expect("Apalis owner preparation must pass independently of cleanup behavior");
+ }
+ 
++// Drain every byte without retaining or publishing subprocess error contents.
++// Only bounded line prefixes are examined for fixed startup failure classes.
++#[derive(Default)]
++struct WorkerStderr {
++    bytes: usize,
++    app_error: Option<&'static str>,
++    address_in_use: bool,
++    panicked: bool,
++    thread_spawn: bool,
++    read_failed: bool,
++}
++
++impl WorkerStderr {
++    fn classify(&mut self, prefix: &[u8]) {
++        for variant in [
++            "Config",
++            "Database",
++            "Internal",
++            "Io",
++            "Storage",
++            "Telemetry",
++            "Worker",
++            "Realtime",
++        ] {
++            if prefix.starts_with(format!("Error: {variant}(").as_bytes()) {
++                self.app_error = Some(variant);
++                if variant == "Io" {
++                    self.address_in_use |= prefix
++                        .windows(b"kind: AddrInUse".len())
++                        .any(|part| part == b"kind: AddrInUse");
++                }
++            }
++        }
++        self.panicked |= prefix
++            .windows(b"panicked at".len())
++            .any(|part| part == b"panicked at");
++        self.thread_spawn |= prefix
++            .windows(b"OS can't spawn worker thread:".len())
++            .any(|part| part == b"OS can't spawn worker thread:");
++    }
++
++    fn drain(mut stderr: std::process::ChildStderr) -> Self {
++        use std::io::Read as _;
++        let mut result = Self::default();
++        let mut bytes = [0_u8; 8192];
++        let mut prefix = Vec::with_capacity(512);
++        loop {
++            match stderr.read(&mut bytes) {
++                Ok(0) => break,
++                Ok(length) => {
++                    result.bytes = result.bytes.saturating_add(length);
++                    for byte in &bytes[..length] {
++                        if *byte == b'\n' {
++                            result.classify(&prefix);
++                            prefix.clear();
++                        } else if prefix.len() < 512 {
++                            prefix.push(*byte);
++                        }
++                    }
++                }
++                Err(error) if error.kind() == std::io::ErrorKind::Interrupted => continue,
++                Err(_) => {
++                    result.read_failed = true;
++                    break;
++                }
++            }
++        }
++        result.classify(&prefix);
++        result
++    }
++}
++
+ struct RealWorker {
+     child: std::process::Child,
+     ready_url: String,
+     service: String,
+     worker_id: String,
++    stderr: Option<std::thread::JoinHandle<WorkerStderr>>,
++    spawned_at: std::time::Instant,
++    ready_verified: bool,
++    last_ready: &'static str,
++    last_registered: bool,
+ }
+ 
+ impl Drop for RealWorker {
+     fn drop(&mut self) {
+         let _ = self.child.kill();
+         let _ = self.child.wait();
++        if let Some(reader) = self.stderr.take() {
++            let _ = reader.join();
++        }
+     }
+ }
+ 
+@@ -3280,6 +3360,7 @@ impl RealWorker {
+             "fixture must use a genuinely new worker identity"
+         );
+         drop(reserve);
++        let spawned_at = std::time::Instant::now();
+         let child = std::process::Command::new(env!("CARGO_BIN_EXE_console-app"))
+             .env_clear()
+             .env("CONSOLE_APP_ROLE", "worker")
+@@ -3292,7 +3373,7 @@ impl RealWorker {
+             .env("RUST_LOG", "error")
+             .stdin(std::process::Stdio::null())
+             .stdout(std::process::Stdio::null())
+-            .stderr(std::process::Stdio::null())
++            .stderr(std::process::Stdio::piped())
+             .spawn()
+             .expect("worker fixture prerequisite: binary must spawn");
+         let mut worker = Self {
+@@ -3300,7 +3381,19 @@ impl RealWorker {
+             ready_url: format!("http://{addr}/readyz"),
+             service,
+             worker_id,
++            stderr: None,
++            spawned_at,
++            ready_verified: false,
++            last_ready: "unobserved",
++            last_registered: false,
+         };
++        // The owner guard must exist before diagnostic thread creation can fail.
++        let stderr = worker.child.stderr.take().expect("worker diagnostic pipe");
++        worker.stderr = Some(
++            std::thread::Builder::new()
++                .spawn(move || WorkerStderr::drain(stderr))
++                .unwrap_or_else(|_| panic!("worker diagnostic reader start")),
++        );
+         worker.require_ready(owner).await;
+         worker
+     }
+@@ -3313,20 +3406,28 @@ impl RealWorker {
+         loop {
+             self.require_alive();
+             let mut ready = false;
+-            if let Ok(response) = client.get(&self.ready_url).send().await
+-                && response.status() == reqwest::StatusCode::OK
+-                && let Ok(bytes) = response.bytes().await
+-                && let Ok(body) = serde_json::from_slice::<Value>(&bytes)
+-            {
+-                ready = body["service"].as_str() == Some(self.service.as_str())
+-                    && body["role"] == "worker"
+-                    && body["status"] == "ready"
+-                    && body["write_ready"] == false;
++            self.last_ready = "request_failed";
++            if let Ok(response) = client.get(&self.ready_url).send().await {
++                self.last_ready = "non_ok_status";
++                if response.status() == reqwest::StatusCode::OK {
++                    self.last_ready = "invalid_response";
++                    if let Ok(bytes) = response.bytes().await
++                        && let Ok(body) = serde_json::from_slice::<Value>(&bytes)
++                    {
++                        ready = body["service"].as_str() == Some(self.service.as_str())
++                            && body["role"] == "worker"
++                            && body["status"] == "ready"
++                            && body["write_ready"] == false;
++                        self.last_ready = if ready { "ready" } else { "identity_mismatch" };
++                    }
++                }
+             }
+             let registered:bool=sqlx::query_scalar("SELECT EXISTS(SELECT 1 FROM apalis.workers WHERE id=$1 AND worker_type='console.dispatch')")
+                 .bind(&self.worker_id).fetch_one(owner).await.unwrap();
++            self.last_registered = registered;
+             if ready && registered {
+                 self.require_alive();
++                self.ready_verified = true;
+                 return;
+             }
+             assert!(
+@@ -3337,10 +3438,31 @@ impl RealWorker {
+         }
+     }
+     fn require_alive(&mut self) {
+-        assert!(
+-            self.child.try_wait().unwrap().is_none(),
+-            "worker infrastructure failure: process exited before cleanup proof"
+-        );
++        if let Some(status) = self.child.try_wait().unwrap() {
++            let drained = self.stderr.take().map(|reader| reader.join());
++            let (drain_joined, evidence) = match drained {
++                Some(Ok(evidence)) => (true, evidence),
++                _ => (false, WorkerStderr::default()),
++            };
++            let phase = if self.ready_verified {
++                "runtime"
++            } else {
++                "startup"
++            };
++            eprintln!(
++                "REAL_WORKER_FAILURE exit_status={status:?} phase={phase} elapsed_ms={} last_ready={} registered={} drain_joined={drain_joined} stderr_bytes={} app_error={:?} address_in_use={} panicked={} thread_spawn={} read_failed={}",
++                self.spawned_at.elapsed().as_millis(),
++                self.last_ready,
++                self.last_registered,
++                evidence.bytes,
++                evidence.app_error,
++                evidence.address_in_use,
++                evidence.panicked,
++                evidence.thread_spawn,
++                evidence.read_failed
++            );
++            panic!("worker infrastructure failure: process exited before cleanup proof");
++        }
+     }
+     fn crash(&mut self) {
+         self.child.kill().expect("crash real worker");
+diff --git a/backend-fork/backend/app/tests/auth_rest/genuine_browser.rs b/backend-fork/backend/app/tests/auth_rest/genuine_browser.rs
+index 2ed1c9d..3a65a38 100644
+--- a/backend-fork/backend/app/tests/auth_rest/genuine_browser.rs
++++ b/backend-fork/backend/app/tests/auth_rest/genuine_browser.rs
+@@ -135,7 +135,14 @@ impl Browser {
+         if self.received >= self.max_frames {
+             return Err("infrastructure: frame count");
+         }
+-        let frame = timeout(self.phase, async {
++        // Runtime staging precedes the first origin frame. Keep later native
++        // ceremony phases at 20s and the enclosing probe/cleanup bounds intact.
++        let deadline = if self.received == 0 {
++            StdDuration::from_secs(90)
++        } else {
++            self.phase
++        };
++        let frame = timeout(deadline, async {
+             let length = self
+                 .output
+                 .read_u32()
+@@ -956,6 +963,12 @@ async fn run_probe(
+     )
+     .await
+     .unwrap_or(Err("infrastructure: overall deadline"));
++    if let Err(reason) = &result {
++        eprintln!(
++            "NATIVE_BROWSER_FAILURE {reason} checked_frames={}",
++            browser.received
++        );
++    }
+     if let Some(server) = server {
+         server.abort();
+         let _ = server.await;
+diff --git a/backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs b/backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs
+index 224bb0a..5b8efa6 100644
+--- a/backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs
++++ b/backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs
+@@ -18,7 +18,107 @@ const MAX_FRAME: usize = 65_536;
+ const MAX_FRAMES: u64 = 128;
+ const PHASE: Duration = Duration::from_secs(25);
+ const CLEANUP: Duration = Duration::from_secs(15);
++#[derive(serde::Deserialize, Debug)]
++#[serde(rename_all = "kebab-case")]
++enum CleanupStage {
++    Startup,
++    BrowserIdentity,
++    BrowserClose,
++    BrowserKill,
++    BrowserCleanup,
++    OwnedTemp,
++    BrowserExit,
++    Ack,
++}
++
++#[derive(serde::Deserialize, Debug)]
++#[serde(deny_unknown_fields)]
++struct CleanupDiagnostic {
++    stage: CleanupStage,
++    child_exit_seen: bool,
++    child_close_seen: bool,
++    close_settled: bool,
++    kill_settled: bool,
++    child_exited: bool,
++    owned_temp_seen: bool,
++    owned_temp_removed: bool,
++}
++
++#[derive(serde::Deserialize, Debug)]
++#[serde(rename_all = "kebab-case")]
++enum SetupStage {
++    Initial,
++    TemporaryScope,
++    BrowserLaunch,
++    BrowserConnect,
++    Context,
++    Route,
++    Page,
++    Navigate,
++    SecureUrl,
++    SecureState,
++    CdpSession,
++    WebauthnEnable,
++    VirtualAuthenticator,
++    BrowserIdentity,
++    Ready,
++}
++
++#[derive(serde::Deserialize, Debug)]
++#[serde(deny_unknown_fields)]
++struct SetupDiagnostic {
++    stage: SetupStage,
++    setup_age_ms: u32,
++    stage_age_ms: u32,
++    age_capped: bool,
++    budget_ms: Option<u32>,
++    budget_elapsed: Option<bool>,
++}
++
++impl SetupDiagnostic {
++    fn bounded(&self) -> bool {
++        self.setup_age_ms <= 600_000
++            && self.stage_age_ms <= 600_000
++            && match self.budget_ms {
++                None => self.budget_elapsed.is_none(),
++                Some(5_000 | 20_000) => self.budget_elapsed.is_some(),
++                Some(_) => false,
++            }
++    }
++}
++
++#[derive(Debug)]
++enum FirstFrameCategory {
++    Ready,
++    FixtureFailure,
++    Cleaned,
++    Other,
++}
++
+ type Result<T> = std::result::Result<T, &'static str>;
++type StderrObservation = (usize, Option<CleanupDiagnostic>, Option<SetupDiagnostic>);
++
++// Private fixture failures simulate thread setup errors, not OS exhaustion.
++// They never replace a browser, credential ceremony or provider result.
++#[derive(Clone, Copy, Debug, PartialEq, Eq)]
++enum StartupFault {
++    Writer,
++    Reader,
++    Stderr,
++}
++
++#[derive(Debug)]
++struct CleanupObservation {
++    result: Result<()>,
++    node_pid: u32,
++    node_reaped: bool,
++    workers_settled: bool,
++    created_workers: [bool; 3],
++    remaining_worker_handles: [bool; 3],
++    join_succeeded: [Option<bool>; 3],
++    forced: bool,
++    phase_deadline_exceeded: [bool; 2],
++}
+ 
+ pub(super) struct ResidentAuthenticator {
+     child: Child,
+@@ -27,16 +127,29 @@ pub(super) struct ResidentAuthenticator {
+     writes: Receiver<Result<()>>,
+     writer: Option<JoinHandle<()>>,
+     reader: Option<JoinHandle<()>>,
+-    error_reader: Option<JoinHandle<usize>>,
++    error_reader: Option<JoinHandle<StderrObservation>>,
+     sent: u64,
+     received: u64,
+     browser_pid: Option<u32>,
+     failed: bool,
+-    cleaned: bool,
++    constructing: bool,
++    close_result: Option<Result<()>>,
++    node_reaped: bool,
++    workers_settled: bool,
++    spawned_at: Instant,
++    last_ceremony_read: Option<Instant>,
++    cleanup_probe: Option<mpsc::Sender<CleanupObservation>>,
+ }
+ 
+ impl ResidentAuthenticator {
+     pub(super) fn new() -> Result<Self> {
++        Self::new_observed(None, None)
++    }
++
++    fn new_observed(
++        fault: Option<StartupFault>,
++        cleanup_probe: Option<mpsc::Sender<CleanupObservation>>,
++    ) -> Result<Self> {
+         let root = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../../..");
+         let runner = root.join("tools/test-resident-authenticator.mjs");
+         if !runner.is_file() || !root.join("package-lock.json").is_file() {
+@@ -62,89 +175,163 @@ impl ResidentAuthenticator {
+                 command.env(key, value);
+             }
+         }
+-        let mut child = command
+-            .spawn()
+-            .map_err(|_| "infrastructure: resident Node start")?;
+-        let mut stdin = child.stdin.take().ok_or("infrastructure: resident stdin")?;
+-        let mut stdout = child
+-            .stdout
+-            .take()
+-            .ok_or("infrastructure: resident stdout")?;
+-        let mut stderr = child
+-            .stderr
+-            .take()
+-            .ok_or("infrastructure: resident stderr")?;
+         let (input, commands) = mpsc::sync_channel::<Vec<u8>>(1);
+         let (written, writes) = mpsc::sync_channel(1);
+-        // Separate I/O workers let every synchronous public operation have a
+-        // deadline without blocking an async database/lock-test task indefinitely.
+-        let writer = thread::spawn(move || {
+-            while let Ok(bytes) = commands.recv() {
+-                let outcome = stdin
+-                    .write_all(&(bytes.len() as u32).to_be_bytes())
+-                    .and_then(|()| stdin.write_all(&bytes))
+-                    .and_then(|()| stdin.flush())
+-                    .map_err(|_| "infrastructure: resident frame write");
+-                let failed = outcome.is_err();
+-                if written.send(outcome).is_err() || failed {
+-                    break;
+-                }
+-            }
+-            // Disconnect/Drop closes stdin, so the Node owner performs cleanup.
+-        });
+         let (frames, output) = mpsc::sync_channel(1);
+-        let reader = thread::spawn(move || {
+-            for _ in 0..MAX_FRAMES {
+-                let outcome = (|| {
+-                    let mut header = [0_u8; 4];
+-                    stdout
+-                        .read_exact(&mut header)
+-                        .map_err(|_| "infrastructure: resident frame header")?;
+-                    let length = u32::from_be_bytes(header) as usize;
+-                    if length == 0 || length > MAX_FRAME {
+-                        return Err("infrastructure: resident frame size");
+-                    }
+-                    let mut bytes = vec![0_u8; length];
+-                    stdout
+-                        .read_exact(&mut bytes)
+-                        .map_err(|_| "infrastructure: resident frame body")?;
+-                    serde_json::from_slice(&bytes)
+-                        .map_err(|_| "infrastructure: resident frame JSON")
+-                })();
+-                let failed = outcome.is_err();
+-                if frames.send(outcome).is_err() || failed {
+-                    break;
+-                }
+-            }
+-        });
+-        let error_reader = thread::spawn(move || {
+-            let mut bytes = [0_u8; 8192];
+-            let mut count = 0_usize;
+-            while let Ok(length) = stderr.read(&mut bytes) {
+-                if length == 0 {
+-                    break;
+-                }
+-                count = count.saturating_add(length);
+-            }
+-            count
+-        });
++        let spawned_at = Instant::now();
++        let child = command
++            .spawn()
++            .map_err(|_| "infrastructure: resident Node start")?;
++        // Install the existing cleanup owner before taking pipes or creating a
++        // fallible worker. Partial construction never abandons the Child.
+         let mut value = Self {
+             child,
+             input: Some(input),
+             output: Some(output),
+             writes,
+-            writer: Some(writer),
+-            reader: Some(reader),
+-            error_reader: Some(error_reader),
++            writer: None,
++            reader: None,
++            error_reader: None,
+             sent: 0,
+             received: 0,
+             browser_pid: None,
+             failed: true,
+-            cleaned: false,
++            constructing: true,
++            close_result: None,
++            node_reaped: false,
++            workers_settled: false,
++            spawned_at,
++            last_ceremony_read: None,
++            cleanup_probe,
+         };
++        let mut stdin = value
++            .child
++            .stdin
++            .take()
++            .ok_or("infrastructure: resident stdin")?;
++        let mut stdout = value
++            .child
++            .stdout
++            .take()
++            .ok_or("infrastructure: resident stdout")?;
++        let mut stderr = value
++            .child
++            .stderr
++            .take()
++            .ok_or("infrastructure: resident stderr")?;
++        // Separate I/O workers let every synchronous public operation have a
++        // deadline without blocking an async database/lock-test task indefinitely.
++        if fault == Some(StartupFault::Writer) {
++            return Err("infrastructure: resident writer start");
++        }
++        value.writer = Some(
++            thread::Builder::new()
++                .spawn(move || {
++                    while let Ok(bytes) = commands.recv() {
++                        let outcome = stdin
++                            .write_all(&(bytes.len() as u32).to_be_bytes())
++                            .and_then(|()| stdin.write_all(&bytes))
++                            .and_then(|()| stdin.flush())
++                            .map_err(|_| "infrastructure: resident frame write");
++                        let failed = outcome.is_err();
++                        if written.send(outcome).is_err() || failed {
++                            break;
++                        }
++                    }
++                    // Disconnect/Drop closes stdin, so the Node owner performs cleanup.
++                })
++                .map_err(|_| "infrastructure: resident writer start")?,
++        );
++        if fault == Some(StartupFault::Reader) {
++            return Err("infrastructure: resident reader start");
++        }
++        value.reader = Some(
++            thread::Builder::new()
++                .spawn(move || {
++                    for _ in 0..MAX_FRAMES {
++                        let outcome = (|| {
++                            let mut header = [0_u8; 4];
++                            stdout
++                                .read_exact(&mut header)
++                                .map_err(|_| "infrastructure: resident frame header")?;
++                            let length = u32::from_be_bytes(header) as usize;
++                            if length == 0 || length > MAX_FRAME {
++                                return Err("infrastructure: resident frame size");
++                            }
++                            let mut bytes = vec![0_u8; length];
++                            stdout
++                                .read_exact(&mut bytes)
++                                .map_err(|_| "infrastructure: resident frame body")?;
++                            serde_json::from_slice(&bytes)
++                                .map_err(|_| "infrastructure: resident frame JSON")
++                        })();
++                        let failed = outcome.is_err();
++                        if frames.send(outcome).is_err() || failed {
++                            break;
++                        }
++                    }
++                })
++                .map_err(|_| "infrastructure: resident reader start")?,
++        );
++        if fault == Some(StartupFault::Stderr) {
++            return Err("infrastructure: resident stderr start");
++        }
++        value.error_reader = Some(
++            thread::Builder::new()
++                .spawn(move || {
++                    let mut bytes = [0_u8; 8192];
++                    let mut count = 0_usize;
++                    let mut prefix = Vec::with_capacity(512);
++                    while let Ok(length) = stderr.read(&mut bytes) {
++                        if length == 0 {
++                            break;
++                        }
++                        count = count.saturating_add(length);
++                        let retained = length.min(512 - prefix.len());
++                        prefix.extend_from_slice(&bytes[..retained]);
++                    }
++                    let diagnostic = prefix.split(|byte| *byte == b'\n').find_map(|line| {
++                        let payload = line.strip_prefix(b"RESIDENT_CLEANUP_DIAGNOSTIC ")?;
++                        serde_json::from_slice::<CleanupDiagnostic>(payload).ok()
++                    });
++                    let setup_diagnostic = prefix.split(|byte| *byte == b'\n').find_map(|line| {
++                        let payload = line.strip_prefix(b"RESIDENT_SETUP_DIAGNOSTIC ")?;
++                        serde_json::from_slice::<SetupDiagnostic>(payload)
++                            .ok()
++                            .filter(SetupDiagnostic::bounded)
++                    });
++                    (count, diagnostic, setup_diagnostic)
++                })
++                .map_err(|_| "infrastructure: resident stderr start")?,
++        );
++        // Observe the unchanged readiness wait from its actual start. Spawn and
++        // worker setup age do not consume read(PHASE)'s existing budget.
++        let readiness_started_at = Instant::now();
+         let ready = value.read(PHASE)?;
+         if ready["kind"] != "ready" || ready["origin"] != ORIGIN || ready["secure_context"] != true
+         {
++            // read() already checked frame version/sequence. Classify only fixed
++            // literals; never print the received JSON, URL, code or browser ID.
++            let category = match ready["kind"].as_str() {
++                Some("ready") => FirstFrameCategory::Ready,
++                Some("error") if ready["code"] == "fixture-failure" => {
++                    FirstFrameCategory::FixtureFailure
++                }
++                Some("cleaned") => FirstFrameCategory::Cleaned,
++                _ => FirstFrameCategory::Other,
++            };
++            let age_ms = value.spawned_at.elapsed().as_millis();
++            let readiness_age_ms = readiness_started_at.elapsed().as_millis();
++            let _ = writeln!(
++                std::io::stderr().lock(),
++                "RESIDENT_FIRST_FRAME_FAILURE category={category:?} owner_age_ms={} owner_age_capped={} readiness_age_ms={} phase_budget_elapsed={} origin_matches={} secure_context_true={}",
++                age_ms.min(PHASE.as_millis()),
++                age_ms > PHASE.as_millis(),
++                readiness_age_ms.min(PHASE.as_millis()),
++                readiness_age_ms >= PHASE.as_millis(),
++                ready["origin"] == ORIGIN,
++                ready["secure_context"] == true
++            );
+             return Err("infrastructure: resident secure origin not ready");
+         }
+         value.browser_pid = ready["browser_pid"]
+@@ -155,6 +342,7 @@ impl ResidentAuthenticator {
+             return Err("infrastructure: resident browser process identity");
+         }
+         value.failed = false;
++        value.constructing = false;
+         Ok(value)
+     }
+ 
+@@ -195,6 +383,7 @@ impl ResidentAuthenticator {
+         }
+         let credential = serde_json::from_value(result["credential"].clone())
+             .map_err(|_| "infrastructure: resident credential codec")?;
++        self.last_ceremony_read = Some(Instant::now());
+         self.failed = false;
+         Ok(credential)
+     }
+@@ -237,12 +426,40 @@ impl ResidentAuthenticator {
+     }
+ 
+     pub(super) fn close(&mut self) -> Result<()> {
+-        if self.cleaned {
+-            return Ok(());
++        if let Some(result) = self.close_result {
++            return result;
+         }
++        let cleanup = self.close_owned();
++        let result = cleanup.result;
++        // A finalized cleanup attempt is not necessarily successful. Retain its
++        // failure, and never start another budget during Drop or a second close.
++        self.close_result = Some(result);
++        // Test observation is emitted only after the real attempt and cache.
++        // An unbounded private channel cannot block the resource owner.
++        if let Some(probe) = &self.cleanup_probe {
++            let _ = probe.send(cleanup);
++        }
++        result
++    }
++
++    fn close_owned(&mut self) -> CleanupObservation {
++        let created_workers = [
++            self.writer.is_some(),
++            self.reader.is_some(),
++            self.error_reader.is_some(),
++        ];
++        let mut join_succeeded = [None; 3];
++        let owner_age_ms = self.spawned_at.elapsed().as_millis();
++        let ceremony_idle_ms = self
++            .last_ceremony_read
++            .map(|time| time.elapsed().as_millis());
++        let sent_before = self.sent;
++        let received_before = self.received;
++        let panicking = thread::panicking();
++        let partial = self.constructing
++            && (self.writer.is_none() || self.reader.is_none() || self.error_reader.is_none());
+         let deadline = Instant::now() + CLEANUP;
+-        // Successful close requests done. Error/panic uses EOF, as C2 does.
+-        let done = if self.failed || thread::panicking() {
++        let done = if self.failed || panicking || partial {
+             false
+         } else {
+             self.write(json!({"kind":"done"}), CLEANUP).is_ok()
+@@ -250,97 +467,360 @@ impl ResidentAuthenticator {
+         if !done {
+             self.input.take();
+         }
+-        // A timed-out command may still deliver its ordinary response before
+-        // cleanup. Drain those checked frames under one total cleanup deadline.
+-        let acknowledgement = (|| loop {
+-            let remaining = deadline
+-                .checked_duration_since(Instant::now())
+-                .ok_or("infrastructure: resident cleanup deadline")?;
+-            let frame = self.read(remaining)?;
+-            match frame["kind"].as_str() {
+-                Some("cleaned") => break Ok(frame),
+-                Some("ready" | "registered" | "authenticated" | "error") => {}
+-                _ => break Err("infrastructure: resident cleanup frame"),
+-            }
+-        })();
++        // Ordinary cleanup retains its complete ACK window. Uncreated workers
++        // cannot manufacture an ACK; partial startup is already a failure.
++        let acknowledgement = if partial {
++            Err("infrastructure: resident startup workers incomplete")
++        } else {
++            (|| loop {
++                let remaining = deadline
++                    .checked_duration_since(Instant::now())
++                    .ok_or("infrastructure: resident cleanup deadline")?;
++                let frame = self.read(remaining)?;
++                if Instant::now() >= deadline {
++                    return Err("infrastructure: resident cleanup deadline");
++                }
++                match frame["kind"].as_str() {
++                    Some("cleaned") => break Ok(frame),
++                    Some("ready" | "registered" | "authenticated" | "error") => {}
++                    _ => break Err("infrastructure: resident cleanup frame"),
++                }
++            })()
++        };
+         self.input.take();
+-        // Release any reader blocked sending EOF/error into the one-slot queue
+-        // before waiting for worker exit. Never join with its Receiver alive.
+-        self.output.take();
+-        let status = loop {
+-            if let Some(status) = self
+-                .child
+-                .try_wait()
+-                .map_err(|_| "infrastructure: resident wait")?
+-            {
+-                break status;
++        self.output.take(); // Release any reader blocked sending into its queue.
++        self.child.stdin.take(); // Also closes a pipe not yet moved into a worker.
++        let mut failure = acknowledgement.as_ref().err().copied();
++        let mut status = None;
++        let mut forced = false;
++        loop {
++            match self.child.try_wait() {
++                Ok(Some(observed)) => {
++                    status = Some(observed);
++                    if Instant::now() >= deadline {
++                        failure.get_or_insert("infrastructure: resident cleanup deadline");
++                    }
++                    break;
++                }
++                Ok(None) => {}
++                Err(_) => {
++                    failure.get_or_insert("infrastructure: resident wait");
++                    forced = true;
++                    let _ = self.child.kill();
++                    break;
++                }
+             }
+             if Instant::now() >= deadline {
++                failure
++                    .get_or_insert("infrastructure: resident cleanup unconfirmed; possible orphan");
++                forced = true;
+                 let _ = self.child.kill();
+-                self.cleaned = true;
+-                return Err("infrastructure: resident cleanup unconfirmed; possible orphan");
++                break;
+             }
+             thread::sleep(Duration::from_millis(20));
+-        };
+-        self.cleaned = true;
++        }
++        let first_phase_deadline_exceeded = Instant::now() >= deadline;
++        // Reuse the existing worker phase for actual reaping and worker drain.
++        // Force-kill is sticky failure, never a substitute for natural exit/ACK.
+         let workers_deadline = Instant::now() + CLEANUP;
+-        let workers_finished = || {
+-            self.writer.as_ref().is_some_and(JoinHandle::is_finished)
+-                && self.reader.as_ref().is_some_and(JoinHandle::is_finished)
+-                && self
++        let workers_finished = |value: &Self| {
++            value.writer.as_ref().is_none_or(JoinHandle::is_finished)
++                && value.reader.as_ref().is_none_or(JoinHandle::is_finished)
++                && value
+                     .error_reader
+                     .as_ref()
+-                    .is_some_and(JoinHandle::is_finished)
++                    .is_none_or(JoinHandle::is_finished)
+         };
+-        while !workers_finished() && Instant::now() < workers_deadline {
++        while (status.is_none() || !workers_finished(self)) && Instant::now() < workers_deadline {
++            if status.is_none() {
++                match self.child.try_wait() {
++                    Ok(Some(observed)) => status = Some(observed),
++                    Ok(None) => {}
++                    Err(_) => {
++                        failure.get_or_insert("infrastructure: resident wait");
++                    }
++                }
++            }
+             thread::sleep(Duration::from_millis(20));
+         }
+-        if !workers_finished() {
+-            return Err("infrastructure: resident worker cleanup deadline");
++        self.node_reaped = status.is_some();
++        self.workers_settled = workers_finished(self);
++        if !self.node_reaped {
++            failure.get_or_insert("infrastructure: resident Node reap unconfirmed");
++        }
++        let second_phase_deadline_exceeded = Instant::now() >= workers_deadline;
++        if !self.workers_settled || second_phase_deadline_exceeded {
++            failure.get_or_insert("infrastructure: resident worker cleanup deadline");
++        }
++        if !self.constructing
++            && (self.writer.is_none() || self.reader.is_none() || self.error_reader.is_none())
++        {
++            failure.get_or_insert("infrastructure: resident cleanup worker missing");
+         }
+-        for worker in [&mut self.writer, &mut self.reader] {
+-            if let Some(worker) = worker.take() {
+-                worker
+-                    .join()
+-                    .map_err(|_| "infrastructure: resident I/O worker failed")?;
++        for (index, worker) in [&mut self.writer, &mut self.reader].into_iter().enumerate() {
++            if worker.as_ref().is_some_and(JoinHandle::is_finished)
++                && let Some(worker) = worker.take()
++            {
++                let succeeded = worker.join().is_ok();
++                join_succeeded[index] = Some(succeeded);
++                if !succeeded {
++                    failure.get_or_insert("infrastructure: resident I/O worker failed");
++                }
+             }
+         }
+-        let count = self
++        let mut count = 0;
++        let mut diagnostic = None;
++        let mut setup_diagnostic = None;
++        if self
+             .error_reader
+-            .take()
+-            .ok_or("infrastructure: resident stderr worker missing")?
+-            .join()
+-            .map_err(|_| "infrastructure: resident stderr worker failed")?;
+-        let acknowledgement = acknowledgement?;
+-        if count > 1_048_576 || acknowledgement["kind"] != "cleaned" {
+-            return Err("infrastructure: resident cleanup acknowledgement");
++            .as_ref()
++            .is_some_and(JoinHandle::is_finished)
++            && let Some(worker) = self.error_reader.take()
++        {
++            match worker.join() {
++                Ok(observed) => {
++                    join_succeeded[2] = Some(true);
++                    count = observed.0;
++                    diagnostic = observed.1;
++                    setup_diagnostic = observed.2;
++                }
++                Err(_) => {
++                    join_succeeded[2] = Some(false);
++                    failure.get_or_insert("infrastructure: resident stderr worker failed");
++                }
++            }
+         }
+-        if let Some(pid) = self.browser_pid
+-            && (acknowledgement["browser_pid"] != pid || acknowledgement["browser_exited"] != true)
++        // A constructor error may have a successful cleanup. Preserve its fixed
++        // setup observation independently of the cleanup result.
++        if self.constructing
++            && let Some(diagnostic) = &setup_diagnostic
+         {
+-            return Err("infrastructure: resident browser cleanup identity");
++            let _ = writeln!(
++                std::io::stderr().lock(),
++                "RESIDENT_SETUP_DIAGNOSTIC stage={:?} setup_age_ms={} stage_age_ms={} age_capped={} budget_ms={:?} budget_elapsed={:?}",
++                diagnostic.stage,
++                diagnostic.setup_age_ms,
++                diagnostic.stage_age_ms,
++                diagnostic.age_capped,
++                diagnostic.budget_ms,
++                diagnostic.budget_elapsed
++            );
+         }
+-        let expected = match acknowledgement["outcome"].as_str() {
+-            Some("completed") if done => 0,
+-            Some("aborted") if !done => 2,
+-            Some("failed") if self.failed => 1,
+-            _ => return Err("infrastructure: resident cleanup outcome"),
+-        };
+-        if status.code() != Some(expected) {
+-            return Err("infrastructure: resident cleanup exit");
++        let result = (|| {
++            if let Some(reason) = failure {
++                return Err(reason);
++            }
++            let acknowledgement = acknowledgement?;
++            if count > 1_048_576 || acknowledgement["kind"] != "cleaned" {
++                return Err("infrastructure: resident cleanup acknowledgement");
++            }
++            if let Some(pid) = self.browser_pid
++                && (acknowledgement["browser_pid"] != pid
++                    || acknowledgement["browser_exited"] != true)
++            {
++                return Err("infrastructure: resident browser cleanup identity");
++            }
++            let expected = match acknowledgement["outcome"].as_str() {
++                Some("completed") if done => 0,
++                Some("aborted") if !done => 2,
++                Some("failed") if self.failed => 1,
++                _ => return Err("infrastructure: resident cleanup outcome"),
++            };
++            if status.and_then(|status| status.code()) != Some(expected) {
++                return Err("infrastructure: resident cleanup exit");
++            }
++            Ok(())
++        })();
++        if let Err(reason) = result {
++            if let Some(diagnostic) = &diagnostic {
++                let _ = writeln!(
++                    std::io::stderr().lock(),
++                    "RESIDENT_CLEANUP_DIAGNOSTIC stage={:?} child_exit_seen={} child_close_seen={} close_settled={} kill_settled={} child_exited={} owned_temp_seen={} owned_temp_removed={}",
++                    diagnostic.stage,
++                    diagnostic.child_exit_seen,
++                    diagnostic.child_close_seen,
++                    diagnostic.close_settled,
++                    diagnostic.kill_settled,
++                    diagnostic.child_exited,
++                    diagnostic.owned_temp_seen,
++                    diagnostic.owned_temp_removed
++                );
++            }
++            let _ = writeln!(
++                std::io::stderr().lock(),
++                "RESIDENT_CLEANUP_FAILURE reason={reason} exit_status={status:?} stderr_bytes={count} sent_before={sent_before} checked_frames_before={received_before} sent={} checked_frames={} done={done} failed={} panicking={panicking} owner_age_ms={owner_age_ms} ceremony_idle_ms={ceremony_idle_ms:?} constructing={} forced={forced} node_reaped={} workers_settled={}",
++                self.sent,
++                self.received,
++                self.failed,
++                self.constructing,
++                self.node_reaped,
++                self.workers_settled
++            );
++        }
++        CleanupObservation {
++            result,
++            node_pid: self.child.id(),
++            node_reaped: self.node_reaped,
++            workers_settled: self.workers_settled,
++            created_workers,
++            remaining_worker_handles: [
++                self.writer.is_some(),
++                self.reader.is_some(),
++                self.error_reader.is_some(),
++            ],
++            join_succeeded,
++            forced,
++            phase_deadline_exceeded: [
++                first_phase_deadline_exceeded,
++                second_phase_deadline_exceeded,
++            ],
+         }
+-        Ok(())
+     }
+ }
+ 
+ impl Drop for ResidentAuthenticator {
+     fn drop(&mut self) {
+         if let Err(message) = self.close() {
+-            if thread::panicking() {
+-                eprintln!("{message}");
++            if self.constructing || thread::panicking() {
++                let _ = writeln!(std::io::stderr().lock(), "{message}");
+             } else {
+                 panic!("{message}");
+             }
+         }
+     }
+ }
++
++// These tests run the actual Node/Chromium fixture. Private fault injection
++// covers ownership after spawn; it does not claim empirical thread exhaustion.
++fn assert_setup_failure(
++    fault: StartupFault,
++    expected_error: &'static str,
++    expected_created_workers: [bool; 3],
++) {
++    let (observed, observations) = mpsc::channel();
++    let outcome = std::panic::catch_unwind(|| {
++        ResidentAuthenticator::new_observed(Some(fault), Some(observed))
++    });
++    let error = match outcome {
++        Ok(Err(error)) => error,
++        Ok(Ok(mut owner)) => {
++            let _ = owner.close();
++            panic!("private setup failure did not trigger");
++        }
++        Err(_) => panic!("constructor error replaced by cleanup panic"),
++    };
++    assert_eq!(error, expected_error);
++    let cleanup = observations
++        .try_recv()
++        .expect("real cleanup observation before constructor returns");
++    assert_eq!(
++        cleanup.result,
++        Err("infrastructure: resident startup workers incomplete")
++    );
++    assert!(cleanup.node_pid > 0);
++    assert!(cleanup.node_reaped, "actual Node status was not observed");
++    assert!(cleanup.workers_settled, "created workers did not finish");
++    assert_eq!(cleanup.created_workers, expected_created_workers);
++    assert_eq!(cleanup.remaining_worker_handles, [false; 3]);
++    assert_eq!(
++        cleanup.join_succeeded,
++        expected_created_workers.map(|created| created.then_some(true))
++    );
++    assert!(
++        !cleanup.forced,
++        "constructor cleanup needed forced Node kill"
++    );
++    assert_eq!(cleanup.phase_deadline_exceeded, [false; 2]);
++    assert!(matches!(
++        observations.try_recv(),
++        Err(mpsc::TryRecvError::Disconnected)
++    ));
++    // Partial construction has no trusted ready browser identity or independent
++    // process-group absence witness. Never infer Chromium absence from Node.
++    let _ = writeln!(
++        std::io::stderr().lock(),
++        "RESIDENT_STARTUP_PROBE fault={fault:?} simulated_setup_error=true node_reaped=true created_workers_joined_successfully=true forced=false phase_deadlines_exceeded=false browser_custody=UNKNOWN"
++    );
++}
++
++#[test]
++fn injected_writer_setup_failure_preserves_constructor_error_and_resource_custody() {
++    assert_setup_failure(
++        StartupFault::Writer,
++        "infrastructure: resident writer start",
++        [false, false, false],
++    );
++}
++
++#[test]
++fn injected_reader_setup_failure_preserves_constructor_error_and_resource_custody() {
++    assert_setup_failure(
++        StartupFault::Reader,
++        "infrastructure: resident reader start",
++        [true, false, false],
++    );
++}
++
++#[test]
++fn injected_stderr_setup_failure_preserves_constructor_error_and_resource_custody() {
++    assert_setup_failure(
++        StartupFault::Stderr,
++        "infrastructure: resident stderr start",
++        [true, true, false],
++    );
++}
++
++#[test]
++fn failed_close_is_cached_without_restarting_cleanup_and_normal_drop_stays_failing() {
++    let (observed, observations) = mpsc::channel();
++    let mut owner = ResidentAuthenticator::new_observed(None, Some(observed))
++        .expect("real resident fixture ready");
++    // Dispose of the actual receiver. No frame, ACK or provider is fabricated.
++    owner.output.take();
++    owner.failed = true;
++    let first = owner.close();
++    assert_eq!(first, Err("infrastructure: resident stdout closed"));
++    let cleanup = observations
++        .try_recv()
++        .expect("first real cleanup observation");
++    assert_eq!(cleanup.result, first);
++    assert!(cleanup.node_pid > 0);
++    assert!(cleanup.node_reaped);
++    assert!(cleanup.workers_settled);
++    assert_eq!(cleanup.created_workers, [true; 3]);
++    assert_eq!(cleanup.remaining_worker_handles, [false; 3]);
++    assert_eq!(cleanup.join_succeeded, [Some(true); 3]);
++    assert!(
++        !cleanup.forced,
++        "cached-failure cleanup needed forced Node kill"
++    );
++    assert_eq!(cleanup.phase_deadline_exceeded, [false; 2]);
++    assert_eq!(owner.close(), first);
++    assert!(matches!(
++        observations.try_recv(),
++        Err(mpsc::TryRecvError::Empty)
++    ));
++    let dropped = std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| drop(owner)));
++    let expected_panic = match dropped {
++        Err(payload) => {
++            payload
++                .downcast_ref::<&'static str>()
++                .copied()
++                .or_else(|| payload.downcast_ref::<String>().map(String::as_str))
++                == Some("infrastructure: resident stdout closed")
++        }
++        Ok(()) => false,
++    };
++    assert!(
++        expected_panic,
++        "normal Drop did not preserve fixed cleanup failure"
++    );
++    assert!(matches!(
++        observations.try_recv(),
++        Err(mpsc::TryRecvError::Disconnected)
++    ));
++    let _ = writeln!(
++        std::io::stderr().lock(),
++        "RESIDENT_CACHED_FAILURE_PROBE real_node_reaped=true created_workers_joined_successfully=true forced=false phase_deadlines_exceeded=false cleanup_attempts=1 repeated_error_preserved=true normal_drop_expected_panic=true browser_custody=UNKNOWN"
++    );
++}
+diff --git a/docs/planning/nextjs-v1/IMPLEMENTATION.md b/docs/planning/nextjs-v1/IMPLEMENTATION.md
+index 5c50f05..21ddfef 100644
+--- a/docs/planning/nextjs-v1/IMPLEMENTATION.md
++++ b/docs/planning/nextjs-v1/IMPLEMENTATION.md
+@@ -788,3 +788,89 @@ The reviewed test-only patch binds the short-family assertion to its actual cook
+ Both repaired real-service fragments passed their intended checks, but each deliberately left16scenarios unreached and the native full-matrix gate correctly stayed RED. An earlier repaired private fragment failed before its fixed witnesses and remains unlocalized. This later success does not establish its cause. Fresh complete p14-repair-canonical01 now passes121/121 native and17/17 browser with no skipped, filtered or unreached cases and confirmed cleanup. [Timing evidence](evidence/browser-business-session-r7/p14-timing-repair.json) preserves exact commands, source/diagnostic hashes, original RED witnesses, environment failures, unknown failures and scoped corrected results.
+ 
+ Both independent reviewers accepted complete local evidence and bounded publication at frozen manifest02. Exact immutable-head COMMENT, required current PR CI and protected queue admission remain pending. Required merge-group checks must pass after queue admission before merge. Full HR/Org/Payroll/Foundry, attended/physical identity, emission-time serialization, two-site confirmation/fencing and launch remain HOLD. No deployment, institutional operation or collection occurred.
++
++## Enrollment cleanup repair and current native failures — 2026-10-06
++
++PR16 at `f5c29cc` passed its42-step PR workflow and entered the protected queue. Its identical-tree merge group failed the enrollment process gate: ten tests, one pass/nine failures. Later native/browser producers were skipped and GitHub removed the queue entry; PR16 remains unmerged. The [portable evidence index](evidence/browser-business-session-r7/enrollment-cleanup-repair/index.json) preserves the rejected run, exact tree and raw outcomes.
++
++The reviewed repair separates prerequisite startup from the original25/35-second fault-cleanup clocks, disables only npm's disposable compile cache, and starts one bounded input owner before staging. Six real EOF variants exposed both paused input and product staging after acknowledged cleanup. A closing guard now prevents that later resource creation. The unchanged final suite passes22/22 with zero skips/cancellations, zero credential attempts, exact outcomes/natural exits, no parent intervention and empty owned temporary directories. The intermediate19/3 failure and earlier REDs remain recorded. Independent source/evidence reviews accept this component only; all Rust protocol, overall and cleanup deadlines remain unchanged.
++
++Fresh unfiltered121-case verification is still running and has required failures: resident-authenticator cleanup loses its frame header, a real worker exits before readiness proof, and two native browser cases reach a frame deadline. The exact primary phases and causes remain unresolved; diagnostic-only follow-up and fresh complete proof are required. The17-scenario product browser result is pending. No repair publication, renewed queue admission, deployment or live institutional effect has occurred. HR/Org/Payroll/Foundry and launch acceptance remain incomplete.
++
++### Native repair terminal evidence and diagnostic iteration — 2026-10-06
++
++The previously pending full native run is terminal RED: 121 discovered/executed, 116 passed, five failed, zero ignored/filtered. Its source map remained unchanged; raw log SHA-256 `cbb8cad26dbc13c0f033e1ffe7edca30ed5a9f0041fe205c2185a76137f0d495`. The production browser child discovered 17 scenarios, passed 16 and left P16 unreached because queued React/CSS did not observe the original cached Document; its six other checks passed. This does not clear any required failure.
++
++Independent review approved bounded failure-only diagnostics for native validated-frame count, resident cleanup exit/age/idle counts, real-worker readiness/exit and fixed stderr categories, and queued restoration browser enums. No raw subprocess bytes, credentials, event URLs or frame IDs are published. Exact short-family and worker diagnostic probes each passed one case, but their earlier full-run failures remain unexplained.
++
++The exact native enrollment probe preserved its original 20-second phase and failed with `checked_frames=0` before first-origin receipt (raw SHA-256 `7e288a8de21dad9c7ec6b95f86eb471df4fac4d0e847dd3e79a0051dfadd1276`). A separately reviewed correction grants only first-frame runtime staging 90 seconds; subsequent native phases/writes stay at 20 seconds, with overall 130 seconds, runner watchdog 140 seconds and cleanup 8/8/2 seconds. Same-consumer verification is pending. Full native acceptance, final source/evidence review, fresh exact-head hosted CI and protected merge-queue admission remain pending.
++
++
++### R7 native02 terminal checkpoint — 2026-10-06
++
++Independent integrity review preserves the next unfiltered full run: **121 executed, 120 passed, one failed, zero ignored/filtered**; the embedded real-service browser child passes **17/17**, including all seven P16 restore checks. Its raw SHA-256 is `ff0638cb45b099398a148bcffe82de5d785b8212737c2eab9e5b29f73a759cc1`; before/after input maps are identical. Both prior full RED runs remain preserved. The first-frame-only 90-second correction also passes the exact enrollment and interruption consumers **1/1 each**.
++
++The remaining short-family-expiry test finishes its consumer assertions but receives no resident cleanup ACK. The Node owner exits three; recorded ceremony idle is 6,041 ms, excluding the 60-second idle clock for this failure. Installed Playwright close and kill wait on the same process-and-directory-cleanup promise; that is a hypothesis until fixed failure-stage diagnostics localize the failed step. All shutdown limits and acknowledgments remain mandatory. The independently reviewed queued-action RED test runs against the existing immediate timer before implementing the approved native-gate latch. [Portable evidence04](evidence/browser-business-session-r7/enrollment-cleanup-repair/index04.json) extends prior144 unchanged assets to159. Required cleanup acceptance, final review, fresh exact-head hosted CI and protected queue admission remain pending. Full HR/Org/Payroll/Foundry and launch are incomplete.
++
++
++### R7 diagnostic baseline checkpoint — 2026-10-06
++
++The reviewed stronger queued test executes its real-service consumer and remains RED: one native test failed,120 intentionally filtered; its child runs all17 scenarios with16 passed and P16 queued-react-css failed. Trusted original departure/restoration were observed, but the generic exception did not preserve pending-state values; this does not prove the intended ordering cause. The approved observation-only candidate now records fixed bool/null metadata after exact native gate/context/401 validation and before the unchanged assertion, while retaining the immediate timer for a fresh RED baseline.
++
++Failure-only resident diagnostics preserve every deadline, outcome and ACK. The exact short-family consumer passes1/1 with120 filtered, and a separate bounded actual-fixture ready/done diagnostic passes40/40; neither reproduces nor fixes the earlier cleanup failure, and the ready/done probe is not authentication proof. Formatting and4093-file fork custody pass, with zero runtime tests in those two checks. [Portable evidence05](evidence/browser-business-session-r7/enrollment-cleanup-repair/index05.json) preserves205 assets and all prior bytes, including the independent latch review and late-fetch cleanup correction. The full unfiltered diagnostic03 run remains active and excluded from acceptance; sources are frozen until terminal result. No repair push or queue admission occurred.
++
++
++### R7 cleanup and restored-context checkpoint — 2026-10-06
++
++This supersedes the earlier active/frozen diagnostic wording. The latest full native run (`enrollment-repair-final-native01`) executed121 tests:118 passed and3 failed; its embedded browser run passed16/17. The subsequent selected browser diagnostic executed all17 scenarios and passed16, with P16 failing at `queued-pending`. It witnessed the real native401 with exact gate/context matches and a trusted original departure/restoration; the ordering assertion and logout release were not reached. The raw exception remains unproven. All2,958 source input hashes stayed unchanged during that diagnostic.
++
++Independently reviewed startup ownership and SDK cleanup corrections now use the existing resource owner and total deadline, retain the first cleanup error, and require actual deletion/absence of a fresh fixture-owned temporary scope before ACK. Continuing the same issued SDK cleanup promise after the two-second kill observation is an intentional phase-contract correction, bounded by the original twelve-second total. Four real-process startup/cached-failure regressions pass; the previously failing short-family and account/Company FK consumers each pass in isolation. Those scoped runs filter121/124 unrelated tests and do not establish full acceptance or independent Chromium group absence.
++
++The restored-context test candidate has source approval only: standard CDP evaluation pins the original main world's system-unique identity and verifies the original probe Document before each operation. Its private-content snapshot precedes the sole queued logout release; later checks still require real React, logout204, cookie removal, current-page privacy, one reload and independent actorB. Runtime restoration proof, fresh unfiltered125 native tests (the original121 plus four new tests), all17 browser scenarios, final review, exact-head hostedCI and protected queue admission remain pending. Portable evidence06 is not sealed. HR/Org/Payroll/Foundry and launch remain incomplete; no deployment or live institutional effect occurred.
++
++
++### R7 restored-context full acceptance checkpoint — 2026-10-06
++
++The next unfiltered gate is terminal RED: `resident-restored-context-full-native01` executed **125 native tests: 123 passed, two failed, zero skipped or filtered**. Its embedded browser suite executed **17 scenarios: 16 passed, one failed, zero skipped or unreached**. The 2,958 before/after source hashes stayed identical. Raw log SHA-256: `94f7244bc3b0454ef7075553d1347b4d5d7857abef97ff8c0e9a5ffc85cbaad2`; independent terminal audit SHA-256: `988724173da9c68933d382c992519ae5fce8777af2e49c2e3783b4862adee0b7`.
++
++P16's queued React/CSS variant still fails at `queued-pending` after the real native401 and exact gate/context match, with one trusted original departure and restoration. No ordering observation or raw exception cause was captured. The other failure is the resident fixture's generic first-frame readiness label in the encrypted-proof tampering consumer; that label does not identify the first-frame category or setup stage. The independently source-approved setup diagnostics were applied only after the full run became terminal. The exact tampering consumer then passed **1/1 with124 filtered**, which does not reproduce or resolve the earlier failure. Its raw log SHA-256 is `23b7dc8c03b62b13d66a0ae1cab37b58f14adf49abc97f014dd5a7776d184dfc`.
++
++Both required failures remain open. Portable evidence06 remains unsealed; final adversarial approval, fresh exact-head CI and protected merge-queue admission remain pending. HR/Org/Payroll/Foundry and launch remain incomplete.
++
++
++The reviewed restored-context failure diagnostic is now terminal: the selected native consumer failed (one executed,124 filtered); all17 browser scenarios executed,16 passed and P16 queued React/CSS failed. Its exact `pending` call was rejected through CDP after15,006ms; the existing20,000ms local timer did not fire, and no normal awaited result or returned JavaScript exception was observed. Recorded lifecycle events include original-context re-creation and context clearing; their booleans do not prove present availability or establish the specific rejection cause. Raw log SHA-256: `417238077f3659d50325bd878e6e82aa3f45e84c11489cd8d27fc199f8e2a1ca`; independent terminal audit: `fdaa7c0b0f675fd9d51a422d04cc4aec252047acdb8dcab45aaf78b7a5cff7ef`. Source inputs remained unchanged. The public CDP SDK call has no timeout; the production BFF has its existing15-second native-fetch timeout. A causal connection requires further proof. No timeout, assertion or original-document requirement was relaxed.
++
++
++Strict Clippy on the reviewed `StderrObservation` alias is terminal PASS: `resident-stderr-type-clarity-clippy01`, exit0, unchanged2,958 source inputs, zero test bodies. Raw log SHA-256: `db089e738d22fdf5078887d6dabf87e5ff113f790c92770246d2392961228f1e`. Cargo retains its `proc-macro-error2` future-incompatibility notice. This proves current strict lint only. The standalone mechanics05 probe then failed its trusted-restoration prerequisite; it performed neither post-restoration evaluation and emitted no cache-failure reason event. Its scoped cleanup was observed. The earlier malformed runner invocation never started the probe. These results cannot replace the required real-service P16 or full125/17 acceptance.
++
++
++The real original-Document owner comparison is terminal RED: `real-p16-original-document-owner-native01`, one native consumer failed with124 filtered; all17 browser scenarios executed,16 passed and P16 failed, zero skipped/unreached. Source inputs remained unchanged. Raw log SHA-256: `b10e324ae5e35478466344793f9a2d88f9ffa937aa3ff0bd7f50dba75f4d96d7`; independent audit: `00ea12253f901e3b34bfe44fc8fe85dc037d79deacbda5520aee6b95a86e9fa3`. The required call matched the exact `uniqueContextId not found` protocol literal after15,008ms; the20-second local timer did not fire. A predeparture raw Document pin succeeded, but its read remained pending at that outcome. Received main-frame HTTP200, replacement Navigation and lookup rejection were ordered in that sequence; BFF abort/internal status/body and precise Chromium deferral causality remain unobserved. Neither lookup method supplies the required pending/privacy/release proof. Product guard behavior remains unchanged; the next correction must preserve the original Document and every real outcome assertion. Final125/17 acceptance, portable06 seal, final adversarial review, exact-head hostedCI and protected queue admission remain pending.
++
++
++The native-input correction has independently audited scoped proof: `real-p16-native-input-owner-native01` passes one selected native consumer (124 filtered) and all17 browser scenarios, including all seven P16 variants. Raw log SHA-256 `84ded14316b057068c0ec8d6edfb744e28dc568e0331fcd6520924a1634a47b9`; audit SHA-256 `fc0b0c21e08ac0415c5d92b002fd55247632815775729a973c138a6c46814079`. It observes the original Document through trusted native input and transient SDK binding data, preserving the real401, pending/privacy checks, sole logout release and every actual outcome assertion. Product guard and timers remain unchanged.
++
++The fresh unfiltered gate then finishes RED: `native-input-final-full-native01`, **125 executed,124 passed,one failed,zero skipped/filtered**; embedded browser **17 executed,16 passed,one failed,zero skipped/unreached**. Raw log SHA-256 `efc7415614eda7c09d02382e34ba3f8720ae99ccb216f6893c734bc149d951f6`. P16 queued-react-css passes with exact native401/pending and both original-input replies; its delayed-bundles variant fails with an unlocalized generic required assertion. All2,958 source hashes remain unchanged. Separately, `native-input-final-process-faults01` executes **22 Node tests:19 passed,three failed,zero skipped/cancelled**; EOF-after-ready, wrong-sequence and legacy-selection end before cleanup acknowledgement. Raw log SHA-256 `b794b4da32b975219deb50bb92f9207f0c0cb17b256f11137ebe9c2afedef9a1`; independent audit SHA-256 `5aceecaefa2e7bd10ffddce979f8f1ef02063d44cc48c1ad61d998015bd2bac8`. The first owner stage/exit/force cause remains unproven. These terminal failures supersede prior active wording. Bounded diagnostic-only follow-up is source-reviewed; no deadline or ACK is weakened. Portable06 remains unsealed, and repair publication, fresh hostedCI and protected queue admission remain blocked. HR/Org/Payroll/Foundry and launch remain incomplete.
++
++
++### R7 cleanup-owner repair checkpoint — 2026-10-06
++
++The location-only diagnostic passes the selected real consumer and all17 browser scenarios, with124 native tests filtered. Raw log SHA-256 `03215ada36a50102d3af51176c08171a8405439b0caaba8672b07837f8cfabae`; independent audit `6da45f4632408948d8d1b07faa404e8cd2f1cf767633bb1ad263505d34bab3c9`. It did not reproduce the earlier delayed-bundles failure; that cause remains UNKNOWN. The earlier full125 RED has independent audit `7bf286d80ec750e4ec798bc832eebaae5175ae31c05b867143b8fe7f42db6a32` and remains preserved.
++
++The independently reviewed cleanup-owner repair retains the existing2s escalation phases and6s hard bound. It waits the existing shared SDK cleanup owner, settles sibling cleanup attempts, preserves the first rejection, keeps unconfirmed cleanup bounded and captures the same sequential certificate/key writes under startup ownership. Its exact source-review SHA-256 is `7e68f4fee14e1c38f9f5aeedcc34b1683071869dcbc7436727b4c58c01c3e3e4`; the complete14-file source-only review is `9f817a1811f2462711869cd60bfe7481b7afe2d1e35eef0d0471c61bfd6d2d06`. Neither review establishes runtime acceptance.
++
++Fresh `cleanup-owner-final-process-faults01` is terminal RED: **22 executed,20 passed,two failed,zero skipped/cancelled**. Raw log SHA-256 `ea9b2ad096fad25d1927ecb02a7596d1b382f5c7573d04826e919497acd521ef`; independent audit `ebe4a3641538086a2205476e54d6a7585f665e14b0853d1a44a6e7242d609a13`. All2,958 captured source inputs remain identical. Wrong-sequence fails **before readiness**, receiving `cleaned` instead of `ready`; its intended malformed frame was not sent. Legacy-selection ends before cleanup acknowledgment. These observed stages differ; their causes remain UNKNOWN. EOF-after-ready passes this run without establishing its historical failure cause.
++
++Failure-only prerequisite/cleanup diagnostics are being prepared without changed deadlines, assertions or credential creation. The fresh full125/browser17 gate, final evidence seal, final adversarial acceptance, exact-head hostedCI and protected queue admission remain required. Portable06 is unsealed; no repair publication or queue admission occurred. HR/Org/Payroll/Foundry and launch remain incomplete.
++
++
++### R7 business writer ownership and current full proof — 2026-10-06
++
++The isolated full22 diagnostic executes21 passed/one failed. Its original business startup frame-EOF case receives `report` before expected `cleaned`; the driver stops reading there, so later ACK emission is unproven. A final parent SIGTERM was attempted; exit2 and an empty owned scope do not establish a natural/no-intervention pass. Raw log SHA-256 `5c6993ff8d1a36e2f404571946f7367840920e22dec2e350e061785c6d0b445f`; audit `85f04f43bb8fe5405bdfde43487d5f6a25dfba2c1957ff5b5b947ee3bc4ceba7`. Native wrong-sequence and legacy-selection pass in this copied run without explaining earlier failures.
++
++The independently reviewed two-line repair gives the existing finalizer sole cleanup-frame ownership. Ordinary writes reject when closing before sequence or bytes are submitted; the finalizer calls the existing private primitive for `cleaned`. Normal open reports, stdout ordering,2s escalation phases,6s hard bound and every assertion remain unchanged. Source review SHA-256 `ee7285be6989e121e0b9bd11a07e18b58f6e137bb737be13cace9db97d0db638`.
++
++Fresh required `business-writer-final-process-faults01` passes **22/22**, with zero failures/skips/cancellations. Its unchanged consumer requires exact ACK/outcome, zero invalid credential creation, natural exit, no supervisor force and an empty owned temporary scope. Raw log SHA-256 `becc88a435a730ea845cb17205464b42c2f01ef2a34667361ebeb0df1e011d02`; independent audit `329bf7a28bf7c3e82027c5df030bca0e552f949cff2c429eae9c2c3d24c0cfb4`. Final formatting and fork-custody checks pass; prior strict Clippy is reused only for independently matched unchanged backend inputs.
++
++Fresh unfiltered `business-writer-final-full-native01` passes **125/125 native tests and all17 embedded real-service browser scenarios**, with zero skips/filters/unreached cases. The17 scenarios are inside one native consumer. Raw log SHA-256 `e1ac895efd241e8440d50180bd505cb2e6f8382e9d97284493515832565bc29e`; all2,958 captured input hashes remain unchanged. Independent full terminal audit SHA-256 `5f6d6baa419ec7d08014f432e52c259d5f7a9accc489fbccf8dfb8d436b2db14` verifies the exact125 discovery/execution set and all17 browser scenarios, including allseven P16 variants. Original F13/F14 replies take7ms/4ms under the unchanged20s bound; actual204/cookie/privacy/single-reload/independent-actor assertions remain required.
++
++These current passes supersede earlier current-gate RED wording without explaining the historical native prerequisite/cleanup or delayed-bundle causes. Prior logs and UNKNOWN outcomes remain preserved. The [portable evidence package](evidence/browser-business-session-r7/enrollment-cleanup-repair/index06.json) is not yet sealed; final adversarial source/evidence approval, exact-head hostedCI and protected queue admission remain required. No repair publication, deployment, institutional act or collection occurred. HR/Org/Payroll/Foundry and launch remain incomplete.
+diff --git a/docs/planning/nextjs-v1/fork-delta.json b/docs/planning/nextjs-v1/fork-delta.json
+index 169cbd6..1dccd7f 100644
+--- a/docs/planning/nextjs-v1/fork-delta.json
++++ b/docs/planning/nextjs-v1/fork-delta.json
+@@ -149,21 +149,21 @@
+       "path": "backend/app/tests/auth_rest/browser_sessions.rs",
+       "before": null,
+       "after": {
+-        "sha256": "aff44dd5c3d5d0ede460f86fc098ecfc734b154c92fba457ff10c68ee598a8a0",
+-        "bytes": 283356,
++        "sha256": "af3da5f340ecaa1d78ad46d41fdc0a53be6d515a678727d54542fdffaff6d454",
++        "bytes": 288060,
+         "mode": 420
+       },
+-      "reason": "C2/R7c approved actual WebAuthn/PostgreSQL/native/browser regressions, private custody and exact-family owner failures, compatibility and current-authority constructor fields. Preserve inherited assertions; reviewed prerequisite correction and whitespace-only formatting."
++      "reason": "C2/R7c approved actual WebAuthn/PostgreSQL/native/browser regressions, private custody and exact-family owner failures, compatibility and current-authority constructor fields. Preserve inherited assertions; reviewed prerequisite correction and whitespace-only formatting. Independently reviewed failure-only RealWorker exit/readiness/static stderr classification; child owner precedes fallible diagnostic reader, Interrupted reads retry, no raw output or deadline/predicate change."
+     },
+     {
+       "path": "backend/app/tests/auth_rest/genuine_browser.rs",
+       "before": null,
+       "after": {
+-        "sha256": "eaa0a1a32a14b3c724939bcd65fdd453a2da663f382bd7926123c0e823573366",
+-        "bytes": 109859,
++        "sha256": "3fc7ff40ce5b01325515803864ba2e87386562f4dd0bf744b2c22c594261879b",
++        "bytes": 110318,
+         "mode": 420
+       },
+-      "reason": "C2/R7c approved actual WebAuthn/PostgreSQL/native/browser regressions, private custody and exact-family owner failures, compatibility and current-authority constructor fields. Preserve inherited assertions; reviewed prerequisite correction and whitespace-only formatting. Independently approved bounded static HTTP/failure diagnostics and fixture-only relocation of subject freshness1/1 before genuine issuance; preserve all runtime validation and17 required browser assertions."
++      "reason": "C2/R7c approved actual WebAuthn/PostgreSQL/native/browser regressions, private custody and exact-family owner failures, compatibility and current-authority constructor fields. Preserve inherited assertions; reviewed prerequisite correction and whitespace-only formatting. Independently approved bounded static HTTP/failure diagnostics and fixture-only relocation of subject freshness1/1 before genuine issuance; preserve all runtime validation and17 required browser assertions. Record the static native phase error before cleanup can mask it; preserve all phase/overall/cleanup deadlines and required assertions. Independently reviewed numeric checked-frame failure diagnostic; exact original20s countzero RED authorizes first-origin-only90s staging prerequisite, preserving later20s phases, overall130s/watchdog140s and cleanup8/8/2."
+     },
+     {
+       "path": "backend/app/tests/auth_rest/purpose.rs",
+@@ -189,11 +189,11 @@
+       "path": "backend/app/tests/auth_rest/resident_authenticator.rs",
+       "before": null,
+       "after": {
+-        "sha256": "b61d8994aea4754e8299c1729d04a7c3982cd93e3eed16c991acc67267c5eb22",
+-        "bytes": 13040,
++        "sha256": "ac3a42f9d88b85631d46640ffed8a63b3fd7793d2b3b5983402d2853f692fed8",
++        "bytes": 31884,
+         "mode": 420
+       },
+-      "reason": "C2/R7c approved actual WebAuthn/PostgreSQL/native/browser regressions, private custody and exact-family owner failures, compatibility and current-authority constructor fields. Preserve inherited assertions; reviewed prerequisite correction and whitespace-only formatting."
++      "reason": "C2/R7c approved actual WebAuthn/PostgreSQL/native/browser regressions, private custody and exact-family owner failures, compatibility and current-authority constructor fields. Preserve inherited assertions; reviewed prerequisite correction and whitespace-only formatting. Independently reviewed failure-only numeric cleanup exit/frame/age/ceremony-idle observations captured before done, preserving typed ceremony outcomes and original cleanup errors/deadlines. Peer-approved failure-stage diagnostics with strict fixed enum/boolean stderr decoding and 512-byte transient retention; no raw data, changed outcome, deadline or ACK. Independent review: establish the existing child owner before pipe/thread failure, use fallible thread creation, preserve typed constructor errors, retain cleanup failure on repeat, and reuse the existing worker phase for bounded reaping. Failure logs are best effort and cannot replace the primary result. Real-child startup fault proof remains pending. Independently reviewed four private startup/cached-failure regressions observe actual Node reap, successful created-worker joins, force/deadline facts and preservation of the exact first cleanup error. Injected setup failures are simulated; runtime proof and browser custody remain pending. Pair strict diagnostic decoding with the independently reviewed fixture-owned temporary scope and shared SDK cleanup settlement, preserving the original total bound. Runtime acceptance remains pending. Fixed setup checkpoints and validated first-frame categories distinguish resident startup failures without raw payloads, retries or deadline changes."
+     },
+     {
+       "path": "backend/app/tests/cedar_freshness_mint.rs",
+diff --git a/docs/planning/nextjs-v1/requirements-and-evidence.json b/docs/planning/nextjs-v1/requirements-and-evidence.json
+index 31bc523..c092505 100644
+--- a/docs/planning/nextjs-v1/requirements-and-evidence.json
++++ b/docs/planning/nextjs-v1/requirements-and-evidence.json
+@@ -4187,7 +4187,7 @@
+     },
+     {
+       "scope": "R7 passkey sign-in, current-authority own-attendance SSR/pagination/reload, exact-family logout and denied reads",
+-      "status": "bounded_current_local_runtime_accepted_exact_head_hosted_and_queue_pending",
++      "status": "full_native_124_of_125_browser_16_of_17_and_process_faults_19_of_22_required_failures_open",
+       "evidence": {
+         "path": "docs/planning/nextjs-v1/browser-business-session-r7-evidence.json",
+         "sha256": "f005bfc82cd9bfab76b118904cd9cd9908bb9eeb67044ae09cec0e4970f8160c"
+@@ -4208,7 +4208,7 @@
+         "skipped": 0,
+         "unreached": 0
+       },
+-      "interpretation": "The17browser scenarios are inside one of121native tests. Fresh p14-repair-canonical01 executes121/121 and17/17. Hosted prior diagnostic head8434bdb passed all42steps; originale24dac9RED remains preserved, cause unproven. Current repaired head requiredCI/queue pending.",
++      "interpretation": "The17browser scenarios are inside one of121native tests. Fresh p14-repair-canonical01 executes121/121 and17/17. Hosted prior diagnostic head8434bdb passed all42steps; originale24dac9RED remains preserved, cause unproven. Current repaired head requiredCI/queue pending. These native/browser counts are historical p14-repair-canonical01 proof. Frozen f5c29cc PR CI passed all42steps, but its exact-tree merge group failed: ten process tests, one passed/nine failed; later native/browser producers were skipped. The current repair passes22/22 deadline/process checks; fresh unfiltered121/17 is running and not yet accepted. The terminal current repair native run executes121:116passed5failed0ignored; embedded browser17:16passed1unreached(P16queued-react-css). Exact resident/worker diagnostics each1/1pass do not resolve original failures. Native enrollment preserves an exact20s checked_frames0 RED; independently reviewed first-origin-only90s correction passes the same exact consumer1/1. Full native/17 and hosted/queue acceptance remain pending. Terminal native02 independently audited:121executed120passed1failed0ignored0filtered; child17/17passed. Remaining resident cleanup exit3 is not explained by idle60s (observed6s). Source map unchanged within that run. Reviewed queued-ordering test currently running; no repaired final head or fresh hosted CI exists. The preceding running/frozen statements are historical and superseded by current_diagnostic_run/focused_cleanup_proof. Latest full run is118passed/3failed; selected17browser diagnostic is16passed/1failed at queued-pending after a real401 witness. Reviewed startup/SDK cleanup source passes four fault regressions and both previously failing consumers individually. The original121 discovery set plus four new regressions, all17browser scenarios, final source/evidence review, hostedCI and protected admission remain required. No current repair acceptance or launch is claimed. Latest full125/17 gate supersedes earlier active/pending wording and is RED123pass2fail native,16pass1fail browser. Both required failures remain open; isolated diagnostic consumer1/1 does not resolve the historical startup failure. Portable06 unsealed and no final review, new exact-headCI or queue admission. Latest native-input focused consumer is scopedPASS1native/all17browser. Subsequent full125 is RED124pass/1fail: queued-react-css passes, delayed-bundles fails with unlocalized generic assertion. Independent process22 gate is RED19pass/3fail (EOF-after-ready, wrong-sequence, legacy-selection), no cleanup ACK. These latest_full_run/current_process_fault_gate fields supersede earlier current/running statements. Diagnostics preserve every deadline/ACK/assertion; portable06 remains unsealed, publication/CI/queue blocked. Latest cleanup-owner-final-process-faults01 is terminalRED20passed/2failed: wrong-sequence fails before ready and never injects its intended fault; legacy-selection ends without cleanupACK. These are distinct observed stages with UNKNOWN causes. Latest focused location-native1/17 PASS is scoped; full125 remains RED. Source-only reviews do not grant final acceptance; portable06, publication, fresh hostedCI and protected queue admission remain blocked. Current business-writer-final-process-faults01 independently passes22/22; business-writer-final-full-native01 terminal passes125/125 and embedded17/17 with zero skips/filters/unreached. Exact2958 input hashes remain unchanged. These current fields supersede earlier required-current RED wording while preserving prior failures and UNKNOWN causes. Final full audit, evidence seal/review, exact-head hostedCI and protected queue admission remain pending; no launch acceptance. Full125/browser17 terminal audit now independently verifies exact discovery/execution sets, current unchanged2958 closure and allsevenP16variants. Final source/evidence review, seal and exact-head hostedCI/queue remain pending.",
+       "remaining_holds": [
+         "Physical passkeys and attended identity/recovery",
+         "Verified natural-person independent approval",
+@@ -4218,7 +4218,561 @@
+         "Complete HR/Org/Payroll/Foundry and all B/P launch workflows",
+         "Capacity, restore, migration and full release acceptance"
+       ],
+-      "hosted_delivery": "prior_diagnostic_head8434bdb_GREEN_current_repair_head_pending"
++      "hosted_delivery": "prior_f5c29cc_PR_green_merge_group_rejected_current_required_local_gates_RED_no_publication_or_queue",
++      "current_repair_native": {
++        "executed": 125,
++        "passed": 124,
++        "failed": 1,
++        "skipped": 0,
++        "filtered": 0,
++        "discovered": 125,
++        "run": "native-input-final-full-native01",
++        "raw_log_sha256": "efc7415614eda7c09d02382e34ba3f8720ae99ccb216f6893c734bc149d951f6",
++        "scope": "Latest full required gate; terminal RED"
++      },
++      "current_repair_embedded_browser": {
++        "executed": 17,
++        "passed": 16,
++        "failed": 1,
++        "skipped": 0,
++        "unreached": 0,
++        "discovered": 17,
++        "run": "native-input-final-full-native01",
++        "scope": "Embedded within the failed full125 native gate; terminal RED"
++      },
++      "current_repair_evidence": {
++        "path": "docs/planning/nextjs-v1/evidence/browser-business-session-r7/enrollment-cleanup-repair/index05.json",
++        "sha256": "d0d7974037d0d02c6c4ba668fa092597b65c986a6fc5101e4973b23972e25e29",
++        "scope": "Terminal full native02RED120/1, queued baselineRED16/17, scoped resident1/1 and ready/done40/40; approved diagnostics/review chain; active unfiltered diagnostic03 excluded; no root-cause or queue approval"
++      },
++      "current_diagnostic_run": {
++        "id": "queued-prewitness-diagnostic-native01",
++        "status": "terminal_required_acceptance_failed",
++        "native_counts": {
++          "executed": 1,
++          "passed": 0,
++          "failed": 1,
++          "skipped": 0,
++          "filtered": 120
++        },
++        "browser_counts": {
++          "executed": 17,
++          "passed": 16,
++          "failed": 1,
++          "skipped": 0,
++          "unreached": 0
++        },
++        "raw_log_sha256": "260066fd973d91ab86beb0bfa992b97c7834285238546269357317cb270ab055",
++        "inputs_sha256": "1cc116be66820ae7facd6253c3c5d652eb8c22649ed535bae787c898a82e1a61",
++        "source_inputs_unchanged": true,
++        "failure_observation": {
++          "scenario": "P16",
++          "variant": "queued-react-css",
++          "checkpoint": "queued-pending",
++          "native_status": 401,
++          "native_gate_and_context_match": true,
++          "trusted_departures": 1,
++          "trusted_original_restores": 1,
++          "ordering_observation": null,
++          "raw_exception": "unproven"
++        },
++        "source_edits": "run finished; reviewed cleanup corrections applied afterward"
++      },
++      "focused_cleanup_proof": {
++        "resident-startup-and-cached-fault-native01": {
++          "executed": 4,
++          "passed": 4,
++          "failed": 0,
++          "skipped": 0,
++          "filtered": 121,
++          "raw_log_sha256": "403449217e7afd81c8b79a7e545cf7f47e7761cbec85970bee5c098cfb3a48e6"
++        },
++        "resident-shared-cleanup-short-family-native01": {
++          "executed": 1,
++          "passed": 1,
++          "failed": 0,
++          "skipped": 0,
++          "filtered": 124,
++          "raw_log_sha256": "dd79ffead7dd9c53ed1209f3324a1b26f453e9f97fbad9f4f9049683118e8eea"
++        },
++        "resident-shared-cleanup-fk-native01": {
++          "executed": 1,
++          "passed": 1,
++          "failed": 0,
++          "skipped": 0,
++          "filtered": 124,
++          "raw_log_sha256": "a6ca65b12623b4058f734bc6f74ab00a7e127b8b4a58c8e5c5357c0b1f0ef503"
++        },
++        "inputs_sha256": "85386f6ca3a1a72287c32bf111311f8e52d584a7a047b0826830873645e0ad2e",
++        "source_inputs_unchanged": true,
++        "limits": "Scoped proof only; simulated private setup errors are not OS exhaustion. Node reap/worker join observations do not independently prove Chromium group absence. Fresh full125native/17browser and hosted exact-head checks remain required."
++      },
++      "latest_full_run": {
++        "id": "business-writer-final-full-native01",
++        "status": "terminal_independently_verified_scoped_pass",
++        "native_counts": {
++          "executed": 125,
++          "passed": 125,
++          "failed": 0,
++          "skipped": 0,
++          "filtered": 0
++        },
++        "embedded_browser_counts": {
++          "executed": 17,
++          "passed": 17,
++          "failed": 0,
++          "skipped": 0,
++          "unreached": 0
++        },
++        "raw_log_sha256": "e1ac895efd241e8440d50180bd505cb2e6f8382e9d97284493515832565bc29e",
++        "inputs_sha256": "860a09c23df250e4f1f95d71b64cf8056d03d88d3c52f66c80cb0ed71b56bfb6",
++        "source_inputs_unchanged": true,
++        "previous_gate_preserved": {
++          "id": "native-input-final-full-native01",
++          "status": "terminal_required_acceptance_failed",
++          "native_counts": {
++            "executed": 125,
++            "passed": 124,
++            "failed": 1,
++            "skipped": 0,
++            "filtered": 0
++          },
++          "embedded_browser_counts": {
++            "executed": 17,
++            "passed": 16,
++            "failed": 1,
++            "skipped": 0,
++            "unreached": 0
++          },
++          "raw_log_sha256": "efc7415614eda7c09d02382e34ba3f8720ae99ccb216f6893c734bc149d951f6",
++          "inputs_sha256": "77d09afd7c39eb07166ae64c0cb85e660c8f2b57927090464edbf198dd415d4a",
++          "source_inputs_unchanged": true,
++          "open_failures": [
++            "P16 delayed-bundles: generic required restore assertion; exact failure location/cause unobserved"
++          ],
++          "queued_react_css": {
++            "status": "passed",
++            "native_gate_context_401_and_pending_match": true,
++            "snapshot_elapsed_ms": 11,
++            "release_elapsed_ms": 5,
++            "existing_budget_ms": 20000
++          },
++          "limits": "All125 native/all17 browser executed, no skipped/filtered/unreached. Independently audited terminal RED. Focused subsequent17/17 does not clear this full gate or separate process22 RED.",
++          "independent_terminal_audit_sha256": "7bf286d80ec750e4ec798bc832eebaae5175ae31c05b867143b8fe7f42db6a32"
++        },
++        "limits": "Embedded17 browser scenarios execute inside one of125 native tests, not142 independent tests. Independent audit matches exact125 discovery/execution sets and all2958 current/22/static input hashes. Allseven P16 variants pass. PriorRED/UNKNOWN causes remain preserved; source/evidence review, seal, exact-head hostedCI and protected queue admission remain pending.",
++        "independent_terminal_audit_sha256": "5f6d6baa419ec7d08014f432e52c259d5f7a9accc489fbccf8dfb8d436b2db14",
++        "embedded_payload_sha256": "bfaedceac01cec85715fb4b8a72c549188843d7e3c491b81f7873514dcb10e38"
++      },
++      "latest_restore_diagnostic": {
++        "id": "real-p16-original-document-owner-native01",
++        "status": "terminal_required_acceptance_failed",
++        "native_counts": {
++          "passed": 0,
++          "failed": 1,
++          "skipped": 0,
++          "filtered": 124,
++          "executed": 1
++        },
++        "browser_counts": {
++          "passed": 16,
++          "failed": 1,
++          "unreached": 0,
++          "skipped": 0
++        },
++        "raw_log_sha256": "b10e324ae5e35478466344793f9a2d88f9ffa937aa3ff0bd7f50dba75f4d96d7",
++        "inputs_sha256": "58289ce43a1c9cb39145a677b87a0b55b404dfc3990a65ae638847e93c759609",
++        "source_inputs_unchanged": true,
++        "independent_terminal_audit_sha256": "00ea12253f901e3b34bfe44fc8fe85dc037d79deacbda5520aee6b95a86e9fa3",
++        "actual_observation": {
++          "queued_checkpoint": "queued-pending",
++          "failure_location": null,
++          "queued_native_observation": {
++            "stage": "native-response-observed",
++            "http_status": 401,
++            "native_gate_match": true,
++            "native_context_match": true,
++            "native_status_401": true
++          },
++          "queued_ordering_observation": null,
++          "original_world_observation": {
++            "purpose": "pending",
++            "category": "cdp-rejected",
++            "configured_budget_ms": 20000,
++            "observed_elapsed_ms": 15008,
++            "elapsed_capped": false,
++            "local_deadline_fired": false,
++            "cdp_response_received": false,
++            "exception_returned": null,
++            "exception_class": null,
++            "returned_value_kind": null,
++            "cdp_rejection": {
++              "error_shape": "native-error",
++              "public_name": "Error",
++              "message_category": "unique-context-not-found",
++              "exact_literal_matched": true
++            },
++            "original_context_destroyed_seen": false,
++            "original_context_created_again_seen": true,
++            "contexts_cleared_after_pin_seen": true,
++            "cdp_session_closed_seen": false,
++            "last_created_main_world_matches_original": false
++          },
++          "original_document_pin_observation": {
++            "purpose": "document-pin",
++            "category": "returned-original-document",
++            "configured_budget_ms": 20000,
++            "observed_elapsed_ms": 0,
++            "elapsed_capped": false,
++            "local_deadline_fired": false,
++            "cdp_response_received": true,
++            "exception_returned": false,
++            "exception_class": null,
++            "returned_value_kind": "node",
++            "cdp_rejection": null,
++            "original_context_destroyed_seen": false,
++            "original_context_created_again_seen": false,
++            "contexts_cleared_after_pin_seen": false,
++            "cdp_session_closed_seen": false,
++            "last_created_main_world_matches_original": true
++          },
++          "original_document_owner_at_required_outcome": {
++            "category": "pending-at-required-outcome",
++            "configured_budget_ms": 20000,
++            "observed_elapsed_ms": 15008,
++            "elapsed_capped": false,
++            "local_deadline_fired": false,
++            "raw_document_call_issued": true,
++            "cdp_response_received": false,
++            "cdp_rejection": null,
++            "exception_returned": null,
++            "exception_class": null,
++            "pending": null,
++            "pending_matches_expected": null
++          },
++          "original_document_owner_observation": {
++            "category": "pending-at-required-outcome",
++            "configured_budget_ms": 20000,
++            "observed_elapsed_ms": 15008,
++            "elapsed_capped": false,
++            "local_deadline_fired": false,
++            "raw_document_call_issued": true,
++            "cdp_response_received": false,
++            "cdp_rejection": null,
++            "exception_returned": null,
++            "exception_class": null,
++            "pending": null,
++            "pending_matches_expected": null
++          },
++          "queued_phase_timeline": [
++            {
++              "sequence": 0,
++              "kind": "exact-main-frame-request",
++              "observed_elapsed_ms": 196,
++              "elapsed_capped": false
++            },
++            {
++              "sequence": 1,
++              "kind": "exact-main-frame-commit",
++              "observed_elapsed_ms": 197,
++              "elapsed_capped": false,
++              "navigation_type": "BackForwardCacheRestore"
++            },
++            {
++              "sequence": 2,
++              "kind": "native-response-observed",
++              "observed_elapsed_ms": 204,
++              "elapsed_capped": false,
++              "stage": "native-response-observed",
++              "http_status": 401,
++              "native_gate_match": true,
++              "native_context_match": true,
++              "native_status_401": true
++            },
++            {
++              "sequence": 3,
++              "kind": "original-evaluation-issued",
++              "observed_elapsed_ms": 204,
++              "elapsed_capped": false,
++              "purpose": "pending"
++            },
++            {
++              "sequence": 4,
++              "kind": "exact-main-frame-response",
++              "observed_elapsed_ms": 15201,
++              "elapsed_capped": false,
++              "http_status": 200
++            },
++            {
++              "sequence": 5,
++              "kind": "exact-main-frame-commit",
++              "observed_elapsed_ms": 15204,
++              "elapsed_capped": false,
++              "navigation_type": "Navigation"
++            },
++            {
++              "sequence": 6,
++              "kind": "original-evaluation-rejected",
++              "observed_elapsed_ms": 15212,
++              "elapsed_capped": false,
++              "purpose": "pending",
++              "cdp_rejection": {
++                "error_shape": "native-error",
++                "public_name": "Error",
++                "message_category": "unique-context-not-found",
++                "exact_literal_matched": true
++              }
++            }
++          ],
++          "not_restored_reasons": [],
++          "trusted_departures": 1,
++          "trusted_original_restores": 1
++        },
++        "cause": "Exact unique-context-not-found lookup rejection observed after replacement Navigation receipt; expression did not return. Internal BFF abort/status/body and Chromium command deferral causality remain unproven. Predeparture raw Document pin succeeded but read remained pending; no usable alternate observation demonstrated.",
++        "limits": "Native one failed/124 filtered; all17 browser16 passed/1failed. No timeout, original-document requirement, assertion or release change. This remains a diagnostic RED, not correction acceptance."
++      },
++      "latest_strict_clippy": {
++        "id": "resident-stderr-type-clarity-clippy01",
++        "status": "passed",
++        "exit_code": 0,
++        "duration_seconds": 1050.759528500028,
++        "test_bodies_executed": 0,
++        "raw_log_sha256": "db089e738d22fdf5078887d6dabf87e5ff113f790c92770246d2392961228f1e",
++        "inputs_sha256": "3a29d02833f3757908a3a8fe4f08c13790a813cd7a7676dbbb92653f2c77ae14",
++        "source_inputs_unchanged": true,
++        "limits": "Strict current -D warnings passed after the reviewed StderrObservation type alias. Cargo retains the proc-macro-error2 future-incompatibility notice. No test-body or browser acceptance is claimed.",
++        "independent_terminal_audit_sha256": "67445e9852386f2781837f9efd4b8d485eee8d85c917a90caccbb7b33abf77b0"
++      },
++      "latest_mechanics_diagnostic": {
++        "id": "restored-context-mechanics-native05-launch02",
++        "status": "terminal_failed_prerequisite",
++        "exit_code": 1,
++        "duration_seconds": 6.064896541996859,
++        "raw_log_sha256": "b141060fff2340219180c30569fabe4a814fcd52accc4780fffee878e46daef1",
++        "inputs_sha256": "3a29d02833f3757908a3a8fe4f08c13790a813cd7a7676dbbb92653f2c77ae14",
++        "source_inputs_unchanged": true,
++        "independent_terminal_audit_sha256": "fca03823d1a457906182b68ce3017cd0b47b94ccaaa577eeb1153526e76f0f62",
++        "trusted_original_restoration": false,
++        "comparison_evaluations_issued": 0,
++        "cache_failure_reason_event_observed": false,
++        "scope": "Isolated browser mechanics only; fixture documents/timers do not prove business authentication, BFF behavior or required product acceptance",
++        "limits": "Second original-document request does not prove guard reload without trusted restoration. Scoped cleanup observed for this standalone only. No cause inferred; no further fixture expansion. Earlier malformed invocation never started a probe and has separate failure evidence."
++      },
++      "prior_restore_diagnostic": {
++        "id": "restored-context-failure-diagnostic-native01",
++        "status": "terminal_required_acceptance_failed",
++        "native_counts": {
++          "executed": 1,
++          "passed": 0,
++          "failed": 1,
++          "skipped": 0,
++          "filtered": 124
++        },
++        "browser_counts": {
++          "executed": 17,
++          "passed": 16,
++          "failed": 1,
++          "skipped": 0,
++          "unreached": 0
++        },
++        "raw_log_sha256": "417238077f3659d50325bd878e6e82aa3f45e84c11489cd8d27fc199f8e2a1ca",
++        "inputs_sha256": "90131bea32cf92be29be3b9b6332316eabb7534409cdc1cf463e5363626288da",
++        "source_inputs_unchanged": true,
++        "independent_terminal_audit_sha256": "fdaa7c0b0f675fd9d51a422d04cc4aec252047acdb8dcab45aaf78b7a5cff7ef",
++        "actual_observation": {
++          "purpose": "pending",
++          "category": "cdp-rejected",
++          "configured_budget_ms": 20000,
++          "observed_elapsed_ms": 15006,
++          "local_deadline_fired": false,
++          "normal_awaited_result_observed": false,
++          "returned_javascript_exception_observed": false
++        },
++        "cause": "Unproven; existing BFF15s native-fetch timeout and context lifecycle loss are hypotheses, not demonstrated cause",
++        "limits": "No timeout, assertion, context fallback or single-release change. Required failure remains open."
++      },
++      "previous_full_run_before_native_input": {
++        "id": "resident-restored-context-full-native01",
++        "status": "terminal_required_acceptance_failed",
++        "native_counts": {
++          "executed": 125,
++          "passed": 123,
++          "failed": 2,
++          "skipped": 0,
++          "filtered": 0
++        },
++        "embedded_browser_counts": {
++          "executed": 17,
++          "passed": 16,
++          "failed": 1,
++          "skipped": 0,
++          "unreached": 0
++        },
++        "raw_log_sha256": "94f7244bc3b0454ef7075553d1347b4d5d7857abef97ff8c0e9a5ffc85cbaad2",
++        "inputs_sha256": "c054df00ddb6a240ffaaabc6baf2a53b3a91ce07723d8ad4653692cffc2e7fc0",
++        "source_inputs_unchanged": true,
++        "independent_terminal_audit_sha256": "988724173da9c68933d382c992519ae5fce8777af2e49c2e3783b4862adee0b7",
++        "open_failures": [
++          "resident first-frame readiness category/setup stage unproven in encrypted-proof tampering consumer",
++          "P16 queued-react-css queued-pending observation unavailable after exact native401; raw cause unproven"
++        ],
++        "after_terminal": "Reviewed bounded setup diagnostics applied; exact tampering consumer passed1/1 with124filtered, a nonreproducing scoped result rather than historical-failure resolution"
++      },
++      "focused_native_input_proof": {
++        "id": "real-p16-native-input-owner-native01",
++        "status": "scoped_pass_independently_audited",
++        "native_counts": {
++          "executed": 1,
++          "passed": 1,
++          "failed": 0,
++          "skipped": 0,
++          "filtered": 124
++        },
++        "browser_counts": {
++          "executed": 17,
++          "passed": 17,
++          "failed": 0,
++          "skipped": 0,
++          "unreached": 0
++        },
++        "source_sha256": "3be5f8d095d22cd5c2588880650f26acebb92f535222232ad8da40bca16147da",
++        "raw_log_sha256": "84ded14316b057068c0ec8d6edfb744e28dc568e0331fcd6520924a1634a47b9",
++        "inputs_sha256": "77d09afd7c39eb07166ae64c0cb85e660c8f2b57927090464edbf198dd415d4a",
++        "source_inputs_unchanged": true,
++        "independent_terminal_audit_sha256": "fc0b0c21e08ac0415c5d92b002fd55247632815775729a973c138a6c46814079",
++        "limits": "All seven P16 variants pass in this selected native consumer only; later full125 has delayed-bundle failure. No full repair/CI/queue/launch acceptance."
++      },
++      "current_process_fault_gate": {
++        "id": "business-writer-final-process-faults01",
++        "status": "terminal_independently_verified_scoped_pass",
++        "exit_code": 0,
++        "node_counts": {
++          "executed": 22,
++          "passed": 22,
++          "failed": 0,
++          "skipped": 0,
++          "cancelled": 0,
++          "todo": 0
++        },
++        "raw_log_sha256": "becc88a435a730ea845cb17205464b42c2f01ef2a34667361ebeb0df1e011d02",
++        "inputs_sha256": "860a09c23df250e4f1f95d71b64cf8056d03d88d3c52f66c80cb0ed71b56bfb6",
++        "source_inputs_unchanged": true,
++        "independent_terminal_audit_sha256": "329bf7a28bf7c3e82027c5df030bca0e552f949cff2c429eae9c2c3d24c0cfb4",
++        "previous_gate_preserved": {
++          "id": "cleanup-owner-final-process-faults01",
++          "status": "terminal_required_acceptance_failed",
++          "exit_code": 1,
++          "node_counts": {
++            "executed": 22,
++            "passed": 20,
++            "failed": 2,
++            "skipped": 0,
++            "cancelled": 0,
++            "todo": 0
++          },
++          "failed_cases": {
++            "wrong-sequence": {
++              "stage": "before-ready",
++              "observed": "cleaned frame received instead of ready at driver line81",
++              "intended_fault_injected": false,
++              "cause": "UNKNOWN; original prerequisite failure and cleaned outcome unobserved"
++            },
++            "legacy-selection": {
++              "stage": "cleanup-acknowledgement",
++              "observed": "runner ended before cleanup acknowledgement at read line54 / call line102",
++              "cause": "UNKNOWN; no first-owner-stage or child-exit metadata"
++            }
++          },
++          "raw_log_sha256": "ea9b2ad096fad25d1927ecb02a7596d1b382f5c7573d04826e919497acd521ef",
++          "inputs_sha256": "433fa937df5fb1298f20b855ca2e7af376750d61b0cdadef93087063c1e704f2",
++          "source_inputs_unchanged": true,
++          "independent_terminal_audit_sha256": "ebe4a3641538086a2205476e54d6a7585f665e14b0853d1a44a6e7242d609a13",
++          "previous_gate_preserved": {
++            "id": "native-input-final-process-faults01",
++            "status": "terminal_required_acceptance_failed",
++            "exit_code": 1,
++            "node_counts": {
++              "executed": 22,
++              "passed": 19,
++              "failed": 3,
++              "skipped": 0,
++              "cancelled": 0,
++              "todo": 0
++            },
++            "failed_cases": [
++              "eof-after-ready",
++              "wrong-sequence",
++              "legacy-selection"
++            ],
++            "observed_failure": "runner ended before cleanup acknowledgement at read line54 / call line102",
++            "cause": "unproven; no child exit, force or first-owner-stage observation in this gate",
++            "raw_log_sha256": "b794b4da32b975219deb50bb92f9207f0c0cb17b256f11137ebe9c2afedef9a1",
++            "inputs_sha256": "77d09afd7c39eb07166ae64c0cb85e660c8f2b57927090464edbf198dd415d4a",
++            "source_inputs_unchanged": true,
++            "independent_terminal_audit_sha256": "5aceecaefa2e7bd10ffddce979f8f1ef02063d44cc48c1ad61d998015bd2bac8",
++            "limits": "Generic run-gate counts describe Rust results (zero here); actual Node22 counts independently parsed without duplicate failure-summary rows. Required process acceptance remains RED."
++          },
++          "limits": "Exactly22 unique Node execution rows, zero cancelled/skipped/todo. Generic Rust parser counts remain zero separately. EOF-after-ready passed in this run without resolving its historical cause; pre-ready and missing-ACK failures are distinct. No final runtime acceptance."
++        },
++        "limits": "Six clock tests and16 real process cases retain exact ACK/outcome/zero invalid credential creation/natural exit/no supervisor force/empty owned TMPDIR assertions. Historical native readiness/cleanup causes remain UNKNOWN. This gate is not full product or launch proof."
++      },
++      "focused_restore_location_proof": {
++        "id": "real-all-variant-restore-location-native01",
++        "status": "terminal_scoped_pass",
++        "native_counts": {
++          "executed": 1,
++          "passed": 1,
++          "failed": 0,
++          "skipped": 0,
++          "filtered": 124
++        },
++        "browser_counts": {
++          "executed": 17,
++          "passed": 17,
++          "failed": 0,
++          "skipped": 0,
++          "unreached": 0
++        },
++        "raw_log_sha256": "03215ada36a50102d3af51176c08171a8405439b0caaba8672b07837f8cfabae",
++        "inputs_sha256": "0d0db8b93f59409b9b7395aaec683c4a67522789fab874d8359cdc03984d8c22",
++        "source_inputs_unchanged": true,
++        "independent_terminal_audit_sha256": "6da45f4632408948d8d1b07faa404e8cd2f1cf767633bb1ad263505d34bab3c9",
++        "limits": "Failure location diagnostic preserves behavior. No delayed-bundles failure reproduced; historical cause remains UNKNOWN. This scoped pass does not replace required fresh unfiltered125/browser17 gate."
++      },
++      "cleanup_owner_repair": {
++        "status": "applied_source_reviewed_runtime_gate_red",
++        "native_sha256": "afd17a0d0a69358613e1ff6d03d24f27eb322bd558a8cf021390e32527fff22e",
++        "business_sha256": "6868ac44bef0334065b3e4cd70ddfc58c3623be4070e6625f35b1738bed24280",
++        "independent_source_review_sha256": "7e68f4fee14e1c38f9f5aeedcc34b1683071869dcbc7436727b4c58c01c3e3e4",
++        "overall_source_review_sha256": "9f817a1811f2462711869cd60bfe7481b7afe2d1e35eef0d0471c61bfd6d2d06",
++        "scope": "Shared SDK cleanup ownership, sibling settlement, bounded unconfirmed finalization and startup-owned sequential certificate writes. Existing2s escalation phases and6s hard bound preserved.",
++        "limits": "Source approvals do not establish historical runtime cause, current full22/full125/17 pass, final evidence seal, exact-head hostedCI or protected queue admission."
++      },
++      "business_writer_ownership_repair": {
++        "status": "applied_source_reviewed_current_process_and_native_gates_pass",
++        "before_sha256": "6868ac44bef0334065b3e4cd70ddfc58c3623be4070e6625f35b1738bed24280",
++        "after_sha256": "840d164c2e81b204d98347d8fc6a1f6467e3c70d5769bc1e1a815fc2ebf4bc11",
++        "independent_source_review_sha256": "ee7285be6989e121e0b9bd11a07e18b58f6e137bb737be13cace9db97d0db638",
++        "observed_regression": {
++          "run_id": "cleanup-owner-full-fault-diagnostic03",
++          "executed": 22,
++          "passed": 21,
++          "failed": 1,
++          "raw_log_sha256": "5c6993ff8d1a36e2f404571946f7367840920e22dec2e350e061785c6d0b445f",
++          "independent_terminal_audit_sha256": "85f04f43bb8fe5405bdfde43487d5f6a25dfba2c1957ff5b5b947ee3bc4ceba7",
++          "failure": "Original business startup frame-EOF case receives report before expected cleaned. Reader stops at report; later ACK emission remains unproven. Final parent SIGTERM attempted, not proof of delivery or necessity."
++        },
++        "change": "Ordinary writeFrame rejects when closing before sequence/bytes submission; finalizer alone calls the existing private primitive for cleaned. Same stdout FIFO, normal17-scenario report, timers and test assertions preserved.",
++        "limits": "Known business protocol interleave corrected; earlier native readiness/cleanup/delayed-bundle failure causes are not established by later passes."
++      },
++      "final_static_checks": {
++        "format_run_id": "business-writer-final-format01",
++        "custody_run_id": "business-writer-final-custody01",
++        "status": "passed",
++        "independent_audit_sha256": "9c87f527e7adcd3b9c1435cdc0fd3191a42ae45a756011184660c0188af833f3",
++        "strict_clippy_scope_reuse_audit_sha256": "03c1db9be519f32c4bb7c805cc481ba7ba94e74eaf77cc389d87af4a2697c55a",
++        "limits": "Zero runtime test bodies; existing strict Clippy reused only for unchanged captured backend/dependency/source scope. No all-workspace or environment attestation."
++      }
+     }
+   ]
+ }
+diff --git a/tools/browser-business-restore.mjs b/tools/browser-business-restore.mjs
+index f44bb25..f28f25a 100644
+--- a/tools/browser-business-restore.mjs
++++ b/tools/browser-business-restore.mjs
+@@ -2,6 +2,7 @@
+ import assert from "node:assert/strict";
+ import { createHash, randomUUID } from "node:crypto";
+ import { setTimeout as delay } from "node:timers/promises";
++import { browserFailureLocation } from "./browser-business-failure.mjs";
+ 
+ const LOGIN = "/login/";
+ const LOGOUT = "/api/browser-session/logout/";
+@@ -73,6 +74,75 @@ async function measureGuard(h) {
+ async function installProbe(page, selector, facts, queueLogout, observeReact = false) {
+   const events = [];
+   const errors = [];
++  const inputObservations = [];
++  const bindingName = `__r7NativeRestore${randomUUID().replaceAll("-", "")}`;
++  const inputNonce = randomUUID();
++  let inputWaiter; let inputAttempts = 0; let completedInputs = 0; let closed = false;
++  if (queueLogout) await page.exposeBinding(bindingName, (source, value) => {
++    if (closed) return;
++    try {
++      assert.ok(inputWaiter, "one original input reply must be pending");
++      assert.equal(source.page, page); assert.equal(source.frame, page.mainFrame());
++      assert.ok(value && typeof value === "object" && !Array.isArray(value));
++      const extra = inputWaiter.kind === "snapshot" ? ["pending", "snapshot"] : ["commits"];
++      assert.deepEqual(Object.keys(value).sort(), ["nonce", "sequence", "kind", "document", "trusted", "persisted", ...extra].sort());
++      assert.equal(value.nonce, inputNonce); assert.equal(value.document, inputWaiter.original);
++      assert.equal(value.sequence, inputWaiter.sequence); assert.equal(value.kind, inputWaiter.kind);
++      assert.equal(value.trusted, true); assert.equal(value.persisted, true);
++      if (value.kind === "snapshot") {
++        assert.deepEqual(Object.keys(value.pending).sort(), ["original", "restored", "queued", "started"].sort());
++        assert.ok(Object.values(value.pending).every((item) => typeof item === "boolean"));
++        assert.deepEqual(Object.keys(value.snapshot).sort(), ["text", "html", "visibleTables"].sort());
++        assert.equal(typeof value.snapshot.text, "string"); assert.equal(typeof value.snapshot.html, "string");
++        assert.ok(value.snapshot.text.length + value.snapshot.html.length <= 2 * 1024 * 1024);
++        assert.ok(Array.isArray(value.snapshot.visibleTables) && value.snapshot.visibleTables.length <= 1024
++          && value.snapshot.visibleTables.every((item) => typeof item === "boolean"));
++      } else assert.ok(Number.isSafeInteger(value.commits) && value.commits >= 0);
++      const waiter = inputWaiter; inputWaiter = undefined;
++      waiter.resolve(value); // Transient snapshot only; never appended to logs/evidence/events.
++    } catch {
++      if (errors.length < 32) errors.push("invalid original native input reply");
++      const waiter = inputWaiter; inputWaiter = undefined;
++      waiter?.reject(new Error("invalid original native input reply"));
++    }
++  });
++  async function originalInput(kind, original, input, budget = 20000) {
++    assert.ok(queueLogout && !closed && !inputWaiter);
++    assert.equal(kind, inputAttempts === 0 ? "snapshot" : "release");
++    assert.ok(inputAttempts < 2);
++    if (kind === "release") assert.equal(completedInputs, 1, "snapshot must complete before the sole release input");
++    const sequence = ++inputAttempts;
++    const startedAt = performance.now();
++    let timer; let deadlineFired = false; let stopped = false;
++    let sent = false; let received = false; let category = "native-input-failure";
++    const reply = new Promise((resolve, reject) => { inputWaiter = { kind, original, sequence, resolve, reject }; });
++    const key = kind === "snapshot" ? "F13" : "F14";
++    const windowsVirtualKeyCode = kind === "snapshot" ? 124 : 125;
++    const sending = (async () => {
++      await input.send("Input.dispatchKeyEvent", { type: "rawKeyDown", key, code: key, windowsVirtualKeyCode, autoRepeat: false });
++      if (stopped) return;
++      await input.send("Input.dispatchKeyEvent", { type: "keyUp", key, code: key, windowsVirtualKeyCode });
++      sent = true;
++    })();
++    const operation = Promise.all([sending, reply.then((value) => { received = true; return value; })])
++      .then(([, value]) => value);
++    void operation.catch(() => {}); // Own any late send/reply rejection after this one bounded attempt.
++    try {
++      const value = await Promise.race([operation, new Promise((_, reject) => {
++        timer = setTimeout(() => { deadlineFired = true; reject(new Error("original native input deadline")); }, budget);
++      })]);
++      category = "reply-received"; completedInputs += 1;
++      return value;
++    } finally {
++      stopped = true; clearTimeout(timer);
++      inputWaiter?.reject(new Error("original native input attempt ended")); inputWaiter = undefined;
++      const elapsed = Math.max(0, Math.floor(performance.now() - startedAt));
++      inputObservations.push({ kind, sequence, category: deadlineFired ? "local-deadline" : category,
++        configured_budget_ms: Number.isSafeInteger(budget) && budget > 0 && budget <= 600000 ? budget : null,
++        observed_elapsed_ms: Math.min(elapsed, 600000), elapsed_capped: elapsed > 600000,
++        native_input_completed: sent, valid_original_reply_received: received, local_deadline_fired: deadlineFired });
++    }
++  }
+   const listener = (message) => {
+     const text = message.text();
+     if (!text.startsWith(PREFIX)) return;
+@@ -85,9 +155,54 @@ async function installProbe(page, selector, facts, queueLogout, observeReact = f
+     } catch { errors.push("invalid restore probe frame"); }
+   };
+   page.on("console", listener);
+-  await page.addInitScript(({ selector, names, queueLogout, observeReact, key, prefix }) => {
+-    const state = { document: crypto.randomUUID(), restored: false, reactCommits: 0 };
++  try {
++    await page.addInitScript(({ selector, names, queueLogout, observeReact, key, prefix, bindingName, inputNonce }) => {
++    const state = { document: crypto.randomUUID(), restored: false, reactCommits: 0, logoutQueued: false, logoutStarted: false, logoutReleased: false };
+     Object.defineProperty(window, key, { value: state });
++    const originalDocument = document; const originalToken = state.document;
++    let reply; // Capture the SDK binding while this original Document is active, before departure.
++    let trustedRestore = false; let inputSequence = 0;
++    // Only a real persisted pageshow queues this timer. The native response
++    // witness below releases it once; cleanup never releases an unproved action.
++    let releaseLogout;
++    const logoutRelease = queueLogout ? new Promise((resolve) => { releaseLogout = resolve; }) : null;
++    const releaseQueuedLogout = () => {
++      if (!queueLogout || state.document !== originalToken || !state.restored
++        || !state.logoutQueued || state.logoutStarted || state.logoutReleased) return null;
++      const commits = state.reactCommits;
++      state.logoutReleased = true;
++      releaseLogout();
++      return commits;
++    };
++    if (queueLogout) addEventListener("keydown", (event) => {
++      if (typeof reply !== "function" || !event.isTrusted || event.repeat || !["F13", "F14"].includes(event.code)
++        || !trustedRestore || !state.restored || !state.logoutQueued || state.logoutStarted
++        || state.document !== originalToken || document !== originalDocument
++        || originalDocument.defaultView?.document !== originalDocument) return;
++      const response = (kind, sequence, details) => {
++        // SDK binding transport receives data directly; it never logs this snapshot.
++        // Retiring-context delivery of the callback result is not awaited.
++        void reply({ nonce: inputNonce, sequence, kind, document: originalToken,
++          trusted: event.isTrusted, persisted: trustedRestore, ...details }).catch(() => {});
++      };
++      if (event.code === "F13" && inputSequence === 0) {
++        inputSequence = 1;
++        response("snapshot", 1, {
++          pending: { original: state.document === originalToken, restored: state.restored,
++            queued: state.logoutQueued, started: state.logoutStarted },
++          snapshot: { text: originalDocument.body.innerText, html: originalDocument.documentElement.outerHTML,
++            visibleTables: [...originalDocument.querySelectorAll('table,[role="table"]')].map((table) => {
++              const style = getComputedStyle(table);
++              return Boolean(table.getClientRects().length) && style.display !== "none"
++                && style.visibility !== "hidden" && style.visibility !== "collapse";
++            }) },
++        });
++      } else if (event.code === "F14" && inputSequence === 1 && !state.logoutReleased) {
++        const commits = releaseQueuedLogout();
++        if (commits === null) return;
++        inputSequence = 2; response("release", 2, { commits });
++      }
++    });
+     function report(event, source) {
+       const region = document.querySelector(selector);
+       const style = region ? getComputedStyle(region) : null;
+@@ -117,38 +232,61 @@ async function installProbe(page, selector, facts, queueLogout, observeReact = f
+     // Native listener callbacks can checkpoint microtasks between listeners;
+     // registration after the production listener permits a synchronous sample.
+     state.armPagehide = (original) => {
+-      if (state.document !== original || state.pagehideArmed) return false;
++      if (state.document !== original || state.pagehideArmed || document !== originalDocument) return false;
++      if (queueLogout) {
++        const candidate = window[bindingName];
++        if (typeof candidate !== "function") return false;
++        reply = candidate;
++      }
+       state.pagehideArmed = true;
+       addEventListener("pagehide", (event) => report("pagehide", event));
+       return true;
+     };
+     addEventListener("pageshow", (event) => {
+       if (event.isTrusted && event.persisted) {
+-        state.restored = true;
+-        if (queueLogout) setTimeout(() => {
+-          const button = [...(document.querySelector(selector)?.querySelectorAll("button") ?? [])]
+-            .find((item) => item.textContent.trim() === "로그아웃");
+-          if (button) button.click(); // Actual mounted product handler; real owner response required below.
+-        }, 0);
++        trustedRestore = true; state.restored = true;
++        if (queueLogout && !state.logoutQueued) {
++          state.logoutQueued = true;
++          setTimeout(async () => {
++            await logoutRelease;
++            state.logoutStarted = true;
++            const button = [...(document.querySelector(selector)?.querySelectorAll("button") ?? [])]
++              .find((item) => item.textContent.trim() === "로그아웃");
++            if (button) button.click(); // Actual mounted product handler; real owner response required below.
++          }, 0);
++        }
+       }
+       queueMicrotask(() => report("pageshow", event));
+     });
+     new MutationObserver(() => { if (state.restored) report("mutation"); })
+       .observe(document, { subtree: true, childList: true, attributes: true });
+   }, { selector, names: [facts.company_name, facts.account_name,
+-    ...facts.first_page.items.map((item) => item.note)], queueLogout, observeReact, key: PROBE, prefix: PREFIX });
+-  return { events, errors,
++    ...facts.first_page.items.map((item) => item.note)], queueLogout, observeReact, key: PROBE, prefix: PREFIX,
++    bindingName, inputNonce });
++  } catch (error) {
++    closed = true; page.off("console", listener);
++    inputWaiter?.reject(new Error("original native input probe installation failed")); inputWaiter = undefined;
++    throw error; // The caller's owned-page finally still closes a partially installed binding.
++  }
++  return { events, errors, inputObservations, originalInput,
+     async armPagehide(original) {
+       assert.equal(await page.evaluate(({ key, original }) => window[key].armPagehide(original),
+         { key: PROBE, original }), true, "arm departure observation once in the original active Document");
+     },
+-    remove() { page.off("console", listener); } };
++    remove() {
++      closed = true; inputWaiter?.reject(new Error("original native input receiver closed")); inputWaiter = undefined;
++      page.off("console", listener);
++    } };
++
+ }
+ 
+-async function assertPrivateHidden(page, actor, h) {
+-  const text = await page.locator("body").innerText();
++function assertPrivateTextHidden(text, actor) {
+   assert.ok(!text.includes(actor.facts.company_name) && !text.includes(actor.facts.account_name));
+   for (const row of actor.facts.first_page.items) assert.ok(!text.includes(row.note));
++}
++
++async function assertPrivateHidden(page, actor, h) {
++  assertPrivateTextHidden(await page.locator("body").innerText(), actor);
+   const table = page.getByRole("table");
+   for (let index = 0; index < await table.count(); index += 1) assert.equal(await table.nth(index).isVisible(), false);
+   h.assertNoProof(await page.content());
+@@ -219,8 +357,9 @@ async function ordinaryLogoutBack(h) {
+   await h.signIn("a");
+   const actor = h.actors.get("a"); const session = { ...h.sessions.get("a") };
+   const page = await actor.context.newPage();
+-  const probe = await installProbe(page, h.guardContract.privateRegionSelector, actor.facts, false);
++  let probe;
+   try {
++    probe = await installProbe(page, h.guardContract.privateRegionSelector, actor.facts, false);
+     await page.goto(`${actor.origin}/me/${session.context}/attendance/`);
+     await page.getByRole("table").waitFor({ state: "visible", timeout: h.phaseMs ?? 20000 });
+     const original = await page.evaluate((key) => window[key].document, PROBE);
+@@ -242,7 +381,7 @@ async function ordinaryLogoutBack(h) {
+       assert.equal(event.hidden, true); assert.equal(event.private_visible, false);
+     }
+     return { ordinary_back: true, cached_restore_seen: probe.events.some((event) => event.persisted && event.trusted) };
+-  } finally { probe.remove(); await page.close(); }
++  } finally { probe?.remove(); await page.close(); }
+ }
+ 
+ async function cacheVariant(h, mode) {
+@@ -251,18 +390,94 @@ async function cacheVariant(h, mode) {
+   const url = `${actor.origin}/me/${session.context}/attendance/`;
+   const page = await actor.context.newPage();
+   const queued = mode === "queued-react-css";
+-  const probe = await installProbe(page, h.guardContract.privateRegionSelector, actor.facts, queued, mode === "delayed-bundles");
++  let probe;
+   const documents = []; const failedRequests = []; const heldScripts = [];
++  const cacheFailures = [];
++  let cacheObserver;
++  let mainFrameId;
++  const queuedPhaseTimeline = [];
++  const queuedVariantStartedAt = performance.now();
++  let queuedBackIssued = false;
++  // Node-received observations only; no inferred browser/BFF occurrence time.
++  function recordQueuedPhase(kind, details = {}) {
++    try {
++      if (!queued || !queuedBackIssued || queuedPhaseTimeline.length >= 32) return;
++      const elapsed = Math.max(0, Math.floor(performance.now() - queuedVariantStartedAt));
++      queuedPhaseTimeline.push({ sequence: queuedPhaseTimeline.length, kind,
++        observed_elapsed_ms: Math.min(elapsed, 600000), elapsed_capped: elapsed > 600000, ...details });
++    } catch { /* Diagnostics never replace an action, assertion or failure. */ }
++  }
++  const frameNavigatedListener = ({ frame, type }) => {
++    try {
++      if (frame?.id === mainFrameId && frame.url === url) recordQueuedPhase("exact-main-frame-commit", {
++        navigation_type: ["Navigation", "BackForwardCacheRestore"].includes(type) ? type : "unrecognized" });
++    } catch { /* Passive fixed metadata cannot replace the actual outcome. */ }
++  };
++  function assertOriginalPrivateHidden(snapshot) {
++    assertPrivateTextHidden(snapshot.text, actor);
++    for (const visible of snapshot.visibleTables) assert.equal(visible, false);
++    h.assertNoProof(snapshot.html); // Transient bytes only, never diagnostic output.
++  }
++  // This diagnostic retains fixed browser enums only, never event IDs/URLs/details.
++  const cacheReasonAllowlist = new Set([
++    "BackForwardCacheDisabled", "RelatedActiveContentsExist", "Loading", "Timeout", "CacheLimit",
++    "JavaScriptExecution", "RendererProcessKilled", "RendererProcessCrashed", "CacheFlushed",
++    "TimeoutPuttingInCache", "BackForwardCacheDisabledByLowMemory", "BackForwardCacheDisabledByCommandLine",
++    "NetworkRequestTimeout", "NetworkExceedsBufferLimit", "NavigationCancelledWhileRestoring",
++    "CacheControlNoStore", "CacheControlNoStoreCookieModified", "CacheControlNoStoreHTTPOnlyCookieModified",
++    "OutstandingNetworkRequestOthers", "OutstandingNetworkRequestFetch", "OutstandingNetworkRequestXHR",
++    "InjectedJavascript", "InjectedStyleSheet", "KeepaliveRequest", "CacheLimitPrunedOnModerateMemoryPressure",
++    "CacheLimitPrunedOnCriticalMemoryPressure", "ContentWebAuthenticationAPI", "Unknown",
++  ]);
++  const cacheFailureListener = ({ notRestoredExplanations }) => {
++    for (const explanation of notRestoredExplanations ?? []) {
++      if (cacheFailures.length >= 32) break;
++      const type = ["SupportPending", "PageSupportNeeded", "Circumstantial"].includes(explanation.type)
++        ? explanation.type : "unrecognized";
++      const reason = cacheReasonAllowlist.has(explanation.reason) ? explanation.reason : "unrecognized";
++      cacheFailures.push({ type, reason });
++    }
++  };
+   const evidence = { mode, blocked_scripts: 0, blocked_styles: 0, transformed_documents: [] };
+   let readGate; let back; let queuedResponse; let original; let consumedFault = false;
++  let queuedOrderingObservation;
++  // Fixed diagnostic checkpoints only; no new calls, waits or action release.
++  let queuedCheckpoint = "setup";
++  let queuedNativeObservation;
++  let tearingDown = false;
++  let readGateHeld = false;
++  let readGateReleaseAttempted = false;
++  let primaryError;
++  async function releaseReadGate() {
++    assert.ok(readGate && readGateHeld && !readGateReleaseAttempted, "release only an owned held native response once");
++    readGateReleaseAttempted = true; // A lost receipt never permits a blind retry.
++    const released = await readGate.release();
++    assert.equal(released.gate, readGate.gate);
++    assert.equal(released.released, true);
++    readGate = undefined;
++  }
+   const requestListener = (request) => {
+-    if (request.isNavigationRequest() && request.frame() === page.mainFrame()) documents.push(request.url());
++    if (request.isNavigationRequest() && request.frame() === page.mainFrame()) {
++      documents.push(request.url());
++      if (request.url() === url) recordQueuedPhase("exact-main-frame-request");
++    }
++  };
++  const responseListener = (response) => {
++    try {
++      const request = response.request();
++      if (request.isNavigationRequest() && request.frame() === page.mainFrame() && response.url() === url) {
++        const status = response.status();
++        recordQueuedPhase("exact-main-frame-response", {
++          http_status: Number.isInteger(status) && status >= 100 && status <= 599 ? status : null });
++      }
++    } catch { /* Passive metadata cannot replace the actual outcome. */ }
+   };
+   const failureListener = (request) => {
+     if (request.isNavigationRequest() && request.frame() === page.mainFrame() && request.url() === url)
+       failedRequests.push(request.failure()?.errorText ?? "");
+   };
+   page.on("request", requestListener); page.on("requestfailed", failureListener);
++  if (queued) page.on("response", responseListener);
+   const intercept = async (route) => {
+     const request = route.request();
+     if (new URL(request.url()).origin !== actor.origin) { await route.continue(); return; }
+@@ -275,6 +490,8 @@ async function cacheVariant(h, mode) {
+     if (request.resourceType() === "script" && mode === "delayed-bundles") {
+       const response = await route.fetch({ timeout: h.phaseMs ?? 20000 }); // Real static bytes; no cookie/header-order claim.
+       const body = await response.body();
++      // A late real fetch must not create another hold after cleanup drained it.
++      if (tearingDown) { await route.fulfill({ response, body }); return; }
+       let release; const released = new Promise((resolve) => { release = resolve; });
+       heldScripts.push({ release, digest: sha(body) });
+       await released;
+@@ -304,10 +521,21 @@ async function cacheVariant(h, mode) {
+   };
+   const routed = ["blocked-bundles", "blocked-css-bundles", "delayed-bundles", "missing-guard", "thrown-guard"].includes(mode);
+   try {
++    probe = await installProbe(page, h.guardContract.privateRegionSelector, actor.facts, queued, mode === "delayed-bundles");
++    if (queued) {
++      queuedCheckpoint = "cache-observer";
++      cacheObserver = await actor.context.newCDPSession(page);
++      cacheObserver.on("Page.backForwardCacheNotUsed", cacheFailureListener);
++      cacheObserver.on("Page.frameNavigated", frameNavigatedListener);
++      mainFrameId = (await cacheObserver.send("Page.getFrameTree")).frameTree.frame.id;
++      await cacheObserver.send("Page.enable");
++    }
+     if (routed) await page.route("**/*", intercept);
++    if (queued) queuedCheckpoint = "initial-document";
+     const response = await page.goto(url, { waitUntil: mode === "delayed-bundles" ? "commit" : "domcontentloaded" });
+     assert.equal(response.status(), 200); const html = await response.text(); h.assertNoProof(html);
+     assert.match(response.headers()["cache-control"], /no-store/);
++    if (queued) queuedCheckpoint = "initial-private-content";
+     const region = page.locator(h.guardContract.privateRegionSelector);
+     await region.waitFor({ state: "attached", timeout: h.phaseMs ?? 20000 });
+     if (!["missing-guard", "thrown-guard"].includes(mode)) {
+@@ -325,12 +553,14 @@ async function cacheVariant(h, mode) {
+     assert.ok(inside.includes(actor.facts.company_name) && inside.includes(actor.facts.account_name));
+     for (const item of actor.facts.first_page.items) assert.ok(inside.includes(item.note));
+     original = await page.evaluate((key) => window[key].document, PROBE);
++    if (queued) queuedCheckpoint = "initial-hydration";
+     const beforeHydration = ["blocked-bundles", "blocked-css-bundles", "delayed-bundles"].includes(mode);
+     if (beforeHydration || ["missing-guard", "thrown-guard"].includes(mode)) {
+       await assertPrivateHidden(page, actor, h);
+       if (["missing-guard", "thrown-guard"].includes(mode)) await assertRecovery(page, h, mode);
+     } else await page.getByRole("table").waitFor({ state: "visible", timeout: h.phaseMs ?? 20000 });
+     if (queued) {
++      queuedCheckpoint = "initial-react-and-style";
+       const initial = await page.evaluate((key) => window[key].reactCommits, PROBE);
+       assert.ok(initial > 0, "real installed React must have committed before queueing its actual logout handler");
+       // An ordinary author stylesheet cannot undo the guarded restore latch.
+@@ -339,13 +569,16 @@ async function cacheVariant(h, mode) {
+     if (mode === "delayed-bundles" && heldScripts.length === 0) {
+       if (!await until(() => heldScripts.length > 0, h.phaseMs ?? 20000)) throw new Unreached("no real bundle response was delayed");
+     }
++    if (queued) queuedCheckpoint = "departure";
+     const departureStart = probe.events.length;
+     await probe.armPagehide(original);
+     await page.goto(`${actor.origin}${LOGIN}`, { waitUntil: mode === "delayed-bundles" ? "commit" : "domcontentloaded" });
+     // Chromium may deliver cached-context console records only on restoration.
+     // The trusted departure sample remains required after the real Back below.
++    if (queued) queuedCheckpoint = "native-revocation";
+     await revokeWithoutCookieChange(h, actor, session);
+     if (["delayed-bundles", "queued-react-css"].includes(mode)) {
++      if (queued) queuedCheckpoint = "native-gate-arm";
+       if (typeof h.holdNextRead !== "function") throw new Unreached("actual native response gate adapter required");
+       readGate = await h.holdNextRead({ actor: "a", context: session.context });
+     }
+@@ -362,19 +595,22 @@ async function cacheVariant(h, mode) {
+       void queuedResponse.catch(() => {}); // Preserve checked failure while owning the outstanding promise.
+     }
+     // Keep this promise owned: a gate must be released before awaiting the final reload.
++    if (queued) queuedCheckpoint = "restore-observation";
++    if (queued) queuedBackIssued = true;
+     back = backNavigation(page, eventStart, h, original, probe, true);
+     void back.catch(() => {}); // No unhandled rejection while the independently owned response gate waits.
+     const seen = await until(() => probe.events.slice(eventStart).find((event) => event.event === "pageshow"
+       && event.trusted && event.persisted && event.document === original), h.phaseMs ?? 20000);
+     if (!seen) {
+-      await readGate?.release(); readGate = undefined;
+-      for (const script of heldScripts) script.release();
+-      await back;
+       assert.deepEqual(probe.errors, []);
++      // Cleanup closes the owned page and settles Back without inventing a
++      // response or releasing the private logout latch when no witness exists.
+       throw new Unreached("actual BFCache restoration unavailable for this fault; no-store not weakened");
+     }
++    if (queued) queuedCheckpoint = "restore-privacy";
+     const restored = assertRestored(probe.events.slice(eventStart), original);
+     // A later departure caused by the guard's reload cannot satisfy this check.
++    if (queued) queuedCheckpoint = "departure-privacy";
+     const hiddenEvent = probe.events.slice(departureStart, probe.events.indexOf(restored))
+       .find((event) => event.document === original && event.event === "pagehide"
+         && event.trusted && !event.restored);
+@@ -382,7 +618,55 @@ async function cacheVariant(h, mode) {
+     assert.equal(hiddenEvent.persisted, true);
+     assert.equal(hiddenEvent.hidden, true); assert.equal(hiddenEvent.private_visible, false);
+     if (readGate) {
+-      await readGate.wait();
++      if (queued) queuedCheckpoint = "native-gate-wait";
++      const held = await readGate.wait();
++      if (queued) {
++        queuedCheckpoint = "native-gate-match";
++        // Only an actual returned native frame can populate this observation.
++        // Values are bounded status/booleans, never gate/context identities.
++        if (held && typeof held === "object" && !Array.isArray(held)) {
++          queuedNativeObservation = {
++            stage: "native-response-observed",
++            http_status: Number.isInteger(held.status) && held.status >= 100 && held.status <= 599 ? held.status : null,
++            native_gate_match: typeof held.gate === "string" ? held.gate === readGate.gate : null,
++            native_context_match: typeof held.context === "string" ? held.context === session.context : null,
++            native_status_401: typeof held.status === "number" ? held.status === 401 : null,
++          };
++          recordQueuedPhase("native-response-observed", queuedNativeObservation);
++        }
++      }
++      assert.equal(held.gate, readGate.gate);
++      readGateHeld = true; // Preserve release ownership even if actual status is unexpected.
++      if (queued) {
++        queuedCheckpoint = "native-context-match";
++        assert.equal(held.context, session.context);
++        queuedCheckpoint = "native-denial-status";
++        assert.equal(held.status, 401);
++        queuedCheckpoint = "queued-pending";
++        const observed = await probe.originalInput("snapshot", original, cacheObserver, h.phaseMs ?? 20000);
++        const pending = observed.pending;
++        // Record actual booleans at the verified release point before asserting.
++        // This is not a claim about when the request first arrived at the server.
++        const observedBoolean = (value) => typeof value === "boolean" ? value : null;
++        queuedOrderingObservation = {
++          stage: "verified-native-denial",
++          native_gate_match: held.gate === readGate.gate,
++          native_context_match: held.context === session.context,
++          native_status_401: held.status === 401,
++          pending: { original: observedBoolean(pending.original), restored: observedBoolean(pending.restored),
++            queued: observedBoolean(pending.queued), started: observedBoolean(pending.started) },
++          pending_matches_expected: pending.original === true && pending.restored === true
++            && pending.queued === true && pending.started === false,
++        };
++        evidence.queued_ordering_observation = queuedOrderingObservation;
++        assert.deepEqual(pending, { original: true, restored: true, queued: true, started: false },
++          "actual queued logout must remain pending until the exact native reload denial is witnessed");
++        queuedCheckpoint = "queued-original-private-denial";
++        // The real logout navigates on204. Observe this original world while
++        // its action is still pending, before releasing the one actual handler.
++        assertOriginalPrivateHidden(observed.snapshot);
++        observed.snapshot = undefined; // Release the transient private source bytes before the action.
++      }
+       if (mode === "delayed-bundles") {
+         for (const script of heldScripts) script.release();
+         const committed=await until(() => probe.events.slice(eventStart).find((event) => event.document===original
+@@ -391,16 +675,27 @@ async function cacheVariant(h, mode) {
+         assert.equal(committed.hidden,true); assert.equal(committed.private_visible,false);
+       }
+       if (queued) {
++        queuedCheckpoint = "queued-release";
++        const released = await probe.originalInput("release", original, cacheObserver, h.phaseMs ?? 20000);
++        const commitsBeforeRelease = released.commits;
++        assert.ok(Number.isSafeInteger(commitsBeforeRelease) && commitsBeforeRelease > 0,
++          "release one queued logout only in the original restored Document after the actual native denial");
++        queuedCheckpoint = "queued-react-commit";
+         const committed = await until(() => probe.events.slice(eventStart).find((event) => event.document === original
+-          && event.event === "react-commit" && event.restored), h.phaseMs ?? 20000);
++          && event.event === "react-commit" && event.restored && event.react_commits > commitsBeforeRelease), h.phaseMs ?? 20000);
+         if (!committed) throw new Unreached("actual restored React update was not witnessed while native reload waited");
+         assert.equal(committed.hidden, true); assert.equal(committed.private_visible, false);
++        queuedCheckpoint = "queued-logout-response";
+         await queuedResponse;
++        queuedCheckpoint = "queued-cookie-removal";
+         assert.ok(!selectedCookie(await actor.context.cookies(), session), "only the actual confirmed logout clears its cookie");
+       }
++      if (queued) queuedCheckpoint = "held-private-denial";
+       await assertPrivateHidden(page, actor, h);
+-      await readGate.release(); readGate = undefined;
++      if (queued) queuedCheckpoint = "native-gate-release";
++      await releaseReadGate();
+     }
++    if (queued) queuedCheckpoint = "back-complete";
+     await back;
+     assertRestored(probe.events.slice(eventStart), original);
+     if (!["missing-guard", "thrown-guard"].includes(mode)) {
+@@ -408,6 +703,7 @@ async function cacheVariant(h, mode) {
+         failedRequests.some((text) => /INTERNET_DISCONNECTED/.test(text)), h.phaseMs ?? 20000),
+       "real offline failure of the exact main-frame reload required");
+       else {
++        if (queued) queuedCheckpoint = "fresh-denial-document";
+         const freshDocument = await until(async () => {
+           try {
+             const identity = await page.evaluate((key) => window[key]?.document, PROBE);
+@@ -419,12 +715,14 @@ async function cacheVariant(h, mode) {
+         }, h.phaseMs ?? 20000);
+         assert.ok(freshDocument, "fresh native denial must replace the cached Document");
+       }
++      if (queued) queuedCheckpoint = "reload-count";
+       assert.equal(documents.slice(requestStart).filter((document) => document === url).length, 1,
+         "persisted restore must initiate exactly one real hard reload");
+     } else {
+       const link = await assertRecovery(page, h, mode);
+       await link.click();
+     }
++    if (queued) queuedCheckpoint = "final-private-denial";
+     await assertPrivateHidden(page, actor, h);
+     if (mode === "offline") {
+       await actor.context.setOffline(false);
+@@ -435,20 +733,67 @@ async function cacheVariant(h, mode) {
+     if (mode === "delayed-bundles") evidence.delayed_bundle_sha256 = heldScripts.map((script) => script.digest);
+     evidence.trusted_original_restore = true;
+     evidence.original_document = original;
++    if (queued) {
++      evidence.original_input_observations = probe.inputObservations.map((item) => ({ ...item }));
++      queuedCheckpoint = "independent-actor";
++    }
+     await assertBStillAuthorized(h);
++    if (queued) queuedCheckpoint = "probe-frames";
+     assert.deepEqual(probe.errors, []);
+     return evidence;
++  } catch (error) {
++    primaryError = error;
++    if (queued) error.cacheObservation = {
++      queued_checkpoint: queuedCheckpoint,
++      failure_location: browserFailureLocation(error) ?? null,
++      queued_native_observation: queuedNativeObservation ?? null,
++      queued_ordering_observation: queuedOrderingObservation ?? null,
++      original_input_observations: (probe?.inputObservations ?? []).map((item) => ({ ...item })),
++      // Copy at failure reporting; late callbacks/cleanup cannot rewrite it.
++      queued_phase_timeline: queuedPhaseTimeline.map((entry) => ({ ...entry,
++        ...(entry.cdp_rejection ? { cdp_rejection: { ...entry.cdp_rejection } } : {}) })),
++      not_restored_reasons: cacheFailures,
++      trusted_departures: (probe?.events ?? []).filter((event) => event.event === "pagehide" && event.trusted && event.document === original).length,
++      trusted_original_restores: (probe?.events ?? []).filter((event) => event.event === "pageshow" && event.trusted && event.persisted && event.document === original).length,
++    };
++    else error.cacheObservation = { mode, failure_location: browserFailureLocation(error) ?? null };
++    throw error;
+   } finally {
+-    await actor.context.setOffline(false);
+-    await readGate?.release();
+-    for (const script of heldScripts) script.release();
+-    await back?.catch(() => {}); // Result checked above; cleanup owns an outstanding rejection.
+-    if (routed) await page.unrouteAll({ behavior: "wait" });
+-    probe.remove(); page.off("request", requestListener); page.off("requestfailed", failureListener);
+-    await page.close();
++    tearingDown = true;
++    const cleanupFailures = [];
++    async function cleanup(step, operation) {
++      try { await operation(); } catch { cleanupFailures.push(step); }
++    }
++    await cleanup("network-online", () => actor.context.setOffline(false));
++    if (readGate) {
++      if (!readGateHeld) cleanupFailures.push("native-gate-unheld");
++      else if (readGateReleaseAttempted) cleanupFailures.push("native-gate-release-unconfirmed");
++      else await cleanup("native-gate-release", releaseReadGate);
++    }
++    await cleanup("script-release", () => { for (const script of heldScripts) script.release(); });
++    if (routed) await cleanup("routes-remove", () => page.unrouteAll({ behavior: "wait" }));
++    await cleanup("probe-listeners", () => {
++      cacheObserver?.off("Page.backForwardCacheNotUsed", cacheFailureListener);
++      cacheObserver?.off("Page.frameNavigated", frameNavigatedListener);
++      probe?.remove(); page.off("request", requestListener); page.off("requestfailed", failureListener);
++      if (queued) page.off("response", responseListener);
++    });
++    // Always attempt owned page closure, independently of earlier cleanup errors.
++    // This exclusive page/CDP session owns the binding and any outstanding
++    // native input/result delivery; confirmed closure retires them.
++    // Closing also settles a pending Back when its native gate was never held.
++    await cleanup("page-close", () => page.close());
++    if (back) await cleanup("back-navigation", () => back);
+     // Each fresh real sign-in is closed to avoid accidentally testing a ninth
+     // session-cookie admission denial in an unrelated restore scenario.
+-    if (selectedCookie(await actor.context.cookies(), session)) await h.logout("a");
++    await cleanup("session-logout", async () => {
++      if (selectedCookie(await actor.context.cookies(), session)) await h.logout("a");
++    });
++    if (cleanupFailures.length) {
++      const error = primaryError ?? new Error("owned restore cleanup failed");
++      error.cleanupObservation = { cleanup_failed_steps: cleanupFailures };
++      if (!primaryError) throw error;
++    }
+   }
+ }
+ 
+@@ -475,8 +820,10 @@ export async function runRestoreScenarios(h) {
+       if (!prerequisites) { checks.push({ id: name, status: prerequisiteStatus, reason: prerequisiteReason }); continue; }
+       try { checks.push({ id: name, status: "passed", evidence: await run(h) }); }
+       catch (error) {
+-        checks.push({ id: name, status: isPrerequisite(error) ? "unreached" : "failed",
+-          reason: isPrerequisite(error) ? error.message : "actual required restore assertion failed" });
++        checks.push({ id: name, status: error.cleanupObservation ? "failed" : isPrerequisite(error) ? "unreached" : "failed",
++          reason: isPrerequisite(error) ? error.message : "actual required restore assertion failed",
++          ...(error.cacheObservation || error.cleanupObservation
++            ? { diagnostic: { ...error.cacheObservation, ...error.cleanupObservation } } : {}) });
+         // Continue only within this owned test runner. Failures remain failures.
+       }
+     }
+diff --git a/tools/enrollment-fault-deadlines.mjs b/tools/enrollment-fault-deadlines.mjs
+new file mode 100644
+index 0000000..7ba49a1
+--- /dev/null
++++ b/tools/enrollment-fault-deadlines.mjs
+@@ -0,0 +1,26 @@
++// Test-process supervision only; this never certifies native enrollment.
++export function superviseEnrollmentFault(child) {
++  let forced = false;
++  let faultStarted = false;
++  let disposed = false;
++  const terminate = () => { forced = true; child.kill("SIGTERM"); };
++  const kill = () => { forced = true; child.kill("SIGKILL"); };
++  // One absolute prerequisite budget, bounded by the runner's 140s watchdog.
++  // It covers locked installation and real Next/Chromium startup, not cleanup.
++  let deadline = setTimeout(terminate, 140000);
++  let force = setTimeout(kill, 150000);
++  return {
++    beginFault() {
++      if (forced || faultStarted || disposed) throw new Error("Fault deadline cannot be restarted");
++      faultStarted = true;
++      clearTimeout(deadline);
++      clearTimeout(force);
++      // Keep the original cleanup limits, starting at the actual fault input.
++      // Both the cleanup acknowledgement AND natural exit must fit this clock.
++      deadline = setTimeout(terminate, 25000);
++      force = setTimeout(kill, 35000);
++    },
++    get forced() { return forced; },
++    clear() { disposed = true; clearTimeout(deadline); clearTimeout(force); },
++  };
++}
+diff --git a/tools/enrollment-fault-deadlines.test.mjs b/tools/enrollment-fault-deadlines.test.mjs
+new file mode 100644
+index 0000000..a6e93c9
+--- /dev/null
++++ b/tools/enrollment-fault-deadlines.test.mjs
+@@ -0,0 +1,87 @@
++// Deadline-policy units only; no browser, provider or native acceptance.
++import assert from "node:assert/strict";
++import test from "node:test";
++import { superviseEnrollmentFault } from "./enrollment-fault-deadlines.mjs";
++
++function supervision(t) {
++  t.mock.timers.enable({ apis: ["setTimeout"] });
++  const signals = [];
++  const owner = superviseEnrollmentFault({ kill(signal) { signals.push(signal); } });
++  t.after(() => owner.clear());
++  return { owner, signals };
++}
++
++test("slow prerequisite startup does not spend the requested cleanup budget", (t) => {
++  const { owner, signals } = supervision(t);
++  t.mock.timers.tick(26000);
++  assert.deepEqual(signals, []);
++  assert.equal(owner.forced, false);
++  owner.beginFault();
++  t.mock.timers.tick(24999);
++  assert.deepEqual(signals, []);
++  t.mock.timers.tick(1);
++  assert.deepEqual(signals, ["SIGTERM"]);
++  assert.equal(owner.forced, true);
++  t.mock.timers.tick(10000);
++  assert.deepEqual(signals, ["SIGTERM", "SIGKILL"]);
++});
++
++test("a ready runner that fails to exit still triggers the cleanup fallback", (t) => {
++  const { owner, signals } = supervision(t);
++  t.mock.timers.tick(7000);
++  owner.beginFault();
++  t.mock.timers.tick(24999);
++  assert.deepEqual(signals, []);
++  t.mock.timers.tick(1);
++  assert.deepEqual(signals, ["SIGTERM"]);
++  t.mock.timers.tick(9999);
++  assert.deepEqual(signals, ["SIGTERM"]);
++  t.mock.timers.tick(1);
++  assert.deepEqual(signals, ["SIGTERM", "SIGKILL"]);
++});
++
++test("never-ready startup has one absolute bounded termination deadline", (t) => {
++  const { owner, signals } = supervision(t);
++  t.mock.timers.tick(139999);
++  assert.deepEqual(signals, []);
++  t.mock.timers.tick(1);
++  assert.deepEqual(signals, ["SIGTERM"]);
++  assert.equal(owner.forced, true);
++  assert.throws(() => owner.beginFault());
++  t.mock.timers.tick(9999);
++  assert.deepEqual(signals, ["SIGTERM"]);
++  t.mock.timers.tick(1);
++  assert.deepEqual(signals, ["SIGTERM", "SIGKILL"]);
++});
++
++test("a second fault cannot reset an already running cleanup deadline", (t) => {
++  const { owner, signals } = supervision(t);
++  owner.beginFault();
++  t.mock.timers.tick(1000);
++  assert.throws(() => owner.beginFault());
++  t.mock.timers.tick(24000);
++  assert.deepEqual(signals, ["SIGTERM"]);
++});
++
++test("late cleanup cannot erase evidence of forced intervention", (t) => {
++  const { owner, signals } = supervision(t);
++  owner.beginFault();
++  t.mock.timers.tick(25000);
++  assert.deepEqual(signals, ["SIGTERM"]);
++  owner.clear();
++  t.mock.timers.tick(200000);
++  assert.deepEqual(signals, ["SIGTERM"]);
++  assert.equal(owner.forced, true);
++  assert.throws(() => owner.beginFault());
++});
++
++test("natural completion disposes both clocks and cannot rearm them", (t) => {
++  const { owner, signals } = supervision(t);
++  owner.beginFault();
++  owner.clear();
++  owner.clear();
++  t.mock.timers.tick(200000);
++  assert.deepEqual(signals, []);
++  assert.equal(owner.forced, false);
++  assert.throws(() => owner.beginFault());
++});
+diff --git a/tools/production-runtime.mjs b/tools/production-runtime.mjs
+index ba55752..8163565 100644
+--- a/tools/production-runtime.mjs
++++ b/tools/production-runtime.mjs
+@@ -42,7 +42,9 @@ async function install(destination, signal) {
+   const npm = path.join(path.dirname(process.execPath), "npm");
+   const child = spawn(npm, ["ci", "--omit=dev", "--omit=optional", "--ignore-scripts", "--no-audit", "--no-fund"], {
+     cwd: destination, detached: process.platform !== "win32", stdio: ["ignore", "pipe", "pipe"],
+-    env: { ...process.env, NODE_ENV: "production" },
++    // npm enables Node's compile cache before installing. Keep that disposable
++    // cache out of the caller's TMPDIR; it is not part of the runtime closure.
++    env: { ...process.env, NODE_ENV: "production", NODE_DISABLE_COMPILE_CACHE: "1" },
+   });
+   let output = 0;
+   let killDeadline;
+diff --git a/tools/test-browser-business-session.mjs b/tools/test-browser-business-session.mjs
+index 27cc94c..aa4220a 100644
+--- a/tools/test-browser-business-session.mjs
++++ b/tools/test-browser-business-session.mjs
+@@ -24,12 +24,15 @@ const cleanEnv = Object.fromEntries(
+ );
+ const input = process.stdin[Symbol.asyncIterator]();
+ let buffered = Buffer.alloc(0);
++let inputEnded = false;
++let inputChanged = Promise.withResolvers();
+ let incoming = 0;
+ let outgoing = 0;
+ async function readFrameUnsafe(waitMs = PHASE_MS) {
+   const expectedSequence = incoming++; assert.ok(incoming <= MAX_FRAMES);
+   const deadline = Date.now() + waitMs;
+   while (true) {
++    assert.ok(!inputEnded && !closing);
+     if (buffered.length >= 4) {
+       const length = buffered.readUInt32BE();
+       assert.ok(length > 0 && length <= MAX_FRAME);
+@@ -44,13 +47,10 @@ async function readFrameUnsafe(waitMs = PHASE_MS) {
+     const remaining = deadline - Date.now();
+     assert.ok(remaining > 0);
+     let timer;
+-    const item = await Promise.race([
+-      input.next(),
++    await Promise.race([
++      inputChanged.promise,
+       new Promise((_, reject) => { timer = setTimeout(() => reject(new Error("IPC deadline")), remaining); }),
+     ]).finally(() => clearTimeout(timer));
+-    assert.ok(!item.done);
+-    assert.ok(buffered.length + item.value.length <= MAX_FRAME + 4);
+-    buffered = Buffer.concat([buffered, item.value]);
+   }
+ }
+ async function writeFrameUnsafe(fields) {
+@@ -88,40 +88,67 @@ async function stop() {
+     const results = await Promise.allSettled([
+       (async () => {
+         if (!browserServer) return;
++        const child = browserServer.process();
++        let childCloseSeen = false;
++        child.once("close", () => { childCloseSeen = true; });
+         const closed = await Promise.race([
+           browserServer.close().then(() => true, () => false),
+           delay(2000).then(() => false),
+         ]);
+         if (!closed) {
+-          assert.ok(await Promise.race([
+-            browserServer.kill().then(() => true), delay(2000).then(() => false),
+-          ]));
++          const killing = browserServer.kill().then(() => true);
++          const killed = await Promise.race([killing, delay(2000).then(() => false)]);
++          if (!killed) {
++            // close/kill share the SDK's process and artifact-cleanup owner.
++            // Its pending cleanup retains finalize's original 6s hard bound.
++            assert.equal(childCloseSeen, true);
++            assert.ok(child.exitCode !== null || child.signalCode !== null);
++            assert.equal(await killing, true);
++          }
+         }
+-        const process = browserServer.process();
+-        assert.ok(process.exitCode !== null || process.signalCode !== null);
++        assert.ok(child.exitCode !== null || child.signalCode !== null);
+       })(),
+-      Promise.all([...productInstances].map((instance) => instance.close())),
+-      Promise.all([...productReservations].map((lease) => lease.listening
+-        ? new Promise((resolve) => lease.close(resolve)) : Promise.resolve())),
++      Promise.allSettled([...productInstances].map((instance) => instance.close())).then((results) => {
++        const failed = results.find((result) => result.status === "rejected");
++        if (failed) throw failed.reason;
++      }),
++      Promise.allSettled([...productReservations].map((lease) => lease.listening
++        ? new Promise((resolve) => lease.close(resolve)) : Promise.resolve())).then((results) => {
++        const failed = results.find((result) => result.status === "rejected");
++        if (failed) throw failed.reason;
++      }),
+       reservation?.listening ? new Promise((resolve) => reservation.close(resolve)) : Promise.resolve(),
+     ]);
+-    assert.ok(results.every((result) => result.status === "fulfilled"));
+-    if (stage) await rm(stage, { recursive: true, force: true });
++    // Runtime files depend on confirmed process-owner cleanup. Reservation
++    // failure does not skip independent file removal or replace its first error.
++    if (stage && results[0].status === "fulfilled" && results[1].status === "fulfilled") {
++      const [removed] = await Promise.allSettled([rm(stage, { recursive: true, force: true })]);
++      results.push(removed);
++    }
++    const failed = results.find((result) => result.status === "rejected");
++    if (failed) throw failed.reason;
+   })();
+   return stopPromise;
+ }
+ function finalize(outcome, exitCode) {
+   finalization ??= (async () => {
+     closing = true;
++    let cleanupConfirmed = false;
++    const deadlineAt = performance.now() + 6000;
+     const deadline = setTimeout(() => process.exit(3), 6000);
+     try {
+       await stop();
+-      await writeFrame({ kind: "cleaned", outcome, creation_attempts: creationAttempts });
++      assert.ok(performance.now() < deadlineAt);
++      await writeFrameUnsafe({ kind: "cleaned", outcome, creation_attempts: creationAttempts });
++      assert.ok(performance.now() < deadlineAt);
++      cleanupConfirmed = true;
+       process.exitCode = exitCode;
+     } catch {
+       process.exitCode = 3; // Cleanup unconfirmed; never a native result.
+     } finally {
+-      clearTimeout(deadline);
++      // Failed cleanup still owns the original hard bound if handles remain.
++      if (cleanupConfirmed) clearTimeout(deadline);
++      else deadline.unref();
+       process.stdin.destroy();
+     }
+   })();
+@@ -130,7 +157,26 @@ function finalize(outcome, exitCode) {
+ function interrupted() { void finalize("aborted", 2); }
+ process.once("SIGTERM", interrupted);
+ process.once("SIGINT", interrupted);
+-process.stdin.once("end", () => { if (!closing) interrupted(); });
++// Own the input from startup so EOF also cancels staging. Frame decoding and
++// sequence validation stay in readFrame; early data only fills its bounded buffer.
++void (async () => {
++  try {
++    for await (const chunk of input) {
++      assert.ok(buffered.length + chunk.length <= MAX_FRAME + 4);
++      buffered = Buffer.concat([buffered, chunk]);
++      const changed = inputChanged;
++      inputChanged = Promise.withResolvers();
++      changed.resolve();
++    }
++  } catch {
++    // Malformed/failed input retains failed/1; EOF retains aborted/2.
++    void finalize("failed", 1);
++  } finally {
++    inputEnded = true;
++    inputChanged.resolve();
++    if (!closing) interrupted();
++  }
++})();
+ const watchdog = setTimeout(interrupted, 140000);
+ 
+ import { createHash, randomBytes, randomUUID } from "node:crypto";
+@@ -144,7 +190,7 @@ async function readFrame(waitMs) {
+   try { return await readFrameUnsafe(waitMs); } catch { throw new InfrastructureError("IPC read failed"); }
+ }
+ async function writeFrame(fields) {
+-  try { return await writeFrameUnsafe(fields); } catch { throw new InfrastructureError("IPC write failed"); }
++  try { assert.ok(!closing); return await writeFrameUnsafe(fields); } catch { throw new InfrastructureError("IPC write failed"); }
+ }
+ 
+ // Test-only adapters. All network bytes come from the staged immutable runtime
+@@ -792,6 +838,7 @@ try {
+   let packager;
+   try { packager = await import(pathToFileURL(packagerPath).href); } catch { throw new InfrastructureError(); }
+   if (typeof packager.stageProductionRuntime !== "function" || typeof packager.verifyProductionRuntime !== "function") throw new InfrastructureError();
++  assert.ok(!closing);
+   startup = (async () => {
+     stage = await mkdtemp(path.join(tmpdir(), "console-product-browser-"));
+     const destination = path.join(stage, "runtime");
+@@ -819,8 +866,13 @@ try {
+   assert.equal(backend.protocol, "http:"); assert.equal(backend.hostname, "127.0.0.1");
+   assert.equal(backend.pathname, "/"); assert.equal(backend.search + backend.hash + backend.username + backend.password, "");
+   const certFile = path.join(stage, "fixture-cert.pem"); const keyFile = path.join(stage, "fixture-key.pem");
+-  await writeFile(certFile, configure.tls_cert_pem, { mode: 0o600 });
+-  await writeFile(keyFile, configure.tls_key_pem, { mode: 0o600 });
++  assert.ok(!closing);
++  startup = (async () => {
++    await writeFile(certFile, configure.tls_cert_pem, { mode: 0o600 });
++    assert.ok(!closing);
++    await writeFile(keyFile, configure.tls_key_pem, { mode: 0o600 });
++  })();
++  await startup; assert.ok(!closing);
+   await new Promise((resolve) => reservation.close(resolve)); assert.ok(!closing);
+   productRuntimeConfig = { port, origin, backend: backend.origin, normalBackend: backend.origin,
+     shortBackend: configure.short_backend_origin, ingress: configure.ingress_key,
+diff --git a/tools/test-native-browser-enrollment.mjs b/tools/test-native-browser-enrollment.mjs
+index b185ad6..a7b8737 100644
+--- a/tools/test-native-browser-enrollment.mjs
++++ b/tools/test-native-browser-enrollment.mjs
+@@ -23,12 +23,15 @@ const cleanEnv = Object.fromEntries(
+ );
+ const input = process.stdin[Symbol.asyncIterator]();
+ let buffered = Buffer.alloc(0);
++let inputEnded = false;
++let inputChanged = Promise.withResolvers();
+ let incoming = 0;
+ let outgoing = 0;
+ async function readFrame(waitMs = PHASE_MS) {
+   assert.ok(++incoming <= MAX_FRAMES);
+   const deadline = Date.now() + waitMs;
+   while (true) {
++    assert.ok(!inputEnded && !closing);
+     if (buffered.length >= 4) {
+       const length = buffered.readUInt32BE();
+       assert.ok(length > 0 && length <= MAX_FRAME);
+@@ -43,13 +46,10 @@ async function readFrame(waitMs = PHASE_MS) {
+     const remaining = deadline - Date.now();
+     assert.ok(remaining > 0);
+     let timer;
+-    const item = await Promise.race([
+-      input.next(),
++    await Promise.race([
++      inputChanged.promise,
+       new Promise((_, reject) => { timer = setTimeout(() => reject(new Error("IPC deadline")), remaining); }),
+     ]).finally(() => clearTimeout(timer));
+-    assert.ok(!item.done);
+-    assert.ok(buffered.length + item.value.length <= MAX_FRAME + 4);
+-    buffered = Buffer.concat([buffered, item.value]);
+   }
+ }
+ async function writeFrame(fields) {
+@@ -86,17 +86,25 @@ async function stop() {
+     const results = await Promise.allSettled([
+       (async () => {
+         if (!browserServer) return;
++        const child = browserServer.process();
++        let childCloseSeen = false;
++        child.once("close", () => { childCloseSeen = true; });
+         const closed = await Promise.race([
+           browserServer.close().then(() => true, () => false),
+           delay(2000).then(() => false),
+         ]);
+         if (!closed) {
+-          assert.ok(await Promise.race([
+-            browserServer.kill().then(() => true), delay(2000).then(() => false),
+-          ]));
++          const killing = browserServer.kill().then(() => true);
++          const killed = await Promise.race([killing, delay(2000).then(() => false)]);
++          if (!killed) {
++            // close/kill share the SDK's process and artifact-cleanup owner.
++            // Its pending cleanup retains finalize's original 6s hard bound.
++            assert.equal(childCloseSeen, true);
++            assert.ok(child.exitCode !== null || child.signalCode !== null);
++            assert.equal(await killing, true);
++          }
+         }
+-        const process = browserServer.process();
+-        assert.ok(process.exitCode !== null || process.signalCode !== null);
++        assert.ok(child.exitCode !== null || child.signalCode !== null);
+       })(),
+       (async () => {
+         if (!next || next.exitCode !== null || next.signalCode !== null) return;
+@@ -110,23 +118,36 @@ async function stop() {
+       })(),
+       reservation?.listening ? new Promise((resolve) => reservation.close(resolve)) : Promise.resolve(),
+     ]);
+-    assert.ok(results.every((result) => result.status === "fulfilled"));
+-    if (stage) await rm(stage, { recursive: true, force: true });
++    // Runtime files depend on confirmed process-owner cleanup. Reservation
++    // failure does not skip independent file removal or replace its first error.
++    if (stage && results[0].status === "fulfilled" && results[1].status === "fulfilled") {
++      const [removed] = await Promise.allSettled([rm(stage, { recursive: true, force: true })]);
++      results.push(removed);
++    }
++    const failed = results.find((result) => result.status === "rejected");
++    if (failed) throw failed.reason;
+   })();
+   return stopPromise;
+ }
+ function finalize(outcome, exitCode) {
+   finalization ??= (async () => {
+     closing = true;
++    let cleanupConfirmed = false;
++    const deadlineAt = performance.now() + 6000;
+     const deadline = setTimeout(() => process.exit(3), 6000);
+     try {
+       await stop();
++      assert.ok(performance.now() < deadlineAt);
+       await writeFrame({ kind: "cleaned", outcome, creation_attempts: creationAttempts });
++      assert.ok(performance.now() < deadlineAt);
++      cleanupConfirmed = true;
+       process.exitCode = exitCode;
+     } catch {
+       process.exitCode = 3; // Cleanup unconfirmed; never a native result.
+     } finally {
+-      clearTimeout(deadline);
++      // Failed cleanup still owns the original hard bound if handles remain.
++      if (cleanupConfirmed) clearTimeout(deadline);
++      else deadline.unref();
+       process.stdin.destroy();
+     }
+   })();
+@@ -135,7 +156,26 @@ function finalize(outcome, exitCode) {
+ function interrupted() { void finalize("aborted", 2); }
+ process.once("SIGTERM", interrupted);
+ process.once("SIGINT", interrupted);
+-process.stdin.once("end", () => { if (!closing) interrupted(); });
++// Own the input from startup so EOF also cancels staging. Frame decoding and
++// sequence validation stay in readFrame; early data only fills its bounded buffer.
++void (async () => {
++  try {
++    for await (const chunk of input) {
++      assert.ok(buffered.length + chunk.length <= MAX_FRAME + 4);
++      buffered = Buffer.concat([buffered, chunk]);
++      const changed = inputChanged;
++      inputChanged = Promise.withResolvers();
++      changed.resolve();
++    }
++  } catch {
++    // Malformed/failed input retains failed/1; EOF retains aborted/2.
++    void finalize("failed", 1);
++  } finally {
++    inputEnded = true;
++    inputChanged.resolve();
++    if (!closing) interrupted();
++  }
++})();
+ const watchdog = setTimeout(interrupted, 140000);
+ let outcome = "failed";
+ let exitCode = 1;
+diff --git a/tools/test-native-browser-enrollment.test.mjs b/tools/test-native-browser-enrollment.test.mjs
+index e80e91a..7e35079 100644
+--- a/tools/test-native-browser-enrollment.test.mjs
++++ b/tools/test-native-browser-enrollment.test.mjs
+@@ -2,8 +2,12 @@
+ import assert from "node:assert/strict";
+ import { spawn } from "node:child_process";
+ import { once } from "node:events";
++import { mkdtemp, readdir, rm } from "node:fs/promises";
++import { tmpdir } from "node:os";
++import path from "node:path";
+ import test from "node:test";
+ import { fileURLToPath } from "node:url";
++import { superviseEnrollmentFault } from "./enrollment-fault-deadlines.mjs";
+ 
+ const env = Object.fromEntries(
+   ["PATH", "HOME", "TMPDIR", "LANG", "LC_ALL", "PLAYWRIGHT_BROWSERS_PATH"]
+@@ -11,10 +15,19 @@ const env = Object.fromEntries(
+     .map((key) => [key, process.env[key]]),
+ );
+ 
+-for (const fault of ["signal-after-origin", "eof-after-ready", "oversized", "wrong-version", "wrong-sequence", "wrong-kind", "legacy-selection", "missing-selection", "malformed-selection", "weak-uv"]) {
+-  test(`enrollment runner confirms cleanup after ${fault}`, { timeout: 40000 }, async () => {
+-    const child = spawn(process.execPath, [fileURLToPath(new URL("./test-native-browser-enrollment.mjs", import.meta.url))], {
+-      env, stdio: ["pipe", "pipe", "pipe"],
++const startupFaults = ["eof-before-origin", "partial-eof-before-origin", "frame-eof-before-origin"];
++const enrollmentFaults = [...startupFaults, "signal-after-origin", "eof-after-ready", "oversized", "wrong-version", "wrong-sequence", "wrong-kind", "legacy-selection", "missing-selection", "malformed-selection", "weak-uv"];
++const cases = [
++  ...enrollmentFaults.map((fault) => ["test-native-browser-enrollment.mjs", fault]),
++  ...startupFaults.map((fault) => ["test-browser-business-session.mjs", fault]),
++];
++for (const [runner, fault] of cases) {
++  // 140s prerequisite + 35s fault supervision + 6s final cleanup, with margin.
++  const name = runner === "test-browser-business-session.mjs" ? "business" : "enrollment";
++  test(`${name} runner confirms cleanup after ${fault}`, { timeout: 190000 }, async () => {
++    const owned = await mkdtemp(path.join(tmpdir(), "enrollment-fault-"));
++    const child = spawn(process.execPath, [fileURLToPath(new URL(`./${runner}`, import.meta.url))], {
++      env: { ...env, TMPDIR: owned }, stdio: ["pipe", "pipe", "pipe"],
+     });
+     // Drain without retaining error stacks, server output or proof bytes.
+     let stderrBytes = 0;
+@@ -51,15 +64,22 @@ for (const fault of ["signal-after-origin", "eof-after-ready", "oversized", "wro
+     }
+     // Parent timeout must request the runner's actual cleanup owner. A forced
+     // termination cannot count as confirmed cleanup or a passed fault check.
+-    let fallbackFired = false;
+-    const deadline = setTimeout(() => { fallbackFired = true; child.kill("SIGTERM"); }, 25000);
+-    const force = setTimeout(() => { fallbackFired = true; child.kill("SIGKILL"); }, 35000);
++    const supervision = superviseEnrollmentFault(child);
+     try {
+-      assert.equal((await read()).kind, "origin");
++      if (startupFaults.includes(fault)) {
++        supervision.beginFault();
++        if (fault === "partial-eof-before-origin") child.stdin.write(Buffer.from([0, 0]));
++        if (fault === "frame-eof-before-origin") send({ v: 1, seq: 0, kind: "done" });
++        child.stdin.end();
++      } else {
++        assert.equal((await read()).kind, "origin");
++      }
+       if (fault === "signal-after-origin") {
++        supervision.beginFault();
+         child.kill("SIGTERM");
+-      } else {
++      } else if (!startupFaults.includes(fault)) {
+         assert.equal((await read()).kind, "ready");
++        supervision.beginFault();
+         if (fault === "eof-after-ready") child.stdin.end();
+         else if (fault === "oversized") {
+           const header = Buffer.alloc(4);
+@@ -84,17 +104,18 @@ for (const fault of ["signal-after-origin", "eof-after-ready", "oversized", "wro
+       if (cleaned.kind === "ready" && fault === "signal-after-origin") cleaned = await read();
+       assert.equal(cleaned.kind, "cleaned");
+       assert.equal(cleaned.creation_attempts, 0, "invalid contract cannot reach credential creation");
+-      const aborted = fault === "signal-after-origin" || fault === "eof-after-ready";
++      const aborted = startupFaults.includes(fault) || ["signal-after-origin", "eof-after-ready"].includes(fault);
+       assert.equal(cleaned.outcome, aborted ? "aborted" : "failed");
+       child.stdin.end();
+       const [code, signal] = await exited;
++      supervision.clear();
+       assert.equal(code, aborted ? 2 : 1);
+       assert.equal(signal, null);
+       assert.ok(stderrBytes <= 1048576);
+-      assert.equal(fallbackFired, false, "fallback intervention cannot prove requested cleanup");
++      assert.equal(supervision.forced, false, "fallback intervention cannot prove requested cleanup");
++      assert.deepEqual(await readdir(owned), [], "runner must release its owned temporary resources before parent cleanup");
+     } finally {
+-      clearTimeout(deadline);
+-      clearTimeout(force);
++      supervision.clear();
+       child.stdin.destroy();
+       if (child.exitCode === null && child.signalCode === null) {
+         child.kill("SIGTERM");
+@@ -102,6 +123,7 @@ for (const fault of ["signal-after-origin", "eof-after-ready", "oversized", "wro
+         await exited;
+         clearTimeout(forced);
+       }
++      await rm(owned, { recursive: true, force: true });
+     }
+   });
+ }
+diff --git a/tools/test-resident-authenticator.mjs b/tools/test-resident-authenticator.mjs
+index 89191c9..84e6ce1 100644
+--- a/tools/test-resident-authenticator.mjs
++++ b/tools/test-resident-authenticator.mjs
+@@ -3,7 +3,10 @@
+ // Conditional presentation is deliberately modal in this native fixture only;
+ // unchanged C2/product runners own actual conditional/production UI evidence.
+ import assert from "node:assert/strict";
+-import { setTimeout as delay } from "node:timers/promises";
++import { writeSync } from "node:fs";
++import { lstat, mkdtemp, rm } from "node:fs/promises";
++import { tmpdir } from "node:os";
++import { join } from "node:path";
+ import { chromium } from "@playwright/test";
+ 
+ const ORIGIN = "https://auth.example.com";
+@@ -29,6 +32,7 @@ let buffered = Buffer.alloc(0);
+ let incoming = 0;
+ let outgoing = 0;
+ let browserServer;
++let ownedTempScope;
+ let browser;
+ let context;
+ let page;
+@@ -39,6 +43,31 @@ let closing = false;
+ let startup = Promise.resolve();
+ let finalization;
+ let watchdog;
++// Fixed pre-ready checkpoints only. These clocks observe existing budgets;
++// they do not arm timers, change deadlines or gate protocol outcomes.
++const setupStartedAt = performance.now();
++let setupStage = "initial";
++let setupStageAt = setupStartedAt;
++let setupBudgetStartedAt = setupStartedAt;
++let setupBudgetMs = null;
++let setupComplete = false;
++function setupCheckpoint(stage, budgetMs = null, budgetStartedAt = performance.now()) {
++  setupStage = stage;
++  setupStageAt = performance.now();
++  setupBudgetStartedAt = budgetStartedAt;
++  setupBudgetMs = budgetMs;
++}
++function setupDiagnostic() {
++  const now = performance.now();
++  const setupAgeMs = Math.max(0, Math.floor(now - setupStartedAt));
++  const stageAgeMs = Math.max(0, Math.floor(now - setupStageAt));
++  const fields = { stage: setupStage, setup_age_ms: Math.min(setupAgeMs, 600_000),
++    stage_age_ms: Math.min(stageAgeMs, 600_000), age_capped: setupAgeMs > 600_000 || stageAgeMs > 600_000,
++    budget_ms: setupBudgetMs,
++    budget_elapsed: setupBudgetMs === null ? null : now - setupBudgetStartedAt >= setupBudgetMs };
++  // No errors, paths, IDs, credentials or native payloads. Logging is best effort.
++  try { writeSync(2, `RESIDENT_SETUP_DIAGNOSTIC ${JSON.stringify(fields)}\n`); } catch {}
++}
+ 
+ async function readFrame() {
+   assert.ok(incoming < MAX_FRAMES);
+@@ -85,33 +114,117 @@ async function finalize(outcome, exitCode) {
+     clearTimeout(watchdog);
+     // Enclose the 5s launch owner plus 2s close, 2s kill and IPC headroom.
+     // Rust allows 15s. Timeout remains unconfirmed cleanup, never success.
+-    const deadline = setTimeout(() => process.exit(3), 12_000);
++    let stage = "startup";
++    let child;
++    let childExitSeen = false;
++    let childCloseSeen = false;
++    let closeSettled = false;
++    let killSettled = false;
++    let cleanupConfirmed = false;
++    let ownedTempRemoved = false;
++    const deadlineAt = performance.now() + 12_000;
++    function withinDeadline() {
++      assert.ok(performance.now() < deadlineAt);
++    }
++    async function removeOwnedTempScope() {
++      if (!ownedTempScope) return;
++      stage = "owned-temp";
++      withinDeadline();
++      // This one fresh scope is ours. Never remove the caller's TMPDIR.
++      await rm(ownedTempScope, { recursive: true, force: true, maxRetries: 10 });
++      withinDeadline();
++      try {
++        await lstat(ownedTempScope);
++      } catch (error) {
++        assert.equal(error?.code, "ENOENT");
++        withinDeadline();
++        ownedTempRemoved = true;
++        return;
++      }
++      assert.fail("owned temporary scope still exists");
++    }
++    // The fixture owns the 2s phase timer; it must release a losing timer too.
++    async function waitForShutdown(operation) {
++      let timer;
++      const phaseDeadlineAt = performance.now() + 2_000;
++      try {
++        const settled = await Promise.race([operation,
++          new Promise((resolve) => { timer = setTimeout(() => resolve(false), 2_000); })]);
++        return performance.now() < phaseDeadlineAt && settled;
++      } finally { clearTimeout(timer); }
++    }
++    function diagnostic() {
++      // Fixed failure metadata only. Never expose errors, IDs, paths or native payloads.
++      const fields = { stage, child_exit_seen: childExitSeen, child_close_seen: childCloseSeen,
++        close_settled: closeSettled, kill_settled: killSettled,
++        child_exited: Boolean(child && (child.exitCode !== null || child.signalCode !== null)),
++        owned_temp_seen: Boolean(ownedTempScope), owned_temp_removed: ownedTempRemoved };
++      try { writeSync(2, `RESIDENT_CLEANUP_DIAGNOSTIC ${JSON.stringify(fields)}\n`); } catch {}
++    }
++    const deadline = setTimeout(() => { diagnostic(); process.exit(3); }, 12_000);
+     try {
+       // EOF/signal can race launch; await its returned resource owner first.
+       await startup.catch(() => {});
++      withinDeadline();
++      if (!browserServer) {
++        // A settled startup failure can still own a real temporary scope.
++        // No returned server is not proof that no browser was spawned.
++        await removeOwnedTempScope();
++        assert.fail("no returned browser cleanup owner");
++      }
+       let browserPid = null;
+       let browserExited = null;
+       if (browserServer) {
+-        const child = browserServer.process();
++        stage = "browser-identity";
++        child = browserServer.process();
++        child.once("exit", () => { childExitSeen = true; });
++        child.once("close", () => { childCloseSeen = true; });
+         browserPid = child.pid;
+         assert.ok(Number.isSafeInteger(browserPid) && browserPid > 0);
+-        const closed = await Promise.race([
+-          browserServer.close().then(() => true, () => false), delay(2_000).then(() => false),
+-        ]);
+-        if (!closed) assert.ok(await Promise.race([
+-          browserServer.kill().then(() => true, () => false), delay(2_000).then(() => false),
+-        ]));
++        stage = "browser-close";
++        const closed = await waitForShutdown(
++          browserServer.close().then(() => { closeSettled = true; return true; },
++            () => { closeSettled = true; return false; }),
++        );
++        withinDeadline();
++        if (!closed) {
++          stage = "browser-kill";
++          const killing = browserServer.kill().then(() => { killSettled = true; return true; },
++            () => { killSettled = true; return false; });
++          const killed = await waitForShutdown(killing);
++          withinDeadline();
++          if (!killed) {
++            // close/kill share the SDK's real artifact-cleanup promise. After
++            // observed exit/close, its pending work retains the original bound.
++            assert.equal(childCloseSeen, true);
++            assert.ok(child.exitCode !== null || child.signalCode !== null);
++            stage = "browser-cleanup";
++            assert.equal(await killing, true);
++            withinDeadline();
++          }
++        }
++        stage = "browser-exit";
+         browserExited = child.exitCode !== null || child.signalCode !== null;
+         assert.equal(browserExited, true);
+       }
++      await removeOwnedTempScope();
+       registration = undefined;
+       buffered = Buffer.alloc(0);
++      stage = "ack";
++      withinDeadline();
++      assert.equal(ownedTempRemoved, true);
+       await writeFrame({ kind: "cleaned", outcome, browser_pid: browserPid, browser_exited: browserExited });
++      withinDeadline();
++      cleanupConfirmed = true;
+       process.exitCode = exitCode;
+     } catch {
++      diagnostic();
+       process.exitCode = 3; // No cleanup ACK or native-success substitute.
+     } finally {
+-      clearTimeout(deadline);
++      // Failed shutdown still owns its hard bound; an idle failure may exit
++      // naturally with code3, while pending SDK handles remain bounded by12s.
++      if (cleanupConfirmed) clearTimeout(deadline);
++      else deadline.unref();
+       process.stdin.destroy();
+     }
+   })();
+@@ -124,7 +237,9 @@ process.stdin.once("end", () => { if (!closing) interrupted(); });
+ watchdog = setTimeout(interrupted, 600_000);
+ 
+ async function secureDocument() {
++  if (!setupComplete) setupCheckpoint("secure-url");
+   assert.equal(new URL(page.url()).origin, ORIGIN);
++  if (!setupComplete) setupCheckpoint("secure-state");
+   assert.deepEqual(await page.evaluate(() => ({
+     origin: location.origin, secure: isSecureContext,
+     creation: typeof PublicKeyCredential.parseCreationOptionsFromJSON,
+@@ -148,15 +263,37 @@ async function residentMetadata(credential) {
+ let outcome = "failed";
+ let exitCode = 1;
+ try {
+-  startup = chromium.launchServer({ env: cleanEnv, timeout: STARTUP_MS })
+-    .then((server) => { browserServer = server; });
+-  await startup;
++  const startupDeadlineAt = performance.now() + STARTUP_MS;
++  startup = (async () => {
++    setupCheckpoint("temporary-scope", STARTUP_MS, startupDeadlineAt - STARTUP_MS);
++    ownedTempScope = await mkdtemp(join(tmpdir(), "console-resident-authenticator-"));
++    // This process hosts only this fixture. SDK defaults and Chromium use the
++    // same fresh scope; no host/global environment or private SDK hook changes.
++    process.env.TMPDIR = ownedTempScope;
++    assert.ok(!closing);
++    const remaining = startupDeadlineAt - performance.now();
++    assert.ok(remaining > 0);
++    setupCheckpoint("browser-launch", STARTUP_MS, startupDeadlineAt - STARTUP_MS);
++    browserServer = await chromium.launchServer({
++      env: { ...cleanEnv, TMPDIR: ownedTempScope }, timeout: remaining,
++    });
++  })();
++  let startupTimer;
++  try {
++    await Promise.race([startup, new Promise((_, reject) => {
++      startupTimer = setTimeout(() => reject(new Error("startup deadline")), STARTUP_MS);
++    })]);
++    assert.ok(performance.now() < startupDeadlineAt);
++  } finally { clearTimeout(startupTimer); }
+   assert.ok(!closing);
++  setupCheckpoint("browser-connect", PHASE_MS);
+   browser = await chromium.connect(browserServer.wsEndpoint(), { timeout: PHASE_MS });
+   assert.ok(!closing);
++  setupCheckpoint("context");
+   context = await browser.newContext({ serviceWorkers: "block", acceptDownloads: false });
+   // Only this fixed fixture document is fulfilled. Every other URL is denied;
+   // there is no native API interception and no HTTP/provider success simulation.
++  setupCheckpoint("route");
+   await context.route("**/*", (route) => {
+     if (route.request().url() === `${ORIGIN}/` && route.request().method() === "GET") {
+       return route.fulfill({ status: 200, contentType: "text/html", body:
+@@ -164,18 +301,26 @@ try {
+     }
+     return route.abort("blockedbyclient");
+   });
++  setupCheckpoint("page");
+   page = await context.newPage();
++  setupCheckpoint("navigate", PHASE_MS);
+   await page.goto(`${ORIGIN}/`, { timeout: PHASE_MS });
+   await secureDocument();
++  setupCheckpoint("cdp-session");
+   cdp = await context.newCDPSession(page);
++  setupCheckpoint("webauthn-enable");
+   await cdp.send("WebAuthn.enable");
++  setupCheckpoint("virtual-authenticator");
+   ({ authenticatorId } = await cdp.send("WebAuthn.addVirtualAuthenticator", {
+     options: { protocol: "ctap2", transport: "internal", hasResidentKey: true,
+       hasUserVerification: true, isUserVerified: true, automaticPresenceSimulation: true },
+   }));
++  setupCheckpoint("browser-identity");
+   const browserPid = browserServer.process().pid;
+   assert.ok(Number.isSafeInteger(browserPid) && browserPid > 0);
++  setupCheckpoint("ready");
+   await writeFrame({ kind: "ready", origin: ORIGIN, secure_context: true, browser_pid: browserPid });
++  setupComplete = true;
+   while (!closing) {
+     const command = await readFrame();
+     assert.ok(!closing);
+@@ -241,6 +386,7 @@ try {
+     }
+   }
+ } catch {
++  if (!setupComplete) setupDiagnostic();
+   if (!closing) {
+     process.stderr.write("resident authenticator fixture failed\n");
+     await writeFrame({ kind: "error", code: "fixture-failure" }).catch(() => {});

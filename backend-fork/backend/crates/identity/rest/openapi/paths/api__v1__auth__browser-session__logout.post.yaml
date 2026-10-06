@@ -1,0 +1,23 @@
+tags:
+  - auth
+summary: Close exact browser session family
+description: Accepts only the exact opaque handle and context. Known expired or source-removed identity can reconcile; unknown custody never confirms closure.
+security:
+- BrowserIngress: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/BrowserSessionIdentityRequest'
+responses:
+  '204':
+    description: Exact family closure confirmed; retry of confirmed terminal identity is idempotent.
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '503':
+    $ref: '#/components/responses/ServiceUnavailable'
+  '422':
+    $ref: '#/components/responses/ValidationError'
+  '413':
+    description: Identity body exceeds 4 KiB.

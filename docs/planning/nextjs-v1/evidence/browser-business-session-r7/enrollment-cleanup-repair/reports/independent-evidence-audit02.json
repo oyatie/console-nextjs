@@ -1,0 +1,212 @@
+{
+  "schema": "enrollment-deadline-independent-evidence-audit/2",
+  "at": "2026-10-06T04:11:09.873453+00:00",
+  "method": "Read-only comparisons of report/raw hashes, observed TAP/Rust counts, source snapshots/current bytes, immutable Git blobs, and merge-group raw metadata. No runtime/GitHub action or tracked writes.",
+  "verdict": "ACCEPT_SCOPED22_UNIT_AND_PROCESS_GREEN_WITH_PRESERVED_REDS; HOLD_CURRENT_NATIVE121_17_AND_FINAL_HEAD_QUEUE",
+  "head": "c3793f92dab565de104224fc705578c543d85b64",
+  "new_runs": [
+    {
+      "id": "full-process-green03",
+      "raw_log_hash_valid": true,
+      "inputs_before_equal_after": true,
+      "observed_tap_counts": {
+        "tests": 22,
+        "pass": 22,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "id": "full-process-green02",
+      "raw_log_hash_valid": true,
+      "inputs_before_equal_after": true,
+      "observed_tap_counts": {
+        "tests": 22,
+        "pass": 19,
+        "fail": 3,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "id": "early-eof-red01",
+      "raw_log_hash_valid": true,
+      "inputs_before_equal_after": true,
+      "observed_tap_counts": {
+        "tests": 1,
+        "pass": 0,
+        "fail": 1,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "id": "business-early-eof-red01",
+      "raw_log_hash_valid": true,
+      "inputs_before_equal_after": true,
+      "observed_tap_counts": {
+        "tests": 1,
+        "pass": 0,
+        "fail": 1,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "id": "buffered-early-eof-red01",
+      "raw_log_hash_valid": true,
+      "inputs_before_equal_after": true,
+      "observed_tap_counts": {
+        "tests": 4,
+        "pass": 0,
+        "fail": 4,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "id": "native-origin-probe03",
+      "raw_log_hash_valid": true,
+      "inputs_before_equal_after": true,
+      "observed_tap_counts": {}
+    }
+  ],
+  "green03_current_input_hashes": {
+    "tools/test-native-browser-enrollment.test.mjs": "3204b466940c270897814f9100ee8f92fbddfdc937e7b71a06406dacac778ead",
+    "tools/test-native-browser-enrollment.mjs": "6cbb58a1b2eae9f01d0b4d0838afd7c5c421c496a532fde056a1f33e153027ce",
+    "tools/test-browser-business-session.mjs": "ea936c0cdc8670261d556686b46a6d813b6479f4a8c6dd7b0925a42092e6aa2a",
+    "tools/production-runtime.mjs": "7e4d05bac69900295f8777c931999f2987acd36c947f281cbea7d1bbdf673367",
+    "tools/enrollment-fault-deadlines.mjs": "6f80266162d5413bcda245b17536b991518e95e22f5b1a7001067aaa4120fc06",
+    "tools/enrollment-fault-deadlines.test.mjs": "7e4aa20a3cfac678c5f5d8b620456da7b6e74d72fd6f64824b05cde363bc4bca"
+  },
+  "verified_findings": [
+    "full-process-green03 raw ae17b8d10a24dfa5d6522050ac09e7b0bcbdc09c9dbbe7222d2e788ae2ad79ef records22/22, zero skipped/cancelled/todo. Six units and sixteen real-process cases: thirteen enrollment-runner cases including original ten and three startup EOF variants; three product startup EOF variants. All six before/after input hashes match current source.",
+    "full-process-green02 is actual RED despite filename: nineteen pass/three fail. All three failed product startup EOF cases passed cleaned/zero-creation/outcome/natural-exit/no-fallback assertions then failed solely on one retained console-product-browser temporary directory. Exact six before/after captured inputs are available in full-process-red02-sources.",
+    "Captured product3545f934 (green02 RED) differs from corrected productea936c0c (green03 GREEN) solely by assert.ok(!closing) before creating the startup stage. Both runs use exact same finalparent3204b466 source. No assertion exemptions or test-name filters were added to green03.",
+    "buffered-early-eof-red01 observed4/4 fail; all four report origin instead of expected cleaned. Snapshot directory exactly matches recorded before/after hashes including unchanged finalparent3204b466. It tests partial header and full frame EOF in both runners,12 other cases intentionally unselected, no skipped counts invented.",
+    "Earlier empty EOF probes each execute1 failing case, showing origin instead of cleaned, with input hashes stable across run. Reports/raw are valid. Historical early parent sources483f5398 and78c8d36c lack a located exact source snapshot, so these are preserved observations without falsely claiming complete historical source custody. Later buffered RED and full22 runs have exact recorded source custody.",
+    "native-origin-probe03 observes1 passing selected native prerequisite/120 intentionally filtered, raw32298b366 matches and input hashes stable. Rust3dc3de1 adds static failure diagnostic only, preserving20s phase deadlines. Earlier runnerb0a4/parentced input hashes differ from current runner6cbb/parent3204; this observation is diagnostics-only and cannot substitute current native121/17 proof or localize native02 cleanup RED.",
+    "native02 remains0/1 failed with cleanup unconfirmed; possible orphan. Its PostgreSQL harness cleanup print does not prove runner cleanup. No causal origin-timeout conclusion is justified. native01 remains pre-execution environment failure as originally corrected.",
+    "Merge-group raw metadata confirms run37403914643/job112077080738 completed failure on syntheticb3ac72c; acceptedf5 and synthetic trees both f8845f3b. Job reports42 steps:16 success,1 failure,25 skipped. Raw process gate counts10 tests,1 pass,9 fail,0 skipped/cancelled; downstream skipped steps remain unreached. Original PR open/unmerged terminal state is preserved."
+  ],
+  "precision_notes": [
+    "Do not relabel full-process-green02 GREEN based on its filename. Archive original bytes unchanged and index actual RED outcome.",
+    "Do not relabel native03 as final/current-source native success. Record diagnostic-only scope, earlier runner/parent hashes and original20s deadline.",
+    "Do not claim early empty-EOF test parent bytes were captured before run; if exact reconstruction is later provided, retain reconstruction provenance.",
+    "Current full native121/17 execution is not terminal in this audit and is deliberately excluded from portable evidence acceptance.",
+    "Portable record includes preserved original queue failure and raw metadata; historical prerequisite references deeper than queue disposition may remain verified external records with explicit scope exclusion."
+  ],
+  "remaining_gates": [
+    "Terminal current native121/17 evidence, failure fix loop if needed.",
+    "Final source/evidence approval and immutable final commit/tree binding.",
+    "Fresh exact-head hosted CI and required protected merge-group verification."
+  ],
+  "artifacts": [
+    {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/independent-evidence-audit01.json",
+      "bytes": 11852,
+      "sha256": "2805745fcd161be93bbd6175dcabb3d4d79edb338790722db91526e582b742f1"
+    },
+    {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/full-process-green03.json",
+      "bytes": 2103,
+      "sha256": "4692279855262c89d5766d79535617d61a58979a27882681e11a1415b830265a"
+    },
+    {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/full-process-green03.log",
+      "bytes": 4345,
+      "sha256": "ae17b8d10a24dfa5d6522050ac09e7b0bcbdc09c9dbbe7222d2e788ae2ad79ef"
+    },
+    {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/full-process-green02.json",
+      "bytes": 2103,
+      "sha256": "4de0a8c2f656f4bc66608a5aa1615a487233aeae04c29953905688e15c931035"
+    },
+    {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/full-process-green02.log",
+      "bytes": 6788,
+      "sha256": "2a50a7bc376177b43d429d2e29d0172f5f7034af9f1ee3bf8b76c4680360462e"
+    },
+    {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/early-eof-red01.json",
+      "bytes": 1482,
+      "sha256": "3766054891ce060fd0247919872441558ccc468d13b5622acbbcf529b1fd70d7"
+    },
+    {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/early-eof-red01.log",
+      "bytes": 1114,
+      "sha256": "b255933c43cde6097696a4148f9b480b1e1fba15afe19c7d41e0665986a6390a"
+    },
+    {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/business-early-eof-red01.json",
+      "bytes": 1492,
+      "sha256": "f4193b398ca481d1fb1aec1a3669e2d74fd9973ee36748d3ee2fbdc38197981b"
+    },
+    {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/business-early-eof-red01.log",
+      "bytes": 1111,
+      "sha256": "62005f4f282a4dcb6682542a6e5c2e81356b42f26fd346962b2d7d680c7744e3"
+    },
+    {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/buffered-early-eof-red01.json",
+      "bytes": 1755,
+      "sha256": "ac7a4d07915bbf994c6d3848fc49c91df23046fc8b6fa226533688ff4bc55565"
+    },
+    {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/buffered-early-eof-red01.log",
+      "bytes": 4145,
+      "sha256": "217612b276980fdb66a30096de6ee3b4f6f2ce53ed7719280db3a816e9b6ed91"
+    },
+    {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/native-origin-probe03.json",
+      "bytes": 3399,
+      "sha256": "98a9bace547e2d58d3982ea66c23b2923a8bb03654dbdf6f4c37a65a3234a01d"
+    },
+    {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/native-origin-probe03.log",
+      "bytes": 4307,
+      "sha256": "32298b3661c032803c1561a009baddf78c30225e1c3f69aa72de7b4f650b0433"
+    },
+    {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/merge-group-b3ac72c01/terminal-failure-audit01.json",
+      "bytes": 10322,
+      "sha256": "9ab2fb52808d3f6a4709428369a3795dcd5f2a95025f84b43ca1bee36bb775dd"
+    },
+    {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/merge-group-b3ac72c01/terminal-failure-custody01.json",
+      "bytes": 6094,
+      "sha256": "04fcaaf7bccddf39307f7a42d9786ff1d8ef27b9fc37df839d4a0dcc141f74de"
+    },
+    {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/merge-group-b3ac72c01/job-112077080738-direct01.log",
+      "bytes": 82699,
+      "sha256": "dfe4e4bbea1600b59dda1f6152ae8a4492b26403697c54f778ba263951d943d0"
+    },
+    {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/merge-group-b3ac72c01/job-112077080738.json",
+      "bytes": 8704,
+      "sha256": "4e5f02d011cc0dffbc6136e6ac3073b0097e8e153324c6b5611b3cc2ae283698"
+    },
+    {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/merge-group-b3ac72c01/run-37403914643.json",
+      "bytes": 8212,
+      "sha256": "c0d368fd80afb22ab3dde81a01c5cc4c9ce867a3b6b2df41ea9519210f65128e"
+    },
+    {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/merge-group-b3ac72c01/accepted-commit.json",
+      "bytes": 1823,
+      "sha256": "0cf19718266a91b7ce78b20b04a12927867604ea04cc2248ee989722ab78e600"
+    },
+    {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/merge-group-b3ac72c01/synthetic-commit.json",
+      "bytes": 2976,
+      "sha256": "0ef78e013f974826c33bbdb31d0c078710f21b14f62ab37bb2c326751d9c60cf"
+    }
+  ]
+}

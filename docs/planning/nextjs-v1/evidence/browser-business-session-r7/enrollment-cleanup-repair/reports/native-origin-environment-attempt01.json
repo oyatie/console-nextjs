@@ -1,0 +1,10 @@
+{
+  "schema": "native-origin-environment-attempt/1",
+  "attempt": "native-origin-probe01",
+  "outcome": "UNREACHED_BEFORE_POSTGRES_AND_RUST_NATIVE_EXECUTION",
+  "actual_native_executed": 0,
+  "actual_native_filtered_observed": 0,
+  "cause": "Default Docker context returned RWLayer unexpectedly nil before container startup. Existing approved isolated test context and bounded pgtest Docker adapter used for next attempt.",
+  "limits": "Original probe01 scope phrase about120filtered describes intended selection only; no Rust summaries exist. Harness printed cleanup text but inaccessible default daemon state is not independent container/volume custody proof.",
+  "preserved_report_sha256": "9bc37bab6ef07fda99c83c86489d66b57971ef592ec529c9c988d830cbc1d444"
+}

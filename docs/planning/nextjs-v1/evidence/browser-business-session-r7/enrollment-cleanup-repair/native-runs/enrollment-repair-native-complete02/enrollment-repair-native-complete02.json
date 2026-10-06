@@ -1,0 +1,39 @@
+{
+  "id": "enrollment-repair-native-complete02",
+  "command": [
+    "bash",
+    "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/tools/lanes/pgtest.sh",
+    "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork",
+    "/Users/jasonlee/.cargo/bin/cargo",
+    "+1.98.1",
+    "test",
+    "--locked",
+    "--offline",
+    "--no-fail-fast",
+    "--features",
+    "frontend-e2e",
+    "-p",
+    "console-app",
+    "--test",
+    "auth_rest",
+    "--",
+    "--test-threads=1",
+    "--nocapture"
+  ],
+  "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+  "exit_code": 101,
+  "timed_out": false,
+  "duration_seconds": 1820.428130708984,
+  "discovered": null,
+  "counts": {
+    "passed": 120,
+    "failed": 1,
+    "skipped": 0,
+    "filtered": 0,
+    "executed": 121
+  },
+  "log_sha256": "ff0638cb45b099398a148bcffe82de5d785b8212737c2eab9e5b29f73a759cc1",
+  "cleanup_reported": true,
+  "inputs_sha256": "5e2fabd786c4be6ea45d9cb9f01ba8d273bfbc57c26ddcfd194f4b01223d5177",
+  "inputs_unchanged": true
+}

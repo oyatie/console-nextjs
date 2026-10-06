@@ -1,0 +1,12 @@
+    Checking console-app v0.1.0 (/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend/app)
+error: very complex type used. Consider factoring parts into `type` definitions
+   --> app/tests/auth_rest/resident_authenticator.rs:129:19
+    |
+129 |     error_reader: Option<JoinHandle<(usize, Option<CleanupDiagnostic>, Option<SetupDiagnostic>)>>,
+    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.98.0/index.html#type_complexity
+    = note: `-D clippy::type-complexity` implied by `-D warnings`
+    = help: to override `-D warnings` add `#[allow(clippy::type_complexity)]`
+
+error: could not compile `console-app` (test "auth_rest") due to 1 previous error

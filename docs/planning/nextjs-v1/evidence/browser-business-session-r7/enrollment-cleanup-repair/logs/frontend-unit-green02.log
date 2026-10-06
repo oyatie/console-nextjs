@@ -1,0 +1,22 @@
+
+> console-web@1.0.0 test
+> vitest run
+
+
+ RUN  v3.2.7 /Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7
+
+ ✓ tests/server-mutation-guard.test.ts (5 tests) 2ms
+ ✓ tests/browser-session-boundary.test.ts (6 tests) 10ms
+ ✓ tests/store-persistence.test.ts (1 test) 60ms
+ ✓ tests/adversarial-fuzz.test.ts (11 tests) 14ms
+ ✓ tests/integration-lifecycle.test.ts (2 tests) 7ms
+ ✓ tests/workflows.test.ts (14 tests) 12ms
+ ✓ tests/ui-workflows.test.ts (6 tests) 4ms
+ ✓ tests/domain.test.ts (52 tests) 18ms
+ ✓ tests/storefront.test.ts (15 tests) 20ms
+
+ Test Files  9 passed (9)
+      Tests  112 passed (112)
+   Start at  13:04:14
+   Duration  305ms (transform 412ms, setup 0ms, collect 891ms, tests 147ms, environment 1ms, prepare 380ms)
+

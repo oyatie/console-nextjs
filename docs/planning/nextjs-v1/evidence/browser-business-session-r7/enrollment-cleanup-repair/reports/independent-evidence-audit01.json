@@ -1,0 +1,247 @@
+{
+  "schema": "enrollment-deadline-independent-evidence-audit/1",
+  "at": "2026-10-06T03:55:30.054550+00:00",
+  "method": "Read-only source, immutable Git blob, raw log, report SHA/length/count comparison. No runtime tests or GitHub mutations performed. No tracked source written.",
+  "verdict": "ACCEPT_SCOPED_LOCAL_UNIT_PROCESS_AND_RUNTIME_EVIDENCE_ONLY; HOLD_NATIVE_AND_QUEUE",
+  "head_at_audit": "c3793f92dab565de104224fc705578c543d85b64",
+  "uncommitted_source_hashes": [
+    {
+      "path": "tools/enrollment-fault-deadlines.mjs",
+      "bytes": 1167,
+      "sha256": "6f80266162d5413bcda245b17536b991518e95e22f5b1a7001067aaa4120fc06"
+    },
+    {
+      "path": "tools/enrollment-fault-deadlines.test.mjs",
+      "bytes": 2938,
+      "sha256": "7e4aa20a3cfac678c5f5d8b620456da7b6e74d72fd6f64824b05cde363bc4bca"
+    },
+    {
+      "path": "tools/test-native-browser-enrollment.test.mjs",
+      "bytes": 5830,
+      "sha256": "ced5f004a977659b3b1755cfd385dbd2013bb0eb1fbca5d164d9e7bcd73ff326"
+    },
+    {
+      "path": "tools/production-runtime.mjs",
+      "bytes": 8831,
+      "sha256": "7e4d05bac69900295f8777c931999f2987acd36c947f281cbea7d1bbdf673367"
+    },
+    {
+      "path": ".github/workflows/ci.yml",
+      "bytes": 12567,
+      "sha256": "0ca66a38078c0a5ea8930312d7d1420e91d5b088859d2d477148dd79864a5c47"
+    },
+    {
+      "path": "tools/test-production-runtime.test.mjs",
+      "bytes": 9049,
+      "sha256": "66ac7652b4079353b9344da6bfdfc8e3afa69c0f58c16cae62ca0c47cb74f75d"
+    },
+    {
+      "path": "tools/test-native-browser-enrollment.mjs",
+      "bytes": 13419,
+      "sha256": "b0a4ef6f86493df99c10efaddebd735043d8226774d253dd41d90431008defa4"
+    },
+    {
+      "path": "backend-fork/backend/app/tests/auth_rest/genuine_browser.rs",
+      "bytes": 109954,
+      "sha256": "3dc3de1c946b9858aa33a0f0c605a52ef46e91d245ab892f7b7746cc4f0f69cf"
+    }
+  ],
+  "observed_counts": {
+    "deadlines-red01": {
+      "tests": 6,
+      "pass": 0,
+      "fail": 6,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "deadlines-green01": {
+      "tests": 6,
+      "pass": 6,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "temp-custody-red01": {
+      "tests": 1,
+      "pass": 0,
+      "fail": 1,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "full-process-green01": {
+      "tests": 16,
+      "pass": 16,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "runtime-consumers-green01": {
+      "tests": 3,
+      "pass": 3,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    }
+  },
+  "verified": [
+    "All recorded path/byte/SHA references in existing reports match their current artifacts or current source, except the RED helper and RED parent which match exact c3793f92 Git blobs. These exceptions are expected historical inputs, not current-state mismatches.",
+    "All six lifecycle unit test bodies are unchanged from c3793f92. Six fail on the committed extraction retaining spawn-relative25s/35s behavior; the same six pass corrected helper.",
+    "Full unfiltered suite records six unit passes and all ten real production runner fault cases. Current parent requires exact creation_attempts=0, abort/failure outcome, natural code1/2 exit with null signal, no forced-supervisor intervention, and owned TMPDIR emptiness before parent deletion.",
+    "Resource RED executed only eof-after-ready, intentionally not selecting nine other fault cases; one assertion failed only because node-compile-cache remained after preceding cleanup/outcome/exit assertions. It does not claim nine skipped executions.",
+    "Temp RED owner snapshot equals exact f5c29cc9 Git blob2187fa70. Post-run reconstructed RED parent differs from current only the reviewed clear-after-exit insertion and corrected assertion message. Existing report honestly discloses post-run reconstruction; do not promote it to a pre-recorded source snapshot.",
+    "Cache fix is confined to installer child NODE_DISABLE_COMPILE_CACHE=1. Existing locked install flags/lockfiles remain unchanged. Full ten fault case passes enforce empty TMPDIR without exclusions, supporting the scoped cache/resource claim.",
+    "Runtime3/3 covers real locked closure staging/custody/tamper rejection and two storefront failure cleanup consumers. This does not exercise native enrollment or entire business workflow acceptance.",
+    "Current build-input manifest45001f33 matches all90 source and96 build-file hashes. Build log shows successful compile/type-check/page generation; lint raw log shows tsc invocation without errors; Python log shows18 passing. Build/lint/tooling logs lack separate structured command/exit records, so they support log-observed success rather than an independently rerun exact command.",
+    "Native02 report/raw SHA779cdaa6 and all inputs-before/after match; Rust records0 passed,1 failed,120 intentionally filtered. It fails strict native new-key sign-in at genuine_browser.rs:1003 with infrastructure: cleanup unconfirmed; possible orphan. PostgreSQL harness printed cleanup, but runner cleanup is unconfirmed and origin-timeout cause is not directly established by this log.",
+    "Native01 did not reach Rust or PostgreSQL container startup; environment supplement correctly preserves unavailable status and clarifies120 filtered was intended selection, not observed execution."
+  ],
+  "build_custody": {
+    "source_files": 90,
+    "build_files": 96,
+    "hash_mismatches": [],
+    "manifest": {
+      "path": ".next/build-inputs.json",
+      "bytes": 21908,
+      "sha256": "45001f336b372dd488fd27cce5d6d8e1119c42e9dada4025c766fd0d4558d7c7"
+    }
+  },
+  "remaining_gates": [
+    "Determine native02 cause from narrowly traced runner/harness behavior; retain existing failed cleanup outcome.",
+    "After any native source repair, same-consumer and required broader native/browser proof must pass; refresh source metadata and final-head evidence.",
+    "Final committed source review, exact-head hosted CI and merge-group verification remain required before queue/merge acceptance."
+  ],
+  "precision_and_portability": [
+    "Do not call16/16 native acceptance or full17 business browser acceptance. They are six pure deadline units plus ten actual fault/process tests.",
+    "Do not describe temp-custody RED parent as a pre-run recorded snapshot or claim temporary resources were empty before acknowledgement; the assertion executes after natural exit, before parent cleanup.",
+    "Preserve native01 original report and correcting supplement together; preserve native02 as failed/cleanup-unconfirmed rather than converting it to an origin-timeout proof.",
+    "Native02 environment is recoverable from probe02.py, including explicit Docker context and adapter, but native report does not itself capture the actual inherited PATH/Node version. Include producer script and an explicit environment note in portable index without inventing an observed version.",
+    "Current reports have workstation-absolute source/log references and the build-input reference points at disposable.next output. To make review portable, retain existing report and raw-log bytes unchanged, preserve original hashes, and provide one relative-path bundle index resolving each artifact. Copy build-inputs.json bytes as build-inputs-snapshot.json; include exact committed RED input references and disclosed reconstructed snapshots. Avoid modifying original reports or adding a second acceptance runner."
+  ],
+  "minimal_portable_bundle": {
+    "index": "One checkpoint/index JSON: component scope, base and final commit/tree, source file hashes, run IDs, command/environment notes, observed counts/outcome, relative artifact locations, original SHA/bytes, historical provenance and remaining gates.",
+    "artifacts": "Existing unit/process/resource/runtime reports and raw logs; phase diagnostic and producer; native failures and corrective environment supplement; source snapshots; build-input manifest snapshot; build/lint/tooling logs.",
+    "no_claim": "No final-head, native, institutional, durability, payroll or MVP acceptance is inferred from this audit."
+  },
+  "artifacts": [
+    {
+      "path": "deadlines-red01.json",
+      "bytes": 2008,
+      "sha256": "822267d14024ba5615b68141572c70ae7a7f2dfee32a8dea68f7f1c1be0c56fb"
+    },
+    {
+      "path": "deadlines-red01.log",
+      "bytes": 6559,
+      "sha256": "14b9aea04613e222984329552db9b465f229a543329085d308fd83d5940fd769"
+    },
+    {
+      "path": "deadlines-green01.json",
+      "bytes": 1657,
+      "sha256": "d18a11329fafc1b3367575d71c5335bdf45f7f9dfcd36156c5c119b97e337f6f"
+    },
+    {
+      "path": "deadlines-green01.log",
+      "bytes": 1309,
+      "sha256": "dd66643a1d3769d9d069c0b89f4d83273e4ef6b2d99c8f8ab3f0bf1539171ec4"
+    },
+    {
+      "path": "temp-custody-red01.json",
+      "bytes": 2071,
+      "sha256": "a6419e7f8fea04a19298896d949e5c54e2babf12b0d43cba721c9c3fb5f721ff"
+    },
+    {
+      "path": "temp-custody-red01.log",
+      "bytes": 1113,
+      "sha256": "f45094bef8f17c07cefc6a621342d6f473b578b7573c255196e3be826320d515"
+    },
+    {
+      "path": "full-process-green01.json",
+      "bytes": 4759,
+      "sha256": "f0af8456a97cc44c2572b65320fd8973fb0b99f96c06c32aa076a5efb3ee772d"
+    },
+    {
+      "path": "full-process-green01.log",
+      "bytes": 3169,
+      "sha256": "5fa84d2388d53f014c81302c231bda9e58eeeffa97a6dbf3462c3c5d083b4805"
+    },
+    {
+      "path": "runtime-consumers-green01.json",
+      "bytes": 1549,
+      "sha256": "718dbec3629038e7862598300b5a736a12c20b4c0a3a728ec8c114e7f5499276"
+    },
+    {
+      "path": "runtime-consumers-green01.log",
+      "bytes": 804,
+      "sha256": "b35c9eb9d2951388a6a416fd30159bdc7643a31d01a536c06ea6c841c31dfb16"
+    },
+    {
+      "path": "native-origin-probe01.json",
+      "bytes": 3252,
+      "sha256": "9bc37bab6ef07fda99c83c86489d66b57971ef592ec529c9c988d830cbc1d444"
+    },
+    {
+      "path": "native-origin-probe01.log",
+      "bytes": 191,
+      "sha256": "b6e15d6260aa263d6ca9303063f124a5cadc5cee0994e84ba6a025328e7de25d"
+    },
+    {
+      "path": "native-origin-environment-attempt01.json",
+      "bytes": 762,
+      "sha256": "c0d95cdb1625ff92b63fc1a9ca958dbce587cd9cdd9d5c19f68af7a347edd511"
+    },
+    {
+      "path": "native-origin-probe02.json",
+      "bytes": 3313,
+      "sha256": "f91240cf437ebc8835c040cb7bfe55aaaa73007db66c960272037e6db78458cf"
+    },
+    {
+      "path": "native-origin-probe02.log",
+      "bytes": 17964,
+      "sha256": "779cdaa6f7bf8960d6aa4236bcfc9078d9c5f0dc549ec175b76214a70dc25b4e"
+    },
+    {
+      "path": "phase-probe01.json",
+      "bytes": 824,
+      "sha256": "be3120df28e5a9b64d614e936981e3f8beed9f29a7a2eedb35758d400651bdb0"
+    },
+    {
+      "path": "temp-custody-red-owner01.mjs",
+      "bytes": 8638,
+      "sha256": "2187fa70e8ed9ac385863991d521043b0e801f5b71adf7add3b4b04c0c0374ef"
+    },
+    {
+      "path": "temp-custody-red-parent01.mjs",
+      "bytes": 5813,
+      "sha256": "d68433029c4dd4b9a5c1a8bc12b2ae184aa67a57b11391c4037ccc8df28cd89c"
+    },
+    {
+      "path": "phase-probe01.mjs",
+      "bytes": 4035,
+      "sha256": "250316450ad007d4088760c966ade03f94d2887c41a392c7b71a414e4a878759"
+    },
+    {
+      "path": "native-origin-probe02.py",
+      "bytes": 3038,
+      "sha256": "05f7d23196d7634eea40b7386d9704e7326c91a3469a3786397adae12b1ee260"
+    },
+    {
+      "path": "build-green01.log",
+      "bytes": 819,
+      "sha256": "5ec885112898251015cc44544bd8271fc2f1217ddd9b9ccfb72129062f12edaf"
+    },
+    {
+      "path": "lint-green01.log",
+      "bytes": 42,
+      "sha256": "3e98dcbd24835eb29288dab5790e519db6a485457e666a6774fdbce08459740e"
+    },
+    {
+      "path": "tooling-green01.log",
+      "bytes": 117,
+      "sha256": "c95d541fe7b7946a099df722e142d74442ba9d64f2b73eb84f004932afcec268"
+    }
+  ]
+}

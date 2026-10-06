@@ -1,0 +1,202 @@
+{
+  "schema": "repair-source-final-review/1",
+  "verdict": "ACCEPT_SOURCE_ONLY",
+  "findings": [],
+  "scope": {
+    "worktree": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+    "head": "c3793f92dab565de104224fc705578c543d85b64",
+    "cumulative_base": "f5c29cc9ccb1d463f5ba76ebbf746b024311bd37",
+    "current_tracked_diff_files": 14,
+    "cumulative_diff_files": 15,
+    "reviewed_tracked_paths": [
+      ".github/workflows/ci.yml",
+      "backend-fork/backend/app/tests/auth_rest/browser_sessions.rs",
+      "backend-fork/backend/app/tests/auth_rest/genuine_browser.rs",
+      "backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs",
+      "docs/planning/nextjs-v1/IMPLEMENTATION.md",
+      "docs/planning/nextjs-v1/fork-delta.json",
+      "docs/planning/nextjs-v1/requirements-and-evidence.json",
+      "tools/browser-business-restore.mjs",
+      "tools/enrollment-fault-deadlines.mjs",
+      "tools/production-runtime.mjs",
+      "tools/test-browser-business-session.mjs",
+      "tools/test-native-browser-enrollment.mjs",
+      "tools/test-native-browser-enrollment.test.mjs",
+      "tools/test-resident-authenticator.mjs"
+    ],
+    "extra_cumulative_path": "tools/enrollment-fault-deadlines.test.mjs",
+    "excluded": "Untracked runtime evidence and unfinished general product modules are not source-completion approvals"
+  },
+  "diff_hashes": {
+    "HEAD_to_worktree_sha256": "d6dde9963ed040973642a4012e29bd4d46ac94918ada42dcb7ef93b675e2a6d0",
+    "f5c29cc_to_worktree_sha256": "4dc22cec541573f1b243b4f9dba8b64b58b60205d2acd268876466da5b06f807",
+    "encoding": "Exact git diff --binary --no-ext-diff stdout bytes"
+  },
+  "source_map": {
+    ".github/workflows/ci.yml": {
+      "sha256": "0ca66a38078c0a5ea8930312d7d1420e91d5b088859d2d477148dd79864a5c47",
+      "bytes": 12567
+    },
+    "backend-fork/backend/app/tests/auth_rest/browser_sessions.rs": {
+      "sha256": "af3da5f340ecaa1d78ad46d41fdc0a53be6d515a678727d54542fdffaff6d454",
+      "bytes": 288060
+    },
+    "backend-fork/backend/app/tests/auth_rest/genuine_browser.rs": {
+      "sha256": "3fc7ff40ce5b01325515803864ba2e87386562f4dd0bf744b2c22c594261879b",
+      "bytes": 110318
+    },
+    "backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs": {
+      "sha256": "30345239d9e8321ea9394dd5b5f75d91b5ca4d1b1a98a27c7360951a82179c45",
+      "bytes": 15396
+    },
+    "docs/planning/nextjs-v1/IMPLEMENTATION.md": {
+      "sha256": "c85e64e8bf0fd504752a3a8dc1e7a0fcec0ab6e8d7899c37235bf2a8fa05d65a",
+      "bytes": 200604
+    },
+    "docs/planning/nextjs-v1/fork-delta.json": {
+      "sha256": "2390ccef37903c7b4c38be1f75743725caaf3fffc31a1f7d12263293db6751de",
+      "bytes": 143894
+    },
+    "docs/planning/nextjs-v1/requirements-and-evidence.json": {
+      "sha256": "f481380488b3b24f760b4ddfbd39dbe328d4f2ce93a2cbc1c98a8b3780406aa1",
+      "bytes": 199866
+    },
+    "tools/browser-business-restore.mjs": {
+      "sha256": "7c81d3228765d28f16cfacc7bbf30ad1d94112b94e8843b3d9c68b4cf7d60b71",
+      "bytes": 36315
+    },
+    "tools/enrollment-fault-deadlines.mjs": {
+      "sha256": "6f80266162d5413bcda245b17536b991518e95e22f5b1a7001067aaa4120fc06",
+      "bytes": 1167
+    },
+    "tools/enrollment-fault-deadlines.test.mjs": {
+      "sha256": "7e4aa20a3cfac678c5f5d8b620456da7b6e74d72fd6f64824b05cde363bc4bca",
+      "bytes": 2938
+    },
+    "tools/production-runtime.mjs": {
+      "sha256": "7e4d05bac69900295f8777c931999f2987acd36c947f281cbea7d1bbdf673367",
+      "bytes": 8831
+    },
+    "tools/test-browser-business-session.mjs": {
+      "sha256": "ea936c0cdc8670261d556686b46a6d813b6479f4a8c6dd7b0925a42092e6aa2a",
+      "bytes": 52767
+    },
+    "tools/test-native-browser-enrollment.mjs": {
+      "sha256": "6cbb58a1b2eae9f01d0b4d0838afd7c5c421c496a532fde056a1f33e153027ce",
+      "bytes": 13987
+    },
+    "tools/test-native-browser-enrollment.test.mjs": {
+      "sha256": "3204b466940c270897814f9100ee8f92fbddfdc937e7b71a06406dacac778ead",
+      "bytes": 6611
+    },
+    "tools/test-resident-authenticator.mjs": {
+      "sha256": "b62d0d6eba89439d4194b79d4dab62ed8fd07614f93bf984bbd3ab261a71799e",
+      "bytes": 13043
+    },
+    "src/lib/server/browser-session.ts": {
+      "sha256": "c890caf4d9904175cce5611919de992fe289fc5db22829f2bcf08999b4a1dfe6",
+      "bytes": 18614,
+      "scope": "Unchanged consuming owner inspected"
+    },
+    "src/app/layout.public.tsx": {
+      "sha256": "c7049779098c70c199715872fb7b3d4774c4cf52e2f21bafcaa0993f817931b7",
+      "bytes": 1217,
+      "scope": "Unchanged consuming owner inspected"
+    },
+    "src/components/browser-session/SessionControls.tsx": {
+      "sha256": "c074070a1ab90e5bbc45b7e1b5e6adff3a8f288c90daf961281249847d144992",
+      "bytes": 7475,
+      "scope": "Unchanged consuming owner inspected"
+    },
+    "src/styles/browser-session.css": {
+      "sha256": "ca0fe5bd45cc16f99da078186725e6f5abdbf0918afc1807b1c9861e126e8519",
+      "bytes": 2169,
+      "scope": "Unchanged consuming owner inspected"
+    }
+  },
+  "direct_review_checks": [
+    {
+      "owner": "tools/enrollment-fault-deadlines.mjs",
+      "result": "PASS_SOURCE",
+      "evidence": "One absolute 140/150s prerequisite supervisor; beginFault moves once to original 25/35s fault-relative limits; forced is sticky; disposal and repeated begin reject. ACK and natural exit remain required before disposal."
+    },
+    {
+      "owner": "tools/test-native-browser-enrollment.mjs and tools/test-browser-business-session.mjs",
+      "result": "PASS_SOURCE",
+      "evidence": "One async startup input owner; bounded 65,540-byte buffered input; framing/version/sequence checks remain in decoder; EOF/error closes owner; post-import closing checks precede runtime staging. Existing launch ownership and later closing checks retained."
+    },
+    {
+      "owner": "tools/production-runtime.mjs",
+      "result": "PASS_SOURCE",
+      "evidence": "Only npm disposable Node compile cache disabled; locked install, source/build custody checks, install process-group termination and abort propagation remain actual."
+    },
+    {
+      "owner": "backend-fork/backend/app/tests/auth_rest/genuine_browser.rs",
+      "result": "PASS_SOURCE",
+      "evidence": "Only first validated-frame read receives 90s staging bound; native later reads and writes retain 20s; overall 130s and 8/8/2s cleanup remain. Received count advances only after frame/version/sequence validation. Failure reason is static text, not native payload."
+    },
+    {
+      "owner": "backend-fork/backend/app/tests/auth_rest/browser_sessions.rs",
+      "result": "PASS_SOURCE",
+      "evidence": "Real worker guard exists before fallible diagnostic-thread creation; stream drained with fixed bounded prefix classification, Interrupted retries and static output fields. Same readiness identity predicates, fresh Apalis registration and 25s deadline remain mandatory; exited worker still fails."
+    },
+    {
+      "owner": "backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs",
+      "result": "PASS_SOURCE",
+      "evidence": "Failure-only numeric age/frame metadata; at most 512 transient stderr bytes parsed only into exact typed stage/boolean record with unknown fields denied; no raw output is emitted. Credential decode, done/EOF selection, ACK/PID/outcome/exit validation and deadlines retained. new() does set failed=false after ready."
+    },
+    {
+      "owner": "tools/test-resident-authenticator.mjs",
+      "result": "PASS_SOURCE",
+      "evidence": "Private two-call wait helper clears owned timeout on any settlement, preserving 2/2s phase behavior. Only completed actual ACK write clears 12s hard bound; failed shutdown retains/unrefs it and keeps exit3 without ACK. No process-success fallback."
+    },
+    {
+      "owner": "tools/browser-business-restore.mjs and actual ProductFaults owner",
+      "result": "PASS_SOURCE",
+      "evidence": "Actual native owner executes once before held witness. Queued logout can be released only after exact gate/context/401, original trusted restored document and queued/not-started assertions. Real React commit must exceed release snapshot. Actual logout204, cookie removal, private denial, exactly one reload and all17 scenarios remain mandatory."
+    },
+    {
+      "owner": "tools/browser-business-restore.mjs cleanup",
+      "result": "PASS_SOURCE",
+      "evidence": "Native release attempt becomes sticky before await and is not blindly retried. Late real script fetch cannot append a hold after teardown. Cleanup never releases private action; page closure is attempted independently; primary failure retained with fixed secondary cleanup steps. Failed or unreached proof cannot become success."
+    },
+    {
+      "owner": "tools/test-native-browser-enrollment.test.mjs, deadline units and CI",
+      "result": "PASS_SOURCE",
+      "evidence": "Original faults retained; actual EOF variants added for both runners, zero creation attempts and exact natural exit required; isolated TMPDIR empty before parent deletion. Timer units explicitly claim no browser acceptance. CI invokes both existing unit and real-process suites."
+    },
+    {
+      "owner": "docs/planning/nextjs-v1/fork-delta.json",
+      "result": "PASS_SOURCE",
+      "evidence": "All three modified backend file after hashes and byte sizes match actual source."
+    },
+    {
+      "owner": "planning status/evidence documents",
+      "result": "PASS_SOURCE_WITH_PUBLICATION_HOLD",
+      "evidence": "Documents preserve historical RED outcomes, narrow component acceptance, unresolved causes and incomplete HR/Org/Payroll/Foundry. index05 reference hash matches actual file. Current diagnostic03 status is a stale checkpoint and requires a fresh terminal/final-gate update before publication."
+    }
+  ],
+  "limitations": [
+    "This is a direct source assessment, not final runtime acceptance; final 121 native /17 browser gate is pending.",
+    "No real failed-kill/stalled-cleanup/unref12s path has been demonstrated; timer source acceptance does not prove that runtime fault path.",
+    "Historical resident exit3 cause remains UNPROVEN; prior passing diagnostics do not resolve it.",
+    "Queued ordering evidence describes verified release-point ordering, not actual first server arrival.",
+    "Full HR/Org/Payroll/Foundry, attended identity, durability/fencing and overall product launch remain incomplete."
+  ],
+  "publication_holds": [
+    "Bind successful final full runtime and cleanup proof to the exact final source/build maps.",
+    "Refresh stale diagnostic03 running/frozen fields and latest-result labels before committing or publishing evidence.",
+    "Fresh exact-head hosted checks and protected merge-queue admission remain separate requirements."
+  ],
+  "independence": {
+    "method": "Direct reread of all14 current diffs, cumulative extra file and owning transitions; prior verdicts were not treated as substitute review.",
+    "prior_authorship_overlap": "This reviewer authored the earlier bounded queued pending-state observation candidate. This record does not count self-review as author-separated acceptance for that diagnostic delta.",
+    "author_separated_diagnostic_review": "native_worker_failure_review independently accepted that diagnostic delta/hash chain; the overlap is disclosed for final reviewer selection."
+  },
+  "actions": {
+    "tracked_source_writes": 0,
+    "tests_executed": 0,
+    "live_operations": 0,
+    "artifact_only_write": true
+  }
+}

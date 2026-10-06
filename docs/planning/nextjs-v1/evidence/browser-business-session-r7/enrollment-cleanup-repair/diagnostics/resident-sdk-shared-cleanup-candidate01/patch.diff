@@ -1,0 +1,189 @@
+--- a/tools/test-resident-authenticator.mjs
++++ b/tools/test-resident-authenticator.mjs
+@@ -4,6 +4,9 @@
+ // unchanged C2/product runners own actual conditional/production UI evidence.
+ import assert from "node:assert/strict";
+ import { writeSync } from "node:fs";
++import { lstat, mkdtemp, rm } from "node:fs/promises";
++import { tmpdir } from "node:os";
++import { join } from "node:path";
+ import { chromium } from "@playwright/test";
+ 
+ const ORIGIN = "https://auth.example.com";
+@@ -29,6 +32,7 @@
+ let incoming = 0;
+ let outgoing = 0;
+ let browserServer;
++let ownedTempScope;
+ let browser;
+ let context;
+ let page;
+@@ -92,25 +96,57 @@
+     let closeSettled = false;
+     let killSettled = false;
+     let cleanupConfirmed = false;
++    let ownedTempRemoved = false;
++    const deadlineAt = performance.now() + 12_000;
++    function withinDeadline() {
++      assert.ok(performance.now() < deadlineAt);
++    }
++    async function removeOwnedTempScope() {
++      if (!ownedTempScope) return;
++      stage = "owned-temp";
++      withinDeadline();
++      // This one fresh scope is ours. Never remove the caller's TMPDIR.
++      await rm(ownedTempScope, { recursive: true, force: true, maxRetries: 10 });
++      withinDeadline();
++      try {
++        await lstat(ownedTempScope);
++      } catch (error) {
++        assert.equal(error?.code, "ENOENT");
++        withinDeadline();
++        ownedTempRemoved = true;
++        return;
++      }
++      assert.fail("owned temporary scope still exists");
++    }
+     // The fixture owns the 2s phase timer; it must release a losing timer too.
+     async function waitForShutdown(operation) {
+       let timer;
++      const phaseDeadlineAt = performance.now() + 2_000;
+       try {
+-        return await Promise.race([operation,
++        const settled = await Promise.race([operation,
+           new Promise((resolve) => { timer = setTimeout(() => resolve(false), 2_000); })]);
++        return performance.now() < phaseDeadlineAt && settled;
+       } finally { clearTimeout(timer); }
+     }
+     function diagnostic() {
+       // Fixed failure metadata only. Never expose errors, IDs, paths or native payloads.
+       const fields = { stage, child_exit_seen: childExitSeen, child_close_seen: childCloseSeen,
+         close_settled: closeSettled, kill_settled: killSettled,
+-        child_exited: Boolean(child && (child.exitCode !== null || child.signalCode !== null)) };
++        child_exited: Boolean(child && (child.exitCode !== null || child.signalCode !== null)),
++        owned_temp_seen: Boolean(ownedTempScope), owned_temp_removed: ownedTempRemoved };
+       try { writeSync(2, `RESIDENT_CLEANUP_DIAGNOSTIC ${JSON.stringify(fields)}\n`); } catch {}
+     }
+     const deadline = setTimeout(() => { diagnostic(); process.exit(3); }, 12_000);
+     try {
+       // EOF/signal can race launch; await its returned resource owner first.
+       await startup.catch(() => {});
++      withinDeadline();
++      if (!browserServer) {
++        // A settled startup failure can still own a real temporary scope.
++        // No returned server is not proof that no browser was spawned.
++        await removeOwnedTempScope();
++        assert.fail("no returned browser cleanup owner");
++      }
+       let browserPid = null;
+       let browserExited = null;
+       if (browserServer) {
+@@ -125,21 +161,36 @@
+           browserServer.close().then(() => { closeSettled = true; return true; },
+             () => { closeSettled = true; return false; }),
+         );
++        withinDeadline();
+         if (!closed) {
+           stage = "browser-kill";
+-          assert.ok(await waitForShutdown(
+-            browserServer.kill().then(() => { killSettled = true; return true; },
+-              () => { killSettled = true; return false; }),
+-          ));
++          const killing = browserServer.kill().then(() => { killSettled = true; return true; },
++            () => { killSettled = true; return false; });
++          const killed = await waitForShutdown(killing);
++          withinDeadline();
++          if (!killed) {
++            // close/kill share the SDK's real artifact-cleanup promise. After
++            // observed exit/close, its pending work retains the original bound.
++            assert.equal(killSettled, false);
++            assert.equal(childCloseSeen, true);
++            assert.ok(child.exitCode !== null || child.signalCode !== null);
++            stage = "browser-cleanup";
++            assert.equal(await killing, true);
++            withinDeadline();
++          }
+         }
+         stage = "browser-exit";
+         browserExited = child.exitCode !== null || child.signalCode !== null;
+         assert.equal(browserExited, true);
+       }
++      await removeOwnedTempScope();
+       registration = undefined;
+       buffered = Buffer.alloc(0);
+       stage = "ack";
++      withinDeadline();
++      assert.equal(ownedTempRemoved, true);
+       await writeFrame({ kind: "cleaned", outcome, browser_pid: browserPid, browser_exited: browserExited });
++      withinDeadline();
+       cleanupConfirmed = true;
+       process.exitCode = exitCode;
+     } catch {
+@@ -186,9 +237,26 @@
+ let outcome = "failed";
+ let exitCode = 1;
+ try {
+-  startup = chromium.launchServer({ env: cleanEnv, timeout: STARTUP_MS })
+-    .then((server) => { browserServer = server; });
+-  await startup;
++  const startupDeadlineAt = performance.now() + STARTUP_MS;
++  startup = (async () => {
++    ownedTempScope = await mkdtemp(join(tmpdir(), "console-resident-authenticator-"));
++    // This process hosts only this fixture. SDK defaults and Chromium use the
++    // same fresh scope; no host/global environment or private SDK hook changes.
++    process.env.TMPDIR = ownedTempScope;
++    assert.ok(!closing);
++    const remaining = startupDeadlineAt - performance.now();
++    assert.ok(remaining > 0);
++    browserServer = await chromium.launchServer({
++      env: { ...cleanEnv, TMPDIR: ownedTempScope }, timeout: remaining,
++    });
++  })();
++  let startupTimer;
++  try {
++    await Promise.race([startup, new Promise((_, reject) => {
++      startupTimer = setTimeout(() => reject(new Error("startup deadline")), STARTUP_MS);
++    })]);
++    assert.ok(performance.now() < startupDeadlineAt);
++  } finally { clearTimeout(startupTimer); }
+   assert.ok(!closing);
+   browser = await chromium.connect(browserServer.wsEndpoint(), { timeout: PHASE_MS });
+   assert.ok(!closing);
+--- a/backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs
++++ b/backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs
+@@ -25,6 +25,8 @@
+     BrowserIdentity,
+     BrowserClose,
+     BrowserKill,
++    BrowserCleanup,
++    OwnedTemp,
+     BrowserExit,
+     Ack,
+ }
+@@ -38,6 +40,8 @@
+     close_settled: bool,
+     kill_settled: bool,
+     child_exited: bool,
++    owned_temp_seen: bool,
++    owned_temp_removed: bool,
+ }
+ 
+ type Result<T> = std::result::Result<T, &'static str>;
+@@ -530,13 +534,15 @@
+             if let Some(diagnostic) = &diagnostic {
+                 let _ = writeln!(
+                     std::io::stderr().lock(),
+-                    "RESIDENT_CLEANUP_DIAGNOSTIC stage={:?} child_exit_seen={} child_close_seen={} close_settled={} kill_settled={} child_exited={}",
++                    "RESIDENT_CLEANUP_DIAGNOSTIC stage={:?} child_exit_seen={} child_close_seen={} close_settled={} kill_settled={} child_exited={} owned_temp_seen={} owned_temp_removed={}",
+                     diagnostic.stage,
+                     diagnostic.child_exit_seen,
+                     diagnostic.child_close_seen,
+                     diagnostic.close_settled,
+                     diagnostic.kill_settled,
+-                    diagnostic.child_exited
++                    diagnostic.child_exited,
++                    diagnostic.owned_temp_seen,
++                    diagnostic.owned_temp_removed
+                 );
+             }
+             let _ = writeln!(

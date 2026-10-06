@@ -1,0 +1,27 @@
+tags:
+  - auth
+summary: Finish browser passkey login
+description: Consumes a fresh signed native assertion and atomically binds encrypted native proof to an opaque browser handle. No signed or refresh proof is returned.
+security:
+- BrowserIngress: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/PasskeyLoginFinishRequest'
+responses:
+  '200':
+    description: Authorized native response.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/BrowserSessionLoginResponse'
+  '401':
+    $ref: '#/components/responses/Unauthorized'
+  '503':
+    $ref: '#/components/responses/ServiceUnavailable'
+  '422':
+    $ref: '#/components/responses/ValidationError'
+  '413':
+    description: Signed credential body exceeds 2 MiB or the freshly issued original native proof exceeds the browser-only 1 MiB ceiling. Issuer effects roll back; proof is never truncated or reminted.

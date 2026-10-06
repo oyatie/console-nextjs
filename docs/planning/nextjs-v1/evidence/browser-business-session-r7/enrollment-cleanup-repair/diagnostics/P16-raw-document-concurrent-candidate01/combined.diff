@@ -1,0 +1,364 @@
+--- a/tools/browser-business-restore.mjs
++++ b/tools/browser-business-restore.mjs
+@@ -2,6 +2,7 @@
+ import assert from "node:assert/strict";
+ import { createHash, randomUUID } from "node:crypto";
+ import { setTimeout as delay } from "node:timers/promises";
++import { types } from "node:util";
+ import { browserFailureLocation } from "./browser-business-failure.mjs";
+ 
+ const LOGIN = "/login/";
+@@ -10,6 +11,46 @@
+ const PREFIX = "R7_RESTORE_OBSERVATION ";
+ const GUARD_ID = "console-browser-restoration-guard";
+ const PRIVATE_SELECTOR = "#console-browser-private-region";
++
++// Compare complete fixed SDK/protocol literals in memory only. No raw error,
++// stack, URL, identity or error-message hash is diagnostic output. Protocol
++// numeric codes/types do not survive the installed SDK error serialization.
++function classifyCdpRejection(error, method) {
++  const result = { error_shape: "unrecognized", public_name: "unrecognized",
++    message_category: "unrecognized", exact_literal_matched: false };
++  try {
++    if (!["Runtime.evaluate", "Runtime.callFunctionOn"].includes(method) || !types.isNativeError(error)) return result;
++    result.error_shape = "native-error";
++    const name = Object.getOwnPropertyDescriptor(error, "name")?.value;
++    result.public_name = ["Error", "TimeoutError", "TargetClosedError", "AbortError"].includes(name)
++      ? name : name === undefined ? "native-default" : "other";
++    const message = Object.getOwnPropertyDescriptor(error, "message")?.value;
++    if (typeof message !== "string" || message.length > 65536) return result;
++    const body = message.startsWith("cdpSession.send: ") ? message.slice("cdpSession.send: ".length) : message;
++    if (body === "Target page, context or browser has been closed") {
++      result.message_category = "target-closed"; result.exact_literal_matched = true; return result;
++    }
++    const prefix = `Protocol error (${method}): `;
++    if (!body.startsWith(prefix)) return result;
++    // V8 literals are pinned to Chromium configured153.0.8010.12 DEPS's
++    // V8 commit0b60d2b01800d7ba2c6eeb5e51ecd95f6dab44c7; SDK literals
++    // are from pinned coreBundle.js. Literal match does not prove causality.
++    const categories = new Map([
++      ["uniqueContextId not found", "unique-context-not-found"],
++      ["invalid uniqueContextId", "invalid-unique-context"],
++      ["Cannot find context with specified id", "specified-context-not-found"],
++      ["Cannot find default execution context", "default-context-not-found"],
++      ["Execution context was destroyed.", "execution-context-destroyed"],
++      ["Execution was terminated", "execution-terminated"],
++      ["Could not find object with given id", "specified-object-not-found"],
++      ["Internal server error, session closed.", "session-closed"],
++      ["Page crashed.", "page-crashed"],
++    ]);
++    const category = categories.get(body.slice(prefix.length));
++    if (category) { result.message_category = category; result.exact_literal_matched = true; }
++  } catch { /* Missing fixed metadata cannot replace the actual outcome. */ }
++  return result;
++}
+ 
+ class Unreached extends Error {}
+ function isPrerequisite(error) { return error instanceof Unreached || error.code === "R7_BROWSER_PREREQUISITE"; }
+@@ -278,6 +319,29 @@
+   let cacheObserver;
+   let mainFrameId; let currentMainWorld; let originalMainWorld;
+   let originalWorldObservation;
++  let originalDocumentObjectId;
++  const originalDocumentObjectGroup = `r7-original-document-${randomUUID()}`;
++  let originalDocumentObjectGroupMayExist = false;
++  let originalDocumentPinObservation; let originalDocumentOwnerObservation;
++  let originalDocumentOwnerAtRequiredOutcome;
++  const queuedPhaseTimeline = [];
++  const queuedVariantStartedAt = performance.now();
++  let queuedBackIssued = false;
++  // Node-received observations only; no inferred browser/BFF occurrence time.
++  function recordQueuedPhase(kind, details = {}) {
++    try {
++      if (!queued || !queuedBackIssued || queuedPhaseTimeline.length >= 32) return;
++      const elapsed = Math.max(0, Math.floor(performance.now() - queuedVariantStartedAt));
++      queuedPhaseTimeline.push({ sequence: queuedPhaseTimeline.length, kind,
++        observed_elapsed_ms: Math.min(elapsed, 600000), elapsed_capped: elapsed > 600000, ...details });
++    } catch { /* Diagnostics never replace an action, assertion or failure. */ }
++  }
++  const frameNavigatedListener = ({ frame, type }) => {
++    try {
++      if (frame?.id === mainFrameId && frame.url === url) recordQueuedPhase("exact-main-frame-commit", {
++        navigation_type: ["Navigation", "BackForwardCacheRestore"].includes(type) ? type : "unrecognized" });
++    } catch { /* Passive fixed metadata cannot replace the actual outcome. */ }
++  };
+   const originalWorldLifecycle = { destroyedSeen: false, createdAgainSeen: false,
+     contextsClearedSeen: false, sessionClosedSeen: false };
+   const contextListener = ({ context }) => {
+@@ -306,16 +370,19 @@
+     let category = "identity-check";
+     let sendRejected = false; let deadlineFired = false; let responseReceived = false;
+     let returnedException = null; let exceptionClass = null;
++    let cdpRejection;
++    let timer; let documentDiagnosis;
+     function observe(outcome, valueKind = null) {
+       try {
+         const elapsed = Math.max(0, Math.floor(performance.now() - startedAt));
+-        originalWorldObservation = { purpose, category: outcome,
++        const observation = { purpose, category: outcome,
+           configured_budget_ms: Number.isSafeInteger(configuredBudgetMs)
+             && configuredBudgetMs > 0 && configuredBudgetMs <= 600000 ? configuredBudgetMs : null,
+           observed_elapsed_ms: Math.min(elapsed, 600000), elapsed_capped: elapsed > 600000,
+           local_deadline_fired: deadlineFired, cdp_response_received: responseReceived,
+           exception_returned: returnedException, exception_class: exceptionClass,
+           returned_value_kind: valueKind,
++          cdp_rejection: cdpRejection ? { ...cdpRejection } : null,
+           original_context_destroyed_seen: originalWorldLifecycle.destroyedSeen,
+           original_context_created_again_seen: originalWorldLifecycle.createdAgainSeen,
+           contexts_cleared_after_pin_seen: originalWorldLifecycle.contextsClearedSeen,
+@@ -323,13 +390,25 @@
+           // Historical equality only; destroy/clear/close need not create a replacement.
+           last_created_main_world_matches_original: typeof currentMainWorld === "string"
+             && typeof originalMainWorld === "string" ? currentMainWorld === originalMainWorld : null };
++        if (purpose === "document-pin") originalDocumentPinObservation = observation;
++        else originalWorldObservation = observation;
++        if (purpose === "pending" && originalDocumentOwnerObservation) {
++          originalDocumentOwnerAtRequiredOutcome = { ...originalDocumentOwnerObservation,
++            ...(originalDocumentOwnerObservation.cdp_rejection
++              ? { cdp_rejection: { ...originalDocumentOwnerObservation.cdp_rejection } } : {}),
++            ...(originalDocumentOwnerObservation.pending
++              ? { pending: { ...originalDocumentOwnerObservation.pending } } : {}) };
++        }
+       } catch { /* Missing diagnostics cannot replace the actual outcome. */ }
+     }
+     try {
+       assert.equal(typeof originalMainWorld, "string", "original main-world identity required");
+       category = "cdp-send";
++      recordQueuedPhase("original-evaluation-issued", { purpose });
++      if (purpose === "document-pin") originalDocumentObjectGroupMayExist = true;
+       const evaluation = cacheObserver.send("Runtime.evaluate", {
+-        uniqueContextId: originalMainWorld, returnByValue: true, timeout: h.phaseMs ?? 20000,
++        uniqueContextId: originalMainWorld, returnByValue: purpose !== "document-pin", timeout: h.phaseMs ?? 20000,
++        ...(purpose === "document-pin" ? { objectGroup: originalDocumentObjectGroup } : {}),
+         expression: `(() => { const original = ${JSON.stringify(original)};
+           const state = window[${JSON.stringify(PROBE)}];
+           if (!state || state.document !== original) throw new Error('original Document unavailable');
+@@ -337,15 +416,24 @@
+       });
+       // Retain the exact original promise and error. A late rejection cannot
+       // rewrite the already-captured deadline observation.
+-      void evaluation.catch(() => { sendRejected = true; });
+-      let timer;
+-      const result = await Promise.race([evaluation, new Promise((_, reject) => {
++      void evaluation.catch((error) => {
++        sendRejected = true;
++        cdpRejection = classifyCdpRejection(error, "Runtime.evaluate");
++        recordQueuedPhase("original-evaluation-rejected", { purpose, cdp_rejection: cdpRejection });
++      });
++      const deadline = new Promise((_, reject) => {
+         timer = setTimeout(() => {
+           deadlineFired = true;
+           reject(new Error("original-world observation deadline"));
+         }, h.phaseMs ?? 20000);
+-      })]).finally(() => clearTimeout(timer));
++      });
++      // Read-only diagnostic starts after the mandatory exact-context call.
++      // Both share this existing deadline; neither can release the logout.
++      if (purpose === "pending") documentDiagnosis = observeOriginalDocumentPending(
++        deadline, startedAt, configuredBudgetMs, () => deadlineFired);
++      const result = await Promise.race([evaluation, deadline]);
+       responseReceived = true;
++      recordQueuedPhase("original-evaluation-response", { purpose });
+       category = "response-access";
+       returnedException = Boolean(result?.exceptionDetails);
+       if (returnedException) {
+@@ -356,12 +444,88 @@
+       }
+       assert.ok(!result.exceptionDetails, "actual original-world observation must succeed");
+       category = "result-access";
++      if (purpose === "document-pin") {
++        assert.equal(result.result?.type, "object");
++        assert.equal(result.result?.subtype, "node");
++        assert.ok(typeof result.result?.objectId === "string" && result.result.objectId.length > 0);
++        originalDocumentObjectId = result.result.objectId;
++        observe("returned-original-document", "node");
++        return true;
++      }
+       const value = result.result.value;
+       observe("returned-value", value === null ? "null" : typeof value);
+       return value;
+     } catch (error) {
+       observe(deadlineFired ? "local-deadline" : sendRejected ? "cdp-rejected" : category);
+       throw error; // Diagnostics never replace the actual first failure.
++    } finally {
++      // Capture the mandatory outcome before waiting for diagnostic settlement.
++      // A stuck diagnostic receives the same original deadline, never a new one.
++      try { if (documentDiagnosis) await documentDiagnosis; }
++      catch { originalDocumentOwnerObservation = { category: "diagnostic-internal-failure" }; }
++      finally { clearTimeout(timer); }
++    }
++  }
++  async function observeOriginalDocumentPending(deadline, startedAt, budget, deadlineHasFired) {
++    let category = "document-unpinned";
++    let cdpRejection; let responseReceived = false; let returnedException = null;
++    let exceptionClass = null; let pending = null; let matches = null; let sendRejected = false;
++    let callIssued = false;
++    try {
++      originalDocumentOwnerObservation = { category: "awaiting-result", raw_document_call_issued: false };
++      if (typeof originalDocumentObjectId !== "string") return;
++      category = "cdp-send";
++      callIssued = true;
++      originalDocumentOwnerObservation = { category: "awaiting-result", raw_document_call_issued: true };
++      const evaluation = cacheObserver.send("Runtime.callFunctionOn", {
++        objectId: originalDocumentObjectId, returnByValue: true,
++        functionDeclaration: `function(original, key) {
++          const document = this; const window = document.defaultView;
++          const state = window?.[key];
++          if (document.nodeType !== 9 || !window || window.document !== document
++            || !state || state.document !== original) throw new Error('original Document unavailable');
++          return { original: state.document === original, restored: state.restored,
++            queued: state.logoutQueued, started: state.logoutStarted };
++        }`,
++        arguments: [{ value: original }, { value: PROBE }],
++      });
++      void evaluation.catch((error) => {
++        sendRejected = true; cdpRejection = classifyCdpRejection(error, "Runtime.callFunctionOn");
++      });
++      const result = await Promise.race([evaluation, deadline]);
++      responseReceived = true;
++      returnedException = Boolean(result?.exceptionDetails);
++      if (returnedException) {
++        const name = result.exceptionDetails.exception?.className;
++        exceptionClass = ["Error", "EvalError", "RangeError", "ReferenceError", "SyntaxError", "TypeError", "URIError"]
++          .includes(name) ? name : "other";
++        category = "returned-exception";
++        return;
++      }
++      const value = result?.result?.value;
++      if (!value || typeof value !== "object" || Array.isArray(value)
++        || Object.keys(value).sort().join(",") !== "original,queued,restored,started"
++        || Object.values(value).some((item) => typeof item !== "boolean")) {
++        category = "invalid-snapshot"; return;
++      }
++      pending = { original: value.original, restored: value.restored, queued: value.queued, started: value.started };
++      matches = value.original && value.restored && value.queued && !value.started;
++      category = "returned-pending-snapshot";
++    } catch {
++      category = deadlineHasFired() ? "shared-local-deadline" : sendRejected ? "cdp-rejected" : category;
++    } finally {
++      // Only enums, booleans and bounded relative clocks leave this diagnostic.
++      // Document handles, tokens, bodies and exception messages remain transient.
++      try {
++        const elapsed = Math.max(0, Math.floor(performance.now() - startedAt));
++        originalDocumentOwnerObservation = { category,
++          configured_budget_ms: Number.isSafeInteger(budget) && budget > 0 && budget <= 600000 ? budget : null,
++          observed_elapsed_ms: Math.min(elapsed, 600000), elapsed_capped: elapsed > 600000,
++          local_deadline_fired: deadlineHasFired(), raw_document_call_issued: callIssued,
++          cdp_response_received: responseReceived, cdp_rejection: cdpRejection ?? null,
++          exception_returned: returnedException, exception_class: exceptionClass,
++          pending, pending_matches_expected: matches };
++      } catch { /* Missing sidecar metadata cannot change the required result. */ }
+     }
+   }
+   async function assertOriginalPrivateHidden() {
+@@ -415,13 +579,27 @@
+     readGate = undefined;
+   }
+   const requestListener = (request) => {
+-    if (request.isNavigationRequest() && request.frame() === page.mainFrame()) documents.push(request.url());
++    if (request.isNavigationRequest() && request.frame() === page.mainFrame()) {
++      documents.push(request.url());
++      if (request.url() === url) recordQueuedPhase("exact-main-frame-request");
++    }
++  };
++  const responseListener = (response) => {
++    try {
++      const request = response.request();
++      if (request.isNavigationRequest() && request.frame() === page.mainFrame() && response.url() === url) {
++        const status = response.status();
++        recordQueuedPhase("exact-main-frame-response", {
++          http_status: Number.isInteger(status) && status >= 100 && status <= 599 ? status : null });
++      }
++    } catch { /* Passive metadata cannot replace the actual outcome. */ }
+   };
+   const failureListener = (request) => {
+     if (request.isNavigationRequest() && request.frame() === page.mainFrame() && request.url() === url)
+       failedRequests.push(request.failure()?.errorText ?? "");
+   };
+   page.on("request", requestListener); page.on("requestfailed", failureListener);
++  if (queued) page.on("response", responseListener);
+   const intercept = async (route) => {
+     const request = route.request();
+     if (new URL(request.url()).origin !== actor.origin) { await route.continue(); return; }
+@@ -469,6 +647,7 @@
+       queuedCheckpoint = "cache-observer";
+       cacheObserver = await actor.context.newCDPSession(page);
+       cacheObserver.on("Page.backForwardCacheNotUsed", cacheFailureListener);
++      cacheObserver.on("Page.frameNavigated", frameNavigatedListener);
+       mainFrameId = (await cacheObserver.send("Page.getFrameTree")).frameTree.frame.id;
+       cacheObserver.on("Runtime.executionContextCreated", contextListener);
+       cacheObserver.on("Runtime.executionContextDestroyed", contextDestroyedListener);
+@@ -504,6 +683,10 @@
+       queuedCheckpoint = "original-world-pin";
+       originalMainWorld = currentMainWorld;
+       assert.equal(await evaluateOriginal("pin", "state.document"), original);
++      // Capture a raw native Document object while its exact world is active.
++      // Pin failure is diagnostic only; the required pending call still executes.
++      try { await evaluateOriginal("document-pin", "document"); }
++      catch { /* Its bounded pin observation preserves this diagnostic failure. */ }
+     }
+     if (queued) queuedCheckpoint = "initial-hydration";
+     const beforeHydration = ["blocked-bundles", "blocked-css-bundles", "delayed-bundles"].includes(mode);
+@@ -548,6 +731,7 @@
+     }
+     // Keep this promise owned: a gate must be released before awaiting the final reload.
+     if (queued) queuedCheckpoint = "restore-observation";
++    if (queued) queuedBackIssued = true;
+     back = backNavigation(page, eventStart, h, original, probe, true);
+     void back.catch(() => {}); // No unhandled rejection while the independently owned response gate waits.
+     const seen = await until(() => probe.events.slice(eventStart).find((event) => event.event === "pageshow"
+@@ -583,6 +767,7 @@
+             native_context_match: typeof held.context === "string" ? held.context === session.context : null,
+             native_status_401: typeof held.status === "number" ? held.status === 401 : null,
+           };
++          recordQueuedPhase("native-response-observed", queuedNativeObservation);
+         }
+       }
+       assert.equal(held.gate, readGate.gate);
+@@ -681,7 +866,12 @@
+     if (mode === "delayed-bundles") evidence.delayed_bundle_sha256 = heldScripts.map((script) => script.digest);
+     evidence.trusted_original_restore = true;
+     evidence.original_document = original;
+-    if (queued) queuedCheckpoint = "independent-actor";
++    if (queued) {
++      evidence.original_document_pin_observation = originalDocumentPinObservation ?? null;
++      evidence.original_document_owner_at_required_outcome = originalDocumentOwnerAtRequiredOutcome ?? null;
++      evidence.original_document_owner_observation = originalDocumentOwnerObservation ?? null;
++      queuedCheckpoint = "independent-actor";
++    }
+     await assertBStillAuthorized(h);
+     if (queued) queuedCheckpoint = "probe-frames";
+     assert.deepEqual(probe.errors, []);
+@@ -694,6 +884,12 @@
+       queued_native_observation: queuedNativeObservation ?? null,
+       queued_ordering_observation: queuedOrderingObservation ?? null,
+       original_world_observation: originalWorldObservation ?? null,
++      original_document_pin_observation: originalDocumentPinObservation ?? null,
++      original_document_owner_at_required_outcome: originalDocumentOwnerAtRequiredOutcome ?? null,
++      original_document_owner_observation: originalDocumentOwnerObservation ?? null,
++      // Copy at failure reporting; late callbacks/cleanup cannot rewrite it.
++      queued_phase_timeline: queuedPhaseTimeline.map((entry) => ({ ...entry,
++        ...(entry.cdp_rejection ? { cdp_rejection: { ...entry.cdp_rejection } } : {}) })),
+       not_restored_reasons: cacheFailures,
+       trusted_departures: probe.events.filter((event) => event.event === "pagehide" && event.trusted && event.document === original).length,
+       trusted_original_restores: probe.events.filter((event) => event.event === "pageshow" && event.trusted && event.persisted && event.document === original).length,
+@@ -713,13 +909,19 @@
+     }
+     await cleanup("script-release", () => { for (const script of heldScripts) script.release(); });
+     if (routed) await cleanup("routes-remove", () => page.unrouteAll({ behavior: "wait" }));
++    if (originalDocumentObjectGroupMayExist) await cleanup("original-document-object-group", async () => {
++      await cacheObserver.send("Runtime.releaseObjectGroup", { objectGroup: originalDocumentObjectGroup });
++      originalDocumentObjectId = undefined; originalDocumentObjectGroupMayExist = false;
++    });
+     await cleanup("probe-listeners", () => {
+       cacheObserver?.off("Page.backForwardCacheNotUsed", cacheFailureListener);
++      cacheObserver?.off("Page.frameNavigated", frameNavigatedListener);
+       cacheObserver?.off("Runtime.executionContextCreated", contextListener);
+       cacheObserver?.off("Runtime.executionContextDestroyed", contextDestroyedListener);
+       cacheObserver?.off("Runtime.executionContextsCleared", contextsClearedListener);
+       cacheObserver?.off("close", observerClosedListener);
+       probe.remove(); page.off("request", requestListener); page.off("requestfailed", failureListener);
++      if (queued) page.off("response", responseListener);
+     });
+     // Always attempt owned page closure, independently of earlier cleanup errors.
+     // Closing also settles a pending Back when its native gate was never held.

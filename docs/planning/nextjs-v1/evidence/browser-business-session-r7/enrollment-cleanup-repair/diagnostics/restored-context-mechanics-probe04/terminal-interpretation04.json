@@ -1,0 +1,38 @@
+{
+  "schema": "browser-mechanics-probe-terminal-interpretation/4",
+  "status": "FAILED_PRECONDITION_NO_EVALUATION_ISSUED",
+  "source_sha256": "e9b978bdffd129fb1e261498d6a8c3dd94fa6e626075db8bbb76e7503b4c6d77",
+  "log_sha256": "bb18c43f79af21bf315af21bc3bd7783840d7663cab4e4888ba4fa69750f9e0a",
+  "inputs_sha256": "3a29d02833f3757908a3a8fe4f08c13790a813cd7a7676dbbb92653f2c77ae14",
+  "run_receipt_sha256": "c79be73a48d501820cfbbd27817afc75658d86e6a29555a524b64e8315b5312c",
+  "actual_tool_session_id": 79104,
+  "terminal_chunk_id": "f5d0e7",
+  "exit_code": 1,
+  "duration_seconds": 6.848878083983436,
+  "facts": {
+    "trusted_persisted_restore_seen": false,
+    "second_original_document_request_seen": true,
+    "exact_original_context_pinned": true,
+    "exact_original_document_handle_pinned": true,
+    "evaluation_issued": false,
+    "mechanism": "inconclusive",
+    "reported_cleanup": {
+      "browser_owner_returned": true,
+      "browser_close_settled": true,
+      "browser_kill_settled": false,
+      "browser_process_exit_seen": true,
+      "browser_owner_process_live_seen": true,
+      "browser_owned_group_confirmed": true,
+      "browser_group_absent": true,
+      "stage_creation_settled": true,
+      "server_closed": true,
+      "owned_stage_removed": true
+    }
+  },
+  "limits": [
+    "Second original-document request is compatible with ordinary uncached Back; does not establish guard reload.",
+    "No retained-handle cause, BFcache failure reason, unique-context behavior, BFF abort/native401 or product acceptance established.",
+    "Generic runner cleanup_reported=false recognizes another schema; actual mechanics terminal includes independent group/SDK/temp observations.",
+    "No actual browser execution performed by interpreting reviewer."
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "id": "resident-cleanup-stage-exact01",
+  "command": [
+    "bash",
+    "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/tools/lanes/pgtest.sh",
+    "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork",
+    "/Users/jasonlee/.cargo/bin/cargo",
+    "+1.98.1",
+    "test",
+    "--locked",
+    "--offline",
+    "--no-fail-fast",
+    "--features",
+    "frontend-e2e",
+    "-p",
+    "console-app",
+    "--test",
+    "auth_rest",
+    "browser_sessions::original_short_family_deadline_expires_during_lookup_wait_without_sliding",
+    "--",
+    "--exact",
+    "--test-threads=1",
+    "--nocapture"
+  ],
+  "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+  "exit_code": 0,
+  "timed_out": false,
+  "duration_seconds": 57.59113004093524,
+  "discovered": null,
+  "counts": {
+    "passed": 1,
+    "failed": 0,
+    "skipped": 0,
+    "filtered": 120,
+    "executed": 1
+  },
+  "log_sha256": "1cc9aca17a9b546b08631d64ee7751ee05ab6c0ebf406c314b77333ed2d8398b",
+  "cleanup_reported": true,
+  "inputs_sha256": "767f886a75fda77a3d197f39b3d72af3f04d3043cd999933186cf1b5245d8197",
+  "inputs_unchanged": true
+}

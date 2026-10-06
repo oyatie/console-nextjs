@@ -1,0 +1,34 @@
+{
+  "id": "enrollment-repair-final-discovery01",
+  "command": [
+    "/Users/jasonlee/.cargo/bin/cargo",
+    "+1.98.1",
+    "test",
+    "--locked",
+    "--offline",
+    "--features",
+    "frontend-e2e",
+    "-p",
+    "console-app",
+    "--test",
+    "auth_rest",
+    "--",
+    "--list"
+  ],
+  "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend",
+  "exit_code": 0,
+  "timed_out": false,
+  "duration_seconds": 3.9036987079307437,
+  "discovered": 121,
+  "counts": {
+    "passed": 0,
+    "failed": 0,
+    "skipped": 0,
+    "filtered": 0,
+    "executed": 0
+  },
+  "log_sha256": "04f177d62235dd1cd5cdea27d82eb2f00dd22c6838812766290da22c58d30f03",
+  "cleanup_reported": false,
+  "inputs_sha256": "0b834b380a7366256aff69650f30962d54f0e0954c982b424acf2c82e1b582d4",
+  "inputs_unchanged": true
+}

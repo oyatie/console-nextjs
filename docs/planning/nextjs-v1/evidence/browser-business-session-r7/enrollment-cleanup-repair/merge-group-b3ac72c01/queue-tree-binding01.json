@@ -1,0 +1,139 @@
+{
+  "schema": "r7-protected-queue-merge-group-binding/1",
+  "created_at": "2026-10-06T02:26:29.037779+00:00",
+  "verdict": "VERIFIED_NORMAL_QUEUE_ADMISSION_AND_EXACT_SYNTHETIC_TREE; MERGE_GROUP_PENDING_NOT_MERGED",
+  "repository": "oyatie/console-nextjs",
+  "pull_request": 16,
+  "accepted_head": "f5c29cc9ccb1d463f5ba76ebbf746b024311bd37",
+  "synthetic_head": "b3ac72c41d3d5dca9ff9c2334543098c2c8bd177",
+  "exact_tree": "f8845f3b37cbc923c9354cc3a46ad9be13035c88",
+  "base": "7bbb48cc24952ec1639c393767e11bc0de6cc63c",
+  "queue_entry": {
+    "id": "MQE_lQDOU0kUys8AAAABGy2m8s4ABGXHzgMc5Ds",
+    "state": "AWAITING_CHECKS",
+    "position": 1,
+    "enqueuedAt": "2026-10-06T02:23:28Z",
+    "jump": false,
+    "headCommit": {
+      "oid": "b3ac72c41d3d5dca9ff9c2334543098c2c8bd177"
+    }
+  },
+  "queue_receipt": {
+    "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/queue-admission-f5c29cc01.json",
+    "bytes": 1323,
+    "sha256": "3a5450373ad45bbd2a9ea8c57b0857f70802d7693ec72c821947c35ecb9147cf"
+  },
+  "expected_head_proposal": {
+    "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enqueue-f5c29cc-proposal01.json",
+    "bytes": 440,
+    "sha256": "228d603c86ed7b1498f68c572f163320e406a42efb735fc588856bd865cdfdcc"
+  },
+  "independent_queue_disposition": {
+    "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/r7-protected-queue-disposition01.json",
+    "bytes": 11038,
+    "sha256": "d3054b61e5626c4582e9862da63e7886bfb2c9a7aea24d0b4c71e2f413dd80bc"
+  },
+  "merge_group": {
+    "run_id": 37403914643,
+    "job_id": 112077080738,
+    "event": "merge_group",
+    "head_sha": "b3ac72c41d3d5dca9ff9c2334543098c2c8bd177",
+    "status": "in_progress",
+    "conclusion": null,
+    "url": "https://github.com/oyatie/console-nextjs/actions/runs/37403914643",
+    "check_name": "source-and-inquiry",
+    "app_id": 15368
+  },
+  "protection": {
+    "ruleset_id": 24235011,
+    "active": true,
+    "bypass_actors": [],
+    "current_user_can_bypass": "never",
+    "queue": {
+      "merge_method": "SQUASH",
+      "max_entries_to_build": 1,
+      "min_entries_to_merge": 1,
+      "max_entries_to_merge": 1,
+      "min_entries_to_merge_wait_minutes": 0,
+      "grouping_strategy": "ALLGREEN",
+      "check_response_timeout_minutes": 120
+    },
+    "required_checks": {
+      "strict_required_status_checks_policy": false,
+      "do_not_enforce_on_create": false,
+      "required_status_checks": [
+        {
+          "context": "source-and-inquiry",
+          "integration_id": 15368
+        }
+      ]
+    },
+    "pull_request_allowed_merge_methods": [
+      "squash"
+    ]
+  },
+  "automatic_merge_state": {
+    "pr_auto_merge_request": null,
+    "repository_allows_opt_in_auto_merge": true,
+    "meaning": "No per-PR autoMergeRequest is enabled. Repository allows opt-in; ordinary protected queue merging after required checks is a separate mechanism."
+  },
+  "pr_state": {
+    "state": "OPEN",
+    "merged": false,
+    "merge_commit": null
+  },
+  "artifacts": [
+    {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/merge-group-b3ac72c01/accepted-commit.json",
+      "bytes": 1823,
+      "sha256": "0cf19718266a91b7ce78b20b04a12927867604ea04cc2248ee989722ab78e600"
+    },
+    {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/merge-group-b3ac72c01/check-initial.json",
+      "bytes": 3051,
+      "sha256": "a797b364c771eae1ca7cdb6a4a3c92c15416d367c4eb22a14109ba471f5d77af"
+    },
+    {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/merge-group-b3ac72c01/jobs-initial.json",
+      "bytes": 7245,
+      "sha256": "09b60ba9d2284461e2d442fcc45003d39df78a1bc48818547def32e34eea139c"
+    },
+    {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/merge-group-b3ac72c01/pr-queue-readback01.json",
+      "bytes": 536,
+      "sha256": "47c06908a3d7efd729e259473cc4a42b23a2667e0f2a8de1eabd684953ec16a0"
+    },
+    {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/merge-group-b3ac72c01/repo-options01.json",
+      "bytes": 180,
+      "sha256": "23546ec7e3d8d42606e4ccb1ab1f5c9fc18b3ece234e0b3e11775ccbeecb6736"
+    },
+    {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/merge-group-b3ac72c01/ruleset-initial.json",
+      "bytes": 1438,
+      "sha256": "dc4d183acac48fbfc27b5425c877d201fc3154dff45d11e5ff883a7d44e40d5e"
+    },
+    {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/merge-group-b3ac72c01/run-initial.json",
+      "bytes": 12731,
+      "sha256": "d6ccccb743c830281a28558da2ded1090f4cd8b38cc776f8cb897d1c4a6cfc8e"
+    },
+    {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/merge-group-b3ac72c01/synthetic-commit.json",
+      "bytes": 2976,
+      "sha256": "0ef78e013f974826c33bbdb31d0c078710f21b14f62ab37bb2c326751d9c60cf"
+    }
+  ],
+  "limitations": [
+    "Merge-group is running; no required-check success or merge is claimed.",
+    "Final merged-tree readback remains required.",
+    "Historical failure causes and wider product/launch omissions remain as recorded in accepted PR disposition."
+  ],
+  "mutations": {
+    "source": false,
+    "github": false,
+    "rerun": false,
+    "queue": false,
+    "merge": false
+  }
+}

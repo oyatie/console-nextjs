@@ -1,0 +1,342 @@
+--- a/tools/test-native-browser-enrollment.mjs
++++ b/tools/test-native-browser-enrollment.mjs
+@@ -3,6 +3,7 @@
+ import assert from "node:assert/strict";
+ import { spawn } from "node:child_process";
+ import { once } from "node:events";
++import { writeSync } from "node:fs";
+ import { mkdtemp, rm } from "node:fs/promises";
+ import { createServer } from "node:net";
+ import { tmpdir } from "node:os";
+@@ -75,57 +76,196 @@
+ let startup = Promise.resolve();
+ let creationAttempts = 0;
+ const runtimeStagingAbort = new AbortController();
++const mainObservation = {
++  main_phase: "unstarted", main_error_type: "none", next_readiness_status: "unstarted",
++  next_probe_result: "unobserved", next_probe_error_type: "none",
++  next_readiness_budget_elapsed: false, next_startup_error_seen: false,
++  next_startup_exit_seen: false, next_startup_close_seen: false,
++  ready_write_started: false, ready_write_settled: false, ready_write_fulfilled: false,
++};
++function observedErrorType(error) {
++  // Map only fixed names; never retain or emit error text or arbitrary names.
++  try {
++    if (error?.name === "AssertionError") return "assertion";
++    if (error?.name === "TypeError") return "type-error";
++    if (error?.name === "TimeoutError") return "timeout";
++    if (error?.name === "AbortError") return "abort";
++    if (error?.name === "Error") return "error";
++  } catch {}
++  return "other";
++}
++function mainFailureDiagnostic(error) {
++  try {
++    mainObservation.main_error_type = observedErrorType(error);
++    const fields = { version: 1, ...mainObservation,
++      next_owner_seen: Boolean(next),
++      next_exit_observed: Boolean(next && (next.exitCode !== null || next.signalCode !== null)) };
++    writeSync(2, `ENROLLMENT_MAIN_FAILURE_DIAGNOSTIC ${JSON.stringify(fields)}\n`);
++  } catch {}
++}
++const cleanupObservation = {
++  main_stage: "unstarted", browser_stage: "unstarted", next_stage: "unstarted",
++  browser_owner_status: "unstarted", next_owner_status: "unstarted",
++  reservation_owner_status: "unstarted", runtime_owner_status: "unstarted", ack_owner_status: "unstarted",
++  first_observed_rejected_owner: "none", first_observed_rejected_stage: "none", selected_failure_owner: "none",
++  startup_settled: false, owners_settled: false, owners_all_fulfilled: false,
++  browser_branch_settled: false, browser_close_settled: false, browser_close_fulfilled: false,
++  browser_close_phase_met: false, browser_kill_settled: false, browser_kill_fulfilled: false,
++  browser_kill_phase_met: false, browser_close_check_passed: false, browser_exit_check_passed: false,
++  browser_shared_cleanup_completed: false, browser_exit_event_seen: false, browser_close_event_seen: false,
++  next_branch_settled: false, next_term_phase_met: false, next_kill_phase_met: false,
++  next_exit_event_seen: false, next_close_event_seen: false,
++  runtime_safe_to_remove: false, runtime_remove_started: false, runtime_remove_settled: false,
++  runtime_remove_fulfilled: false, ack_started: false, ack_settled: false, ack_fulfilled: false,
++};
++let cleanupStartedAt;
++function observedCleanupRejection(owner, ownerStage) {
++  // This is the first observer callback, not a claim of causal ordering between
++  // concurrent owners. The selected failure separately follows stop's result order.
++  if (cleanupObservation.first_observed_rejected_owner === "none") {
++    cleanupObservation.first_observed_rejected_owner = owner;
++    cleanupObservation.first_observed_rejected_stage = ownerStage;
++  }
++}
++function cleanupDiagnostic(failureTrigger) {
++  // Failure-only fixed metadata. Getter/logging failure cannot replace cleanup's
++  // original result. No error, path, ID, credential or native payload is emitted.
++  try {
++    const child = browserServer?.process();
++    const elapsed = Math.max(0, Math.floor(performance.now() - cleanupStartedAt));
++    const fields = { version: 2, failure_trigger: failureTrigger, ...cleanupObservation, ...mainObservation,
++      browser_owner_seen: Boolean(browserServer), next_owner_seen: Boolean(next),
++      temporary_scope_seen: Boolean(stage),
++      browser_exit_observed: Boolean(child && (child.exitCode !== null || child.signalCode !== null)),
++      next_exit_observed: Boolean(next && (next.exitCode !== null || next.signalCode !== null)),
++      cleanup_elapsed_ms: Math.min(elapsed, 600000), cleanup_elapsed_capped: elapsed > 600000,
++      cleanup_budget_ms: 6000, cleanup_budget_elapsed: elapsed >= 6000 };
++    writeSync(2, `ENROLLMENT_CLEANUP_DIAGNOSTIC ${JSON.stringify(fields)}\n`);
++  } catch {}
++}
+ async function stop() {
+   stopPromise ??= (async () => {
+     // An EOF can race an asynchronous launch. Wait for its returned owner before
+     // acknowledging cleanup; closing prevents starting another resource.
++    cleanupObservation.main_stage = "startup";
+     runtimeStagingAbort.abort();
+     await startup.catch(() => {});
++    cleanupObservation.startup_settled = true;
+     // Playwright launches a separate browser process group. Close its owner,
+     // rather than assume that terminating this Node process reaps Chromium.
++    cleanupObservation.main_stage = "owners";
++    cleanupObservation.browser_owner_status = "pending";
++    cleanupObservation.next_owner_status = "pending";
++    cleanupObservation.reservation_owner_status = "pending";
+     const results = await Promise.allSettled([
+       (async () => {
+-        if (!browserServer) return;
++        if (!browserServer) { cleanupObservation.browser_stage = "absent"; return; }
++        cleanupObservation.browser_stage = "identity";
+         const child = browserServer.process();
+         let childCloseSeen = false;
+-        child.once("close", () => { childCloseSeen = true; });
++        child.once("exit", () => { cleanupObservation.browser_exit_event_seen = true; });
++        child.once("close", () => { childCloseSeen = true; cleanupObservation.browser_close_event_seen = true; });
++        cleanupObservation.browser_stage = "close";
+         const closed = await Promise.race([
+-          browserServer.close().then(() => true, () => false),
++          browserServer.close().then(() => {
++            cleanupObservation.browser_close_settled = true;
++            cleanupObservation.browser_close_fulfilled = true; return true;
++          }, () => { cleanupObservation.browser_close_settled = true; return false; }),
+           delay(2000).then(() => false),
+         ]);
++        cleanupObservation.browser_close_phase_met = closed;
+         if (!closed) {
+-          const killing = browserServer.kill().then(() => true);
++          cleanupObservation.browser_stage = "kill";
++          const killing = browserServer.kill().then(() => {
++            cleanupObservation.browser_kill_settled = true;
++            cleanupObservation.browser_kill_fulfilled = true; return true;
++          }, (error) => { cleanupObservation.browser_kill_settled = true; throw error; });
+           const killed = await Promise.race([killing, delay(2000).then(() => false)]);
++          cleanupObservation.browser_kill_phase_met = killed;
+           if (!killed) {
+             // close/kill share the SDK's process and artifact-cleanup owner.
+             // Its pending cleanup retains finalize's original 6s hard bound.
++            cleanupObservation.browser_stage = "close-check";
++            cleanupObservation.browser_close_check_passed = childCloseSeen;
+             assert.equal(childCloseSeen, true);
++            cleanupObservation.browser_stage = "exit-check";
++            cleanupObservation.browser_exit_check_passed = child.exitCode !== null || child.signalCode !== null;
+             assert.ok(child.exitCode !== null || child.signalCode !== null);
++            cleanupObservation.browser_stage = "sdk-cleanup";
+             assert.equal(await killing, true);
++            cleanupObservation.browser_shared_cleanup_completed = true;
+           }
+         }
++        cleanupObservation.browser_stage = "exit-check";
++        cleanupObservation.browser_exit_check_passed = child.exitCode !== null || child.signalCode !== null;
+         assert.ok(child.exitCode !== null || child.signalCode !== null);
+-      })(),
++        cleanupObservation.browser_stage = "complete";
++      })().then((value) => {
++        cleanupObservation.browser_branch_settled = true;
++        cleanupObservation.browser_owner_status = "fulfilled"; return value;
++      }, (error) => {
++        cleanupObservation.browser_branch_settled = true;
++        cleanupObservation.browser_owner_status = "rejected";
++        observedCleanupRejection("browser", cleanupObservation.browser_stage); throw error;
++      }),
+       (async () => {
+-        if (!next || next.exitCode !== null || next.signalCode !== null) return;
+-        const exited = once(next, "exit");
++        if (!next) { cleanupObservation.next_stage = "absent"; return; }
++        if (next.exitCode !== null || next.signalCode !== null) {
++          cleanupObservation.next_stage = "already-exited"; return;
++        }
++        next.once("close", () => { cleanupObservation.next_close_event_seen = true; });
++        const exited = once(next, "exit").then((value) => {
++          cleanupObservation.next_exit_event_seen = true; return value;
++        });
++        cleanupObservation.next_stage = "term";
+         next.kill("SIGTERM");
+         const closed = await Promise.race([exited.then(() => true), delay(2000).then(() => false)]);
++        cleanupObservation.next_term_phase_met = closed;
+         if (!closed) {
++          cleanupObservation.next_stage = "kill";
+           next.kill("SIGKILL");
+-          assert.ok(await Promise.race([exited.then(() => true), delay(2000).then(() => false)]));
++          const killed = await Promise.race([exited.then(() => true), delay(2000).then(() => false)]);
++          cleanupObservation.next_kill_phase_met = killed;
++          assert.ok(killed);
+         }
+-      })(),
+-      reservation?.listening ? new Promise((resolve) => reservation.close(resolve)) : Promise.resolve(),
++        cleanupObservation.next_stage = "complete";
++      })().then((value) => {
++        cleanupObservation.next_branch_settled = true;
++        cleanupObservation.next_owner_status = "fulfilled"; return value;
++      }, (error) => {
++        cleanupObservation.next_branch_settled = true;
++        cleanupObservation.next_owner_status = "rejected";
++        observedCleanupRejection("next", cleanupObservation.next_stage); throw error;
++      }),
++      (reservation?.listening ? new Promise((resolve) => reservation.close(resolve)) : Promise.resolve()).then((value) => {
++        cleanupObservation.reservation_owner_status = "fulfilled"; return value;
++      }, (error) => {
++        cleanupObservation.reservation_owner_status = "rejected";
++        observedCleanupRejection("reservation", "reservation"); throw error;
++      }),
+     ]);
++    cleanupObservation.owners_settled = true;
++    cleanupObservation.owners_all_fulfilled = results.every((result) => result.status === "fulfilled");
+     // Runtime files depend on confirmed process-owner cleanup. Reservation
+     // failure does not skip independent file removal or replace its first error.
++    cleanupObservation.runtime_safe_to_remove = Boolean(stage && results[0].status === "fulfilled" && results[1].status === "fulfilled");
+     if (stage && results[0].status === "fulfilled" && results[1].status === "fulfilled") {
+-      const [removed] = await Promise.allSettled([rm(stage, { recursive: true, force: true })]);
++      cleanupObservation.main_stage = "runtime-stage";
++      cleanupObservation.runtime_owner_status = "pending"; cleanupObservation.runtime_remove_started = true;
++      const [removed] = await Promise.allSettled([rm(stage, { recursive: true, force: true }).then((value) => {
++        cleanupObservation.runtime_remove_settled = true; cleanupObservation.runtime_remove_fulfilled = true;
++        cleanupObservation.runtime_owner_status = "fulfilled"; return value;
++      }, (error) => {
++        cleanupObservation.runtime_remove_settled = true; cleanupObservation.runtime_owner_status = "rejected";
++        observedCleanupRejection("runtime", "runtime-stage"); throw error;
++      })]);
+       results.push(removed);
++    } else cleanupObservation.runtime_owner_status = "skipped";
++    const failed = results.find((result) => result.status === "rejected");
++    if (failed) {
++      cleanupObservation.selected_failure_owner = ["browser", "next", "reservation", "runtime"][results.indexOf(failed)];
++      throw failed.reason;
+     }
+-    const failed = results.find((result) => result.status === "rejected");
+-    if (failed) throw failed.reason;
+   })();
+   return stopPromise;
+ }
+@@ -134,15 +274,28 @@
+     closing = true;
+     let cleanupConfirmed = false;
+     const deadlineAt = performance.now() + 6000;
+-    const deadline = setTimeout(() => process.exit(3), 6000);
++    cleanupStartedAt = deadlineAt - 6000;
++    const deadline = setTimeout(() => { cleanupDiagnostic("hard-deadline"); process.exit(3); }, 6000);
+     try {
+       await stop();
++      cleanupObservation.main_stage = "pre-ack-budget";
+       assert.ok(performance.now() < deadlineAt);
+-      await writeFrame({ kind: "cleaned", outcome, creation_attempts: creationAttempts });
++      cleanupObservation.main_stage = "ack";
++      cleanupObservation.ack_owner_status = "pending"; cleanupObservation.ack_started = true;
++      await writeFrame({ kind: "cleaned", outcome, creation_attempts: creationAttempts }).then((value) => {
++        cleanupObservation.ack_settled = true; cleanupObservation.ack_fulfilled = true;
++        cleanupObservation.ack_owner_status = "fulfilled"; return value;
++      }, (error) => {
++        cleanupObservation.ack_settled = true; cleanupObservation.ack_owner_status = "rejected";
++        observedCleanupRejection("ack", "ack"); throw error;
++      });
++      cleanupObservation.main_stage = "post-ack-budget";
+       assert.ok(performance.now() < deadlineAt);
+       cleanupConfirmed = true;
++      cleanupObservation.main_stage = "complete";
+       process.exitCode = exitCode;
+     } catch {
++      cleanupDiagnostic("cleanup-rejected");
+       process.exitCode = 3; // Cleanup unconfirmed; never a native result.
+     } finally {
+       // Failed cleanup still owns the original hard bound if handles remain.
+@@ -181,6 +334,7 @@
+ let exitCode = 1;
+ 
+ try {
++  mainObservation.main_phase = "staging";
+   const sourceRoot = path.resolve();
+   const { stageProductionRuntime, verifyProductionRuntime } = await import("./production-runtime.mjs");
+   assert.ok(!closing);
+@@ -192,6 +346,7 @@
+   })();
+   await startup;
+   assert.ok(!closing);
++  mainObservation.main_phase = "reservation";
+   reservation = createServer();
+   startup = once(reservation, "listening");
+   reservation.listen(0, "127.0.0.1");
+@@ -200,10 +355,13 @@
+   const port = reservation.address().port;
+   const origin = `http://localhost:${port}`;
+   // Rust must configure the exact RP origin before building the native router.
++  mainObservation.main_phase = "origin";
+   await writeFrame({ kind: "origin", origin });
+   assert.ok(!closing);
+   await new Promise((resolve) => reservation.close(resolve));
+   assert.ok(!closing);
++  mainObservation.main_phase = "next-readiness";
++  mainObservation.next_readiness_status = "waiting";
+   next = spawn(process.execPath, [path.join(stage, "runtime/server.mjs")], {
+     cwd: path.join(stage, "runtime"),
+     env: { ...cleanEnv, NODE_ENV: "production", HOSTNAME: "127.0.0.1", PORT: String(port),
+@@ -214,7 +372,9 @@
+     serverBytes += bytes.length;
+     if (serverBytes > 1048576) void interrupted();
+   });
+-  next.once("error", interrupted);
++  next.once("error", () => { mainObservation.next_startup_error_seen = true; interrupted(); });
++  next.once("exit", () => { mainObservation.next_startup_exit_seen = true; });
++  next.once("close", () => { mainObservation.next_startup_close_seen = true; });
+   let ready = false;
+   const deadline = Date.now() + PHASE_MS;
+   while (Date.now() < deadline) {
+@@ -225,19 +385,34 @@
+         redirect: "error", signal: AbortSignal.timeout(1000),
+       });
+       ready = response.status === 404 && response.headers.get("content-type")?.startsWith("text/html;");
++      mainObservation.next_probe_result = ready ? "404-html" : "other-response";
++      mainObservation.next_probe_error_type = "none";
+       await response.body?.cancel();
+       if (ready) break;
+-    } catch { /* readiness deadline owns connection refusal */ }
++    } catch (error) {
++      mainObservation.next_probe_result = "request-error";
++      mainObservation.next_probe_error_type = observedErrorType(error);
++      /* readiness deadline owns connection refusal */
++    }
+     await delay(100);
+   }
++  mainObservation.next_readiness_budget_elapsed = Date.now() >= deadline;
++  mainObservation.next_readiness_status = ready ? "ready" : "not-ready";
+   assert.ok(ready);
+   assert.ok(!closing);
++  mainObservation.main_phase = "browser-launch";
+   startup = chromium.launchServer({ env: cleanEnv }).then((server) => { browserServer = server; });
+   await startup;
+   assert.ok(!closing);
++  mainObservation.main_phase = "browser-connect";
+   browser = await chromium.connect(browserServer.wsEndpoint());
+   assert.ok(!closing);
+-  await writeFrame({ kind: "ready", origin });
++  mainObservation.main_phase = "ready";
++  mainObservation.ready_write_started = true;
++  await writeFrame({ kind: "ready", origin }).then((value) => {
++    mainObservation.ready_write_settled = true; mainObservation.ready_write_fulfilled = true; return value;
++  }, (error) => { mainObservation.ready_write_settled = true; throw error; });
++  mainObservation.main_phase = "validation";
+ 
+   for (const actor of ["a", "b"]) {
+     const command = await readFrame(60000);
+@@ -328,9 +503,11 @@
+   }
+   const done = await readFrame(60000);
+   assert.deepEqual(done, { v: 1, seq: 4, kind: "done" });
++  mainObservation.main_phase = "completed";
+   outcome = "completed";
+   exitCode = 0;
+-} catch {
++} catch (error) {
++  mainFailureDiagnostic(error);
+   // No raw assertion, server output, private CDP credential or error stack.
+   process.stderr.write("native browser enrollment fixture failed\n");
+ } finally {

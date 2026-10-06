@@ -1,0 +1,11 @@
+--- candidate02/tools/test-native-browser-enrollment-diagnostic.test.mjs
++++ candidate03/tools/test-native-browser-enrollment-diagnostic.test.mjs
+@@ -232,7 +232,7 @@
+         producer_exit_observed: child.exitCode !== null || child.signalCode !== null,
+         producer_exit_code_class: child.exitCode === null ? "none" : [0, 1, 2, 3].includes(child.exitCode) ? String(child.exitCode) : "other",
+         producer_signal_class: child.signalCode === null ? "none" : ["SIGTERM", "SIGKILL"].includes(child.signalCode) ? child.signalCode : "other",
+-        approved_producer_sha256: BUNDLE_PINS["tools/test-native-browser-enrollment.mjs"],
++        approved_producer_sha256: BUNDLE_PINS[`tools/${runner}`],
+         supervisor_forced: supervision.forced,
+         final_cleanup_sigterm_attempted: finalCleanupTermAttempted,
+         final_cleanup_sigkill_attempted: finalCleanupKillAttempted,

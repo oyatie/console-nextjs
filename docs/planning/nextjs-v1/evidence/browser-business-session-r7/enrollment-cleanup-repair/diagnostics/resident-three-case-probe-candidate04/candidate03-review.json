@@ -1,0 +1,9 @@
+{
+  "candidate": "resident-three-case-probe-candidate03",
+  "probe_sha256": "5c624ea12b7c2582ba14520187862b1e4fed4657799279291043d7abab593aee",
+  "verdict": "REQUEST_CHANGES",
+  "review_scope": "Independent read-only source review; no execution",
+  "finding": "Signal handled during async report write could leave report/summary falsely claiming pass while command exits1",
+  "disposition": "candidate04 rechecks first signal after async publication and persists failure before summary",
+  "prior_findings": "Both candidate01 findings repaired and verified"
+}

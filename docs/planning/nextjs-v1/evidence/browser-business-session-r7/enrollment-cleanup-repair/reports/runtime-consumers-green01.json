@@ -1,0 +1,43 @@
+{
+  "schema": "enrollment-cache-runtime-consumers/1",
+  "command": [
+    "fnm",
+    "exec",
+    "--using",
+    "24.21.0",
+    "node",
+    "--test",
+    "--test-reporter=tap",
+    "tools/test-production-runtime.test.mjs"
+  ],
+  "exit_code": 0,
+  "counts": {
+    "tests": 3,
+    "pass": 3,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0
+  },
+  "scope": "Actual locked staging/manifest closure, tamper rejection and storefront cleanup consumers. No native enrollment/17-business-scenario acceptance.",
+  "raw_log": {
+    "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/runtime-consumers-green01.log",
+    "bytes": 804,
+    "sha256": "b35c9eb9d2951388a6a416fd30159bdc7643a31d01a536c06ea6c841c31dfb16"
+  },
+  "source": {
+    "path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/tools/test-production-runtime.test.mjs",
+    "bytes": 9049,
+    "sha256": "66ac7652b4079353b9344da6bfdfc8e3afa69c0f58c16cae62ca0c47cb74f75d"
+  },
+  "owner": {
+    "path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/tools/production-runtime.mjs",
+    "bytes": 8831,
+    "sha256": "7e4d05bac69900295f8777c931999f2987acd36c947f281cbea7d1bbdf673367"
+  },
+  "restored_build_inputs": {
+    "path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/.next/build-inputs.json",
+    "bytes": 21908,
+    "sha256": "45001f336b372dd488fd27cce5d6d8e1119c42e9dada4025c766fd0d4558d7c7"
+  }
+}

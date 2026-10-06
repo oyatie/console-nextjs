@@ -1,0 +1,39 @@
+{
+  "id": "business-writer-final-full-native01",
+  "command": [
+    "bash",
+    "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/tools/lanes/pgtest.sh",
+    "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork",
+    "/Users/jasonlee/.cargo/bin/cargo",
+    "+1.98.1",
+    "test",
+    "--locked",
+    "--offline",
+    "--no-fail-fast",
+    "--features",
+    "frontend-e2e",
+    "-p",
+    "console-app",
+    "--test",
+    "auth_rest",
+    "--",
+    "--nocapture",
+    "--test-threads=1"
+  ],
+  "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+  "exit_code": 0,
+  "timed_out": false,
+  "duration_seconds": 1499.9465588750318,
+  "discovered": null,
+  "counts": {
+    "passed": 125,
+    "failed": 0,
+    "skipped": 0,
+    "filtered": 0,
+    "executed": 125
+  },
+  "log_sha256": "e1ac895efd241e8440d50180bd505cb2e6f8382e9d97284493515832565bc29e",
+  "cleanup_reported": true,
+  "inputs_sha256": "860a09c23df250e4f1f95d71b64cf8056d03d88d3c52f66c80cb0ed71b56bfb6",
+  "inputs_unchanged": true
+}

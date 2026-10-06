@@ -1,0 +1,121 @@
+{
+  "schema": "portable-review04-integrity-findings/1",
+  "at": "2026-10-06T05:24:50.527324+00:00",
+  "verdict": "ACCEPT_EVIDENCE_INTEGRITY_AND_OBSERVED17_BROWSER_SCENARIOS; HOLD_FULL_NATIVE_AND_QUEUE",
+  "prior_assets_byte_identical": 144,
+  "native02": {
+    "command": [
+      "bash",
+      "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/tools/lanes/pgtest.sh",
+      "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork",
+      "/Users/jasonlee/.cargo/bin/cargo",
+      "+1.98.1",
+      "test",
+      "--locked",
+      "--offline",
+      "--no-fail-fast",
+      "--features",
+      "frontend-e2e",
+      "-p",
+      "console-app",
+      "--test",
+      "auth_rest",
+      "--",
+      "--test-threads=1",
+      "--nocapture"
+    ],
+    "exit_code": 101,
+    "counts": {
+      "passed": 120,
+      "failed": 1,
+      "skipped": 0,
+      "filtered": 0,
+      "executed": 121
+    },
+    "log_sha256": "ff0638cb45b099398a148bcffe82de5d785b8212737c2eab9e5b29f73a759cc1",
+    "input_map_sha256": "5e2fabd786c4be6ea45d9cb9f01ba8d273bfbc57c26ddcfd194f4b01223d5177",
+    "input_map_before_after_identical": true,
+    "preserved_source_versions_bound": 2958,
+    "missing_source_versions": [],
+    "same_input_map_as_focused_native90": true,
+    "remaining_failure": "browser_sessions::original_short_family_deadline_expires_during_lookup_wait_without_sliding",
+    "browser_child": {
+      "discovered": 17,
+      "executed": 17,
+      "counts": {
+        "passed": 17,
+        "failed": 0,
+        "unreached": 0,
+        "skipped": 0
+      },
+      "payload_sha256": "9476e4770fe318022147a78dd526e13d876e5a87d031ca338fb8b9ec0726ee5e",
+      "P16_checks_passed": 7
+    },
+    "cleanup_scope": "Harness report only; resident cleanup is the failing required test.",
+    "current_tree_scope": "No new equality check against current tree after queued candidate edits; immutable before/after maps and preserved source bindings used."
+  },
+  "queued_ordering_environment_attempt": {
+    "command": [
+      "bash",
+      "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/tools/lanes/pgtest.sh",
+      "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork",
+      "/Users/jasonlee/.cargo/bin/cargo",
+      "+1.98.1",
+      "test",
+      "--locked",
+      "--offline",
+      "--no-fail-fast",
+      "--features",
+      "frontend-e2e",
+      "-p",
+      "console-app",
+      "--test",
+      "auth_rest",
+      "genuine_browser::genuine_production_browser_proposal_requires_all_seventeen_scenarios",
+      "--",
+      "--exact",
+      "--test-threads=1",
+      "--nocapture"
+    ],
+    "exit_code": 1,
+    "counts": {
+      "passed": 0,
+      "failed": 0,
+      "skipped": 0,
+      "filtered": 0,
+      "executed": 0
+    },
+    "outcome": "UNREACHED_ENVIRONMENT_FAILURE; ZERO_TESTS",
+    "raw_diagnostic": "permission denied while trying to connect to the docker API at unix:///Users/jasonlee/.colima/nextjs-v1-auth/docker.sock\n",
+    "log_sha256": "010285fd797f7a5d58ed95fd87995fd1f5a309635d5a358684640ac2fdcd13f9",
+    "input_map_sha256": "48b058ceebb36224ebd144055c7e8f9708c0e6bea4b357a9ea5b3dc3e79f91c2",
+    "input_map_stable": true,
+    "cleanup_reported": false,
+    "source_changes_from_native02": [
+      {
+        "path": "tools/browser-business-restore.mjs",
+        "native02_sha256": "7423b8c14aaf703d785aadff36701afc5a29355b5c0b56e7eccf470a759e719f",
+        "queued01_sha256": "05c0dfebd791403622397f7a83568c4f5383360002ee9b96c5d366c956277b6d"
+      }
+    ],
+    "available_source_bindings": 2958,
+    "missing_source_versions": [],
+    "candidate_patch_sha256": "1d64fc33fa3f7269e49ff7e2db9aeb28c198ad13d4b341aba3bb1b6bfd1f6bc2",
+    "patch_integrity_check": {
+      "command": [
+        "git",
+        "apply",
+        "--check",
+        "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/queued-ordering-test-candidate01/tests.patch"
+      ],
+      "exit_code": 0,
+      "result": "Exact before bytes produce exact after hash in owned disposable copy; no runtime/tracked mutation."
+    }
+  },
+  "remaining_holds": [
+    "Recurring resident frame-header/cleanup failure still requires root-cause fix.",
+    "Browser17/17 is an observed run result; prior P16 unreachable and prior native failures remain preserved.",
+    "Queued-ordering01 is environment-unreached, not stronger-test behavior proof. Queued02 remains active and excluded.",
+    "Fresh full/native proof after justified changes, independent final review and exact-head hosted/protected merge-group gates."
+  ]
+}

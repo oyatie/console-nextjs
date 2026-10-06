@@ -1,0 +1,2037 @@
+{
+  "schema": "resident-cleanup-stress/1",
+  "scope": "Diagnostic ready/done lifecycle only; no credential ceremony, authentication or native acceptance proof",
+  "state": "bounded_diagnostic_pass",
+  "command": [
+    "/Users/jasonlee/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
+    "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/resident-cleanup-stress-candidate01/resident-cleanup-stress.mjs"
+  ],
+  "fixture_command": [
+    "/Users/jasonlee/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
+    "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/tools/test-resident-authenticator.mjs"
+  ],
+  "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+  "node_version": "24.21.0",
+  "max_attempts": 40,
+  "deadlines_ms": {
+    "startup": 25000,
+    "cleanup_ack_and_natural_exit": 15000,
+    "failure_cleanup": 6000
+  },
+  "counts": {
+    "started": 40,
+    "passed": 40,
+    "failed": 0
+  },
+  "attempts": [
+    {
+      "index": 1,
+      "status": "passed",
+      "reason": null,
+      "stages_ms": {
+        "spawn_ms": 2,
+        "ready_ms": 509,
+        "browser_owner_ms": 513,
+        "done_ms": 514,
+        "ack_ms": 549,
+        "exit_ms": 2534,
+        "stdio_close_ms": 2534,
+        "browser_absent_ms": 2534
+      },
+      "frames_received": 2,
+      "frames_sent": 1,
+      "stdout_bytes": 212,
+      "acknowledgement": {
+        "kind": "cleaned",
+        "outcome": "completed",
+        "browser_matches": true,
+        "browser_exited": true
+      },
+      "exit": {
+        "code": 0,
+        "signal": null
+      },
+      "stderr": {
+        "bytes": 0,
+        "finished": true,
+        "read_failed": false,
+        "classes": [],
+        "diagnostics": []
+      },
+      "custody": {
+        "browser_pid_observed": true,
+        "browser_owner_verified": true,
+        "browser_absence_observed": true,
+        "browser_signal_identity_verified": false,
+        "browser_signal_identity_unconfirmed": false
+      },
+      "interventions": {
+        "eof": false,
+        "fixture_term": false,
+        "fixture_kill": false,
+        "browser_term": false,
+        "browser_kill": false
+      },
+      "forced": false
+    },
+    {
+      "index": 2,
+      "status": "passed",
+      "reason": null,
+      "stages_ms": {
+        "spawn_ms": 1,
+        "ready_ms": 720,
+        "browser_owner_ms": 724,
+        "done_ms": 724,
+        "ack_ms": 750,
+        "exit_ms": 2743,
+        "stdio_close_ms": 2743,
+        "browser_absent_ms": 2743
+      },
+      "frames_received": 2,
+      "frames_sent": 1,
+      "stdout_bytes": 212,
+      "acknowledgement": {
+        "kind": "cleaned",
+        "outcome": "completed",
+        "browser_matches": true,
+        "browser_exited": true
+      },
+      "exit": {
+        "code": 0,
+        "signal": null
+      },
+      "stderr": {
+        "bytes": 0,
+        "finished": true,
+        "read_failed": false,
+        "classes": [],
+        "diagnostics": []
+      },
+      "custody": {
+        "browser_pid_observed": true,
+        "browser_owner_verified": true,
+        "browser_absence_observed": true,
+        "browser_signal_identity_verified": false,
+        "browser_signal_identity_unconfirmed": false
+      },
+      "interventions": {
+        "eof": false,
+        "fixture_term": false,
+        "fixture_kill": false,
+        "browser_term": false,
+        "browser_kill": false
+      },
+      "forced": false
+    },
+    {
+      "index": 3,
+      "status": "passed",
+      "reason": null,
+      "stages_ms": {
+        "spawn_ms": 1,
+        "ready_ms": 675,
+        "browser_owner_ms": 679,
+        "done_ms": 679,
+        "ack_ms": 709,
+        "exit_ms": 2691,
+        "stdio_close_ms": 2691,
+        "browser_absent_ms": 2691
+      },
+      "frames_received": 2,
+      "frames_sent": 1,
+      "stdout_bytes": 212,
+      "acknowledgement": {
+        "kind": "cleaned",
+        "outcome": "completed",
+        "browser_matches": true,
+        "browser_exited": true
+      },
+      "exit": {
+        "code": 0,
+        "signal": null
+      },
+      "stderr": {
+        "bytes": 0,
+        "finished": true,
+        "read_failed": false,
+        "classes": [],
+        "diagnostics": []
+      },
+      "custody": {
+        "browser_pid_observed": true,
+        "browser_owner_verified": true,
+        "browser_absence_observed": true,
+        "browser_signal_identity_verified": false,
+        "browser_signal_identity_unconfirmed": false
+      },
+      "interventions": {
+        "eof": false,
+        "fixture_term": false,
+        "fixture_kill": false,
+        "browser_term": false,
+        "browser_kill": false
+      },
+      "forced": false
+    },
+    {
+      "index": 4,
+      "status": "passed",
+      "reason": null,
+      "stages_ms": {
+        "spawn_ms": 1,
+        "ready_ms": 572,
+        "browser_owner_ms": 577,
+        "done_ms": 577,
+        "ack_ms": 706,
+        "exit_ms": 2595,
+        "stdio_close_ms": 2595,
+        "browser_absent_ms": 2595
+      },
+      "frames_received": 2,
+      "frames_sent": 1,
+      "stdout_bytes": 212,
+      "acknowledgement": {
+        "kind": "cleaned",
+        "outcome": "completed",
+        "browser_matches": true,
+        "browser_exited": true
+      },
+      "exit": {
+        "code": 0,
+        "signal": null
+      },
+      "stderr": {
+        "bytes": 0,
+        "finished": true,
+        "read_failed": false,
+        "classes": [],
+        "diagnostics": []
+      },
+      "custody": {
+        "browser_pid_observed": true,
+        "browser_owner_verified": true,
+        "browser_absence_observed": true,
+        "browser_signal_identity_verified": false,
+        "browser_signal_identity_unconfirmed": false
+      },
+      "interventions": {
+        "eof": false,
+        "fixture_term": false,
+        "fixture_kill": false,
+        "browser_term": false,
+        "browser_kill": false
+      },
+      "forced": false
+    },
+    {
+      "index": 5,
+      "status": "passed",
+      "reason": null,
+      "stages_ms": {
+        "spawn_ms": 1,
+        "ready_ms": 591,
+        "browser_owner_ms": 596,
+        "done_ms": 597,
+        "ack_ms": 628,
+        "exit_ms": 2617,
+        "stdio_close_ms": 2617,
+        "browser_absent_ms": 2617
+      },
+      "frames_received": 2,
+      "frames_sent": 1,
+      "stdout_bytes": 212,
+      "acknowledgement": {
+        "kind": "cleaned",
+        "outcome": "completed",
+        "browser_matches": true,
+        "browser_exited": true
+      },
+      "exit": {
+        "code": 0,
+        "signal": null
+      },
+      "stderr": {
+        "bytes": 0,
+        "finished": true,
+        "read_failed": false,
+        "classes": [],
+        "diagnostics": []
+      },
+      "custody": {
+        "browser_pid_observed": true,
+        "browser_owner_verified": true,
+        "browser_absence_observed": true,
+        "browser_signal_identity_verified": false,
+        "browser_signal_identity_unconfirmed": false
+      },
+      "interventions": {
+        "eof": false,
+        "fixture_term": false,
+        "fixture_kill": false,
+        "browser_term": false,
+        "browser_kill": false
+      },
+      "forced": false
+    },
+    {
+      "index": 6,
+      "status": "passed",
+      "reason": null,
+      "stages_ms": {
+        "spawn_ms": 3,
+        "ready_ms": 632,
+        "browser_owner_ms": 636,
+        "done_ms": 636,
+        "ack_ms": 666,
+        "exit_ms": 2706,
+        "stdio_close_ms": 2706,
+        "browser_absent_ms": 2707
+      },
+      "frames_received": 2,
+      "frames_sent": 1,
+      "stdout_bytes": 212,
+      "acknowledgement": {
+        "kind": "cleaned",
+        "outcome": "completed",
+        "browser_matches": true,
+        "browser_exited": true
+      },
+      "exit": {
+        "code": 0,
+        "signal": null
+      },
+      "stderr": {
+        "bytes": 0,
+        "finished": true,
+        "read_failed": false,
+        "classes": [],
+        "diagnostics": []
+      },
+      "custody": {
+        "browser_pid_observed": true,
+        "browser_owner_verified": true,
+        "browser_absence_observed": true,
+        "browser_signal_identity_verified": false,
+        "browser_signal_identity_unconfirmed": false
+      },
+      "interventions": {
+        "eof": false,
+        "fixture_term": false,
+        "fixture_kill": false,
+        "browser_term": false,
+        "browser_kill": false
+      },
+      "forced": false
+    },
+    {
+      "index": 7,
+      "status": "passed",
+      "reason": null,
+      "stages_ms": {
+        "spawn_ms": 1,
+        "ready_ms": 557,
+        "browser_owner_ms": 562,
+        "done_ms": 562,
+        "ack_ms": 591,
+        "exit_ms": 2579,
+        "stdio_close_ms": 2579,
+        "browser_absent_ms": 2579
+      },
+      "frames_received": 2,
+      "frames_sent": 1,
+      "stdout_bytes": 212,
+      "acknowledgement": {
+        "kind": "cleaned",
+        "outcome": "completed",
+        "browser_matches": true,
+        "browser_exited": true
+      },
+      "exit": {
+        "code": 0,
+        "signal": null
+      },
+      "stderr": {
+        "bytes": 0,
+        "finished": true,
+        "read_failed": false,
+        "classes": [],
+        "diagnostics": []
+      },
+      "custody": {
+        "browser_pid_observed": true,
+        "browser_owner_verified": true,
+        "browser_absence_observed": true,
+        "browser_signal_identity_verified": false,
+        "browser_signal_identity_unconfirmed": false
+      },
+      "interventions": {
+        "eof": false,
+        "fixture_term": false,
+        "fixture_kill": false,
+        "browser_term": false,
+        "browser_kill": false
+      },
+      "forced": false
+    },
+    {
+      "index": 8,
+      "status": "passed",
+      "reason": null,
+      "stages_ms": {
+        "spawn_ms": 1,
+        "ready_ms": 604,
+        "browser_owner_ms": 610,
+        "done_ms": 610,
+        "ack_ms": 644,
+        "exit_ms": 2638,
+        "stdio_close_ms": 2638,
+        "browser_absent_ms": 2638
+      },
+      "frames_received": 2,
+      "frames_sent": 1,
+      "stdout_bytes": 212,
+      "acknowledgement": {
+        "kind": "cleaned",
+        "outcome": "completed",
+        "browser_matches": true,
+        "browser_exited": true
+      },
+      "exit": {
+        "code": 0,
+        "signal": null
+      },
+      "stderr": {
+        "bytes": 0,
+        "finished": true,
+        "read_failed": false,
+        "classes": [],
+        "diagnostics": []
+      },
+      "custody": {
+        "browser_pid_observed": true,
+        "browser_owner_verified": true,
+        "browser_absence_observed": true,
+        "browser_signal_identity_verified": false,
+        "browser_signal_identity_unconfirmed": false
+      },
+      "interventions": {
+        "eof": false,
+        "fixture_term": false,
+        "fixture_kill": false,
+        "browser_term": false,
+        "browser_kill": false
+      },
+      "forced": false
+    },
+    {
+      "index": 9,
+      "status": "passed",
+      "reason": null,
+      "stages_ms": {
+        "spawn_ms": 1,
+        "ready_ms": 666,
+        "browser_owner_ms": 677,
+        "done_ms": 677,
+        "ack_ms": 703,
+        "exit_ms": 2696,
+        "stdio_close_ms": 2696,
+        "browser_absent_ms": 2696
+      },
+      "frames_received": 2,
+      "frames_sent": 1,
+      "stdout_bytes": 212,
+      "acknowledgement": {
+        "kind": "cleaned",
+        "outcome": "completed",
+        "browser_matches": true,
+        "browser_exited": true
+      },
+      "exit": {
+        "code": 0,
+        "signal": null
+      },
+      "stderr": {
+        "bytes": 0,
+        "finished": true,
+        "read_failed": false,
+        "classes": [],
+        "diagnostics": []
+      },
+      "custody": {
+        "browser_pid_observed": true,
+        "browser_owner_verified": true,
+        "browser_absence_observed": true,
+        "browser_signal_identity_verified": false,
+        "browser_signal_identity_unconfirmed": false
+      },
+      "interventions": {
+        "eof": false,
+        "fixture_term": false,
+        "fixture_kill": false,
+        "browser_term": false,
+        "browser_kill": false
+      },
+      "forced": false
+    },
+    {
+      "index": 10,
+      "status": "passed",
+      "reason": null,
+      "stages_ms": {
+        "spawn_ms": 2,
+        "ready_ms": 520,
+        "browser_owner_ms": 525,
+        "done_ms": 525,
+        "ack_ms": 549,
+        "exit_ms": 2541,
+        "stdio_close_ms": 2541,
+        "browser_absent_ms": 2541
+      },
+      "frames_received": 2,
+      "frames_sent": 1,
+      "stdout_bytes": 212,
+      "acknowledgement": {
+        "kind": "cleaned",
+        "outcome": "completed",
+        "browser_matches": true,
+        "browser_exited": true
+      },
+      "exit": {
+        "code": 0,
+        "signal": null
+      },
+      "stderr": {
+        "bytes": 0,
+        "finished": true,
+        "read_failed": false,
+        "classes": [],
+        "diagnostics": []
+      },
+      "custody": {
+        "browser_pid_observed": true,
+        "browser_owner_verified": true,
+        "browser_absence_observed": true,
+        "browser_signal_identity_verified": false,
+        "browser_signal_identity_unconfirmed": false
+      },
+      "interventions": {
+        "eof": false,
+        "fixture_term": false,
+        "fixture_kill": false,
+        "browser_term": false,
+        "browser_kill": false
+      },
+      "forced": false
+    },
+    {
+      "index": 11,
+      "status": "passed",
+      "reason": null,
+      "stages_ms": {
+        "spawn_ms": 2,
+        "ready_ms": 635,
+        "browser_owner_ms": 643,
+        "done_ms": 643,
+        "ack_ms": 684,
+        "exit_ms": 2664,
+        "stdio_close_ms": 2664,
+        "browser_absent_ms": 2665
+      },
+      "frames_received": 2,
+      "frames_sent": 1,
+      "stdout_bytes": 212,
+      "acknowledgement": {
+        "kind": "cleaned",
+        "outcome": "completed",
+        "browser_matches": true,
+        "browser_exited": true
+      },
+      "exit": {
+        "code": 0,
+        "signal": null
+      },
+      "stderr": {
+        "bytes": 0,
+        "finished": true,
+        "read_failed": false,
+        "classes": [],
+        "diagnostics": []
+      },
+      "custody": {
+        "browser_pid_observed": true,
+        "browser_owner_verified": true,
+        "browser_absence_observed": true,
+        "browser_signal_identity_verified": false,
+        "browser_signal_identity_unconfirmed": false
+      },
+      "interventions": {
+        "eof": false,
+        "fixture_term": false,
+        "fixture_kill": false,
+        "browser_term": false,
+        "browser_kill": false
+      },
+      "forced": false
+    },
+    {
+      "index": 12,
+      "status": "passed",
+      "reason": null,
+      "stages_ms": {
+        "spawn_ms": 1,
+        "ready_ms": 524,
+        "browser_owner_ms": 528,
+        "done_ms": 528,
+        "ack_ms": 572,
+        "exit_ms": 2544,
+        "stdio_close_ms": 2544,
+        "browser_absent_ms": 2544
+      },
+      "frames_received": 2,
+      "frames_sent": 1,
+      "stdout_bytes": 212,
+      "acknowledgement": {
+        "kind": "cleaned",
+        "outcome": "completed",
+        "browser_matches": true,
+        "browser_exited": true
+      },
+      "exit": {
+        "code": 0,
+        "signal": null
+      },
+      "stderr": {
+        "bytes": 0,
+        "finished": true,
+        "read_failed": false,
+        "classes": [],
+        "diagnostics": []
+      },
+      "custody": {
+        "browser_pid_observed": true,
+        "browser_owner_verified": true,
+        "browser_absence_observed": true,
+        "browser_signal_identity_verified": false,
+        "browser_signal_identity_unconfirmed": false
+      },
+      "interventions": {
+        "eof": false,
+        "fixture_term": false,
+        "fixture_kill": false,
+        "browser_term": false,
+        "browser_kill": false
+      },
+      "forced": false
+    },
+    {
+      "index": 13,
+      "status": "passed",
+      "reason": null,
+      "stages_ms": {
+        "spawn_ms": 1,
+        "ready_ms": 662,
+        "browser_owner_ms": 667,
+        "done_ms": 667,
+        "ack_ms": 691,
+        "exit_ms": 2710,
+        "stdio_close_ms": 2710,
+        "browser_absent_ms": 2710
+      },
+      "frames_received": 2,
+      "frames_sent": 1,
+      "stdout_bytes": 212,
+      "acknowledgement": {
+        "kind": "cleaned",
+        "outcome": "completed",
+        "browser_matches": true,
+        "browser_exited": true
+      },
+      "exit": {
+        "code": 0,
+        "signal": null
+      },
+      "stderr": {
+        "bytes": 0,
+        "finished": true,
+        "read_failed": false,
+        "classes": [],
+        "diagnostics": []
+      },
+      "custody": {
+        "browser_pid_observed": true,
+        "browser_owner_verified": true,
+        "browser_absence_observed": true,
+        "browser_signal_identity_verified": false,
+        "browser_signal_identity_unconfirmed": false
+      },
+      "interventions": {
+        "eof": false,
+        "fixture_term": false,
+        "fixture_kill": false,
+        "browser_term": false,
+        "browser_kill": false
+      },
+      "forced": false
+    },
+    {
+      "index": 14,
+      "status": "passed",
+      "reason": null,
+      "stages_ms": {
+        "spawn_ms": 1,
+        "ready_ms": 535,
+        "browser_owner_ms": 541,
+        "done_ms": 541,
+        "ack_ms": 570,
+        "exit_ms": 2556,
+        "stdio_close_ms": 2556,
+        "browser_absent_ms": 2556
+      },
+      "frames_received": 2,
+      "frames_sent": 1,
+      "stdout_bytes": 212,
+      "acknowledgement": {
+        "kind": "cleaned",
+        "outcome": "completed",
+        "browser_matches": true,
+        "browser_exited": true
+      },
+      "exit": {
+        "code": 0,
+        "signal": null
+      },
+      "stderr": {
+        "bytes": 0,
+        "finished": true,
+        "read_failed": false,
+        "classes": [],
+        "diagnostics": []
+      },
+      "custody": {
+        "browser_pid_observed": true,
+        "browser_owner_verified": true,
+        "browser_absence_observed": true,
+        "browser_signal_identity_verified": false,
+        "browser_signal_identity_unconfirmed": false
+      },
+      "interventions": {
+        "eof": false,
+        "fixture_term": false,
+        "fixture_kill": false,
+        "browser_term": false,
+        "browser_kill": false
+      },
+      "forced": false
+    },
+    {
+      "index": 15,
+      "status": "passed",
+      "reason": null,
+      "stages_ms": {
+        "spawn_ms": 1,
+        "ready_ms": 512,
+        "browser_owner_ms": 516,
+        "done_ms": 516,
+        "ack_ms": 542,
+        "exit_ms": 2542,
+        "stdio_close_ms": 2542,
+        "browser_absent_ms": 2542
+      },
+      "frames_received": 2,
+      "frames_sent": 1,
+      "stdout_bytes": 212,
+      "acknowledgement": {
+        "kind": "cleaned",
+        "outcome": "completed",
+        "browser_matches": true,
+        "browser_exited": true
+      },
+      "exit": {
+        "code": 0,
+        "signal": null
+      },
+      "stderr": {
+        "bytes": 0,
+        "finished": true,
+        "read_failed": false,
+        "classes": [],
+        "diagnostics": []
+      },
+      "custody": {
+        "browser_pid_observed": true,
+        "browser_owner_verified": true,
+        "browser_absence_observed": true,
+        "browser_signal_identity_verified": false,
+        "browser_signal_identity_unconfirmed": false
+      },
+      "interventions": {
+        "eof": false,
+        "fixture_term": false,
+        "fixture_kill": false,
+        "browser_term": false,
+        "browser_kill": false
+      },
+      "forced": false
+    },
+    {
+      "index": 16,
+      "status": "passed",
+      "reason": null,
+      "stages_ms": {
+        "spawn_ms": 1,
+        "ready_ms": 515,
+        "browser_owner_ms": 527,
+        "done_ms": 527,
+        "ack_ms": 553,
+        "exit_ms": 2540,
+        "stdio_close_ms": 2540,
+        "browser_absent_ms": 2540
+      },
+      "frames_received": 2,
+      "frames_sent": 1,
+      "stdout_bytes": 212,
+      "acknowledgement": {
+        "kind": "cleaned",
+        "outcome": "completed",
+        "browser_matches": true,
+        "browser_exited": true
+      },
+      "exit": {
+        "code": 0,
+        "signal": null
+      },
+      "stderr": {
+        "bytes": 0,
+        "finished": true,
+        "read_failed": false,
+        "classes": [],
+        "diagnostics": []
+      },
+      "custody": {
+        "browser_pid_observed": true,
+        "browser_owner_verified": true,
+        "browser_absence_observed": true,
+        "browser_signal_identity_verified": false,
+        "browser_signal_identity_unconfirmed": false
+      },
+      "interventions": {
+        "eof": false,
+        "fixture_term": false,
+        "fixture_kill": false,
+        "browser_term": false,
+        "browser_kill": false
+      },
+      "forced": false
+    },
+    {
+      "index": 17,
+      "status": "passed",
+      "reason": null,
+      "stages_ms": {
+        "spawn_ms": 1,
+        "ready_ms": 594,
+        "browser_owner_ms": 599,
+        "done_ms": 599,
+        "ack_ms": 634,
+        "exit_ms": 2611,
+        "stdio_close_ms": 2611,
+        "browser_absent_ms": 2611
+      },
+      "frames_received": 2,
+      "frames_sent": 1,
+      "stdout_bytes": 212,
+      "acknowledgement": {
+        "kind": "cleaned",
+        "outcome": "completed",
+        "browser_matches": true,
+        "browser_exited": true
+      },
+      "exit": {
+        "code": 0,
+        "signal": null
+      },
+      "stderr": {
+        "bytes": 0,
+        "finished": true,
+        "read_failed": false,
+        "classes": [],
+        "diagnostics": []
+      },
+      "custody": {
+        "browser_pid_observed": true,
+        "browser_owner_verified": true,
+        "browser_absence_observed": true,
+        "browser_signal_identity_verified": false,
+        "browser_signal_identity_unconfirmed": false
+      },
+      "interventions": {
+        "eof": false,
+        "fixture_term": false,
+        "fixture_kill": false,
+        "browser_term": false,
+        "browser_kill": false
+      },
+      "forced": false
+    },
+    {
+      "index": 18,
+      "status": "passed",
+      "reason": null,
+      "stages_ms": {
+        "spawn_ms": 1,
+        "ready_ms": 701,
+        "browser_owner_ms": 706,
+        "done_ms": 706,
+        "ack_ms": 776,
+        "exit_ms": 2725,
+        "stdio_close_ms": 2725,
+        "browser_absent_ms": 2726
+      },
+      "frames_received": 2,
+      "frames_sent": 1,
+      "stdout_bytes": 212,
+      "acknowledgement": {
+        "kind": "cleaned",
+        "outcome": "completed",
+        "browser_matches": true,
+        "browser_exited": true
+      },
+      "exit": {
+        "code": 0,
+        "signal": null
+      },
+      "stderr": {
+        "bytes": 0,
+        "finished": true,
+        "read_failed": false,
+        "classes": [],
+        "diagnostics": []
+      },
+      "custody": {
+        "browser_pid_observed": true,
+        "browser_owner_verified": true,
+        "browser_absence_observed": true,
+        "browser_signal_identity_verified": false,
+        "browser_signal_identity_unconfirmed": false
+      },
+      "interventions": {
+        "eof": false,
+        "fixture_term": false,
+        "fixture_kill": false,
+        "browser_term": false,
+        "browser_kill": false
+      },
+      "forced": false
+    },
+    {
+      "index": 19,
+      "status": "passed",
+      "reason": null,
+      "stages_ms": {
+        "spawn_ms": 2,
+        "ready_ms": 479,
+        "browser_owner_ms": 483,
+        "done_ms": 484,
+        "ack_ms": 507,
+        "exit_ms": 2497,
+        "stdio_close_ms": 2497,
+        "browser_absent_ms": 2497
+      },
+      "frames_received": 2,
+      "frames_sent": 1,
+      "stdout_bytes": 212,
+      "acknowledgement": {
+        "kind": "cleaned",
+        "outcome": "completed",
+        "browser_matches": true,
+        "browser_exited": true
+      },
+      "exit": {
+        "code": 0,
+        "signal": null
+      },
+      "stderr": {
+        "bytes": 0,
+        "finished": true,
+        "read_failed": false,
+        "classes": [],
+        "diagnostics": []
+      },
+      "custody": {
+        "browser_pid_observed": true,
+        "browser_owner_verified": true,
+        "browser_absence_observed": true,
+        "browser_signal_identity_verified": false,
+        "browser_signal_identity_unconfirmed": false
+      },
+      "interventions": {
+        "eof": false,
+        "fixture_term": false,
+        "fixture_kill": false,
+        "browser_term": false,
+        "browser_kill": false
+      },
+      "forced": false
+    },
+    {
+      "index": 20,
+      "status": "passed",
+      "reason": null,
+      "stages_ms": {
+        "spawn_ms": 1,
+        "ready_ms": 467,
+        "browser_owner_ms": 471,
+        "done_ms": 471,
+        "ack_ms": 494,
+        "exit_ms": 2487,
+        "stdio_close_ms": 2487,
+        "browser_absent_ms": 2487
+      },
+      "frames_received": 2,
+      "frames_sent": 1,
+      "stdout_bytes": 212,
+      "acknowledgement": {
+        "kind": "cleaned",
+        "outcome": "completed",
+        "browser_matches": true,
+        "browser_exited": true
+      },
+      "exit": {
+        "code": 0,
+        "signal": null
+      },
+      "stderr": {
+        "bytes": 0,
+        "finished": true,
+        "read_failed": false,
+        "classes": [],
+        "diagnostics": []
+      },
+      "custody": {
+        "browser_pid_observed": true,
+        "browser_owner_verified": true,
+        "browser_absence_observed": true,
+        "browser_signal_identity_verified": false,
+        "browser_signal_identity_unconfirmed": false
+      },
+      "interventions": {
+        "eof": false,
+        "fixture_term": false,
+        "fixture_kill": false,
+        "browser_term": false,
+        "browser_kill": false
+      },
+      "forced": false
+    },
+    {
+      "index": 21,
+      "status": "passed",
+      "reason": null,
+      "stages_ms": {
+        "spawn_ms": 1,
+        "ready_ms": 512,
+        "browser_owner_ms": 515,
+        "done_ms": 515,
+        "ack_ms": 563,
+        "exit_ms": 2531,
+        "stdio_close_ms": 2531,
+        "browser_absent_ms": 2531
+      },
+      "frames_received": 2,
+      "frames_sent": 1,
+      "stdout_bytes": 212,
+      "acknowledgement": {
+        "kind": "cleaned",
+        "outcome": "completed",
+        "browser_matches": true,
+        "browser_exited": true
+      },
+      "exit": {
+        "code": 0,
+        "signal": null
+      },
+      "stderr": {
+        "bytes": 0,
+        "finished": true,
+        "read_failed": false,
+        "classes": [],
+        "diagnostics": []
+      },
+      "custody": {
+        "browser_pid_observed": true,
+        "browser_owner_verified": true,
+        "browser_absence_observed": true,
+        "browser_signal_identity_verified": false,
+        "browser_signal_identity_unconfirmed": false
+      },
+      "interventions": {
+        "eof": false,
+        "fixture_term": false,
+        "fixture_kill": false,
+        "browser_term": false,
+        "browser_kill": false
+      },
+      "forced": false
+    },
+    {
+      "index": 22,
+      "status": "passed",
+      "reason": null,
+      "stages_ms": {
+        "spawn_ms": 1,
+        "ready_ms": 510,
+        "browser_owner_ms": 530,
+        "done_ms": 530,
+        "ack_ms": 561,
+        "exit_ms": 2543,
+        "stdio_close_ms": 2543,
+        "browser_absent_ms": 2543
+      },
+      "frames_received": 2,
+      "frames_sent": 1,
+      "stdout_bytes": 212,
+      "acknowledgement": {
+        "kind": "cleaned",
+        "outcome": "completed",
+        "browser_matches": true,
+        "browser_exited": true
+      },
+      "exit": {
+        "code": 0,
+        "signal": null
+      },
+      "stderr": {
+        "bytes": 0,
+        "finished": true,
+        "read_failed": false,
+        "classes": [],
+        "diagnostics": []
+      },
+      "custody": {
+        "browser_pid_observed": true,
+        "browser_owner_verified": true,
+        "browser_absence_observed": true,
+        "browser_signal_identity_verified": false,
+        "browser_signal_identity_unconfirmed": false
+      },
+      "interventions": {
+        "eof": false,
+        "fixture_term": false,
+        "fixture_kill": false,
+        "browser_term": false,
+        "browser_kill": false
+      },
+      "forced": false
+    },
+    {
+      "index": 23,
+      "status": "passed",
+      "reason": null,
+      "stages_ms": {
+        "spawn_ms": 1,
+        "ready_ms": 516,
+        "browser_owner_ms": 520,
+        "done_ms": 520,
+        "ack_ms": 544,
+        "exit_ms": 2555,
+        "stdio_close_ms": 2555,
+        "browser_absent_ms": 2555
+      },
+      "frames_received": 2,
+      "frames_sent": 1,
+      "stdout_bytes": 212,
+      "acknowledgement": {
+        "kind": "cleaned",
+        "outcome": "completed",
+        "browser_matches": true,
+        "browser_exited": true
+      },
+      "exit": {
+        "code": 0,
+        "signal": null
+      },
+      "stderr": {
+        "bytes": 0,
+        "finished": true,
+        "read_failed": false,
+        "classes": [],
+        "diagnostics": []
+      },
+      "custody": {
+        "browser_pid_observed": true,
+        "browser_owner_verified": true,
+        "browser_absence_observed": true,
+        "browser_signal_identity_verified": false,
+        "browser_signal_identity_unconfirmed": false
+      },
+      "interventions": {
+        "eof": false,
+        "fixture_term": false,
+        "fixture_kill": false,
+        "browser_term": false,
+        "browser_kill": false
+      },
+      "forced": false
+    },
+    {
+      "index": 24,
+      "status": "passed",
+      "reason": null,
+      "stages_ms": {
+        "spawn_ms": 1,
+        "ready_ms": 482,
+        "browser_owner_ms": 489,
+        "done_ms": 489,
+        "ack_ms": 508,
+        "exit_ms": 2499,
+        "stdio_close_ms": 2499,
+        "browser_absent_ms": 2499
+      },
+      "frames_received": 2,
+      "frames_sent": 1,
+      "stdout_bytes": 212,
+      "acknowledgement": {
+        "kind": "cleaned",
+        "outcome": "completed",
+        "browser_matches": true,
+        "browser_exited": true
+      },
+      "exit": {
+        "code": 0,
+        "signal": null
+      },
+      "stderr": {
+        "bytes": 0,
+        "finished": true,
+        "read_failed": false,
+        "classes": [],
+        "diagnostics": []
+      },
+      "custody": {
+        "browser_pid_observed": true,
+        "browser_owner_verified": true,
+        "browser_absence_observed": true,
+        "browser_signal_identity_verified": false,
+        "browser_signal_identity_unconfirmed": false
+      },
+      "interventions": {
+        "eof": false,
+        "fixture_term": false,
+        "fixture_kill": false,
+        "browser_term": false,
+        "browser_kill": false
+      },
+      "forced": false
+    },
+    {
+      "index": 25,
+      "status": "passed",
+      "reason": null,
+      "stages_ms": {
+        "spawn_ms": 1,
+        "ready_ms": 574,
+        "browser_owner_ms": 578,
+        "done_ms": 578,
+        "ack_ms": 608,
+        "exit_ms": 2594,
+        "stdio_close_ms": 2594,
+        "browser_absent_ms": 2594
+      },
+      "frames_received": 2,
+      "frames_sent": 1,
+      "stdout_bytes": 212,
+      "acknowledgement": {
+        "kind": "cleaned",
+        "outcome": "completed",
+        "browser_matches": true,
+        "browser_exited": true
+      },
+      "exit": {
+        "code": 0,
+        "signal": null
+      },
+      "stderr": {
+        "bytes": 0,
+        "finished": true,
+        "read_failed": false,
+        "classes": [],
+        "diagnostics": []
+      },
+      "custody": {
+        "browser_pid_observed": true,
+        "browser_owner_verified": true,
+        "browser_absence_observed": true,
+        "browser_signal_identity_verified": false,
+        "browser_signal_identity_unconfirmed": false
+      },
+      "interventions": {
+        "eof": false,
+        "fixture_term": false,
+        "fixture_kill": false,
+        "browser_term": false,
+        "browser_kill": false
+      },
+      "forced": false
+    },
+    {
+      "index": 26,
+      "status": "passed",
+      "reason": null,
+      "stages_ms": {
+        "spawn_ms": 1,
+        "ready_ms": 527,
+        "browser_owner_ms": 532,
+        "done_ms": 532,
+        "ack_ms": 555,
+        "exit_ms": 2546,
+        "stdio_close_ms": 2546,
+        "browser_absent_ms": 2546
+      },
+      "frames_received": 2,
+      "frames_sent": 1,
+      "stdout_bytes": 212,
+      "acknowledgement": {
+        "kind": "cleaned",
+        "outcome": "completed",
+        "browser_matches": true,
+        "browser_exited": true
+      },
+      "exit": {
+        "code": 0,
+        "signal": null
+      },
+      "stderr": {
+        "bytes": 0,
+        "finished": true,
+        "read_failed": false,
+        "classes": [],
+        "diagnostics": []
+      },
+      "custody": {
+        "browser_pid_observed": true,
+        "browser_owner_verified": true,
+        "browser_absence_observed": true,
+        "browser_signal_identity_verified": false,
+        "browser_signal_identity_unconfirmed": false
+      },
+      "interventions": {
+        "eof": false,
+        "fixture_term": false,
+        "fixture_kill": false,
+        "browser_term": false,
+        "browser_kill": false
+      },
+      "forced": false
+    },
+    {
+      "index": 27,
+      "status": "passed",
+      "reason": null,
+      "stages_ms": {
+        "spawn_ms": 1,
+        "ready_ms": 498,
+        "browser_owner_ms": 500,
+        "done_ms": 500,
+        "ack_ms": 520,
+        "exit_ms": 2512,
+        "stdio_close_ms": 2512,
+        "browser_absent_ms": 2512
+      },
+      "frames_received": 2,
+      "frames_sent": 1,
+      "stdout_bytes": 212,
+      "acknowledgement": {
+        "kind": "cleaned",
+        "outcome": "completed",
+        "browser_matches": true,
+        "browser_exited": true
+      },
+      "exit": {
+        "code": 0,
+        "signal": null
+      },
+      "stderr": {
+        "bytes": 0,
+        "finished": true,
+        "read_failed": false,
+        "classes": [],
+        "diagnostics": []
+      },
+      "custody": {
+        "browser_pid_observed": true,
+        "browser_owner_verified": true,
+        "browser_absence_observed": true,
+        "browser_signal_identity_verified": false,
+        "browser_signal_identity_unconfirmed": false
+      },
+      "interventions": {
+        "eof": false,
+        "fixture_term": false,
+        "fixture_kill": false,
+        "browser_term": false,
+        "browser_kill": false
+      },
+      "forced": false
+    },
+    {
+      "index": 28,
+      "status": "passed",
+      "reason": null,
+      "stages_ms": {
+        "spawn_ms": 1,
+        "ready_ms": 488,
+        "browser_owner_ms": 492,
+        "done_ms": 492,
+        "ack_ms": 516,
+        "exit_ms": 2510,
+        "stdio_close_ms": 2510,
+        "browser_absent_ms": 2510
+      },
+      "frames_received": 2,
+      "frames_sent": 1,
+      "stdout_bytes": 212,
+      "acknowledgement": {
+        "kind": "cleaned",
+        "outcome": "completed",
+        "browser_matches": true,
+        "browser_exited": true
+      },
+      "exit": {
+        "code": 0,
+        "signal": null
+      },
+      "stderr": {
+        "bytes": 0,
+        "finished": true,
+        "read_failed": false,
+        "classes": [],
+        "diagnostics": []
+      },
+      "custody": {
+        "browser_pid_observed": true,
+        "browser_owner_verified": true,
+        "browser_absence_observed": true,
+        "browser_signal_identity_verified": false,
+        "browser_signal_identity_unconfirmed": false
+      },
+      "interventions": {
+        "eof": false,
+        "fixture_term": false,
+        "fixture_kill": false,
+        "browser_term": false,
+        "browser_kill": false
+      },
+      "forced": false
+    },
+    {
+      "index": 29,
+      "status": "passed",
+      "reason": null,
+      "stages_ms": {
+        "spawn_ms": 1,
+        "ready_ms": 482,
+        "browser_owner_ms": 485,
+        "done_ms": 485,
+        "ack_ms": 510,
+        "exit_ms": 2502,
+        "stdio_close_ms": 2502,
+        "browser_absent_ms": 2502
+      },
+      "frames_received": 2,
+      "frames_sent": 1,
+      "stdout_bytes": 212,
+      "acknowledgement": {
+        "kind": "cleaned",
+        "outcome": "completed",
+        "browser_matches": true,
+        "browser_exited": true
+      },
+      "exit": {
+        "code": 0,
+        "signal": null
+      },
+      "stderr": {
+        "bytes": 0,
+        "finished": true,
+        "read_failed": false,
+        "classes": [],
+        "diagnostics": []
+      },
+      "custody": {
+        "browser_pid_observed": true,
+        "browser_owner_verified": true,
+        "browser_absence_observed": true,
+        "browser_signal_identity_verified": false,
+        "browser_signal_identity_unconfirmed": false
+      },
+      "interventions": {
+        "eof": false,
+        "fixture_term": false,
+        "fixture_kill": false,
+        "browser_term": false,
+        "browser_kill": false
+      },
+      "forced": false
+    },
+    {
+      "index": 30,
+      "status": "passed",
+      "reason": null,
+      "stages_ms": {
+        "spawn_ms": 1,
+        "ready_ms": 590,
+        "browser_owner_ms": 594,
+        "done_ms": 594,
+        "ack_ms": 620,
+        "exit_ms": 2610,
+        "stdio_close_ms": 2610,
+        "browser_absent_ms": 2610
+      },
+      "frames_received": 2,
+      "frames_sent": 1,
+      "stdout_bytes": 212,
+      "acknowledgement": {
+        "kind": "cleaned",
+        "outcome": "completed",
+        "browser_matches": true,
+        "browser_exited": true
+      },
+      "exit": {
+        "code": 0,
+        "signal": null
+      },
+      "stderr": {
+        "bytes": 0,
+        "finished": true,
+        "read_failed": false,
+        "classes": [],
+        "diagnostics": []
+      },
+      "custody": {
+        "browser_pid_observed": true,
+        "browser_owner_verified": true,
+        "browser_absence_observed": true,
+        "browser_signal_identity_verified": false,
+        "browser_signal_identity_unconfirmed": false
+      },
+      "interventions": {
+        "eof": false,
+        "fixture_term": false,
+        "fixture_kill": false,
+        "browser_term": false,
+        "browser_kill": false
+      },
+      "forced": false
+    },
+    {
+      "index": 31,
+      "status": "passed",
+      "reason": null,
+      "stages_ms": {
+        "spawn_ms": 1,
+        "ready_ms": 437,
+        "browser_owner_ms": 448,
+        "done_ms": 448,
+        "ack_ms": 469,
+        "exit_ms": 2463,
+        "stdio_close_ms": 2463,
+        "browser_absent_ms": 2463
+      },
+      "frames_received": 2,
+      "frames_sent": 1,
+      "stdout_bytes": 212,
+      "acknowledgement": {
+        "kind": "cleaned",
+        "outcome": "completed",
+        "browser_matches": true,
+        "browser_exited": true
+      },
+      "exit": {
+        "code": 0,
+        "signal": null
+      },
+      "stderr": {
+        "bytes": 0,
+        "finished": true,
+        "read_failed": false,
+        "classes": [],
+        "diagnostics": []
+      },
+      "custody": {
+        "browser_pid_observed": true,
+        "browser_owner_verified": true,
+        "browser_absence_observed": true,
+        "browser_signal_identity_verified": false,
+        "browser_signal_identity_unconfirmed": false
+      },
+      "interventions": {
+        "eof": false,
+        "fixture_term": false,
+        "fixture_kill": false,
+        "browser_term": false,
+        "browser_kill": false
+      },
+      "forced": false
+    },
+    {
+      "index": 32,
+      "status": "passed",
+      "reason": null,
+      "stages_ms": {
+        "spawn_ms": 1,
+        "ready_ms": 675,
+        "browser_owner_ms": 679,
+        "done_ms": 679,
+        "ack_ms": 705,
+        "exit_ms": 2700,
+        "stdio_close_ms": 2700,
+        "browser_absent_ms": 2700
+      },
+      "frames_received": 2,
+      "frames_sent": 1,
+      "stdout_bytes": 212,
+      "acknowledgement": {
+        "kind": "cleaned",
+        "outcome": "completed",
+        "browser_matches": true,
+        "browser_exited": true
+      },
+      "exit": {
+        "code": 0,
+        "signal": null
+      },
+      "stderr": {
+        "bytes": 0,
+        "finished": true,
+        "read_failed": false,
+        "classes": [],
+        "diagnostics": []
+      },
+      "custody": {
+        "browser_pid_observed": true,
+        "browser_owner_verified": true,
+        "browser_absence_observed": true,
+        "browser_signal_identity_verified": false,
+        "browser_signal_identity_unconfirmed": false
+      },
+      "interventions": {
+        "eof": false,
+        "fixture_term": false,
+        "fixture_kill": false,
+        "browser_term": false,
+        "browser_kill": false
+      },
+      "forced": false
+    },
+    {
+      "index": 33,
+      "status": "passed",
+      "reason": null,
+      "stages_ms": {
+        "spawn_ms": 2,
+        "ready_ms": 640,
+        "browser_owner_ms": 646,
+        "done_ms": 646,
+        "ack_ms": 672,
+        "exit_ms": 2662,
+        "stdio_close_ms": 2662,
+        "browser_absent_ms": 2662
+      },
+      "frames_received": 2,
+      "frames_sent": 1,
+      "stdout_bytes": 212,
+      "acknowledgement": {
+        "kind": "cleaned",
+        "outcome": "completed",
+        "browser_matches": true,
+        "browser_exited": true
+      },
+      "exit": {
+        "code": 0,
+        "signal": null
+      },
+      "stderr": {
+        "bytes": 0,
+        "finished": true,
+        "read_failed": false,
+        "classes": [],
+        "diagnostics": []
+      },
+      "custody": {
+        "browser_pid_observed": true,
+        "browser_owner_verified": true,
+        "browser_absence_observed": true,
+        "browser_signal_identity_verified": false,
+        "browser_signal_identity_unconfirmed": false
+      },
+      "interventions": {
+        "eof": false,
+        "fixture_term": false,
+        "fixture_kill": false,
+        "browser_term": false,
+        "browser_kill": false
+      },
+      "forced": false
+    },
+    {
+      "index": 34,
+      "status": "passed",
+      "reason": null,
+      "stages_ms": {
+        "spawn_ms": 5,
+        "ready_ms": 599,
+        "browser_owner_ms": 604,
+        "done_ms": 604,
+        "ack_ms": 637,
+        "exit_ms": 2630,
+        "stdio_close_ms": 2630,
+        "browser_absent_ms": 2630
+      },
+      "frames_received": 2,
+      "frames_sent": 1,
+      "stdout_bytes": 212,
+      "acknowledgement": {
+        "kind": "cleaned",
+        "outcome": "completed",
+        "browser_matches": true,
+        "browser_exited": true
+      },
+      "exit": {
+        "code": 0,
+        "signal": null
+      },
+      "stderr": {
+        "bytes": 0,
+        "finished": true,
+        "read_failed": false,
+        "classes": [],
+        "diagnostics": []
+      },
+      "custody": {
+        "browser_pid_observed": true,
+        "browser_owner_verified": true,
+        "browser_absence_observed": true,
+        "browser_signal_identity_verified": false,
+        "browser_signal_identity_unconfirmed": false
+      },
+      "interventions": {
+        "eof": false,
+        "fixture_term": false,
+        "fixture_kill": false,
+        "browser_term": false,
+        "browser_kill": false
+      },
+      "forced": false
+    },
+    {
+      "index": 35,
+      "status": "passed",
+      "reason": null,
+      "stages_ms": {
+        "spawn_ms": 1,
+        "ready_ms": 569,
+        "browser_owner_ms": 574,
+        "done_ms": 575,
+        "ack_ms": 609,
+        "exit_ms": 2591,
+        "stdio_close_ms": 2591,
+        "browser_absent_ms": 2591
+      },
+      "frames_received": 2,
+      "frames_sent": 1,
+      "stdout_bytes": 212,
+      "acknowledgement": {
+        "kind": "cleaned",
+        "outcome": "completed",
+        "browser_matches": true,
+        "browser_exited": true
+      },
+      "exit": {
+        "code": 0,
+        "signal": null
+      },
+      "stderr": {
+        "bytes": 0,
+        "finished": true,
+        "read_failed": false,
+        "classes": [],
+        "diagnostics": []
+      },
+      "custody": {
+        "browser_pid_observed": true,
+        "browser_owner_verified": true,
+        "browser_absence_observed": true,
+        "browser_signal_identity_verified": false,
+        "browser_signal_identity_unconfirmed": false
+      },
+      "interventions": {
+        "eof": false,
+        "fixture_term": false,
+        "fixture_kill": false,
+        "browser_term": false,
+        "browser_kill": false
+      },
+      "forced": false
+    },
+    {
+      "index": 36,
+      "status": "passed",
+      "reason": null,
+      "stages_ms": {
+        "spawn_ms": 1,
+        "ready_ms": 571,
+        "browser_owner_ms": 575,
+        "done_ms": 575,
+        "ack_ms": 633,
+        "exit_ms": 2597,
+        "stdio_close_ms": 2597,
+        "browser_absent_ms": 2597
+      },
+      "frames_received": 2,
+      "frames_sent": 1,
+      "stdout_bytes": 212,
+      "acknowledgement": {
+        "kind": "cleaned",
+        "outcome": "completed",
+        "browser_matches": true,
+        "browser_exited": true
+      },
+      "exit": {
+        "code": 0,
+        "signal": null
+      },
+      "stderr": {
+        "bytes": 0,
+        "finished": true,
+        "read_failed": false,
+        "classes": [],
+        "diagnostics": []
+      },
+      "custody": {
+        "browser_pid_observed": true,
+        "browser_owner_verified": true,
+        "browser_absence_observed": true,
+        "browser_signal_identity_verified": false,
+        "browser_signal_identity_unconfirmed": false
+      },
+      "interventions": {
+        "eof": false,
+        "fixture_term": false,
+        "fixture_kill": false,
+        "browser_term": false,
+        "browser_kill": false
+      },
+      "forced": false
+    },
+    {
+      "index": 37,
+      "status": "passed",
+      "reason": null,
+      "stages_ms": {
+        "spawn_ms": 1,
+        "ready_ms": 565,
+        "browser_owner_ms": 570,
+        "done_ms": 570,
+        "ack_ms": 600,
+        "exit_ms": 2587,
+        "stdio_close_ms": 2587,
+        "browser_absent_ms": 2587
+      },
+      "frames_received": 2,
+      "frames_sent": 1,
+      "stdout_bytes": 212,
+      "acknowledgement": {
+        "kind": "cleaned",
+        "outcome": "completed",
+        "browser_matches": true,
+        "browser_exited": true
+      },
+      "exit": {
+        "code": 0,
+        "signal": null
+      },
+      "stderr": {
+        "bytes": 0,
+        "finished": true,
+        "read_failed": false,
+        "classes": [],
+        "diagnostics": []
+      },
+      "custody": {
+        "browser_pid_observed": true,
+        "browser_owner_verified": true,
+        "browser_absence_observed": true,
+        "browser_signal_identity_verified": false,
+        "browser_signal_identity_unconfirmed": false
+      },
+      "interventions": {
+        "eof": false,
+        "fixture_term": false,
+        "fixture_kill": false,
+        "browser_term": false,
+        "browser_kill": false
+      },
+      "forced": false
+    },
+    {
+      "index": 38,
+      "status": "passed",
+      "reason": null,
+      "stages_ms": {
+        "spawn_ms": 1,
+        "ready_ms": 556,
+        "browser_owner_ms": 563,
+        "done_ms": 563,
+        "ack_ms": 588,
+        "exit_ms": 2575,
+        "stdio_close_ms": 2575,
+        "browser_absent_ms": 2575
+      },
+      "frames_received": 2,
+      "frames_sent": 1,
+      "stdout_bytes": 212,
+      "acknowledgement": {
+        "kind": "cleaned",
+        "outcome": "completed",
+        "browser_matches": true,
+        "browser_exited": true
+      },
+      "exit": {
+        "code": 0,
+        "signal": null
+      },
+      "stderr": {
+        "bytes": 0,
+        "finished": true,
+        "read_failed": false,
+        "classes": [],
+        "diagnostics": []
+      },
+      "custody": {
+        "browser_pid_observed": true,
+        "browser_owner_verified": true,
+        "browser_absence_observed": true,
+        "browser_signal_identity_verified": false,
+        "browser_signal_identity_unconfirmed": false
+      },
+      "interventions": {
+        "eof": false,
+        "fixture_term": false,
+        "fixture_kill": false,
+        "browser_term": false,
+        "browser_kill": false
+      },
+      "forced": false
+    },
+    {
+      "index": 39,
+      "status": "passed",
+      "reason": null,
+      "stages_ms": {
+        "spawn_ms": 1,
+        "ready_ms": 468,
+        "browser_owner_ms": 473,
+        "done_ms": 473,
+        "ack_ms": 498,
+        "exit_ms": 2495,
+        "stdio_close_ms": 2495,
+        "browser_absent_ms": 2495
+      },
+      "frames_received": 2,
+      "frames_sent": 1,
+      "stdout_bytes": 212,
+      "acknowledgement": {
+        "kind": "cleaned",
+        "outcome": "completed",
+        "browser_matches": true,
+        "browser_exited": true
+      },
+      "exit": {
+        "code": 0,
+        "signal": null
+      },
+      "stderr": {
+        "bytes": 0,
+        "finished": true,
+        "read_failed": false,
+        "classes": [],
+        "diagnostics": []
+      },
+      "custody": {
+        "browser_pid_observed": true,
+        "browser_owner_verified": true,
+        "browser_absence_observed": true,
+        "browser_signal_identity_verified": false,
+        "browser_signal_identity_unconfirmed": false
+      },
+      "interventions": {
+        "eof": false,
+        "fixture_term": false,
+        "fixture_kill": false,
+        "browser_term": false,
+        "browser_kill": false
+      },
+      "forced": false
+    },
+    {
+      "index": 40,
+      "status": "passed",
+      "reason": null,
+      "stages_ms": {
+        "spawn_ms": 1,
+        "ready_ms": 529,
+        "browser_owner_ms": 533,
+        "done_ms": 533,
+        "ack_ms": 561,
+        "exit_ms": 2561,
+        "stdio_close_ms": 2561,
+        "browser_absent_ms": 2561
+      },
+      "frames_received": 2,
+      "frames_sent": 1,
+      "stdout_bytes": 212,
+      "acknowledgement": {
+        "kind": "cleaned",
+        "outcome": "completed",
+        "browser_matches": true,
+        "browser_exited": true
+      },
+      "exit": {
+        "code": 0,
+        "signal": null
+      },
+      "stderr": {
+        "bytes": 0,
+        "finished": true,
+        "read_failed": false,
+        "classes": [],
+        "diagnostics": []
+      },
+      "custody": {
+        "browser_pid_observed": true,
+        "browser_owner_verified": true,
+        "browser_absence_observed": true,
+        "browser_signal_identity_verified": false,
+        "browser_signal_identity_unconfirmed": false
+      },
+      "interventions": {
+        "eof": false,
+        "fixture_term": false,
+        "fixture_kill": false,
+        "browser_term": false,
+        "browser_kill": false
+      },
+      "forced": false
+    }
+  ],
+  "source_hashes": {
+    "tools/test-resident-authenticator.mjs": "9d152c60f03827d7c5676f4e965edc56084c67d6f25d80014c3559e76d0d7c5d",
+    "package-lock.json": "ad526fce2fe800ee7122f39029843a69fd9a335572de82a4a71d9c1a9714bc7b",
+    "backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs": "30345239d9e8321ea9394dd5b5f75d91b5ca4d1b1a98a27c7360951a82179c45",
+    "node_modules/@playwright/test/package.json": "5587f932b8979b6889654b60e3c28aeb7ca0abbac00eec8c176c939a16149536",
+    "node_modules/playwright-core/package.json": "f061c58427e47e843e26d201f0a57076c734e57c734ecbbd87d4a23b7a20db9b"
+  },
+  "node_binary_sha256": "e4b5a3af0e05c75de2eae013904145f40fe7fc2a6e6f17510128bf45cca4e79b",
+  "probe_sha256": "fc4f239d03ca7315f57bc75e70112028852a5d42609fceaa9e15b92c8ac2e65e"
+}

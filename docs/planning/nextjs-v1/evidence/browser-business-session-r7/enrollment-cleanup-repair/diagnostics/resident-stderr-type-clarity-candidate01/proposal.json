@@ -1,0 +1,8 @@
+{
+  "before_sha256": "1a9ef29ee164cdeca5573a5b750b49f54f5e215f19a8709d9a8309ab5f71766f",
+  "after_sha256": "ac3a42f9d88b85631d46640ffed8a63b3fd7793d2b3b5983402d2853f692fed8",
+  "failed_clippy_run": "resident-setup-diagnostic-clippy01",
+  "failed_log_sha256": "72116faa5201efcaace371fae15cde38221ad825d5915c57c35e3f5e22f27a7b",
+  "change": "Name the existing stderr observation tuple; no runtime/assertion/deadline change",
+  "status": "APPLIED_REVIEW_AND_FRESH_CLIPPY_PENDING"
+}

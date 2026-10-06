@@ -1,0 +1,18 @@
+{
+  "command": [
+    "fnm",
+    "exec",
+    "--using",
+    "24.21.0",
+    "node",
+    "--input-type=module",
+    "--eval",
+    "import { verifyProductionRuntime } from './tools/production-runtime.mjs'; await verifyProductionRuntime('/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/pr16-publication/typescript-discovery-repair/verified-production-runtime'); console.log('Existing runtime verifier PASS');"
+  ],
+  "exit": 0,
+  "owner": "verifyProductionRuntime in tools/production-runtime.mjs",
+  "verifier_actually_invoked": true,
+  "staged_runtime_closure_verified": true,
+  "log_sha256": "8eb6003f462a7cec37ab473e02d3e78c432125de026e01a6ed7a758e1a313f97",
+  "scope": "Separate actual runtime closure verification after staging. No browser/business test bodies."
+}

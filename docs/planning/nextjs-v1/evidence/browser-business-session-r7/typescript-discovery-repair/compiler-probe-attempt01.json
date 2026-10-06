@@ -1,0 +1,7 @@
+{
+  "outcome": "HARNESS_FAILURE",
+  "tests_executed": 0,
+  "code": 5074,
+  "cause": "parseJsonConfigFileContent was called without configFileName; incremental project option consequently lacks a project path. No application diagnostic established.",
+  "action": "Correct configFileName in verification harness; application tsconfig unchanged."
+}

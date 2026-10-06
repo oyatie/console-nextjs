@@ -1,0 +1,107 @@
+{
+  "schema": "portable-independent-integrity-findings/5",
+  "at": "2026-10-06T05:40:34.963054+00:00",
+  "prior159_assets_preserved_byte_identical": true,
+  "queued_ordering_red02": {
+    "audit": "diagnostics/queued-ordering-red02-terminal-audit01/audit.json",
+    "audit_sha256": "9ee775d134ad2437392f80c09c123a23bff91faf8e0f94c801a5b949651b92c3",
+    "native": {
+      "executed": 1,
+      "failed": 1,
+      "filtered": 120
+    },
+    "browser": {
+      "discovered": 17,
+      "executed": 17,
+      "passed": 16,
+      "failed": 1,
+      "unreached": 0,
+      "skipped": 0
+    },
+    "cause": "UNPROVEN; exact pending values absent from terminal child."
+  },
+  "resident_stage": {
+    "raw_sha256": "1cc9aca17a9b546b08631d64ee7751ee05ab6c0ebf406c314b77333ed2d8398b",
+    "report_sha256": "14790617d5b436995337f86bfe3312151059b12f2cda99f6d20477453cf56180",
+    "native": {
+      "passed": 1,
+      "failed": 0,
+      "skipped": 0,
+      "filtered": 120,
+      "executed": 1
+    },
+    "raw_summary_matches": true,
+    "failure_diagnostic_observed": false,
+    "limit": "Focused pass under diagnostic-only sources; earlier full-suite cleanup failure remains unresolved."
+  },
+  "stress": {
+    "report_sha256": "9ca2c9ee8d59bc91542c3974d1b7c35ccb518ab69d43bdc12abc4fa64e8aea85",
+    "started": 40,
+    "passed": 40,
+    "failed": 0,
+    "all_attempt_records_independently_checked": true,
+    "no_forced_interventions": true,
+    "all_acknowledgements_completed": true,
+    "natural_exit_and_browser_absence_reported": true,
+    "source_dependencies_exactly_bound": true,
+    "authentication_ceremonies": 0,
+    "failure_localization": "NONE; no failing attempt observed",
+    "exit_code_of_probe_runner": "Not separately captured in the report; no inferred process-level terminal receipt.",
+    "independent_rerun": "NONE"
+  },
+  "candidate_hash_chain_checks": [
+    {
+      "candidate": "resident-cleanup-diagnostic-candidate04",
+      "patch_sha256": "97f2dbe3cbfab598fadbff4a078015cd7cbd2d738e82c249581b184921663691",
+      "review": "ACCEPT",
+      "exact_patch_before_after_verified": true,
+      "scope": "Diagnostic-only; deadlines/ACK/exit unchanged; no root-cause repair."
+    },
+    {
+      "candidate": "queued-ordering-implementation-candidate01",
+      "patch_sha256": "07242f456cae1f26f019a61f9c08f60b750a9f07a36dbfc3209fd4122df1c67f",
+      "before_sha256": "05c0dfebd791403622397f7a83568c4f5383360002ee9b96c5d366c956277b6d",
+      "after_sha256": "f5c086338d2b7b599d74597cdba7e6bf36694b197e125ff41fe97bf94d33c0b8",
+      "review": null,
+      "exact_patch_before_after_verified": true,
+      "tests_by_auditor": "NONE"
+    },
+    {
+      "candidate": "queued-ordering-implementation-candidate02",
+      "patch_sha256": "a21a34b0c3ed2549679d27dcf91bec71a2060b1cd8ac1e38325ea7c911ebd693",
+      "before_sha256": "05c0dfebd791403622397f7a83568c4f5383360002ee9b96c5d366c956277b6d",
+      "after_sha256": "f4d2199a74d0be38817eb66ac77a20b542542748e484dd1fe3998fecbba14be8",
+      "review": "ACCEPT_SOURCE_ONLY",
+      "exact_patch_before_after_verified": true,
+      "tests_by_auditor": "NONE"
+    },
+    {
+      "candidate": "queued-ordering-diagnostic-candidate01",
+      "patch_sha256": "4c053d89d381ef79a67f51de7862e3f321b8cf36838059ce0a24a7a0c635014c",
+      "before_sha256": "05c0dfebd791403622397f7a83568c4f5383360002ee9b96c5d366c956277b6d",
+      "after_sha256": "d9682e6dd85a4793f8636c18a8fd8fc939a22fada0db6359d8d30a721e5bd350",
+      "review": "ACCEPT",
+      "exact_patch_before_after_verified": true,
+      "tests_by_auditor": "NONE"
+    },
+    {
+      "candidate": "queued-ordering-implementation-candidate03",
+      "patch_sha256": "d367670458ef2a599d7d2562a8c4f762c8eb286ecc7fe0269ac8469275f8596e",
+      "before_sha256": "d9682e6dd85a4793f8636c18a8fd8fc939a22fada0db6359d8d30a721e5bd350",
+      "after_sha256": "7c81d3228765d28f16cfacc7bbf30ad1d94112b94e8843b3d9c68b4cf7d60b71",
+      "review": "ACCEPT",
+      "exact_patch_before_after_verified": true,
+      "tests_by_auditor": "NONE"
+    }
+  ],
+  "review_limits": [
+    "Candidate02 latch/cleanup independently accepted by resident reviewer; candidate03 reviewer accepts the new diagnostic delta, not self-approval of inherited latch.",
+    "Candidate01 has no separate persisted review file; candidate02 independent review preserves its prior cleanup finding/disposition.",
+    "Historical PREPARED_NOT_EXECUTED/NOT_APPLIED manifests remain byte-identical; subsequent evidence is appended, not rewritten."
+  ],
+  "excluded_active_runs": [
+    "enrollment-repair-native-diagnostic03"
+  ],
+  "verdict": "SCOPED_EVIDENCE_ACCURATE; ROOT_CAUSE_UNRESOLVED; FULL_NATIVE_RED; QUEUE_HOLD",
+  "writes": "New portable artifact and disposable external patch-check copies only; no product/test/source/service/GitHub mutation."
+}

@@ -55,6 +55,9 @@
     "/api/v1/hr/attendance-summary": [
       "get"
     ],
+    "/api/v1/hr/browser-session/attendance-records/me": [
+      "post"
+    ],
     "/api/v1/hr/exit-cases": [
       "post"
     ],
@@ -118,6 +121,9 @@
     "AttendanceRecordKind",
     "AttendanceSummaryItem",
     "AttendanceSummaryPage",
+    "BrowserSessionAttendanceRequest",
+    "BrowserSessionAttendanceResponse",
+    "BrowserSessionContext",
     "CancelOrgChangeRequest",
     "CompleteOrgChangeSettlementItemRequest",
     "CreateEmployeeAttendanceRecordRequest",

@@ -1,0 +1,28 @@
+{
+  "command": [
+    "fnm",
+    "exec",
+    "--using",
+    "24.21.0",
+    "node",
+    "--test",
+    "--test-reporter=tap",
+    "--test-name-pattern=^business runner confirms cleanup after eof-before-origin$",
+    "tools/test-native-browser-enrollment.test.mjs"
+  ],
+  "exit_code": 1,
+  "inputs_before": {
+    "tools/test-native-browser-enrollment.test.mjs": "78c8d36ccd49525d04cec12f9be056e23632e8137064625ac332d78da3fc06b9",
+    "tools/test-browser-business-session.mjs": "834b9a15ef0ec70517f510e0a2347e0cb991802264b554bedbfcd5172eaf5ea9",
+    "tools/production-runtime.mjs": "7e4d05bac69900295f8777c931999f2987acd36c947f281cbea7d1bbdf673367",
+    "tools/enrollment-fault-deadlines.mjs": "6f80266162d5413bcda245b17536b991518e95e22f5b1a7001067aaa4120fc06"
+  },
+  "inputs_after": {
+    "tools/test-native-browser-enrollment.test.mjs": "78c8d36ccd49525d04cec12f9be056e23632e8137064625ac332d78da3fc06b9",
+    "tools/test-browser-business-session.mjs": "834b9a15ef0ec70517f510e0a2347e0cb991802264b554bedbfcd5172eaf5ea9",
+    "tools/production-runtime.mjs": "7e4d05bac69900295f8777c931999f2987acd36c947f281cbea7d1bbdf673367",
+    "tools/enrollment-fault-deadlines.mjs": "6f80266162d5413bcda245b17536b991518e95e22f5b1a7001067aaa4120fc06"
+  },
+  "raw_log_sha256": "62005f4f282a4dcb6682542a6e5c2e81356b42f26fd346962b2d7d680c7744e3",
+  "scope": "One real product-runner early-EOF case selected; eleven enrollment cases intentionally unselected. Counts in raw TAP. No seventeen-scenario acceptance."
+}

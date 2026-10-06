@@ -1,0 +1,31 @@
+{
+  "schema": "restored-context-candidate/2",
+  "state": "artifact_only_not_applied_not_executed",
+  "before_sha256": "eb5e3feb387bac47b35eb9a4fb56c2d2fa18f57a92caa0ad72244519c8f8d4fc",
+  "after_sha256": "183df5e840c6fbd46c77ca7fa4ba8301801606870b970173a89ac784a27ddf4c",
+  "patch_sha256": "defc6ddf9d618b78dcacddf5033bbadee1cfb1eb4b81ad77e449090c23265792",
+  "source_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/restored-context-candidate02/tools/browser-business-restore.mjs",
+  "observed_failure": {
+    "run": "queued-prewitness-diagnostic-native01",
+    "checkpoint": "queued-pending",
+    "native_status": 401,
+    "native_gate_and_context_match": true,
+    "ordering_observation": null,
+    "raw_exception": "unproven"
+  },
+  "source_mechanism": "Playwright selects the current frame and cached utility-script object; direct standard CDP evaluation uses the pinned system-unique original context instead. Exact original probe Document is checked before every operation. No context remapping or current-page fallback.",
+  "acceptance_preserved": [
+    "Actual trusted persisted restoration and hidden departure/restore",
+    "Exact native gate/context/401 before single latch release",
+    "Later actual React commit and actual logout204/cookie removal",
+    "Original hidden body/table/HTML proof after native401 and pending assertion, before latch release; actual current-page denial checked after204",
+    "Exactly one reload and independent actorB"
+  ],
+  "proof_limits": [
+    "Runtime remains pending; original uniqueContextId usability after BFCache restoration is not yet established",
+    "This changes only test observation/controlled probe release, not production authorization or behavior",
+    "Raw CDP exceptions, HTML, URLs and context identities are not diagnostic output"
+  ],
+  "supersedes": "candidate01: invalid/racy post204 original-world observation; fixed before sole actual logout release",
+  "exception_privacy": "Boolean assertion only; never attach raw CDP exception details to assertion values"
+}

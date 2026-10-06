@@ -1,0 +1,171 @@
+--- a/tools/test-native-browser-enrollment.mjs
++++ b/tools/test-native-browser-enrollment.mjs
+@@ -3,6 +3,7 @@
+ import assert from "node:assert/strict";
+ import { spawn } from "node:child_process";
+ import { once } from "node:events";
++import { writeSync } from "node:fs";
+ import { mkdtemp, rm } from "node:fs/promises";
+ import { createServer } from "node:net";
+ import { tmpdir } from "node:os";
+@@ -75,55 +76,145 @@
+ let startup = Promise.resolve();
+ let creationAttempts = 0;
+ const runtimeStagingAbort = new AbortController();
++const cleanupObservation = {
++  main_stage: "unstarted", browser_stage: "unstarted", next_stage: "unstarted",
++  startup_settled: false,
++  owners_settled: false,
++  owners_all_fulfilled: false,
++  browser_branch_settled: false,
++  browser_close_settled: false,
++  browser_close_fulfilled: false,
++  browser_close_phase_met: false,
++  browser_kill_settled: false,
++  browser_kill_fulfilled: false,
++  browser_kill_phase_met: false,
++  browser_exit_check_passed: false,
++  browser_exit_event_seen: false,
++  browser_close_event_seen: false,
++  next_branch_settled: false,
++  next_term_phase_met: false,
++  next_kill_phase_met: false,
++  next_exit_event_seen: false,
++  next_close_event_seen: false,
++  runtime_remove_started: false,
++  runtime_remove_settled: false,
++  runtime_remove_fulfilled: false,
++  ack_started: false,
++  ack_settled: false,
++  ack_fulfilled: false,
++};
++function cleanupDiagnostic(failureTrigger) {
++  // Failure-only fixed metadata. Getter/logging failure cannot replace cleanup's
++  // original result. No error, path, ID, credential or native payload is emitted.
++  try {
++    const child = browserServer?.process();
++    const fields = { version: 1, failure_trigger: failureTrigger, ...cleanupObservation,
++      browser_owner_seen: Boolean(browserServer), next_owner_seen: Boolean(next),
++      temporary_scope_seen: Boolean(stage),
++      browser_exit_observed: Boolean(child && (child.exitCode !== null || child.signalCode !== null)),
++      next_exit_observed: Boolean(next && (next.exitCode !== null || next.signalCode !== null)) };
++    writeSync(2, `ENROLLMENT_CLEANUP_DIAGNOSTIC ${JSON.stringify(fields)}\n`);
++  } catch {}
++}
+ async function stop() {
+   stopPromise ??= (async () => {
+     // An EOF can race an asynchronous launch. Wait for its returned owner before
+     // acknowledging cleanup; closing prevents starting another resource.
++    cleanupObservation.main_stage = "startup";
+     runtimeStagingAbort.abort();
+     await startup.catch(() => {});
++    cleanupObservation.startup_settled = true;
+     // Playwright launches a separate browser process group. Close its owner,
+     // rather than assume that terminating this Node process reaps Chromium.
++    cleanupObservation.main_stage = "owners";
+     const results = await Promise.allSettled([
+       (async () => {
+-        if (!browserServer) return;
++        if (!browserServer) { cleanupObservation.browser_stage = "absent"; return; }
++        // Observe actual events independently of SDK promise settlement.
++        try {
++          const child = browserServer.process();
++          child.once("exit", () => { cleanupObservation.browser_exit_event_seen = true; });
++          child.once("close", () => { cleanupObservation.browser_close_event_seen = true; });
++        } catch {}
++        cleanupObservation.browser_stage = "close";
+         const closed = await Promise.race([
+-          browserServer.close().then(() => true, () => false),
++          browserServer.close().then(() => {
++            cleanupObservation.browser_close_settled = true;
++            cleanupObservation.browser_close_fulfilled = true; return true;
++          }, () => { cleanupObservation.browser_close_settled = true; return false; }),
+           delay(2000).then(() => false),
+         ]);
++        cleanupObservation.browser_close_phase_met = closed;
+         if (!closed) {
+-          assert.ok(await Promise.race([
+-            browserServer.kill().then(() => true), delay(2000).then(() => false),
+-          ]));
++          cleanupObservation.browser_stage = "kill";
++          const killed = await Promise.race([
++            browserServer.kill().then(() => {
++              cleanupObservation.browser_kill_settled = true;
++              cleanupObservation.browser_kill_fulfilled = true; return true;
++            }, (error) => { cleanupObservation.browser_kill_settled = true; throw error; }),
++            delay(2000).then(() => false),
++          ]);
++          cleanupObservation.browser_kill_phase_met = killed;
++          assert.ok(killed);
+         }
++        cleanupObservation.browser_stage = "exit-check";
+         const process = browserServer.process();
+-        assert.ok(process.exitCode !== null || process.signalCode !== null);
+-      })(),
++        cleanupObservation.browser_exit_check_passed = process.exitCode !== null || process.signalCode !== null;
++        assert.ok(cleanupObservation.browser_exit_check_passed);
++        cleanupObservation.browser_stage = "complete";
++      })().finally(() => { cleanupObservation.browser_branch_settled = true; }),
+       (async () => {
+-        if (!next || next.exitCode !== null || next.signalCode !== null) return;
+-        const exited = once(next, "exit");
++        if (!next) { cleanupObservation.next_stage = "absent"; return; }
++        if (next.exitCode !== null || next.signalCode !== null) {
++          cleanupObservation.next_stage = "already-exited"; return;
++        }
++        next.once("close", () => { cleanupObservation.next_close_event_seen = true; });
++        const exited = once(next, "exit").then((value) => {
++          cleanupObservation.next_exit_event_seen = true; return value;
++        });
++        cleanupObservation.next_stage = "term";
+         next.kill("SIGTERM");
+         const closed = await Promise.race([exited.then(() => true), delay(2000).then(() => false)]);
++        cleanupObservation.next_term_phase_met = closed;
+         if (!closed) {
++          cleanupObservation.next_stage = "kill";
+           next.kill("SIGKILL");
+-          assert.ok(await Promise.race([exited.then(() => true), delay(2000).then(() => false)]));
++          const killed = await Promise.race([exited.then(() => true), delay(2000).then(() => false)]);
++          cleanupObservation.next_kill_phase_met = killed;
++          assert.ok(killed);
+         }
+-      })(),
++        cleanupObservation.next_stage = "complete";
++      })().finally(() => { cleanupObservation.next_branch_settled = true; }),
+       reservation?.listening ? new Promise((resolve) => reservation.close(resolve)) : Promise.resolve(),
+     ]);
+-    assert.ok(results.every((result) => result.status === "fulfilled"));
+-    if (stage) await rm(stage, { recursive: true, force: true });
++    cleanupObservation.owners_settled = true;
++    cleanupObservation.owners_all_fulfilled = results.every((result) => result.status === "fulfilled");
++    assert.ok(cleanupObservation.owners_all_fulfilled);
++    if (stage) {
++      cleanupObservation.main_stage = "runtime-stage";
++      cleanupObservation.runtime_remove_started = true;
++      await rm(stage, { recursive: true, force: true }).then(() => {
++        cleanupObservation.runtime_remove_settled = true;
++        cleanupObservation.runtime_remove_fulfilled = true;
++      }, (error) => { cleanupObservation.runtime_remove_settled = true; throw error; });
++    }
+   })();
+   return stopPromise;
+ }
+ function finalize(outcome, exitCode) {
+   finalization ??= (async () => {
+     closing = true;
+-    const deadline = setTimeout(() => process.exit(3), 6000);
++    const deadline = setTimeout(() => { cleanupDiagnostic("hard-deadline"); process.exit(3); }, 6000);
+     try {
+       await stop();
+-      await writeFrame({ kind: "cleaned", outcome, creation_attempts: creationAttempts });
++      cleanupObservation.main_stage = "ack"; cleanupObservation.ack_started = true;
++      await writeFrame({ kind: "cleaned", outcome, creation_attempts: creationAttempts }).then(() => {
++        cleanupObservation.ack_settled = true; cleanupObservation.ack_fulfilled = true;
++      }, (error) => { cleanupObservation.ack_settled = true; throw error; });
++      cleanupObservation.main_stage = "complete";
+       process.exitCode = exitCode;
+     } catch {
++      cleanupDiagnostic("cleanup-rejected");
+       process.exitCode = 3; // Cleanup unconfirmed; never a native result.
+     } finally {
+       clearTimeout(deadline);

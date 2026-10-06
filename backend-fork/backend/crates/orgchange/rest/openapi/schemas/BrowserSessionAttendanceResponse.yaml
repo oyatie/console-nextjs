@@ -1,0 +1,14 @@
+type: object
+additionalProperties: false
+required: [context, history, browser_context, expires_at]
+properties:
+  context:
+    $ref: '#/components/schemas/BrowserSessionContext'
+  history:
+    $ref: '#/components/schemas/EmployeeAttendanceRecordPage'
+  browser_context:
+    type: string
+    format: uuid
+    pattern: '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'
+  expires_at:
+    $ref: '#/components/schemas/Timestamp'

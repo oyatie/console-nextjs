@@ -1,0 +1,55 @@
+--- a/tools/browser-business-restore.mjs
++++ b/tools/browser-business-restore.mjs
+@@ -134,7 +134,8 @@
+       category = "reply-received"; completedInputs += 1;
+       return value;
+     } finally {
+-      stopped = true; clearTimeout(timer); inputWaiter = undefined;
++      stopped = true; clearTimeout(timer);
++      inputWaiter?.reject(new Error("original native input attempt ended")); inputWaiter = undefined;
+       const elapsed = Math.max(0, Math.floor(performance.now() - startedAt));
+       inputObservations.push({ kind, sequence, category: deadlineFired ? "local-deadline" : category,
+         configured_budget_ms: Number.isSafeInteger(budget) && budget > 0 && budget <= 600000 ? budget : null,
+@@ -378,7 +379,7 @@
+   const url = `${actor.origin}/me/${session.context}/attendance/`;
+   const page = await actor.context.newPage();
+   const queued = mode === "queued-react-css";
+-  const probe = await installProbe(page, h.guardContract.privateRegionSelector, actor.facts, queued, mode === "delayed-bundles");
++  let probe;
+   const documents = []; const failedRequests = []; const heldScripts = [];
+   const cacheFailures = [];
+   let cacheObserver;
+@@ -509,6 +510,7 @@
+   };
+   const routed = ["blocked-bundles", "blocked-css-bundles", "delayed-bundles", "missing-guard", "thrown-guard"].includes(mode);
+   try {
++    probe = await installProbe(page, h.guardContract.privateRegionSelector, actor.facts, queued, mode === "delayed-bundles");
+     if (queued) {
+       queuedCheckpoint = "cache-observer";
+       cacheObserver = await actor.context.newCDPSession(page);
+@@ -735,13 +737,13 @@
+       failure_location: browserFailureLocation(error) ?? null,
+       queued_native_observation: queuedNativeObservation ?? null,
+       queued_ordering_observation: queuedOrderingObservation ?? null,
+-      original_input_observations: probe.inputObservations.map((item) => ({ ...item })),
++      original_input_observations: (probe?.inputObservations ?? []).map((item) => ({ ...item })),
+       // Copy at failure reporting; late callbacks/cleanup cannot rewrite it.
+       queued_phase_timeline: queuedPhaseTimeline.map((entry) => ({ ...entry,
+         ...(entry.cdp_rejection ? { cdp_rejection: { ...entry.cdp_rejection } } : {}) })),
+       not_restored_reasons: cacheFailures,
+-      trusted_departures: probe.events.filter((event) => event.event === "pagehide" && event.trusted && event.document === original).length,
+-      trusted_original_restores: probe.events.filter((event) => event.event === "pageshow" && event.trusted && event.persisted && event.document === original).length,
++      trusted_departures: (probe?.events ?? []).filter((event) => event.event === "pagehide" && event.trusted && event.document === original).length,
++      trusted_original_restores: (probe?.events ?? []).filter((event) => event.event === "pageshow" && event.trusted && event.persisted && event.document === original).length,
+     };
+     throw error;
+   } finally {
+@@ -761,7 +763,7 @@
+     await cleanup("probe-listeners", () => {
+       cacheObserver?.off("Page.backForwardCacheNotUsed", cacheFailureListener);
+       cacheObserver?.off("Page.frameNavigated", frameNavigatedListener);
+-      probe.remove(); page.off("request", requestListener); page.off("requestfailed", failureListener);
++      probe?.remove(); page.off("request", requestListener); page.off("requestfailed", failureListener);
+       if (queued) page.off("response", responseListener);
+     });
+     // Always attempt owned page closure, independently of earlier cleanup errors.

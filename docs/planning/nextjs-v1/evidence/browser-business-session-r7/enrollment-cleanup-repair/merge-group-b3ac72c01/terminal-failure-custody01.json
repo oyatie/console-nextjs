@@ -1,0 +1,116 @@
+{
+  "schema": "r7-merge-group-failure-custody/1",
+  "created_at": "2026-10-06T02:36:10.060004+00:00",
+  "run_id": 37403914643,
+  "job_id": 112077080738,
+  "synthetic_head": "b3ac72c41d3d5dca9ff9c2334543098c2c8bd177",
+  "failure_audit": {
+    "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/merge-group-b3ac72c01/terminal-failure-audit01.json",
+    "bytes": 10322,
+    "sha256": "9ab2fb52808d3f6a4709428369a3795dcd5f2a95025f84b43ca1bee36bb775dd"
+  },
+  "artifacts": [
+    {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/merge-group-b3ac72c01/accepted-commit.json",
+      "bytes": 1823,
+      "sha256": "0cf19718266a91b7ce78b20b04a12927867604ea04cc2248ee989722ab78e600"
+    },
+    {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/merge-group-b3ac72c01/check-initial.json",
+      "bytes": 3051,
+      "sha256": "a797b364c771eae1ca7cdb6a4a3c92c15416d367c4eb22a14109ba471f5d77af"
+    },
+    {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/merge-group-b3ac72c01/check-terminal01.json",
+      "bytes": 3072,
+      "sha256": "3b3b3075aaa70a2babb2d7af1cbabd4c02499fd917606409fd6b25797cbb4598"
+    },
+    {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/merge-group-b3ac72c01/failure-audit.py",
+      "bytes": 7408,
+      "sha256": "c00414cf370f04992b126dea0ebc8e686ed3aa0835c8a1980cd8eb587c12862f"
+    },
+    {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/merge-group-b3ac72c01/job-112077080738-direct01.log",
+      "bytes": 82699,
+      "sha256": "dfe4e4bbea1600b59dda1f6152ae8a4492b26403697c54f778ba263951d943d0"
+    },
+    {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/merge-group-b3ac72c01/job-112077080738.json",
+      "bytes": 8704,
+      "sha256": "4e5f02d011cc0dffbc6136e6ac3073b0097e8e153324c6b5611b3cc2ae283698"
+    },
+    {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/merge-group-b3ac72c01/jobs-initial.json",
+      "bytes": 7245,
+      "sha256": "09b60ba9d2284461e2d442fcc45003d39df78a1bc48818547def32e34eea139c"
+    },
+    {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/merge-group-b3ac72c01/monitor.py",
+      "bytes": 4775,
+      "sha256": "722e11b3f63dd964c24156132eef256f7b0597ce0fe37cb78fb9e86e91dd7f7c"
+    },
+    {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/merge-group-b3ac72c01/pr-queue-readback01.json",
+      "bytes": 536,
+      "sha256": "47c06908a3d7efd729e259473cc4a42b23a2667e0f2a8de1eabd684953ec16a0"
+    },
+    {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/merge-group-b3ac72c01/pr-terminal-readback01.json",
+      "bytes": 221,
+      "sha256": "a6ddcdc3f536df0b58a619250af83070b995bc416cdc79ad6c04481bee215270"
+    },
+    {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/merge-group-b3ac72c01/progress-observations.jsonl",
+      "bytes": 903,
+      "sha256": "c3195c9355c4289979f4df309b3c0d562ea82eb891fc78353e4b2425ea312e0e"
+    },
+    {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/merge-group-b3ac72c01/queue-tree-binding01.json",
+      "bytes": 5815,
+      "sha256": "97470cd1f017f9dd7b0c72efafb68bcbb9b9848a2787360f663757ccc93dfe37"
+    },
+    {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/merge-group-b3ac72c01/repo-options01.json",
+      "bytes": 180,
+      "sha256": "23546ec7e3d8d42606e4ccb1ab1f5c9fc18b3ece234e0b3e11775ccbeecb6736"
+    },
+    {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/merge-group-b3ac72c01/ruleset-initial.json",
+      "bytes": 1438,
+      "sha256": "dc4d183acac48fbfc27b5425c877d201fc3154dff45d11e5ff883a7d44e40d5e"
+    },
+    {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/merge-group-b3ac72c01/run-37403914643-full01.zip",
+      "bytes": 40996,
+      "sha256": "a4796677c6ea98d9d829f032cc3fb4d1aeed73e38a2a86a597f26e9bc4d35925"
+    },
+    {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/merge-group-b3ac72c01/run-37403914643.json",
+      "bytes": 8212,
+      "sha256": "c0d368fd80afb22ab3dde81a01c5cc4c9ce867a3b6b2df41ea9519210f65128e"
+    },
+    {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/merge-group-b3ac72c01/run-initial.json",
+      "bytes": 12731,
+      "sha256": "d6ccccb743c830281a28558da2ded1090f4cd8b38cc776f8cb897d1c4a6cfc8e"
+    },
+    {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/merge-group-b3ac72c01/synthetic-commit.json",
+      "bytes": 2976,
+      "sha256": "0ef78e013f974826c33bbdb31d0c078710f21b14f62ab37bb2c326751d9c60cf"
+    },
+    {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/merge-group-b3ac72c01/terminal-failure-audit01.json",
+      "bytes": 10322,
+      "sha256": "9ab2fb52808d3f6a4709428369a3795dcd5f2a95025f84b43ca1bee36bb775dd"
+    }
+  ],
+  "mutations": {
+    "source": false,
+    "github": false,
+    "workflow_rerun": false,
+    "queue": false,
+    "merge": false
+  }
+}

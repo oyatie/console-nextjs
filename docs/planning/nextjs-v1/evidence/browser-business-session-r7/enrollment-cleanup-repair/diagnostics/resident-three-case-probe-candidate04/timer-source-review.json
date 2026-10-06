@@ -1,0 +1,39 @@
+{
+  "scope": "Independent read-only source review of resident timer ownership candidate01; not runtime/native/release approval",
+  "verdict": "ACCEPT_SOURCE_ONLY",
+  "candidate_patch_sha256": "82e65c23d1ea3e547979ea8230cb4918bd6f7db800c9aa020c2a92b7d716f1db",
+  "before_source_sha256": "9d152c60f03827d7c5676f4e965edc56084c67d6f25d80014c3559e76d0d7c5d",
+  "after_source_sha256": "b62d0d6eba89439d4194b79d4dab62ed8fd07614f93bf984bbd3ab261a71799e",
+  "installed_sdk_bundle_sha256": "549070af3acabb3efcc4f55bfe6210f9f7c2fcf633cf7eaa59bfe60719969171",
+  "source_evidence": [
+    {
+      "file": "node_modules/playwright-core/lib/coreBundle.js",
+      "lines": "57165-57223",
+      "finding": "BrowserServer.close/kill delegate to real owned browser process methods"
+    },
+    {
+      "file": "node_modules/playwright-core/lib/coreBundle.js",
+      "lines": "39824-39849",
+      "finding": "closeOrKill owns default30s timer and awaits shared cleanup; finally clears its timer"
+    },
+    {
+      "file": "node_modules/playwright-core/lib/coreBundle.js",
+      "lines": "9339-9432",
+      "finding": "Real process close/kill wait for actual process-close and temp cleanup; SIGKILL targets the detached owned process group"
+    }
+  ],
+  "reasoning": [
+    "Each new2s phase timer is cleared even when operation wins; rejection is already handled by the explicit then handler",
+    "Failed cleanup retains/unrefs12s total bound, permitting idle natural code3 exit and bounding remaining referenced SDK handles",
+    "Successful cleanup clears hard deadline only after actual child-exit validation and successful cleaned frame write",
+    "No acceptance clocks, actual browser checks, ACK outcomes or independent native consumer rules are weakened"
+  ],
+  "proof_limits": {
+    "historical_exit3_cause": "UNPROVEN",
+    "failed_kill_retained_unref_deadline": "SOURCE_ONLY",
+    "runtime": "Prepared3case real lifecycle probe not executed by reviewer; same actual native consumer/full gate still required",
+    "release": "No release or merge queue approval"
+  },
+  "writes": "Artifact review records only; no tracked sources changed",
+  "tests_executed": 0
+}

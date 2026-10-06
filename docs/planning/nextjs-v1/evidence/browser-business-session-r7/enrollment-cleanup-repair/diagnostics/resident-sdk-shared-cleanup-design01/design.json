@@ -1,0 +1,126 @@
+{
+  "schema": "resident-sdk-shared-cleanup-design/1",
+  "state": "PROPOSED_NOT_IMPLEMENTED_NOT_TESTED",
+  "scope": "Narrow owner-state correction, not widening existing fixture total deadline, creating alternate cleanup completion or asserting historical failures fixed.",
+  "inputs": {
+    "node_fixture": {
+      "path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/tools/test-resident-authenticator.mjs",
+      "bytes": 13043,
+      "sha256": "b62d0d6eba89439d4194b79d4dab62ed8fd07614f93bf984bbd3ab261a71799e"
+    },
+    "rust_fixture": {
+      "path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs",
+      "bytes": 20063,
+      "sha256": "2917aa92f08d8d8d49da0f5ddf0474c808bf5886683a8754e35bf69a15fcaedd"
+    },
+    "installed_sdk": {
+      "path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/node_modules/playwright-core/lib/coreBundle.js",
+      "bytes": 3477183,
+      "sha256": "549070af3acabb3efcc4f55bfe6210f9f7c2fcf633cf7eaa59bfe60719969171"
+    }
+  },
+  "current_empirical_evidence": {
+    "terminal_audit": "finalnative01-terminal-audit01/audit.json",
+    "audit_sha256": "3b3090ee129f08250f5c9e48e154f9a5018824ba376cca2c611f5c47db5f0a27",
+    "short_family_current_run": {
+      "stage": "BrowserKill",
+      "child_exit_seen": true,
+      "child_close_seen": true,
+      "close_settled": false,
+      "kill_settled": false,
+      "child_exited": true,
+      "node_exit": 3
+    },
+    "limits": [
+      "No actual fs.rm operation, per-directory completion, process-group absence or precise filesystem cause was observed in finalnative01.",
+      "FK-holder cleanup has only timeout/unconfirmed evidence; its exact cause is unknown.",
+      "Historical exit3 cause remains UNPROVEN."
+    ]
+  },
+  "installed_sdk_trace": [
+    {
+      "lines": "57212-57214",
+      "fact": "BrowserServer close and kill delegate directly to browser.options.browserProcess close and kill."
+    },
+    {
+      "lines": "39831-39847",
+      "fact": "closeOrKill races gracefullyClose against its own SDK timer and on failure awaits kill. browserProcess exposes that close wrapper and original kill."
+    },
+    {
+      "lines": "9358-9368",
+      "fact": "One waitForCleanup promise fulfills only from spawnedProcess close handler after cleanup().then(fulfillCleanup); child close and temporary-folder cleanup are separate events."
+    },
+    {
+      "lines": "9326-9334;8343-8346",
+      "fact": "cleanup awaits removeFolders(tempDirectories), which awaits Promise.all of actual fs.promises.rm recursive force maxRetries10. Errors become values; cleanup logs them and still fulfills waitForCleanup. Promise fulfillment proves the attempt settled, not successful deletion of every folder."
+    },
+    {
+      "lines": "9380-9392;9430-9433",
+      "fact": "gracefullyClose and killAndWait both await the same waitForCleanup. Repeating kill cannot create an independent completion path."
+    },
+    {
+      "lines": "39756-39770",
+      "fact": "Default launch creates both artifacts and user-data directories under os.tmpdir, listing both in tempDirectories. Explicit artifactsDir remains caller-owned; default user-data directory stays SDK-owned."
+    }
+  ],
+  "proposed_state_transitions": [
+    {
+      "state": "startup",
+      "behavior": "Keep existing finalize-started 12000ms hard timer while awaiting the existing startup promise. No new tail clock."
+    },
+    {
+      "state": "browser-close",
+      "behavior": "Invoke actual browserServer.close once; retain its original observed promise and two-second request/completion observation. Mark close_settled only when that actual promise fulfills or rejects."
+    },
+    {
+      "state": "browser-kill",
+      "behavior": "If close did not fulfill true within its two-second observation, invoke actual browserServer.kill once and retain its original observed promise. Keep existing two-second kill observation; rejection remains failure, never successful cleanup."
+    },
+    {
+      "state": "browser-cleanup",
+      "behavior": "Only if the two-second kill observation expired pending AND actual child exit is established by exitCode/signalCode plus the observed child close event, await that same already-issued real kill promise under the still-running original 12000ms hard timer. Do not issue another close/kill, start another timeout or fabricate a settlement. If promise rejects/settles false or original hard timer expires, no ACK and exit3/unconfirmed outcome."
+    },
+    {
+      "state": "browser-exit/ack",
+      "behavior": "Require fulfilled true actual SDK cleanup and actual child exit before unchanged cleaned ACK, outcome, browser identity and Rust exit-code validation. Clearing original hard timer remains allowed only after confirmed ACK."
+    }
+  ],
+  "non_negotiable_preservation": [
+    "Two-second close and two-second kill observations remain; additional time is only observation of already-issued real SDK artifact cleanup after actual child close, within the existing twelve-second total.",
+    "No SDK monkeypatch, shadowing, synthetic fulfillment, provider success, raw payload/path logging, process-only ACK, generic kill fallback or duplicate clock.",
+    "Existing catch/finally and unref retained hard bound on failed shutdown remain truthful.",
+    "Add typed private browser-cleanup stage in Rust CleanupStage together with Node stage metadata so new diagnostic is parseable. This needs a new exact Rust/source binding and focused fault candidate rebase, not an unnoticed schema drift.",
+    "Passing owned browser lifecycle probe does not certify credential ceremonies, business/browser scenario P16, complete native gate or launch.",
+    "SDK cleanup settlement is not complete temporary-file erasure evidence: upstream catches folder-removal errors and still fulfills. Owned-temp probes must independently observe residual folders and may not claim destruction from settlement alone."
+  ],
+  "empirical_owned_temp_probe_design": {
+    "state": "PROPOSED_NOT_PREPARED_NOT_EXECUTED",
+    "mechanism": "Use a unique caller-created private TMPDIR for each actual resident child/probe. Supply through already allowed TMPDIR environment; pinned SDK remains unchanged. Capture only counts/classified existence of SDK default artifacts/user-data dirs and actual promise/event timing, never raw paths or bytes. Cleanup owner receives explicit custody of the unique temp root.",
+    "cases": [
+      "Normal ready/done with actual Chromium identity and independent verified absence witness.",
+      "EOF after actual ready with the same custody and absence checks.",
+      "Verified owned Chromium process-group SIGSTOP then done, retaining actual SDK close/kill and independent absence.",
+      "A dedicated actual SDK launch/close observation may record child exit/close, close/kill promise settlement and owned-temp directory existence to localize removal delay; it must remain separate from native credential/business acceptance."
+    ],
+    "guards": [
+      "No fs.rm interception or mutation of node_modules.",
+      "Never remove a directory or signal a process without verifying it belongs to this fresh instance; unavailable ownership remains UNKNOWN and fails custody acceptance.",
+      "A child exit flag does not establish descendant/group absence.",
+      "If delay does not reproduce, report NOT_REPRODUCED and keep exact directory cause UNPROVEN.",
+      "Use outer bounded harness custody; in-process timers cannot guarantee cleanup after SIGKILL/host failure.",
+      "Any raw private filesystem paths are transient internal references, excluded from report/log/telemetry."
+    ]
+  },
+  "required_reviews_and_proof": [
+    "Independent design acceptance before Node implementation.",
+    "Exact source diff review covering both Node owner and Rust diagnostic tag, with no changed total/phase constants.",
+    "Real owned-temp lifecycle/dedicated SDK evidence; preserve unproven filesystem cause if no reproduction.",
+    "Focused startup-failure proof, unchanged short-family consumer and failing FK-holder consumer against final changed source.",
+    "Fresh full native/browser gate plus exact source maps; P16 diagnostic/fix remains separate."
+  ],
+  "actions": {
+    "tracked_source_writes": 0,
+    "tests_executed": 0,
+    "artifact_only_design_write": true
+  }
+}

@@ -1,0 +1,127 @@
+--- a/tools/browser-business-restore.mjs
++++ b/tools/browser-business-restore.mjs
+@@ -163,10 +163,13 @@
+     remove() { page.off("console", listener); } };
+ }
+ 
+-async function assertPrivateHidden(page, actor, h) {
+-  const text = await page.locator("body").innerText();
++function assertPrivateTextHidden(text, actor) {
+   assert.ok(!text.includes(actor.facts.company_name) && !text.includes(actor.facts.account_name));
+   for (const row of actor.facts.first_page.items) assert.ok(!text.includes(row.note));
++}
++
++async function assertPrivateHidden(page, actor, h) {
++  assertPrivateTextHidden(await page.locator("body").innerText(), actor);
+   const table = page.getByRole("table");
+   for (let index = 0; index < await table.count(); index += 1) assert.equal(await table.nth(index).isVisible(), false);
+   h.assertNoProof(await page.content());
+@@ -273,6 +276,43 @@
+   const documents = []; const failedRequests = []; const heldScripts = [];
+   const cacheFailures = [];
+   let cacheObserver;
++  let mainFrameId; let currentMainWorld; let originalMainWorld;
++  const contextListener = ({ context }) => {
++    if (context.auxData?.isDefault && context.auxData.frameId === mainFrameId)
++      currentMainWorld = context.uniqueId;
++  };
++  // Use the standard CDP identity of the actual original main world. During
++  // a held hard reload, Playwright's current-frame/utility-script selection
++  // need not select the restored world. Never remap to a successor context.
++  async function evaluateOriginal(expression) {
++    assert.equal(typeof originalMainWorld, "string", "original main-world identity required");
++    const evaluation = cacheObserver.send("Runtime.evaluate", {
++      uniqueContextId: originalMainWorld, returnByValue: true, timeout: h.phaseMs ?? 20000,
++      expression: `(() => { const original = ${JSON.stringify(original)};
++        const state = window[${JSON.stringify(PROBE)}];
++        if (!state || state.document !== original) throw new Error('original Document unavailable');
++        return (${expression}); })()`,
++    });
++    void evaluation.catch(() => {});
++    let timer;
++    const result = await Promise.race([evaluation, new Promise((_, reject) => {
++      timer = setTimeout(() => reject(new Error("original-world observation deadline")), h.phaseMs ?? 20000);
++    })]).finally(() => clearTimeout(timer));
++    assert.ok(!result.exceptionDetails, "actual original-world observation must succeed");
++    return result.result.value;
++  }
++  async function assertOriginalPrivateHidden() {
++    const snapshot = await evaluateOriginal(`({ text: document.body.innerText,
++      html: document.documentElement.outerHTML,
++      visibleTables: [...document.querySelectorAll('table,[role="table"]')].map((table) => {
++        const style = getComputedStyle(table);
++        return Boolean(table.getClientRects().length) && style.display !== 'none'
++          && style.visibility !== 'hidden' && style.visibility !== 'collapse';
++      }) })`);
++    assertPrivateTextHidden(snapshot.text, actor);
++    for (const visible of snapshot.visibleTables) assert.equal(visible, false);
++    h.assertNoProof(snapshot.html); // Transient bytes only, never diagnostic output.
++  }
+   // This diagnostic retains fixed browser enums only, never event IDs/URLs/details.
+   const cacheReasonAllowlist = new Set([
+     "BackForwardCacheDisabled", "RelatedActiveContentsExist", "Loading", "Timeout", "CacheLimit",
+@@ -366,6 +406,9 @@
+       queuedCheckpoint = "cache-observer";
+       cacheObserver = await actor.context.newCDPSession(page);
+       cacheObserver.on("Page.backForwardCacheNotUsed", cacheFailureListener);
++      mainFrameId = (await cacheObserver.send("Page.getFrameTree")).frameTree.frame.id;
++      cacheObserver.on("Runtime.executionContextCreated", contextListener);
++      await cacheObserver.send("Runtime.enable");
+       await cacheObserver.send("Page.enable");
+     }
+     if (routed) await page.route("**/*", intercept);
+@@ -391,6 +434,11 @@
+     assert.ok(inside.includes(actor.facts.company_name) && inside.includes(actor.facts.account_name));
+     for (const item of actor.facts.first_page.items) assert.ok(inside.includes(item.note));
+     original = await page.evaluate((key) => window[key].document, PROBE);
++    if (queued) {
++      queuedCheckpoint = "original-world-pin";
++      originalMainWorld = currentMainWorld;
++      assert.equal(await evaluateOriginal("state.document"), original);
++    }
+     if (queued) queuedCheckpoint = "initial-hydration";
+     const beforeHydration = ["blocked-bundles", "blocked-css-bundles", "delayed-bundles"].includes(mode);
+     if (beforeHydration || ["missing-guard", "thrown-guard"].includes(mode)) {
+@@ -479,11 +527,8 @@
+         queuedCheckpoint = "native-denial-status";
+         assert.equal(held.status, 401);
+         queuedCheckpoint = "queued-pending";
+-        const pending = await page.evaluate(({ key, original }) => {
+-          const state = window[key];
+-          return { original: state?.document === original, restored: state?.restored,
+-            queued: state?.logoutQueued, started: state?.logoutStarted };
+-        }, { key: PROBE, original });
++        const pending = await evaluateOriginal(`({ original: state.document === original,
++          restored: state.restored, queued: state.logoutQueued, started: state.logoutStarted })`);
+         // Record actual booleans at the verified release point before asserting.
+         // This is not a claim about when the request first arrived at the server.
+         const observedBoolean = (value) => typeof value === "boolean" ? value : null;
+@@ -500,6 +545,10 @@
+         evidence.queued_ordering_observation = queuedOrderingObservation;
+         assert.deepEqual(pending, { original: true, restored: true, queued: true, started: false },
+           "actual queued logout must remain pending until the exact native reload denial is witnessed");
++        queuedCheckpoint = "queued-original-private-denial";
++        // The real logout navigates on204. Observe this original world while
++        // its action is still pending, before releasing the one actual handler.
++        await assertOriginalPrivateHidden();
+       }
+       if (mode === "delayed-bundles") {
+         for (const script of heldScripts) script.release();
+@@ -510,8 +559,7 @@
+       }
+       if (queued) {
+         queuedCheckpoint = "queued-release";
+-        const commitsBeforeRelease = await page.evaluate(({ key, original }) => window[key]?.releaseLogout(original),
+-          { key: PROBE, original });
++        const commitsBeforeRelease = await evaluateOriginal("state.releaseLogout(original)");
+         assert.ok(Number.isSafeInteger(commitsBeforeRelease) && commitsBeforeRelease > 0,
+           "release one queued logout only in the original restored Document after the actual native denial");
+         queuedCheckpoint = "queued-react-commit";
+@@ -600,6 +648,7 @@
+     if (routed) await cleanup("routes-remove", () => page.unrouteAll({ behavior: "wait" }));
+     await cleanup("probe-listeners", () => {
+       cacheObserver?.off("Page.backForwardCacheNotUsed", cacheFailureListener);
++      cacheObserver?.off("Runtime.executionContextCreated", contextListener);
+       probe.remove(); page.off("request", requestListener); page.off("requestfailed", failureListener);
+     });
+     // Always attempt owned page closure, independently of earlier cleanup errors.

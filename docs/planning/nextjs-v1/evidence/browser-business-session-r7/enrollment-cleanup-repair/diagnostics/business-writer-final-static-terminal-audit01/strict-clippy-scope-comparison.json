@@ -1,0 +1,75 @@
+{
+  "schema": "scoped-strict-clippy-preservation-comparison/1",
+  "verdict": "EXISTING_SCOPED_STRICT_CLIPPY_REUSABLE_FOR_UNCHANGED_CAPTURED_RUST_SCOPE",
+  "existing_command": [
+    "/Users/jasonlee/.cargo/bin/cargo",
+    "+1.98.1",
+    "clippy",
+    "--locked",
+    "--offline",
+    "--features",
+    "frontend-e2e",
+    "-p",
+    "console-app",
+    "--test",
+    "auth_rest",
+    "--",
+    "-D",
+    "warnings"
+  ],
+  "existing_cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/backend",
+  "existing_report": {
+    "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/resident-stderr-type-clarity-clippy01.json",
+    "bytes": 853,
+    "sha256": "624b1e4f5282755cff7d3803ca3857b4b5682909881f842023473446bf94078d"
+  },
+  "existing_completed_log": {
+    "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/resident-stderr-type-clarity-clippy01.log",
+    "bytes": 450,
+    "sha256": "db089e738d22fdf5078887d6dabf87e5ff113f790c92770246d2392961228f1e"
+  },
+  "existing_captured_inputs": {
+    "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/resident-stderr-type-clarity-clippy01.inputs.json",
+    "bytes": 917481,
+    "sha256": "3a29d02833f3757908a3a8fe4f08c13790a813cd7a7676dbbb92653f2c77ae14"
+  },
+  "existing_independent_terminal_audit": {
+    "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/resident-stderr-type-clarity-clippy01-terminal-audit01/audit.json",
+    "bytes": 2858,
+    "sha256": "67445e9852386f2781837f9efd4b8d485eee8d85c917a90caccbb7b33abf77b0"
+  },
+  "current_captured_inputs": {
+    "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/business-writer-final-custody01.inputs.json",
+    "bytes": 917481,
+    "sha256": "860a09c23df250e4f1f95d71b64cf8056d03d88d3c52f66c80cb0ed71b56bfb6"
+  },
+  "both_before_after_maps_identical": true,
+  "scope_selection": "Every captured path under backend-fork/ or .cargo/, plus root Cargo.toml/Cargo.lock/rust-toolchain(.toml)/rustfmt.toml/.rustfmt.toml. No Rust-extension-only shortcut.",
+  "before_selected_count": 2831,
+  "current_selected_count": 2831,
+  "selected_key_sets_and_every_hash_identical": true,
+  "selected_map_sha256": "374d1fc3cf90c7a14a54beb680d6828572018b85761fdd0e4408a2d8a901a544",
+  "complete_map_deltas_outside_Rust_scope": [
+    {
+      "path": "tools/browser-business-restore.mjs",
+      "before_sha256": "a23c66dc14171cc07ab6d10d6835d07d4aaa105fae90e99ee9920015cf5214b6",
+      "after_sha256": "e462014ed1730297d671a07fedc5b41d9e7204ebbd9270f75956eb8ebb25a9fd"
+    },
+    {
+      "path": "tools/test-browser-business-session.mjs",
+      "before_sha256": "ea936c0cdc8670261d556686b46a6d813b6479f4a8c6dd7b0925a42092e6aa2a",
+      "after_sha256": "840d164c2e81b204d98347d8fc6a1f6467e3c70d5769bc1e1a815fc2ebf4bc11"
+    },
+    {
+      "path": "tools/test-native-browser-enrollment.mjs",
+      "before_sha256": "6cbb58a1b2eae9f01d0b4d0838afd7c5c421c496a532fde056a1f33e153027ce",
+      "after_sha256": "afd17a0d0a69358613e1ff6d03d24f27eb322bd558a8cf021390e32527fff22e"
+    }
+  ],
+  "reused_scope": "Existing exact --locked --offline --features frontend-e2e -p console-app --test auth_rest -- -D warnings command only.",
+  "limits": [
+    "No new Clippy execution or test bodies. This is input-preservation reuse, not a new full-workspace Clippy or actual compiler/toolchain environment attestation.",
+    "All captured backend build/dependency/config/source paths match; uncaptured external environment and global Cargo configuration are not inferred.",
+    "Future-incompatibility warning proc-macro-error2 v2.0.1 stays visible. Earlier strictClippy failure remains preserved."
+  ]
+}

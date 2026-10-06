@@ -1,0 +1,25 @@
+{
+  "id": "cleanup-owner-full-fault-diagnostic03",
+  "command": [
+    "node",
+    "--test",
+    ".artifacts/enrollment-cleanup-after-owner-repair-diagnostic03/tools/enrollment-fault-deadlines.test.mjs",
+    ".artifacts/enrollment-cleanup-after-owner-repair-diagnostic03/tools/test-native-browser-enrollment-diagnostic.test.mjs"
+  ],
+  "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+  "exit_code": 1,
+  "timed_out": false,
+  "duration_seconds": 216.37315004097763,
+  "discovered": null,
+  "counts": {
+    "passed": 0,
+    "failed": 0,
+    "skipped": 0,
+    "filtered": 0,
+    "executed": 0
+  },
+  "log_sha256": "5c6993ff8d1a36e2f404571946f7367840920e22dec2e350e061785c6d0b445f",
+  "cleanup_reported": false,
+  "inputs_sha256": "433fa937df5fb1298f20b855ca2e7af376750d61b0cdadef93087063c1e704f2",
+  "inputs_unchanged": true
+}

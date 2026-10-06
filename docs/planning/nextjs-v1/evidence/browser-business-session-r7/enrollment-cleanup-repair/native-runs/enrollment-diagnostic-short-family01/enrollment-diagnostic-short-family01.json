@@ -1,0 +1,41 @@
+{
+  "id": "enrollment-diagnostic-short-family01",
+  "command": [
+    "bash",
+    "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/tools/lanes/pgtest.sh",
+    "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork",
+    "/Users/jasonlee/.cargo/bin/cargo",
+    "+1.98.1",
+    "test",
+    "--locked",
+    "--offline",
+    "--no-fail-fast",
+    "--features",
+    "frontend-e2e",
+    "-p",
+    "console-app",
+    "--test",
+    "auth_rest",
+    "browser_sessions::original_short_family_deadline_expires_during_lookup_wait_without_sliding",
+    "--",
+    "--exact",
+    "--test-threads=1",
+    "--nocapture"
+  ],
+  "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+  "exit_code": 0,
+  "timed_out": false,
+  "duration_seconds": 103.48459154204465,
+  "discovered": null,
+  "counts": {
+    "passed": 1,
+    "failed": 0,
+    "skipped": 0,
+    "filtered": 120,
+    "executed": 1
+  },
+  "log_sha256": "362d36c033b5daad7653253ce9802de61da2661410df3a255ac942eddcc369f6",
+  "cleanup_reported": true,
+  "inputs_sha256": "77479e6191a3b262799091f80138df2390f115ce4baa3268179def8c484b412e",
+  "inputs_unchanged": true
+}

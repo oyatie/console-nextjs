@@ -1,0 +1,67 @@
+--- a/tools/test-resident-authenticator.mjs
++++ b/tools/test-resident-authenticator.mjs
+@@ -4,7 +4,6 @@
+ // unchanged C2/product runners own actual conditional/production UI evidence.
+ import assert from "node:assert/strict";
+ import { writeSync } from "node:fs";
+-import { setTimeout as delay } from "node:timers/promises";
+ import { chromium } from "@playwright/test";
+ 
+ const ORIGIN = "https://auth.example.com";
+@@ -92,6 +91,15 @@
+     let childCloseSeen = false;
+     let closeSettled = false;
+     let killSettled = false;
++    let cleanupConfirmed = false;
++    // The fixture owns the 2s phase timer; it must release a losing timer too.
++    async function waitForShutdown(operation) {
++      let timer;
++      try {
++        return await Promise.race([operation,
++          new Promise((resolve) => { timer = setTimeout(() => resolve(false), 2_000); })]);
++      } finally { clearTimeout(timer); }
++    }
+     function diagnostic() {
+       // Fixed failure metadata only. Never expose errors, IDs, paths or native payloads.
+       const fields = { stage, child_exit_seen: childExitSeen, child_close_seen: childCloseSeen,
+@@ -113,16 +121,16 @@
+         browserPid = child.pid;
+         assert.ok(Number.isSafeInteger(browserPid) && browserPid > 0);
+         stage = "browser-close";
+-        const closed = await Promise.race([
++        const closed = await waitForShutdown(
+           browserServer.close().then(() => { closeSettled = true; return true; },
+-            () => { closeSettled = true; return false; }), delay(2_000).then(() => false),
+-        ]);
++            () => { closeSettled = true; return false; }),
++        );
+         if (!closed) {
+           stage = "browser-kill";
+-          assert.ok(await Promise.race([
++          assert.ok(await waitForShutdown(
+             browserServer.kill().then(() => { killSettled = true; return true; },
+-              () => { killSettled = true; return false; }), delay(2_000).then(() => false),
+-          ]));
++              () => { killSettled = true; return false; }),
++          ));
+         }
+         stage = "browser-exit";
+         browserExited = child.exitCode !== null || child.signalCode !== null;
+@@ -132,12 +140,16 @@
+       buffered = Buffer.alloc(0);
+       stage = "ack";
+       await writeFrame({ kind: "cleaned", outcome, browser_pid: browserPid, browser_exited: browserExited });
++      cleanupConfirmed = true;
+       process.exitCode = exitCode;
+     } catch {
+       diagnostic();
+       process.exitCode = 3; // No cleanup ACK or native-success substitute.
+     } finally {
+-      clearTimeout(deadline);
++      // Failed shutdown still owns its hard bound; an idle failure may exit
++      // naturally with code3, while pending SDK handles remain bounded by12s.
++      if (cleanupConfirmed) clearTimeout(deadline);
++      else deadline.unref();
+       process.stdin.destroy();
+     }
+   })();

@@ -1,0 +1,13 @@
+{
+  "outcome": "WRAPPER_CUSTODY_ASSERTION_FAILURE_AFTER_BOTH_COMMANDS_PASSED",
+  "assertion": "before==after over all2958 entries, including generated .next/build-inputs.json",
+  "cause": "The successful build deliberately replaces its generated custody manifest. No source input changed during commands.",
+  "observed_delta": [
+    {
+      "path": ".next/build-inputs.json",
+      "before": "45001f336b372dd488fd27cce5d6d8e1119c42e9dada4025c766fd0d4558d7c7",
+      "after": "dae93797cef464387c9a74f479e9791f3c81f475b01fe666a54a4a703a64cf4a"
+    }
+  ],
+  "action": "Preserve before/after maps and command results; classify source invariance separately from generated build output. No command rerun."
+}

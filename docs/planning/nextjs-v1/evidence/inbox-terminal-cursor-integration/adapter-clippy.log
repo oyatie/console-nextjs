@@ -1,0 +1,7 @@
+   Compiling console-platform-db v0.1.0 (/Users/jasonlee/Developer/frontend/.worktrees/inbox-terminal-cursor/backend-fork/backend/crates/platform/db)
+   Compiling console-platform-authz v0.1.0 (/Users/jasonlee/Developer/frontend/.worktrees/inbox-terminal-cursor/backend-fork/backend/crates/platform/authz)
+    Checking console-platform-group v0.1.0 (/Users/jasonlee/Developer/frontend/.worktrees/inbox-terminal-cursor/backend-fork/backend/crates/platform/group)
+    Checking console-platform-auth v0.1.0 (/Users/jasonlee/Developer/frontend/.worktrees/inbox-terminal-cursor/backend-fork/backend/crates/platform/auth)
+    Checking console-platform-request-context v0.1.0 (/Users/jasonlee/Developer/frontend/.worktrees/inbox-terminal-cursor/backend-fork/backend/crates/platform/request-context)
+    Checking console-inbox-adapter-postgres v0.1.0 (/Users/jasonlee/Developer/frontend/.worktrees/inbox-terminal-cursor/backend-fork/backend/crates/inbox/adapter-postgres)
+    Finished `dev` profile [unoptimized] target(s) in 1m 28s

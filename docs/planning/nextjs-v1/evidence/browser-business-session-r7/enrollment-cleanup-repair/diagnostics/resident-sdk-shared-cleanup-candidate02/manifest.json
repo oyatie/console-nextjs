@@ -1,0 +1,73 @@
+{
+  "schema": "resident-sdk-shared-cleanup-candidate/2",
+  "state": "Artifact candidate; not applied, compiled or tested",
+  "design": {
+    "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/resident-sdk-shared-cleanup-design03/design.json",
+    "sha256": "706993f6545e022b20c96bee286bdb795ff2f82fdf732ab5738da31b1dd76d56",
+    "acceptance": "Independent design acceptance only"
+  },
+  "sources": {
+    "node": {
+      "before_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/resident-sdk-shared-cleanup-candidate02/node-before.mjs",
+      "source_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/resident-sdk-shared-cleanup-candidate02/tools/test-resident-authenticator.mjs",
+      "before_sha256": "b62d0d6eba89439d4194b79d4dab62ed8fd07614f93bf984bbd3ab261a71799e",
+      "after_sha256": "88cdfea200731ab32fcda0c797a96eee6ce49a42e6f174208fed29195105cd2e",
+      "patch_sha256": "cbe3ec74daf2c3afa2399295415e27bd47571c529dd50156e5dfd529fce93136"
+    },
+    "rust": {
+      "before_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/resident-sdk-shared-cleanup-candidate02/rust-before.rs",
+      "source_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/resident-sdk-shared-cleanup-candidate02/backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs",
+      "before_sha256": "26e2350f1224c10f6ea3095a201ead024cf7f5e040d8a8924657202cc6345311",
+      "after_sha256": "c2fc3e190d7b9933cdaf77958a8a9dc11a6ab8df83fa69362c7a42d5bc67412c",
+      "patch_sha256": "a0d50d87ec75931809154e172ec5b8bd28ff6f57c51149bd064efd42e1957b85"
+    }
+  },
+  "combined_patch_sha256": "70136cfd792b1084631ab8a7bcd1f64f802d7d4bdbf76ed36fef96c1dc1c4d94",
+  "application_order": [
+    "First apply the separately reviewed startup fault candidate02 to the Rust fixture, after verifying its current before hash.",
+    "Then apply this paired Node and Rust candidate after verifying the two before hashes in this manifest.",
+    "Do not execute an intermediate mixed diagnostic schema or claim the candidate Rust before hash is the current tracked source before candidate02 application."
+  ],
+  "dependency": {
+    "rust_before_is": "Exact independently reviewed startup fault candidate02 source; application still owned by root",
+    "sha256": "26e2350f1224c10f6ea3095a201ead024cf7f5e040d8a8924657202cc6345311"
+  },
+  "change": [
+    "Observe the already issued actual SDK cleanup promise after the two-second kill window only when actual browser child exit and close are established. Keep the original twelve-second total and monotonic checks.",
+    "Create one fresh temporary scope within the existing five-second startup budget; only this isolated Node process and its browser child use it. The same finalizer removes and independently checks the scope before emitting a cleaned frame.",
+    "A settled startup without a returned browser removes only its known scope and remains failure with no cleaned frame. No returned handle is not evidence of browser absence.",
+    "Align Rust diagnostic stages and fixed boolean fields with Node. No private SDK introspection, provider result substitution, node_modules patch or new cleanup owner."
+  ],
+  "acknowledgment_facts": [
+    "Actual SDK cleanup settlement and actual browser child exit.",
+    "Actual removal and independently observed absence of the one fresh owned scope.",
+    "Actual frame completion and expected Node exit outcome within the original monotonic finalize deadline."
+  ],
+  "proof_limits": [
+    "Browser descendant or process-group absence remains unknown unless separately verified.",
+    "SDK settlement alone does not prove folder deletion; this candidate checks only its own fresh scope.",
+    "The current failure suggests shared cleanup waiting, but the exact filesystem cause and historical exit3 cause remain unproven.",
+    "No runtime proof, full native/browser acceptance or product readiness is inferred."
+  ],
+  "static_checks": [
+    {
+      "command": [
+        "/Users/jasonlee/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
+        "--check",
+        "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/resident-sdk-shared-cleanup-candidate02/tools/test-resident-authenticator.mjs"
+      ],
+      "exit_code": 0,
+      "scope": "Artifact JavaScript syntax only; no execution or tests"
+    },
+    {
+      "scope": "Rust source copied unchanged from candidate01 pinned formatted bytes; no repeated formatter, compilation or tests",
+      "sha256": "c2fc3e190d7b9933cdaf77958a8a9dc11a6ab8df83fa69362c7a42d5bc67412c"
+    }
+  ],
+  "actions": {
+    "tracked_source_writes": 0,
+    "tests_executed": 0,
+    "artifact_only_source_manifest_and_static_checks": true
+  },
+  "supersedes": "Candidate01 source review found that a late real kill fulfillment could be rejected because killSettled was checked after the phase observation. The retained real promise result now decides success, with actual child exit/close and original total bound still required."
+}

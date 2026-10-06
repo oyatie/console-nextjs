@@ -1,0 +1,5 @@
+
+> console-web@1.0.0 test:production-routes
+> node tools/test-production-routes.mjs
+
+Production / redirects to /storefront; 17 console routes return 404; fixture chunks absent; media reports unavailable backend.

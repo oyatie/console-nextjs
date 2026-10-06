@@ -1,0 +1,28 @@
+{
+  "path": "tools/browser-business-restore.mjs",
+  "state": "CANDIDATE_ONLY; NOT_APPLIED; NOT_EXECUTED",
+  "diagnostic_contract": {
+    "stage": "verified-native-denial",
+    "native_checks": "Exact held gate, context and actual status 401 assertions must pass before observation",
+    "fields": "Four actual pending booleans; non-booleans become null; strict expected-match comparison",
+    "unobserved": null,
+    "privacy": "No IDs, URLs, cookies, tokens, raw errors or raw payloads in the new diagnostic",
+    "evidence_limit": "Ordering relative to independently verified release point, not actual first server arrival"
+  },
+  "preserved": [
+    "Actual browser BFCache and trusted persisted pageshow requirements",
+    "All seventeen scenarios",
+    "All existing assertions",
+    "All existing deadlines",
+    "All failure outcomes",
+    "No fabricated responses or history events"
+  ],
+  "observed_red02": {
+    "log_sha256": "c13a4e3b06995e910615ab8e6f2376cab433672c170e0cac332ed597c3ac58e9",
+    "conclusion": "Named queued-react-css probe failed with generic assertion reason; exact pending values unobserved"
+  },
+  "before": "05c0dfebd791403622397f7a83568c4f5383360002ee9b96c5d366c956277b6d",
+  "after": "d9682e6dd85a4793f8636c18a8fd8fc939a22fada0db6359d8d30a721e5bd350",
+  "patch_sha256": "4c053d89d381ef79a67f51de7862e3f321b8cf36838059ce0a24a7a0c635014c",
+  "kind": "Observations only; immediate baseline timer unchanged"
+}

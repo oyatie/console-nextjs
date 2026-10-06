@@ -1,0 +1,240 @@
+{
+  "schema": "r7-protected-queue-independent-disposition/1",
+  "created_at": "2026-10-06 02:20:08 UTC",
+  "reviewer": "/root/next_vertical_path_audit",
+  "verdict": "ACCEPT_NORMAL_PROTECTED_EXPECTED_HEAD_QUEUE_ADMISSION_ONLY",
+  "repository": "oyatie/console-nextjs",
+  "pull_request": 16,
+  "expected_head_oid": "f5c29cc9ccb1d463f5ba76ebbf746b024311bd37",
+  "candidate_tree": "f8845f3b37cbc923c9354cc3a46ad9be13035c88",
+  "base": "7bbb48cc24952ec1639c393767e11bc0de6cc63c",
+  "scope": "Independent acceptance of exact current-head required PR CI and normal protected queue admission. Root performs enqueue with expectedHeadOid; no queue mutation performed by this reviewer.",
+  "exact_candidate_provenance": {
+    "publication_manifest": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/p14-publication-manifest03.json",
+      "sha256": "29c62c4f7b18553d734fbe34f921f7c453bf92be386db2185f5a6bc087a23677"
+    },
+    "committed_manifest_files_checked": 14,
+    "current_evidence_hash_references_checked": 26,
+    "current_source_input_hashes_checked": 2956,
+    "current_input_drift": 0,
+    "clean_worktree": true,
+    "six_commits_human_only_attribution": true
+  },
+  "terminal_proof": {
+    "audit": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/hosted-repair-f5c29cc01/terminal-audit-f5c29cc02.json",
+      "sha256": "57fa0576cb0679e3336f3cfaf587d1a3e738554c9532ffa1c32faab39c83291b"
+    },
+    "custody_manifest": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/hosted-repair-f5c29cc01/terminal-custody-manifest01.json",
+      "sha256": "cb15587a99632b09320e725ec55aface7e828b92ac6c7c6559fe5e16a92e0058"
+    },
+    "run_id": 37395824863,
+    "job_id": 112051407056,
+    "completed_success_steps": 42,
+    "audit_nested_hash_size_references_checked": 15,
+    "complete_direct_log_sha256": "28c6f40b4f8c4cf7353ebc436d6d420162ee41f82181f33193cf8cce8bb18999",
+    "direct_stream_equals_run_archive_aggregate": true,
+    "auth_owner_producer": {
+      "binaries": 22,
+      "passed_executions": 320,
+      "failed": 0,
+      "ignored": 0,
+      "filtered": 0
+    },
+    "auth_rest": {
+      "discovered": 121,
+      "unique_named_passes": 121,
+      "exact_unchanged_prior_discovery_name_set": true,
+      "failed": 0,
+      "ignored": 0,
+      "filtered": 0
+    },
+    "embedded_browser": {
+      "passed": 17,
+      "failed": 0,
+      "unreached": 0,
+      "skipped": 0,
+      "evidence_basis": "Derived from successful exact-source canonical enforcer; source validates P01-P17 identities and accounting. No direct child report printed in hosted success log."
+    },
+    "diagnostic_and_temporal_units": {
+      "tests": 12,
+      "passed": 12,
+      "failed": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0,
+      "reporter": "Node spec ℹ; not asserted to be TAP"
+    },
+    "frontend": {
+      "vitest_files": 9,
+      "vitest_passed": 112,
+      "tooling_passed": 18,
+      "fork_files": 4093,
+      "excluded_routes": 17
+    },
+    "all_rust_summaries": {
+      "summary_count": 49,
+      "passed_executions": 572,
+      "failed": 0,
+      "ignored": 0,
+      "filtered": 163,
+      "filters_scope": "Exactly inherited attendance-import subset158 and exact snapshot subset5. These are explicit subsets; not a claim that all 572 executions are unique or unfiltered."
+    },
+    "failed_acquisition_preserved": "Original rejected audit and original script remain unchanged. Initial gh-view stream started at step19. Fresh direct aggregate recovers early witnesses; standard should-panic annotation accounts for omitted named row without changing test outcomes."
+  },
+  "fresh_readbacks": {
+    "pull_request_graphql": {
+      "data": {
+        "repository": {
+          "pullRequest": {
+            "id": "PR_kwDOU0kUys8AAAABGy2m8g",
+            "headRefOid": "f5c29cc9ccb1d463f5ba76ebbf746b024311bd37",
+            "baseRefOid": "7bbb48cc24952ec1639c393767e11bc0de6cc63c",
+            "state": "OPEN",
+            "isDraft": false,
+            "viewerCanMergeAsAdmin": false,
+            "mergeable": "MERGEABLE",
+            "mergeStateStatus": "CLEAN",
+            "mergeQueueEntry": null,
+            "autoMergeRequest": null,
+            "statusCheckRollup": {
+              "contexts": {
+                "nodes": [
+                  {
+                    "name": "source-and-inquiry",
+                    "status": "COMPLETED",
+                    "conclusion": "SUCCESS",
+                    "detailsUrl": "https://github.com/oyatie/console-nextjs/actions/runs/37395824863/job/112051407056",
+                    "checkSuite": {
+                      "app": {
+                        "databaseId": 15368
+                      }
+                    }
+                  }
+                ]
+              }
+            },
+            "reviewThreads": {
+              "nodes": [],
+              "pageInfo": {
+                "hasNextPage": false
+              }
+            }
+          }
+        }
+      }
+    },
+    "ruleset": {
+      "id": 24235011,
+      "name": "main-merge-queue",
+      "target": "branch",
+      "source_type": "Repository",
+      "source": "oyatie/console-nextjs",
+      "enforcement": "active",
+      "conditions": {
+        "ref_name": {
+          "exclude": [],
+          "include": [
+            "refs/heads/main"
+          ]
+        }
+      },
+      "rules": [
+        {
+          "type": "pull_request",
+          "parameters": {
+            "required_approving_review_count": 0,
+            "dismiss_stale_reviews_on_push": false,
+            "required_reviewers": [],
+            "require_code_owner_review": false,
+            "dismissal_restriction": {
+              "enabled": false,
+              "allowed_actors": []
+            },
+            "require_last_push_approval": false,
+            "required_review_thread_resolution": true,
+            "require_extra_approval_for_unattributed_changes": true,
+            "allowed_merge_methods": [
+              "squash"
+            ]
+          }
+        },
+        {
+          "type": "required_status_checks",
+          "parameters": {
+            "strict_required_status_checks_policy": false,
+            "do_not_enforce_on_create": false,
+            "required_status_checks": [
+              {
+                "context": "source-and-inquiry",
+                "integration_id": 15368
+              }
+            ]
+          }
+        },
+        {
+          "type": "merge_queue",
+          "parameters": {
+            "merge_method": "SQUASH",
+            "max_entries_to_build": 1,
+            "min_entries_to_merge": 1,
+            "max_entries_to_merge": 1,
+            "min_entries_to_merge_wait_minutes": 0,
+            "grouping_strategy": "ALLGREEN",
+            "check_response_timeout_minutes": 120
+          }
+        }
+      ],
+      "node_id": "RRS_lACqUmVwb3NpdG9yec5TSRTKzgFxzAM",
+      "created_at": "2026-09-30T17:28:16.252+09:00",
+      "updated_at": "2026-09-30T17:28:16.361+09:00",
+      "bypass_actors": [],
+      "current_user_can_bypass": "never",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/oyatie/console-nextjs/rulesets/24235011"
+        },
+        "html": {
+          "href": "https://github.com/oyatie/console-nextjs/rules/24235011"
+        }
+      }
+    },
+    "exact_head_review": {
+      "body": "Independent exact-head adversarial review ACCEPTS candidate f5c29cc9ccb1d463f5ba76ebbf746b024311bd37 (tree f8845f3b37cbc923c9354cc3a46ad9be13035c88). All fourteen committed files match final publication manifest03 SHA-256 29c62c4f7b18553d734fbe34f921f7c453bf92be386db2185f5a6bc087a23677. Linked evidence hashes, 2,956 current acceptance inputs, clean worktree and human-only attribution across all six branch commits were verified. Receipt-only metadata follows the two reviewers' frozen publication approval; the four approved source hashes remain unchanged.\n\nFresh complete local proof: 121/121 native tests and all 17 embedded real-service browser scenarios passed, with zero failures, skips, filters or unreached cases and confirmed cleanup; twelve unit tests and eighteen tooling tests passed. The repair permits only a recorded positive cookie expiry to elapse at completed browser observation. Surviving/live-cookie, no-Set-Cookie/no-redirect, native-effect, current-authority, actual-expiry and independent-session checks remain required. TTLs, phase budgets, scenario discovery and terminal outcomes are unchanged.\n\nOriginal hosted and earlier private failure causes remain unknown; later passing evidence does not establish their root causes. The prior diagnostic-only hosted GREEN excludes this candidate. Required current-head run 37395824863 is still running. Protected queue admission is conditional on this exact candidate's required PR CI GREEN; required merge-group checks follow admission. Physical passkeys, attended identity, two-site durability/fencing, full HR/Org/Payroll/Foundry and broader launch remain incomplete. No deployment, institutional act or collection is approved by this review.",
+      "commit_id": "f5c29cc9ccb1d463f5ba76ebbf746b024311bd37",
+      "html_url": "https://github.com/oyatie/console-nextjs/pull/16#pullrequestreview-5422507964",
+      "id": 5422507964,
+      "state": "COMMENTED"
+    },
+    "required_check": {
+      "app": {
+        "id": 15368,
+        "slug": "github-actions"
+      },
+      "check_suite": {
+        "id": 101293881979
+      },
+      "conclusion": "success",
+      "details_url": "https://github.com/oyatie/console-nextjs/actions/runs/37395824863/job/112051407056",
+      "head_sha": "f5c29cc9ccb1d463f5ba76ebbf746b024311bd37",
+      "id": 112051407056,
+      "name": "source-and-inquiry",
+      "status": "completed"
+    }
+  },
+  "queue_conditions": [
+    "Use normal enqueuePullRequest with expectedHeadOid=f5c29cc9ccb1d463f5ba76ebbf746b024311bd37.",
+    "Revalidate head and protection if they change before enqueue; no admin/bypass/forced merge or protection change.",
+    "Merge-group source-and-inquiry must pass under active ALLGREEN queue rules.",
+    "Read back queue entry, merge-group provenance and final merged tree before claiming delivery."
+  ],
+  "limitations": [
+    "Inbox REST api2 was not executed in this R7 workflow. R8's separate fixture repair and API gates are not imported into R7 acceptance.",
+    "Historical hosted P14 and private earlier failure root causes remain unproven; current GREEN does not establish those causes.",
+    "Software/virtual passkeys and local/hosted single-site browser proof do not prove physical/attended identity, independent natural-person authority, two-site durability or emission-time authority.",
+    "Full HR/Org/Payroll/Foundry and launch acceptance remain incomplete.",
+    "No deployment, live institutional operation, payment, collection, or GitHub mutation performed by this reviewer."
+  ]
+}

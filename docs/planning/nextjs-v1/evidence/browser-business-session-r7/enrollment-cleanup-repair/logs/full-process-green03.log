@@ -1,0 +1,142 @@
+TAP version 13
+# Subtest: slow prerequisite startup does not spend the requested cleanup budget
+ok 1 - slow prerequisite startup does not spend the requested cleanup budget
+  ---
+  duration_ms: 0.884417
+  type: 'test'
+  ...
+# Subtest: a ready runner that fails to exit still triggers the cleanup fallback
+ok 2 - a ready runner that fails to exit still triggers the cleanup fallback
+  ---
+  duration_ms: 0.449084
+  type: 'test'
+  ...
+# Subtest: never-ready startup has one absolute bounded termination deadline
+ok 3 - never-ready startup has one absolute bounded termination deadline
+  ---
+  duration_ms: 0.245166
+  type: 'test'
+  ...
+# Subtest: a second fault cannot reset an already running cleanup deadline
+ok 4 - a second fault cannot reset an already running cleanup deadline
+  ---
+  duration_ms: 0.121292
+  type: 'test'
+  ...
+# Subtest: late cleanup cannot erase evidence of forced intervention
+ok 5 - late cleanup cannot erase evidence of forced intervention
+  ---
+  duration_ms: 0.138209
+  type: 'test'
+  ...
+# Subtest: natural completion disposes both clocks and cannot rearm them
+ok 6 - natural completion disposes both clocks and cannot rearm them
+  ---
+  duration_ms: 0.118834
+  type: 'test'
+  ...
+# Subtest: enrollment runner confirms cleanup after eof-before-origin
+ok 7 - enrollment runner confirms cleanup after eof-before-origin
+  ---
+  duration_ms: 211.638042
+  type: 'test'
+  ...
+# Subtest: enrollment runner confirms cleanup after partial-eof-before-origin
+ok 8 - enrollment runner confirms cleanup after partial-eof-before-origin
+  ---
+  duration_ms: 170.23325
+  type: 'test'
+  ...
+# Subtest: enrollment runner confirms cleanup after frame-eof-before-origin
+ok 9 - enrollment runner confirms cleanup after frame-eof-before-origin
+  ---
+  duration_ms: 172.088708
+  type: 'test'
+  ...
+# Subtest: enrollment runner confirms cleanup after signal-after-origin
+ok 10 - enrollment runner confirms cleanup after signal-after-origin
+  ---
+  duration_ms: 7141.459667
+  type: 'test'
+  ...
+# Subtest: enrollment runner confirms cleanup after eof-after-ready
+ok 11 - enrollment runner confirms cleanup after eof-after-ready
+  ---
+  duration_ms: 9369.541625
+  type: 'test'
+  ...
+# Subtest: enrollment runner confirms cleanup after oversized
+ok 12 - enrollment runner confirms cleanup after oversized
+  ---
+  duration_ms: 8661.05675
+  type: 'test'
+  ...
+# Subtest: enrollment runner confirms cleanup after wrong-version
+ok 13 - enrollment runner confirms cleanup after wrong-version
+  ---
+  duration_ms: 8660.863417
+  type: 'test'
+  ...
+# Subtest: enrollment runner confirms cleanup after wrong-sequence
+ok 14 - enrollment runner confirms cleanup after wrong-sequence
+  ---
+  duration_ms: 8639.476875
+  type: 'test'
+  ...
+# Subtest: enrollment runner confirms cleanup after wrong-kind
+ok 15 - enrollment runner confirms cleanup after wrong-kind
+  ---
+  duration_ms: 8850.601333
+  type: 'test'
+  ...
+# Subtest: enrollment runner confirms cleanup after legacy-selection
+ok 16 - enrollment runner confirms cleanup after legacy-selection
+  ---
+  duration_ms: 8877.562458
+  type: 'test'
+  ...
+# Subtest: enrollment runner confirms cleanup after missing-selection
+ok 17 - enrollment runner confirms cleanup after missing-selection
+  ---
+  duration_ms: 8690.837875
+  type: 'test'
+  ...
+# Subtest: enrollment runner confirms cleanup after malformed-selection
+ok 18 - enrollment runner confirms cleanup after malformed-selection
+  ---
+  duration_ms: 8803.956167
+  type: 'test'
+  ...
+# Subtest: enrollment runner confirms cleanup after weak-uv
+ok 19 - enrollment runner confirms cleanup after weak-uv
+  ---
+  duration_ms: 8770.793792
+  type: 'test'
+  ...
+# Subtest: business runner confirms cleanup after eof-before-origin
+ok 20 - business runner confirms cleanup after eof-before-origin
+  ---
+  duration_ms: 178.701084
+  type: 'test'
+  ...
+# Subtest: business runner confirms cleanup after partial-eof-before-origin
+ok 21 - business runner confirms cleanup after partial-eof-before-origin
+  ---
+  duration_ms: 165.326959
+  type: 'test'
+  ...
+# Subtest: business runner confirms cleanup after frame-eof-before-origin
+ok 22 - business runner confirms cleanup after frame-eof-before-origin
+  ---
+  duration_ms: 165.745084
+  type: 'test'
+  ...
+1..22
+# tests 22
+# suites 0
+# pass 22
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 87562.808334

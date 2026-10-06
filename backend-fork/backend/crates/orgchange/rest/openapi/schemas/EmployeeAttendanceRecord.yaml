@@ -21,7 +21,38 @@ properties:
   kind:
     $ref: '#/components/schemas/AttendanceRecordKind'
   occurred_at:
-    $ref: '#/components/schemas/Timestamp'
+    description: Native time tuple [year, ordinal day, hour, minute, second, nanosecond, offset hour, offset minute, offset second]. Existing serialization is preserved.
+    type: array
+    minItems: 9
+    maxItems: 9
+    prefixItems:
+    - type: integer
+      minimum: -9999
+      maximum: 9999
+    - type: integer
+      minimum: 1
+      maximum: 366
+    - type: integer
+      minimum: 0
+      maximum: 23
+    - type: integer
+      minimum: 0
+      maximum: 59
+    - type: integer
+      minimum: 0
+      maximum: 59
+    - type: integer
+      minimum: 0
+      maximum: 999999999
+    - type: integer
+      minimum: -23
+      maximum: 23
+    - type: integer
+      minimum: -59
+      maximum: 59
+    - type: integer
+      minimum: -59
+      maximum: 59
   work_date:
     type: string
     format: date

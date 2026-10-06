@@ -1,0 +1,145 @@
+{
+  "schema": "native-business-cleanup-owner-repair-candidate/1",
+  "state": "UNAPPLIED_UNEXECUTED_REQUIRES_INDEPENDENT_SOURCE_REVIEW",
+  "created_at_utc": "2026-10-06T10:36:10.649674+00:00",
+  "source_root": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+  "candidate_paths": {
+    "tools/test-native-browser-enrollment.mjs": {
+      "before_sha256": "6cbb58a1b2eae9f01d0b4d0838afd7c5c421c496a532fde056a1f33e153027ce",
+      "after_sha256": "afd17a0d0a69358613e1ff6d03d24f27eb322bd558a8cf021390e32527fff22e",
+      "before_bytes": 13987,
+      "after_bytes": 15154
+    },
+    "tools/test-browser-business-session.mjs": {
+      "before_sha256": "ea936c0cdc8670261d556686b46a6d813b6479f4a8c6dd7b0925a42092e6aa2a",
+      "after_sha256": "6868ac44bef0334065b3e4cd70ddfc58c3623be4070e6625f35b1738bed24280",
+      "before_bytes": 52767,
+      "after_bytes": 54371
+    }
+  },
+  "supporting_source_pins": {
+    "tools/test-resident-authenticator.mjs": "3270d79e4a3511cba87b9998367b3918a00bdcebbc2935bb903019c319f13698",
+    "tools/enrollment-fault-deadlines.mjs": "6f80266162d5413bcda245b17536b991518e95e22f5b1a7001067aaa4120fc06",
+    "tools/test-native-browser-enrollment.test.mjs": "3204b466940c270897814f9100ee8f92fbddfdc937e7b71a06406dacac778ead",
+    "tools/production-runtime.mjs": "7e4d05bac69900295f8777c931999f2987acd36c947f281cbea7d1bbdf673367",
+    "package.json": "1b9a58f08e845d1eefa4f124c345f84a347875593a515f9c9eaaff43f40e77cc",
+    "package-lock.json": "ad526fce2fe800ee7122f39029843a69fd9a335572de82a4a71d9c1a9714bc7b",
+    ".next/build-inputs.json": "45001f336b372dd488fd27cce5d6d8e1119c42e9dada4025c766fd0d4558d7c7",
+    "node_modules/playwright-core/lib/coreBundle.js": "549070af3acabb3efcc4f55bfe6210f9f7c2fcf633cf7eaa59bfe60719969171",
+    "tools/browser-business-boundary.mjs": "403565a16afe604f2e69574d26e4f42598b2eb3f3884e9a3262e864dd89e4346",
+    "server.mjs": "1f0f42b227af875f580ea4d11ff3b8355eb24487b17f45d9de99e3324a62f90f"
+  },
+  "observed_runtime": {
+    "historical_suite": {
+      "executed": 22,
+      "passed": 19,
+      "failed": 3,
+      "failed_cases": [
+        "eof-after-ready",
+        "wrong-sequence",
+        "legacy-selection"
+      ],
+      "symptom": "runner ended before cleanup acknowledgement",
+      "log_sha256": "b794b4da32b975219deb50bb92f9207f0c0cb17b256f11137ebe9c2afedef9a1"
+    },
+    "isolated_EOF02": {
+      "executed": 1,
+      "passed": 1,
+      "failed": 0,
+      "duration_seconds": 26.167,
+      "log_sha256": "b40cb34dbc425937ee24079241aed5450ce254fab3d4f3464bda6180d65a4128"
+    },
+    "historical_cause": "UNKNOWN; isolated PASS did not reproduce or resolve historical RED"
+  },
+  "source_defects": [
+    {
+      "defect": "Native and business close/kill phases can reject the pending shared SDK cleanup owner after actual child close/exit",
+      "evidence": "Pinned coreBundle.js9326-9333 cleanup is async;9361-9368 child close awaits cleanup before fulfilling waitForCleanup;9380-9391 close awaits that promise;9430-9432 kill returns the same waitForCleanup;57210-57214 BrowserServer delegates to those owners",
+      "justification": "Source-level owner contract mismatch independent of UNKNOWN historical cause"
+    },
+    {
+      "defect": "Native and business finalization clear the6s hard timer after stop rejection with possible pending owner handles",
+      "evidence": "before runner finalize finally clears deadline unconditionally",
+      "justification": "Unconfirmed cleanup loses its local bound before parent budget"
+    },
+    {
+      "defect": "Business nested Promise.all can reject before sibling instance/reservation cleanup attempts settle",
+      "evidence": "before business stop uses Promise.all inside outer Promise.allSettled",
+      "justification": "Outer owner settlement cannot certify every attempted grouped cleanup is settled"
+    },
+    {
+      "defect": "Generic owner-result assertion replaces original first cleanup rejection and skips safe independent stage cleanup on unrelated reservation failure",
+      "evidence": "before stop asserts every owner fulfilled before stage removal",
+      "justification": "Retain original owner rejection and attempt safe file cleanup after browser/runtime process owners fulfilled"
+    },
+    {
+      "defect": "Existing business certificate/key writes can race stage removal on interruption because startup only holds a prior fulfilled reservation promise",
+      "evidence": "before business841-843 awaits two writeFile calls without assigning startup; stop83-85 awaits only startup and pending runtime launches",
+      "justification": "Preexisting missing writer ownership, not a candidate01 regression or historical-cause assertion"
+    }
+  ],
+  "changes": [
+    "Retain each existing2s close/kill race. After kill phase nonsettlement, require observed actual child close and exit status, then await that same existing kill promise under unchanged finalize6s bound. No second launch, retry, timeout widening or fallback success.",
+    "After cleanup and around ACK verify the original absolute6s budget. Clear its timer only after confirmed ACK; failure leaves it unrefed to bound remaining handles without holding an already idle failed process alive.",
+    "Business uses allSettled for existing instance/reservation groups and rethrows the first rejection only after every attempt settles.",
+    "Both runners attempt stage removal only after browser and runtime process-owner branches fulfill. Preserve the first existing owner failure rather than replacing it with later file-removal failure.",
+    "Business assigns the existing startup owner to the same sequential certificate/key writes and rechecks closing between writes and after settlement. Existing stop awaits this owner before cleanup; no new timer or workflow engine."
+  ],
+  "preserved": [
+    "2s owner escalation phases,6s hard bound, native140s watchdog, business30min watchdog, parent140/150s startup25/35s fault plus6s final fallback unchanged.",
+    "Original startup owner wait, staging abort, closing gate, owner capture, protocol fields/sequences/outcomes/creation count, actual process-exit assertions and natural-exit requirements.",
+    "No ACK before all process cleanup owners and relevant file removal fulfill. Pending/rejected cleanup remains exit3 with no ACK.",
+    "No foreign TMPDIR deletion. Only the existing runner-created stage is removed; SDK retains its own process/artifact cleanup authority.",
+    "No raw errors, IDs, paths, secrets, proof bytes, provider simulation, product behavior changes or tests weakened."
+  ],
+  "scope_limits": [
+    "Proposal does not establish the historical runtime root cause.",
+    "Child close/exit and SDK settlement do not prove general process-group absence beyond the SDK owner contract.",
+    "No product source mutation or test/process execution by this agent. Root alone applies and verifies after peer acceptance and active closure tests finish."
+  ],
+  "root_verification_required": [
+    "Existing full22 real process fault suite must pass with unchanged ACK,outcome,zero invalid creation attempts,natural exit,no parent force,and empty owned TMPDIR checks.",
+    "Actual native browser/service full125 with all17 browser acceptance remains required; current running source closure must stay frozen.",
+    "Re-run exact required metadata/evidence/portable/hosted CI/merge-queue gates after application. One focused green retry is not historical/full acceptance."
+  ],
+  "actions": {
+    "tests_executed": 0,
+    "tracked_source_writes": 0,
+    "process_actions": 0,
+    "isolated_artifact_only": true
+  },
+  "revision": 2,
+  "previous_candidate": "native-business-cleanup-owner-repair-candidate01",
+  "stage_ownership": {
+    "native": {
+      "owned_scope": "Existing console-native-browser stage with runtime subdirectory",
+      "writers": [
+        "stageProductionRuntime copy/install/manifest and verifier, captured by startup"
+      ],
+      "process_consumers": [
+        "Next server runs with cwd and entry inside stage/runtime"
+      ],
+      "proof": "before native167-174 captures staging in startup;186-190 Next entry/cwd; BrowserServer214 receives env only"
+    },
+    "business": {
+      "owned_scope": "Existing console-product-browser stage with runtime subdirectory and fixture TLS cert/key files",
+      "writers": [
+        "stageProductionRuntime copy/install/manifest captured by startup",
+        "same sequential TLS cert/key writeFile operations now captured by startup"
+      ],
+      "process_consumers": [
+        "All productInstances Next runtimes use stage/runtime cwd and certificate/key paths"
+      ],
+      "parent_readers": [
+        "browser-business-boundary validates stagedRuntime through verifyProductionRuntime and reads app-paths-manifest; read-only assertions may fail on interruption"
+      ],
+      "proof": "before business816-824 staging owner;267-273 runtime cwd/cert/key;841-843 certificate writes;boundary255-260 read-only verification"
+    },
+    "browser_server": {
+      "direct_stage_filesystem_dependency_found": false,
+      "proof": "Neither runner supplies cwd, executablePath, userDataDir, artifactsDir, file URL, trace/screenshot/export or attachment path under stage. SDK39751-39770 allocates separate sibling playwright-artifacts/profile scopes under os.tmpdir; BrowserServer launch env retains inherited TMPDIR unchanged."
+    },
+    "decision": "Retain conservative ordering: await startup and relevant runtime launch owners, settle browser and runtime process cleanup branches, then remove only the runner-created stage. Do not introduce parallel rm or widen6s budget.",
+    "limit": "Read-only parent verification is not a separate process writer and may fail if interrupted. No general claim that child exit or SDK settlement proves entire process-group absence."
+  }
+}

@@ -1,0 +1,1548 @@
+{
+  "version": 1,
+  "recorded_at": "2026-10-06T00:36:46.040096+00:00",
+  "scope": "P14 test observation repair; no product behavior, TTL, phase budget, scenario discovery or required outcome relaxed",
+  "status": "fresh_local_canonical_121_17_passed_exact_head_review_and_hosted_pending",
+  "source_review": {
+    "version": 1,
+    "recorded_at": "2026-10-06T00:05:52.572774+00:00",
+    "scope": "P14 test observations only, no product/TTL/deadline changes",
+    "source_files": {
+      "tools/browser-business-temporal.mjs": "f4113ee8101ad8d28d043d0e8713288e8aca2dbb086bbbd506e20dab166d606d",
+      "tools/test-browser-business-session.mjs": "834b9a15ef0ec70517f510e0a2347e0cb991802264b554bedbfcd5172eaf5ea9",
+      "tools/browser-business-temporal.test.mjs": "027b086dd367804a85fbc7ced3ad7201c89613623b9cccb08b374a8af76a63a5",
+      ".github/workflows/ci.yml": "b1066d1aa0c1ac5a14c20f0b4c1fff4160ddf1a49e33afacae22dc7c05b167dc"
+    },
+    "pre_implementation_reviews": [
+      {
+        "reviewer": "p14_trace_review",
+        "verdict": "ACCEPT repair direction; historical cause unknown"
+      },
+      {
+        "reviewer": "p14_diagnostic_review",
+        "verdict": "ACCEPT_FOR_IMPLEMENTATION; exact source review and actual repaired proof pending"
+      }
+    ],
+    "clock_disposition": "Completed browser snapshot observation time accepted by trace reviewer with independent no-SetCookie responses and owner-effect proof; not internal capture instant."
+  },
+  "exact_source_verdict": {
+    "reviewer": "p14_trace_review",
+    "verdict": "ACCEPT_exact_four_sources_for_execution",
+    "scope": "Completed observation clock, live-cookie/no-SetCookie/native-effect/expiry checks retained; historical hosted cause unproven"
+  },
+  "diagnostics": [
+    {
+      "classification": "expected_red_original_post_signin_future_assertion",
+      "execution": {
+        "id": "p14-short-fragility01",
+        "command": [
+          "bash",
+          "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/tools/lanes/pgtest.sh",
+          "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork",
+          "/Users/jasonlee/.cargo/bin/cargo",
+          "+1.98.1",
+          "test",
+          "--locked",
+          "--offline",
+          "--no-fail-fast",
+          "-p",
+          "console-app",
+          "--features",
+          "frontend-e2e",
+          "--test",
+          "auth_rest",
+          "genuine_browser::genuine_production_browser_proposal_requires_all_seventeen_scenarios",
+          "--",
+          "--exact",
+          "--test-threads=1",
+          "--nocapture"
+        ],
+        "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+        "exit_code": 101,
+        "timed_out": false,
+        "duration_seconds": 61.382452457910404,
+        "discovered": null,
+        "counts": {
+          "passed": 0,
+          "failed": 1,
+          "skipped": 0,
+          "filtered": 120,
+          "executed": 1
+        },
+        "log_sha256": "ff318af7bb31ea85225bb6f953cc42c999196e433c4f57df22535cfe80c55593",
+        "cleanup_reported": true,
+        "inputs_sha256": "681caf0b0532e9874d7219741e1aac9d14115e08fa2f688687cb3fe155edcd9e",
+        "inputs_unchanged": true,
+        "scope": "Separate real-browser/native timing fragility diagnostic; expected RED, no canonical acceptance or original-cause credit",
+        "diagnostic_inputs": {
+          "before": {
+            "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/.artifacts/p14-timing-probes02/short.mjs": "da8ce85671b0f55bdd91b1a3e8c62386c3a36d99864be014b67cd51e89e87c2c",
+            "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/.artifacts/p14-timing-probes02/short-node/node": "126425ec8df7524e1f9eea34af23e9eac495748b82511581d40b9f5c15237621",
+            "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/.artifacts/p14-timing-probes02/cookie.mjs": "6e90a1e9ed21fde9d4ac6608b8656320c8b9f3a6ec334e88d63e7e1ac5c3bd6b",
+            "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/.artifacts/p14-timing-probes02/cookie-node/node": "f28bebe00fb271722467808b1d4d2b065fa76cc276325844d82fe825c4e7db55",
+            "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/.artifacts/p14-timing-probes02/manifest.json": "928c92a811ebd155509cb84564ed40a5343eff58b88cfa1337253a61e1165cdb",
+            "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/run-p14-probe04.py": "76b459e1a3ee2a6c473d1aba43874a8f6f7d839d7c4e655cd3672933c38bdeb7"
+          },
+          "after": {
+            "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/.artifacts/p14-timing-probes02/short.mjs": "da8ce85671b0f55bdd91b1a3e8c62386c3a36d99864be014b67cd51e89e87c2c",
+            "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/.artifacts/p14-timing-probes02/short-node/node": "126425ec8df7524e1f9eea34af23e9eac495748b82511581d40b9f5c15237621",
+            "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/.artifacts/p14-timing-probes02/cookie.mjs": "6e90a1e9ed21fde9d4ac6608b8656320c8b9f3a6ec334e88d63e7e1ac5c3bd6b",
+            "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/.artifacts/p14-timing-probes02/cookie-node/node": "f28bebe00fb271722467808b1d4d2b065fa76cc276325844d82fe825c4e7db55",
+            "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/.artifacts/p14-timing-probes02/manifest.json": "928c92a811ebd155509cb84564ed40a5343eff58b88cfa1337253a61e1165cdb",
+            "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/run-p14-probe04.py": "76b459e1a3ee2a6c473d1aba43874a8f6f7d839d7c4e655cd3672933c38bdeb7"
+          },
+          "unchanged": true
+        },
+        "probe": "short"
+      },
+      "browser": {
+        "v": 1,
+        "seq": 19,
+        "kind": "report",
+        "discovered": 17,
+        "executed": 1,
+        "counts": {
+          "passed": 0,
+          "failed": 1,
+          "unreached": 16,
+          "skipped": 0
+        },
+        "failure_class": "behavior",
+        "scenarios": [
+          {
+            "id": "P01",
+            "name": "runtime/exclusion/launcher/config negatives",
+            "status": "unreached",
+            "reason": "not started"
+          },
+          {
+            "id": "P02",
+            "name": "two genuine product sign-ins and native family logout",
+            "status": "unreached",
+            "reason": "not started"
+          },
+          {
+            "id": "P03",
+            "name": "real own-history count, rows, pagination and reload",
+            "status": "unreached",
+            "reason": "not started"
+          },
+          {
+            "id": "P04",
+            "name": "responsive keyboard and inaccessible-script recovery",
+            "status": "unreached",
+            "reason": "not started"
+          },
+          {
+            "id": "P05",
+            "name": "two actual source peers and ingress spoofing negatives",
+            "status": "unreached",
+            "reason": "not started"
+          },
+          {
+            "id": "P06",
+            "name": "Origin/CSRF/context/duplicate-cookie/body boundaries",
+            "status": "unreached",
+            "reason": "not started"
+          },
+          {
+            "id": "P07",
+            "name": "eight-preauth/eight-session admission boundaries",
+            "status": "unreached",
+            "reason": "not started"
+          },
+          {
+            "id": "P08",
+            "name": "independent tabs, stable reads and no context fallback",
+            "status": "unreached",
+            "reason": "not started"
+          },
+          {
+            "id": "P09",
+            "name": "reversed actual start responses",
+            "status": "unreached",
+            "reason": "not started"
+          },
+          {
+            "id": "P10",
+            "name": "reversed actual finish/header-arrival responses",
+            "status": "unreached",
+            "reason": "not started"
+          },
+          {
+            "id": "P11",
+            "name": "reversed logout versus a new independent login",
+            "status": "unreached",
+            "reason": "not started"
+          },
+          {
+            "id": "P12",
+            "name": "lost committed login result and consumed-assertion handling",
+            "status": "unreached",
+            "reason": "not started"
+          },
+          {
+            "id": "P13",
+            "name": "lost logout across genuine short-family expiry",
+            "status": "unreached",
+            "reason": "not started"
+          },
+          {
+            "id": "P14",
+            "name": "current authority, key replacement and cleanup restart",
+            "status": "failed",
+            "checks": [
+              {
+                "id": "real-short-family-post-signin-scheduling-delay",
+                "status": "passed",
+                "evidence": {
+                  "diagnostic_only": true,
+                  "initially_live_cookie_and_family": true,
+                  "native_and_browser_deadline_elapsed": true,
+                  "current_expired_read_denied": true,
+                  "survivor_cookie_and_reads_unchanged": true,
+                  "reads_have_no_set_cookie": true,
+                  "native_effects_unchanged": true,
+                  "original_assertion_line": 193
+                }
+              }
+            ],
+            "reason": "actual assertion or required journey failed"
+          },
+          {
+            "id": "P15",
+            "name": "logout Back and witnessed real BFCache restore",
+            "status": "unreached",
+            "reason": "not started"
+          },
+          {
+            "id": "P16",
+            "name": "actual restore before hydration with CSS/React/offline faults",
+            "status": "unreached",
+            "reason": "not started"
+          },
+          {
+            "id": "P17",
+            "name": "real unavailable/malformed service and failure cleanup",
+            "status": "unreached",
+            "reason": "not started"
+          }
+        ]
+      },
+      "raw_log": {
+        "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/p14-short-fragility01.log",
+        "bytes": 6371,
+        "sha256": "ff318af7bb31ea85225bb6f953cc42c999196e433c4f57df22535cfe80c55593"
+      }
+    },
+    {
+      "classification": "environment_failure_before_test_docker_socket_denied",
+      "execution": {
+        "id": "p14-cookie-fragility01",
+        "command": [
+          "bash",
+          "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/tools/lanes/pgtest.sh",
+          "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork",
+          "/Users/jasonlee/.cargo/bin/cargo",
+          "+1.98.1",
+          "test",
+          "--locked",
+          "--offline",
+          "--no-fail-fast",
+          "-p",
+          "console-app",
+          "--features",
+          "frontend-e2e",
+          "--test",
+          "auth_rest",
+          "genuine_browser::genuine_production_browser_proposal_requires_all_seventeen_scenarios",
+          "--",
+          "--exact",
+          "--test-threads=1",
+          "--nocapture"
+        ],
+        "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+        "exit_code": 1,
+        "timed_out": false,
+        "duration_seconds": 0.27266637491993606,
+        "discovered": null,
+        "counts": {
+          "passed": 0,
+          "failed": 0,
+          "skipped": 0,
+          "filtered": 0,
+          "executed": 0
+        },
+        "log_sha256": "010285fd797f7a5d58ed95fd87995fd1f5a309635d5a358684640ac2fdcd13f9",
+        "cleanup_reported": false,
+        "inputs_sha256": "681caf0b0532e9874d7219741e1aac9d14115e08fa2f688687cb3fe155edcd9e",
+        "inputs_unchanged": true,
+        "scope": "Separate real-browser/native timing fragility diagnostic; expected RED, no canonical acceptance or original-cause credit",
+        "diagnostic_inputs": {
+          "before": {
+            "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/.artifacts/p14-timing-probes02/short.mjs": "da8ce85671b0f55bdd91b1a3e8c62386c3a36d99864be014b67cd51e89e87c2c",
+            "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/.artifacts/p14-timing-probes02/short-node/node": "126425ec8df7524e1f9eea34af23e9eac495748b82511581d40b9f5c15237621",
+            "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/.artifacts/p14-timing-probes02/cookie.mjs": "6e90a1e9ed21fde9d4ac6608b8656320c8b9f3a6ec334e88d63e7e1ac5c3bd6b",
+            "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/.artifacts/p14-timing-probes02/cookie-node/node": "f28bebe00fb271722467808b1d4d2b065fa76cc276325844d82fe825c4e7db55",
+            "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/.artifacts/p14-timing-probes02/manifest.json": "928c92a811ebd155509cb84564ed40a5343eff58b88cfa1337253a61e1165cdb",
+            "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/run-p14-probe04.py": "76b459e1a3ee2a6c473d1aba43874a8f6f7d839d7c4e655cd3672933c38bdeb7"
+          },
+          "after": {
+            "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/.artifacts/p14-timing-probes02/short.mjs": "da8ce85671b0f55bdd91b1a3e8c62386c3a36d99864be014b67cd51e89e87c2c",
+            "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/.artifacts/p14-timing-probes02/short-node/node": "126425ec8df7524e1f9eea34af23e9eac495748b82511581d40b9f5c15237621",
+            "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/.artifacts/p14-timing-probes02/cookie.mjs": "6e90a1e9ed21fde9d4ac6608b8656320c8b9f3a6ec334e88d63e7e1ac5c3bd6b",
+            "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/.artifacts/p14-timing-probes02/cookie-node/node": "f28bebe00fb271722467808b1d4d2b065fa76cc276325844d82fe825c4e7db55",
+            "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/.artifacts/p14-timing-probes02/manifest.json": "928c92a811ebd155509cb84564ed40a5343eff58b88cfa1337253a61e1165cdb",
+            "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/run-p14-probe04.py": "76b459e1a3ee2a6c473d1aba43874a8f6f7d839d7c4e655cd3672933c38bdeb7"
+          },
+          "unchanged": true
+        },
+        "probe": "cookie"
+      },
+      "browser": null,
+      "raw_log": {
+        "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/p14-cookie-fragility01.log",
+        "bytes": 121,
+        "sha256": "010285fd797f7a5d58ed95fd87995fd1f5a309635d5a358684640ac2fdcd13f9"
+      }
+    },
+    {
+      "classification": "expected_red_original_whole_jar_assertion",
+      "execution": {
+        "id": "p14-cookie-fragility02",
+        "command": [
+          "bash",
+          "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/tools/lanes/pgtest.sh",
+          "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork",
+          "/Users/jasonlee/.cargo/bin/cargo",
+          "+1.98.1",
+          "test",
+          "--locked",
+          "--offline",
+          "--no-fail-fast",
+          "-p",
+          "console-app",
+          "--features",
+          "frontend-e2e",
+          "--test",
+          "auth_rest",
+          "genuine_browser::genuine_production_browser_proposal_requires_all_seventeen_scenarios",
+          "--",
+          "--exact",
+          "--test-threads=1",
+          "--nocapture"
+        ],
+        "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+        "exit_code": 101,
+        "timed_out": false,
+        "duration_seconds": 103.35705766698811,
+        "discovered": null,
+        "counts": {
+          "passed": 0,
+          "failed": 1,
+          "skipped": 0,
+          "filtered": 120,
+          "executed": 1
+        },
+        "log_sha256": "8ffe37042854aea5e5366753f524b977914bda40642f926cee39684fa4892700",
+        "cleanup_reported": true,
+        "inputs_sha256": "681caf0b0532e9874d7219741e1aac9d14115e08fa2f688687cb3fe155edcd9e",
+        "inputs_unchanged": true,
+        "scope": "Separate real-browser/native timing fragility diagnostic; expected RED, no canonical acceptance or original-cause credit",
+        "diagnostic_inputs": {
+          "before": {
+            "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/.artifacts/p14-timing-probes02/short.mjs": "da8ce85671b0f55bdd91b1a3e8c62386c3a36d99864be014b67cd51e89e87c2c",
+            "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/.artifacts/p14-timing-probes02/short-node/node": "126425ec8df7524e1f9eea34af23e9eac495748b82511581d40b9f5c15237621",
+            "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/.artifacts/p14-timing-probes02/cookie.mjs": "6e90a1e9ed21fde9d4ac6608b8656320c8b9f3a6ec334e88d63e7e1ac5c3bd6b",
+            "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/.artifacts/p14-timing-probes02/cookie-node/node": "f28bebe00fb271722467808b1d4d2b065fa76cc276325844d82fe825c4e7db55",
+            "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/.artifacts/p14-timing-probes02/manifest.json": "928c92a811ebd155509cb84564ed40a5343eff58b88cfa1337253a61e1165cdb",
+            "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/run-p14-probe04.py": "76b459e1a3ee2a6c473d1aba43874a8f6f7d839d7c4e655cd3672933c38bdeb7"
+          },
+          "after": {
+            "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/.artifacts/p14-timing-probes02/short.mjs": "da8ce85671b0f55bdd91b1a3e8c62386c3a36d99864be014b67cd51e89e87c2c",
+            "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/.artifacts/p14-timing-probes02/short-node/node": "126425ec8df7524e1f9eea34af23e9eac495748b82511581d40b9f5c15237621",
+            "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/.artifacts/p14-timing-probes02/cookie.mjs": "6e90a1e9ed21fde9d4ac6608b8656320c8b9f3a6ec334e88d63e7e1ac5c3bd6b",
+            "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/.artifacts/p14-timing-probes02/cookie-node/node": "f28bebe00fb271722467808b1d4d2b065fa76cc276325844d82fe825c4e7db55",
+            "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/.artifacts/p14-timing-probes02/manifest.json": "928c92a811ebd155509cb84564ed40a5343eff58b88cfa1337253a61e1165cdb",
+            "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/run-p14-probe04.py": "76b459e1a3ee2a6c473d1aba43874a8f6f7d839d7c4e655cd3672933c38bdeb7"
+          },
+          "unchanged": true
+        },
+        "probe": "cookie"
+      },
+      "browser": {
+        "v": 1,
+        "seq": 75,
+        "kind": "report",
+        "discovered": 17,
+        "executed": 1,
+        "counts": {
+          "passed": 0,
+          "failed": 1,
+          "unreached": 16,
+          "skipped": 0
+        },
+        "failure_class": "behavior",
+        "scenarios": [
+          {
+            "id": "P01",
+            "name": "runtime/exclusion/launcher/config negatives",
+            "status": "unreached",
+            "reason": "not started"
+          },
+          {
+            "id": "P02",
+            "name": "two genuine product sign-ins and native family logout",
+            "status": "unreached",
+            "reason": "not started"
+          },
+          {
+            "id": "P03",
+            "name": "real own-history count, rows, pagination and reload",
+            "status": "unreached",
+            "reason": "not started"
+          },
+          {
+            "id": "P04",
+            "name": "responsive keyboard and inaccessible-script recovery",
+            "status": "unreached",
+            "reason": "not started"
+          },
+          {
+            "id": "P05",
+            "name": "two actual source peers and ingress spoofing negatives",
+            "status": "unreached",
+            "reason": "not started"
+          },
+          {
+            "id": "P06",
+            "name": "Origin/CSRF/context/duplicate-cookie/body boundaries",
+            "status": "unreached",
+            "reason": "not started"
+          },
+          {
+            "id": "P07",
+            "name": "eight-preauth/eight-session admission boundaries",
+            "status": "unreached",
+            "reason": "not started"
+          },
+          {
+            "id": "P08",
+            "name": "independent tabs, stable reads and no context fallback",
+            "status": "unreached",
+            "reason": "not started"
+          },
+          {
+            "id": "P09",
+            "name": "reversed actual start responses",
+            "status": "unreached",
+            "reason": "not started"
+          },
+          {
+            "id": "P10",
+            "name": "reversed actual finish/header-arrival responses",
+            "status": "unreached",
+            "reason": "not started"
+          },
+          {
+            "id": "P11",
+            "name": "reversed logout versus a new independent login",
+            "status": "unreached",
+            "reason": "not started"
+          },
+          {
+            "id": "P12",
+            "name": "lost committed login result and consumed-assertion handling",
+            "status": "unreached",
+            "reason": "not started"
+          },
+          {
+            "id": "P13",
+            "name": "lost logout across genuine short-family expiry",
+            "status": "unreached",
+            "reason": "not started"
+          },
+          {
+            "id": "P14",
+            "name": "current authority, key replacement and cleanup restart",
+            "status": "failed",
+            "checks": [
+              {
+                "id": "real-preauth-natural-expiry-during-authority-loss",
+                "status": "passed",
+                "evidence": {
+                  "diagnostic_only": true,
+                  "real_pending_ceremony_initially_live": true,
+                  "actual_browser_expiry_observed": true,
+                  "current_authority_denied": true,
+                  "all_surviving_cookies_unchanged": true,
+                  "no_new_cookies": true,
+                  "only_expired_preauth_disappeared": true,
+                  "reads_have_no_set_cookie": true,
+                  "native_effects_unchanged": true,
+                  "original_assertion_line": 165
+                }
+              }
+            ],
+            "reason": "actual assertion or required journey failed"
+          },
+          {
+            "id": "P15",
+            "name": "logout Back and witnessed real BFCache restore",
+            "status": "unreached",
+            "reason": "not started"
+          },
+          {
+            "id": "P16",
+            "name": "actual restore before hydration with CSS/React/offline faults",
+            "status": "unreached",
+            "reason": "not started"
+          },
+          {
+            "id": "P17",
+            "name": "real unavailable/malformed service and failure cleanup",
+            "status": "unreached",
+            "reason": "not started"
+          }
+        ]
+      },
+      "raw_log": {
+        "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/p14-cookie-fragility02.log",
+        "bytes": 6428,
+        "sha256": "8ffe37042854aea5e5366753f524b977914bda40642f926cee39684fa4892700"
+      }
+    },
+    {
+      "classification": "unexpected_pre_witness_failure_unlocalized",
+      "execution": {
+        "id": "p14-short-repaired01",
+        "command": [
+          "bash",
+          "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/tools/lanes/pgtest.sh",
+          "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork",
+          "/Users/jasonlee/.cargo/bin/cargo",
+          "+1.98.1",
+          "test",
+          "--locked",
+          "--offline",
+          "--no-fail-fast",
+          "-p",
+          "console-app",
+          "--features",
+          "frontend-e2e",
+          "--test",
+          "auth_rest",
+          "genuine_browser::genuine_production_browser_proposal_requires_all_seventeen_scenarios",
+          "--",
+          "--exact",
+          "--test-threads=1",
+          "--nocapture"
+        ],
+        "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+        "exit_code": 101,
+        "timed_out": false,
+        "duration_seconds": 80.84956524998415,
+        "discovered": null,
+        "counts": {
+          "passed": 0,
+          "failed": 1,
+          "skipped": 0,
+          "filtered": 120,
+          "executed": 1
+        },
+        "log_sha256": "cc9edb36c33618ef408196ce76f96bfb2822ae34eea2a75e7972ecb363cc2de3",
+        "cleanup_reported": true,
+        "inputs_sha256": "1f07e97d0a7502f836b82f6ac717235d5416c437821ab419a70d0cf65d3bddde",
+        "inputs_unchanged": true,
+        "scope": "Corrected real-browser/native timing diagnostic; incomplete native matrix intentionally RED, no canonical acceptance or original-cause credit",
+        "diagnostic_inputs": {
+          "before": {
+            "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/.artifacts/p14-repaired-probes03/short.mjs": "c95146ca80e00313b996f840b1b2d3e386a46010abea0081ba20936cd017dcab",
+            "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/.artifacts/p14-repaired-probes03/short-node/node": "6ee1561b34b938c26be861488136f831b0a84c79684926bad8a8bfdbfd256349",
+            "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/.artifacts/p14-repaired-probes03/cookie.mjs": "62c7c7f19555acba10414142fe2d7deea6799fcc15c2ae9adce08db57a0447f6",
+            "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/.artifacts/p14-repaired-probes03/cookie-node/node": "94c13af3b211bda4f9b21499a561513bf787637ec682f0ce77ef35bdd52a113f",
+            "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/make-p14-repaired-probes03.py": "9447be1110fbbb0b597514bffca445ffa5b0a4471348a07f403981f46ddb9602",
+            "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/.artifacts/p14-repaired-probes03/manifest.json": "7e53607fdc850fed369f0e520857817b8455adff33bf3d30c07b1a36103e5249",
+            "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/run-p14-probe05.py": "37dd461448d6963ab99efaade0aeef79806c8ceb5e3e00384d8c17c57d7cae8e"
+          },
+          "after": {
+            "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/.artifacts/p14-repaired-probes03/short.mjs": "c95146ca80e00313b996f840b1b2d3e386a46010abea0081ba20936cd017dcab",
+            "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/.artifacts/p14-repaired-probes03/short-node/node": "6ee1561b34b938c26be861488136f831b0a84c79684926bad8a8bfdbfd256349",
+            "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/.artifacts/p14-repaired-probes03/cookie.mjs": "62c7c7f19555acba10414142fe2d7deea6799fcc15c2ae9adce08db57a0447f6",
+            "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/.artifacts/p14-repaired-probes03/cookie-node/node": "94c13af3b211bda4f9b21499a561513bf787637ec682f0ce77ef35bdd52a113f",
+            "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/make-p14-repaired-probes03.py": "9447be1110fbbb0b597514bffca445ffa5b0a4471348a07f403981f46ddb9602",
+            "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/.artifacts/p14-repaired-probes03/manifest.json": "7e53607fdc850fed369f0e520857817b8455adff33bf3d30c07b1a36103e5249",
+            "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/run-p14-probe05.py": "37dd461448d6963ab99efaade0aeef79806c8ceb5e3e00384d8c17c57d7cae8e"
+          },
+          "unchanged": true
+        },
+        "probe": "short"
+      },
+      "browser": {
+        "v": 1,
+        "seq": 10,
+        "kind": "report",
+        "discovered": 17,
+        "executed": 1,
+        "counts": {
+          "passed": 0,
+          "failed": 1,
+          "unreached": 16,
+          "skipped": 0
+        },
+        "failure_class": "behavior",
+        "scenarios": [
+          {
+            "id": "P01",
+            "name": "runtime/exclusion/launcher/config negatives",
+            "status": "unreached",
+            "reason": "not started"
+          },
+          {
+            "id": "P02",
+            "name": "two genuine product sign-ins and native family logout",
+            "status": "unreached",
+            "reason": "not started"
+          },
+          {
+            "id": "P03",
+            "name": "real own-history count, rows, pagination and reload",
+            "status": "unreached",
+            "reason": "not started"
+          },
+          {
+            "id": "P04",
+            "name": "responsive keyboard and inaccessible-script recovery",
+            "status": "unreached",
+            "reason": "not started"
+          },
+          {
+            "id": "P05",
+            "name": "two actual source peers and ingress spoofing negatives",
+            "status": "unreached",
+            "reason": "not started"
+          },
+          {
+            "id": "P06",
+            "name": "Origin/CSRF/context/duplicate-cookie/body boundaries",
+            "status": "unreached",
+            "reason": "not started"
+          },
+          {
+            "id": "P07",
+            "name": "eight-preauth/eight-session admission boundaries",
+            "status": "unreached",
+            "reason": "not started"
+          },
+          {
+            "id": "P08",
+            "name": "independent tabs, stable reads and no context fallback",
+            "status": "unreached",
+            "reason": "not started"
+          },
+          {
+            "id": "P09",
+            "name": "reversed actual start responses",
+            "status": "unreached",
+            "reason": "not started"
+          },
+          {
+            "id": "P10",
+            "name": "reversed actual finish/header-arrival responses",
+            "status": "unreached",
+            "reason": "not started"
+          },
+          {
+            "id": "P11",
+            "name": "reversed logout versus a new independent login",
+            "status": "unreached",
+            "reason": "not started"
+          },
+          {
+            "id": "P12",
+            "name": "lost committed login result and consumed-assertion handling",
+            "status": "unreached",
+            "reason": "not started"
+          },
+          {
+            "id": "P13",
+            "name": "lost logout across genuine short-family expiry",
+            "status": "unreached",
+            "reason": "not started"
+          },
+          {
+            "id": "P14",
+            "name": "current authority, key replacement and cleanup restart",
+            "status": "failed",
+            "reason": "actual assertion or required journey failed"
+          },
+          {
+            "id": "P15",
+            "name": "logout Back and witnessed real BFCache restore",
+            "status": "unreached",
+            "reason": "not started"
+          },
+          {
+            "id": "P16",
+            "name": "actual restore before hydration with CSS/React/offline faults",
+            "status": "unreached",
+            "reason": "not started"
+          },
+          {
+            "id": "P17",
+            "name": "real unavailable/malformed service and failure cleanup",
+            "status": "unreached",
+            "reason": "not started"
+          }
+        ]
+      },
+      "raw_log": {
+        "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/p14-short-repaired01.log",
+        "bytes": 5995,
+        "sha256": "cc9edb36c33618ef408196ce76f96bfb2822ae34eea2a75e7972ecb363cc2de3"
+      }
+    },
+    {
+      "classification": "corrected_short_fragment_pass_native_incomplete_matrix_red",
+      "execution": {
+        "id": "p14-short-repaired02",
+        "command": [
+          "bash",
+          "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/tools/lanes/pgtest.sh",
+          "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork",
+          "/Users/jasonlee/.cargo/bin/cargo",
+          "+1.98.1",
+          "test",
+          "--locked",
+          "--offline",
+          "--no-fail-fast",
+          "-p",
+          "console-app",
+          "--features",
+          "frontend-e2e",
+          "--test",
+          "auth_rest",
+          "genuine_browser::genuine_production_browser_proposal_requires_all_seventeen_scenarios",
+          "--",
+          "--exact",
+          "--test-threads=1",
+          "--nocapture"
+        ],
+        "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+        "exit_code": 101,
+        "timed_out": false,
+        "duration_seconds": 56.28228250006214,
+        "discovered": null,
+        "counts": {
+          "passed": 0,
+          "failed": 1,
+          "skipped": 0,
+          "filtered": 120,
+          "executed": 1
+        },
+        "log_sha256": "25c3397fc0059f22275c569fb0cedcc71b6ef6b2887c7f4547530e3dd153b456",
+        "cleanup_reported": true,
+        "inputs_sha256": "1f07e97d0a7502f836b82f6ac717235d5416c437821ab419a70d0cf65d3bddde",
+        "inputs_unchanged": true,
+        "scope": "Corrected real-browser/native timing diagnostic; incomplete native matrix intentionally RED, no canonical acceptance or original-cause credit",
+        "diagnostic_inputs": {
+          "before": {
+            "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/.artifacts/p14-repaired-probes04/private-location.mjs": "329ac2c2c55cec3a6ceef1973abc3136a80feeca77d3a6d858dc6f423ee3417d",
+            "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/.artifacts/p14-repaired-probes04/short.mjs": "4446bbcb479bb565cbfa9757f678db6034426ce95ac9d39cf025f519ee889451",
+            "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/.artifacts/p14-repaired-probes04/short-node/node": "c5e3b3aea0534e0ef37ff459bd725d337e9e263a85e35bd615ef5323368e0eba",
+            "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/.artifacts/p14-repaired-probes04/cookie.mjs": "d50845cc6368ec5e25cac5efdb268c8f58ae05640a15877511d9fe7cb69b177f",
+            "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/.artifacts/p14-repaired-probes04/cookie-node/node": "75f460b979acc0fabfbcffaf81b8217a9edd44e51ceebb996099de834f2755c6",
+            "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/make-p14-repaired-probes04.py": "3e835d9528bc1f53df13f3e3c4f95ffddff1e4fd426391fc7f1ad5118dbbcf23",
+            "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/.artifacts/p14-repaired-probes04/manifest.json": "0eca2a57fe098a52e31fee0db5fa4b70531a791dd5a404544280bff10ac2a8d1",
+            "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/run-p14-probe06.py": "5702f993a1013558984e9943d48ce3873d6670b40e3fb3f5b958e3d3bb189ec4"
+          },
+          "after": {
+            "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/.artifacts/p14-repaired-probes04/private-location.mjs": "329ac2c2c55cec3a6ceef1973abc3136a80feeca77d3a6d858dc6f423ee3417d",
+            "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/.artifacts/p14-repaired-probes04/short.mjs": "4446bbcb479bb565cbfa9757f678db6034426ce95ac9d39cf025f519ee889451",
+            "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/.artifacts/p14-repaired-probes04/short-node/node": "c5e3b3aea0534e0ef37ff459bd725d337e9e263a85e35bd615ef5323368e0eba",
+            "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/.artifacts/p14-repaired-probes04/cookie.mjs": "d50845cc6368ec5e25cac5efdb268c8f58ae05640a15877511d9fe7cb69b177f",
+            "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/.artifacts/p14-repaired-probes04/cookie-node/node": "75f460b979acc0fabfbcffaf81b8217a9edd44e51ceebb996099de834f2755c6",
+            "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/make-p14-repaired-probes04.py": "3e835d9528bc1f53df13f3e3c4f95ffddff1e4fd426391fc7f1ad5118dbbcf23",
+            "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/.artifacts/p14-repaired-probes04/manifest.json": "0eca2a57fe098a52e31fee0db5fa4b70531a791dd5a404544280bff10ac2a8d1",
+            "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/run-p14-probe06.py": "5702f993a1013558984e9943d48ce3873d6670b40e3fb3f5b958e3d3bb189ec4"
+          },
+          "unchanged": true
+        },
+        "probe": "short"
+      },
+      "browser": {
+        "v": 1,
+        "seq": 15,
+        "kind": "report",
+        "discovered": 17,
+        "executed": 1,
+        "counts": {
+          "passed": 1,
+          "failed": 0,
+          "unreached": 16,
+          "skipped": 0
+        },
+        "failure_class": null,
+        "scenarios": [
+          {
+            "id": "P01",
+            "name": "runtime/exclusion/launcher/config negatives",
+            "status": "unreached",
+            "reason": "not started"
+          },
+          {
+            "id": "P02",
+            "name": "two genuine product sign-ins and native family logout",
+            "status": "unreached",
+            "reason": "not started"
+          },
+          {
+            "id": "P03",
+            "name": "real own-history count, rows, pagination and reload",
+            "status": "unreached",
+            "reason": "not started"
+          },
+          {
+            "id": "P04",
+            "name": "responsive keyboard and inaccessible-script recovery",
+            "status": "unreached",
+            "reason": "not started"
+          },
+          {
+            "id": "P05",
+            "name": "two actual source peers and ingress spoofing negatives",
+            "status": "unreached",
+            "reason": "not started"
+          },
+          {
+            "id": "P06",
+            "name": "Origin/CSRF/context/duplicate-cookie/body boundaries",
+            "status": "unreached",
+            "reason": "not started"
+          },
+          {
+            "id": "P07",
+            "name": "eight-preauth/eight-session admission boundaries",
+            "status": "unreached",
+            "reason": "not started"
+          },
+          {
+            "id": "P08",
+            "name": "independent tabs, stable reads and no context fallback",
+            "status": "unreached",
+            "reason": "not started"
+          },
+          {
+            "id": "P09",
+            "name": "reversed actual start responses",
+            "status": "unreached",
+            "reason": "not started"
+          },
+          {
+            "id": "P10",
+            "name": "reversed actual finish/header-arrival responses",
+            "status": "unreached",
+            "reason": "not started"
+          },
+          {
+            "id": "P11",
+            "name": "reversed logout versus a new independent login",
+            "status": "unreached",
+            "reason": "not started"
+          },
+          {
+            "id": "P12",
+            "name": "lost committed login result and consumed-assertion handling",
+            "status": "unreached",
+            "reason": "not started"
+          },
+          {
+            "id": "P13",
+            "name": "lost logout across genuine short-family expiry",
+            "status": "unreached",
+            "reason": "not started"
+          },
+          {
+            "id": "P14",
+            "name": "current authority, key replacement and cleanup restart",
+            "status": "passed",
+            "checks": [
+              {
+                "id": "real-short-family-post-signin-scheduling-delay",
+                "status": "passed",
+                "evidence": {
+                  "diagnostic_only": true,
+                  "initially_live_cookie_and_family": true,
+                  "native_and_browser_deadline_elapsed": true,
+                  "current_expired_read_denied": true,
+                  "survivor_cookie_and_reads_unchanged": true,
+                  "reads_have_no_set_cookie": true,
+                  "native_effects_unchanged": true,
+                  "original_assertion_line": 193
+                }
+              }
+            ]
+          },
+          {
+            "id": "P15",
+            "name": "logout Back and witnessed real BFCache restore",
+            "status": "unreached",
+            "reason": "not started"
+          },
+          {
+            "id": "P16",
+            "name": "actual restore before hydration with CSS/React/offline faults",
+            "status": "unreached",
+            "reason": "not started"
+          },
+          {
+            "id": "P17",
+            "name": "real unavailable/malformed service and failure cleanup",
+            "status": "unreached",
+            "reason": "not started"
+          }
+        ]
+      },
+      "raw_log": {
+        "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/p14-short-repaired02.log",
+        "bytes": 6370,
+        "sha256": "25c3397fc0059f22275c569fb0cedcc71b6ef6b2887c7f4547530e3dd153b456"
+      }
+    },
+    {
+      "classification": "corrected_cookie_fragment_pass_native_incomplete_matrix_red",
+      "execution": {
+        "id": "p14-cookie-repaired01",
+        "command": [
+          "bash",
+          "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/tools/lanes/pgtest.sh",
+          "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork",
+          "/Users/jasonlee/.cargo/bin/cargo",
+          "+1.98.1",
+          "test",
+          "--locked",
+          "--offline",
+          "--no-fail-fast",
+          "-p",
+          "console-app",
+          "--features",
+          "frontend-e2e",
+          "--test",
+          "auth_rest",
+          "genuine_browser::genuine_production_browser_proposal_requires_all_seventeen_scenarios",
+          "--",
+          "--exact",
+          "--test-threads=1",
+          "--nocapture"
+        ],
+        "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+        "exit_code": 101,
+        "timed_out": false,
+        "duration_seconds": 97.91349425003864,
+        "discovered": null,
+        "counts": {
+          "passed": 0,
+          "failed": 1,
+          "skipped": 0,
+          "filtered": 120,
+          "executed": 1
+        },
+        "log_sha256": "07315fc55e87261dd21ae690766c0fe2f9561ab613f11f27ed0f87c77b3ce2ca",
+        "cleanup_reported": true,
+        "inputs_sha256": "1f07e97d0a7502f836b82f6ac717235d5416c437821ab419a70d0cf65d3bddde",
+        "inputs_unchanged": true,
+        "scope": "Corrected real-browser/native timing diagnostic; incomplete native matrix intentionally RED, no canonical acceptance or original-cause credit",
+        "diagnostic_inputs": {
+          "before": {
+            "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/.artifacts/p14-repaired-probes04/private-location.mjs": "329ac2c2c55cec3a6ceef1973abc3136a80feeca77d3a6d858dc6f423ee3417d",
+            "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/.artifacts/p14-repaired-probes04/short.mjs": "4446bbcb479bb565cbfa9757f678db6034426ce95ac9d39cf025f519ee889451",
+            "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/.artifacts/p14-repaired-probes04/short-node/node": "c5e3b3aea0534e0ef37ff459bd725d337e9e263a85e35bd615ef5323368e0eba",
+            "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/.artifacts/p14-repaired-probes04/cookie.mjs": "d50845cc6368ec5e25cac5efdb268c8f58ae05640a15877511d9fe7cb69b177f",
+            "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/.artifacts/p14-repaired-probes04/cookie-node/node": "75f460b979acc0fabfbcffaf81b8217a9edd44e51ceebb996099de834f2755c6",
+            "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/make-p14-repaired-probes04.py": "3e835d9528bc1f53df13f3e3c4f95ffddff1e4fd426391fc7f1ad5118dbbcf23",
+            "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/.artifacts/p14-repaired-probes04/manifest.json": "0eca2a57fe098a52e31fee0db5fa4b70531a791dd5a404544280bff10ac2a8d1",
+            "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/run-p14-probe06.py": "5702f993a1013558984e9943d48ce3873d6670b40e3fb3f5b958e3d3bb189ec4"
+          },
+          "after": {
+            "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/.artifacts/p14-repaired-probes04/private-location.mjs": "329ac2c2c55cec3a6ceef1973abc3136a80feeca77d3a6d858dc6f423ee3417d",
+            "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/.artifacts/p14-repaired-probes04/short.mjs": "4446bbcb479bb565cbfa9757f678db6034426ce95ac9d39cf025f519ee889451",
+            "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/.artifacts/p14-repaired-probes04/short-node/node": "c5e3b3aea0534e0ef37ff459bd725d337e9e263a85e35bd615ef5323368e0eba",
+            "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/.artifacts/p14-repaired-probes04/cookie.mjs": "d50845cc6368ec5e25cac5efdb268c8f58ae05640a15877511d9fe7cb69b177f",
+            "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/.artifacts/p14-repaired-probes04/cookie-node/node": "75f460b979acc0fabfbcffaf81b8217a9edd44e51ceebb996099de834f2755c6",
+            "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/make-p14-repaired-probes04.py": "3e835d9528bc1f53df13f3e3c4f95ffddff1e4fd426391fc7f1ad5118dbbcf23",
+            "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/.artifacts/p14-repaired-probes04/manifest.json": "0eca2a57fe098a52e31fee0db5fa4b70531a791dd5a404544280bff10ac2a8d1",
+            "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/run-p14-probe06.py": "5702f993a1013558984e9943d48ce3873d6670b40e3fb3f5b958e3d3bb189ec4"
+          },
+          "unchanged": true
+        },
+        "probe": "cookie"
+      },
+      "browser": {
+        "v": 1,
+        "seq": 75,
+        "kind": "report",
+        "discovered": 17,
+        "executed": 1,
+        "counts": {
+          "passed": 1,
+          "failed": 0,
+          "unreached": 16,
+          "skipped": 0
+        },
+        "failure_class": null,
+        "scenarios": [
+          {
+            "id": "P01",
+            "name": "runtime/exclusion/launcher/config negatives",
+            "status": "unreached",
+            "reason": "not started"
+          },
+          {
+            "id": "P02",
+            "name": "two genuine product sign-ins and native family logout",
+            "status": "unreached",
+            "reason": "not started"
+          },
+          {
+            "id": "P03",
+            "name": "real own-history count, rows, pagination and reload",
+            "status": "unreached",
+            "reason": "not started"
+          },
+          {
+            "id": "P04",
+            "name": "responsive keyboard and inaccessible-script recovery",
+            "status": "unreached",
+            "reason": "not started"
+          },
+          {
+            "id": "P05",
+            "name": "two actual source peers and ingress spoofing negatives",
+            "status": "unreached",
+            "reason": "not started"
+          },
+          {
+            "id": "P06",
+            "name": "Origin/CSRF/context/duplicate-cookie/body boundaries",
+            "status": "unreached",
+            "reason": "not started"
+          },
+          {
+            "id": "P07",
+            "name": "eight-preauth/eight-session admission boundaries",
+            "status": "unreached",
+            "reason": "not started"
+          },
+          {
+            "id": "P08",
+            "name": "independent tabs, stable reads and no context fallback",
+            "status": "unreached",
+            "reason": "not started"
+          },
+          {
+            "id": "P09",
+            "name": "reversed actual start responses",
+            "status": "unreached",
+            "reason": "not started"
+          },
+          {
+            "id": "P10",
+            "name": "reversed actual finish/header-arrival responses",
+            "status": "unreached",
+            "reason": "not started"
+          },
+          {
+            "id": "P11",
+            "name": "reversed logout versus a new independent login",
+            "status": "unreached",
+            "reason": "not started"
+          },
+          {
+            "id": "P12",
+            "name": "lost committed login result and consumed-assertion handling",
+            "status": "unreached",
+            "reason": "not started"
+          },
+          {
+            "id": "P13",
+            "name": "lost logout across genuine short-family expiry",
+            "status": "unreached",
+            "reason": "not started"
+          },
+          {
+            "id": "P14",
+            "name": "current authority, key replacement and cleanup restart",
+            "status": "passed",
+            "checks": [
+              {
+                "id": "real-preauth-natural-expiry-during-authority-loss",
+                "status": "passed",
+                "evidence": {
+                  "diagnostic_only": true,
+                  "real_pending_ceremony_initially_live": true,
+                  "actual_browser_expiry_observed": true,
+                  "current_authority_denied": true,
+                  "all_surviving_cookies_unchanged": true,
+                  "no_new_cookies": true,
+                  "only_expired_preauth_disappeared": true,
+                  "reads_have_no_set_cookie": true,
+                  "native_effects_unchanged": true,
+                  "original_assertion_line": 165
+                }
+              }
+            ]
+          },
+          {
+            "id": "P15",
+            "name": "logout Back and witnessed real BFCache restore",
+            "status": "unreached",
+            "reason": "not started"
+          },
+          {
+            "id": "P16",
+            "name": "actual restore before hydration with CSS/React/offline faults",
+            "status": "unreached",
+            "reason": "not started"
+          },
+          {
+            "id": "P17",
+            "name": "real unavailable/malformed service and failure cleanup",
+            "status": "unreached",
+            "reason": "not started"
+          }
+        ]
+      },
+      "raw_log": {
+        "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/p14-cookie-repaired01.log",
+        "bytes": 6427,
+        "sha256": "07315fc55e87261dd21ae690766c0fe2f9561ab613f11f27ed0f87c77b3ce2ca"
+      }
+    }
+  ],
+  "unit_tests": {
+    "execution": {
+      "id": "p14-repair-units02",
+      "command": [
+        "/Users/jasonlee/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
+        "--test",
+        "--test-reporter=tap",
+        "tools/browser-business-failure.test.mjs",
+        "tools/browser-business-temporal.test.mjs"
+      ],
+      "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+      "exit_code": 0,
+      "timed_out": false,
+      "duration_seconds": 0.12907704198732972,
+      "discovered": null,
+      "counts": {
+        "passed": 0,
+        "failed": 0,
+        "skipped": 0,
+        "filtered": 0,
+        "executed": 0
+      },
+      "log_sha256": "c6c83ea5b68a0c9c39ce5371c7729d00b0d7e38ece089129c2b0a957722e6442",
+      "cleanup_reported": false,
+      "inputs_sha256": "1f07e97d0a7502f836b82f6ac717235d5416c437821ab419a70d0cf65d3bddde",
+      "inputs_unchanged": true
+    },
+    "actual_tap_counts": {
+      "tests": 12,
+      "pass": 12,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "parser_scope": "Original recorder counts Rust summaries only; actual Node counts separately parsed from the raw TAP log"
+  },
+  "interpretation": "Private fragments run only a part of P14: each corrected fragment reports one browser pass and sixteen unreached. Native exit101 is required by the unchanged full seventeen-scenario gate. These are not canonical acceptance; unknown earlier failures remain preserved and their causes are not established.",
+  "historical_unknowns": [
+    "Original hosted e24dac9 P14 assertion remains unlocalized",
+    "Private p14-short-repaired01 failed before the fixed witnesses; adding localization then passing does not establish its cause"
+  ],
+  "prior_candidate_hosted": {
+    "path": "docs/planning/nextjs-v1/evidence/browser-business-session-r7/hosted-diagnostic-green-8434bdb.json",
+    "sha256": "0711076b68b30cf85b1377fb3d7035a3a31c9ccf4901f702ff93091b257b0ee1",
+    "scope": "Exact8434bdb diagnostic-only candidate; excludes this later test repair"
+  },
+  "remaining_gates": [
+    "Exact immutable-head review and requiredPR CI GREEN",
+    "Protected queue admission followed by required merge-group checks"
+  ],
+  "no_deployment_or_live_institution_effects": true,
+  "tooling": {
+    "execution": {
+      "id": "p14-repair-tooling01",
+      "command": [
+        "/Users/jasonlee/.local/share/fnm/node-versions/v24.21.0/installation/bin/npm",
+        "run",
+        "test:source-closure"
+      ],
+      "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+      "exit_code": 0,
+      "timed_out": false,
+      "duration_seconds": 0.9237667500274256,
+      "discovered": null,
+      "counts": {
+        "passed": 0,
+        "failed": 0,
+        "skipped": 0,
+        "filtered": 0,
+        "executed": 0
+      },
+      "log_sha256": "5feed1db2dc817cedffebc6f4796555afce449fe67b37cf738b04917a2508247",
+      "cleanup_reported": false,
+      "inputs_sha256": "1f07e97d0a7502f836b82f6ac717235d5416c437821ab419a70d0cf65d3bddde",
+      "inputs_unchanged": true
+    },
+    "actual_tests": 18
+  },
+  "fragment_review": {
+    "reviewer": "p14_diagnostic_review",
+    "verdict": "CONDITIONAL_DIAGNOSTIC_ACCEPT",
+    "scope": "Verified both original expected-RED witnesses and corrected fragments, current source/diagnostic hashes, required native incomplete-matrix refusal and cleanup. No wholeP14/canonical/hosted/queue acceptance; earlier unknown failures retained."
+  },
+  "canonical": {
+    "execution": {
+      "id": "p14-repair-canonical01",
+      "command": [
+        "bash",
+        "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/tools/lanes/pgtest.sh",
+        "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork",
+        "/Users/jasonlee/.cargo/bin/cargo",
+        "+1.98.1",
+        "test",
+        "--locked",
+        "--offline",
+        "--no-fail-fast",
+        "-p",
+        "console-app",
+        "--features",
+        "frontend-e2e",
+        "--test",
+        "auth_rest",
+        "--",
+        "--test-threads=1",
+        "--nocapture"
+      ],
+      "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+      "exit_code": 0,
+      "timed_out": false,
+      "duration_seconds": 1800.4391737920232,
+      "discovered": null,
+      "counts": {
+        "passed": 121,
+        "failed": 0,
+        "skipped": 0,
+        "filtered": 0,
+        "executed": 121
+      },
+      "log_sha256": "576b9cf75ae1afec220f0479a59fb253915efaeedce88fcc38b30c3c24c6924a",
+      "cleanup_reported": true,
+      "inputs_sha256": "1f07e97d0a7502f836b82f6ac717235d5416c437821ab419a70d0cf65d3bddde",
+      "inputs_unchanged": true
+    },
+    "browser": {
+      "v": 1,
+      "seq": 577,
+      "kind": "report",
+      "discovered": 17,
+      "executed": 17,
+      "counts": {
+        "passed": 17,
+        "failed": 0,
+        "unreached": 0,
+        "skipped": 0
+      },
+      "failure_class": null,
+      "scenarios": [
+        {
+          "id": "P01",
+          "name": "runtime/exclusion/launcher/config negatives",
+          "status": "passed"
+        },
+        {
+          "id": "P02",
+          "name": "two genuine product sign-ins and native family logout",
+          "status": "passed"
+        },
+        {
+          "id": "P03",
+          "name": "real own-history count, rows, pagination and reload",
+          "status": "passed"
+        },
+        {
+          "id": "P04",
+          "name": "responsive keyboard and inaccessible-script recovery",
+          "status": "passed"
+        },
+        {
+          "id": "P05",
+          "name": "two actual source peers and ingress spoofing negatives",
+          "status": "passed"
+        },
+        {
+          "id": "P06",
+          "name": "Origin/CSRF/context/duplicate-cookie/body boundaries",
+          "status": "passed"
+        },
+        {
+          "id": "P07",
+          "name": "eight-preauth/eight-session admission boundaries",
+          "status": "passed"
+        },
+        {
+          "id": "P08",
+          "name": "independent tabs, stable reads and no context fallback",
+          "status": "passed"
+        },
+        {
+          "id": "P09",
+          "name": "reversed actual start responses",
+          "status": "passed"
+        },
+        {
+          "id": "P10",
+          "name": "reversed actual finish/header-arrival responses",
+          "status": "passed"
+        },
+        {
+          "id": "P11",
+          "name": "reversed logout versus a new independent login",
+          "status": "passed"
+        },
+        {
+          "id": "P12",
+          "name": "lost committed login result and consumed-assertion handling",
+          "status": "passed"
+        },
+        {
+          "id": "P13",
+          "name": "lost logout across genuine short-family expiry",
+          "status": "passed",
+          "checks": [
+            {
+              "id": "lost-result-expired-access",
+              "status": "passed",
+              "evidence": {
+                "observed": {
+                  "kind": "http-failure",
+                  "status": 503
+                },
+                "native_owner_status": 204,
+                "actual_cookie_expired": true,
+                "unknown_before_refresh": true,
+                "conservative_absent_after_refresh": true,
+                "same_sender_alive": true,
+                "late_header_claim": false
+              }
+            },
+            {
+              "id": "near-expiry-intact-late-headers",
+              "status": "passed",
+              "evidence": {
+                "native_owner_status": 204,
+                "original_public_status": 204,
+                "empty_body": true,
+                "actual_cookie_expired": true,
+                "recovery_document_refreshed": true,
+                "original_request_pending_until_b_cookie": true,
+                "exact_original_generation_headers": true,
+                "same_sender_alive": true,
+                "newer_b_cookie_and_reads_preserved": true
+              }
+            }
+          ]
+        },
+        {
+          "id": "P14",
+          "name": "current authority, key replacement and cleanup restart",
+          "status": "passed"
+        },
+        {
+          "id": "P15",
+          "name": "logout Back and witnessed real BFCache restore",
+          "status": "passed",
+          "checks": [
+            {
+              "id": "ordinary-logout-back",
+              "status": "passed",
+              "evidence": {
+                "ordinary_back": true,
+                "cached_restore_seen": false
+              }
+            },
+            {
+              "id": "native-revocation-real-bfcache",
+              "status": "passed",
+              "evidence": {
+                "mode": "normal",
+                "blocked_scripts": 0,
+                "blocked_styles": 0,
+                "transformed_documents": [],
+                "trusted_original_restore": true,
+                "original_document": "98d0af2b-2264-4fd9-8c45-3cb1a7195d11"
+              }
+            }
+          ],
+          "measured_guard_sha256": "a1c04481ce25603ade8e8fcd645ec27ff4730b446a4c54d81680b5c2fac76d97",
+          "measured_guard_documents": 2
+        },
+        {
+          "id": "P16",
+          "name": "actual restore before hydration with CSS/React/offline faults",
+          "status": "passed",
+          "checks": [
+            {
+              "id": "blocked-bundles",
+              "status": "passed",
+              "evidence": {
+                "mode": "blocked-bundles",
+                "blocked_scripts": 14,
+                "blocked_styles": 0,
+                "transformed_documents": [],
+                "trusted_original_restore": true,
+                "original_document": "4fcbf436-3a15-4326-a9c0-67ca2547ca15"
+              }
+            },
+            {
+              "id": "blocked-css-bundles",
+              "status": "passed",
+              "evidence": {
+                "mode": "blocked-css-bundles",
+                "blocked_scripts": 14,
+                "blocked_styles": 3,
+                "transformed_documents": [],
+                "trusted_original_restore": true,
+                "original_document": "f72e611a-9282-4254-8fbc-bfdbc3dc04e1"
+              }
+            },
+            {
+              "id": "delayed-bundles",
+              "status": "passed",
+              "evidence": {
+                "mode": "delayed-bundles",
+                "blocked_scripts": 0,
+                "blocked_styles": 0,
+                "transformed_documents": [],
+                "delayed_bundle_sha256": [
+                  "968e7616f52d9283a444fae6f7a3ecff33394e80c9e1177859b94146d2860956",
+                  "50a514868e4e913e186ebce1bbfeb0294466488528a42d14347c4df3cdf94cc3",
+                  "8dc2c1d71557b434c654ec58acb1441bc0fb200c520ff548f606d88e689ee643",
+                  "d77ffbf856b56b4ac7a59c41e5cc4e01612e2574ee3ed739adad6eb595a9f1f3",
+                  "968e7616f52d9283a444fae6f7a3ecff33394e80c9e1177859b94146d2860956",
+                  "50a514868e4e913e186ebce1bbfeb0294466488528a42d14347c4df3cdf94cc3",
+                  "fdf8e052c44354f91ddea79a5f2627808e024a5cf8e89b4d1f0f6f2e468e5a73",
+                  "9a90a80a9a15f52045a58619733786ecee9042cda47d8e3dbf6961f87c409b93",
+                  "8dc2c1d71557b434c654ec58acb1441bc0fb200c520ff548f606d88e689ee643",
+                  "d77ffbf856b56b4ac7a59c41e5cc4e01612e2574ee3ed739adad6eb595a9f1f3",
+                  "57cefb9923740eac50454fd208c9357de4d9b77bca846babf5a60ce5753ab184",
+                  "fdf8e052c44354f91ddea79a5f2627808e024a5cf8e89b4d1f0f6f2e468e5a73",
+                  "968e7616f52d9283a444fae6f7a3ecff33394e80c9e1177859b94146d2860956",
+                  "50a514868e4e913e186ebce1bbfeb0294466488528a42d14347c4df3cdf94cc3",
+                  "8dc2c1d71557b434c654ec58acb1441bc0fb200c520ff548f606d88e689ee643",
+                  "d77ffbf856b56b4ac7a59c41e5cc4e01612e2574ee3ed739adad6eb595a9f1f3"
+                ],
+                "trusted_original_restore": true,
+                "original_document": "a57a1618-68f4-4efc-a0a8-97fc1e50bd27"
+              }
+            },
+            {
+              "id": "queued-react-css",
+              "status": "passed",
+              "evidence": {
+                "mode": "queued-react-css",
+                "blocked_scripts": 0,
+                "blocked_styles": 0,
+                "transformed_documents": [],
+                "trusted_original_restore": true,
+                "original_document": "049bf979-31a5-4db0-922c-602270963af2"
+              }
+            },
+            {
+              "id": "offline",
+              "status": "passed",
+              "evidence": {
+                "mode": "offline",
+                "blocked_scripts": 0,
+                "blocked_styles": 0,
+                "transformed_documents": [],
+                "trusted_original_restore": true,
+                "original_document": "ba0c4010-741a-4bad-a035-955363adf1b7"
+              }
+            },
+            {
+              "id": "missing-guard",
+              "status": "passed",
+              "evidence": {
+                "mode": "missing-guard",
+                "blocked_scripts": 0,
+                "blocked_styles": 0,
+                "transformed_documents": [
+                  {
+                    "upstream_status": 200,
+                    "upstream_sha256": "fbd5d4790c81b805027cf34d5052a5df7c9aa27e5181c8fb4f474b0e5b26ce4c",
+                    "delivered_sha256": "01cb2ae340546d984e79b9f110984833d1e354e4c12d4c7e181009885f4b3bc8",
+                    "pinned_guard_sha256": "a1c04481ce25603ade8e8fcd645ec27ff4730b446a4c54d81680b5c2fac76d97"
+                  }
+                ],
+                "trusted_original_restore": true,
+                "original_document": "9ff5e300-8f3b-4c92-bbbe-4aa9b2887092"
+              }
+            },
+            {
+              "id": "thrown-guard",
+              "status": "passed",
+              "evidence": {
+                "mode": "thrown-guard",
+                "blocked_scripts": 0,
+                "blocked_styles": 0,
+                "transformed_documents": [
+                  {
+                    "upstream_status": 200,
+                    "upstream_sha256": "b635e97c5ffb9271219bd92f4865ebc8e7d12c0a5e79727189ce1d970b30a7ed",
+                    "delivered_sha256": "8e9a69823ec24dbc123ea366ad82896b1a344750fd89aa597b5bf333c76eadaf",
+                    "pinned_guard_sha256": "a1c04481ce25603ade8e8fcd645ec27ff4730b446a4c54d81680b5c2fac76d97"
+                  }
+                ],
+                "trusted_original_restore": true,
+                "original_document": "516bf390-c54b-49df-bbc0-d9045aa673ab"
+              }
+            }
+          ],
+          "measured_guard_sha256": "a1c04481ce25603ade8e8fcd645ec27ff4730b446a4c54d81680b5c2fac76d97",
+          "measured_guard_documents": 2
+        },
+        {
+          "id": "P17",
+          "name": "real unavailable/malformed service and failure cleanup",
+          "status": "passed"
+        }
+      ]
+    },
+    "input_snapshot": {
+      "path": "docs/planning/nextjs-v1/evidence/browser-business-session-r7/p14-repair-canonical01.inputs.json",
+      "sha256": "1f07e97d0a7502f836b82f6ac717235d5416c437821ab419a70d0cf65d3bddde"
+    },
+    "child_report": {
+      "path": "docs/planning/nextjs-v1/evidence/browser-business-session-r7/p14-repair-canonical01.child-report.json",
+      "sha256": "464c8bc30d84e4befb7c3e41ef30dc87a5b877c12d1526b8e9813eb1f7152918"
+    },
+    "discovered_count": 121,
+    "executed_unique_names": 121,
+    "native_names_sha256": "3d173aa479cba05365aa814eb755abab15e4a7fd3290b9ce706de1e8f1eb07df",
+    "interpretation": "17 browser scenarios are embedded inside one of121native tests. No ignored/skipped/filtered/unreached; single-site virtual browser proof only."
+  },
+  "publication_review": {
+    "recorded_at": "2026-10-06T00:46:52.253586+00:00",
+    "verdict": "ACCEPT_bounded_publication",
+    "pre_receipt_manifest_sha256": "d644195b9917c23b1e183588285613b2d028f6e70847bd120842bdd59c771c5c",
+    "files": 14,
+    "reviewers": [
+      "p14_trace_review",
+      "p14_diagnostic_review"
+    ],
+    "scope": "Both independent reviewers accepted exact fourteen-file manifest02, complete121/17 local proof, twelve units and eighteen tooling tests; only this publication receipt and corresponding metadata/hash updates follow. Exact immutable-head review and current-head required PR CI remain gates before protected queue admission. Required merge-group checks follow. No wider product or launch approval."
+  }
+}

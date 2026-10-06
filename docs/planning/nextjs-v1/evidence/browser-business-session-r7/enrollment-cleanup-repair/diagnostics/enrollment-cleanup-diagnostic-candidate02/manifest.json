@@ -1,0 +1,59 @@
+{
+  "version": 2,
+  "artifacts": {
+    "before-driver01.mjs": {
+      "sha256": "58099e7bf5d539a35117818a76bb4d50b4af0dece3f2c35a17fe9c5f41c444f7",
+      "bytes": 13191
+    },
+    "before.mjs": {
+      "sha256": "6cbb58a1b2eae9f01d0b4d0838afd7c5c421c496a532fde056a1f33e153027ce",
+      "bytes": 13987
+    },
+    "diagnostic-schema.json": {
+      "sha256": "96196e0d6347177555972492f3db32eb08a92f9de0558bf15eed968ccbd60d18",
+      "bytes": 1478
+    },
+    "driver-review-repair.diff": {
+      "sha256": "483eddee72fa2b97a726122b8bf5a9d4e25b537bc5f64f5b50fb16d649be76b8",
+      "bytes": 2062
+    },
+    "independent-review01.json": {
+      "sha256": "2cf388701124bdb597c8864c879edb5a9de658f0bcf8cab92140d86ca5e47051",
+      "bytes": 6322
+    },
+    "patch.diff": {
+      "sha256": "f323b64574abf791176372b71664742164964d56041f6eb32dafdf15e563f919",
+      "bytes": 8442
+    },
+    "proposal.json": {
+      "sha256": "a6c1b5c83b8e32720e3ca87e1922d6c0c8cb5223cd81725b4423b170d1e7a21d",
+      "bytes": 4920
+    },
+    "root-input-pins.json": {
+      "sha256": "dfe06bb291c2e5ddc53f6077911144ec9e8bfb58ee3f489165d09f2fb7551333",
+      "bytes": 1974
+    },
+    "server.mjs": {
+      "sha256": "1f0f42b227af875f580ea4d11ff3b8355eb24487b17f45d9de99e3324a62f90f",
+      "bytes": 8799
+    },
+    "tools/enrollment-fault-deadlines.mjs": {
+      "sha256": "6f80266162d5413bcda245b17536b991518e95e22f5b1a7001067aaa4120fc06",
+      "bytes": 1167
+    },
+    "tools/production-runtime.mjs": {
+      "sha256": "7e4d05bac69900295f8777c931999f2987acd36c947f281cbea7d1bbdf673367",
+      "bytes": 8831
+    },
+    "tools/test-native-browser-enrollment-diagnostic.test.mjs": {
+      "sha256": "1545f9c29e82dcb33212d02020a7dad9a23fbc25860af945e5f9d5b4efab518e",
+      "bytes": 13530
+    },
+    "tools/test-native-browser-enrollment.mjs": {
+      "sha256": "bcd5fb0730bdc268d35dbd220fb8c44bbf35b3219ea1deffba95b3a8a9e6d3f6",
+      "bytes": 18733
+    }
+  },
+  "immutable_files_read_only": true,
+  "runtime_acceptance": false
+}

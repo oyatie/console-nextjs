@@ -1,0 +1,84 @@
+{
+  "schema": "resident-sdk-shared-cleanup-source-review/2",
+  "state": "ACCEPT_SOURCE_ONLY",
+  "scope": "Independent static re-review of paired Node/Rust candidate02 against accepted design03, exact candidate01 delta, component/combined patches and baseline dependency. No source application or runtime validation.",
+  "pins": {
+    "manifest_sha256": "ba6411cc073f5469b4a71f69fd8213376b487ee40fd7c575675a8de6a0716ed6",
+    "design_sha256": "706993f6545e022b20c96bee286bdb795ff2f82fdf732ab5738da31b1dd76d56",
+    "node_before_sha256": "b62d0d6eba89439d4194b79d4dab62ed8fd07614f93bf984bbd3ab261a71799e",
+    "node_after_sha256": "88cdfea200731ab32fcda0c797a96eee6ce49a42e6f174208fed29195105cd2e",
+    "rust_before_sha256": "26e2350f1224c10f6ea3095a201ead024cf7f5e040d8a8924657202cc6345311",
+    "rust_after_sha256": "c2fc3e190d7b9933cdaf77958a8a9dc11a6ab8df83fa69362c7a42d5bc67412c",
+    "combined_patch_sha256": "70136cfd792b1084631ab8a7bcd1f64f802d7d4bdbf76ed36fef96c1dc1c4d94",
+    "node_patch_sha256": "cbe3ec74daf2c3afa2399295415e27bd47571c529dd50156e5dfd529fce93136",
+    "rust_patch_sha256": "a0d50d87ec75931809154e172ec5b8bd28ff6f57c51149bd064efd42e1957b85",
+    "superseded_candidate01_review_sha256": "419bb87894c498a3391d0ed26b66ef7ba0d198aa3b7908cd9b0e10832627f8a9"
+  },
+  "verified": {
+    "all_pins_match": true,
+    "both_component_patches_match_exact_snapshots": true,
+    "combined_patch_matches_exact_snapshots": true,
+    "rust_before_matches_independently_accepted_startup_fault02": true,
+    "rust_after_unchanged_from_candidate01": true
+  },
+  "prior_finding": {
+    "id": "stale-pending-assertion-rejects-real-settlement",
+    "state": "RESOLVED",
+    "resolution": "Candidate02 removes only the stale killSettled===false assertion. After actual child exit/observed close, the retained same killing promise must return its actual true outcome inside the original twelve-second deadline. A genuine late fulfillment remains acceptable within that bound; false/rejection remains failure."
+  },
+  "findings": [],
+  "source_checks": [
+    {
+      "node_lines": "239-258",
+      "assessment": "One original startup owner captures the exact mkdtemp path immediately and later captures a returned real BrowserServer. Scope plus actual SDK launch share the original monotonic five-second budget; the outer timeout race does not replace the startup owner, which the finalizer retains. Only the isolated child process environment and actual Chromium launch env use this scope."
+    },
+    {
+      "node_lines": "100-119",
+      "assessment": "The same finalize owner removes only the exact fresh ownedTempScope with actual recursive rm, propagates removal failure, and sets removed only after an independently awaited ENOENT-only lstat outcome and same-total monotonic checks. No inherited TMPDIR deletion or synthesized absence."
+    },
+    {
+      "node_lines": "139-148",
+      "assessment": "Finalization waits for the original startup owner. A settled no-returned-browser branch removes its known scope when present, invents no target when absent, then fails without cleaned ACK. Browser absence is not inferred."
+    },
+    {
+      "node_lines": "122-129,159-179",
+      "assessment": "Two-second close/kill observations remain, including phase monotonic checks and losing-timer release. Close is invoked once, kill at most once. An unsuccessful kill-window observation can proceed only after actual child exit and observed close, awaiting only the retained original promise. Actual false/rejection cannot become success."
+    },
+    {
+      "node_lines": "100-102,164-178,185-203",
+      "assessment": "The original twelve-second total is checked after awaited cleanup and around actual ACK write. SDK settlement, actual browser-child status and observed scope absence all precede cleaned-frame acceptance. Late frame completion keeps Node3, and the failed hard timer is retained/unref'd rather than replaced or re-armed."
+    },
+    {
+      "node_lines": "131-137",
+      "rust_lines": "21-45,533-546",
+      "assessment": "Node emits only fixed stage and boolean metadata; BrowserCleanup/OwnedTemp and required owned-temp fields match the strict Rust serde schema. No raw paths, IDs, SDK errors, credential/private payloads or process identities are newly reported."
+    },
+    {
+      "node_lines": "215-235,259-355",
+      "rust_lines": "508-532",
+      "assessment": "Actual WebAuthn credential behavior, secure origin checks, modal test-only mediation, framed sequencing, known browser identity/exited flag, outcome and actual Node exit-status validation remain unchanged. Scope cleanup and a frame alone do not substitute for those checks."
+    },
+    {
+      "manifest": "application_order/dependency",
+      "assessment": "The Rust before snapshot is exactly the separately accepted startup-fault02 source, not asserted to be the current tracked source. Apply that dependency first and then the paired Node/Rust changes; execute no mixed-schema intermediate state."
+    }
+  ],
+  "limits": [
+    "Source-only acceptance. Author-reported Node syntax and prior Rust formatting checks are static, not compiler/typecheck or runtime evidence, and were not rerun here.",
+    "No tests, real Node/Chromium execution, provider probe, actual rm/lstat operation, process census, or source application occurred.",
+    "ACK plus matching Node outcome certifies only the specified child/status/SDK settlement/scoped absence contract; independent browser descendant/group absence remains UNKNOWN without a separate positive witness.",
+    "SDK settlement does not establish successful deletion outside the owned scope or secure erasure. This source does not prove the historical filesystem cause.",
+    "Focused startup tests, real owned-temp lifecycle/dedicated SDK evidence, unchanged short-family/FK-holder consumers, fresh full native/browser gate and exact final source maps remain required.",
+    "No business P16, full gate, release or deployment acceptance is granted."
+  ],
+  "actions": {
+    "tracked_source_writes": 0,
+    "candidate_source_writes": 0,
+    "artifact_review_receipt_write": true,
+    "patch_applied": false,
+    "compilation": false,
+    "tests_executed": 0,
+    "fixture_or_probe_execution": false,
+    "service_actions": false
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "schema": "resident-startup-fault-candidate/1",
+  "state": "ARTIFACT_ONLY_NOT_APPLIED_NOT_COMPILED_NOT_TESTED",
+  "before_sha256": "2917aa92f08d8d8d49da0f5ddf0474c808bf5886683a8754e35bf69a15fcaedd",
+  "after_sha256": "31b7ac1a36bcde507fb76fa82d10d5cc682ccbffaa4d8f64358a5188629febd2",
+  "patch_sha256": "1fa1d07143c5cf76793d6858263b3a86ed7327a35bd27d0d2a1e34c32ecdba44",
+  "source_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/resident-startup-fault-candidate01/backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs",
+  "tests_added": [
+    "injected_writer_setup_failure_preserves_constructor_error_and_resource_custody",
+    "injected_reader_setup_failure_preserves_constructor_error_and_resource_custody",
+    "injected_stderr_setup_failure_preserves_constructor_error_and_resource_custody",
+    "failed_close_is_cached_without_restarting_cleanup_and_normal_drop_stays_failing"
+  ],
+  "mechanism": "Private fixture-only failpoints before fallible worker creation and post-cached-real-cleanup observation through unbounded mpsc. Actual Node child and Chromium fixture remain unchanged; no provider/SDK/credential/ACK substitution.",
+  "acceptance_scope": [
+    "Original fixed typed constructor error survives without secondary Drop panic at writer/reader/stderr setup failure.",
+    "Actual observed Node status/reaping and created-worker completion/handle drain.",
+    "A closed actual output receiver makes first real close fail; second close and expected failing normal Drop emit no second cleanup attempt."
+  ],
+  "proof_limits": [
+    "Injected setup error is simulated thread setup failure, not empirical OS exhaustion.",
+    "These cases have no independently verified browser process-group absence; browser custody is explicitly UNKNOWN, even where the full-ready case originally obtained a browser PID.",
+    "Node reaping and created-worker completion do not establish Chromium absence or temporary-file destruction.",
+    "No runtime or source acceptance yet; fresh final source pins and tests remain required."
+  ],
+  "formatting": {
+    "command": [
+      "/Users/jasonlee/.cargo/bin/rustup",
+      "run",
+      "1.98.1",
+      "rustfmt",
+      "--edition",
+      "2024",
+      "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/resident-startup-fault-candidate01/backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs"
+    ],
+    "exit_code": 0,
+    "scope": "Artifact-only parse/format, no compilation/test"
+  },
+  "actions": {
+    "tracked_source_writes": 0,
+    "tests_executed": 0,
+    "artifact_only_source_and_manifest_write": true
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "schema": "P16-native-input-owner-candidate/1",
+  "status": "UNEXECUTED_SOURCE_CANDIDATE",
+  "before_sha256": "33bbfcc9e60abdc5f6eb6e9d8c800667bac46ced34cbbde6154744ed7da61a7b",
+  "after_sha256": "39209e86daab502846448cd5a66e1b50d89e4e45a0ebdd420f1869be3c910646",
+  "after_bytes": 49245,
+  "patch_sha256": "6eb948864fc9fb6e59a56af070766fc09fc125e6102dcf55ef80dc09fc6db91d",
+  "sdk_core_bundle_sha256": "549070af3acabb3efcc4f55bfe6210f9f7c2fcf633cf7eaa59bfe60719969171",
+  "sdk_protocol_sha256": "0410ed82a9ac63269dc1471ed249b280e2d461249a3a331e71cdb54cdf10db33",
+  "tests_executed": 0,
+  "tracked_source_writes": 0,
+  "workflow": "Existing native401 exactgate/context witness -> F13 nativekeydown/up -> exactpage/mainframe/nonce/seq/originaltoken/trustedpersisted binding snapshot -> existingpending/private assertions -> sole F14 nativekeydown/up -> originalclosure release -> existingactualReactcommit/logout204/cookie/privacy/nativegate/singlehardreload/independentB proofs. No postrestore Runtime.evaluate/callFunctionOn or rawsnapshotlogs; no timeoutwidening/fallback/retry."
+}

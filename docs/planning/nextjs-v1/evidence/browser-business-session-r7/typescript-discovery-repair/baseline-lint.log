@@ -1,0 +1,5 @@
+
+> console-web@1.0.0 lint
+> tsc --noEmit
+
+docs/planning/nextjs-v1/evidence/browser-business-session-r7/enrollment-cleanup-repair/diagnostics/P16-native-gate-bff-deadline-source-trace01/sources/src/lib/server/browser-session.ts(5,46): error TS2307: Cannot find module './mutation-guard' or its corresponding type declarations.

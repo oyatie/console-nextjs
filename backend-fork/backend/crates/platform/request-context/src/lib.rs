@@ -82,6 +82,19 @@ impl TrustedClientIp {
     }
 }
 
+/// Positive evidence of one canonical client address forwarded by exactly one
+/// configured trusted peer. Only this ingress owner can construct the evidence;
+/// a fallback [`TrustedClientIp`] is deliberately insufficient.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub struct VerifiedForwardedClientIp(IpAddr);
+
+impl VerifiedForwardedClientIp {
+    #[must_use]
+    pub const fn get(self) -> IpAddr {
+        self.0
+    }
+}
+
 /// Resolve the client IP at the sole trusted HTTP ingress boundary.
 ///
 /// A forwarding header is considered only when the deployment explicitly
@@ -101,25 +114,32 @@ pub fn resolve_trusted_client_ip(
     trusted_proxy_count: usize,
     trusted_proxy_cidrs: &[IpNet],
 ) -> IpAddr {
+    resolve_forwarded_client_ip(headers, peer, trusted_proxy_count, trusted_proxy_cidrs)
+        .map_or(peer.ip(), |(client, _)| client)
+}
+
+fn resolve_forwarded_client_ip(
+    headers: &HeaderMap,
+    peer: SocketAddr,
+    trusted_proxy_count: usize,
+    trusted_proxy_cidrs: &[IpNet],
+) -> Option<(IpAddr, bool)> {
     if trusted_proxy_count == 0
         || !trusted_proxy_cidrs
             .iter()
             .any(|network| network.contains(&peer.ip()))
     {
-        return peer.ip();
+        return None;
     }
 
     let forwarded_values = headers.get_all("x-forwarded-for");
     if forwarded_values.iter().count() != 1 {
-        return peer.ip();
+        return None;
     }
-    let Some(forwarded) = forwarded_values
+    let forwarded = forwarded_values
         .iter()
         .next()
-        .and_then(|value| value.to_str().ok())
-    else {
-        return peer.ip();
-    };
+        .and_then(|value| value.to_str().ok())?;
 
     let entries = forwarded
         .split(',')
@@ -133,7 +153,7 @@ pub fn resolve_trusted_client_ip(
         })
         .collect::<Result<Vec<_>, _>>();
     let Ok(entries) = entries else {
-        return peer.ip();
+        return None;
     };
 
     // `trusted_proxy_count` includes the direct peer. The remaining trusted
@@ -141,18 +161,19 @@ pub fn resolve_trusted_client_ip(
     // suffix before accepting the entry immediately to its left as the client.
     // This rejects a caller-prepended chain that merely happens to be long
     // enough, instead of treating an arbitrary untrusted suffix as a proxy.
-    let Some(client_index) = entries.len().checked_sub(trusted_proxy_count) else {
-        return peer.ip();
-    };
+    let client_index = entries.len().checked_sub(trusted_proxy_count)?;
     if entries[client_index + 1..].iter().any(|hop| {
         !trusted_proxy_cidrs
             .iter()
             .any(|network| network.contains(hop))
     }) {
-        return peer.ip();
+        return None;
     }
 
-    entries[client_index]
+    let client = entries[client_index];
+    let single_canonical_hop =
+        trusted_proxy_count == 1 && entries.len() == 1 && forwarded == client.to_string();
+    Some((client, single_canonical_hop))
 }
 
 /// Insert a [`TrustedClientIp`] extension at the process ingress.
@@ -172,15 +193,24 @@ where
         move |mut request: Request, next: Next| {
             let trusted_proxy_cidrs = Arc::clone(&trusted_proxy_cidrs);
             async move {
+                request
+                    .extensions_mut()
+                    .remove::<VerifiedForwardedClientIp>();
                 if let Some(ConnectInfo(peer)) =
                     request.extensions().get::<ConnectInfo<SocketAddr>>()
                 {
-                    let client_ip = resolve_trusted_client_ip(
+                    let resolved = resolve_forwarded_client_ip(
                         request.headers(),
                         *peer,
                         trusted_proxy_count,
                         &trusted_proxy_cidrs,
                     );
+                    let client_ip = resolved.map_or(peer.ip(), |(client, _)| client);
+                    if let Some((client, true)) = resolved {
+                        request
+                            .extensions_mut()
+                            .insert(VerifiedForwardedClientIp(client));
+                    }
                     request
                         .extensions_mut()
                         .insert(TrustedClientIp::new(client_ip));
@@ -626,16 +656,29 @@ where
 }
 
 fn request_audit_context(request: &Request) -> RequestAuditContext {
+    audit_context_for_method(request, "bearer")
+}
+
+/// Extract metadata only after the owning transport has authenticated ingress.
+pub fn audit_context_for_method(request: &Request, method: &str) -> RequestAuditContext {
     let headers = request.headers();
     RequestAuditContext {
         trace: trace_context(headers),
         request: AuditRequestContext {
             ip: trusted_or_direct_client_ip(request).map(|ip| ip.to_string()),
             user_agent: header_text(headers, http::header::USER_AGENT.as_str()).map(str::to_owned),
-            auth_method: Some("bearer".to_owned()),
+            auth_method: Some(method.to_owned()),
             device: header_text(headers, "x-device-id").map(str::to_owned),
         },
     }
+}
+
+/// Bind one authenticated transport's audit metadata without changing authority.
+pub async fn scope_audit_context<F, T>(context: RequestAuditContext, future: F) -> T
+where
+    F: std::future::Future<Output = T>,
+{
+    CURRENT_AUDIT_CONTEXT.scope(context, future).await
 }
 
 fn trusted_or_direct_client_ip(request: &Request) -> Option<IpAddr> {

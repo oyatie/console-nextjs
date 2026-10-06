@@ -1,0 +1,43 @@
+{
+  "schema": "restored-context-diagnostic-terminal-audit-preparation/1",
+  "state": "PREPARED_ONLY_TERMINAL_NOT_AVAILABLE",
+  "source_prerequisites": {
+    "tools/browser-business-restore.mjs": "a23c66dc14171cc07ab6d10d6835d07d4aaa105fae90e99ee9920015cf5214b6",
+    "tools/test-resident-authenticator.mjs": "3270d79e4a3511cba87b9998367b3918a00bdcebbc2935bb903019c319f13698",
+    "backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs": "1a9ef29ee164cdeca5573a5b750b49f54f5e215f19a8709d9a8309ab5f71766f"
+  },
+  "required_terminal_inputs": {
+    "report": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/restored-context-failure-diagnostic-native01.json",
+    "log": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/restored-context-failure-diagnostic-native01.log",
+    "maps": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/restored-context-failure-diagnostic-native01.inputs.json"
+  },
+  "checks": [
+    "Verify terminal report/log/maps hashes and unchanged before/after entries, without regenerating current source maps.",
+    "Independently parse actual native selected genuine-consumer count and all125 discovery coverage as1executed+124filtered; do not represent filtered cases as passed.",
+    "Extract exactly one PRODUCT_BROWSER_SCENARIOS payload and verify all17 IDs, raw status counts, failed/skipped/unreached outcomes.",
+    "Inspect fixed original_world_observation fields, actual helper branch, lifecycle seen flags, configured budget and capped age; no raw error/frame/value/ID outputs.",
+    "Preserve unobserved cause. A lifecycle false is an absent event observation, and last-created equality is historical, not current addressability.",
+    "Keep failed required terminal evidence RED; passing selected consumer alone never fills final125 native gate."
+  ],
+  "allowed_helper_purposes": [
+    "pin",
+    "pending",
+    "privacy",
+    "release"
+  ],
+  "allowed_helper_categories": [
+    "identity-check",
+    "cdp-send",
+    "response-access",
+    "returned-exception",
+    "result-access",
+    "returned-value",
+    "local-deadline",
+    "cdp-rejected"
+  ],
+  "actions": {
+    "tests_executed": 0,
+    "tracked_source_writes": 0,
+    "artifact_only_preparation": true
+  }
+}

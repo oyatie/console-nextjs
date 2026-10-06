@@ -1,0 +1,66 @@
+✔ slow prerequisite startup does not spend the requested cleanup budget (1.229542ms)
+✔ a ready runner that fails to exit still triggers the cleanup fallback (0.868625ms)
+✔ never-ready startup has one absolute bounded termination deadline (0.396875ms)
+✔ a second fault cannot reset an already running cleanup deadline (0.30125ms)
+✔ late cleanup cannot erase evidence of forced intervention (0.280416ms)
+✔ natural completion disposes both clocks and cannot rearm them (0.362583ms)
+✔ enrollment runner confirms cleanup after eof-before-origin (305.789834ms)
+✔ enrollment runner confirms cleanup after partial-eof-before-origin (236.204917ms)
+✔ enrollment runner confirms cleanup after frame-eof-before-origin (242.055625ms)
+✔ enrollment runner confirms cleanup after signal-after-origin (19825.359917ms)
+✔ enrollment runner confirms cleanup after eof-after-ready (22608.706167ms)
+✔ enrollment runner confirms cleanup after oversized (18234.780792ms)
+✔ enrollment runner confirms cleanup after wrong-version (43977.4345ms)
+✖ enrollment runner confirms cleanup after wrong-sequence (86113.016125ms)
+✔ enrollment runner confirms cleanup after wrong-kind (86182.827291ms)
+✖ enrollment runner confirms cleanup after legacy-selection (93165.170875ms)
+✔ enrollment runner confirms cleanup after missing-selection (44671.880334ms)
+✔ enrollment runner confirms cleanup after malformed-selection (22009.391958ms)
+✔ enrollment runner confirms cleanup after weak-uv (37366.357042ms)
+✔ business runner confirms cleanup after eof-before-origin (330.279541ms)
+✔ business runner confirms cleanup after partial-eof-before-origin (329.250708ms)
+✔ business runner confirms cleanup after frame-eof-before-origin (296.564875ms)
+ℹ tests 22
+ℹ suites 0
+ℹ pass 20
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 475953.584333
+
+✖ failing tests:
+
+test at tools/test-native-browser-enrollment.test.mjs:27:3
+✖ enrollment runner confirms cleanup after wrong-sequence (86113.016125ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  'cleaned' !== 'ready'
+  
+      at TestContext.<anonymous> (file:///Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/tools/test-native-browser-enrollment.test.mjs:81:16)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'cleaned',
+    expected: 'ready',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tools/test-native-browser-enrollment.test.mjs:27:3
+✖ enrollment runner confirms cleanup after legacy-selection (93165.170875ms)
+  AssertionError [ERR_ASSERTION]: runner ended before cleanup acknowledgement
+      at read (file:///Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/tools/test-native-browser-enrollment.test.mjs:54:16)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async TestContext.<anonymous> (file:///Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/tools/test-native-browser-enrollment.test.mjs:102:21)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }

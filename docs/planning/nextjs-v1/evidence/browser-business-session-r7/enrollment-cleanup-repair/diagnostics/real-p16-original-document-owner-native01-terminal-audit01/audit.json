@@ -1,0 +1,231 @@
+{
+  "schema": "real-P16-original-document-owner-terminal-audit/1",
+  "verdict": "ACCEPT_TERMINAL_DIAGNOSTIC_EVIDENCE; REQUIRED_P16_ACCEPTANCE_FAILED",
+  "scope": "Independent exact completed root report/log/captured-map and actual all17 embedded payload audit on frozen33bb source. No tests/rerun/root-session consumption, current-map regeneration, specific BFF causal claim or product/merge acceptance.",
+  "inputs": {
+    "report": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/real-p16-original-document-owner-native01.json",
+      "bytes": 1206,
+      "sha256": "93c9c386eed07e4140a008c72214adae2d5e0568351ca6e878ff83d8e7fff7cb"
+    },
+    "log": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/real-p16-original-document-owner-native01.log",
+      "bytes": 13570,
+      "sha256": "b10e324ae5e35478466344793f9a2d88f9ffa937aa3ff0bd7f50dba75f4d96d7"
+    },
+    "maps": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/real-p16-original-document-owner-native01.inputs.json",
+      "bytes": 917481,
+      "sha256": "58289ce43a1c9cb39145a677b87a0b55b404dfc3990a65ae638847e93c759609"
+    }
+  },
+  "native": {
+    "test_name": "genuine_browser::genuine_production_browser_proposal_requires_all_seventeen_scenarios",
+    "executed": 1,
+    "passed": 0,
+    "failed": 1,
+    "ignored": 0,
+    "filtered": 124,
+    "body_duration_seconds": 485.58,
+    "wrapper_duration_seconds": 646.0831351670204,
+    "exit_code": 101,
+    "outer_timeout": false
+  },
+  "browser": {
+    "discovered": 17,
+    "executed": 17,
+    "passed": 16,
+    "failed": 1,
+    "unreached": 0,
+    "skipped": 0,
+    "failed_scenarios": [
+      "P16"
+    ],
+    "P16_checks": {
+      "blocked-bundles": "passed",
+      "blocked-css-bundles": "passed",
+      "delayed-bundles": "passed",
+      "queued-react-css": "failed",
+      "offline": "passed",
+      "missing-guard": "passed",
+      "thrown-guard": "passed"
+    },
+    "payload_path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/real-p16-original-document-owner-native01-terminal-audit01/browser-payload.json",
+    "payload_sha256": "4fc1da32dea3421968fdf881c6b6b4fd2c867793f539355b5d6debe0af3ca1dd",
+    "payload_provenance": "Exact embedded compact report JSON plus one newline; original ephemeral fixture Document UUIDs remain only in preserved original payload, not new diagnostic fields."
+  },
+  "P16_required": {
+    "queued_checkpoint": "queued-pending",
+    "failure_location": null,
+    "actual_native_observation": {
+      "stage": "native-response-observed",
+      "http_status": 401,
+      "native_gate_match": true,
+      "native_context_match": true,
+      "native_status_401": true
+    },
+    "ordering_observation": null,
+    "trusted_departures": 1,
+    "trusted_original_restores": 1,
+    "mandatory_original_world": {
+      "purpose": "pending",
+      "category": "cdp-rejected",
+      "configured_budget_ms": 20000,
+      "observed_elapsed_ms": 15008,
+      "elapsed_capped": false,
+      "local_deadline_fired": false,
+      "cdp_response_received": false,
+      "exception_returned": null,
+      "exception_class": null,
+      "returned_value_kind": null,
+      "cdp_rejection": {
+        "error_shape": "native-error",
+        "public_name": "Error",
+        "message_category": "unique-context-not-found",
+        "exact_literal_matched": true
+      },
+      "original_context_destroyed_seen": false,
+      "original_context_created_again_seen": true,
+      "contexts_cleared_after_pin_seen": true,
+      "cdp_session_closed_seen": false,
+      "last_created_main_world_matches_original": false
+    },
+    "predeparture_raw_document_pin": {
+      "purpose": "document-pin",
+      "category": "returned-original-document",
+      "configured_budget_ms": 20000,
+      "observed_elapsed_ms": 0,
+      "elapsed_capped": false,
+      "local_deadline_fired": false,
+      "cdp_response_received": true,
+      "exception_returned": false,
+      "exception_class": null,
+      "returned_value_kind": "node",
+      "cdp_rejection": null,
+      "original_context_destroyed_seen": false,
+      "original_context_created_again_seen": false,
+      "contexts_cleared_after_pin_seen": false,
+      "cdp_session_closed_seen": false,
+      "last_created_main_world_matches_original": true
+    },
+    "read_only_raw_document_at_required_outcome": {
+      "category": "pending-at-required-outcome",
+      "configured_budget_ms": 20000,
+      "observed_elapsed_ms": 15008,
+      "elapsed_capped": false,
+      "local_deadline_fired": false,
+      "raw_document_call_issued": true,
+      "cdp_response_received": false,
+      "cdp_rejection": null,
+      "exception_returned": null,
+      "exception_class": null,
+      "pending": null,
+      "pending_matches_expected": null
+    },
+    "raw_document_observation_equal_to_copied_required_outcome": true,
+    "passive_timeline": [
+      {
+        "sequence": 0,
+        "kind": "exact-main-frame-request",
+        "observed_elapsed_ms": 196,
+        "elapsed_capped": false
+      },
+      {
+        "sequence": 1,
+        "kind": "exact-main-frame-commit",
+        "observed_elapsed_ms": 197,
+        "elapsed_capped": false,
+        "navigation_type": "BackForwardCacheRestore"
+      },
+      {
+        "sequence": 2,
+        "kind": "native-response-observed",
+        "observed_elapsed_ms": 204,
+        "elapsed_capped": false,
+        "stage": "native-response-observed",
+        "http_status": 401,
+        "native_gate_match": true,
+        "native_context_match": true,
+        "native_status_401": true
+      },
+      {
+        "sequence": 3,
+        "kind": "original-evaluation-issued",
+        "observed_elapsed_ms": 204,
+        "elapsed_capped": false,
+        "purpose": "pending"
+      },
+      {
+        "sequence": 4,
+        "kind": "exact-main-frame-response",
+        "observed_elapsed_ms": 15201,
+        "elapsed_capped": false,
+        "http_status": 200
+      },
+      {
+        "sequence": 5,
+        "kind": "exact-main-frame-commit",
+        "observed_elapsed_ms": 15204,
+        "elapsed_capped": false,
+        "navigation_type": "Navigation"
+      },
+      {
+        "sequence": 6,
+        "kind": "original-evaluation-rejected",
+        "observed_elapsed_ms": 15212,
+        "elapsed_capped": false,
+        "purpose": "pending",
+        "cdp_rejection": {
+          "error_shape": "native-error",
+          "public_name": "Error",
+          "message_category": "unique-context-not-found",
+          "exact_literal_matched": true
+        }
+      }
+    ]
+  },
+  "observed_branch": {
+    "primary": "Mandatory original Runtime.evaluate rejected with an exact vetted uniqueContextId-not-found public error literal after15008ms; the unchanged20s local timer did not fire.",
+    "raw_document": "Exact original native Document pin succeeded before departure; read-only raw call was issued after mandatory evaluate and remained pending at original required outcome. No raw response, exception or matching pending-state tuple was observed.",
+    "receipt_order": "Real native401/gate/context observed and mandatory call issued at variant204ms; actual exact-page HTTP200 response received15201ms, Navigation commit received15204ms, exact primary rejection received15212ms.",
+    "ordering_limit": "These are Node receipt times/order, not independently dated browser/BFF event occurrence or proof that commit caused rejection."
+  },
+  "source_inputs": {
+    "sha256": "58289ce43a1c9cb39145a677b87a0b55b404dfc3990a65ae638847e93c759609",
+    "before_count": 2958,
+    "after_count": 2958,
+    "all_before_after_entries_equal": true,
+    "selected_pins": {
+      "tools/browser-business-restore.mjs": "33bbfcc9e60abdc5f6eb6e9d8c800667bac46ced34cbbde6154744ed7da61a7b",
+      "tools/test-resident-authenticator.mjs": "3270d79e4a3511cba87b9998367b3918a00bdcebbc2935bb903019c319f13698",
+      "backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs": "ac3a42f9d88b85631d46640ffed8a63b3fd7793d2b3b5983402d2853f692fed8",
+      "backend-fork/backend/app/tests/auth_rest/genuine_browser.rs": "3fc7ff40ce5b01325515803864ba2e87386562f4dd0bf744b2c22c594261879b",
+      "tools/test-browser-business-session.mjs": "ea936c0cdc8670261d556686b46a6d813b6479f4a8c6dd7b0925a42092e6aa2a"
+    },
+    "limit": "Captured maps checked without regeneration. Configured SDK/Chromium/V8 source pins are not independent runtime binary/version proof."
+  },
+  "specific_cause": "Primary public rejection category is now observed; reason original context was unavailable and any BFF15s abort causal role remain UNPROVEN. No correction chosen or approved by this audit.",
+  "causal_limits": [
+    "cdp_response_received=false means no normal awaited Runtime.evaluate result; it does not prove no protocol error reply arrived. Exact fixed message does not expose or invent numeric protocol error code.",
+    "Actual SSR wire HTTP200 is observed; internal native-fetch503 mapping/timeout and connection-error body were not observed by these passive fields. Do not report an observed HTTP503 or proven BFF abort.",
+    "Source-factual native90s hold, BFF15s fetch abort and observed replacement/rejection order support a candidate mechanism, not independent causal occurrence proof.",
+    "Successful0ms raw Document pin proves predeparture capture only. Pending-at-required-outcome does not prove the raw handle/context remained usable, failed, canceled or subsequently replied.",
+    "False destroyed/session-closed seen flags mean unobserved events; last-created equality is historical, not current usability.",
+    "No post-native pending tuple, original privacy/release/React/logout204/cookie-removal completion can be claimed for failed queued branch; inherited other variant passes do not replace it."
+  ],
+  "cleanup": {
+    "database_lane_cleanup_line_observed": true,
+    "queued_cleanup_failed_steps_present": false,
+    "limit": "Source tracks awaited page cleanup; no failed-step field was emitted here. Neither that absence nor database lane output is independent browser/group/temp custody proof."
+  },
+  "remaining_required": [
+    "Smallest reviewed mechanism correction preserving mandatory original target/privacy/actions and deadlines.",
+    "Fresh final-source unfiltered125-native/all17-browser acceptance plus current source/metadata/evidence review.",
+    "Fresh immutable-head hostedCI and protected merge-group checks."
+  ],
+  "actions": {
+    "tests_executed": 0,
+    "tracked_source_writes": 0,
+    "artifact_only_terminal_audit_payload_write": true
+  }
+}

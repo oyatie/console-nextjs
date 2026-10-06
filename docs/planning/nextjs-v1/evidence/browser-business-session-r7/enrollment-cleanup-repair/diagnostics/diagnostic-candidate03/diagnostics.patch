@@ -1,0 +1,256 @@
+--- a/backend-fork/backend/app/tests/auth_rest/genuine_browser.rs
++++ b/backend-fork/backend/app/tests/auth_rest/genuine_browser.rs
+@@ -957,7 +957,7 @@
+     .await
+     .unwrap_or(Err("infrastructure: overall deadline"));
+     if let Err(reason) = &result {
+-        eprintln!("NATIVE_BROWSER_FAILURE {reason}");
++        eprintln!("NATIVE_BROWSER_FAILURE {reason} checked_frames={}", browser.received);
+     }
+     if let Some(server) = server {
+         server.abort();
+--- a/backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs
++++ b/backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs
+@@ -33,6 +33,8 @@
+     browser_pid: Option<u32>,
+     failed: bool,
+     cleaned: bool,
++    spawned_at: Instant,
++    last_ceremony_read: Option<Instant>,
+ }
+ 
+ impl ResidentAuthenticator {
+@@ -62,6 +64,7 @@
+                 command.env(key, value);
+             }
+         }
++        let spawned_at = Instant::now();
+         let mut child = command
+             .spawn()
+             .map_err(|_| "infrastructure: resident Node start")?;
+@@ -141,6 +144,8 @@
+             browser_pid: None,
+             failed: true,
+             cleaned: false,
++            spawned_at,
++            last_ceremony_read: None,
+         };
+         let ready = value.read(PHASE)?;
+         if ready["kind"] != "ready" || ready["origin"] != ORIGIN || ready["secure_context"] != true
+@@ -195,6 +200,7 @@
+         }
+         let credential = serde_json::from_value(result["credential"].clone())
+             .map_err(|_| "infrastructure: resident credential codec")?;
++        self.last_ceremony_read = Some(Instant::now());
+         self.failed = false;
+         Ok(credential)
+     }
+@@ -240,6 +246,11 @@
+         if self.cleaned {
+             return Ok(());
+         }
++        let owner_age_ms = self.spawned_at.elapsed().as_millis();
++        let ceremony_idle_ms = self.last_ceremony_read.map(|time| time.elapsed().as_millis());
++        let sent_before = self.sent;
++        let received_before = self.received;
++        let panicking = thread::panicking();
+         let deadline = Instant::now() + CLEANUP;
+         // Successful close requests done. Error/panic uses EOF, as C2 does.
+         let done = if self.failed || thread::panicking() {
+@@ -311,7 +322,12 @@
+             .ok_or("infrastructure: resident stderr worker missing")?
+             .join()
+             .map_err(|_| "infrastructure: resident stderr worker failed")?;
+-        let acknowledgement = acknowledgement?;
++        let acknowledgement = acknowledgement.inspect_err(|reason| {
++            eprintln!(
++                "RESIDENT_CLEANUP_FAILURE reason={reason} exit_status={status:?} stderr_bytes={count} sent_before={sent_before} checked_frames_before={received_before} sent={} checked_frames={} done={done} failed={} panicking={panicking} owner_age_ms={owner_age_ms} ceremony_idle_ms={ceremony_idle_ms:?}",
++                self.sent, self.received, self.failed
++            );
++        })?;
+         if count > 1_048_576 || acknowledgement["kind"] != "cleaned" {
+             return Err("infrastructure: resident cleanup acknowledgement");
+         }
+--- a/backend-fork/backend/app/tests/auth_rest/browser_sessions.rs
++++ b/backend-fork/backend/app/tests/auth_rest/browser_sessions.rs
+@@ -3233,17 +3233,79 @@
+         .expect("Apalis owner preparation must pass independently of cleanup behavior");
+ }
+ 
++// Drain every byte without retaining or publishing subprocess error contents.
++// Only bounded line prefixes are examined for fixed startup failure classes.
++#[derive(Default)]
++struct WorkerStderr {
++    bytes: usize,
++    app_error: Option<&'static str>,
++    address_in_use: bool,
++    panicked: bool,
++    thread_spawn: bool,
++    read_failed: bool,
++}
++
++impl WorkerStderr {
++    fn classify(&mut self, prefix: &[u8]) {
++        for variant in ["Config", "Database", "Internal", "Io", "Storage", "Telemetry", "Worker", "Realtime"] {
++            if prefix.starts_with(format!("Error: {variant}(").as_bytes()) {
++                self.app_error = Some(variant);
++                if variant == "Io" {
++                    self.address_in_use |= prefix.windows(b"kind: AddrInUse".len()).any(|part| part == b"kind: AddrInUse");
++                }
++            }
++        }
++        self.panicked |= prefix.windows(b"panicked at".len()).any(|part| part == b"panicked at");
++        self.thread_spawn |= prefix.windows(b"OS can't spawn worker thread:".len()).any(|part| part == b"OS can't spawn worker thread:");
++    }
++
++    fn drain(mut stderr: std::process::ChildStderr) -> Self {
++        use std::io::Read as _;
++        let mut result = Self::default();
++        let mut bytes = [0_u8; 8192];
++        let mut prefix = Vec::with_capacity(512);
++        loop {
++            match stderr.read(&mut bytes) {
++                Ok(0) => break,
++                Ok(length) => {
++                    result.bytes = result.bytes.saturating_add(length);
++                    for byte in &bytes[..length] {
++                        if *byte == b'\n' {
++                            result.classify(&prefix);
++                            prefix.clear();
++                        } else if prefix.len() < 512 {
++                            prefix.push(*byte);
++                        }
++                    }
++                }
++                Err(error) if error.kind() == std::io::ErrorKind::Interrupted => continue,
++                Err(_) => { result.read_failed = true; break; }
++            }
++        }
++        result.classify(&prefix);
++        result
++    }
++}
++
+ struct RealWorker {
+     child: std::process::Child,
+     ready_url: String,
+     service: String,
+     worker_id: String,
++    stderr: Option<std::thread::JoinHandle<WorkerStderr>>,
++    spawned_at: std::time::Instant,
++    ready_verified: bool,
++    last_ready: &'static str,
++    last_registered: bool,
+ }
+ 
+ impl Drop for RealWorker {
+     fn drop(&mut self) {
+         let _ = self.child.kill();
+         let _ = self.child.wait();
++        if let Some(reader) = self.stderr.take() {
++            let _ = reader.join();
++        }
+     }
+ }
+ 
+@@ -3280,6 +3342,7 @@
+             "fixture must use a genuinely new worker identity"
+         );
+         drop(reserve);
++        let spawned_at = std::time::Instant::now();
+         let child = std::process::Command::new(env!("CARGO_BIN_EXE_console-app"))
+             .env_clear()
+             .env("CONSOLE_APP_ROLE", "worker")
+@@ -3292,7 +3355,7 @@
+             .env("RUST_LOG", "error")
+             .stdin(std::process::Stdio::null())
+             .stdout(std::process::Stdio::null())
+-            .stderr(std::process::Stdio::null())
++            .stderr(std::process::Stdio::piped())
+             .spawn()
+             .expect("worker fixture prerequisite: binary must spawn");
+         let mut worker = Self {
+@@ -3300,7 +3363,19 @@
+             ready_url: format!("http://{addr}/readyz"),
+             service,
+             worker_id,
++            stderr: None,
++            spawned_at,
++            ready_verified: false,
++            last_ready: "unobserved",
++            last_registered: false,
+         };
++        // The owner guard must exist before diagnostic thread creation can fail.
++        let stderr = worker.child.stderr.take().expect("worker diagnostic pipe");
++        worker.stderr = Some(
++            std::thread::Builder::new()
++                .spawn(move || WorkerStderr::drain(stderr))
++                .unwrap_or_else(|_| panic!("worker diagnostic reader start")),
++        );
+         worker.require_ready(owner).await;
+         worker
+     }
+@@ -3313,20 +3388,28 @@
+         loop {
+             self.require_alive();
+             let mut ready = false;
+-            if let Ok(response) = client.get(&self.ready_url).send().await
+-                && response.status() == reqwest::StatusCode::OK
+-                && let Ok(bytes) = response.bytes().await
+-                && let Ok(body) = serde_json::from_slice::<Value>(&bytes)
+-            {
+-                ready = body["service"].as_str() == Some(self.service.as_str())
+-                    && body["role"] == "worker"
+-                    && body["status"] == "ready"
+-                    && body["write_ready"] == false;
++            self.last_ready = "request_failed";
++            if let Ok(response) = client.get(&self.ready_url).send().await {
++                self.last_ready = "non_ok_status";
++                if response.status() == reqwest::StatusCode::OK {
++                    self.last_ready = "invalid_response";
++                    if let Ok(bytes) = response.bytes().await
++                        && let Ok(body) = serde_json::from_slice::<Value>(&bytes)
++                    {
++                        ready = body["service"].as_str() == Some(self.service.as_str())
++                            && body["role"] == "worker"
++                            && body["status"] == "ready"
++                            && body["write_ready"] == false;
++                        self.last_ready = if ready { "ready" } else { "identity_mismatch" };
++                    }
++                }
+             }
+             let registered:bool=sqlx::query_scalar("SELECT EXISTS(SELECT 1 FROM apalis.workers WHERE id=$1 AND worker_type='console.dispatch')")
+                 .bind(&self.worker_id).fetch_one(owner).await.unwrap();
++            self.last_registered = registered;
+             if ready && registered {
+                 self.require_alive();
++                self.ready_verified = true;
+                 return;
+             }
+             assert!(
+@@ -3337,10 +3420,21 @@
+         }
+     }
+     fn require_alive(&mut self) {
+-        assert!(
+-            self.child.try_wait().unwrap().is_none(),
+-            "worker infrastructure failure: process exited before cleanup proof"
+-        );
++        if let Some(status) = self.child.try_wait().unwrap() {
++            let drained = self.stderr.take().map(|reader| reader.join());
++            let (drain_joined, evidence) = match drained {
++                Some(Ok(evidence)) => (true, evidence),
++                _ => (false, WorkerStderr::default()),
++            };
++            let phase = if self.ready_verified { "runtime" } else { "startup" };
++            eprintln!(
++                "REAL_WORKER_FAILURE exit_status={status:?} phase={phase} elapsed_ms={} last_ready={} registered={} drain_joined={drain_joined} stderr_bytes={} app_error={:?} address_in_use={} panicked={} thread_spawn={} read_failed={}",
++                self.spawned_at.elapsed().as_millis(), self.last_ready, self.last_registered,
++                evidence.bytes, evidence.app_error, evidence.address_in_use, evidence.panicked,
++                evidence.thread_spawn, evidence.read_failed
++            );
++            panic!("worker infrastructure failure: process exited before cleanup proof");
++        }
+     }
+     fn crash(&mut self) {
+         self.child.kill().expect("crash real worker");

@@ -1,0 +1,7 @@
+{
+  "path": "tools/browser-business-restore.mjs",
+  "before": "5cd8957eb9d3613bbe61b0aa723cc8cb95ac3f3492e1c55767353b4e2b228345",
+  "after": "7423b8c14aaf703d785aadff36701afc5a29355b5c0b56e7eccf470a759e719f",
+  "patch_sha256": "5b04b150391fa3cd1836438f06030d27341d7fde04e5aff668f9e4fd3e568c04",
+  "scope": "diagnostics only; removes detach rejection to preserve original error and existing target-close ownership"
+}

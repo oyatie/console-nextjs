@@ -1,0 +1,27 @@
+{
+  "schema": "diagnostic-source-snapshot/1",
+  "at": "2026-10-06T04:29:14.758508+00:00",
+  "source_state": "Before approved diagnostics; full native run still active, no source edits performed",
+  "files": [
+    {
+      "path": "backend-fork/backend/app/tests/auth_rest/genuine_browser.rs",
+      "sha256": "3dc3de1c946b9858aa33a0f0c605a52ef46e91d245ab892f7b7746cc4f0f69cf",
+      "bytes": 109954
+    },
+    {
+      "path": "backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs",
+      "sha256": "b61d8994aea4754e8299c1729d04a7c3982cd93e3eed16c991acc67267c5eb22",
+      "bytes": 13040
+    },
+    {
+      "path": "backend-fork/backend/app/tests/auth_rest/browser_sessions.rs",
+      "sha256": "aff44dd5c3d5d0ede460f86fc098ecfc734b154c92fba457ff10c68ee598a8a0",
+      "bytes": 283356
+    },
+    {
+      "path": "tools/test-resident-authenticator.mjs",
+      "sha256": "3fed2df601a952073775f00397d692de20a2413c0387629f6ba36ded3db901fe",
+      "bytes": 11377
+    }
+  ]
+}

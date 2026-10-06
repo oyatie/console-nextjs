@@ -1,0 +1,278 @@
+{
+  "schema": "resident-three-case/2",
+  "scope": "Actual ready/done, EOF-after-ready and verified Chromium group SIGSTOP/done lifecycle, with independent leader/group absence and fixture-scope absence before harness removal; no credential ceremony, authentication or native acceptance proof",
+  "proof_limits": {
+    "failed_kill_retained_unref_deadline": "SOURCE_ONLY",
+    "historical_exit3_cause": "UNPROVEN",
+    "close_timeout_kill_path": "Source path plus verified real browser stop and actual cleanup ACK/exit; no SDK call interception",
+    "uncatchable_probe_termination": "SIGKILL/host failure cannot run in-process cleanup; no success claim",
+    "escaped_descendants": "No absence claim for processes outside the positively verified browser group",
+    "filesystem_cause": "Exact prior cleanup delay remains UNPROVEN unless independently observed; a clean run does not prove the prior cause"
+  },
+  "state": "bounded_diagnostic_pass",
+  "command": [
+    "/Users/jasonlee/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
+    "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/resident-three-case-probe-candidate06/resident-three-case-probe.mjs"
+  ],
+  "fixture_command": [
+    "/Users/jasonlee/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
+    "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/tools/test-resident-authenticator.mjs"
+  ],
+  "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+  "node_version": "24.21.0",
+  "cases": [
+    "ready-done",
+    "eof-after-ready",
+    "owned-browser-stop-before-done"
+  ],
+  "deadlines_ms": {
+    "startup": 25000,
+    "cleanup_ack_and_natural_exit": 15000,
+    "failure_cleanup": 6000
+  },
+  "counts": {
+    "expected": 3,
+    "started": 3,
+    "passed": 3,
+    "failed": 0,
+    "unreached": 0
+  },
+  "scope_custody": {
+    "setup_confirmed": true,
+    "before_harness_removal_count": 0,
+    "harness_removal_started": true,
+    "harness_container_absence_verified": true,
+    "creation_unconfirmed": false,
+    "residue_observation_unconfirmed": false,
+    "cleanup_unconfirmed": false
+  },
+  "attempts": [
+    {
+      "index": 1,
+      "case": "ready-done",
+      "expected": {
+        "outcome": "completed",
+        "exit_code": 0
+      },
+      "status": "passed",
+      "reason": null,
+      "stages_ms": {
+        "spawn_ms": 3,
+        "ready_ms": 902,
+        "browser_owner_ms": 908,
+        "owned_scope_ready_ms": 909,
+        "done_ms": 909,
+        "ack_ms": 973,
+        "owned_scope_absent_after_ack_ms": 973,
+        "exit_ms": 991,
+        "stdio_close_ms": 991,
+        "browser_absent_ms": 992,
+        "browser_group_absent_ms": 992,
+        "owned_scope_absent_after_exit_ms": 992
+      },
+      "frames_received": 2,
+      "frames_sent": 1,
+      "stdout_bytes": 212,
+      "acknowledgement": {
+        "kind": "cleaned",
+        "outcome": "completed",
+        "browser_matches": true,
+        "browser_exited": true
+      },
+      "exit": {
+        "code": 0,
+        "signal": null
+      },
+      "stderr": {
+        "bytes": 0,
+        "finished": true,
+        "read_failed": false,
+        "classes": [],
+        "diagnostics": []
+      },
+      "custody": {
+        "browser_pid_observed": true,
+        "browser_owner_verified": true,
+        "browser_absence_observed": true,
+        "browser_group_absence_observed": true,
+        "browser_signal_identity_verified": false,
+        "browser_signal_identity_unconfirmed": false
+      },
+      "temp_scope": {
+        "at_ready": 1,
+        "after_ack": 0,
+        "after_exit": 0,
+        "observed_absent_before_harness_removal": true
+      },
+      "fault_injection": {
+        "stdin_eof_sent": false,
+        "browser_stop_sent": false,
+        "browser_stopped_observed": false
+      },
+      "interventions": {
+        "eof": false,
+        "fixture_term": false,
+        "fixture_kill": false,
+        "browser_term": false,
+        "browser_kill": false
+      },
+      "forced": false
+    },
+    {
+      "index": 2,
+      "case": "eof-after-ready",
+      "expected": {
+        "outcome": "aborted",
+        "exit_code": 2
+      },
+      "status": "passed",
+      "reason": null,
+      "stages_ms": {
+        "spawn_ms": 1,
+        "ready_ms": 592,
+        "browser_owner_ms": 598,
+        "owned_scope_ready_ms": 599,
+        "eof_ms": 599,
+        "ack_ms": 623,
+        "owned_scope_absent_after_ack_ms": 623,
+        "exit_ms": 634,
+        "stdio_close_ms": 634,
+        "browser_absent_ms": 634,
+        "browser_group_absent_ms": 634,
+        "owned_scope_absent_after_exit_ms": 634
+      },
+      "frames_received": 2,
+      "frames_sent": 0,
+      "stdout_bytes": 210,
+      "acknowledgement": {
+        "kind": "cleaned",
+        "outcome": "aborted",
+        "browser_matches": true,
+        "browser_exited": true
+      },
+      "exit": {
+        "code": 2,
+        "signal": null
+      },
+      "stderr": {
+        "bytes": 0,
+        "finished": true,
+        "read_failed": false,
+        "classes": [],
+        "diagnostics": []
+      },
+      "custody": {
+        "browser_pid_observed": true,
+        "browser_owner_verified": true,
+        "browser_absence_observed": true,
+        "browser_group_absence_observed": true,
+        "browser_signal_identity_verified": false,
+        "browser_signal_identity_unconfirmed": false
+      },
+      "temp_scope": {
+        "at_ready": 1,
+        "after_ack": 0,
+        "after_exit": 0,
+        "observed_absent_before_harness_removal": true
+      },
+      "fault_injection": {
+        "stdin_eof_sent": true,
+        "browser_stop_sent": false,
+        "browser_stopped_observed": false
+      },
+      "interventions": {
+        "eof": false,
+        "fixture_term": false,
+        "fixture_kill": false,
+        "browser_term": false,
+        "browser_kill": false
+      },
+      "forced": false
+    },
+    {
+      "index": 3,
+      "case": "owned-browser-stop-before-done",
+      "expected": {
+        "outcome": "completed",
+        "exit_code": 0
+      },
+      "status": "passed",
+      "reason": null,
+      "stages_ms": {
+        "spawn_ms": 1,
+        "ready_ms": 509,
+        "browser_owner_ms": 514,
+        "owned_scope_ready_ms": 514,
+        "browser_stop_ms": 519,
+        "browser_stopped_ms": 522,
+        "done_ms": 522,
+        "ack_ms": 2547,
+        "owned_scope_absent_after_ack_ms": 2548,
+        "exit_ms": 2562,
+        "stdio_close_ms": 2562,
+        "browser_absent_ms": 2562,
+        "browser_group_absent_ms": 2562,
+        "owned_scope_absent_after_exit_ms": 2562
+      },
+      "frames_received": 2,
+      "frames_sent": 1,
+      "stdout_bytes": 212,
+      "acknowledgement": {
+        "kind": "cleaned",
+        "outcome": "completed",
+        "browser_matches": true,
+        "browser_exited": true
+      },
+      "exit": {
+        "code": 0,
+        "signal": null
+      },
+      "stderr": {
+        "bytes": 0,
+        "finished": true,
+        "read_failed": false,
+        "classes": [],
+        "diagnostics": []
+      },
+      "custody": {
+        "browser_pid_observed": true,
+        "browser_owner_verified": true,
+        "browser_absence_observed": true,
+        "browser_group_absence_observed": true,
+        "browser_signal_identity_verified": true,
+        "browser_signal_identity_unconfirmed": false
+      },
+      "temp_scope": {
+        "at_ready": 1,
+        "after_ack": 0,
+        "after_exit": 0,
+        "observed_absent_before_harness_removal": true
+      },
+      "fault_injection": {
+        "stdin_eof_sent": false,
+        "browser_stop_sent": true,
+        "browser_stopped_observed": true
+      },
+      "interventions": {
+        "eof": false,
+        "fixture_term": false,
+        "fixture_kill": false,
+        "browser_term": false,
+        "browser_kill": false
+      },
+      "forced": false
+    }
+  ],
+  "source_hashes": {
+    "tools/test-resident-authenticator.mjs": "88cdfea200731ab32fcda0c797a96eee6ce49a42e6f174208fed29195105cd2e",
+    "package-lock.json": "ad526fce2fe800ee7122f39029843a69fd9a335572de82a4a71d9c1a9714bc7b",
+    "backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs": "c2fc3e190d7b9933cdaf77958a8a9dc11a6ab8df83fa69362c7a42d5bc67412c",
+    "node_modules/@playwright/test/package.json": "5587f932b8979b6889654b60e3c28aeb7ca0abbac00eec8c176c939a16149536",
+    "node_modules/playwright-core/package.json": "f061c58427e47e843e26d201f0a57076c734e57c734ecbbd87d4a23b7a20db9b",
+    "node_modules/playwright-core/lib/coreBundle.js": "549070af3acabb3efcc4f55bfe6210f9f7c2fcf633cf7eaa59bfe60719969171"
+  },
+  "node_binary_sha256": "e4b5a3af0e05c75de2eae013904145f40fe7fc2a6e6f17510128bf45cca4e79b",
+  "probe_sha256": "a5aa51a741c93e76b1a267392add0b6fdbd3a2afd60b45efbfde94b8fe8a9d31",
+  "unreached_cases": [],
+  "interruption": null
+}

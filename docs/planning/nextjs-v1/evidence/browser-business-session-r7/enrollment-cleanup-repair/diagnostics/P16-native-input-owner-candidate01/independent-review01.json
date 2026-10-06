@@ -1,0 +1,113 @@
+{
+  "schema": "P16-native-input-owner-independent-review/1",
+  "verdict": "REQUEST_CHANGES_SOURCE_ONLY",
+  "scope": "Exact frozen candidate01; test-only native F13 original-Document snapshot and F14 sole pending-latch release. Source review only. Root alone applies and runs. No runtime, full125/17, product launch or merge acceptance.",
+  "inputs": {
+    "tools/browser-business-restore.mjs": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/P16-native-input-owner-candidate01/tools/browser-business-restore.mjs",
+      "bytes": 49245,
+      "sha256": "39209e86daab502846448cd5a66e1b50d89e4e45a0ebdd420f1869be3c910646"
+    },
+    "before.mjs": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/P16-native-input-owner-candidate01/before.mjs",
+      "bytes": 57938,
+      "sha256": "33bbfcc9e60abdc5f6eb6e9d8c800667bac46ced34cbbde6154744ed7da61a7b"
+    },
+    "patch.diff": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/P16-native-input-owner-candidate01/patch.diff",
+      "bytes": 32465,
+      "sha256": "6eb948864fc9fb6e59a56af070766fc09fc125e6102dcf55ef80dc09fc6db91d"
+    },
+    "manifest.json": {
+      "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/P16-native-input-owner-candidate01/manifest.json",
+      "bytes": 1087,
+      "sha256": "20bbd74ff2cba13c9700ba28839af9737271841c83007ac31474df3c4217c93b"
+    }
+  },
+  "sdk_pins": {
+    "lib/coreBundle.js": {
+      "path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/node_modules/playwright-core/lib/coreBundle.js",
+      "bytes": 3477183,
+      "sha256": "549070af3acabb3efcc4f55bfe6210f9f7c2fcf633cf7eaa59bfe60719969171"
+    },
+    "types/protocol.d.ts": {
+      "path": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/node_modules/playwright-core/types/protocol.d.ts",
+      "bytes": 814210,
+      "sha256": "0410ed82a9ac63269dc1471ed249b280e2d461249a3a331e71cdb54cdf10db33"
+    }
+  },
+  "checks": {
+    "candidate_source_and_manifest_pins_match": true,
+    "test_only_unconditional_replacement_of_failed_evaluation_sidecar_no_product_guard_edits": true,
+    "original_document_and_token_captured_before_departure": true,
+    "native_key_listener_requires_trusted_nonrepeat_input_and_trusted_persisted_original_document": true,
+    "node_binding_checks_exact_page_mainframe_nonce_sequence_kind_token_and_typed_bounded_payload": true,
+    "existing_exact_native401_gate_context_witness_precedes_snapshot_input": true,
+    "pending_and_original_private_snapshot_assertions_precede_sole_release_input": true,
+    "browser_one_snapshot_then_one_release_sequence_and_node_two_attempt_limit_prevent_duplicate_action": true,
+    "same_existing20s_budget_covers_keydown_keyup_and_validated_reply_without_retry_or_fallback": true,
+    "late_operation_rejection_owned_but_reply_settlement_defect_remains": true,
+    "raw_snapshot_is_transient_binding_only_not_console_or_receipt": true,
+    "inherited_actual_react_commit_logout204_cookie_privacy_one_reload_actorB_checks_preserved": true,
+    "installed_sdk_binding_callback_precedes_result_delivery_evaluation": true,
+    "installed_sdk_binding_initialization_registered_before_caller_probe_init": true
+  },
+  "sdk_source_evidence": [
+    {
+      "path": "lib/coreBundle.js",
+      "line": 22434,
+      "fact": "exposeBinding awaits binding init-script registration and existing-main-world evaluation before returning."
+    },
+    {
+      "path": "lib/coreBundle.js",
+      "line": 22906,
+      "fact": "allInitScripts orders global binding controller, registered binding init scripts, then context/page init scripts; Chromium replay uses this list."
+    },
+    {
+      "path": "lib/coreBundle.js",
+      "line": 37662,
+      "fact": "Chromium registers each ordered allInitScripts script for main-world new Documents."
+    },
+    {
+      "path": "lib/coreBundle.js",
+      "line": 23031,
+      "fact": "PageBinding.dispatch parses serialized arguments and calls playwrightFunction before callback result evaluateExpressionHandle; browser reply is fire-and-forget with rejection caught."
+    },
+    {
+      "path": "lib/coreBundle.js",
+      "line": 37889,
+      "fact": "Runtime.bindingCalled selects the actual execution context for incoming callback; Node callback exposes its page/frame."
+    }
+  ],
+  "findings": [
+    {
+      "id": "ABANDONED_NATIVE_INPUT_REPLY",
+      "severity": "blocking-source-custody",
+      "path": "tools/browser-business-restore.mjs",
+      "line": 137,
+      "problem": "On native-send rejection or local deadline, finally clears inputWaiter without rejecting its pending reply promise. remove can no longer settle that reply, leaving Promise.all reply ownership unfinished.",
+      "requested_change": "Reject any still-pending waiter with a fixed non-sensitive error before clearing it; do not await/retry or extend the existing clock."
+    },
+    {
+      "id": "PROBE_INSTALLATION_OUTSIDE_OWNED_CLEANUP",
+      "severity": "blocking-source-custody",
+      "path": "tools/browser-business-restore.mjs",
+      "line": 381,
+      "problem": "New exposeBinding or probe addInitScript can reject before cacheVariant enters its owned try/finally. Owned page and partially installed console listener bypass cleanup.",
+      "requested_change": "Install probe inside existing cacheVariant try with optional catch observation/removal. Ensure installProbe removes its console listener when addInitScript rejects before it returns, while preserving the original rejection. Keep root-owned page-close independent."
+    }
+  ],
+  "limits": [
+    "Source ordering proves installed registration path, not successful runtime binding restoration. Actual original-Document trusted callback must be witnessed in root consumer.",
+    "SDK may drop binding dispatch if original execution context is unavailable; no replacement context, synthesized event or fallback is accepted.",
+    "Pending native protocol commands are not claimed canceled at local deadline; owned page closure must retire them.",
+    "Node receipt order is not independently dated browser/BFF occurrence order. Earlier15s abort cause remains unknown.",
+    "Native-input mechanism is an authorized test instrument in an isolated owned browser; this review does not treat it as production identity attestation.",
+    "Prior RED runs remain RED. Source repair cannot fill required final125 native and17 browser terminal evidence."
+  ],
+  "actions": {
+    "tests_executed": 0,
+    "tracked_source_writes": 0,
+    "artifact_only_review_write": true
+  }
+}

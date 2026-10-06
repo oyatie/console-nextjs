@@ -1,0 +1,55 @@
+{
+  "schema": "P16-combined-raw-document-diagnostic-independent-review/2",
+  "verdict": "ACCEPT_SOURCE_ONLY",
+  "scope": "Exact frozen combined candidate02 classifier/passive timeline plus RAW original-Document read-only concurrent sidecar. Diagnostic source approval only; root alone applies/tests. No semantic P16 repair/runtime/full-gate/merge acceptance.",
+  "inputs": {
+    "before_sha256": "a23c66dc14171cc07ab6d10d6835d07d4aaa105fae90e99ee9920015cf5214b6",
+    "classifier_timeline_sha256": "63a0da2617d01fcd0fb98f6e3aeabf806e7a597a5f3924c924f9537dae8d3c40",
+    "after_sha256": "33bbfcc9e60abdc5f6eb6e9d8c800667bac46ced34cbbde6154744ed7da61a7b",
+    "after_bytes": 57938,
+    "combined_diff_sha256": "72d729d9100166c000516f7d6d2ddb266d87ab92472733fbb2056bff265de52e",
+    "revision_diff_sha256": "9f19ae358453a65bb014c25489a7c57b2dec12857a488cef4036e574d73c8287",
+    "sidecar_diff_sha256": "02a6e4d2017b9ce576dd3f5b212367e3d7bc1b88bf0628ed15f058528d47eb35",
+    "manifest_sha256": "f3c05a589bdf45a37d1b087d358c7b89a1c37bb76448148a5c894cccf0b60248",
+    "candidate01_request_changes_review_sha256": "6791d2791dc75c518781653f887fd965b61e46f3a2df371a4e90390af1b957cb"
+  },
+  "checks": {
+    "exact_combined_revision_and_sidecar_diffs_reconstructed": true,
+    "original_mandatory_runtime_evaluate_target_expression_return_and_error_preserved": true,
+    "same_original20s_race_and_first_outcome_timer_clearing": true,
+    "no_sidecar_await_or_restarted_diagnostic_timer": true,
+    "raw_document_pinned_before_departure_in_exact_original_world_with_original_token": true,
+    "call_function_on_checks_native_document_default_view_current_document_and_original_token": true,
+    "sidecar_reads_only_original_restored_queued_started_booleans": true,
+    "sidecar_cannot_release_action_or_satisfy_original_assertions": true,
+    "fixed_metadata_schema_and_unknown_handling_no_raw_tokens_ids_errors_bodies_or_codes": true,
+    "late_sidecar_callbacks_rejection_owned_and_cannot_mutate_first_outcome_snapshot": true,
+    "no_extra_object_group_allocation_or_unbounded_protocol_cleanup": true,
+    "existing_owned_page_close_and_existing_failure_tracking_retire_handle_and_outstanding_command": true,
+    "inherited_native_gate_release_privacy_react_logout_cookie_count_and_actor_checks_preserved": true
+  },
+  "resolved_findings": [
+    {
+      "id": "UNBOUNDED_DIAGNOSTIC_OBJECT_RELEASE",
+      "resolution": "Removed added object group/release protocol cleanup; unchanged existing owned page-close/session retirement disposes raw handle/command without new wait or timer."
+    },
+    {
+      "id": "DIAGNOSTIC_DELAYS_REQUIRED_CONTINUATION",
+      "resolution": "No awaited diagnostic. Same original Promise.race finally clears its timer and synchronously freezes/copied sidecar state at original first outcome; inherited continuation/error proceeds immediately."
+    }
+  ],
+  "findings": [],
+  "limits": [
+    "This is additional real-path diagnostic observation, not a P16 semantic repair. Required original Runtime.evaluate remains mandatory even if raw sidecar returns a matching pending tuple.",
+    "Pin is new bounded predeparture diagnostic command using existing helper20s clock; pin failure is separately recorded and cannot suppress the original mandatory pending call.",
+    "Sidecar observation stops at required first outcome or the existing20s local deadline. A still-outstanding protocol command is not claimed canceled at that moment; existing owned page-close retires it.",
+    "ObjectId/window/probe token only exist transiently. Missing/unrecognized/exception/rejected/pending diagnostic outcomes do not prove availability or cause.",
+    "Classifier/passive timeline provenance from candidate01 review remains applicable: exact fixed public literal match and Node receipt order do not establish runtime binary/V8 version, actual BFF abort, source occurrence time or causality.",
+    "Actual source application, syntax/runtime/custody and final125-native/all17-browser gate remain root-owned required evidence."
+  ],
+  "actions": {
+    "tests_executed": 0,
+    "tracked_source_writes": 0,
+    "artifact_only_review_write": true
+  }
+}

@@ -1,0 +1,140 @@
+{
+  "schema": "queued-ordering-terminal-independent-audit/1",
+  "at": "2026-10-06T05:33:35.455287+00:00",
+  "run_id": "queued-ordering-red02",
+  "verdict": "TERMINAL_RED_ACCEPTED_AS_ACCURATE_EVIDENCE; CAUSE_UNPROVEN; QUEUE_HOLD",
+  "command": [
+    "bash",
+    "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/tools/lanes/pgtest.sh",
+    "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork",
+    "/Users/jasonlee/.cargo/bin/cargo",
+    "+1.98.1",
+    "test",
+    "--locked",
+    "--offline",
+    "--no-fail-fast",
+    "--features",
+    "frontend-e2e",
+    "-p",
+    "console-app",
+    "--test",
+    "auth_rest",
+    "genuine_browser::genuine_production_browser_proposal_requires_all_seventeen_scenarios",
+    "--",
+    "--exact",
+    "--test-threads=1",
+    "--nocapture"
+  ],
+  "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+  "process": {
+    "exit_code": 101,
+    "timed_out": false,
+    "duration_seconds": 587.7912955000065
+  },
+  "rust": {
+    "selected_test": "genuine_browser::genuine_production_browser_proposal_requires_all_seventeen_scenarios",
+    "executed": 1,
+    "passed": 0,
+    "failed": 1,
+    "ignored": 0,
+    "measured": 0,
+    "filtered": 120,
+    "runner_discovered": null,
+    "raw_summary_independently_parsed": true
+  },
+  "child": {
+    "payload_sha256": "38bc6600d978716f885b13c04aec54fa1aafd71e2546cbaf72e6520d5fbee143",
+    "payload_bytes": 6307,
+    "discovered": 17,
+    "executed": 17,
+    "passed": 16,
+    "failed": 1,
+    "unreached": 0,
+    "skipped": 0,
+    "failure_class": "behavior",
+    "failed_scenario": "P16",
+    "p16_checks": {
+      "discovered": 7,
+      "passed": 6,
+      "failed": 1
+    },
+    "exact_failed_check": {
+      "id": "queued-react-css",
+      "status": "failed",
+      "reason": "actual required restore assertion failed",
+      "diagnostic": {
+        "not_restored_reasons": [],
+        "trusted_departures": 1,
+        "trusted_original_restores": 1
+      }
+    },
+    "scenario_reason": "required restore proof not reached"
+  },
+  "cleanup": {
+    "pg_harness_cleanup_reported": true,
+    "exact_line": "clean: console-conformance-30260 removed with its volume",
+    "limit": "This PostgreSQL harness line is not independent proof of resident/global/browser resource cleanup."
+  },
+  "source": {
+    "paths": 2958,
+    "before_after_identical": true,
+    "input_file_byte_identical_to_queued_ordering_red01": true,
+    "delta_from_native_complete02": [
+      {
+        "path": "tools/browser-business-restore.mjs",
+        "before": "7423b8c14aaf703d785aadff36701afc5a29355b5c0b56e7eccf470a759e719f",
+        "after": "05c0dfebd791403622397f7a83568c4f5383360002ee9b96c5d366c956277b6d"
+      }
+    ],
+    "all_2958_versions_independently_rebound": true,
+    "archived_exact_sources": 16,
+    "immutable_git_sources": 2942,
+    "immutable_git_base": "f5c29cc9ccb1d463f5ba76ebbf746b024311bd37",
+    "bindings_metadata_sha256": "023296f00d5605fba9fa38099b56f013cf094aab983cb0654e773303f8567b7f",
+    "current_worktree_not_hashed": "Resident diagnostic edits are newer; audit checks historical snapshots/Git blobs only."
+  },
+  "assets": [
+    {
+      "path": "queued-ordering-red02.log",
+      "sha256": "c13a4e3b06995e910615ab8e6f2376cab433672c170e0cac332ed597c3ac58e9",
+      "bytes": 10122,
+      "preservation": "EXACT_BYTES"
+    },
+    {
+      "path": "queued-ordering-red02.json",
+      "sha256": "5d909b23420c4f69bc56e7ea3a461512a0a0f4a3b35922f2358b467e27e8605c",
+      "bytes": 1186,
+      "preservation": "EXACT_BYTES"
+    },
+    {
+      "path": "queued-ordering-red02.inputs.json",
+      "sha256": "48b058ceebb36224ebd144055c7e8f9708c0e6bea4b357a9ea5b3dc3e79f91c2",
+      "bytes": 917481,
+      "preservation": "EXACT_BYTES"
+    },
+    {
+      "path": "product-browser-report.payload.json",
+      "sha256": "38bc6600d978716f885b13c04aec54fa1aafd71e2546cbaf72e6520d5fbee143",
+      "bytes": 6307,
+      "preservation": "EXACT_BYTES"
+    }
+  ],
+  "prior_portable04_index": {
+    "path": "/Users/jasonlee/Developer/frontend/.artifacts/acceptance/browser-business-session/r7-native-implementation/enrollment-deadline-repair/portable-review04/index.json",
+    "sha256": "e5bcfaa008ef60d6b2adb19de2221224ff9b9eadd77f48dba461da41ba43bb6a",
+    "unchanged": true,
+    "assets": 159,
+    "mutation": "NONE"
+  },
+  "interpretation": [
+    "The selected native browser test ran and failed; this is behavioral RED, unlike queued-ordering-red01 which executed zero tests after Docker denial.",
+    "P16 queued-react-css reported generic required restore assertion failure while observing one trusted departure and one trusted original restore. All other P16 checks passed.",
+    "The child report has no exact actualStarted flag or failed assertion location. The intended pre-gate ordering cause is not proven by this run.",
+    "The broader full native suite was not executed in this focused run. 120 cases were filtered, not passed or skipped.",
+    "This run does not supersede the native-complete02 resident failure or establish current-tree/full-suite readiness."
+  ],
+  "excluded_active_runs": [
+    "resident-cleanup-stage-exact01"
+  ],
+  "writes_scope": "New external audit bundle only; no product/test/source/GitHub/service mutation."
+}

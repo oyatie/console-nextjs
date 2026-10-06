@@ -1,0 +1,39 @@
+{
+  "id": "p14-repair-canonical01",
+  "command": [
+    "bash",
+    "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork/tools/lanes/pgtest.sh",
+    "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7/backend-fork",
+    "/Users/jasonlee/.cargo/bin/cargo",
+    "+1.98.1",
+    "test",
+    "--locked",
+    "--offline",
+    "--no-fail-fast",
+    "-p",
+    "console-app",
+    "--features",
+    "frontend-e2e",
+    "--test",
+    "auth_rest",
+    "--",
+    "--test-threads=1",
+    "--nocapture"
+  ],
+  "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/browser-business-session-r7",
+  "exit_code": 0,
+  "timed_out": false,
+  "duration_seconds": 1800.4391737920232,
+  "discovered": null,
+  "counts": {
+    "passed": 121,
+    "failed": 0,
+    "skipped": 0,
+    "filtered": 0,
+    "executed": 121
+  },
+  "log_sha256": "576b9cf75ae1afec220f0479a59fb253915efaeedce88fcc38b30c3c24c6924a",
+  "cleanup_reported": true,
+  "inputs_sha256": "1f07e97d0a7502f836b82f6ac717235d5416c437821ab419a70d0cf65d3bddde",
+  "inputs_unchanged": true
+}

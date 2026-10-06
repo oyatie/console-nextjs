@@ -134,6 +134,8 @@ impl Keys {
                         refresh_token_ttl: Duration::days(1),
                         refresh_family_absolute_ttl: Duration::days(1),
                         cookie_secure: false,
+                        browser_session_key: None,
+                        browser_ingress_key: None,
                     },
                 )
                 .unwrap(),

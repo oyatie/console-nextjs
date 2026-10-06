@@ -1,0 +1,14 @@
+{
+  "schema": "P16-raw-document-concurrent-candidate/2",
+  "status": "UNEXECUTED_SOURCE_CANDIDATE",
+  "rejected_candidate01_sha256": "9f5255e62d410a66cc9b5cbf0b9c7bedd62ef58ffaae7622159c6024f478cffb",
+  "tracked_before_sha256": "a23c66dc14171cc07ab6d10d6835d07d4aaa105fae90e99ee9920015cf5214b6",
+  "classifier_timeline_sha256": "63a0da2617d01fcd0fb98f6e3aeabf806e7a597a5f3924c924f9537dae8d3c40",
+  "after_sha256": "33bbfcc9e60abdc5f6eb6e9d8c800667bac46ced34cbbde6154744ed7da61a7b",
+  "after_bytes": 57938,
+  "combined_diff_sha256": "72d729d9100166c000516f7d6d2ddb266d87ab92472733fbb2056bff265de52e",
+  "revision_diff_sha256": "9f19ae358453a65bb014c25489a7c57b2dec12857a488cef4036e574d73c8287",
+  "tests_executed": 0,
+  "tracked_source_writes": 0,
+  "changes": "No group allocation/release or awaited sidecar. Required Promise.race clears originaltimer at first outcome and freezes sidecar synchronously. Owned existing pageclosure disposes exact raw handle/outstanding command. Late outcome is rejectionowned and cannot alter frozen snapshot or requiredcontinuation."
+}
