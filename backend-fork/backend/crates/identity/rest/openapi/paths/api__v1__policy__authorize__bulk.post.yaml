@@ -9,3 +9,39 @@ requestBody:
       schema: { $ref: '#/components/schemas/BulkAuthorizeBody' }
 responses:
   '200': { description: per-check decisions (index-aligned with checks), content: { application/json: { schema: { $ref: '#/components/schemas/BulkDecisionResponse' } } } }
+  '400':
+    description: Invalid JSON syntax.
+    content:
+      text/plain: { schema: { type: string } }
+  '401':
+    description: Authentication rejected by current middleware or the policy owner.
+    content:
+      text/plain: { schema: { type: string } }
+      application/json: { schema: { $ref: '#/components/schemas/ErrorBody' } }
+  '403':
+    description: Token tier, scope or policy-management permission denied.
+    content:
+      text/plain: { schema: { type: string } }
+      application/json: { schema: { $ref: '#/components/schemas/ErrorBody' } }
+  '413':
+    description: Request exceeds the transport body limit.
+    content:
+      text/plain: { schema: { type: string } }
+  '415':
+    description: JSON content type required.
+    content:
+      text/plain: { schema: { type: string } }
+  '422':
+    description: Invalid typed body or more than 200 checks.
+    content:
+      text/plain: { schema: { type: string } }
+      application/json: { schema: { $ref: '#/components/schemas/ErrorBody' } }
+  '500':
+    description: Current authority, policy loading or decision persistence failed.
+    content:
+      text/plain: { schema: { type: string } }
+      application/json: { schema: { $ref: '#/components/schemas/ErrorBody' } }
+  '503':
+    description: Current authentication authority unavailable.
+    content:
+      text/plain: { schema: { type: string } }

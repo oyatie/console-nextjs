@@ -7,7 +7,7 @@ maps that file into the same governed registry tables while preserving the
 source-only columns in `registry_equipment.note` as compact JSON.
 
 PII/data safety:
-  * stdout contains only aggregate counts and output paths.
+  * stdout contains only aggregate metadata; stderr has a fixed failure message.
   * generated SQL contains operational/source data; write it under `.omx/` with
     mode 0600 and never commit it.
   * dry-run SQL wraps all mutations in ROLLBACK; apply SQL commits only after the
@@ -16,12 +16,10 @@ PII/data safety:
 
 from __future__ import annotations
 
-import argparse
 import datetime as dt
 import hashlib
 import json
 import numbers
-import os
 import re
 import sys
 import unicodedata
@@ -30,6 +28,7 @@ from pathlib import Path
 from typing import Any
 
 from openpyxl import load_workbook
+from private_artifact_output import PrivateArgumentParser, private_text_output
 
 DEFAULT_WORKBOOK = Path(
     "/Users/jasonlee/Library/Mobile Documents/com~apple~CloudDocs/"
@@ -470,7 +469,7 @@ def build_sql(rows: list[dict[str, Any]], *, workbook: Path, org_id: str, branch
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser()
+    parser = PrivateArgumentParser()
     parser.add_argument("--workbook", type=Path, default=DEFAULT_WORKBOOK)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--mode", choices=["dry-run", "apply"], required=True)
@@ -492,17 +491,13 @@ def main() -> int:
         branch_id=args.target_branch_id,
         mode=args.mode,
     )
-    args.output.parent.mkdir(parents=True, exist_ok=True)
-    args.output.write_text(sql, encoding="utf-8")
-    os.chmod(args.output, 0o600)
+    with private_text_output(args.output) as out:
+        out.write(sql)
     print(
         json.dumps(
             {
-                "workbook": str(workbook),
-                "output": str(args.output),
                 "mode": args.mode,
                 "rows": len(rows),
-                "sha256": sha256_file(workbook),
                 "status_counts": Counter(row["status"] for row in rows),
                 "asset_owner_values": len({row["asset_owner"] for row in rows}),
             },
@@ -516,6 +511,6 @@ def main() -> int:
 if __name__ == "__main__":
     try:
         raise SystemExit(main())
-    except Exception as exc:  # noqa: BLE001 - CLI boundary
-        print(f"error: {exc}", file=sys.stderr)
+    except Exception:  # CLI errors must not disclose source values or paths.
+        print("equipment import failed", file=sys.stderr)
         raise SystemExit(1)

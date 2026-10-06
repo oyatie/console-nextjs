@@ -233,6 +233,13 @@
       "reason": "rust_struct_not_strict"
     },
     {
+      "operation": "POST /api/v1/auth/browser-session/login",
+      "rust_file": "backend/crates/platform/auth-rest/src/browser.rs",
+      "handler": "login",
+      "body_type": "LoginFinishRequest",
+      "reason": "rust_struct_not_strict"
+    },
+    {
       "operation": "POST /api/v1/auth/device-login/approve",
       "rust_file": "backend/crates/platform/auth-rest/src/lib.rs",
       "handler": "approve_device_login",

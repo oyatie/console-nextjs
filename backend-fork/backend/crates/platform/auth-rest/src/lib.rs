@@ -2321,12 +2321,12 @@ async fn approve_device_login_session(
             "desktop login approval requires an enrolled passkey",
         ));
     }
+    ensure_handoff_company_active_tx(&mut tx, org_id).await?;
     let now = console_platform_auth::authentication_time_tx(&mut tx, now)
         .await
         .map_err(DbError::Sqlx)?;
-    ensure_handoff_company_active_tx(&mut tx, org_id).await?;
     claims
-        .validate_expiry()
+        .validate_expiry_at(now)
         .map_err(|_| RestError::unauthorized("session expired"))?;
 
     let approved = sqlx::query(

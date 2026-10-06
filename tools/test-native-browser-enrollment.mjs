@@ -177,6 +177,7 @@ void (async () => {
   }
 })();
 const watchdog = setTimeout(interrupted, 140000);
+let startupPhase = "runtime-staging";
 let outcome = "failed";
 let exitCode = 1;
 
@@ -192,6 +193,7 @@ try {
   })();
   await startup;
   assert.ok(!closing);
+  startupPhase = "origin-reservation";
   reservation = createServer();
   startup = once(reservation, "listening");
   reservation.listen(0, "127.0.0.1");
@@ -202,8 +204,10 @@ try {
   // Rust must configure the exact RP origin before building the native router.
   await writeFrame({ kind: "origin", origin });
   assert.ok(!closing);
+  startupPhase = "reservation-close";
   await new Promise((resolve) => reservation.close(resolve));
   assert.ok(!closing);
+  startupPhase = "next-spawn";
   next = spawn(process.execPath, [path.join(stage, "runtime/server.mjs")], {
     cwd: path.join(stage, "runtime"),
     env: { ...cleanEnv, NODE_ENV: "production", HOSTNAME: "127.0.0.1", PORT: String(port),
@@ -215,6 +219,7 @@ try {
     if (serverBytes > 1048576) void interrupted();
   });
   next.once("error", interrupted);
+  startupPhase = "next-readiness";
   let ready = false;
   const deadline = Date.now() + PHASE_MS;
   while (Date.now() < deadline) {
@@ -232,12 +237,16 @@ try {
   }
   assert.ok(ready);
   assert.ok(!closing);
+  startupPhase = "chromium-launch";
   startup = chromium.launchServer({ env: cleanEnv }).then((server) => { browserServer = server; });
   await startup;
   assert.ok(!closing);
+  startupPhase = "chromium-connect";
   browser = await chromium.connect(browserServer.wsEndpoint());
   assert.ok(!closing);
+  startupPhase = "ready-write";
   await writeFrame({ kind: "ready", origin });
+  startupPhase = "native-input";
 
   for (const actor of ["a", "b"]) {
     const command = await readFrame(60000);
@@ -330,7 +339,16 @@ try {
   assert.deepEqual(done, { v: 1, seq: 4, kind: "done" });
   outcome = "completed";
   exitCode = 0;
-} catch {
+} catch (error) {
+  try {
+    process.stderr.write("STARTUP_DIAGNOSTIC " + JSON.stringify({
+      phase: startupPhase,
+      error_name: ["Error", "AssertionError", "TimeoutError", "AbortError", "SystemError"].includes(error?.name) ? error.name : "other",
+      next_exit_code: next?.exitCode == null ? null : Number.isInteger(next.exitCode) && next.exitCode >= 0 && next.exitCode <= 255 ? next.exitCode : "other",
+      next_signal: next?.signalCode == null ? null : ["SIGTERM", "SIGKILL"].includes(next.signalCode) ? next.signalCode : "other",
+      server_bytes: Math.min(1048577, serverBytes),
+    }) + "\n");
+  } catch { /* Diagnostic metadata cannot replace the original failure. */ }
   // No raw assertion, server output, private CDP credential or error stack.
   process.stderr.write("native browser enrollment fixture failed\n");
 } finally {

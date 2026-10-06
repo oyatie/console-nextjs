@@ -8,14 +8,11 @@ version = 2
 # audit already gates RUSTSEC in CI; this keeps the policy self-contained.
 yanked = "deny"
 ignore = [
-  # rsa: Marvin timing side-channel. Pulled via jsonwebtoken. The RS256 signing
-  # path IS exercised in production — the FCM push client mints Google service-
-  # account JWTs with from_rsa_pem/RS256 (platform/push). But Marvin is a side-
-  # channel in RSA *decryption* (PKCS#1 v1.5 unpadding) that requires an
-  # attacker-controlled ciphertext/decryption oracle; this service only *signs*
-  # (no RSA decryption) against Google's endpoint, so no such oracle is exposed
-  # and the advisory is not exploitable here. No fixed rsa release exists yet;
-  # revisit when jsonwebtoken can drop rsa or a patched version ships.
+  # rsa remains lock-only through optional sqlx-mysql. JWT uses AWS-LC.
+  # Requires the current six-row whole-workspace normal/build/dev provider
+  # guard (tools/check-jwt-provider-graph.py) to prove no active rsa crate on
+  # both Linux targets and Darwin. A new RSA consumer invalidates this
+  # exception. The crate remains vulnerable in the unignored audit.
   "RUSTSEC-2023-0071",
   # paste: unmaintained (not a vulnerability). Build-time proc-macro pulled
   # transitively by umya-spreadsheet (Excel export); no runtime attack surface.

@@ -79,6 +79,7 @@ pub const CEDAR_POLICY_ROUTE_PATHS: &[&str] = &[
 /// Feed page cap — the Integrity console pages recent decisions, never the whole
 /// (retention-bounded) ledger.
 const DECISION_FEED_LIMIT: i64 = 200;
+const MAX_BULK_AUTHORIZATION_CHECKS: usize = 200;
 
 pub fn router(state: CedarPolicyRestState) -> Router {
     let verifier = state.jwt_verifier.clone();
@@ -388,6 +389,11 @@ async fn authorize_bulk(
     Json(body): Json<BulkAuthorizeBody>,
 ) -> Result<impl IntoResponse, RestError> {
     let principal = authorize_admin(&state, &headers).await?;
+    if body.checks.len() > MAX_BULK_AUTHORIZATION_CHECKS {
+        return Err(RestError::from_kernel(KernelError::validation(
+            "checks must contain at most 200 items",
+        )));
+    }
     // Load the enforced set ONCE, then evaluate every check against it.
     let policies = state
         .store

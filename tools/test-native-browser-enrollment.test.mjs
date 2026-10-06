@@ -9,6 +9,33 @@ import test from "node:test";
 import { fileURLToPath } from "node:url";
 import { superviseEnrollmentFault } from "./enrollment-fault-deadlines.mjs";
 
+const STARTUP_DIAGNOSTIC_PREFIX = "STARTUP_DIAGNOSTIC ";
+function parseStartupDiagnostic(line) {
+  try {
+    if (line.length > 512 || !line.startsWith(STARTUP_DIAGNOSTIC_PREFIX)) return;
+    const value = JSON.parse(line.slice(STARTUP_DIAGNOSTIC_PREFIX.length));
+    if (Object.keys(value).sort().join(",") !== "error_name,next_exit_code,next_signal,phase,server_bytes") return;
+    if (!["runtime-staging", "origin-reservation", "reservation-close", "next-spawn", "next-readiness", "chromium-launch", "chromium-connect", "ready-write", "native-input"].includes(value.phase)) return;
+    if (!["Error", "AssertionError", "TimeoutError", "AbortError", "SystemError", "other"].includes(value.error_name)) return;
+    if (value.next_exit_code !== null && value.next_exit_code !== "other" && !(Number.isInteger(value.next_exit_code) && value.next_exit_code >= 0 && value.next_exit_code <= 255)) return;
+    if (![null, "SIGTERM", "SIGKILL", "other"].includes(value.next_signal)) return;
+    if (!(Number.isInteger(value.server_bytes) && value.server_bytes >= 0 && value.server_bytes <= 1048577)) return;
+    return value;
+  } catch { /* Malformed or untrusted stderr never becomes diagnostic output. */ }
+}
+// One runnable trust-boundary check; named fault-case accounting stays unchanged.
+const diagnosticSample = { phase: "next-readiness", error_name: "AssertionError", next_exit_code: null, next_signal: null, server_bytes: 0 };
+const diagnosticOther = { ...diagnosticSample, next_exit_code: "other", next_signal: "other" };
+assert.deepEqual([
+  diagnosticSample,
+  diagnosticOther,
+  { ...diagnosticSample, token: "untrusted-sentinel" },
+  { ...diagnosticSample, phase: "untrusted-sentinel" },
+  { ...diagnosticSample, next_exit_code: -1 },
+  { ...diagnosticSample, server_bytes: 1048578 },
+  { ...diagnosticSample, next_signal: "SIGSEGV" },
+].map((value) => parseStartupDiagnostic(STARTUP_DIAGNOSTIC_PREFIX + JSON.stringify(value))), [diagnosticSample, diagnosticOther, undefined, undefined, undefined, undefined, undefined]);
+
 const env = Object.fromEntries(
   ["PATH", "HOME", "TMPDIR", "LANG", "LC_ALL", "PLAYWRIGHT_BROWSERS_PATH"]
     .filter((key) => process.env[key] !== undefined)
@@ -31,7 +58,33 @@ for (const [runner, fault] of cases) {
     });
     // Drain without retaining error stacks, server output or proof bytes.
     let stderrBytes = 0;
-    child.stderr.on("data", (bytes) => { stderrBytes += bytes.length; });
+    let diagnostic; let diagnosticLine = ""; let discardDiagnosticLine = false;
+    let faultChecksCompleted = false; let cleanupCompleted = false; let finished = false; let diagnosticReported = false;
+    function reportStartupDiagnostic() {
+      if (!finished || (faultChecksCompleted && cleanupCompleted) || !diagnostic || diagnosticReported) return;
+      diagnosticReported = true;
+      try { process.stdout.write(STARTUP_DIAGNOSTIC_PREFIX + JSON.stringify({ runner: name, fault, ...diagnostic }) + "\n"); }
+      catch { /* Diagnostic output cannot replace the original test failure. */ }
+    }
+    child.stderr.on("data", (bytes) => {
+      stderrBytes += bytes.length;
+      if (diagnostic) return;
+      for (const character of bytes.toString("utf8")) {
+        if (character === "\n") {
+          if (!discardDiagnosticLine) diagnostic ??= parseStartupDiagnostic(diagnosticLine);
+          diagnosticLine = ""; discardDiagnosticLine = false;
+          if (diagnostic) { reportStartupDiagnostic(); break; }
+        } else if (!discardDiagnosticLine) {
+          if (diagnosticLine.length + character.length > 512) { diagnosticLine = ""; discardDiagnosticLine = true; }
+          else {
+            diagnosticLine += character;
+            if (diagnosticLine.length <= STARTUP_DIAGNOSTIC_PREFIX.length && !STARTUP_DIAGNOSTIC_PREFIX.startsWith(diagnosticLine)) {
+              diagnosticLine = ""; discardDiagnosticLine = true;
+            }
+          }
+        }
+      }
+    });
     const exited = once(child, "exit");
     const input = child.stdout[Symbol.asyncIterator]();
     let buffered = Buffer.alloc(0);
@@ -114,16 +167,23 @@ for (const [runner, fault] of cases) {
       assert.ok(stderrBytes <= 1048576);
       assert.equal(supervision.forced, false, "fallback intervention cannot prove requested cleanup");
       assert.deepEqual(await readdir(owned), [], "runner must release its owned temporary resources before parent cleanup");
+      faultChecksCompleted = true;
     } finally {
-      supervision.clear();
-      child.stdin.destroy();
-      if (child.exitCode === null && child.signalCode === null) {
-        child.kill("SIGTERM");
-        const forced = setTimeout(() => child.kill("SIGKILL"), 6000);
-        await exited;
-        clearTimeout(forced);
+      try {
+        supervision.clear();
+        child.stdin.destroy();
+        if (child.exitCode === null && child.signalCode === null) {
+          child.kill("SIGTERM");
+          const forced = setTimeout(() => child.kill("SIGKILL"), 6000);
+          await exited;
+          clearTimeout(forced);
+        }
+        await rm(owned, { recursive: true, force: true });
+        cleanupCompleted = true;
+      } finally {
+        finished = true;
+        reportStartupDiagnostic();
       }
-      await rm(owned, { recursive: true, force: true });
     }
   });
 }

@@ -32,10 +32,12 @@ use console_kernel_core::{
     AccessScope, AuditRequestContext, BranchScope, ErrorKind, KernelError, OrgId, TraceContext,
     UserId,
 };
-use console_platform_auth::{AccessClaims, ActorSession, JwtVerifier, TenantAccessContext};
+use console_platform_auth::{
+    AccessClaims, ActorSession, JwtVerifier, TenantAccessContext, authentication_time_tx,
+};
 use console_platform_authz::{
     PlatformPrincipal, Principal, Role, SubjectFreshness, effective_branch_scope_for_tenant,
-    resolve_branch_scope_in_org, resolve_effective_feature_grants_in_org,
+    resolve_branch_scope_in_org, resolve_effective_feature_grants_in_tx,
 };
 use console_platform_db::{DbError, with_org_conn};
 use console_platform_group::group_admin_member_orgs;
@@ -43,6 +45,7 @@ use http::{HeaderMap, StatusCode};
 use ipnet::IpNet;
 use sqlx::PgPool;
 use std::collections::BTreeSet;
+use time::OffsetDateTime;
 
 tokio::task_local! {
     /// The tenant of the in-flight request. Set once per request by the shared
@@ -265,6 +268,12 @@ pub enum RequestContextError {
     WrongTokenTier,
 }
 
+impl From<DbError> for RequestContextError {
+    fn from(error: DbError) -> Self {
+        Self::EffectivePolicy(error.to_string())
+    }
+}
+
 impl From<RequestContextError> for KernelError {
     /// Adapters surface tenancy failures through their domain error, which
     /// already converts from [`KernelError`]. A missing/invalid request context
@@ -417,17 +426,19 @@ async fn validate_claims(
         return Err(RequestContextError::InvalidToken);
     }
     let home = session.home_org;
-    let row = with_org_conn::<_, _, DbError>(pool, home, |tx| Box::pin(async move {
-        sqlx::query_as::<_, (bool, Vec<String>, String, i64, i64, i16, Option<uuid::Uuid>)>(
+    let (row, mut observed_at) = with_org_conn::<_, _, DbError>(pool, home, |tx| Box::pin(async move {
+        let row = sqlx::query_as::<_, (bool, Vec<String>, String, i64, i64, i16, Option<uuid::Uuid>)>(
             "SELECT u.is_active, u.roles, o.status, COALESCE(v.version,0), COALESCE(v.session_generation,0), f.provenance_version, s.user_id \
              FROM users u JOIN organizations o ON o.id=u.org_id \
              JOIN auth_refresh_token_families f ON f.user_id=u.id AND f.org_id=u.org_id AND f.id=$3 AND f.revoked_at IS NULL \
              LEFT JOIN auth_legacy_otp_family_sources s ON s.family_id=f.id \
              LEFT JOIN subject_authz_versions v ON v.org_id=u.org_id AND v.user_id=u.id \
              WHERE u.id=$1 AND u.org_id=$2")
-            .bind(*user.as_uuid()).bind(*home.as_uuid()).bind(session.family_id).fetch_optional(tx.as_mut()).await.map_err(DbError::Sqlx)
-    })).await.map_err(|_| RequestContextError::EffectivePolicy("current account authority unavailable".into()))?
-        .ok_or(RequestContextError::InvalidToken)?;
+            .bind(*user.as_uuid()).bind(*home.as_uuid()).bind(session.family_id).fetch_optional(tx.as_mut()).await.map_err(DbError::Sqlx)?;
+        let now = authentication_time_tx(tx, OffsetDateTime::now_utc()).await.map_err(DbError::Sqlx)?;
+        Ok((row, now))
+    })).await.map_err(|_| RequestContextError::EffectivePolicy("current account authority unavailable".into()))?;
+    let row = row.ok_or(RequestContextError::InvalidToken)?;
     let (active, live_roles, status, subject_version, session_generation, provenance, otp_user) =
         row;
     // Positive classification survives source consumption, expiry or removal.
@@ -449,15 +460,19 @@ async fn validate_claims(
         return Err(RequestContextError::InvalidToken);
     }
     if target != home {
-        let active = with_org_conn::<_, _, DbError>(pool, target, |tx| {
+        let (active, now) = with_org_conn::<_, _, DbError>(pool, target, |tx| {
             Box::pin(async move {
-                sqlx::query_scalar::<_, bool>(
+                let active = sqlx::query_scalar::<_, bool>(
                     "SELECT status='ACTIVE' FROM organizations WHERE id=$1",
                 )
                 .bind(*target.as_uuid())
                 .fetch_optional(tx.as_mut())
                 .await
-                .map_err(DbError::Sqlx)
+                .map_err(DbError::Sqlx)?;
+                let now = authentication_time_tx(tx, OffsetDateTime::now_utc())
+                    .await
+                    .map_err(DbError::Sqlx)?;
+                Ok((active, now))
             })
         })
         .await
@@ -467,9 +482,10 @@ async fn validate_claims(
         if active != Some(true) {
             return Err(RequestContextError::InvalidToken);
         }
+        observed_at = observed_at.max(now);
     }
     claims
-        .validate_expiry()
+        .validate_expiry_at(observed_at.max(OffsetDateTime::now_utc()))
         .map_err(|_| RequestContextError::InvalidToken)?;
     Ok((user, target))
 }
@@ -517,29 +533,42 @@ pub async fn resolve_principal_from_bearer_token(
         step_up_generation: None,
     };
 
-    if claims.tenant_context == Some(TenantAccessContext::GroupAdmin) {
-        return resolve_group_admin_tenant_context_principal(
+    let branch_scope = if claims.tenant_context == Some(TenantAccessContext::GroupAdmin) {
+        resolve_group_admin_tenant_context_scope(
             pool,
             user_id,
             org_id,
             access_scope,
-            roles,
+            &roles,
             claims.group_context_id.as_deref(),
-            authz_freshness,
         )
-        .await;
-    }
-
-    let role_vec = roles.iter().copied().collect::<Vec<_>>();
-    let live_branch_scope = resolve_branch_scope_in_org(pool, org_id, user_id, &role_vec)
-        .await
-        .map_err(|err| RequestContextError::BranchScope(err.to_string()))?;
-    let branch_scope = effective_branch_scope_for_tenant(live_branch_scope, access_scope, org_id)
-        .map_err(RequestContextError::AccessScope)?;
-    let effective_feature_grants =
-        resolve_effective_feature_grants_in_org(pool, org_id, user_id, &branch_scope)
+        .await?
+    } else {
+        let role_vec = roles.iter().copied().collect::<Vec<_>>();
+        let live_branch_scope = resolve_branch_scope_in_org(pool, org_id, user_id, &role_vec)
             .await
-            .map_err(|err| RequestContextError::EffectivePolicy(err.to_string()))?;
+            .map_err(|err| RequestContextError::BranchScope(err.to_string()))?;
+        effective_branch_scope_for_tenant(live_branch_scope, access_scope, org_id)
+            .map_err(RequestContextError::AccessScope)?
+    };
+    let grants_scope = branch_scope.clone();
+    let (effective_feature_grants, observed_at) =
+        with_org_conn::<_, _, RequestContextError>(pool, org_id, |tx| {
+            Box::pin(async move {
+                let grants =
+                    resolve_effective_feature_grants_in_tx(tx, org_id, user_id, &grants_scope)
+                        .await
+                        .map_err(|err| RequestContextError::EffectivePolicy(err.to_string()))?;
+                let now = authentication_time_tx(tx, OffsetDateTime::now_utc())
+                    .await
+                    .map_err(DbError::Sqlx)?;
+                Ok((grants, now))
+            })
+        })
+        .await?;
+    claims
+        .validate_expiry_at(observed_at.max(OffsetDateTime::now_utc()))
+        .map_err(|_| RequestContextError::InvalidToken)?;
 
     Ok(Principal::new(user_id, org_id, roles, branch_scope)
         .with_access_scope(access_scope)
@@ -547,17 +576,16 @@ pub async fn resolve_principal_from_bearer_token(
         .with_authz_freshness(authz_freshness))
 }
 
-async fn resolve_group_admin_tenant_context_principal(
+async fn resolve_group_admin_tenant_context_scope(
     pool: &PgPool,
     user_id: UserId,
     org_id: OrgId,
     access_scope: AccessScope,
-    roles: BTreeSet<Role>,
+    roles: &BTreeSet<Role>,
     group_context_id: Option<&str>,
-    authz_freshness: SubjectFreshness,
-) -> Result<Principal, RequestContextError> {
+) -> Result<BranchScope, RequestContextError> {
     let expected_roles = BTreeSet::from([Role::Admin]);
-    if roles != expected_roles {
+    if roles != &expected_roles {
         return Err(RequestContextError::InvalidClaim(
             "group-admin tenant context must carry only ADMIN",
         ));
@@ -585,19 +613,8 @@ async fn resolve_group_admin_tenant_context_principal(
     // subsidiary. Project through the token's scope so future narrower
     // hierarchy scopes cannot widen here, then build a bounded tenant principal:
     // ADMIN permissions, all-branch only for this subsidiary, never SUPER_ADMIN.
-    let branch_scope = effective_branch_scope_for_tenant(BranchScope::All, access_scope, org_id)
-        .map_err(RequestContextError::AccessScope)?;
-    let effective_feature_grants =
-        resolve_effective_feature_grants_in_org(pool, org_id, user_id, &branch_scope)
-            .await
-            .map_err(|err| RequestContextError::EffectivePolicy(err.to_string()))?;
-
-    Ok(
-        Principal::new(user_id, org_id, expected_roles, branch_scope)
-            .with_access_scope(access_scope)
-            .with_effective_feature_grants(effective_feature_grants)
-            .with_authz_freshness(authz_freshness),
-    )
+    effective_branch_scope_for_tenant(BranchScope::All, access_scope, org_id)
+        .map_err(RequestContextError::AccessScope)
 }
 
 // ---------------------------------------------------------------------------
