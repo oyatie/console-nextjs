@@ -1,0 +1,34 @@
+{
+  "observed_at": "2026-10-07T16:05:23.755611+00:00",
+  "commands": [
+    {
+      "name": "lint",
+      "command": [
+        "npm",
+        "run",
+        "lint"
+      ],
+      "exit_code": 0,
+      "log_sha256": "3e98dcbd24835eb29288dab5790e519db6a485457e666a6774fdbce08459740e"
+    },
+    {
+      "name": "vitest",
+      "command": [
+        "npm",
+        "test"
+      ],
+      "exit_code": 0,
+      "log_sha256": "ce8107387ccdbfb67456bf140b3755bb00e58c4612f9461fcfee63daba94e756"
+    },
+    {
+      "name": "tooling",
+      "command": [
+        "npm",
+        "run",
+        "test:source-closure"
+      ],
+      "exit_code": 0,
+      "log_sha256": "f3b411dda6094518be657b5ca0c0913b1ef318aa54d738da6af2ec37175cc61e"
+    }
+  ]
+}

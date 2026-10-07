@@ -1,0 +1,10 @@
+{
+  "error": null,
+  "results": [
+    {
+      "command": "node --test backend-fork/scripts/check-request-body-contract.test.mjs",
+      "exit_code": 1,
+      "log_sha256": "81f08b4dcf8c34c4849318767999ca4c2bceb17191f1c55d5543070809c587cd"
+    }
+  ]
+}

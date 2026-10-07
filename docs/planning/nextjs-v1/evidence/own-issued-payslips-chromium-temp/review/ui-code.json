@@ -1,0 +1,93 @@
+{
+  "version": 1,
+  "verdict": "ACCEPT",
+  "scope": "Independent read-only code correctness and selected evidence review of two browser TMPDIR ownership fixes; not completed native/business or hosted acceptance",
+  "observed_at": "2026-10-07T17:24:04.530748+00:00",
+  "base_commit": "3c745d2e85a801bfee66b5373e75f24e7fd24a95",
+  "reviewed_worktree_patch_sha256": "a7916fbc7192805f49d3ef63de741172aac34e475de0f1a769f62c7ce3294e87",
+  "blockers_in_reviewed_code": [],
+  "changed_source": {
+    "tools/test-native-browser-enrollment.mjs": "a524d18cc776fd2b2965ad13167ec89ec55e312297cb8bd3ba7ae5ec406dcd41",
+    "tools/test-browser-business-session.mjs": "1cb6789221da05d08c9f25198e519b9d6264c6e2d9147441173dc34755cd3023"
+  },
+  "exact_old_to_new_replacements_verified": true,
+  "no_other_tracked_diff": true,
+  "ownership_findings": [
+    "Only Chromium subprocess TMPDIR changes to the existing fresh stage. Environment remains allowlisted.",
+    "Playwright independently owns its SDK artifact/profile directories and close/kill awaits cleanup; process.env TMPDIR change is not necessary for the observed auxiliary directory.",
+    "Runner waits for startup and real browser/Next owner termination before removing stage. Finalization 6-second deadline, cleanup-unconfirmed result and parent readdir-empty assertion remain unchanged."
+  ],
+  "regression": {
+    "focused-green": {
+      "metadata_sha256": "f9bd4c948b4b2c8eda584bc76f7d76dca1f3b3dfa3c43a42cbb0b16f1740a74d",
+      "log_sha256": "2facd0008d5b73c86b85fd22206898b7a0fb6a4a05049c430a79a4e2deda9569",
+      "executed": 22,
+      "passed": 21,
+      "failed": 1,
+      "skipped": 0,
+      "cancelled": 0,
+      "exit_code": 1,
+      "input_hashes_verified_against_current_source": true
+    },
+    "focused-attempt2": {
+      "metadata_sha256": "8f3e549b1c912d533b0cbd6af4492efcb4e94589705f8be9c7473cb3055eccc1",
+      "log_sha256": "1e3b63f94b54bec8cbeb2fa9005eb0edcb2b413f1c805db5daacf91bccff8019",
+      "executed": 22,
+      "passed": 22,
+      "failed": 0,
+      "skipped": 0,
+      "cancelled": 0,
+      "exit_code": 0,
+      "input_hashes_verified_against_current_source": true
+    }
+  },
+  "hosted_red": {
+    "run": 37655815720,
+    "job": 112911142567,
+    "executed": 22,
+    "passed": 21,
+    "failed": 1,
+    "skipped": 0,
+    "test": "enrollment runner confirms cleanup after wrong-version",
+    "leftover_name": ".org.chromium.Chromium.xbgJR7",
+    "audit_sha256": "17b78c8b494bc41521f3d09456849b0feed9735f6f86168b883bd97c175afdb0",
+    "raw_log_sha256_verified": true,
+    "leftover_contents_not_preserved_or_claimed": true
+  },
+  "path_compatibility": {
+    "pinned_browser_version": "153.0.8010.12",
+    "source": "https://raw.githubusercontent.com/chromium/chromium/153.0.8010.12/chrome/browser/process_singleton_posix.cc",
+    "source_lines": [
+      "107-126",
+      "237-272",
+      "958-977"
+    ],
+    "macOS_Chromium_singleton_sun_path_bytes": 253,
+    "Linux_sun_path_bytes": 108,
+    "calculated_default_tmp_socket_bytes": {
+      "Linux_plain_enrollment": 80,
+      "Linux_plain_business": 81,
+      "Linux_nested_enrollment": 104,
+      "Linux_nested_business": 105,
+      "macOS_plain_enrollment": 124,
+      "macOS_plain_business": 125,
+      "macOS_nested_enrollment": 148,
+      "macOS_nested_business": 149
+    },
+    "default_paths_fit": true,
+    "arbitrary_longer_TMPDIR_not_guaranteed": true,
+    "not_actual_launch_or_socket_proof": true
+  },
+  "test_scope": [
+    "Existing fault checks execute actual Next and Chromium owners for enrollment faults. No mocked browser success or weakened cleanup assertion introduced.",
+    "Three business-runner startup faults stop before Chromium. Actual full business browser native gate remains required.",
+    "Attempt1 remains failure21/22 despite focused-green filename. Next readiness failed before Chromium in wrong-sequence. Attempt2 unchanged22/22 is separate evidence. Host load causation remains unproven."
+  ],
+  "limits": [
+    "Native auth127, genuine business browser17, Inbox9/REST2 and OpenAPI20 are pending or prior-source-only; no fresh rerun credit here.",
+    "Fresh hosted required checks, protected queue and merged-main readback remain gates.",
+    "No tests, builds, tracked edits, live operations or GitHub actions performed by this review.",
+    "Full HR/Org/Payroll/Foundry, statutory payroll, identity, two-site durability and launch acceptance remain unverified.",
+    "Existing valid archived CodeQL alerts133-136 are not fixed, dismissed or authorized for dismissal by this review."
+  ]
+}

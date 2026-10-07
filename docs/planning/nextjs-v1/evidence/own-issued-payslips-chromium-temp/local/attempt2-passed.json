@@ -1,0 +1,22 @@
+{
+  "command": [
+    "/Users/jasonlee/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
+    "--test",
+    "tools/enrollment-fault-deadlines.test.mjs",
+    "tools/test-native-browser-enrollment.test.mjs"
+  ],
+  "started_at": "2026-10-07T17:19:09.131276+00:00",
+  "finished_at": "2026-10-07T17:22:14.041681+00:00",
+  "duration_seconds": 184.90958587499335,
+  "exit_code": 0,
+  "inputs": {
+    "tools/test-native-browser-enrollment.mjs": "a524d18cc776fd2b2965ad13167ec89ec55e312297cb8bd3ba7ae5ec406dcd41",
+    "tools/test-browser-business-session.mjs": "1cb6789221da05d08c9f25198e519b9d6264c6e2d9147441173dc34755cd3023",
+    "tools/test-native-browser-enrollment.test.mjs": "1fcda2c4e3bc521b3ffcf839af5aeec9e5cf150a33bc646e8e46c1f8781b65a8",
+    "tools/enrollment-fault-deadlines.test.mjs": "7e4aa20a3cfac678c5f5d8b620456da7b6e74d72fd6f64824b05cde363bc4bca"
+  },
+  "log_sha256": "1e3b63f94b54bec8cbeb2fa9005eb0edcb2b413f1c805db5daacf91bccff8019",
+  "scope": "Real runner/process fault tests only; not native API/passkey acceptance",
+  "test_assertions_unchanged": true,
+  "reason_for_repeat": "First local run passed hosted cleanup failure case but failed Next readiness before Chromium launch; repeat once with other owned browser staging held. No source or deadline change; prior failure retained; load causation unproven."
+}

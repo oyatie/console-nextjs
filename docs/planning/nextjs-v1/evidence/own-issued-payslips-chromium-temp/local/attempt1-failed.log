@@ -1,0 +1,51 @@
+✔ slow prerequisite startup does not spend the requested cleanup budget (0.903791ms)
+✔ a ready runner that fails to exit still triggers the cleanup fallback (0.445625ms)
+✔ never-ready startup has one absolute bounded termination deadline (0.199834ms)
+✔ a second fault cannot reset an already running cleanup deadline (0.116417ms)
+✔ late cleanup cannot erase evidence of forced intervention (0.13575ms)
+✔ natural completion disposes both clocks and cannot rearm them (0.116542ms)
+✔ enrollment runner confirms cleanup after eof-before-origin (200.756792ms)
+✔ enrollment runner confirms cleanup after partial-eof-before-origin (168.717375ms)
+✔ enrollment runner confirms cleanup after frame-eof-before-origin (168.662167ms)
+✔ enrollment runner confirms cleanup after signal-after-origin (8342.007292ms)
+✔ enrollment runner confirms cleanup after eof-after-ready (11106.720875ms)
+✔ enrollment runner confirms cleanup after oversized (24342.142ms)
+✔ enrollment runner confirms cleanup after wrong-version (41989.595416ms)
+STARTUP_DIAGNOSTIC {"runner":"enrollment","fault":"wrong-sequence","phase":"next-readiness","error_name":"AssertionError","next_exit_code":null,"next_signal":null,"server_bytes":0}
+✖ enrollment runner confirms cleanup after wrong-sequence (65263.989416ms)
+✔ enrollment runner confirms cleanup after wrong-kind (31746.164541ms)
+✔ enrollment runner confirms cleanup after legacy-selection (30703.468375ms)
+✔ enrollment runner confirms cleanup after missing-selection (19072.6535ms)
+✔ enrollment runner confirms cleanup after malformed-selection (26170.94325ms)
+✔ enrollment runner confirms cleanup after weak-uv (21244.256375ms)
+✔ business runner confirms cleanup after eof-before-origin (316.494625ms)
+✔ business runner confirms cleanup after partial-eof-before-origin (303.997167ms)
+✔ business runner confirms cleanup after frame-eof-before-origin (317.513209ms)
+ℹ tests 22
+ℹ suites 0
+ℹ pass 21
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 281499.673292
+
+✖ failing tests:
+
+test at tools/test-native-browser-enrollment.test.mjs:54:3
+✖ enrollment runner confirms cleanup after wrong-sequence (65263.989416ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  'cleaned' !== 'ready'
+  
+      at TestContext.<anonymous> (file:///Users/jasonlee/Developer/frontend/.worktrees/own-issued-payslips/tools/test-native-browser-enrollment.test.mjs:134:16)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'cleaned',
+    expected: 'ready',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

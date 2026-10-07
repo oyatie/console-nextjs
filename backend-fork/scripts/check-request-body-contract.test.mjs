@@ -123,8 +123,8 @@ function assertLiveCycleKindProbationFinding(root) {
       enumSkipped: report.enumSkipped,
     },
     {
-      population: 294,
-      resolved: 55,
+      population: 296,
+      resolved: 57,
       skipped: 239,
       enumCandidates: 22,
       enumResolved: 7,
@@ -925,8 +925,8 @@ describe("request body enum-variant contract", () => {
         enumSkipped: report.enumSkipped,
       },
       {
-        population: 294,
-        resolved: 55,
+        population: 296,
+        resolved: 57,
         skipped: 239,
         enumCandidates: 22,
         enumResolved: 7,
@@ -2148,8 +2148,8 @@ describe("live request body census", () => {
   it("binds the exact source-first body and enum populations to the reviewed register", () => {
     const report = evaluateRequestBodyContract({ repoRoot });
 
-    assert.equal(report.population, 294);
-    assert.equal(report.resolved, 55);
+    assert.equal(report.population, 296);
+    assert.equal(report.resolved, 57);
     assert.equal(report.skipped, 239);
     assert.equal(report.enumCandidates, 22);
     assert.equal(report.enumResolved, 7);

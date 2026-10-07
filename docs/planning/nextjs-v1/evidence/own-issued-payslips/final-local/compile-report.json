@@ -1,0 +1,173 @@
+{
+  "commands": [
+    {
+      "name": "compile-auth",
+      "command": [
+        "cargo",
+        "+1.98.1",
+        "test",
+        "--locked",
+        "--offline",
+        "-p",
+        "console-app",
+        "--features",
+        "frontend-e2e",
+        "--lib",
+        "--test",
+        "auth_rest",
+        "--no-run"
+      ],
+      "exit_code": 0,
+      "log_sha256": "63bfd78cb58806406da184e43483b66b0768a087e2ee88160336415d63b6e1f2",
+      "runtime_tests_executed": 0,
+      "executables": {
+        "/private/tmp/own-issued-payslips-target-20261007/debug/deps/console_app-069ac7686289d2f4": "3479cdec8ce592c32e37a1783a6ea2020554533578e0c5b7a004ae7a67c84490",
+        "/private/tmp/own-issued-payslips-target-20261007/debug/deps/auth_rest-04a1d435de6b5d33": "35004386db0e6ee09bf0214207edc68ca0e85acc1a9af6698630755990602d11"
+      }
+    },
+    {
+      "name": "compile-drift",
+      "command": [
+        "cargo",
+        "+1.98.1",
+        "test",
+        "--locked",
+        "--offline",
+        "-p",
+        "console-app",
+        "--test",
+        "openapi_drift",
+        "--no-run"
+      ],
+      "exit_code": 0,
+      "log_sha256": "a81d1bd8fb92fdf21f77ccef904a1e4ddbf600f9f20e828b6c2096ef6558611b",
+      "runtime_tests_executed": 0,
+      "executables": {
+        "/private/tmp/own-issued-payslips-target-20261007/debug/deps/openapi_drift-42fc300dada6e28d": "5d1deaf599e477d9b27d9632da7bd4e7e84c1e0285f116ad5f5a6c6565934ed6"
+      }
+    },
+    {
+      "name": "compile-inbox",
+      "command": [
+        "cargo",
+        "+1.98.1",
+        "test",
+        "--locked",
+        "--offline",
+        "-p",
+        "console-inbox-adapter-postgres",
+        "--test",
+        "inbox_docs_rls_surfaces_as_runtime_role",
+        "-p",
+        "console-inbox-rest",
+        "--test",
+        "api",
+        "--no-run"
+      ],
+      "exit_code": 0,
+      "log_sha256": "0c928e1de6ef294d84d7f14b554f18894dc3b6552314cc895f3e76662f536879",
+      "runtime_tests_executed": 0,
+      "executables": {
+        "/private/tmp/own-issued-payslips-target-20261007/debug/deps/inbox_docs_rls_surfaces_as_runtime_role-6b00b225b79effa9": "502f621b690bf41e12d4d2c57e913e1aba33d54736abe4a3a343ebb7848400af",
+        "/private/tmp/own-issued-payslips-target-20261007/debug/deps/api-71403a0bbf366cfe": "2a3618a38e8b9ed09975dec1a8d7b422f110cc2e55fb3bca44b096cb851f021f"
+      }
+    },
+    {
+      "name": "clippy-auth",
+      "command": [
+        "cargo",
+        "+1.98.1",
+        "clippy",
+        "--locked",
+        "--offline",
+        "-p",
+        "console-app",
+        "--features",
+        "frontend-e2e",
+        "--lib",
+        "--test",
+        "auth_rest",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exit_code": 0,
+      "log_sha256": "06bc1ed8e22017e7be523cd9ac850597a113d1a43f85e1d7c2e11c7ee371d69f",
+      "runtime_tests_executed": 0,
+      "executables": {}
+    },
+    {
+      "name": "clippy-drift",
+      "command": [
+        "cargo",
+        "+1.98.1",
+        "clippy",
+        "--locked",
+        "--offline",
+        "-p",
+        "console-app",
+        "--test",
+        "openapi_drift",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exit_code": 0,
+      "log_sha256": "8d81a6c4fbf71736d2afba3685b4f899c7990978a0ce116c890fcc7a817224ab",
+      "runtime_tests_executed": 0,
+      "executables": {}
+    },
+    {
+      "name": "clippy-inbox",
+      "command": [
+        "cargo",
+        "+1.98.1",
+        "clippy",
+        "--locked",
+        "--offline",
+        "-p",
+        "console-inbox-adapter-postgres",
+        "-p",
+        "console-inbox-rest",
+        "--lib",
+        "--test",
+        "inbox_docs_rls_surfaces_as_runtime_role",
+        "--test",
+        "api",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exit_code": 0,
+      "log_sha256": "afb5e4c62a9a33554d8c9d5e5eb2459ac5468f91c2e743d623f39fa1355368a2",
+      "runtime_tests_executed": 0,
+      "executables": {}
+    },
+    {
+      "name": "format",
+      "command": [
+        "cargo",
+        "+1.98.1",
+        "fmt",
+        "--all",
+        "--",
+        "--check"
+      ],
+      "exit_code": 0,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runtime_tests_executed": 0,
+      "executables": {}
+    }
+  ],
+  "backend_input_files": 4111,
+  "inputs_sha256": "b687f5a99d4ca4083378848b62a1e2f2216ffad260fd102d1c88dea6b540db0a",
+  "inputs_unchanged": true,
+  "environment": {
+    "SQLX_OFFLINE": "true",
+    "CARGO_TARGET_DIR": "/private/tmp/own-issued-payslips-target-20261007",
+    "CARGO_BUILD_JOBS": "2",
+    "CARGO_INCREMENTAL": "0",
+    "CARGO_PROFILE_DEV_DEBUG": "0",
+    "CARGO_PROFILE_TEST_DEBUG": "0"
+  }
+}

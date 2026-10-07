@@ -1,0 +1,14 @@
+✔ only the first exact probe frame yields a fixed basename and bounded numbers (1.791916ms)
+✔ sensitive assertion headers and unrelated paths never enter diagnostic output (0.250417ms)
+✔ absent, malformed, overlong, and unsafe diagnostic inputs are omitted (0.164792ms)
+✔ native multiline assertion messages cannot forge a source location (0.509834ms)
+✔ unverified or accessor-backed messages are omitted without invoking their getter (0.142833ms)
+✔ issued-payslip failures retain only their exact safe source location (0.105542ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 69.461834

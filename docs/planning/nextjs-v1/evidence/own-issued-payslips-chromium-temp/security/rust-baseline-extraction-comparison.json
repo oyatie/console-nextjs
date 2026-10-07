@@ -1,0 +1,355 @@
+{
+  "base_commit": "7ccf7d15275653ddfd1ca8629d4c4caed1bfa6c7",
+  "head_commit": "918cbbbc5cb3bacd60cea1e16536beec3615a1f6",
+  "compared_current_commit": "3c745d2e85a801bfee66b5373e75f24e7fd24a95",
+  "base_warning_count": 404,
+  "head_warning_count": 404,
+  "base_unique_paths": 66,
+  "head_unique_paths": 66,
+  "warning_tuple_sets_identical": true,
+  "warning_multisets_identical": true,
+  "only_base": [],
+  "only_head": [],
+  "base_metrics": [
+    "2026-10-07T11:09:39.9559181Z | Total number of Rust files that were extracted without error |  1252 |",
+    "2026-10-07T11:09:39.9559595Z | Total number of Rust files that were extracted with errors   |    66 |"
+  ],
+  "head_metrics": [
+    "2026-10-07T17:05:22.8544120Z | Total number of Rust files that were extracted without error |  1254 |",
+    "2026-10-07T17:05:22.8544405Z | Total number of Rust files that were extracted with errors   |    66 |"
+  ],
+  "changed_warning_paths": [],
+  "all_warning_blobs_identical": true,
+  "warning_blobs": [
+    {
+      "path": "backend-fork/backend/app/src/hr.rs",
+      "blob": "442c3aae4e7da34ba8af138337e1e5efc289c8df",
+      "equal": true
+    },
+    {
+      "path": "backend-fork/backend/app/tests/health_readiness.rs",
+      "blob": "1c5b32c197e81c7e940534f0afa65856f3bf6b62",
+      "equal": true
+    },
+    {
+      "path": "backend-fork/backend/test_support/dispatch_worker_fixtures.rs",
+      "blob": "4138d7ba9a2f21b531004884eb727f283fd9133c",
+      "equal": true
+    },
+    {
+      "path": "backend-fork/backend/test_support/mobile_evidence_fixtures.rs",
+      "blob": "f4c737e7617eb04e135ef9ed53c8fe3f5c2ba5c2",
+      "equal": true
+    },
+    {
+      "path": "backend-fork/third-party/rust/vendor/calamine-0.35.0-quickxml41/src/de.rs",
+      "blob": "94bfd55aff1bd80f911010c57503c2fce305e2c7",
+      "equal": true
+    },
+    {
+      "path": "backend-fork/third-party/rust/vendor/quick-xml-0.41.0-compat/src/de/mod.rs",
+      "blob": "7be657447960ee4e87f603355d0e72e22876d82d",
+      "equal": true
+    },
+    {
+      "path": "backend-fork/third-party/rust/vendor/quick-xml-0.41.0-compat/src/encoding.rs",
+      "blob": "ee0c5cf3840f413b09bd8a0ed106afaacbad02f0",
+      "equal": true
+    },
+    {
+      "path": "backend-fork/third-party/rust/vendor/quick-xml-0.41.0-compat/src/name.rs",
+      "blob": "383772396be1921273eae28d2138cf3d134fa585",
+      "equal": true
+    },
+    {
+      "path": "backend-fork/third-party/rust/vendor/quick-xml-0.41.0-compat/src/se/content.rs",
+      "blob": "743a483149e49adc4df5d8b862da21a3879faf5c",
+      "equal": true
+    },
+    {
+      "path": "backend-fork/third-party/rust/vendor/quick-xml-0.41.0-compat/src/se/element.rs",
+      "blob": "0980fec2ffc64a80af0418b8dc12057b3b767fa0",
+      "equal": true
+    },
+    {
+      "path": "backend-fork/third-party/rust/vendor/quick-xml-0.41.0-compat/src/se/mod.rs",
+      "blob": "e36736b1d5490da7d1420f02974a92193c20b54f",
+      "equal": true
+    },
+    {
+      "path": "backend-fork/third-party/rust/vendor/umya-spreadsheet-3.0.0-quickxml41/src/helper/crypt/mod.rs",
+      "blob": "8fb730cbf1d22eedc836f74a733a6edc5efeaf22",
+      "equal": true
+    },
+    {
+      "path": "backend-fork/third-party/rust/vendor/umya-spreadsheet-3.0.0-quickxml41/src/helper/date.rs",
+      "blob": "ff22975b5dc29635acc702fe2d032f1a7fb3d92b",
+      "equal": true
+    },
+    {
+      "path": "backend-fork/third-party/rust/vendor/umya-spreadsheet-3.0.0-quickxml41/src/helper/html.rs",
+      "blob": "84000767b26db6fb498b92875dbe4711b70b9abf",
+      "equal": true
+    },
+    {
+      "path": "backend-fork/third-party/rust/vendor/umya-spreadsheet-3.0.0-quickxml41/src/structs/color.rs",
+      "blob": "21e38e814217372e9b0e913a8c8c3df4cda73fec",
+      "equal": true
+    },
+    {
+      "path": "backend-fork/third-party/rust/vendor/umya-spreadsheet-3.0.0-quickxml41/src/structs/comment.rs",
+      "blob": "c15ed589e8387a794633ed0848857969fde3ef04",
+      "equal": true
+    },
+    {
+      "path": "backend-fork/third-party/rust/vendor/umya-spreadsheet-3.0.0-quickxml41/src/structs/numbering_format.rs",
+      "blob": "c5b442af8e464358b2f69980ef2aa66cdbd43375",
+      "equal": true
+    },
+    {
+      "path": "backend-fork/third-party/rust/vendor/umya-spreadsheet-3.0.0-quickxml41/src/structs/workbook.rs",
+      "blob": "d7a5db1d94c3b796ab94004d5f4b1c6f3b389159",
+      "equal": true
+    },
+    {
+      "path": "docs/planning/nextjs-v1/evidence/browser-business-session-r7/enrollment-cleanup-repair/diagnostics/P16-native-gate-bff-deadline-source-trace01/sources/backend-fork/backend/app/tests/auth_rest/genuine_browser.rs",
+      "blob": "3a65a381c1ef0bb9937d5c769e4ff2f56c5fb2ea",
+      "equal": true
+    },
+    {
+      "path": "docs/planning/nextjs-v1/evidence/browser-business-session-r7/enrollment-cleanup-repair/diagnostics/composite-tracked-source-review01-inputs01/sources/backend-fork/backend/app/tests/auth_rest/browser_sessions.rs",
+      "blob": "bc9e7c580c0871b60a4a570b719bf390b9cee87f",
+      "equal": true
+    },
+    {
+      "path": "docs/planning/nextjs-v1/evidence/browser-business-session-r7/enrollment-cleanup-repair/diagnostics/composite-tracked-source-review01-inputs01/sources/backend-fork/backend/app/tests/auth_rest/genuine_browser.rs",
+      "blob": "3a65a381c1ef0bb9937d5c769e4ff2f56c5fb2ea",
+      "equal": true
+    },
+    {
+      "path": "docs/planning/nextjs-v1/evidence/browser-business-session-r7/enrollment-cleanup-repair/diagnostics/composite-tracked-source-review01-inputs01/sources/backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs",
+      "blob": "0f76bf6526cadde426267f431cd5651a2643783c",
+      "equal": true
+    },
+    {
+      "path": "docs/planning/nextjs-v1/evidence/browser-business-session-r7/enrollment-cleanup-repair/diagnostics/diagnostic-candidate03/backend-fork/backend/app/tests/auth_rest/browser_sessions.rs",
+      "blob": "efd436ac2e90aaaf35d3670e036206c73c5f0e76",
+      "equal": true
+    },
+    {
+      "path": "docs/planning/nextjs-v1/evidence/browser-business-session-r7/enrollment-cleanup-repair/diagnostics/diagnostic-candidate03/backend-fork/backend/app/tests/auth_rest/genuine_browser.rs",
+      "blob": "bd467b743b2e2bfa30b011db3d901a008cea65c6",
+      "equal": true
+    },
+    {
+      "path": "docs/planning/nextjs-v1/evidence/browser-business-session-r7/enrollment-cleanup-repair/diagnostics/diagnostic-candidate03/backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs",
+      "blob": "f8c2a683dad17ac124dc375e8094b591285b9ab3",
+      "equal": true
+    },
+    {
+      "path": "docs/planning/nextjs-v1/evidence/browser-business-session-r7/enrollment-cleanup-repair/diagnostics/diagnostic-inputs01/backend-fork/backend/app/tests/auth_rest/browser_sessions.rs",
+      "blob": "f558a44a5ecb2eb5291402e1e765fa19a2d680cf",
+      "equal": true
+    },
+    {
+      "path": "docs/planning/nextjs-v1/evidence/browser-business-session-r7/enrollment-cleanup-repair/diagnostics/diagnostic-inputs01/backend-fork/backend/app/tests/auth_rest/genuine_browser.rs",
+      "blob": "4521d4d15fb0dd3497fb43212f4806bb1a99c238",
+      "equal": true
+    },
+    {
+      "path": "docs/planning/nextjs-v1/evidence/browser-business-session-r7/enrollment-cleanup-repair/diagnostics/diagnostic-inputs01/backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs",
+      "blob": "224bb0a39e3fe7095ab68bb5c7a7961a141bb343",
+      "equal": true
+    },
+    {
+      "path": "docs/planning/nextjs-v1/evidence/browser-business-session-r7/enrollment-cleanup-repair/diagnostics/final-uninvolved-source-review06-inputs01/sources/backend-fork/backend/app/tests/auth_rest/browser_sessions.rs",
+      "blob": "bc9e7c580c0871b60a4a570b719bf390b9cee87f",
+      "equal": true
+    },
+    {
+      "path": "docs/planning/nextjs-v1/evidence/browser-business-session-r7/enrollment-cleanup-repair/diagnostics/final-uninvolved-source-review06-inputs01/sources/backend-fork/backend/app/tests/auth_rest/genuine_browser.rs",
+      "blob": "3a65a381c1ef0bb9937d5c769e4ff2f56c5fb2ea",
+      "equal": true
+    },
+    {
+      "path": "docs/planning/nextjs-v1/evidence/browser-business-session-r7/enrollment-cleanup-repair/diagnostics/final-uninvolved-source-review06-inputs01/sources/backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs",
+      "blob": "7d25a996347003027e83c55af46952f54d19597a",
+      "equal": true
+    },
+    {
+      "path": "docs/planning/nextjs-v1/evidence/browser-business-session-r7/enrollment-cleanup-repair/diagnostics/native20-countzero-red-source01.rs",
+      "blob": "9f31e70028be2595f934dc1c6e8d0043ce27f474",
+      "equal": true
+    },
+    {
+      "path": "docs/planning/nextjs-v1/evidence/browser-business-session-r7/enrollment-cleanup-repair/diagnostics/overall-repair-final-review04/source/backend-fork/backend/app/tests/auth_rest/browser_sessions.rs",
+      "blob": "bc9e7c580c0871b60a4a570b719bf390b9cee87f",
+      "equal": true
+    },
+    {
+      "path": "docs/planning/nextjs-v1/evidence/browser-business-session-r7/enrollment-cleanup-repair/diagnostics/overall-repair-final-review04/source/backend-fork/backend/app/tests/auth_rest/genuine_browser.rs",
+      "blob": "3a65a381c1ef0bb9937d5c769e4ff2f56c5fb2ea",
+      "equal": true
+    },
+    {
+      "path": "docs/planning/nextjs-v1/evidence/browser-business-session-r7/enrollment-cleanup-repair/diagnostics/overall-repair-final-review04/source/backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs",
+      "blob": "5b8efa6c92995927b09f3bbdaf0e982e4c35c7e6",
+      "equal": true
+    },
+    {
+      "path": "docs/planning/nextjs-v1/evidence/browser-business-session-r7/enrollment-cleanup-repair/diagnostics/overall-repair-source-review02/source/backend-fork/backend/app/tests/auth_rest/browser_sessions.rs",
+      "blob": "bc9e7c580c0871b60a4a570b719bf390b9cee87f",
+      "equal": true
+    },
+    {
+      "path": "docs/planning/nextjs-v1/evidence/browser-business-session-r7/enrollment-cleanup-repair/diagnostics/overall-repair-source-review02/source/backend-fork/backend/app/tests/auth_rest/genuine_browser.rs",
+      "blob": "3a65a381c1ef0bb9937d5c769e4ff2f56c5fb2ea",
+      "equal": true
+    },
+    {
+      "path": "docs/planning/nextjs-v1/evidence/browser-business-session-r7/enrollment-cleanup-repair/diagnostics/overall-repair-source-review02/source/backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs",
+      "blob": "5b8efa6c92995927b09f3bbdaf0e982e4c35c7e6",
+      "equal": true
+    },
+    {
+      "path": "docs/planning/nextjs-v1/evidence/browser-business-session-r7/enrollment-cleanup-repair/diagnostics/overall-startup-cleanup-ci-source-review01/source/backend-fork/backend/app/tests/auth_rest/browser_sessions.rs",
+      "blob": "bc9e7c580c0871b60a4a570b719bf390b9cee87f",
+      "equal": true
+    },
+    {
+      "path": "docs/planning/nextjs-v1/evidence/browser-business-session-r7/enrollment-cleanup-repair/diagnostics/overall-startup-cleanup-ci-source-review01/source/backend-fork/backend/app/tests/auth_rest/genuine_browser.rs",
+      "blob": "3a65a381c1ef0bb9937d5c769e4ff2f56c5fb2ea",
+      "equal": true
+    },
+    {
+      "path": "docs/planning/nextjs-v1/evidence/browser-business-session-r7/enrollment-cleanup-repair/diagnostics/overall-startup-cleanup-ci-source-review01/source/backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs",
+      "blob": "5b8efa6c92995927b09f3bbdaf0e982e4c35c7e6",
+      "equal": true
+    },
+    {
+      "path": "docs/planning/nextjs-v1/evidence/browser-business-session-r7/enrollment-cleanup-repair/diagnostics/resident-cleanup-diagnostic-candidate04/backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs",
+      "blob": "7d25a996347003027e83c55af46952f54d19597a",
+      "equal": true
+    },
+    {
+      "path": "docs/planning/nextjs-v1/evidence/browser-business-session-r7/enrollment-cleanup-repair/diagnostics/resident-sdk-shared-cleanup-candidate01/backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs",
+      "blob": "0f76bf6526cadde426267f431cd5651a2643783c",
+      "equal": true
+    },
+    {
+      "path": "docs/planning/nextjs-v1/evidence/browser-business-session-r7/enrollment-cleanup-repair/diagnostics/resident-sdk-shared-cleanup-candidate01/rust-before.rs",
+      "blob": "30e0572fe655e172161698c1923a19f9ee2cbc1d",
+      "equal": true
+    },
+    {
+      "path": "docs/planning/nextjs-v1/evidence/browser-business-session-r7/enrollment-cleanup-repair/diagnostics/resident-sdk-shared-cleanup-candidate02/backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs",
+      "blob": "0f76bf6526cadde426267f431cd5651a2643783c",
+      "equal": true
+    },
+    {
+      "path": "docs/planning/nextjs-v1/evidence/browser-business-session-r7/enrollment-cleanup-repair/diagnostics/resident-sdk-shared-cleanup-candidate02/rust-before.rs",
+      "blob": "30e0572fe655e172161698c1923a19f9ee2cbc1d",
+      "equal": true
+    },
+    {
+      "path": "docs/planning/nextjs-v1/evidence/browser-business-session-r7/enrollment-cleanup-repair/diagnostics/resident-setup-diagnostic-candidate01/backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs",
+      "blob": "8dc93ecfa4720e9966df1addcb30e05be16914e4",
+      "equal": true
+    },
+    {
+      "path": "docs/planning/nextjs-v1/evidence/browser-business-session-r7/enrollment-cleanup-repair/diagnostics/resident-setup-diagnostic-candidate01/rust-before.rs",
+      "blob": "0f76bf6526cadde426267f431cd5651a2643783c",
+      "equal": true
+    },
+    {
+      "path": "docs/planning/nextjs-v1/evidence/browser-business-session-r7/enrollment-cleanup-repair/diagnostics/resident-setup-diagnostic-candidate02/backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs",
+      "blob": "731cb1c64a006aa32693e803ecca6d7048f670b8",
+      "equal": true
+    },
+    {
+      "path": "docs/planning/nextjs-v1/evidence/browser-business-session-r7/enrollment-cleanup-repair/diagnostics/resident-setup-diagnostic-candidate02/rust-before.rs",
+      "blob": "0f76bf6526cadde426267f431cd5651a2643783c",
+      "equal": true
+    },
+    {
+      "path": "docs/planning/nextjs-v1/evidence/browser-business-session-r7/enrollment-cleanup-repair/diagnostics/resident-startup-fault-candidate01/backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs",
+      "blob": "de8afe072a4efad51c0a95ad121ad3790f27b81c",
+      "equal": true
+    },
+    {
+      "path": "docs/planning/nextjs-v1/evidence/browser-business-session-r7/enrollment-cleanup-repair/diagnostics/resident-startup-fault-candidate01/before.rs",
+      "blob": "57ed12adc1d39264bcc912a5ee429cfe5d9b48a5",
+      "equal": true
+    },
+    {
+      "path": "docs/planning/nextjs-v1/evidence/browser-business-session-r7/enrollment-cleanup-repair/diagnostics/resident-startup-fault-candidate02/backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs",
+      "blob": "30e0572fe655e172161698c1923a19f9ee2cbc1d",
+      "equal": true
+    },
+    {
+      "path": "docs/planning/nextjs-v1/evidence/browser-business-session-r7/enrollment-cleanup-repair/diagnostics/resident-startup-fault-candidate02/before.rs",
+      "blob": "57ed12adc1d39264bcc912a5ee429cfe5d9b48a5",
+      "equal": true
+    },
+    {
+      "path": "docs/planning/nextjs-v1/evidence/browser-business-session-r7/enrollment-cleanup-repair/diagnostics/resident-startup-owner-candidate01/backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs",
+      "blob": "f7c50d628efd5b909feff94f7126f7b6571c4ffe",
+      "equal": true
+    },
+    {
+      "path": "docs/planning/nextjs-v1/evidence/browser-business-session-r7/enrollment-cleanup-repair/diagnostics/resident-startup-owner-candidate02/backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs",
+      "blob": "57ed12adc1d39264bcc912a5ee429cfe5d9b48a5",
+      "equal": true
+    },
+    {
+      "path": "docs/planning/nextjs-v1/evidence/browser-business-session-r7/enrollment-cleanup-repair/diagnostics/resident-stderr-type-clarity-candidate01/after.rs",
+      "blob": "5b8efa6c92995927b09f3bbdaf0e982e4c35c7e6",
+      "equal": true
+    },
+    {
+      "path": "docs/planning/nextjs-v1/evidence/browser-business-session-r7/enrollment-cleanup-repair/diagnostics/resident-stderr-type-clarity-candidate01/before.rs",
+      "blob": "731cb1c64a006aa32693e803ecca6d7048f670b8",
+      "equal": true
+    },
+    {
+      "path": "docs/planning/nextjs-v1/evidence/browser-business-session-r7/enrollment-cleanup-repair/snapshots/historical/c3793f92/backend-fork/backend/app/tests/auth_rest/genuine_browser.rs",
+      "blob": "2ed1c9d1a72d14e27fd166e5b3a12b8649e8569e",
+      "equal": true
+    },
+    {
+      "path": "docs/planning/nextjs-v1/evidence/browser-business-session-r7/enrollment-cleanup-repair/snapshots/run-source/3fc7ff40ce5b/backend-fork/backend/app/tests/auth_rest/genuine_browser.rs",
+      "blob": "3a65a381c1ef0bb9937d5c769e4ff2f56c5fb2ea",
+      "equal": true
+    },
+    {
+      "path": "docs/planning/nextjs-v1/evidence/browser-business-session-r7/enrollment-cleanup-repair/snapshots/run-source/af3da5f340ec/backend-fork/backend/app/tests/auth_rest/browser_sessions.rs",
+      "blob": "bc9e7c580c0871b60a4a570b719bf390b9cee87f",
+      "equal": true
+    },
+    {
+      "path": "docs/planning/nextjs-v1/evidence/browser-business-session-r7/enrollment-cleanup-repair/snapshots/run-source/feb30ff385b2/backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs",
+      "blob": "9c70b83bdcbd3c5f6e7fb7f13a9f052ae5814d89",
+      "equal": true
+    },
+    {
+      "path": "docs/planning/nextjs-v1/evidence/browser-business-session-r7/enrollment-cleanup-repair/snapshots/source-by-hash/3dc3de1c946b/backend-fork/backend/app/tests/auth_rest/genuine_browser.rs",
+      "blob": "4521d4d15fb0dd3497fb43212f4806bb1a99c238",
+      "equal": true
+    },
+    {
+      "path": "docs/planning/nextjs-v1/evidence/browser-business-session-r7/enrollment-cleanup-repair/source-review/final-uninvolved-source-review06-inputs01/sources/backend-fork/backend/app/tests/auth_rest/browser_sessions.rs",
+      "blob": "bc9e7c580c0871b60a4a570b719bf390b9cee87f",
+      "equal": true
+    },
+    {
+      "path": "docs/planning/nextjs-v1/evidence/browser-business-session-r7/enrollment-cleanup-repair/source-review/final-uninvolved-source-review06-inputs01/sources/backend-fork/backend/app/tests/auth_rest/genuine_browser.rs",
+      "blob": "3a65a381c1ef0bb9937d5c769e4ff2f56c5fb2ea",
+      "equal": true
+    },
+    {
+      "path": "docs/planning/nextjs-v1/evidence/browser-business-session-r7/enrollment-cleanup-repair/source-review/final-uninvolved-source-review06-inputs01/sources/backend-fork/backend/app/tests/auth_rest/resident_authenticator.rs",
+      "blob": "7d25a996347003027e83c55af46952f54d19597a",
+      "equal": true
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+
+running 2 tests
+test inbox_payslip_filter_is_person_scoped_and_not_receipt_gated ... ok
+test inbox_receipt_flow_is_person_scoped_and_passkey_gated ... ok
+
+successes:
+
+successes:
+    inbox_payslip_filter_is_person_scoped_and_not_receipt_gated
+    inbox_receipt_flow_is_person_scoped_and_passkey_gated
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 6.67s
+

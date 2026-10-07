@@ -1,0 +1,45 @@
+{
+  "scope": "failed first single-site native attempt; do not credit unconditional credential-destruction flag",
+  "files": {
+    "app-payslips-parser-discovery.log": {
+      "sha256": "2e97f206919d2d7eb1d32345992d77206f9464713dd53d678aadc3629738a8ef",
+      "bytes": 186
+    },
+    "app-payslips-parser.log": {
+      "sha256": "ea49107d9e9cff4c74b9c4adc00099ec3eac413264162d30cfa9df089e1e0dbc",
+      "bytes": 473
+    },
+    "auth-rest-full-discovery.log": {
+      "sha256": "ff3d5572267dd0384ce7bbdd936f7c5708327db34e26daedef03274f39a78225",
+      "bytes": 11303
+    },
+    "auth-rest-full.log": {
+      "sha256": "a5f71103cffaa13ea676d70251c2a9724b140876c1f22af9758e169d9c188321",
+      "bytes": 33048
+    },
+    "openapi-drift-discovery.log": {
+      "sha256": "f1524abd3839a2b86bf3d2451c62fa69066d73d1f0a59f7bcf5d4212385323f2",
+      "bytes": 1305
+    },
+    "openapi-drift.log": {
+      "sha256": "54b13b688b5884439b2024636022ab53e5f74cf79050eed4fd5ae6d6300ac14e",
+      "bytes": 3397
+    },
+    "payslips-native-discovery.log": {
+      "sha256": "123ce8d9c1fe2820569caa8c6665e577af77623b6a843c6db838798cfb55f540",
+      "bytes": 261
+    },
+    "payslips-native.log": {
+      "sha256": "299b681e02d513e8384928d5a60a3fc712ff11837455d213c5ece612500876f5",
+      "bytes": 623
+    },
+    "report.json": {
+      "sha256": "c19ebcfdd9138918523e38f0e3183cc72d592a6a2e404f46dfe3495aaab85d16",
+      "bytes": 12546
+    },
+    "stop.log": {
+      "sha256": "ca19178a35ab4153b75b494963b66ce8243e1b94c173107c87b44d09db23652d",
+      "bytes": 56
+    }
+  }
+}

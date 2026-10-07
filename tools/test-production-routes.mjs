@@ -22,6 +22,8 @@ const expectedRoutes = [
   "/api/browser-session/start/route",
   "/login/page",
   "/me/[context]/attendance/page",
+  "/me/[context]/payslips/[id]/page",
+  "/me/[context]/payslips/page",
   "/page",
   "/storefront/[id]/media/[mediaId]/route",
   "/storefront/[id]/page",

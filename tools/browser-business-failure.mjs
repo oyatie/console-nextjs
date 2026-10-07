@@ -5,6 +5,7 @@ const sources = [
   "browser-business-boundary.mjs",
   "browser-business-temporal.mjs",
   "browser-business-restore.mjs",
+  "browser-payslips.mjs",
 ].map((file) => ({ file, url: new URL(file, import.meta.url).href }));
 
 // Never report the error message, raw stack, paths, or assertion values. Only

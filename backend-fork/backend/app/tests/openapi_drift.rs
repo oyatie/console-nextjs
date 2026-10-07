@@ -18,6 +18,7 @@ const REQUIRED_CONFIGURED_SURFACES: &[&str] = &[
     "evaluation",
     "integrity",
     "hr",
+    "browser-payslips",
     "workflow-studio",
     "collaboration",
     "sales",
@@ -40,6 +41,12 @@ struct RouteSource {
 }
 
 const CONFIGURED_ROUTE_SOURCES: &[RouteSource] = &[
+    RouteSource {
+        name: "issued payslip browser adapter",
+        surface: "browser-payslips",
+        source: include_str!("../src/browser_payslips.rs"),
+        ignored_route_refs: &[],
+    },
     RouteSource {
         name: "attendance REST router",
         surface: "attendance",
@@ -273,6 +280,10 @@ const APP_CARGO_TOML: &str = include_str!("../Cargo.toml");
 const APP_LIB_RS: &str = include_str!("../src/lib.rs");
 
 const APP_PRODUCTION_SOURCES: &[(&str, &str)] = &[
+    (
+        "app src/browser_payslips.rs",
+        include_str!("../src/browser_payslips.rs"),
+    ),
     (
         "app src/action_inbox.rs",
         include_str!("../src/action_inbox.rs"),
@@ -1498,6 +1509,87 @@ fn app_does_not_wire_intelligence_draft_dispatch_or_depend_on_the_seam_crate() {
     assert!(
         !APP_CARGO_TOML.contains("console-intelligence-application"),
         "console-app must not depend on the intelligence seam crate"
+    );
+}
+
+#[test]
+fn issued_browser_payslip_contract_matches_read_only_owner_routes() {
+    let operations = openapi_operation_keys(OPENAPI_YAML);
+    for (path, request, response) in [
+        (
+            "/api/v1/me/browser-session/payslips",
+            "BrowserPayslipListRequest",
+            "BrowserPayslipListResponse",
+        ),
+        (
+            "/api/v1/me/browser-session/payslips/{id}",
+            "BrowserSessionIdentityRequest",
+            "BrowserPayslipDetailResponse",
+        ),
+    ] {
+        assert!(
+            configured_surface_paths("browser-payslips")
+                .unwrap()
+                .contains(&path)
+        );
+        let methods: BTreeSet<_> = operations
+            .iter()
+            .filter(|(candidate, _)| candidate == &normalize_path_parameters(path))
+            .map(|(_, method)| method.as_str())
+            .collect();
+        assert_eq!(methods, BTreeSet::from(["post"]));
+        let body = openapi_operation_body(OPENAPI_YAML, path, "post");
+        assert!(
+            body.contains("security:\n      - BrowserIngress: []") && !body.contains("bearerAuth")
+        );
+        assert!(body.contains(request) && body.contains(response));
+        if path.ends_with("/{id}") {
+            assert!(body.contains("'400':"), "malformed path must be documented");
+        }
+        for status in ["200", "401", "404", "413", "422", "503"] {
+            assert!(
+                body.contains(&format!("'{status}':")),
+                "{path} missing {status}"
+            );
+        }
+    }
+    for name in [
+        "BrowserPayslipListRequest",
+        "BrowserPayslipListResponse",
+        "BrowserPayslipSummary",
+        "BrowserPayslipDocument",
+        "BrowserPayslipDetailResponse",
+        "BrowserPayslipPayload",
+        "BrowserPayslipDeduction",
+    ] {
+        let schema = openapi_schema_body(OPENAPI_YAML, name);
+        assert!(schema.contains("additionalProperties: false"));
+        for field in ["recipient", "user_id", "access_token", "refresh_token"] {
+            assert!(
+                !schema.contains(&format!("{field}:")),
+                "{name} must not accept authority selectors"
+            );
+        }
+    }
+    for (name, property) in [
+        ("BrowserPayslipListRequest", "before"),
+        ("BrowserPayslipListResponse", "next_cursor"),
+    ] {
+        let schema = openapi_schema_body(OPENAPI_YAML, name);
+        assert!(schema.contains(&format!(
+            "        {property}:\n          type: [string, 'null']\n          format: uuid"
+        )));
+        assert!(
+            !schema.contains("nullable:"),
+            "3.1 must use a true null type"
+        );
+    }
+    let money = openapi_schema_body(OPENAPI_YAML, "BrowserPayslipMoney");
+    assert!(money.contains("type: string") && money.contains("maxLength: 20"));
+    assert!(money.contains("pattern: '^(?:0|-?[1-9][0-9]*)$'"));
+    assert!(openapi_schema_body(OPENAPI_YAML, "BrowserPayslipPayload").contains("maxItems: 6"));
+    assert!(
+        openapi_schema_body(OPENAPI_YAML, "BrowserPayslipListResponse").contains("maxItems: 25")
     );
 }
 

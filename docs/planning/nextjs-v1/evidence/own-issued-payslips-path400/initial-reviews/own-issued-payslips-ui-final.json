@@ -1,0 +1,120 @@
+{
+  "version": 1,
+  "verdict": "ACCEPT",
+  "review_scope": "Independent read-only final source/UI/browser/evidence review of issued personal payslip read slice",
+  "commit": "3a146c55576ff4f2f9ec3a1a5389c015cac1800d",
+  "base_commit": "7ccf7d15275653ddfd1ca8629d4c4caed1bfa6c7",
+  "tree": "2e7282966a0ecec07cddef3af28607780ced5af9",
+  "observed_at": "2026-10-07T16:15:01.378712+00:00",
+  "blockers": [],
+  "evidence_sha256": "784702ed285c4d8c214aaea06aa5f13572bbe8b35ee95cd6ad606051cbadbc96",
+  "immutable_blob_checks": {
+    "runtime_inputs": 41,
+    "portable_selection": 56,
+    "backend_compiler_inputs": 4111,
+    "production_source_inputs": 94,
+    "mismatches": 0
+  },
+  "production_build_files_rehashed": {
+    "files": 106,
+    "mismatches": 0,
+    "scope": "Local existing build bytes; not committed build artifacts or fresh build attestation"
+  },
+  "raw_results": {
+    "auth_native": {
+      "discovered": 127,
+      "passed": 127,
+      "failed": 0,
+      "skipped": 0,
+      "filtered": 0
+    },
+    "openapi": {
+      "discovered": 20,
+      "passed": 20,
+      "failed": 0,
+      "skipped": 0,
+      "filtered": 0
+    },
+    "inbox_adapter": {
+      "discovered": 9,
+      "passed": 9,
+      "failed": 0,
+      "skipped": 0,
+      "filtered": 0
+    },
+    "inbox_rest": {
+      "discovered": 2,
+      "passed": 2,
+      "failed": 0,
+      "skipped": 0,
+      "filtered": 0
+    },
+    "browser": {
+      "discovered": 17,
+      "passed": 17,
+      "failed": 0,
+      "unreached": 0,
+      "skipped": 0,
+      "nested_in": "One auth-native body, not 17 extra native tests"
+    },
+    "frontend": {
+      "passed": 116,
+      "files": 10
+    },
+    "python_tooling": {
+      "passed": 27
+    }
+  },
+  "reviewed_paths": [
+    "Real SSR recipient-owned list/detail with no-store server transport",
+    "Attendance/payslip navigation and exact originating cursor return",
+    "Exact int64 money and canonical artifact/source validation",
+    "Native Company/recipient/kind restriction before body reads",
+    "404/denied/unavailable/invalid-input recovery paths",
+    "Current session recheck, fixed cookie/deadline and logout UNKNOWN reuse",
+    "Semantic deduction table, labeled scrolling region and focusable links",
+    "Genuine production browser pagination/detail/reload/foreign denial/logout checks",
+    "360px document containment and focus assertion",
+    "Issued native-revocation genuine BFCache witness; original attendance restoration guards retained",
+    "All seven P16 restoration fault variants retained",
+    "Portable evidence selection/index/checkpoint and historical failure preservation",
+    "Minimal existing owner/transport/components reuse without new authority or dependency"
+  ],
+  "historical_failures_preserved": {
+    "native_first": {
+      "passed": 123,
+      "failed": 4
+    },
+    "openapi_first": {
+      "passed": 19,
+      "failed": 1
+    },
+    "browser_first": {
+      "passed": 6,
+      "failed": 1,
+      "unreached": 10
+    }
+  },
+  "sensitive_pattern_scan": {
+    "selected_files": 56,
+    "matches": 0,
+    "scope": "Private-key blocks, credential-bearing URLs and GitHub token patterns; bounded scan, not universal secret absence"
+  },
+  "source_diff_check": {
+    "paths": 47,
+    "exit_code": 0,
+    "evidence_logs_excluded": true
+  },
+  "limits": [
+    "Approval is for this bounded read-only slice; full B06 and HR/Org/Foundry remain unverified",
+    "No statutory payroll, independent issuance ceremony, physical passkey or attended identity acceptance",
+    "Single-site specimen/PostgreSQL proof; no two-site durability/fencing/emission-time serialization acceptance",
+    "New screens have bounded 360px/focus proof, not comprehensive WCAG/browser/device certification",
+    "Ordinary logout Back passed without actual BFCache restoration; genuine attendance and issued-payslip revocation variants separately witnessed real BFCache",
+    "Original missing-route RED is qualified as prior session reported without located raw admission proof; not credited",
+    "Temporary credential-file cleanup does not prove memory or cryptographic erasure",
+    "Hosted checks, protected merge queue and merged-main readback remain external delivery gates",
+    "No deployment, public exposure, institutional mutation, payment or collection authorized by this review"
+  ],
+  "verification_method": "Read committed source and raw selected logs; independently rehash immutable commit blobs and local existing build; no builds, Cargo, business writes or new runtime tests"
+}

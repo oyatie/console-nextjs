@@ -164,6 +164,7 @@ use url::Url;
 
 pub mod action_inbox;
 mod audit_chain_signer;
+mod browser_payslips;
 mod browser_session_cleanup;
 pub mod cedar_parity;
 mod collaboration;
@@ -295,6 +296,10 @@ pub const CONFIGURED_ROUTE_SURFACES: &[ConfiguredRouteSurface] = &[
     ConfiguredRouteSurface {
         name: "hr",
         paths: hr::HR_ROUTE_PATHS,
+    },
+    ConfiguredRouteSurface {
+        name: "browser-payslips",
+        paths: &[browser_payslips::PATH, browser_payslips::DETAIL_PATH],
     },
     ConfiguredRouteSurface {
         name: "workflow-studio",
@@ -3215,6 +3220,13 @@ pub fn build_router(state: AppState) -> Router {
                 }))
                 .merge(hr::browser_router(
                     pool.clone(),
+                    state
+                        .auth_rest
+                        .clone()
+                        .unwrap_or_else(|| AuthRestState::disabled(pool.clone())),
+                ))
+                .merge(browser_payslips::router(
+                    PgInboxStore::new(pool.clone()),
                     state
                         .auth_rest
                         .clone()

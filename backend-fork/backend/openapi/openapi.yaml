@@ -9142,6 +9142,73 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorBody'
+  /api/v1/me/browser-session/payslips:
+    post:
+      tags: [me]
+      operationId: listBrowserPayslips
+      summary: Read the authenticated browser recipient's issued payslip artifacts
+      security:
+      - BrowserIngress: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BrowserPayslipListRequest'
+      responses:
+        '200':
+          description: Recipient and Company scoped read; no issuance, receipt confirmation or payment effect.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BrowserPayslipListResponse'
+        '401':
+          description: Missing, expired, revoked or mismatched browser authority.
+        '404':
+          description: Unknown, other recipient, other Company or non-payslip document; no distinction is disclosed.
+        '413':
+          description: Body exceeds the 4096-byte limit.
+        '422':
+          description: Malformed closed request.
+        '503':
+          description: Ingress or storage unavailable, or issued artifact cannot be safely projected.
+  /api/v1/me/browser-session/payslips/{id}:
+    post:
+      tags: [me]
+      operationId: readBrowserPayslip
+      summary: Read the authenticated browser recipient's issued payslip artifacts
+      security:
+      - BrowserIngress: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema: { $ref: '#/components/schemas/Uuid' }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BrowserSessionIdentityRequest'
+      responses:
+        '200':
+          description: Recipient and Company scoped read; no issuance, receipt confirmation or payment effect.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BrowserPayslipDetailResponse'
+        '400':
+          description: Malformed UUID path identifier.
+        '401':
+          description: Missing, expired, revoked or mismatched browser authority.
+        '404':
+          description: Unknown, other recipient, other Company or non-payslip document; no distinction is disclosed.
+        '413':
+          description: Body exceeds the 4096-byte limit.
+        '422':
+          description: Malformed closed request.
+        '503':
+          description: Ingress or storage unavailable, or issued artifact cannot be safely projected.
   /api/v1/me/inbox-docs:
     get:
       tags:
@@ -20155,6 +20222,98 @@ components:
             omit deactivated rows.
         created_at:
           $ref: '#/components/schemas/Timestamp'
+    BrowserPayslipDeduction:
+      type: object
+      additionalProperties: false
+      required: [code, label_ko, amount_won, source_url]
+      properties:
+        code:
+          type: string
+          enum: [NATIONAL_PENSION, HEALTH_INSURANCE, LONG_TERM_CARE, EMPLOYMENT_INSURANCE, INCOME_TAX, LOCAL_INCOME_TAX]
+        label_ko: { type: string, minLength: 1 }
+        amount_won: { $ref: '#/components/schemas/BrowserPayslipMoney', pattern: '^(?:0|[1-9][0-9]*)$' }
+        source_url: { type: string, minLength: 1 }
+    BrowserPayslipDetailResponse:
+      type: object
+      additionalProperties: false
+      required: [company_id, browser_context, expires_at, document]
+      properties:
+        company_id: { $ref: '#/components/schemas/Uuid' }
+        browser_context: { $ref: '#/components/schemas/Uuid' }
+        expires_at: { $ref: '#/components/schemas/Timestamp' }
+        document: { $ref: '#/components/schemas/BrowserPayslipDocument' }
+    BrowserPayslipDocument:
+      type: object
+      additionalProperties: false
+      required: [id, title, created_at, payload]
+      properties:
+        id: { $ref: '#/components/schemas/Uuid' }
+        title: { type: string }
+        created_at: { $ref: '#/components/schemas/Timestamp' }
+        payload: { $ref: '#/components/schemas/BrowserPayslipPayload' }
+    BrowserPayslipListRequest:
+      type: object
+      additionalProperties: false
+      required: [session_token, browser_context]
+      properties:
+        session_token:
+          type: string
+          minLength: 47
+          maxLength: 47
+          pattern: '^bs1\.[A-Za-z0-9_-]{42}[AEIMQUYcgkosw048]$'
+        browser_context:
+          $ref: '#/components/schemas/Uuid'
+        before:
+          type: [string, 'null']
+          format: uuid
+    BrowserPayslipListResponse:
+      type: object
+      additionalProperties: false
+      required: [company_id, browser_context, expires_at, items, next_cursor]
+      properties:
+        company_id: { $ref: '#/components/schemas/Uuid' }
+        browser_context: { $ref: '#/components/schemas/Uuid' }
+        expires_at: { $ref: '#/components/schemas/Timestamp' }
+        items:
+          type: array
+          maxItems: 25
+          items: { $ref: '#/components/schemas/BrowserPayslipSummary' }
+        next_cursor:
+          type: [string, 'null']
+          format: uuid
+          description: Last returned payslip ID only when another eligible payslip exists; null at the end.
+    BrowserPayslipMoney:
+      type: string
+      maxLength: 20
+      pattern: '^(?:0|-?[1-9][0-9]*)$'
+      description: Exact signed int64 KRW integer encoded as a canonical decimal string; never a floating JSON number.
+    BrowserPayslipPayload:
+      type: object
+      additionalProperties: false
+      required: [run_id, line_id, period_start, period_end, gross_won, deductions, total_deductions_won, net_won, tax_table_version, calculation_version]
+      description: Read projection of the immutable payroll_run-issued artifact. Deductions have unique codes and balance to the stored total; gross minus total equals net. Issuance is not evidence of bank settlement.
+      properties:
+        run_id: { $ref: '#/components/schemas/Uuid' }
+        line_id: { $ref: '#/components/schemas/Uuid' }
+        period_start: { type: string, format: date }
+        period_end: { type: string, format: date }
+        gross_won: { $ref: '#/components/schemas/BrowserPayslipMoney', pattern: '^(?:0|[1-9][0-9]*)$' }
+        deductions:
+          type: array
+          maxItems: 6
+          items: { $ref: '#/components/schemas/BrowserPayslipDeduction' }
+        total_deductions_won: { $ref: '#/components/schemas/BrowserPayslipMoney', pattern: '^(?:0|[1-9][0-9]*)$' }
+        net_won: { $ref: '#/components/schemas/BrowserPayslipMoney' }
+        tax_table_version: { type: string, minLength: 1 }
+        calculation_version: { type: integer, format: int32, minimum: 1 }
+    BrowserPayslipSummary:
+      type: object
+      additionalProperties: false
+      required: [id, title, created_at]
+      properties:
+        id: { $ref: '#/components/schemas/Uuid' }
+        title: { type: string }
+        created_at: { $ref: '#/components/schemas/Timestamp' }
     BrowserSessionAttendanceRequest:
       type: object
       additionalProperties: false

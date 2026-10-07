@@ -1,0 +1,239 @@
+{
+  "version": 1,
+  "scope": "Exact portable raw selection; prior attempt01 preserved. Compiler reuse and current local/native outcomes are separate. No secrets/business databases included.",
+  "files": {
+    "attempt01/app-payslips-parser-discovery.log": {
+      "sha256": "2e97f206919d2d7eb1d32345992d77206f9464713dd53d678aadc3629738a8ef",
+      "bytes": 186
+    },
+    "attempt01/app-payslips-parser.log": {
+      "sha256": "ea49107d9e9cff4c74b9c4adc00099ec3eac413264162d30cfa9df089e1e0dbc",
+      "bytes": 473
+    },
+    "attempt01/auth-rest-full-discovery.log": {
+      "sha256": "ff3d5572267dd0384ce7bbdd936f7c5708327db34e26daedef03274f39a78225",
+      "bytes": 11303
+    },
+    "attempt01/auth-rest-full.log": {
+      "sha256": "a5f71103cffaa13ea676d70251c2a9724b140876c1f22af9758e169d9c188321",
+      "bytes": 33048
+    },
+    "attempt01/openapi-drift-discovery.log": {
+      "sha256": "f1524abd3839a2b86bf3d2451c62fa69066d73d1f0a59f7bcf5d4212385323f2",
+      "bytes": 1305
+    },
+    "attempt01/openapi-drift.log": {
+      "sha256": "54b13b688b5884439b2024636022ab53e5f74cf79050eed4fd5ae6d6300ac14e",
+      "bytes": 3397
+    },
+    "attempt01/payslips-native-discovery.log": {
+      "sha256": "123ce8d9c1fe2820569caa8c6665e577af77623b6a843c6db838798cfb55f540",
+      "bytes": 261
+    },
+    "attempt01/payslips-native.log": {
+      "sha256": "299b681e02d513e8384928d5a60a3fc712ff11837455d213c5ece612500876f5",
+      "bytes": 623
+    },
+    "attempt01/report.json": {
+      "sha256": "c19ebcfdd9138918523e38f0e3183cc72d592a6a2e404f46dfe3495aaab85d16",
+      "bytes": 12546
+    },
+    "attempt01/selection.json": {
+      "sha256": "d8ef48c37d1c60ef1474396a852d043edb33eca8790937848542aab3435efeb9",
+      "bytes": 1551
+    },
+    "attempt01/stop.log": {
+      "sha256": "ca19178a35ab4153b75b494963b66ce8243e1b94c173107c87b44d09db23652d",
+      "bytes": 56
+    },
+    "final-local/clippy-auth.log": {
+      "sha256": "06bc1ed8e22017e7be523cd9ac850597a113d1a43f85e1d7c2e11c7ee371d69f",
+      "bytes": 315
+    },
+    "final-local/clippy-drift.log": {
+      "sha256": "8d81a6c4fbf71736d2afba3685b4f899c7990978a0ce116c890fcc7a817224ab",
+      "bytes": 315
+    },
+    "final-local/clippy-inbox.log": {
+      "sha256": "afb5e4c62a9a33554d8c9d5e5eb2459ac5468f91c2e743d623f39fa1355368a2",
+      "bytes": 60
+    },
+    "final-local/compile-auth.log": {
+      "sha256": "63bfd78cb58806406da184e43483b66b0768a087e2ee88160336415d63b6e1f2",
+      "bytes": 933
+    },
+    "final-local/compile-drift.log": {
+      "sha256": "a81d1bd8fb92fdf21f77ccef904a1e4ddbf600f9f20e828b6c2096ef6558611b",
+      "bytes": 740
+    },
+    "final-local/compile-inbox.log": {
+      "sha256": "0c928e1de6ef294d84d7f14b554f18894dc3b6552314cc895f3e76662f536879",
+      "bytes": 351
+    },
+    "final-local/compile-report.json": {
+      "sha256": "48bdf7bf7d102c770d85e1d4840d359d704d316e6725b28ef0ccc52640aaed57",
+      "bytes": 4702
+    },
+    "final-local/compile-source-inputs.json": {
+      "sha256": "b687f5a99d4ca4083378848b62a1e2f2216ffad260fd102d1c88dea6b540db0a",
+      "bytes": 814717
+    },
+    "final-local/format.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "final-local/lint.log": {
+      "sha256": "3e98dcbd24835eb29288dab5790e519db6a485457e666a6774fdbce08459740e",
+      "bytes": 42
+    },
+    "final-local/report.json": {
+      "sha256": "2ee58dc5c6995c1e5923bee465a20ccb3773ece93e54217fb590bfbfaf1e7df1",
+      "bytes": 732
+    },
+    "final-local/tooling.log": {
+      "sha256": "f3b411dda6094518be657b5ca0c0913b1ef318aa54d738da6af2ec37175cc61e",
+      "bytes": 223
+    },
+    "final-local/vitest.log": {
+      "sha256": "ce8107387ccdbfb67456bf140b3755bb00e58c4612f9461fcfee63daba94e756",
+      "bytes": 296
+    },
+    "inbox-owners/inbox-adapter-discovery.log": {
+      "sha256": "6b69658750be5656f71b47d6aa2c050d858e48c6660b498521a6589818dc3f08",
+      "bytes": 614
+    },
+    "inbox-owners/inbox-adapter.log": {
+      "sha256": "9669e5d3b56889b3216270aea807a9110590a210ebe81a5e3a65cc14bbc31746",
+      "bytes": 1356
+    },
+    "inbox-owners/inbox-rest-api-discovery.log": {
+      "sha256": "6110b35b7e8b6b56b3a30540bd050c812c95124609a0fa7592f3d06de73c4080",
+      "bytes": 149
+    },
+    "inbox-owners/inbox-rest-api.log": {
+      "sha256": "d0d5fef6580d78062716efacbfbfb6064a609998b5c6943f314f000a11b25a87",
+      "bytes": 397
+    },
+    "inbox-owners/report.json": {
+      "sha256": "62aabcb2a817097a89c083a58ebec6acd342b0baa3f280e7fa8b12beb524e020",
+      "bytes": 8536
+    },
+    "inbox-owners/runner.py": {
+      "sha256": "8cf1d7d1c16af9d52b5aa6fe28517c44ad0946612f3b16e096a3a16a0021c0fc",
+      "bytes": 12687
+    },
+    "inbox-owners/start.log": {
+      "sha256": "66afd0411ccc09366e99fdd99b85f21899c8d2d064f5835126859618802153ad",
+      "bytes": 52
+    },
+    "inbox-owners/stop.log": {
+      "sha256": "ca19178a35ab4153b75b494963b66ce8243e1b94c173107c87b44d09db23652d",
+      "bytes": 56
+    },
+    "native-retry/auth-rest-full-discovery.log": {
+      "sha256": "ff3d5572267dd0384ce7bbdd936f7c5708327db34e26daedef03274f39a78225",
+      "bytes": 11303
+    },
+    "native-retry/auth-rest-full.log": {
+      "sha256": "5b3cbf35fdf76b32fdf3ef15e8183d078367ae8afb0be17ec7b317e17a04f92d",
+      "bytes": 36054
+    },
+    "native-retry/finalize.py": {
+      "sha256": "6cc2391e0d438409b8c5f1298b61e1268366f430468f40f388230186af6ff0c0",
+      "bytes": 3677
+    },
+    "native-retry/openapi-drift-discovery.log": {
+      "sha256": "f1524abd3839a2b86bf3d2451c62fa69066d73d1f0a59f7bcf5d4212385323f2",
+      "bytes": 1305
+    },
+    "native-retry/openapi-drift.log": {
+      "sha256": "02c56a34dfa24a0dd1c0ea2491b0efa14f85bbba76bce5dc9a907c32464576cd",
+      "bytes": 3092
+    },
+    "native-retry/report.json": {
+      "sha256": "835fb5f106c1ca1ad536622306d8330e8d151f528e4f521518ce41feabc98860",
+      "bytes": 20875
+    },
+    "native-retry/runner-provenance.json": {
+      "sha256": "d6d5a7eeabdbb49e70762785d3fab2492efafdb2bb8b9445968f3e8282b19b25",
+      "bytes": 439
+    },
+    "native-retry/runner.py": {
+      "sha256": "6d88dd16599056c86975cf59083389b1f1e1b6af80e3d38ab260c69b756b1043",
+      "bytes": 11483
+    },
+    "native-retry/start.log": {
+      "sha256": "66afd0411ccc09366e99fdd99b85f21899c8d2d064f5835126859618802153ad",
+      "bytes": 52
+    },
+    "native-retry/stop.log": {
+      "sha256": "ca19178a35ab4153b75b494963b66ce8243e1b94c173107c87b44d09db23652d",
+      "bytes": 56
+    },
+    "native-retry/verified-report.json": {
+      "sha256": "8b3fc60777596aba7c61f934372a972501700c88b53e2b53b8fd09bee9bea543",
+      "bytes": 2144
+    },
+    "native-retry/worker-prerequisites-discovery.log": {
+      "sha256": "c843246996b1f22e3facf8a886d0486260794c7da67171c05232fc3c77448364",
+      "bytes": 216
+    },
+    "native-retry/worker-prerequisites.log": {
+      "sha256": "b20c54e9b2b22914caef009f660416159e20b75f9209e6b899a957b52f9cd9f4",
+      "bytes": 534
+    },
+    "production-build/build-inputs.json": {
+      "sha256": "36edcda13e0bf2d9bfd1485c6a26d9ca5cf18adaec2a5b22dc2507ac433aa837",
+      "bytes": 23714
+    },
+    "supporting-local/own-issued-payslips-browser-tools-retry.log": {
+      "sha256": "2326d9108a4048d4e90283f356ff0fa8ce03703b4a8c93c1e08fbe0192f6dac5",
+      "bytes": 1928
+    },
+    "supporting-local/own-issued-payslips-browser-tools.log": {
+      "sha256": "05ec2b811b0aba45129db6410b994d6dcd0055cfb4ebadf1ddbbfb3f361e2fa7",
+      "bytes": 3839
+    },
+    "supporting-local/own-issued-payslips-build.log": {
+      "sha256": "7480156e80843e9c5e826e31f7d3e18ebeb84f3491110bc67961fc57095e7814",
+      "bytes": 882
+    },
+    "supporting-local/own-issued-payslips-diagnostic-fix.log": {
+      "sha256": "dbbc934036076d02eeb3e45267b4dd6fc267e1e86202f6794166815fc3a70aca",
+      "bytes": 658
+    },
+    "supporting-local/own-issued-payslips-e2e.log": {
+      "sha256": "7f5bb0992430de454d71e2e026625437798bff9ea6fbb7ef3269fbfe9bfa525d",
+      "bytes": 50577
+    },
+    "supporting-local/own-issued-payslips-native-unit-retry.log": {
+      "sha256": "4e0859b75892de807c5f4714506b1a8e91ed8e27360fcae2220ffcc2353b81d7",
+      "bytes": 14640
+    },
+    "supporting-local/own-issued-payslips-native-unit.log": {
+      "sha256": "9f87a7249a10bf18629c834baaca20c1692b11e7b01175092102a5f876884d4b",
+      "bytes": 15185
+    },
+    "supporting-local/own-issued-payslips-production-retry.log": {
+      "sha256": "512901c3a5e50a2917b8d01feb4f8538f69890debfe194f13904f75b1b739000",
+      "bytes": 212
+    },
+    "supporting-local/own-issued-payslips-production.log": {
+      "sha256": "a6627f3c6f65bebdc0f66afdfe6562374863e60fed4c85bf25a0da782b2a2b46",
+      "bytes": 486
+    },
+    "supporting-local/own-issued-payslips-routes.log": {
+      "sha256": "32202832badff7ea79b297cd65a1a4acce295246cbed8faf4557982f2902bdf9",
+      "bytes": 92
+    }
+  },
+  "scan": {
+    "scope": "Full selected byte streams; six credential-shaped patterns; not a comprehensive secret audit",
+    "matches": 0
+  },
+  "excluded": [
+    "PostgreSQL full logs remain private; retained start/stop logs and positive cleanup receipts support cleanup.",
+    "Temporary database/password files and test binaries; runtime reports retain hashes.",
+    "No historical raw missing-route/admission record was located in this resumed context."
+  ]
+}

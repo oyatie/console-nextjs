@@ -1,0 +1,10 @@
+   Compiling console-app v0.1.0 (/Users/jasonlee/Developer/frontend/.worktrees/own-issued-payslips/backend-fork/backend/app)
+warning: linker stderr: ld: __eh_frame section too large (max 16MB) to encode dwarf unwind offsets in compact unwind table, performance of exception handling might be affected
+  |
+  = note: `#[warn(linker_messages)]` on by default
+
+warning: `console-app` (bin "console-app") generated 1 warning
+    Finished `test` profile [unoptimized] target(s) in 2.91s
+warning: the following packages contain code that will be rejected by a future version of Rust: proc-macro-error2 v2.0.1
+note: to see what the problems were, use the option `--future-incompat-report`, or run `cargo report future-incompatibilities --id 1`
+  Executable tests/openapi_drift.rs (/private/tmp/own-issued-payslips-target-20261007/debug/deps/openapi_drift-42fc300dada6e28d)

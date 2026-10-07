@@ -1,0 +1,13 @@
+
+running 2 tests
+test browser_sessions::real_worker_boot_prerequisites_are_independent_of_new_browser_routes ... ok
+test browser_sessions::real_workers_clear_expired_proof_without_root_locks_and_recover_after_crash ... ok
+
+successes:
+
+successes:
+    browser_sessions::real_worker_boot_prerequisites_are_independent_of_new_browser_routes
+    browser_sessions::real_workers_clear_expired_proof_without_root_locks_and_recover_after_crash
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 125 filtered out; finished in 48.04s
+

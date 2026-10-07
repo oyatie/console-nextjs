@@ -1,0 +1,356 @@
+{
+  "scope": "single-site real native/password-auth runtime and production browser custody proof; not payroll/legal/two-site durability acceptance",
+  "status": "failed",
+  "commands": [
+    {
+      "name": "initdb",
+      "command": [
+        "/opt/homebrew/opt/postgresql@18/bin/initdb",
+        "-D",
+        "/private/tmp/own-payslip-pg-jdhpsewg/data",
+        "--username=console_buck_admin",
+        "--auth-local=scram-sha-256",
+        "--auth-host=reject",
+        "--pwfile=/private/tmp/own-payslip-pg-jdhpsewg/admin-password",
+        "--no-locale",
+        "--encoding=UTF8"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 1.25,
+      "output_sha256": "69a96736722c691b5e91b566520165df5cdc696516ae99bb6a9b413b57321131"
+    },
+    {
+      "name": "start",
+      "command": [
+        "/opt/homebrew/opt/postgresql@18/bin/pg_ctl",
+        "-D",
+        "/private/tmp/own-payslip-pg-jdhpsewg/data",
+        "-l",
+        "/Users/jasonlee/Developer/frontend/.worktrees/own-issued-payslips/.artifacts/own-issued-payslips-native-20261007T151730.195394Z/postgres.log",
+        "-o",
+        "-c listen_addresses='' -c unix_socket_directories=/private/tmp/own-payslip-pg-jdhpsewg/socket -c log_statement=none -c log_min_error_statement=panic",
+        "-w",
+        "start"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 0.135,
+      "output_sha256": "66afd0411ccc09366e99fdd99b85f21899c8d2d064f5835126859618802153ad"
+    },
+    {
+      "name": "createdb",
+      "command": [
+        "/opt/homebrew/opt/postgresql@18/bin/createdb",
+        "-h",
+        "/private/tmp/own-payslip-pg-jdhpsewg/socket",
+        "-U",
+        "console_buck_admin",
+        "own_payslips_disposable"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 0.21,
+      "output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "topology",
+      "command": [
+        "bash",
+        "/Users/jasonlee/Developer/frontend/.worktrees/own-issued-payslips/backend-fork/ops/postgres-reconcile-topology.sh"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 0.394,
+      "output_sha256": "0d3b9f5d44b25649ac035d2d98430aff35d74d46e5e94f94c14d5abf33dba76a"
+    },
+    {
+      "name": "payslips-native-discovery",
+      "command": [
+        "/private/tmp/own-issued-payslips-target-20261007/debug/deps/auth_rest-04a1d435de6b5d33",
+        "browser_sessions::browser_payslips",
+        "--list"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 0.022,
+      "output_sha256": "123ce8d9c1fe2820569caa8c6665e577af77623b6a843c6db838798cfb55f540"
+    },
+    {
+      "name": "payslips-native",
+      "command": [
+        "/private/tmp/own-issued-payslips-target-20261007/debug/deps/auth_rest-04a1d435de6b5d33",
+        "browser_sessions::browser_payslips",
+        "--test-threads=1",
+        "--show-output"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 9.951,
+      "output_sha256": "299b681e02d513e8384928d5a60a3fc712ff11837455d213c5ece612500876f5"
+    },
+    {
+      "name": "app-payslips-parser-discovery",
+      "command": [
+        "/private/tmp/own-issued-payslips-target-20261007/debug/deps/console_app-069ac7686289d2f4",
+        "browser_payslips",
+        "--list"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 0.015,
+      "output_sha256": "2e97f206919d2d7eb1d32345992d77206f9464713dd53d678aadc3629738a8ef"
+    },
+    {
+      "name": "app-payslips-parser",
+      "command": [
+        "/private/tmp/own-issued-payslips-target-20261007/debug/deps/console_app-069ac7686289d2f4",
+        "browser_payslips",
+        "--test-threads=1",
+        "--show-output"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 0.015,
+      "output_sha256": "ea49107d9e9cff4c74b9c4adc00099ec3eac413264162d30cfa9df089e1e0dbc"
+    },
+    {
+      "name": "auth-rest-full-discovery",
+      "command": [
+        "/private/tmp/own-issued-payslips-target-20261007/debug/deps/auth_rest-04a1d435de6b5d33",
+        "--list"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 0.022,
+      "output_sha256": "ff3d5572267dd0384ce7bbdd936f7c5708327db34e26daedef03274f39a78225"
+    },
+    {
+      "name": "auth-rest-full",
+      "command": [
+        "/private/tmp/own-issued-payslips-target-20261007/debug/deps/auth_rest-04a1d435de6b5d33",
+        "--test-threads=1",
+        "--show-output"
+      ],
+      "exit_code": 101,
+      "duration_seconds": 848.511,
+      "output_sha256": "a5f71103cffaa13ea676d70251c2a9724b140876c1f22af9758e169d9c188321"
+    },
+    {
+      "name": "openapi-drift-discovery",
+      "command": [
+        "/private/tmp/own-issued-payslips-target-20261007/debug/deps/openapi_drift-2179fe3e47e7be55",
+        "--list"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 0.024,
+      "output_sha256": "f1524abd3839a2b86bf3d2451c62fa69066d73d1f0a59f7bcf5d4212385323f2"
+    },
+    {
+      "name": "openapi-drift",
+      "command": [
+        "/private/tmp/own-issued-payslips-target-20261007/debug/deps/openapi_drift-2179fe3e47e7be55",
+        "--test-threads=1",
+        "--show-output"
+      ],
+      "exit_code": 101,
+      "duration_seconds": 0.206,
+      "output_sha256": "54b13b688b5884439b2024636022ab53e5f74cf79050eed4fd5ae6d6300ac14e"
+    },
+    {
+      "name": "stop",
+      "command": [
+        "/opt/homebrew/opt/postgresql@18/bin/pg_ctl",
+        "-D",
+        "/private/tmp/own-payslip-pg-jdhpsewg/data",
+        "-m",
+        "immediate",
+        "-w",
+        "stop"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 0.121,
+      "output_sha256": "ca19178a35ab4153b75b494963b66ce8243e1b94c173107c87b44d09db23652d"
+    }
+  ],
+  "suites": [
+    {
+      "name": "payslips-native",
+      "binary_sha256": "35004386db0e6ee09bf0214207edc68ca0e85acc1a9af6698630755990602d11",
+      "status": "passed",
+      "discovered": 2,
+      "executed": 2,
+      "passed": 2,
+      "failed": 0,
+      "skipped": 0,
+      "filtered": 125
+    },
+    {
+      "name": "app-payslips-parser",
+      "binary_sha256": "3479cdec8ce592c32e37a1783a6ea2020554533578e0c5b7a004ae7a67c84490",
+      "status": "passed",
+      "discovered": 2,
+      "executed": 2,
+      "passed": 2,
+      "failed": 0,
+      "skipped": 0,
+      "filtered": 166
+    },
+    {
+      "name": "auth-rest-full",
+      "binary_sha256": "35004386db0e6ee09bf0214207edc68ca0e85acc1a9af6698630755990602d11",
+      "status": "failed",
+      "discovered": 127,
+      "executed": 127,
+      "passed": 123,
+      "failed": 4,
+      "skipped": 0,
+      "filtered": 0
+    },
+    {
+      "name": "openapi-drift",
+      "binary_sha256": "6b83704bf67770cef015787806bcb54c03173851f99dd3e2659238f940246186",
+      "status": "failed",
+      "discovered": 20,
+      "executed": 20,
+      "passed": 19,
+      "failed": 1,
+      "skipped": 0,
+      "filtered": 0
+    }
+  ],
+  "browser_scenarios": {
+    "v": 1,
+    "seq": 207,
+    "kind": "report",
+    "discovered": 17,
+    "executed": 7,
+    "counts": {
+      "passed": 6,
+      "failed": 1,
+      "unreached": 10,
+      "skipped": 0
+    },
+    "failure_class": "behavior",
+    "scenarios": [
+      {
+        "id": "P01",
+        "name": "runtime/exclusion/launcher/config negatives",
+        "status": "passed"
+      },
+      {
+        "id": "P02",
+        "name": "two genuine product sign-ins and native family logout",
+        "status": "failed",
+        "reason": "actual assertion or required journey failed",
+        "failure_location": {
+          "file": "test-browser-business-session.mjs",
+          "line": 970,
+          "column": 28
+        }
+      },
+      {
+        "id": "P03",
+        "name": "real own-history and issued-payslip pagination, detail, reload and return",
+        "status": "passed"
+      },
+      {
+        "id": "P04",
+        "name": "responsive keyboard and inaccessible-script recovery",
+        "status": "passed"
+      },
+      {
+        "id": "P05",
+        "name": "two actual source peers and ingress spoofing negatives",
+        "status": "passed"
+      },
+      {
+        "id": "P06",
+        "name": "Origin/CSRF/context/duplicate-cookie/body boundaries",
+        "status": "passed"
+      },
+      {
+        "id": "P07",
+        "name": "eight-preauth/eight-session admission boundaries",
+        "status": "passed"
+      },
+      {
+        "id": "P08",
+        "name": "independent tabs, stable reads and no context fallback",
+        "status": "unreached",
+        "reason": "not started"
+      },
+      {
+        "id": "P09",
+        "name": "reversed actual start responses",
+        "status": "unreached",
+        "reason": "not started"
+      },
+      {
+        "id": "P10",
+        "name": "reversed actual finish/header-arrival responses",
+        "status": "unreached",
+        "reason": "not started"
+      },
+      {
+        "id": "P11",
+        "name": "reversed logout versus a new independent login",
+        "status": "unreached",
+        "reason": "not started"
+      },
+      {
+        "id": "P12",
+        "name": "lost committed login result and consumed-assertion handling",
+        "status": "unreached",
+        "reason": "not started"
+      },
+      {
+        "id": "P13",
+        "name": "lost logout across genuine short-family expiry",
+        "status": "unreached",
+        "reason": "not started"
+      },
+      {
+        "id": "P14",
+        "name": "current authority, key replacement and cleanup restart",
+        "status": "unreached",
+        "reason": "not started"
+      },
+      {
+        "id": "P15",
+        "name": "logout Back and witnessed real BFCache restore",
+        "status": "unreached",
+        "reason": "not started"
+      },
+      {
+        "id": "P16",
+        "name": "actual restore before hydration with CSS/React/offline faults",
+        "status": "unreached",
+        "reason": "not started"
+      },
+      {
+        "id": "P17",
+        "name": "real unavailable/malformed service and failure cleanup",
+        "status": "unreached",
+        "reason": "not started"
+      }
+    ]
+  },
+  "source_inputs": {
+    "backend-fork/backend/Cargo.lock": "366ea7828ad8da2f49ebf06944b376246abdc1308dbe676c4531f9064cdca109",
+    "backend-fork/backend/app/src/browser_payslips.rs": "cf3c6da16cfed1fd5391d25291ac2398def31cd97a44e785aa13fa926b52359d",
+    "backend-fork/backend/app/tests/auth_rest.rs": "46f613012f5e06a6b75fd2f4cc76d1ffae40946c66df849b5b5d5e2e171127f6",
+    "backend-fork/backend/app/tests/auth_rest/browser_sessions.rs": "036eb868e88abb0860258a54a01ea0f363daa5b676cfb70b382a06b389944af3",
+    "backend-fork/backend/app/tests/auth_rest/browser_payslips.rs": "01f2968388ba77b0c41e7f8534b2f154868217ab0b589933c5f9c71185f1d991",
+    "backend-fork/backend/app/tests/auth_rest/genuine_browser.rs": "3f237ca93df4f9a62a0bddb0edc3805e713f0b8f64cf3854457779def079b932",
+    "backend-fork/backend/app/tests/openapi_drift.rs": "87742badce070b4679ab247f1b5a9ac4d246aed425abdf1f935a260bb2482f85",
+    "backend-fork/backend/crates/inbox/adapter-postgres/src/lib.rs": "dc688bf1be43fb4294c50d35b639b26b77c54ab313dd40f07564275c20c56e59",
+    "backend-fork/backend/crates/inbox/rest/src/openapi.rs": "f63ca7b2f339109d64e41bf419361cc0a2cfb0ba9fc1ca1e742767abc63caac4",
+    "backend-fork/backend/openapi/openapi.yaml": "0ec7f42505d1c97326b27bec4b0af915af6b9362c1445bdb9f75814522d45696",
+    "tools/browser-payslips.mjs": "9ba32b93f4559bcde12ad5894689a9642a7b2ff145b46a621950926c8d97c57b",
+    "tools/browser-business-restore.mjs": "20b3b480186e040eff539fc2224031addadba15caa8c68ea28e86190f145655d",
+    "tools/test-browser-business-session.mjs": "f54a3d214ef34eea1dcb1888d4ea97ba0402b9a3e8ab761d8f5f71cfd13c1250",
+    "tools/production-runtime.mjs": "7e4d05bac69900295f8777c931999f2987acd36c947f281cbea7d1bbdf673367",
+    "src/lib/server/payslips.ts": "8d07f570f592d8455d925f68ec49e5b76449a1cda3bbae60922bf5677acaff6f",
+    "src/lib/server/browser-session.ts": "f26eef7d6299d25a2017f83beebbf77241085725e8f7065bc31c50cb0de60a3e",
+    "src/app/me/[context]/payslips/page.public.tsx": "5dc96e1c1b00180bee8db7a17b02730dd7f457af4fcc0075376d67266867e01c",
+    "src/app/me/[context]/payslips/[id]/page.public.tsx": "8a2480d2486d9e68ad6d11467368cbbb7af98ba6eb92e2dff89f0bbd32725d9f",
+    "package-lock.json": "4e4d170ceac13405a5f60f0876ca2138b04dec01607f11b437e86a64cf5395d7",
+    ".next/BUILD_ID": "a4a514df1a3b203bf3cd30fbc2cb0ac001a96a65637888e5f6373f2b8bc80424",
+    ".next/server/app-paths-manifest.json": "2aeb1c6fbcf93364a455e83466ce35a53c5185b22f8fb028b6bf8521630cdfad"
+  },
+  "cluster_stopped": true,
+  "source_inputs_unchanged": true,
+  "ephemeral_credentials_destroyed": true
+}

@@ -1,0 +1,12 @@
+{
+  "command": [
+    "node",
+    "--test",
+    "backend-fork/scripts/check-request-body-contract.test.mjs",
+    "backend-fork/scripts/korean-connectivity/local-certificate-agent.test.mjs"
+  ],
+  "exit_code": 0,
+  "log_sha256": "3d23375502230c830638ed92859a36efb758629b85365491e4ce11b0d7f0ebcc",
+  "test_source_sha256": "ce5b030ae2cc0a5b34d13a4a7c9ee08486dabfd0cc7a9999d02b68cc24346ac3",
+  "test_source_unchanged": true
+}

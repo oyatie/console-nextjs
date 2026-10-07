@@ -1,0 +1,744 @@
+
+> console-web@1.0.0 test:e2e
+> playwright test
+
+[WebServer] (node:90025) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:90726) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:90906) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 10 tests using 1 worker
+
+(node:90911) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 [chromium] › e2e/00-server-runtime.spec.ts:3:1 › uses server redirects and dynamic responses without a static API fallback (143ms)
+  ✓   2 [chromium] › e2e/01-corporate-governance-and-onboarding.spec.ts:4:3 › User Story 1: Enterprise Multi-Tenant Scoping, Scoped Filtering & Employee Onboarding › navigates to employee directory, tests module-scoped filtering, and onboards a new employee (1.4s)
+[WebServer] [browser] In HTML, <button> cannot be a descendant of <button>.
+[WebServer] This will cause a hydration error.
+[WebServer] 
+[WebServer]   ...
+[WebServer]     <RedirectErrorBoundary router={{...}}>
+[WebServer]       <InnerLayoutRouter url="/hr/attend..." tree={[...]} params={{}} cacheNode={{rsc:{...}, ...}} segmentPath={[...]} ...>
+[WebServer]         <SegmentViewNode type="page" pagePath="(console)/...">
+[WebServer]           <SegmentTrieNode>
+[WebServer]           <ClientPageRoot Component={function AttendancePage} serverProvidedParams={{...}}>
+[WebServer]             <AttendancePage params={Promise} searchParams={Promise}>
+[WebServer]               <div className="space-y-5">
+[WebServer]                 <StatBar>
+[WebServer]                 <div>
+[WebServer]                 <ModuleScopeFilter>
+[WebServer]                 <DataTable columns={[...]} data={[...]} keyExtractor={function keyExtractor} ...>
+[WebServer]                   <div ref={{current:null}} tabIndex={0} className="flex flex-...">
+[WebServer]                     <div>
+[WebServer]                     <div className="overflow-x...">
+[WebServer]                       <table className="w-full bor...">
+[WebServer]                         <thead>
+[WebServer]                         <tbody className="divide-y d...">
+[WebServer]                           <tr>
+[WebServer]                           <tr>
+[WebServer]                           <tr onClick={function onClick} className="transition...">
+[WebServer]                             <td>
+[WebServer]                             <td>
+[WebServer]                             <td>
+[WebServer]                             <td>
+[WebServer]                             <td>
+[WebServer]                             <td>
+[WebServer]                             <td className="px-3 py-1....">
+[WebServer] >                             <button onClick={function onClick} className="cursor-pointer">
+[WebServer]                                 <ObjectLink code="AT-0703-01" label="심사">
+[WebServer]                                   <span className="relative i..." onMouseEnter={function handleMouseEnter} ...>
+[WebServer] >                                   <button
+[WebServer] >                                     type="button"
+[WebServer] >                                     onClick={function onClick}
+[WebServer] >                                     className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-[4px] border fon..."
+[WebServer] >                                     title="AT-0703-01 개체 상세 및 작업 원장 열기"
+[WebServer] >                                   >
+[WebServer]                             ...
+[WebServer]                           ...
+[WebServer]                     ...
+[WebServer]         ...
+[WebServer]       ...
+[WebServer]  
+[WebServer] [browser] <button> cannot contain a nested <button>.
+[WebServer] See this log for the ancestor stack trace. 
+[WebServer] [browser] Encountered a script tag while rendering React component. Scripts inside React components are never executed when rendering on the client. Consider using template tag instead (https://developer.mozilla.org/en-US/docs/Web/HTML/Element/template). 
+[WebServer] [browser] Uncaught Error: Hydration failed because the server rendered HTML didn't match the client. As a result this tree will be regenerated on the client. This can happen if a SSR-ed Client Component used:
+[WebServer] 
+[WebServer] - A server/client branch `if (typeof window !== 'undefined')`.
+[WebServer] - Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+[WebServer] - Date formatting in a user's locale which doesn't match the server.
+[WebServer] - External changing data without sending a snapshot of it along with the HTML.
+[WebServer] - Invalid HTML tag nesting.
+[WebServer] 
+[WebServer] It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+[WebServer] 
+[WebServer] https://react.dev/link/hydration-mismatch
+[WebServer]     at <unknown> (https://react.dev/link/hydration-mismatch)
+[WebServer]     at button (<anonymous>)
+[WebServer]     at ObjectLink (src/components/ui/ObjectLink.tsx:155:7)
+[WebServer]     at Object.render (src/app/(console)/hr/attendance/page.tsx:179:13)
+[WebServer]     at <unknown> (src/components/ui/DataTable.tsx:212:43)
+[WebServer]     at Array.map (<anonymous>)
+[WebServer]     at <unknown> (src/components/ui/DataTable.tsx:203:30)
+[WebServer]     at Array.map (<anonymous>)
+[WebServer]     at DataTable (src/components/ui/DataTable.tsx:186:28)
+[WebServer]     at AttendancePage (src/app/(console)/hr/attendance/page.tsx:263:7)
+[WebServer]   153 |       onMouseLeave={handleMouseLeave}
+[WebServer]   154 |     >
+[WebServer] > 155 |       <button
+[WebServer]       |       ^
+[WebServer]   156 |         type="button"
+[WebServer]   157 |         onClick={(e) => {
+[WebServer]   158 |           e.stopPropagation();
+  ✓   3 [chromium] › e2e/02-attendance-labor-and-payroll-run.spec.ts:4:3 › User Story 2: Attendance Exception Adjudication & Statutory Payroll Run › adjudicates attendance exception via UI and navigates to payroll to verify 10-won truncation (2.1s)
+  ✓   4 [chromium] › e2e/03-approvals-cedar-and-workorders.spec.ts:4:3 › User Story 3: Approval Workflows (AP-) & Field Work Orders (WO-) › creates an approval draft, inspects approval stages, and issues a field work order (877ms)
+[WebServer] [browser] Encountered a script tag while rendering React component. Scripts inside React components are never executed when rendering on the client. Consider using template tag instead (https://developer.mozilla.org/en-US/docs/Web/HTML/Element/template). 
+[WebServer] [browser] Uncaught Error: Hydration failed because the server rendered text didn't match the client. As a result this tree will be regenerated on the client. This can happen if a SSR-ed Client Component used:
+[WebServer] 
+[WebServer] - A server/client branch `if (typeof window !== 'undefined')`.
+[WebServer] - Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+[WebServer] - Date formatting in a user's locale which doesn't match the server.
+[WebServer] - External changing data without sending a snapshot of it along with the HTML.
+[WebServer] - Invalid HTML tag nesting.
+[WebServer] 
+[WebServer] It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+[WebServer] 
+[WebServer] https://react.dev/link/hydration-mismatch
+[WebServer] 
+[WebServer]   ...
+[WebServer]     <RedirectErrorBoundary router={{...}}>
+[WebServer]       <InnerLayoutRouter url="/gov/audit/" tree={[...]} params={{}} cacheNode={{rsc:{...}, ...}} segmentPath={[...]} ...>
+[WebServer]         <SegmentViewNode type="page" pagePath="(console)/...">
+[WebServer]           <SegmentTrieNode>
+[WebServer]           <ClientPageRoot Component={function AuditPage} serverProvidedParams={{...}}>
+[WebServer]             <AuditPage params={Promise} searchParams={Promise}>
+[WebServer]               <div className="space-y-5">
+[WebServer]                 <StatBar>
+[WebServer]                 <div>
+[WebServer]                 <div>
+[WebServer]                 <DataTable columns={[...]} data={[...]} keyExtractor={function keyExtractor} ...>
+[WebServer]                   <div ref={{current:null}} tabIndex={0} className="flex flex-...">
+[WebServer]                     <div>
+[WebServer]                     <div className="overflow-x...">
+[WebServer]                       <table className="w-full bor...">
+[WebServer]                         <thead>
+[WebServer]                         <tbody className="divide-y d...">
+[WebServer]                           <tr onClick={function onClick} className="transition...">
+[WebServer]                             <td className="px-3 py-1....">
+[WebServer]                               <span className="font-mono text-[11px] text-[var(--steel)] font-medium">
+[WebServer] +                               2026-10-07T15:19:10.114Z
+[WebServer] -                               2026-10-07T15:19:04.878Z
+[WebServer]                             ...
+[WebServer]                           ...
+[WebServer]                     ...
+[WebServer]         ...
+[WebServer]       ...
+[WebServer] 
+[WebServer]     at <unknown> (https://react.dev/link/hydration-mismatch)
+[WebServer]     at span (<anonymous>)
+[WebServer]     at Object.render (src/app/(console)/gov/audit/page.tsx:51:9)
+[WebServer]     at <unknown> (src/components/ui/DataTable.tsx:212:43)
+[WebServer]     at Array.map (<anonymous>)
+[WebServer]     at <unknown> (src/components/ui/DataTable.tsx:203:30)
+[WebServer]     at Array.map (<anonymous>)
+[WebServer]     at DataTable (src/components/ui/DataTable.tsx:186:28)
+[WebServer]     at AuditPage (src/app/(console)/gov/audit/page.tsx:282:7)
+[WebServer]   49 |       width: "150px",
+[WebServer]   50 |       render: (row) => (
+[WebServer] > 51 |         <span className="font-mono text-[11px] text-[var(--steel)] font-medium">
+[WebServer]      |         ^
+[WebServer]   52 |           {row.timestamp}
+[WebServer]   53 |         </span>
+[WebServer]   54 |       ),
+  ✓   5 [chromium] › e2e/04-audit-chain-and-governance.spec.ts:4:3 › User Story 4: Cryptographic WORM Audit Trail & Cedar Access Governance › inspects cryptographic hash chain and explores Discord-style layered roles (1.6s)
+[WebServer] [browser] A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+[WebServer] 
+[WebServer] - A server/client branch `if (typeof window !== 'undefined')`.
+[WebServer] - Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+[WebServer] - Date formatting in a user's locale which doesn't match the server.
+[WebServer] - External changing data without sending a snapshot of it along with the HTML.
+[WebServer] - Invalid HTML tag nesting.
+[WebServer] 
+[WebServer] It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+[WebServer] 
+[WebServer] https://react.dev/link/hydration-mismatch
+[WebServer] 
+[WebServer]   ...
+[WebServer]     <InnerLayoutRouter url="/hr/people/" tree={[...]} params={{}} cacheNode={{rsc:{...}, ...}} segmentPath={[...]} ...>
+[WebServer]       <SegmentViewNode type="layout" pagePath="(console)/...">
+[WebServer]         <SegmentTrieNode>
+[WebServer]         <script>
+[WebServer]         <script>
+[WebServer]         <ConsoleLayout>
+[WebServer]           <AppShell>
+[WebServer]             <ErrorBoundary>
+[WebServer]               <I18nProvider>
+[WebServer]                 <div className="flex h-scr...">
+[WebServer]                   <ToastContainer>
+[WebServer]                   <ShortcutModal>
+[WebServer]                   <CommandPalette>
+[WebServer]                   <Sidebar>
+[WebServer]                   ...
+[WebServer]                     <ClientPageRoot Component={function PeoplePage} serverProvidedParams={{...}}>
+[WebServer]                       <PeoplePage params={Promise} searchParams={Promise}>
+[WebServer]                         <div className="space-y-5">
+[WebServer]                           <StatBar>
+[WebServer]                           <div>
+[WebServer]                           <ModuleScopeFilter>
+[WebServer]                           <DataTable columns={[...]} data={[...]} keyExtractor={function keyExtractor} ...>
+[WebServer]                             <div ref={{current:null}} tabIndex={0} className="flex flex-...">
+[WebServer]                               <div className="flex items...">
+[WebServer]                                 <div className="relative f...">
+[WebServer]                                   <Search>
+[WebServer]                                   <input
+[WebServer]                                     type="text"
+[WebServer]                                     value=""
+[WebServer]                                     onChange={function onChange}
+[WebServer]                                     placeholder="성명, 부서, 직책, 사번 검색..."
+[WebServer]                                     className="w-full pl-8 pr-3 py-1 text-xs rounded border border-[var(--border)] bg-..."
+[WebServer] -                                   style={{caret-color:"transparent"}}
+[WebServer]                                   >
+[WebServer]                                 ...
+[WebServer]                               ...
+[WebServer]                           ...
+[WebServer]                   <CommsRail>
+[WebServer]                     <aside className="w-80 borde...">
+[WebServer]                       <div>
+[WebServer]                       <div className="flex-1 fle...">
+[WebServer]                         <div>
+[WebServer]                         <div>
+[WebServer]                         <form onSubmit={function handleSend} className="relative p...">
+[WebServer]                           <div className="flex items...">
+[WebServer]                             <input
+[WebServer]                               type="text"
+[WebServer]                               value=""
+[WebServer]                               onChange={function handleInputChange}
+[WebServer]                               placeholder="메시지 입력... (@멘션, #개체)"
+[WebServer]                               className="flex-1 text-xs bg-transparent focus:outline-none text-[var(--ink)] placeholde..."
+[WebServer] -                             style={{caret-color:"transparent"}}
+[WebServer]                             >
+[WebServer]                             ...
+[WebServer]  
+  ✓   6 [chromium] › e2e/05-visual-and-interactive-verification.spec.ts:10:3 › Visual & Interactive Verification Suite across Cockpit Modules › 01. HR People Directory & Workday-style 360° Profile Drawer (726ms)
+[WebServer] [browser] In HTML, <button> cannot be a descendant of <button>.
+[WebServer] This will cause a hydration error.
+[WebServer] 
+[WebServer]   ...
+[WebServer]     <RedirectErrorBoundary router={{...}}>
+[WebServer]       <InnerLayoutRouter url="/hr/attend..." tree={[...]} params={{}} cacheNode={{rsc:{...}, ...}} segmentPath={[...]} ...>
+[WebServer]         <SegmentViewNode type="page" pagePath="(console)/...">
+[WebServer]           <SegmentTrieNode>
+[WebServer]           <ClientPageRoot Component={function AttendancePage} serverProvidedParams={{...}}>
+[WebServer]             <AttendancePage params={Promise} searchParams={Promise}>
+[WebServer]               <div className="space-y-5">
+[WebServer]                 <StatBar>
+[WebServer]                 <div>
+[WebServer]                 <ModuleScopeFilter>
+[WebServer]                 <DataTable columns={[...]} data={[...]} keyExtractor={function keyExtractor} ...>
+[WebServer]                   <div ref={{current:null}} tabIndex={0} className="flex flex-...">
+[WebServer]                     <div>
+[WebServer]                     <div className="overflow-x...">
+[WebServer]                       <table className="w-full bor...">
+[WebServer]                         <thead>
+[WebServer]                         <tbody className="divide-y d...">
+[WebServer]                           <tr>
+[WebServer]                           <tr>
+[WebServer]                           <tr onClick={function onClick} className="transition...">
+[WebServer]                             <td>
+[WebServer]                             <td>
+[WebServer]                             <td>
+[WebServer]                             <td>
+[WebServer]                             <td>
+[WebServer]                             <td>
+[WebServer]                             <td className="px-3 py-1....">
+[WebServer] >                             <button onClick={function onClick} className="cursor-pointer">
+[WebServer]                                 <ObjectLink code="AT-0703-01" label="심사">
+[WebServer]                                   <span className="relative i..." onMouseEnter={function handleMouseEnter} ...>
+[WebServer] >                                   <button
+[WebServer] >                                     type="button"
+[WebServer] >                                     onClick={function onClick}
+[WebServer] >                                     className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-[4px] border fon..."
+[WebServer] >                                     title="AT-0703-01 개체 상세 및 작업 원장 열기"
+[WebServer] >                                   >
+[WebServer]                             ...
+[WebServer]                           ...
+[WebServer]                     ...
+[WebServer]         ...
+[WebServer]       ...
+[WebServer]  
+[WebServer] [browser] <button> cannot contain a nested <button>.
+[WebServer] See this log for the ancestor stack trace. 
+[WebServer] [browser] Encountered a script tag while rendering React component. Scripts inside React components are never executed when rendering on the client. Consider using template tag instead (https://developer.mozilla.org/en-US/docs/Web/HTML/Element/template). 
+[WebServer] [browser] Uncaught Error: Hydration failed because the server rendered HTML didn't match the client. As a result this tree will be regenerated on the client. This can happen if a SSR-ed Client Component used:
+[WebServer] 
+[WebServer] - A server/client branch `if (typeof window !== 'undefined')`.
+[WebServer] - Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+[WebServer] - Date formatting in a user's locale which doesn't match the server.
+[WebServer] - External changing data without sending a snapshot of it along with the HTML.
+[WebServer] - Invalid HTML tag nesting.
+[WebServer] 
+[WebServer] It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+[WebServer] 
+[WebServer] https://react.dev/link/hydration-mismatch
+[WebServer] 
+[WebServer]   ...
+[WebServer]     <LoadingBoundary name="attendance/" loading={null}>
+[WebServer]       <HTTPAccessFallbackBoundary notFound={undefined} forbidden={undefined} unauthorized={undefined}>
+[WebServer]         <RedirectBoundary>
+[WebServer]           <RedirectErrorBoundary router={{...}}>
+[WebServer]             <InnerLayoutRouter url="/hr/attend..." tree={[...]} params={{}} cacheNode={{rsc:{...}, ...}} ...>
+[WebServer]               <SegmentViewNode type="page" pagePath="(console)/...">
+[WebServer]                 <SegmentTrieNode>
+[WebServer]                 <ClientPageRoot Component={function AttendancePage} serverProvidedParams={{...}}>
+[WebServer]                   <AttendancePage params={Promise} searchParams={Promise}>
+[WebServer]                     <div className="space-y-5">
+[WebServer]                       <StatBar>
+[WebServer]                       <div>
+[WebServer]                       <ModuleScopeFilter>
+[WebServer]                       <DataTable columns={[...]} data={[...]} keyExtractor={function keyExtractor} ...>
+[WebServer]                         <div ref={{current:null}} tabIndex={0} className="flex flex-...">
+[WebServer]                           <div className="flex items...">
+[WebServer]                             <div className="relative f...">
+[WebServer]                               <Search>
+[WebServer]                               <input
+[WebServer]                                 type="text"
+[WebServer]                                 value=""
+[WebServer]                                 onChange={function onChange}
+[WebServer]                                 placeholder="사원명, 현장, 예외코드(AT-) 검색..."
+[WebServer]                                 className="w-full pl-8 pr-3 py-1 text-xs rounded border border-[var(--border)] bg-[var..."
+[WebServer] -                               style={{caret-color:"transparent"}}
+[WebServer]                               >
+[WebServer]                             ...
+[WebServer]                           ...
+[WebServer]               ...
+[WebServer]             ...
+[WebServer] 
+[WebServer]     at <unknown> (https://react.dev/link/hydration-mismatch)
+[WebServer]     at button (<anonymous>)
+[WebServer]     at ObjectLink (src/components/ui/ObjectLink.tsx:155:7)
+[WebServer]     at Object.render (src/app/(console)/hr/attendance/page.tsx:179:13)
+[WebServer]     at <unknown> (src/components/ui/DataTable.tsx:212:43)
+[WebServer]     at Array.map (<anonymous>)
+[WebServer]     at <unknown> (src/components/ui/DataTable.tsx:203:30)
+[WebServer]     at Array.map (<anonymous>)
+[WebServer]     at DataTable (src/components/ui/DataTable.tsx:186:28)
+[WebServer]     at AttendancePage (src/app/(console)/hr/attendance/page.tsx:263:7)
+[WebServer]   153 |       onMouseLeave={handleMouseLeave}
+[WebServer]   154 |     >
+[WebServer] > 155 |       <button
+[WebServer]       |       ^
+[WebServer]   156 |         type="button"
+[WebServer]   157 |         onClick={(e) => {
+[WebServer]   158 |           e.stopPropagation();
+  ✓   7 [chromium] › e2e/05-visual-and-interactive-verification.spec.ts:43:3 › Visual & Interactive Verification Suite across Cockpit Modules › 02. Attendance Cockpit & Statutory 52-Hour Compliance (432ms)
+  ✓   8 [chromium] › e2e/05-visual-and-interactive-verification.spec.ts:55:3 › Visual & Interactive Verification Suite across Cockpit Modules › 03. Payroll Run: Connected Sheet Grid & Firm Banking KFTC CMS (1.3s)
+[WebServer] [browser] A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+[WebServer] 
+[WebServer] - A server/client branch `if (typeof window !== 'undefined')`.
+[WebServer] - Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+[WebServer] - Date formatting in a user's locale which doesn't match the server.
+[WebServer] - External changing data without sending a snapshot of it along with the HTML.
+[WebServer] - Invalid HTML tag nesting.
+[WebServer] 
+[WebServer] It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+[WebServer] 
+[WebServer] https://react.dev/link/hydration-mismatch
+[WebServer] 
+[WebServer]   ...
+[WebServer]     <InnerLayoutRouter url="/ops/work-..." tree={[...]} params={{}} cacheNode={{rsc:{...}, ...}} segmentPath={[...]} ...>
+[WebServer]       <SegmentViewNode type="layout" pagePath="(console)/...">
+[WebServer]         <SegmentTrieNode>
+[WebServer]         <script>
+[WebServer]         <script>
+[WebServer]         <ConsoleLayout>
+[WebServer]           <AppShell>
+[WebServer]             <ErrorBoundary>
+[WebServer]               <I18nProvider>
+[WebServer]                 <div className="flex h-scr...">
+[WebServer]                   <ToastContainer>
+[WebServer]                   <ShortcutModal>
+[WebServer]                   <CommandPalette>
+[WebServer]                   <Sidebar>
+[WebServer]                   <div>
+[WebServer]                   <CommsRail>
+[WebServer]                     <aside className="w-80 borde...">
+[WebServer]                       <div>
+[WebServer]                       <div className="flex-1 fle...">
+[WebServer]                         <div>
+[WebServer]                         <div>
+[WebServer]                         <form onSubmit={function handleSend} className="relative p...">
+[WebServer]                           <div className="flex items...">
+[WebServer]                             <input
+[WebServer]                               type="text"
+[WebServer]                               value=""
+[WebServer]                               onChange={function handleInputChange}
+[WebServer]                               placeholder="메시지 입력... (@멘션, #개체)"
+[WebServer]                               className="flex-1 text-xs bg-transparent focus:outline-none text-[var(--ink)] placeholde..."
+[WebServer] -                             style={{caret-color:"transparent"}}
+[WebServer]                             >
+[WebServer]                             ...
+[WebServer]  
+  ✓   9 [chromium] › e2e/05-visual-and-interactive-verification.spec.ts:82:3 › Visual & Interactive Verification Suite across Cockpit Modules › 04. Approvals Intake & Operations Work Orders Kanban (741ms)
+[WebServer] [browser] Encountered a script tag while rendering React component. Scripts inside React components are never executed when rendering on the client. Consider using template tag instead (https://developer.mozilla.org/en-US/docs/Web/HTML/Element/template). 
+[WebServer] [browser] Uncaught Error: Hydration failed because the server rendered text didn't match the client. As a result this tree will be regenerated on the client. This can happen if a SSR-ed Client Component used:
+[WebServer] 
+[WebServer] - A server/client branch `if (typeof window !== 'undefined')`.
+[WebServer] - Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+[WebServer] - Date formatting in a user's locale which doesn't match the server.
+[WebServer] - External changing data without sending a snapshot of it along with the HTML.
+[WebServer] - Invalid HTML tag nesting.
+[WebServer] 
+[WebServer] It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+[WebServer] 
+[WebServer] https://react.dev/link/hydration-mismatch
+[WebServer] 
+[WebServer]   ...
+[WebServer]     <RedirectErrorBoundary router={{...}}>
+[WebServer]       <InnerLayoutRouter url="/gov/audit/" tree={[...]} params={{}} cacheNode={{rsc:{...}, ...}} segmentPath={[...]} ...>
+[WebServer]         <SegmentViewNode type="page" pagePath="(console)/...">
+[WebServer]           <SegmentTrieNode>
+[WebServer]           <ClientPageRoot Component={function AuditPage} serverProvidedParams={{...}}>
+[WebServer]             <AuditPage params={Promise} searchParams={Promise}>
+[WebServer]               <div className="space-y-5">
+[WebServer]                 <StatBar>
+[WebServer]                 <div>
+[WebServer]                 <div>
+[WebServer]                 <DataTable columns={[...]} data={[...]} keyExtractor={function keyExtractor} ...>
+[WebServer]                   <div ref={{current:null}} tabIndex={0} className="flex flex-...">
+[WebServer]                     <div>
+[WebServer]                     <div className="overflow-x...">
+[WebServer]                       <table className="w-full bor...">
+[WebServer]                         <thead>
+[WebServer]                         <tbody className="divide-y d...">
+[WebServer]                           <tr onClick={function onClick} className="transition...">
+[WebServer]                             <td className="px-3 py-1....">
+[WebServer]                               <span className="font-mono text-[11px] text-[var(--steel)] font-medium">
+[WebServer] +                               2026-10-07T15:19:14.810Z
+[WebServer] -                               2026-10-07T15:19:04.878Z
+[WebServer]                             ...
+[WebServer]                           ...
+[WebServer]                     ...
+[WebServer]         ...
+[WebServer]       ...
+[WebServer] 
+[WebServer]     at <unknown> (https://react.dev/link/hydration-mismatch)
+[WebServer]     at span (<anonymous>)
+[WebServer]     at Object.render (src/app/(console)/gov/audit/page.tsx:51:9)
+[WebServer]     at <unknown> (src/components/ui/DataTable.tsx:212:43)
+[WebServer]     at Array.map (<anonymous>)
+[WebServer]     at <unknown> (src/components/ui/DataTable.tsx:203:30)
+[WebServer]     at Array.map (<anonymous>)
+[WebServer]     at DataTable (src/components/ui/DataTable.tsx:186:28)
+[WebServer]     at AuditPage (src/app/(console)/gov/audit/page.tsx:282:7)
+[WebServer]   49 |       width: "150px",
+[WebServer]   50 |       render: (row) => (
+[WebServer] > 51 |         <span className="font-mono text-[11px] text-[var(--steel)] font-medium">
+[WebServer]      |         ^
+[WebServer]   52 |           {row.timestamp}
+[WebServer]   53 |         </span>
+[WebServer]   54 |       ),
+[WebServer] [browser] A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+[WebServer] 
+[WebServer] - A server/client branch `if (typeof window !== 'undefined')`.
+[WebServer] - Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+[WebServer] - Date formatting in a user's locale which doesn't match the server.
+[WebServer] - External changing data without sending a snapshot of it along with the HTML.
+[WebServer] - Invalid HTML tag nesting.
+[WebServer] 
+[WebServer] It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+[WebServer] 
+[WebServer] https://react.dev/link/hydration-mismatch
+[WebServer] 
+[WebServer]   ...
+[WebServer]     <InnerLayoutRouter url="/gov/access/" tree={[...]} params={{}} cacheNode={{rsc:{...}, ...}} segmentPath={[...]} ...>
+[WebServer]       <SegmentViewNode type="layout" pagePath="(console)/...">
+[WebServer]         <SegmentTrieNode>
+[WebServer]         <script>
+[WebServer]         <script>
+[WebServer]         <ConsoleLayout>
+[WebServer]           <AppShell>
+[WebServer]             <ErrorBoundary>
+[WebServer]               <I18nProvider>
+[WebServer]                 <div className="flex h-scr...">
+[WebServer]                   <ToastContainer>
+[WebServer]                   <ShortcutModal>
+[WebServer]                   <CommandPalette>
+[WebServer]                   <Sidebar>
+[WebServer]                   ...
+[WebServer]                     <div className="space-y-5">
+[WebServer]                       <StatBar>
+[WebServer]                       <div>
+[WebServer]                       <LayeredRoleCanvas>
+[WebServer]                         <div className="bg-[var(--...">
+[WebServer]                           <div>
+[WebServer]                           <div className="grid grid-...">
+[WebServer]                             <div className="lg:col-spa...">
+[WebServer]                               <div className="p-3 border...">
+[WebServer]                                 <div className="relative">
+[WebServer]                                   <Search>
+[WebServer]                                   <input
+[WebServer]                                     type="text"
+[WebServer]                                     placeholder="역할 검색 (이름, 분류, 권한)..."
+[WebServer]                                     value=""
+[WebServer]                                     onChange={function onChange}
+[WebServer]                                     className="w-full pl-8 pr-3 py-1.5 text-xs rounded-md bg-[var(--muted)] border bor..."
+[WebServer] -                                   style={{caret-color:"transparent"}}
+[WebServer]                                   >
+[WebServer]                                 ...
+[WebServer]                               ...
+[WebServer]                             <div className="lg:col-spa...">
+[WebServer]                               <div className="space-y-3 ...">
+[WebServer]                                 <div>
+[WebServer]                                 <div>
+[WebServer]                                   <label>
+[WebServer]                                   <input
+[WebServer]                                     type="text"
+[WebServer]                                     value="최고 거버넌스 관리자"
+[WebServer]                                     onChange={function onChange}
+[WebServer]                                     className="w-full px-3 py-1.5 text-sm rounded-md bg-[var(--surface)] border border..."
+[WebServer] -                                   style={{caret-color:"transparent"}}
+[WebServer]                                   >
+[WebServer]                                 <div>
+[WebServer]                                   <label>
+[WebServer]                                   <div className="flex flex-...">
+[WebServer]                                     <button>
+[WebServer]                                     <button>
+[WebServer]                                     <button>
+[WebServer]                                     <button>
+[WebServer]                                     <button>
+[WebServer]                                     <button>
+[WebServer]                                     <button>
+[WebServer]                                     <button>
+[WebServer]                                     <button>
+[WebServer]                                     <button>
+[WebServer]                                     <button>
+[WebServer]                                     <button>
+[WebServer]                                     <input
+[WebServer]                                       type="color"
+[WebServer]                                       value="#EF4444"
+[WebServer]                                       onChange={function onChange}
+[WebServer]                                       className="w-7 h-7 rounded-full border-0 cursor-pointer p-0 bg-transparent"
+[WebServer]                                       title="사용자 지정 색상"
+[WebServer] -                                     style={{caret-color:"transparent"}}
+[WebServer]                                     >
+[WebServer]                                 ...
+[WebServer]                               <div>
+[WebServer]                               <div className="space-y-2 ...">
+[WebServer]                                 <span>
+[WebServer]                                 <label className="flex items...">
+[WebServer]                                   <input
+[WebServer]                                     type="checkbox"
+[WebServer]                                     checked={true}
+[WebServer]                                     onChange={function onChange}
+[WebServer]                                     className="rounded text-indigo-600 focus:ring-indigo-500"
+[WebServer] -                                   style={{caret-color:"transparent"}}
+[WebServer]                                   >
+[WebServer]                                   ...
+[WebServer]                               <div className="space-y-3">
+[WebServer]                                 <div>
+[WebServer]                                 <div className="space-y-1....">
+[WebServer]                                   <label onClick={function onClick} className="flex items...">
+[WebServer]                                     <input
+[WebServer]                                       type="checkbox"
+[WebServer]                                       checked={false}
+[WebServer]                                       onChange={function onChange}
+[WebServer]                                       className="mt-0.5 rounded text-indigo-600 focus:ring-indigo-500"
+[WebServer] -                                     style={{caret-color:"transparent"}}
+[WebServer]                                     >
+[WebServer]                                     ...
+[WebServer]                                   <label onClick={function onClick} className="flex items...">
+[WebServer]                                     <input
+[WebServer]                                       type="checkbox"
+[WebServer]                                       checked={false}
+[WebServer]                                       onChange={function onChange}
+[WebServer]                                       className="mt-0.5 rounded text-indigo-600 focus:ring-indigo-500"
+[WebServer] -                                     style={{caret-color:"transparent"}}
+[WebServer]                                     >
+[WebServer]                                     ...
+[WebServer]                                   <label onClick={function onClick} className="flex items...">
+[WebServer]                                     <input
+[WebServer]                                       type="checkbox"
+[WebServer]                                       checked={true}
+[WebServer]                                       onChange={function onChange}
+[WebServer]                                       className="mt-0.5 rounded text-indigo-600 focus:ring-indigo-500"
+[WebServer] -                                     style={{caret-color:"transparent"}}
+[WebServer]                                     >
+[WebServer]                                     ...
+[WebServer]                                   <label onClick={function onClick} className="flex items...">
+[WebServer]                                     <input
+[WebServer]                                       type="checkbox"
+[WebServer]                                       checked={false}
+[WebServer]                                       onChange={function onChange}
+[WebServer]                                       className="mt-0.5 rounded text-indigo-600 focus:ring-indigo-500"
+[WebServer] -                                     style={{caret-color:"transparent"}}
+[WebServer]                                     >
+[WebServer]                                     ...
+[WebServer]                                   <label onClick={function onClick} className="flex items...">
+[WebServer]                                     <input
+[WebServer]                                       type="checkbox"
+[WebServer]                                       checked={false}
+[WebServer]                                       onChange={function onChange}
+[WebServer]                                       className="mt-0.5 rounded text-indigo-600 focus:ring-indigo-500"
+[WebServer] -                                     style={{caret-color:"transparent"}}
+[WebServer]                                     >
+[WebServer]                                     ...
+[WebServer]                                   <label onClick={function onClick} className="flex items...">
+[WebServer]                                     <input
+[WebServer]                                       type="checkbox"
+[WebServer]                                       checked={false}
+[WebServer]                                       onChange={function onChange}
+[WebServer]                                       className="mt-0.5 rounded text-indigo-600 focus:ring-indigo-500"
+[WebServer] -                                     style={{caret-color:"transparent"}}
+[WebServer]                                     >
+[WebServer]                                     ...
+[WebServer]                                   <label onClick={function onClick} className="flex items...">
+[WebServer]                                     <input
+[WebServer]                                       type="checkbox"
+[WebServer]                                       checked={true}
+[WebServer]                                       onChange={function onChange}
+[WebServer]                                       className="mt-0.5 rounded text-indigo-600 focus:ring-indigo-500"
+[WebServer] -                                     style={{caret-color:"transparent"}}
+[WebServer]                                     >
+[WebServer]                                     ...
+[WebServer]                                   <label onClick={function onClick} className="flex items...">
+[WebServer]                                     <input
+[WebServer]                                       type="checkbox"
+[WebServer]                                       checked={false}
+[WebServer]                                       onChange={function onChange}
+[WebServer]                                       className="mt-0.5 rounded text-indigo-600 focus:ring-indigo-500"
+[WebServer] -                                     style={{caret-color:"transparent"}}
+[WebServer]                                     >
+[WebServer]                                     ...
+[WebServer]                                   <label onClick={function onClick} className="flex items...">
+[WebServer]                                     <input
+[WebServer]                                       type="checkbox"
+[WebServer]                                       checked={true}
+[WebServer]                                       onChange={function onChange}
+[WebServer]                                       className="mt-0.5 rounded text-indigo-600 focus:ring-indigo-500"
+[WebServer] -                                     style={{caret-color:"transparent"}}
+[WebServer]                                     >
+[WebServer]                                     ...
+[WebServer]                                   <label onClick={function onClick} className="flex items...">
+[WebServer]                                     <input
+[WebServer]                                       type="checkbox"
+[WebServer]                                       checked={false}
+[WebServer]                                       onChange={function onChange}
+[WebServer]                                       className="mt-0.5 rounded text-indigo-600 focus:ring-indigo-500"
+[WebServer] -                                     style={{caret-color:"transparent"}}
+[WebServer]                                     >
+[WebServer]                                     ...
+[WebServer]                                   <label onClick={function onClick} className="flex items...">
+[WebServer]                                     <input
+[WebServer]                                       type="checkbox"
+[WebServer]                                       checked={true}
+[WebServer]                                       onChange={function onChange}
+[WebServer]                                       className="mt-0.5 rounded text-indigo-600 focus:ring-indigo-500"
+[WebServer] -                                     style={{caret-color:"transparent"}}
+[WebServer]                                     >
+[WebServer]                                     ...
+[WebServer]                                   <label onClick={function onClick} className="flex items...">
+[WebServer]                                     <input
+[WebServer]                                       type="checkbox"
+[WebServer]                                       checked={true}
+[WebServer]                                       onChange={function onChange}
+[WebServer]                                       className="mt-0.5 rounded text-indigo-600 focus:ring-indigo-500"
+[WebServer] -                                     style={{caret-color:"transparent"}}
+[WebServer]                                     >
+[WebServer]                                     ...
+[WebServer]                                   <label onClick={function onClick} className="flex items...">
+[WebServer]                                     <input
+[WebServer]                                       type="checkbox"
+[WebServer]                                       checked={false}
+[WebServer]                                       onChange={function onChange}
+[WebServer]                                       className="mt-0.5 rounded text-indigo-600 focus:ring-indigo-500"
+[WebServer] -                                     style={{caret-color:"transparent"}}
+[WebServer]                                     >
+[WebServer]                                     ...
+[WebServer]                                   <label onClick={function onClick} className="flex items...">
+[WebServer]                                     <input
+[WebServer]                                       type="checkbox"
+[WebServer]                                       checked={false}
+[WebServer]                                       onChange={function onChange}
+[WebServer]                                       className="mt-0.5 rounded text-indigo-600 focus:ring-indigo-500"
+[WebServer] -                                     style={{caret-color:"transparent"}}
+[WebServer]                                     >
+[WebServer]                                     ...
+[WebServer]                                   <label onClick={function onClick} className="flex items...">
+[WebServer]                                     <input
+[WebServer]                                       type="checkbox"
+[WebServer]                                       checked={false}
+[WebServer]                                       onChange={function onChange}
+[WebServer]                                       className="mt-0.5 rounded text-indigo-600 focus:ring-indigo-500"
+[WebServer] -                                     style={{caret-color:"transparent"}}
+[WebServer]                                     >
+[WebServer]                                     ...
+[WebServer]                                   <label onClick={function onClick} className="flex items...">
+[WebServer]                                     <input
+[WebServer]                                       type="checkbox"
+[WebServer]                                       checked={true}
+[WebServer]                                       onChange={function onChange}
+[WebServer]                                       className="mt-0.5 rounded text-indigo-600 focus:ring-indigo-500"
+[WebServer] -                                     style={{caret-color:"transparent"}}
+[WebServer]                                     >
+[WebServer]                                     ...
+[WebServer]                                   <label onClick={function onClick} className="flex items...">
+[WebServer]                                     <input
+[WebServer]                                       type="checkbox"
+[WebServer]                                       checked={true}
+[WebServer]                                       onChange={function onChange}
+[WebServer]                                       className="mt-0.5 rounded text-indigo-600 focus:ring-indigo-500"
+[WebServer] -                                     style={{caret-color:"transparent"}}
+[WebServer]                                     >
+[WebServer]                                     ...
+[WebServer]                                   <label onClick={function onClick} className="flex items...">
+[WebServer]                                     <input
+[WebServer]                                       type="checkbox"
+[WebServer]                                       checked={false}
+[WebServer]                                       onChange={function onChange}
+[WebServer]                                       className="mt-0.5 rounded text-indigo-600 focus:ring-indigo-500"
+[WebServer] -                                     style={{caret-color:"transparent"}}
+[WebServer]                                     >
+[WebServer]                                     ...
+[WebServer]                                   <label onClick={function onClick} className="flex items...">
+[WebServer]                                     <input
+[WebServer]                                       type="checkbox"
+[WebServer]                                       checked={false}
+[WebServer]                                       onChange={function onChange}
+[WebServer]                                       className="mt-0.5 rounded text-indigo-600 focus:ring-indigo-500"
+[WebServer] -                                     style={{caret-color:"transparent"}}
+[WebServer]                                     >
+[WebServer]                                     ...
+[WebServer]                                   <label onClick={function onClick} className="flex items...">
+[WebServer]                                     <input
+[WebServer]                                       type="checkbox"
+[WebServer]                                       checked={false}
+[WebServer]                                       onChange={function onChange}
+[WebServer]                                       className="mt-0.5 rounded text-indigo-600 focus:ring-indigo-500"
+[WebServer] -                                     style={{caret-color:"transparent"}}
+[WebServer]                                     >
+[WebServer]                                     ...
+[WebServer]                             ...
+[WebServer]                       ...
+[WebServer]                   <CommsRail>
+[WebServer]                     <aside className="w-80 borde...">
+[WebServer]                       <div>
+[WebServer]                       <div className="flex-1 fle...">
+[WebServer]                         <div>
+[WebServer]                         <div>
+[WebServer]                         <form onSubmit={function handleSend} className="relative p...">
+[WebServer]                           <div className="flex items...">
+[WebServer]                             <input
+[WebServer]                               type="text"
+[WebServer]                               value=""
+[WebServer]                               onChange={function handleInputChange}
+[WebServer]                               placeholder="메시지 입력... (@멘션, #개체)"
+[WebServer]                               className="flex-1 text-xs bg-transparent focus:outline-none text-[var(--ink)] placeholde..."
+[WebServer] -                             style={{caret-color:"transparent"}}
+[WebServer]                             >
+[WebServer]                             ...
+[WebServer]  
+  ✓  10 [chromium] › e2e/05-visual-and-interactive-verification.spec.ts:111:3 › Visual & Interactive Verification Suite across Cockpit Modules › 05. Cryptographic WORM Audit Chain & Discord Layered Roles (992ms)
+
+  10 passed (14.0s)

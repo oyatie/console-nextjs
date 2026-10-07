@@ -1,0 +1,63 @@
+✔ only the first exact probe frame yields a fixed basename and bounded numbers (1.546333ms)
+✔ sensitive assertion headers and unrelated paths never enter diagnostic output (0.274375ms)
+✔ absent, malformed, overlong, and unsafe diagnostic inputs are omitted (0.259167ms)
+✔ native multiline assertion messages cannot forge a source location (0.572625ms)
+✔ unverified or accessor-backed messages are omitted without invoking their getter (0.136375ms)
+✔ restore prerequisites do nothing when no preauth cookie remains (0.561125ms)
+✔ restore prerequisites observe natural expiry without clearing or replacing cookies (1001.478958ms)
+✔ an unrelated cookie change cannot be excused by preauth expiry (1002.429166ms)
+✔ premature preauth disappearance fails the recorded expiry check (1000.177292ms)
+✔ a session cannot disappear even when its recorded expiry has elapsed (1002.008291ms)
+✔ a persistent preauth cookie reaches the original bounded deadline (1001.956167ms)
+✔ an elapsed preauthentication cookie may disappear while every live cookie survives unchanged (0.714125ms)
+✔ a live or session cookie cannot disappear (0.562083ms)
+✔ an observation before expiry cannot excuse later disappearance (0.0985ms)
+✔ no cookie may be added even when its expiry has elapsed (0.075292ms)
+✔ every surviving cookie attribute must remain exact (1.068375ms)
+✔ duplicate names in either observation fail closed (0.650041ms)
+✔ an invalid observation time cannot authorize disappearance (3.339708ms)
+✔ deployment and browser consumers stage the same locked production closure (23879.789958ms)
+✔ runtime verification rejects changed config, runtime bytes and extra secret files (40745.810667ms)
+✖ storefront consumers release owned staging resources after custody rejection (187.989833ms)
+ℹ tests 21
+ℹ suites 0
+ℹ pass 20
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 64882.699
+
+✖ failing tests:
+
+test at tools/test-production-runtime.test.mjs:99:1
+✖ storefront consumers release owned staging resources after custody rejection (187.989833ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /Stale production source\/build custody/. Input:
+  
+  'node:net:2306\n' +
+    "      const error = new UVExceptionWithHostPort(rval, 'listen', address, port);\n" +
+    '                    ^\n' +
+    '\n' +
+    'Error: listen EPERM: operation not permitted 127.0.0.1\n' +
+    '    at Server.setupListenHandle [as _listen2] (node:net:2306:21)\n' +
+    '    at listenInCluster (node:net:2437:12)\n' +
+    '    at node:net:2666:7\n' +
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {\n' +
+    "  code: 'EPERM',\n" +
+    '  errno: -1,\n' +
+    "  syscall: 'listen',\n" +
+    "  address: '127.0.0.1'\n" +
+    '}\n' +
+    '\n' +
+    'Node.js v24.21.0\n'
+  
+      at TestContext.<anonymous> (file:///Users/jasonlee/Developer/frontend/.worktrees/own-issued-payslips/tools/test-production-runtime.test.mjs:126:16)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: "node:net:2306\n      const error = new UVExceptionWithHostPort(rval, 'listen', address, port);\n                    ^\n\nError: listen EPERM: operation not permitted 127.0.0.1\n    at Server.setupListenHandle [as _listen2] (node:net:2306:21)\n    at listenInCluster (node:net:2437:12)\n    at node:net:2666:7\n    at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {\n  code: 'EPERM',\n  errno: -1,\n  syscall: 'listen',\n  address: '127.0.0.1'\n}\n\nNode.js v24.21.0\n",
+    expected: /Stale production source\/build custody/,
+    operator: 'match',
+    diff: 'simple'
+  }

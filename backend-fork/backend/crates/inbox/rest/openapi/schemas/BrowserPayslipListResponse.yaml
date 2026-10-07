@@ -1,0 +1,15 @@
+type: object
+additionalProperties: false
+required: [company_id, browser_context, expires_at, items, next_cursor]
+properties:
+  company_id: { $ref: '#/components/schemas/Uuid' }
+  browser_context: { $ref: '#/components/schemas/Uuid' }
+  expires_at: { $ref: '#/components/schemas/Timestamp' }
+  items:
+    type: array
+    maxItems: 25
+    items: { $ref: '#/components/schemas/BrowserPayslipSummary' }
+  next_cursor:
+    type: [string, 'null']
+    format: uuid
+    description: Last returned payslip ID only when another eligible payslip exists; null at the end.

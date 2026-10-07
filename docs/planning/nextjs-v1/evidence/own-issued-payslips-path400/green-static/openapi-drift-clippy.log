@@ -1,0 +1,4 @@
+    Checking console-app v0.1.0 (/Users/jasonlee/Developer/frontend/.worktrees/own-issued-payslips/backend-fork/backend/app)
+    Finished `dev` profile [unoptimized] target(s) in 11.55s
+warning: the following packages contain code that will be rejected by a future version of Rust: proc-macro-error2 v2.0.1
+note: to see what the problems were, use the option `--future-incompat-report`, or run `cargo report future-incompatibilities --id 1`

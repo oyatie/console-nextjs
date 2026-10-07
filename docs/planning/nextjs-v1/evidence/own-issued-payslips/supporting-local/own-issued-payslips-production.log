@@ -1,0 +1,20 @@
+
+> console-web@1.0.0 test:production-routes
+> node tools/test-production-routes.mjs
+
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Production server did not start:
+
+    at file:///Users/jasonlee/Developer/frontend/.worktrees/own-issued-payslips/tools/test-production-routes.mjs:76:10 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+
+Node.js v24.21.0

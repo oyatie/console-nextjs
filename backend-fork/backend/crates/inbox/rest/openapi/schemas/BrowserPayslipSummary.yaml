@@ -1,0 +1,7 @@
+type: object
+additionalProperties: false
+required: [id, title, created_at]
+properties:
+  id: { $ref: '#/components/schemas/Uuid' }
+  title: { type: string }
+  created_at: { $ref: '#/components/schemas/Timestamp' }

@@ -1,0 +1,135 @@
+{
+  "version": 1,
+  "verdict": "ACCEPT_SCOPED_WONT_FIX_DISPOSITION",
+  "commit": "918cbbbc5cb3bacd60cea1e16536beec3615a1f6",
+  "observed_at": "2026-10-07T16:48:27.022471+00:00",
+  "scope": "Independent adversarial read-only assessment of CodeQL alerts 133–136 on four immutable historical PostgreSQL test-runner snapshots",
+  "alerts": [
+    {
+      "number": 133,
+      "rule": "py/clear-text-storage-sensitive-data",
+      "path": "docs/planning/nextjs-v1/evidence/own-issued-payslips/inbox-owners/runner.py",
+      "line": 123
+    },
+    {
+      "number": 134,
+      "rule": "py/clear-text-storage-sensitive-data",
+      "path": "docs/planning/nextjs-v1/evidence/own-issued-payslips/native-retry/runner.py",
+      "line": 118
+    },
+    {
+      "number": 135,
+      "rule": "py/clear-text-storage-sensitive-data",
+      "path": "docs/planning/nextjs-v1/evidence/own-issued-payslips-path400/red-native/runner.py",
+      "line": 123
+    },
+    {
+      "number": 136,
+      "rule": "py/clear-text-storage-sensitive-data",
+      "path": "docs/planning/nextjs-v1/evidence/own-issued-payslips-path400/green-native/runner.py",
+      "line": 123
+    }
+  ],
+  "sarif_sha256": "7947e194dd0e35ff4110180209f323d05122a928c0d60c18906868880104f5d1",
+  "source_bindings": [
+    {
+      "path": "docs/planning/nextjs-v1/evidence/own-issued-payslips/inbox-owners/runner.py",
+      "sha256": "8cf1d7d1c16af9d52b5aa6fe28517c44ad0946612f3b16e096a3a16a0021c0fc",
+      "matches_commit": true
+    },
+    {
+      "path": "docs/planning/nextjs-v1/evidence/own-issued-payslips/native-retry/runner.py",
+      "sha256": "6d88dd16599056c86975cf59083389b1f1e1b6af80e3d38ab260c69b756b1043",
+      "matches_commit": true
+    },
+    {
+      "path": "docs/planning/nextjs-v1/evidence/own-issued-payslips-path400/red-native/runner.py",
+      "sha256": "8cf1d7d1c16af9d52b5aa6fe28517c44ad0946612f3b16e096a3a16a0021c0fc",
+      "matches_commit": true
+    },
+    {
+      "path": "docs/planning/nextjs-v1/evidence/own-issued-payslips-path400/green-native/runner.py",
+      "sha256": "8cf1d7d1c16af9d52b5aa6fe28517c44ad0946612f3b16e096a3a16a0021c0fc",
+      "matches_commit": true
+    }
+  ],
+  "classification": {
+    "finding_valid": true,
+    "false_positive": false,
+    "severity_observed": "CodeQL high 7.5; not changed by this review",
+    "recommended_dismissal_reason": "wont_fix",
+    "meaning": "Accept bounded archive/test-bootstrap risk; no source fix, scan exclusion or test weakening"
+  },
+  "basis": [
+    "All secrets come from per-run secrets.token_hex(32), not user/production credentials or committed literal values",
+    "Inherited environment is allowlisted; all six PostgreSQL role credentials are newly generated and commands target the owned disposable loopback cluster",
+    "TemporaryDirectory uses unique atomic mkdir with 0700; path is beneath hardcoded /private/tmp, not caller TMPDIR",
+    "pwfile is inside that parent, chmod 0600 before initdb, normal unlink immediately after initdb and before PostgreSQL starts",
+    "Parent 0700 restricts other UID traversal during write_text-beforechmod window; no untrusted preexisting child/symlink under normal OS semantics",
+    "Generated password/full DSN are scrubbed from captured output; command reports contain file path, not password contents",
+    "Existing recorded cluster/temporary-file/PID cleanup is positive and narrower than erasure; original unsupported destruction claim remains uncredited",
+    "No references/imports/execution found in CI/frontend/tools build/test entrypoints; unittest discovery targets tools and backend-fork/scripts, not archived docs",
+    "Docker context explicitly excludes docs and runtime packager only includes allowlisted server/config/package/.next/public/dependencies; archived scripts are not shipped"
+  ],
+  "adversarial_limits": [
+    "write_text creates plaintext beforechmod and lacks O_EXCL/O_NOFOLLOW; mitigation relies on the fresh0700 parent and trusted same UID/root actors, not an intrinsically safe file API",
+    "Root/same UID actors can read/replace files, inspect process/environment memory or introduce symlinks; hostile ACL/capability/instrumentation/filesystem behavior is outside this bounded accepted host trust",
+    "The file is normally short-lived, but initdb exception skips immediate unlink until TemporaryDirectory cleanup; SIGKILL/host loss can leave pwfile/cluster alive",
+    "Cluster-start acknowledgment/drain handling is not a complete crash-recovery proof; do not claim all abnormal exits cleaned up",
+    "unlink/rmtree does not prove secure disk, swap, backup, memory or cryptographic erasure; leftover ephemeral credentials are not production credentials",
+    "Output redaction handles selected known values/patterns and normal complete lines, not malicious output transformations or a universal secret audit",
+    "Archive code remains manually executable by a trusted developer; accepting this snapshot does not endorse reusing it for live databases, untrusted hosts or unattended automation"
+  ],
+  "cleanup_evidence": [
+    {
+      "path": "docs/planning/nextjs-v1/evidence/own-issued-payslips/inbox-owners/report.json",
+      "checks": {
+        "cluster_stopped": true,
+        "temporary_credential_files_removed": true,
+        "observed_postmaster_pid_absent": true
+      },
+      "directory_now_absent": true,
+      "scope": "Historical recorded cleanup plus current absence; not all-crash-path erasure"
+    },
+    {
+      "path": "docs/planning/nextjs-v1/evidence/own-issued-payslips/native-retry/verified-report.json",
+      "checks": {
+        "pg_ctl_stop_confirmed": true,
+        "owned_temporary_directory_absent": true,
+        "observed_postmaster_pid_absent": true
+      },
+      "directory_now_absent": true,
+      "scope": "Historical recorded cleanup plus current absence; not all-crash-path erasure"
+    },
+    {
+      "path": "docs/planning/nextjs-v1/evidence/own-issued-payslips-path400/red-native/report.json",
+      "checks": {
+        "cluster_stopped": true,
+        "temporary_credential_files_removed": true,
+        "observed_postmaster_pid_absent": true
+      },
+      "directory_now_absent": true,
+      "scope": "Historical recorded cleanup plus current absence; not all-crash-path erasure"
+    },
+    {
+      "path": "docs/planning/nextjs-v1/evidence/own-issued-payslips-path400/green-native/report.json",
+      "checks": {
+        "cluster_stopped": true,
+        "temporary_credential_files_removed": true,
+        "observed_postmaster_pid_absent": true
+      },
+      "directory_now_absent": true,
+      "scope": "Historical recorded cleanup plus current absence; not all-crash-path erasure"
+    }
+  ],
+  "future_active_runner_recommendation": "If an active successor is needed, use verified stdin-backed initdb password input to avoid materializing pwfile; retain ephemeral credentials, network isolation, positive cleanup, redaction and meaningful existing assertions. Preserve historical source bytes.",
+  "disposition_conditions": [
+    "Bind dismissal only to alerts 133–136 at these four paths/this reviewed source state",
+    "Record valid finding and accepted archival test-bootstrap risk; use wont_fix, not false_positive or claim of remediation",
+    "Keep full CodeQL coverage, severity and required checks; do not exclude documentation paths or remove assertions to get green",
+    "Retain raw SARIF/alert observation, independent reviews and exact dismissal readback externally",
+    "Do not expand this decision to other CodeQL findings or product/live credential storage"
+  ],
+  "blockers": [],
+  "actions_taken": "Read source, installed tempfile creation implementation, raw SARIF/alert observations, existing cleanup receipts, CI and packaging. Wrote only this untracked review receipt. No runner execution, tests, alert mutation, tracked edit, live credentials or Console access."
+}

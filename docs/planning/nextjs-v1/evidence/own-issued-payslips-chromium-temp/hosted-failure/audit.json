@@ -1,0 +1,691 @@
+{
+  "scope": "Fresh read-only hosted source-and-inquiry CI audit on reviewed census correction; no previous native proof credit",
+  "run": {
+    "conclusion": "failure",
+    "createdAt": "2026-10-07T17:02:07Z",
+    "databaseId": 37655815720,
+    "event": "pull_request",
+    "headSha": "3c745d2e85a801bfee66b5373e75f24e7fd24a95",
+    "jobs": [
+      {
+        "completedAt": "2026-10-07T17:08:46Z",
+        "conclusion": "failure",
+        "databaseId": 112911142567,
+        "name": "source-and-inquiry",
+        "startedAt": "2026-10-07T17:03:47Z",
+        "status": "completed",
+        "steps": [
+          {
+            "completedAt": "2026-10-07T17:03:50Z",
+            "conclusion": "success",
+            "name": "Set up job",
+            "number": 1,
+            "startedAt": "2026-10-07T17:03:48Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-07T17:03:55Z",
+            "conclusion": "success",
+            "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+            "number": 2,
+            "startedAt": "2026-10-07T17:03:50Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-07T17:03:59Z",
+            "conclusion": "success",
+            "name": "Run actions/setup-node@820762786026740c76f36085b0efc47a31fe5020",
+            "number": 3,
+            "startedAt": "2026-10-07T17:03:55Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-07T17:04:07Z",
+            "conclusion": "success",
+            "name": "Run npm ci",
+            "number": 4,
+            "startedAt": "2026-10-07T17:03:59Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-07T17:04:07Z",
+            "conclusion": "success",
+            "name": "Run npm --prefix backend-fork ci",
+            "number": 5,
+            "startedAt": "2026-10-07T17:04:07Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-07T17:04:08Z",
+            "conclusion": "success",
+            "name": "Full npm dependency audits",
+            "number": 6,
+            "startedAt": "2026-10-07T17:04:07Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-07T17:04:13Z",
+            "conclusion": "success",
+            "name": "Run npm run lint",
+            "number": 7,
+            "startedAt": "2026-10-07T17:04:08Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-07T17:04:15Z",
+            "conclusion": "success",
+            "name": "Run npm test",
+            "number": 8,
+            "startedAt": "2026-10-07T17:04:13Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-07T17:04:36Z",
+            "conclusion": "success",
+            "name": "Run npm run build",
+            "number": 9,
+            "startedAt": "2026-10-07T17:04:15Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-07T17:04:37Z",
+            "conclusion": "success",
+            "name": "Run npm run test:source-closure",
+            "number": 10,
+            "startedAt": "2026-10-07T17:04:36Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-07T17:04:37Z",
+            "conclusion": "success",
+            "name": "Frozen source and fork custody",
+            "number": 11,
+            "startedAt": "2026-10-07T17:04:37Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-07T17:04:48Z",
+            "conclusion": "success",
+            "name": "Run npm run test:production-routes",
+            "number": 12,
+            "startedAt": "2026-10-07T17:04:37Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-07T17:04:49Z",
+            "conclusion": "success",
+            "name": "Run node tools/test-own-payslip-routes.mjs",
+            "number": 13,
+            "startedAt": "2026-10-07T17:04:48Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-07T17:05:34Z",
+            "conclusion": "success",
+            "name": "Run node --test tools/test-production-runtime.test.mjs",
+            "number": 14,
+            "startedAt": "2026-10-07T17:04:49Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-07T17:05:39Z",
+            "conclusion": "success",
+            "name": "Run node --test tools/browser-business-failure.test.mjs tools/browser-business-temporal.test.mjs tools/browser-business-restore.test.mjs",
+            "number": 15,
+            "startedAt": "2026-10-07T17:05:34Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-07T17:06:07Z",
+            "conclusion": "success",
+            "name": "Run npx playwright install --with-deps chromium",
+            "number": 16,
+            "startedAt": "2026-10-07T17:05:39Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-07T17:08:43Z",
+            "conclusion": "failure",
+            "name": "Run node --test tools/enrollment-fault-deadlines.test.mjs tools/test-native-browser-enrollment.test.mjs",
+            "number": 17,
+            "startedAt": "2026-10-07T17:06:07Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-07T17:08:43Z",
+            "conclusion": "skipped",
+            "name": "Source parser and certificate CLI security regressions",
+            "number": 18,
+            "startedAt": "2026-10-07T17:08:43Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-07T17:08:43Z",
+            "conclusion": "skipped",
+            "name": "Private import artifact security regressions",
+            "number": 19,
+            "startedAt": "2026-10-07T17:08:43Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-07T17:08:43Z",
+            "conclusion": "skipped",
+            "name": "Run rustup toolchain install 1.98.1 --profile minimal",
+            "number": 20,
+            "startedAt": "2026-10-07T17:08:43Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-07T17:08:43Z",
+            "conclusion": "skipped",
+            "name": "Run rustup component add clippy rustfmt --toolchain 1.98.1",
+            "number": 21,
+            "startedAt": "2026-10-07T17:08:43Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-07T17:08:43Z",
+            "conclusion": "skipped",
+            "name": "JWT provider closure across shipped and tested targets",
+            "number": 22,
+            "startedAt": "2026-10-07T17:08:43Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-07T17:08:43Z",
+            "conclusion": "skipped",
+            "name": "Rust advisory policy",
+            "number": 23,
+            "startedAt": "2026-10-07T17:08:43Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-07T17:08:43Z",
+            "conclusion": "skipped",
+            "name": "Rust format",
+            "number": 24,
+            "startedAt": "2026-10-07T17:08:43Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-07T17:08:43Z",
+            "conclusion": "skipped",
+            "name": "Rust build disk budget",
+            "number": 25,
+            "startedAt": "2026-10-07T17:08:43Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-07T17:08:43Z",
+            "conclusion": "skipped",
+            "name": "PostgreSQL device-login source revocation and authentication owners",
+            "number": 26,
+            "startedAt": "2026-10-07T17:08:43Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-07T17:08:43Z",
+            "conclusion": "skipped",
+            "name": "Identity REST owner and device-login regression Clippy",
+            "number": 27,
+            "startedAt": "2026-10-07T17:08:43Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-07T17:08:43Z",
+            "conclusion": "skipped",
+            "name": "Authentication owners Clippy",
+            "number": 28,
+            "startedAt": "2026-10-07T17:08:43Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-07T17:08:43Z",
+            "conclusion": "skipped",
+            "name": "Browser session compatible owners and regressions Clippy",
+            "number": 29,
+            "startedAt": "2026-10-07T17:08:43Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-07T17:08:43Z",
+            "conclusion": "skipped",
+            "name": "Credential reset owner and regressions Clippy",
+            "number": 30,
+            "startedAt": "2026-10-07T17:08:43Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-07T17:08:43Z",
+            "conclusion": "skipped",
+            "name": "Office JWT and mail TLS dependency compatibility",
+            "number": 31,
+            "startedAt": "2026-10-07T17:08:43Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-07T17:08:43Z",
+            "conclusion": "skipped",
+            "name": "PostgreSQL payroll source validation, roster and workflow recovery",
+            "number": 32,
+            "startedAt": "2026-10-07T17:08:43Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-07T17:08:43Z",
+            "conclusion": "skipped",
+            "name": "Payroll owner and regression Clippy",
+            "number": 33,
+            "startedAt": "2026-10-07T17:08:43Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-07T17:08:43Z",
+            "conclusion": "skipped",
+            "name": "Audited snapshot owner and regression Clippy",
+            "number": 34,
+            "startedAt": "2026-10-07T17:08:43Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-07T17:08:43Z",
+            "conclusion": "skipped",
+            "name": "Workflow owner and regression Clippy",
+            "number": 35,
+            "startedAt": "2026-10-07T17:08:43Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-07T17:08:43Z",
+            "conclusion": "skipped",
+            "name": "Payroll REST and UI owners and regression Clippy",
+            "number": 36,
+            "startedAt": "2026-10-07T17:08:43Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-07T17:08:43Z",
+            "conclusion": "skipped",
+            "name": "Inbox owner and regression Clippy",
+            "number": 37,
+            "startedAt": "2026-10-07T17:08:43Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-07T17:08:43Z",
+            "conclusion": "skipped",
+            "name": "Leave consumer and regression Clippy",
+            "number": 38,
+            "startedAt": "2026-10-07T17:08:43Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-07T17:08:43Z",
+            "conclusion": "skipped",
+            "name": "PostgreSQL and real-browser inquiry",
+            "number": 39,
+            "startedAt": "2026-10-07T17:08:43Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-07T17:08:43Z",
+            "conclusion": "skipped",
+            "name": "PostgreSQL sales store and runtime-role isolation",
+            "number": 40,
+            "startedAt": "2026-10-07T17:08:43Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-07T17:08:43Z",
+            "conclusion": "skipped",
+            "name": "Attendance source parser regressions",
+            "number": 41,
+            "startedAt": "2026-10-07T17:08:43Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-07T17:08:43Z",
+            "conclusion": "skipped",
+            "name": "PostgreSQL attendance retained history and Company isolation",
+            "number": 42,
+            "startedAt": "2026-10-07T17:08:43Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-07T17:08:43Z",
+            "conclusion": "skipped",
+            "name": "Attendance read owner and regression Clippy",
+            "number": 43,
+            "startedAt": "2026-10-07T17:08:43Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-07T17:08:43Z",
+            "conclusion": "skipped",
+            "name": "PostgreSQL HR attendance source fidelity, import gates and scoped raw history",
+            "number": 44,
+            "startedAt": "2026-10-07T17:08:43Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-07T17:08:43Z",
+            "conclusion": "skipped",
+            "name": "PostgreSQL authorized read snapshot",
+            "number": 45,
+            "startedAt": "2026-10-07T17:08:43Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-07T17:08:43Z",
+            "conclusion": "skipped",
+            "name": "HR owner and regression Clippy",
+            "number": 46,
+            "startedAt": "2026-10-07T17:08:43Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-07T17:08:43Z",
+            "conclusion": "success",
+            "name": "Rust build disk readback",
+            "number": 47,
+            "startedAt": "2026-10-07T17:08:43Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-07T17:08:43Z",
+            "conclusion": "skipped",
+            "name": "Preserve complete JWT provider graph evidence",
+            "number": 48,
+            "startedAt": "2026-10-07T17:08:43Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-07T17:08:43Z",
+            "conclusion": "skipped",
+            "name": "Post Run actions/setup-node@820762786026740c76f36085b0efc47a31fe5020",
+            "number": 95,
+            "startedAt": "2026-10-07T17:08:43Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-07T17:08:43Z",
+            "conclusion": "success",
+            "name": "Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+            "number": 96,
+            "startedAt": "2026-10-07T17:08:43Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-07T17:08:43Z",
+            "conclusion": "success",
+            "name": "Complete job",
+            "number": 97,
+            "startedAt": "2026-10-07T17:08:43Z",
+            "status": "completed"
+          }
+        ],
+        "url": "https://github.com/oyatie/console-nextjs/actions/runs/37655815720/job/112911142567"
+      }
+    ],
+    "status": "completed",
+    "updatedAt": "2026-10-07T17:08:46Z",
+    "url": "https://github.com/oyatie/console-nextjs/actions/runs/37655815720"
+  },
+  "raw_log": {
+    "path": ".artifacts/delivery/pr18/source-and-inquiry-37655815720-112911142567.log",
+    "sha256": "e302842ecf900f844ac06b83bee9b504436453da617baeac2be4406ece0e3044",
+    "bytes": 142540
+  },
+  "checkout": {
+    "sha": "274e892102f77ffc5d00f712d1784326ea0e51a8",
+    "parents": [
+      "7ccf7d15275653ddfd1ca8629d4c4caed1bfa6c7",
+      "3c745d2e85a801bfee66b5373e75f24e7fd24a95"
+    ],
+    "tree": "e7396d06d0beeb210f040da290abe1d58005a91a",
+    "reviewed_pr_head": "3c745d2e85a801bfee66b5373e75f24e7fd24a95",
+    "reviewed_pr_tree": "e7396d06d0beeb210f040da290abe1d58005a91a",
+    "base": "7ccf7d15275653ddfd1ca8629d4c4caed1bfa6c7",
+    "reviewed_head_is_merge_parent": true,
+    "base_is_merge_parent": true,
+    "checkout_tree_matches_reviewed_head": true,
+    "raw_log_checkout_hash_observed": true
+  },
+  "executed_suite_summaries": {
+    "Run npm test": {
+      "executed": 116,
+      "passed": 116,
+      "failed": 0
+    },
+    "Run node --test tools/test-production-runtime.test.mjs": {
+      "tests": 3,
+      "suites": 0,
+      "pass": 3,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "Run node --test tools/browser-business-failure.test.mjs tools/browser-business-temporal.test.mjs tools/browser-business-restore.test.mjs": {
+      "tests": 19,
+      "suites": 0,
+      "pass": 19,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "Run node --test tools/enrollment-fault-deadlines.test.mjs tools/test-native-browser-enrollment.test.mjs": {
+      "tests": 22,
+      "suites": 0,
+      "pass": 21,
+      "fail": 1,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    }
+  },
+  "failure": {
+    "step_number": 17,
+    "step": "Run node --test tools/enrollment-fault-deadlines.test.mjs tools/test-native-browser-enrollment.test.mjs",
+    "suite_discovered_and_executed": 22,
+    "passed": 21,
+    "failed": 1,
+    "skipped_tests": 0,
+    "cancelled": 0,
+    "todo": 0,
+    "test": "enrollment runner confirms cleanup after wrong-version",
+    "test_declaration": "tools/test-native-browser-enrollment.test.mjs:54",
+    "failing_assertion": "tools/test-native-browser-enrollment.test.mjs:169",
+    "message": "runner must release its owned temporary resources before parent cleanup",
+    "actual": [
+      ".org.chromium.Chromium.xbgJR7"
+    ],
+    "expected": [],
+    "test_duration_ms": 15803.756223,
+    "combined_step_duration_ms": 155875.04818,
+    "fault_diagnostic_time": "2026-10-07T17:07:08.7695095Z",
+    "fault_diagnostic": {
+      "runner": "enrollment",
+      "fault": "wrong-version",
+      "phase": "native-input",
+      "error_name": "AssertionError",
+      "next_exit_code": null,
+      "next_signal": null,
+      "server_bytes": 38
+    },
+    "known_cause": "Owned Chromium temporary directory remained when the fault-runner cleanup assertion executed. Responsible process/lifecycle cause requires investigation; no unsupported race explanation or test weakening."
+  },
+  "unreached_steps": [
+    {
+      "number": 18,
+      "name": "Source parser and certificate CLI security regressions"
+    },
+    {
+      "number": 19,
+      "name": "Private import artifact security regressions"
+    },
+    {
+      "number": 20,
+      "name": "Run rustup toolchain install 1.98.1 --profile minimal"
+    },
+    {
+      "number": 21,
+      "name": "Run rustup component add clippy rustfmt --toolchain 1.98.1"
+    },
+    {
+      "number": 22,
+      "name": "JWT provider closure across shipped and tested targets"
+    },
+    {
+      "number": 23,
+      "name": "Rust advisory policy"
+    },
+    {
+      "number": 24,
+      "name": "Rust format"
+    },
+    {
+      "number": 25,
+      "name": "Rust build disk budget"
+    },
+    {
+      "number": 26,
+      "name": "PostgreSQL device-login source revocation and authentication owners"
+    },
+    {
+      "number": 27,
+      "name": "Identity REST owner and device-login regression Clippy"
+    },
+    {
+      "number": 28,
+      "name": "Authentication owners Clippy"
+    },
+    {
+      "number": 29,
+      "name": "Browser session compatible owners and regressions Clippy"
+    },
+    {
+      "number": 30,
+      "name": "Credential reset owner and regressions Clippy"
+    },
+    {
+      "number": 31,
+      "name": "Office JWT and mail TLS dependency compatibility"
+    },
+    {
+      "number": 32,
+      "name": "PostgreSQL payroll source validation, roster and workflow recovery"
+    },
+    {
+      "number": 33,
+      "name": "Payroll owner and regression Clippy"
+    },
+    {
+      "number": 34,
+      "name": "Audited snapshot owner and regression Clippy"
+    },
+    {
+      "number": 35,
+      "name": "Workflow owner and regression Clippy"
+    },
+    {
+      "number": 36,
+      "name": "Payroll REST and UI owners and regression Clippy"
+    },
+    {
+      "number": 37,
+      "name": "Inbox owner and regression Clippy"
+    },
+    {
+      "number": 38,
+      "name": "Leave consumer and regression Clippy"
+    },
+    {
+      "number": 39,
+      "name": "PostgreSQL and real-browser inquiry"
+    },
+    {
+      "number": 40,
+      "name": "PostgreSQL sales store and runtime-role isolation"
+    },
+    {
+      "number": 41,
+      "name": "Attendance source parser regressions"
+    },
+    {
+      "number": 42,
+      "name": "PostgreSQL attendance retained history and Company isolation"
+    },
+    {
+      "number": 43,
+      "name": "Attendance read owner and regression Clippy"
+    },
+    {
+      "number": 44,
+      "name": "PostgreSQL HR attendance source fidelity, import gates and scoped raw history"
+    },
+    {
+      "number": 45,
+      "name": "PostgreSQL authorized read snapshot"
+    },
+    {
+      "number": 46,
+      "name": "HR owner and regression Clippy"
+    },
+    {
+      "number": 48,
+      "name": "Preserve complete JWT provider graph evidence"
+    },
+    {
+      "number": 95,
+      "name": "Post Run actions/setup-node@820762786026740c76f36085b0efc47a31fe5020"
+    }
+  ],
+  "required_new_head_gate_accounting": [
+    {
+      "suite": "auth_rest",
+      "expected": 127,
+      "discovered": null,
+      "executed": 0,
+      "status": "unreached"
+    },
+    {
+      "suite": "nested genuine business browser",
+      "expected": 17,
+      "discovered": null,
+      "executed": 0,
+      "status": "unreached; do not add to native count"
+    },
+    {
+      "suite": "Inbox adapter",
+      "expected": 9,
+      "discovered": null,
+      "executed": 0,
+      "status": "unreached"
+    },
+    {
+      "suite": "Inbox REST",
+      "expected": 2,
+      "discovered": null,
+      "executed": 0,
+      "status": "unreached"
+    },
+    {
+      "suite": "OpenAPI drift",
+      "expected": 20,
+      "discovered": null,
+      "executed": 0,
+      "status": "unreached"
+    },
+    {
+      "suite": "source parser and certificate",
+      "expected": 86,
+      "discovered": null,
+      "executed": 0,
+      "status": "unreached; prior local86 is a separate execution"
+    }
+  ],
+  "no_workflow_rerun_or_mutation": true,
+  "preserved_prior_failure": "source-and-inquiry-37653508474-112902644734.log and source-and-inquiry-37653508474-audit.json"
+}

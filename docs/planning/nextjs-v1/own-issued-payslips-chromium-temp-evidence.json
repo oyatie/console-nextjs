@@ -1,0 +1,88 @@
+{
+  "version": 1,
+  "scope": "PR18 Chromium auxiliary temporary-file ownership in the two existing real-browser test runners; no product/API/Rust/dependency/CI change",
+  "prior_candidate": "3c745d2e85a801bfee66b5373e75f24e7fd24a95",
+  "status": "unchanged_local_fault_suite_passed; focused_native_browser_and_new_hosted_checks_pending",
+  "source_inputs": {
+    "tools/test-native-browser-enrollment.mjs": "a524d18cc776fd2b2965ad13167ec89ec55e312297cb8bd3ba7ae5ec406dcd41",
+    "tools/test-browser-business-session.mjs": "1cb6789221da05d08c9f25198e519b9d6264c6e2d9147441173dc34755cd3023",
+    "tools/test-native-browser-enrollment.test.mjs": "1fcda2c4e3bc521b3ffcf839af5aeec9e5cf150a33bc646e8e46c1f8781b65a8",
+    "tools/enrollment-fault-deadlines.test.mjs": "7e4aa20a3cfac678c5f5d8b620456da7b6e74d72fd6f64824b05cde363bc4bca"
+  },
+  "source_change": "Pass child-only TMPDIR: stage in both existing chromium.launchServer calls. The mkdtemp stage owns auxiliary Chromium files; existing SDK/process cleanup must succeed before stage removal and cleaned acknowledgement.",
+  "preserved_invariants": [
+    "Allowlisted environment",
+    "Separate immutable runtime under stage/runtime",
+    "Startup-owner reconciliation",
+    "SDK close/kill and positive process-exit checks",
+    "Six-second finalization bound",
+    "No forced intervention credited as cleanup",
+    "Empty parent-owned directory assertion",
+    "Protocol/version/sequence/UV and all fault cases"
+  ],
+  "hosted_red": {
+    "run": 37655815720,
+    "job": 112911142567,
+    "checkout": "274e892102f77ffc5d00f712d1784326ea0e51a8",
+    "checkout_tree": "e7396d06d0beeb210f040da290abe1d58005a91a",
+    "tree_matches_reviewed_3c": true,
+    "step": 17,
+    "executed": 22,
+    "passed": 21,
+    "failed": 1,
+    "skipped": 0,
+    "cancelled": 0,
+    "failure": "wrong-version fault rejected correctly but ambient TMPDIR retained .org.chromium.Chromium.xbgJR7; contents were not captured",
+    "unreached": "Census step18 and all subsequent Rust/native127/browser17/payroll/Inbox/OpenAPI gates skipped; no current-head credit"
+  },
+  "local_attempt1": {
+    "receipt": "evidence/own-issued-payslips-chromium-temp/local/attempt1-failed.json",
+    "executed": 22,
+    "passed": 21,
+    "failed": 1,
+    "skipped": 0,
+    "cancelled": 0,
+    "failure": "wrong-sequence prerequisite Next readiness ended before Chromium launch; phase next-readiness, server_bytes0; expected ready but received cleaned",
+    "original_cleanup_case_passed": true,
+    "limits": "Host load was observed; causation was not proven. Original raw local focused-green filenames denoted a planned green attempt, but actual terminal exit1/counts are explicitly failed."
+  },
+  "local_attempt2": {
+    "receipt": "evidence/own-issued-payslips-chromium-temp/local/attempt2-passed.json",
+    "executed": 22,
+    "passed": 22,
+    "failed": 0,
+    "skipped": 0,
+    "cancelled": 0,
+    "todo": 0,
+    "source_test_deadline_bytes_unchanged": true,
+    "repeat_reason": "One controlled full repeat with other owned browser staging held; no source, assertion or deadline change; prior failure preserved"
+  },
+  "review": {
+    "owner": "Scoped source ACCEPT, no findings; integrated runtime/final-commit gates separate",
+    "evidence": "evidence/own-issued-payslips-chromium-temp/review/owner-source.json",
+    "ui": "Scoped code/fault-evidence ACCEPT, no findings; exact final-commit and integrated acceptance separate",
+    "ui_evidence": "evidence/own-issued-payslips-chromium-temp/review/ui-code.json"
+  },
+  "focused_native_browser": "One native test containing seventeen real production browser scenarios pending; not a fresh full127 execution",
+  "security": {
+    "python_alerts": [
+      133,
+      134,
+      135,
+      136
+    ],
+    "alert_state": "Open true positives; no dismissal/suppression applied",
+    "rust_extraction": "Old head918 and exact base7cc share404 warnings across66 error-extraction paths. Same warning multiset and unchanged file blobs through3c; changed paths do not overlap. Coverage is incomplete, and zero-results is not a whole-repo clean claim. Follow-up/current analysis remains separate."
+  },
+  "portable_selection": {
+    "path": "evidence/own-issued-payslips-chromium-temp/selection.json",
+    "files": 9,
+    "sha256": "0e2d9e884977a26a8094649d907a53f493c3026ed05d0fa8ad1c1dfcc9ea0307"
+  },
+  "limits": [
+    "Earlier proof packages remain immutable/source-qualified",
+    "Full HR/Org/Payroll/Foundry, legal, identity, two-site, capacity, restore, cutover and launch acceptance remain incomplete",
+    "No deployment, institutional act, payment or collection",
+    "Exact-commit review, hosted required checks, protected merge queue and merged-main readback remain pending"
+  ]
+}

@@ -1,0 +1,210 @@
+{
+  "version": 1,
+  "scope": "Document existing malformed native detail UUID400; add direct HTTP and contract regressions without changing business/UI behavior",
+  "status": "focused_green_final_repaired_commit_review_and_hosted_delivery_pending",
+  "original_candidate": "3a146c55576ff4f2f9ec3a1a5389c015cac1800d",
+  "original_evidence": {
+    "path": "own-issued-payslips-evidence.json",
+    "sha256": "784702ed285c4d8c214aaea06aa5f13572bbe8b35ee95cd6ad606051cbadbc96",
+    "scope": "Initial candidate full127/17/20/9/2 and frontend evidence stays historical, not a fresh final-candidate full run."
+  },
+  "original_review": {
+    "owner": "REQUEST_CHANGES: missing detail400, initially source-inspected; actual HTTP proof follows in red-native",
+    "ui": "ACCEPT original3a candidate only; final repaired commit requires separate review."
+  },
+  "current_changed_inputs": {
+    "backend-fork/backend/app/tests/auth_rest/browser_payslips.rs": "8d40c2fc8f29ecb991458bedf24fbb73e4a226b46e5e4497f031849534716406",
+    "backend-fork/backend/app/tests/openapi_drift.rs": "e88011f808f67347f6dd8e6f32a855b1eb43f76b50993df3227afb67d3e2d1b4",
+    "backend-fork/backend/crates/inbox/rest/openapi/paths/api__v1__me__browser-session__payslips__id.post.yaml": "bab2bedb289a199892d3a4d81452663e513574437749c36568071b87853a2c24",
+    "backend-fork/backend/openapi/openapi.yaml": "d533b16bbd70b202c562ab61233348eaa5bf5dd4792add498e5bb8d6b0083f72"
+  },
+  "unchanged_initial_runtime_inputs": {
+    ".github/workflows/ci.yml": "8c34c22b7854a57304c71f84a82c8b5cdad802c54170facf524ef1f5c61c91cc",
+    "backend-fork/backend/Cargo.lock": "366ea7828ad8da2f49ebf06944b376246abdc1308dbe676c4531f9064cdca109",
+    "backend-fork/backend/app/Cargo.toml": "e95812dffcfc27c307a08216ee2240f4c599cab35b1d7ddbd04b39e313c47a19",
+    "backend-fork/backend/app/src/browser_payslips.rs": "cf3c6da16cfed1fd5391d25291ac2398def31cd97a44e785aa13fa926b52359d",
+    "backend-fork/backend/app/src/lib.rs": "0893476d1cc02ed72b51a737265afe35c377913da27c0b135e37ea029ebd4bd4",
+    "backend-fork/backend/app/tests/auth_rest.rs": "46f613012f5e06a6b75fd2f4cc76d1ffae40946c66df849b5b5d5e2e171127f6",
+    "backend-fork/backend/app/tests/auth_rest/browser_sessions.rs": "036eb868e88abb0860258a54a01ea0f363daa5b676cfb70b382a06b389944af3",
+    "backend-fork/backend/app/tests/auth_rest/genuine_browser.rs": "3f237ca93df4f9a62a0bddb0edc3805e713f0b8f64cf3854457779def079b932",
+    "backend-fork/backend/crates/inbox/adapter-postgres/src/lib.rs": "dc688bf1be43fb4294c50d35b639b26b77c54ab313dd40f07564275c20c56e59",
+    "backend-fork/backend/crates/inbox/rest/openapi/manifest.json": "ef2fc5efafd81c4641c960e71bf15424a27920e3ffe0abd4db3f1981fa0af850",
+    "backend-fork/backend/crates/inbox/rest/openapi/paths/api__v1__me__browser-session__payslips.post.yaml": "49fda1344fc091b55f96404481cd8a1823167fa1036d739d338d7273a0590e50",
+    "backend-fork/backend/crates/inbox/rest/openapi/schemas/BrowserPayslipDeduction.yaml": "9127281066ac0bbaf9b699e0b032b84ddd9060bc2d6c6567a977dff836ab104d",
+    "backend-fork/backend/crates/inbox/rest/openapi/schemas/BrowserPayslipDetailResponse.yaml": "babdb8e6b97dc6bb426a56de45ed78ebf3a6920c5af42f6b17c022b7b3b63479",
+    "backend-fork/backend/crates/inbox/rest/openapi/schemas/BrowserPayslipDocument.yaml": "a937663d09c4a43431d57b9718c815589d2c6a277d98a38a03b05d0666adb8a4",
+    "backend-fork/backend/crates/inbox/rest/openapi/schemas/BrowserPayslipListRequest.yaml": "1a2026715ecf83e402961cea608274eaf5fb0dbe679bf4d4e571e38a7a813e35",
+    "backend-fork/backend/crates/inbox/rest/openapi/schemas/BrowserPayslipListResponse.yaml": "8c5bb0a692a58015eb7bf696559004018ce2833d674f98a62de9acdc7daa51f9",
+    "backend-fork/backend/crates/inbox/rest/openapi/schemas/BrowserPayslipMoney.yaml": "528640301168d6dc74638ce5b4c896a1f73d1cddd3650024bfdf6b831ceb0139",
+    "backend-fork/backend/crates/inbox/rest/openapi/schemas/BrowserPayslipPayload.yaml": "dc80dde73c2707795a0adfdfd431daf072cfb5f0a044f6b2cd2b1f17ad101392",
+    "backend-fork/backend/crates/inbox/rest/openapi/schemas/BrowserPayslipSummary.yaml": "55d77ba4904869788907967ee72272f6eae6117db74c6e8caec5dbbefe9e942c",
+    "backend-fork/backend/crates/inbox/rest/src/openapi.rs": "f63ca7b2f339109d64e41bf419361cc0a2cfb0ba9fc1ca1e742767abc63caac4",
+    "backend-fork/backend/openapi/split_openapi.py": "035b0bea58bfc5c29ae156a1c40697d49da6aa317f60ac9b08f2acc21a0dedf5",
+    "src/app/me/[context]/attendance/page.public.tsx": "5be63293360887612d07802448f79617d2246a342a415f6ced13d4e7d7bcda7a",
+    "src/app/me/[context]/payslips/[id]/page.public.tsx": "8a2480d2486d9e68ad6d11467368cbbb7af98ba6eb92e2dff89f0bbd32725d9f",
+    "src/app/me/[context]/payslips/page.public.tsx": "5dc96e1c1b00180bee8db7a17b02730dd7f457af4fcc0075376d67266867e01c",
+    "src/components/browser-session/PayslipFailure.tsx": "ceccb8eaa243cb505061c9c453d42000f10f9399b2fa84283435fba6f7dcb423",
+    "src/lib/server/browser-session.ts": "f26eef7d6299d25a2017f83beebbf77241085725e8f7065bc31c50cb0de60a3e",
+    "src/lib/server/payslips.ts": "8d07f570f592d8455d925f68ec49e5b76449a1cda3bbae60922bf5677acaff6f",
+    "src/styles/browser-session.css": "0823946074d78f205c2d9ee82beb45de791dab3f344b913f72cf1f5bf7cfeb70",
+    "tests/payslip-boundary.test.ts": "7f5274f775c1977a0b018bf1543eaa6f76e29ce2b8dc223df92ef681da63f844",
+    "tools/browser-business-boundary.mjs": "be65504095db8a6058af16af58f175d4484b087dba269fc4b382af4c4a94cb42",
+    "tools/browser-business-failure.mjs": "33dab5c0431ddc913c83a3f42607de606cc8d2e8f304e77a0b654cf6feff7375",
+    "tools/browser-business-failure.test.mjs": "be94ce17b5667dffa457ceeae6dcb33ccdd11a98d50d902788a6fc87410740df",
+    "tools/browser-business-restore.mjs": "20b3b480186e040eff539fc2224031addadba15caa8c68ea28e86190f145655d",
+    "tools/browser-payslips.mjs": "9ba32b93f4559bcde12ad5894689a9642a7b2ff145b46a621950926c8d97c57b",
+    "tools/test-browser-business-session.mjs": "f54a3d214ef34eea1dcb1888d4ea97ba0402b9a3e8ab761d8f5f71cfd13c1250",
+    "tools/test-own-payslip-routes.mjs": "629fdca809f2fe7cccc5f3351b6bf74769cb200ff028146579170f97c485c02d",
+    "tools/test-production-routes.mjs": "011ee04ccf6e87cfabe741ac64633e50a98493b64fda42bb09e03bbda8ee48a9"
+  },
+  "red": {
+    "path": "evidence/own-issued-payslips-path400/red-native/report.json",
+    "suites": [
+      {
+        "name": "payslips-native",
+        "binary_sha256": "2704227828c49cb27c6993fd60e7d65c9ebbdbade8d5d3df639fc8d9320020b8",
+        "status": "passed",
+        "discovered": 2,
+        "executed": 2,
+        "passed": 2,
+        "failed": 0,
+        "skipped": 0,
+        "filtered": 125
+      },
+      {
+        "name": "openapi-drift",
+        "binary_sha256": "40bf7805b3366c3e1a9dfe9dd63e54964b3e38cfb9e9e349cc2156e990a3637c",
+        "status": "failed",
+        "discovered": 20,
+        "executed": 20,
+        "passed": 19,
+        "failed": 1,
+        "skipped": 0,
+        "filtered": 0
+      }
+    ],
+    "failure": "Sole drift test fails on missing400; direct native malformedUUID400/no-cookie assertion passes.",
+    "cleanup": "stop0, temporary directory/PID absent, selected source/worker unchanged"
+  },
+  "green": {
+    "path": "evidence/own-issued-payslips-path400/green-native/report.json",
+    "suites": [
+      {
+        "name": "payslips-native",
+        "binary_sha256": "35a6b0ab08c981f0c1fc33608a9a70f199a86a7037f52893237878ec7b4b9827",
+        "status": "passed",
+        "discovered": 2,
+        "executed": 2,
+        "passed": 2,
+        "failed": 0,
+        "skipped": 0,
+        "filtered": 125
+      },
+      {
+        "name": "openapi-drift",
+        "binary_sha256": "d396c9676f03b7fd47842426a3409a006124b55931c037d78cce7a18f27860d8",
+        "status": "passed",
+        "discovered": 20,
+        "executed": 20,
+        "passed": 20,
+        "failed": 0,
+        "skipped": 0,
+        "filtered": 0
+      }
+    ],
+    "browser_scenarios_executed": 0,
+    "cleanup": "stop0, temporary directory/PID absent, selected source/worker unchanged; temporary-file removal only"
+  },
+  "static": {
+    "path": "evidence/own-issued-payslips-path400/green-static/report.json",
+    "commands": [
+      {
+        "name": "auth-rest-clippy",
+        "kind": "lint",
+        "command": [
+          "cargo",
+          "+1.98.1",
+          "clippy",
+          "--locked",
+          "--offline",
+          "-p",
+          "console-app",
+          "--features",
+          "frontend-e2e",
+          "--test",
+          "auth_rest",
+          "--",
+          "-D",
+          "warnings"
+        ],
+        "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/own-issued-payslips/backend-fork/backend",
+        "exit_code": 0,
+        "duration_seconds": 62.538,
+        "discovered": 0,
+        "executed": 0,
+        "skipped": 0,
+        "output_sha256": "a0db33182935ec87e59adc62e50b7613c76f68821de5e63f10e969bf903147a8"
+      },
+      {
+        "name": "openapi-drift-clippy",
+        "kind": "lint",
+        "command": [
+          "cargo",
+          "+1.98.1",
+          "clippy",
+          "--locked",
+          "--offline",
+          "-p",
+          "console-app",
+          "--test",
+          "openapi_drift",
+          "--",
+          "-D",
+          "warnings"
+        ],
+        "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/own-issued-payslips/backend-fork/backend",
+        "exit_code": 0,
+        "duration_seconds": 11.689,
+        "discovered": 0,
+        "executed": 0,
+        "skipped": 0,
+        "output_sha256": "15ebfff858fb106369a4da929d196496c185d509da90b0c67d8e9fff11e79392"
+      },
+      {
+        "name": "workspace-rustfmt",
+        "kind": "format",
+        "command": [
+          "cargo",
+          "+1.98.1",
+          "fmt",
+          "--all",
+          "--",
+          "--check"
+        ],
+        "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/own-issued-payslips/backend-fork/backend",
+        "exit_code": 0,
+        "duration_seconds": 5.155,
+        "discovered": 0,
+        "executed": 0,
+        "skipped": 0,
+        "output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ],
+    "runtime_tests_executed": 0
+  },
+  "portable_selection": {
+    "path": "evidence/own-issued-payslips-path400/selection.json",
+    "sha256": "f4ba6030b72b361d13771d6231e787778f3df25e48e94378761198cbbcf7aa03",
+    "files": 28
+  },
+  "reuse_scope": "Initial full auth127 with browser17 and Inbox9/2 remain source-qualified prior results. The only changed backend paths are two test files and two contract descriptions; browser/SSR/read owner logic and original assertions are unchanged. Current focused native2 and unfiltered drift20 prove this correction. Final hosted tests are separate.",
+  "limitations": [
+    "Production journey uses separate real accounts/native sessions/PostgreSQL and software virtual WebAuthn authenticators; no attended human identity/physical passkey claim.",
+    "Test-only specimens use actual producer/Inbox custody but do not prove statutory payroll, independent approval/publication ceremony or payment.",
+    "Single-site temporary PostgreSQL18; no two-site durability/fencing/safe-emission acceptance.",
+    "Current authority is rechecked after reads; complete emission-time serialization remains unverified.",
+    "Full B06, HR/Org/Foundry, legal/capacity/restore/cutover/launch remain unverified.",
+    "No deployment, institution act, payment, live collection or public exposure.",
+    "Runtime hash bindings exclude this metadata/index/review package to avoid self-references."
+  ]
+}

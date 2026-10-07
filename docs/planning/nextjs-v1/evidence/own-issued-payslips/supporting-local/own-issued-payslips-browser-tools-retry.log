@@ -1,0 +1,29 @@
+✔ only the first exact probe frame yields a fixed basename and bounded numbers (1.942042ms)
+✔ sensitive assertion headers and unrelated paths never enter diagnostic output (0.237667ms)
+✔ absent, malformed, overlong, and unsafe diagnostic inputs are omitted (0.146208ms)
+✔ native multiline assertion messages cannot forge a source location (0.465584ms)
+✔ unverified or accessor-backed messages are omitted without invoking their getter (0.140917ms)
+✔ restore prerequisites do nothing when no preauth cookie remains (0.524584ms)
+✔ restore prerequisites observe natural expiry without clearing or replacing cookies (1000.798667ms)
+✔ an unrelated cookie change cannot be excused by preauth expiry (1001.144542ms)
+✔ premature preauth disappearance fails the recorded expiry check (1001.753292ms)
+✔ a session cannot disappear even when its recorded expiry has elapsed (1000.977292ms)
+✔ a persistent preauth cookie reaches the original bounded deadline (1002.954375ms)
+✔ an elapsed preauthentication cookie may disappear while every live cookie survives unchanged (1.135333ms)
+✔ a live or session cookie cannot disappear (0.678083ms)
+✔ an observation before expiry cannot excuse later disappearance (0.108167ms)
+✔ no cookie may be added even when its expiry has elapsed (0.100958ms)
+✔ every surviving cookie attribute must remain exact (1.280917ms)
+✔ duplicate names in either observation fail closed (0.800083ms)
+✔ an invalid observation time cannot authorize disappearance (4.134167ms)
+✔ deployment and browser consumers stage the same locked production closure (18725.96125ms)
+✔ runtime verification rejects changed config, runtime bytes and extra secret files (55196.41725ms)
+✔ storefront consumers release owned staging resources after custody rejection (986.996709ms)
+ℹ tests 21
+ℹ suites 0
+ℹ pass 21
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 74986.027875

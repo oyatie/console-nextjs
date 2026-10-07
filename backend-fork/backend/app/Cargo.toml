@@ -82,6 +82,7 @@ console-messenger-rest = { workspace = true }
 console-notifications-adapter-postgres = { workspace = true }
 console-notifications-rest = { workspace = true }
 console-inbox-adapter-postgres = { workspace = true }
+console-inbox-application = { workspace = true }
 console-inbox-rest = { workspace = true }
 console-leave-adapter-postgres = { workspace = true }
 console-leave-domain = { workspace = true }
@@ -174,6 +175,7 @@ url = { workspace = true }
 uuid = { workspace = true }
 
 [dev-dependencies]
+console-inbox-domain = { workspace = true }
 # Test-only verification of the retained original browser-session proof.
 openssl = { version = "0.10.80", features = ["vendored"] }
 console-platform-test-support = { path = "../crates/platform/test-support" }

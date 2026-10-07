@@ -105,7 +105,7 @@ const timestampSchema = z.tuple([safeInteger, safeInteger, safeInteger, safeInte
 function rfc3339(value: string): boolean {
   return /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{1,9})?(?:Z|[+-]\d{2}:\d{2})$/.test(value) && Number.isFinite(Date.parse(value));
 }
-const expirySchema = z.string().datetime({ offset: true }).refine(rfc3339);
+export const expirySchema = z.string().datetime({ offset: true }).refine(rfc3339);
 const historyItemSchema = z.object({
   id: canonicalUuid, employee_id: canonicalUuid, employee_display_name: z.string(),
   kind: z.enum(["CLOCK_IN", "OUT_FOR_WORK", "BUSINESS_TRIP", "RETURNED", "CLOCK_OUT"]),
@@ -161,8 +161,9 @@ export function browserIngress(headers: Headers) {
   } catch { throw new BrowserSessionError(503); }
 }
 const paths = { start: "/api/v1/auth/browser-session/start", login: "/api/v1/auth/browser-session/login",
-  logout: "/api/v1/auth/browser-session/logout", history: "/api/v1/hr/browser-session/attendance-records/me" } as const;
-async function nativeRequest(action: keyof typeof paths, headers: Headers, body?: unknown): Promise<unknown> {
+  logout: "/api/v1/auth/browser-session/logout", history: "/api/v1/hr/browser-session/attendance-records/me",
+  payslips: "/api/v1/me/browser-session/payslips" } as const;
+async function nativeRequest(action: keyof typeof paths, headers: Headers, body?: unknown, documentId?: string): Promise<unknown> {
   const ingress = browserIngress(headers);
   const forwarded = new Headers({ "x-forwarded-for": ingress.peer,
     "x-console-browser-ingress": `bi1.${ingress.service.toString("base64url")}`, Accept: "application/json" });
@@ -171,7 +172,8 @@ async function nativeRequest(action: keyof typeof paths, headers: Headers, body?
   }
   if (body !== undefined) forwarded.set("Content-Type", "application/json");
   let response: Response;
-  try { response = await backendRequest(paths[action], { method: "POST", headers: forwarded,
+  const path = documentId === undefined ? paths[action] : `${paths.payslips}/${canonicalUuid.parse(documentId)}`;
+  try { response = await backendRequest(path, { method: "POST", headers: forwarded,
     body: body === undefined ? undefined : JSON.stringify(body), signal: AbortSignal.timeout(15000) }); }
   catch { throw new BrowserSessionError(503); }
   if (action === "logout") {
@@ -181,9 +183,18 @@ async function nativeRequest(action: keyof typeof paths, headers: Headers, body?
   if (!response.ok) { await response.body?.cancel(); throw new BrowserSessionError(response.status); }
   try {
     if (response.status !== 200 || response.headers.get("content-type")?.split(";", 1)[0].trim().toLowerCase() !== "application/json") throw new Error();
-    const bytes = await boundedBytes(response.body, action === "history" ? 2 * 1024 * 1024 : 65536);
+    const bytes = await boundedBytes(response.body, action === "history" || action === "payslips" ? 2 * 1024 * 1024 : 65536);
     return JSON.parse(new TextDecoder("utf-8", { fatal: true }).decode(bytes));
   } catch { throw new BrowserSessionError(502); }
+}
+export async function browserPayslips(headers: Headers, context: string, before?: string, documentId?: string) {
+  const ingress = browserIngress(headers);
+  const handle = selectBrowserCookie(headers.get("cookie"), { kind: "session", context, secure: ingress.secure });
+  if (!handle) throw new BrowserSessionError(401);
+  if (before !== undefined && documentId !== undefined) throw new BrowserSessionError(400);
+  return { response: await nativeRequest("payslips", headers, { session_token: handle, browser_context: context,
+    ...(documentId === undefined ? { before: before === undefined ? null : canonicalUuid.parse(before) } : {}) }, documentId),
+    csrf: sessionCsrf(handle, context) };
 }
 export async function ownAttendance(headers: Headers, context: string, offset: number) {
   const ingress = browserIngress(headers);

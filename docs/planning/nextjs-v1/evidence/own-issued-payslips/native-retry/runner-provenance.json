@@ -1,0 +1,8 @@
+{
+  "runner_sha256": "6d88dd16599056c86975cf59083389b1f1e1b6af80e3d38ab260c69b756b1043",
+  "runner_source": "runner.py",
+  "owned_temporary_directory": "/private/tmp/own-payslip-pg-f5ctt3au",
+  "observed_postmaster_pid": 84748,
+  "observed_postmaster_start_epoch": "1791387557",
+  "unsupported_original_field": "ephemeral_credentials_destroyed is not credited; final supplemental receipt will only claim observed temporary-file cleanup"
+}

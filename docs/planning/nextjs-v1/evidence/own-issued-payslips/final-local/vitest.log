@@ -1,0 +1,13 @@
+
+> console-web@1.0.0 test
+> vitest run
+
+
+ RUN  v4.1.11 /Users/jasonlee/Developer/frontend/.worktrees/own-issued-payslips
+
+
+ Test Files  10 passed (10)
+      Tests  116 passed (116)
+   Start at  01:05:18
+   Duration  546ms (transform 2.03s, setup 0ms, import 2.49s, tests 366ms, environment 1ms)
+

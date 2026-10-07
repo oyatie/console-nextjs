@@ -1,0 +1,1407 @@
+source-and-inquiry	Set up job	﻿2026-10-07T16:37:34.5465990Z Current runner version: '2.337.0'
+source-and-inquiry	Set up job	2026-10-07T16:37:34.5488392Z ##[group]Runner Image Provisioner
+source-and-inquiry	Set up job	2026-10-07T16:37:34.5489250Z Hosted Compute Agent
+source-and-inquiry	Set up job	2026-10-07T16:37:34.5489765Z Version: 20260901.588
+source-and-inquiry	Set up job	2026-10-07T16:37:34.5490321Z Commit: f88ec8081b781fac6c440065ac7ff9e710ce3d0b
+source-and-inquiry	Set up job	2026-10-07T16:37:34.5491062Z Build Date: 2026-09-01T19:56:44Z
+source-and-inquiry	Set up job	2026-10-07T16:37:34.5491620Z Worker ID: {91edf211-5aaa-47ce-9215-dca876cf24a5}
+source-and-inquiry	Set up job	2026-10-07T16:37:34.5492266Z Azure Region: westus3
+source-and-inquiry	Set up job	2026-10-07T16:37:34.5492735Z ##[endgroup]
+source-and-inquiry	Set up job	2026-10-07T16:37:34.5493800Z ##[group]Operating System
+source-and-inquiry	Set up job	2026-10-07T16:37:34.5494395Z Ubuntu
+source-and-inquiry	Set up job	2026-10-07T16:37:34.5494835Z 24.04.5
+source-and-inquiry	Set up job	2026-10-07T16:37:34.5495325Z LTS
+source-and-inquiry	Set up job	2026-10-07T16:37:34.5495804Z ##[endgroup]
+source-and-inquiry	Set up job	2026-10-07T16:37:34.5496240Z ##[group]Runner Image
+source-and-inquiry	Set up job	2026-10-07T16:37:34.5496780Z Image: ubuntu-24.04
+source-and-inquiry	Set up job	2026-10-07T16:37:34.5497249Z Version: 20260927.320.1
+source-and-inquiry	Set up job	2026-10-07T16:37:34.5498160Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260927.320/images/ubuntu/Ubuntu2404-Readme.md
+source-and-inquiry	Set up job	2026-10-07T16:37:34.5499556Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260927.320
+source-and-inquiry	Set up job	2026-10-07T16:37:34.5500392Z ##[endgroup]
+source-and-inquiry	Set up job	2026-10-07T16:37:34.5501527Z ##[group]GITHUB_TOKEN Permissions
+source-and-inquiry	Set up job	2026-10-07T16:37:34.5503161Z Contents: read
+source-and-inquiry	Set up job	2026-10-07T16:37:34.5503657Z Metadata: read
+source-and-inquiry	Set up job	2026-10-07T16:37:34.5504171Z ##[endgroup]
+source-and-inquiry	Set up job	2026-10-07T16:37:34.5505945Z Secret source: Actions
+source-and-inquiry	Set up job	2026-10-07T16:37:34.5506821Z Cache mode: write
+source-and-inquiry	Set up job	2026-10-07T16:37:34.5507408Z Prepare workflow directory
+source-and-inquiry	Set up job	2026-10-07T16:37:34.5831187Z Prepare all required actions
+source-and-inquiry	Set up job	2026-10-07T16:37:34.5871161Z Getting action download info
+source-and-inquiry	Set up job	2026-10-07T16:37:34.9102608Z Download action repository 'actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1' (SHA:3d3c42e5aac5ba805825da76410c181273ba90b1)
+source-and-inquiry	Set up job	2026-10-07T16:37:35.0517312Z Download action repository 'actions/setup-node@820762786026740c76f36085b0efc47a31fe5020' (SHA:820762786026740c76f36085b0efc47a31fe5020)
+source-and-inquiry	Set up job	2026-10-07T16:37:35.2463175Z Download action repository 'actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a' (SHA:043fb46d1a93c77aae656e7c1c64a875d1fc6a0a)
+source-and-inquiry	Set up job	2026-10-07T16:37:35.4560805Z Complete job name: source-and-inquiry
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	﻿2026-10-07T16:37:35.5414144Z ##[group]Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:37:35.5414977Z with:
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:37:35.5415336Z   repository: oyatie/console-nextjs
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:37:35.5418371Z   token: ***
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:37:35.5418712Z   ssh-strict: true
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:37:35.5419055Z   ssh-user: git
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:37:35.5419393Z   persist-credentials: true
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:37:35.5419772Z   clean: true
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:37:35.5420115Z   sparse-checkout-cone-mode: true
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:37:35.5420519Z   fetch-depth: 1
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:37:35.5421002Z   fetch-tags: false
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:37:35.5421349Z   show-progress: true
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:37:35.5421702Z   lfs: false
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:37:35.5422019Z   submodules: false
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:37:35.5422364Z   set-safe-directory: true
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:37:35.5422756Z   allow-unsafe-pr-checkout: false
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:37:35.5423326Z env:
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:37:35.5423645Z   CARGO_BUILD_JOBS: 1
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:37:35.5423996Z   CARGO_INCREMENTAL: 0
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:37:35.5424357Z   CARGO_PROFILE_DEV_DEBUG: 0
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:37:35.5424786Z   CARGO_PROFILE_TEST_DEBUG: 0
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:37:35.5425163Z ##[endgroup]
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:37:35.6346554Z Syncing repository: oyatie/console-nextjs
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:37:35.6348701Z ##[group]Getting Git version info
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:37:35.6349715Z Working directory is '/home/runner/work/console-nextjs/console-nextjs'
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:37:35.6351617Z [command]/usr/bin/git version
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:37:35.6524263Z git version 2.55.0
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:37:35.6543670Z ##[endgroup]
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:37:35.6554824Z Temporarily overriding HOME='/home/runner/work/_temp/4e283328-33c7-48ad-a86f-610223d19373' before making global git config changes
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:37:35.6556251Z Adding repository directory to the temporary git global config as a safe directory
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:37:35.6560514Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/console-nextjs/console-nextjs
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:37:35.6603224Z Deleting the contents of '/home/runner/work/console-nextjs/console-nextjs'
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:37:35.6606109Z ##[group]Determining repository object format
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:37:35.6607613Z ##[endgroup]
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:37:35.6608180Z ##[group]Initializing the repository
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:37:35.6612582Z [command]/usr/bin/git init /home/runner/work/console-nextjs/console-nextjs
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:37:35.6701760Z hint: Using 'master' as the name for the initial branch. This default branch name
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:37:35.6703165Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:37:35.6704344Z hint: to use in all of your new repositories, which will suppress this warning,
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:37:35.6705055Z hint: call:
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:37:35.6705506Z hint:
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:37:35.6706112Z hint: 	git config --global init.defaultBranch <name>
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:37:35.6706861Z hint:
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:37:35.6707490Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:37:35.6708281Z hint: 'development'. The just-created branch can be renamed via this command:
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:37:35.6708847Z hint:
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:37:35.6709186Z hint: 	git branch -m <name>
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:37:35.6709661Z hint:
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:37:35.6710381Z hint: Disable this message with "git config set advice.defaultBranchName false"
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:37:35.6711882Z Initialized empty Git repository in /home/runner/work/console-nextjs/console-nextjs/.git/
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:37:35.6713448Z [command]/usr/bin/git remote add origin https://github.com/oyatie/console-nextjs
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:37:35.6771442Z ##[endgroup]
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:37:35.6772166Z ##[group]Disabling automatic garbage collection
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:37:35.6774598Z [command]/usr/bin/git config --local gc.auto 0
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:37:35.7741548Z ##[endgroup]
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:37:35.7742552Z ##[group]Setting up auth
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:37:35.7743029Z Removing SSH command configuration
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:37:35.7748132Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:37:35.7782492Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:37:35.8135251Z Removing HTTP extra header
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:37:35.8139635Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:37:35.8172072Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:37:35.8365001Z Removing includeIf entries pointing to credentials config files
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:37:35.8370253Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:37:35.8404606Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:37:35.8607695Z [command]/usr/bin/git config --file /home/runner/work/_temp/git-credentials-1570cee0-b044-4b50-9b4c-c556c0867134.config http.https://github.com/.extraheader AUTHORIZATION: basic ***
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:37:35.8643580Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/console-nextjs/console-nextjs/.git.path /home/runner/work/_temp/git-credentials-1570cee0-b044-4b50-9b4c-c556c0867134.config
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:37:35.8677583Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/console-nextjs/console-nextjs/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-1570cee0-b044-4b50-9b4c-c556c0867134.config
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:37:35.8710515Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-1570cee0-b044-4b50-9b4c-c556c0867134.config
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:37:35.8742195Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-1570cee0-b044-4b50-9b4c-c556c0867134.config
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:37:35.8770633Z ##[endgroup]
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:37:35.8771666Z ##[group]Fetching the repository
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:37:35.8777355Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +8b752812a331669423df0972caa82240852d51f4:refs/remotes/pull/18/merge
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:37:39.0267807Z From https://github.com/oyatie/console-nextjs
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:37:39.0268663Z  * [new ref]         8b752812a331669423df0972caa82240852d51f4 -> pull/18/merge
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:37:39.0276491Z ##[endgroup]
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:37:39.0277144Z ##[group]Determining the checkout info
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:37:39.0277545Z ##[endgroup]
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:37:39.0279029Z [command]/usr/bin/git sparse-checkout disable
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:37:39.0327057Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:37:39.0357003Z ##[group]Checking out the ref
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:37:39.0360919Z [command]/usr/bin/git checkout --progress --force refs/remotes/pull/18/merge
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:37:39.5324432Z Note: switching to 'refs/remotes/pull/18/merge'.
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:37:39.5324888Z 
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:37:39.5325193Z You are in 'detached HEAD' state. You can look around, make experimental
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:37:39.5325617Z changes and commit them, and you can discard any commits you make in this
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:37:39.5326050Z state without impacting any branches by switching back to a branch.
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:37:39.5326292Z 
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:37:39.5326502Z If you want to create a new branch to retain commits you create, you may
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:37:39.5326896Z do so (now or later) by using -c with the switch command. Example:
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:37:39.5327124Z 
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:37:39.5327239Z   git switch -c <new-branch-name>
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:37:39.5327392Z 
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:37:39.5327504Z Or undo this operation with:
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:37:39.5327678Z 
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:37:39.5327767Z   git switch -
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:37:39.5329935Z 
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:37:39.5330301Z Turn off this advice by setting config variable advice.detachedHead to false
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:37:39.5330912Z 
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:37:39.5331355Z HEAD is now at 8b75281 Merge 918cbbbc5cb3bacd60cea1e16536beec3615a1f6 into 7ccf7d15275653ddfd1ca8629d4c4caed1bfa6c7
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:37:39.5351392Z ##[endgroup]
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:37:39.5393590Z [command]/usr/bin/git log -1 --format=%H
+source-and-inquiry	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:37:39.5418681Z 8b752812a331669423df0972caa82240852d51f4
+source-and-inquiry	Run actions/setup-node@820762786026740c76f36085b0efc47a31fe5020	﻿2026-10-07T16:37:39.5642162Z ##[group]Run actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
+source-and-inquiry	Run actions/setup-node@820762786026740c76f36085b0efc47a31fe5020	2026-10-07T16:37:39.5642571Z with:
+source-and-inquiry	Run actions/setup-node@820762786026740c76f36085b0efc47a31fe5020	2026-10-07T16:37:39.5642798Z   node-version-file: .node-version
+source-and-inquiry	Run actions/setup-node@820762786026740c76f36085b0efc47a31fe5020	2026-10-07T16:37:39.5643039Z   cache: npm
+source-and-inquiry	Run actions/setup-node@820762786026740c76f36085b0efc47a31fe5020	2026-10-07T16:37:39.5643253Z   check-latest: false
+source-and-inquiry	Run actions/setup-node@820762786026740c76f36085b0efc47a31fe5020	2026-10-07T16:37:39.5645310Z   token: ***
+source-and-inquiry	Run actions/setup-node@820762786026740c76f36085b0efc47a31fe5020	2026-10-07T16:37:39.5645532Z   package-manager-cache: true
+source-and-inquiry	Run actions/setup-node@820762786026740c76f36085b0efc47a31fe5020	2026-10-07T16:37:39.5645795Z env:
+source-and-inquiry	Run actions/setup-node@820762786026740c76f36085b0efc47a31fe5020	2026-10-07T16:37:39.5645992Z   CARGO_BUILD_JOBS: 1
+source-and-inquiry	Run actions/setup-node@820762786026740c76f36085b0efc47a31fe5020	2026-10-07T16:37:39.5646232Z   CARGO_INCREMENTAL: 0
+source-and-inquiry	Run actions/setup-node@820762786026740c76f36085b0efc47a31fe5020	2026-10-07T16:37:39.5646443Z   CARGO_PROFILE_DEV_DEBUG: 0
+source-and-inquiry	Run actions/setup-node@820762786026740c76f36085b0efc47a31fe5020	2026-10-07T16:37:39.5646702Z   CARGO_PROFILE_TEST_DEBUG: 0
+source-and-inquiry	Run actions/setup-node@820762786026740c76f36085b0efc47a31fe5020	2026-10-07T16:37:39.5646924Z ##[endgroup]
+source-and-inquiry	Run actions/setup-node@820762786026740c76f36085b0efc47a31fe5020	2026-10-07T16:37:39.6649748Z Node version file is not JSON file
+source-and-inquiry	Run actions/setup-node@820762786026740c76f36085b0efc47a31fe5020	2026-10-07T16:37:39.6650477Z Resolved .node-version as 24.21.0
+source-and-inquiry	Run actions/setup-node@820762786026740c76f36085b0efc47a31fe5020	2026-10-07T16:37:39.6696365Z Found in cache @ /opt/hostedtoolcache/node/24.21.0/x64
+source-and-inquiry	Run actions/setup-node@820762786026740c76f36085b0efc47a31fe5020	2026-10-07T16:37:39.6699115Z ##[group]Environment details
+source-and-inquiry	Run actions/setup-node@820762786026740c76f36085b0efc47a31fe5020	2026-10-07T16:37:40.0589267Z node: v24.21.0
+source-and-inquiry	Run actions/setup-node@820762786026740c76f36085b0efc47a31fe5020	2026-10-07T16:37:40.0590403Z npm: 11.19.0
+source-and-inquiry	Run actions/setup-node@820762786026740c76f36085b0efc47a31fe5020	2026-10-07T16:37:40.0591621Z yarn: 1.22.22
+source-and-inquiry	Run actions/setup-node@820762786026740c76f36085b0efc47a31fe5020	2026-10-07T16:37:40.0592848Z ##[endgroup]
+source-and-inquiry	Run actions/setup-node@820762786026740c76f36085b0efc47a31fe5020	2026-10-07T16:37:40.0605792Z [command]/opt/hostedtoolcache/node/24.21.0/x64/bin/npm config get cache
+source-and-inquiry	Run actions/setup-node@820762786026740c76f36085b0efc47a31fe5020	2026-10-07T16:37:40.1537883Z /home/runner/.npm
+source-and-inquiry	Run actions/setup-node@820762786026740c76f36085b0efc47a31fe5020	2026-10-07T16:37:40.3830367Z Cache hit for: node-cache-Linux-x64-npm-e25e680088942e12f89ab0f7d7d5f6fa284970e38452f01671844587bb8e5a04
+source-and-inquiry	Run actions/setup-node@820762786026740c76f36085b0efc47a31fe5020	2026-10-07T16:37:41.5981173Z Received 33554432 of 116272454 (28.9%), 32.0 MBs/sec
+source-and-inquiry	Run actions/setup-node@820762786026740c76f36085b0efc47a31fe5020	2026-10-07T16:37:42.0911534Z Received 116272454 of 116272454 (100.0%), 74.3 MBs/sec
+source-and-inquiry	Run actions/setup-node@820762786026740c76f36085b0efc47a31fe5020	2026-10-07T16:37:42.0912316Z Cache Size: ~111 MB (116272454 B)
+source-and-inquiry	Run actions/setup-node@820762786026740c76f36085b0efc47a31fe5020	2026-10-07T16:37:42.0941067Z [command]/usr/bin/tar -xf /home/runner/work/_temp/919395b1-830c-477a-9dda-98d00f22280b/cache.tzst -P -C /home/runner/work/console-nextjs/console-nextjs --use-compress-program unzstd
+source-and-inquiry	Run actions/setup-node@820762786026740c76f36085b0efc47a31fe5020	2026-10-07T16:37:42.2402177Z Cache restored successfully
+source-and-inquiry	Run actions/setup-node@820762786026740c76f36085b0efc47a31fe5020	2026-10-07T16:37:42.2458072Z Cache restored from key: node-cache-Linux-x64-npm-e25e680088942e12f89ab0f7d7d5f6fa284970e38452f01671844587bb8e5a04
+source-and-inquiry	Run npm ci	﻿2026-10-07T16:37:42.2657665Z ##[group]Run npm ci
+source-and-inquiry	Run npm ci	2026-10-07T16:37:42.2657994Z ^[[36;1mnpm ci^[[0m
+source-and-inquiry	Run npm ci	2026-10-07T16:37:42.5291171Z shell: /usr/bin/bash -e {0}
+source-and-inquiry	Run npm ci	2026-10-07T16:37:42.5291456Z env:
+source-and-inquiry	Run npm ci	2026-10-07T16:37:42.5291641Z   CARGO_BUILD_JOBS: 1
+source-and-inquiry	Run npm ci	2026-10-07T16:37:42.5291837Z   CARGO_INCREMENTAL: 0
+source-and-inquiry	Run npm ci	2026-10-07T16:37:42.5292030Z   CARGO_PROFILE_DEV_DEBUG: 0
+source-and-inquiry	Run npm ci	2026-10-07T16:37:42.5292240Z   CARGO_PROFILE_TEST_DEBUG: 0
+source-and-inquiry	Run npm ci	2026-10-07T16:37:42.5292446Z ##[endgroup]
+source-and-inquiry	Run npm ci	2026-10-07T16:37:49.9091825Z 
+source-and-inquiry	Run npm ci	2026-10-07T16:37:49.9097936Z added 120 packages, and audited 121 packages in 7s
+source-and-inquiry	Run npm ci	2026-10-07T16:37:49.9098408Z 
+source-and-inquiry	Run npm ci	2026-10-07T16:37:49.9098687Z 29 packages are looking for funding
+source-and-inquiry	Run npm ci	2026-10-07T16:37:49.9099001Z   run `npm fund` for details
+source-and-inquiry	Run npm ci	2026-10-07T16:37:49.9102129Z 
+source-and-inquiry	Run npm ci	2026-10-07T16:37:49.9102297Z found 0 vulnerabilities
+source-and-inquiry	Run npm ci	2026-10-07T16:37:49.9110410Z npm warn install-scripts 1 package has install scripts not yet covered by allowScripts:
+source-and-inquiry	Run npm ci	2026-10-07T16:37:49.9111526Z npm warn install-scripts   esbuild@0.28.2 (postinstall: node install.js)
+source-and-inquiry	Run npm ci	2026-10-07T16:37:49.9112098Z npm warn install-scripts
+source-and-inquiry	Run npm ci	2026-10-07T16:37:49.9113010Z npm warn install-scripts Run `npm install-scripts ls` to review, or `npm install-scripts approve <pkg>` to allow.
+source-and-inquiry	Run npm --prefix backend-fork ci	﻿2026-10-07T16:37:49.9845810Z ##[group]Run npm --prefix backend-fork ci
+source-and-inquiry	Run npm --prefix backend-fork ci	2026-10-07T16:37:49.9846174Z ^[[36;1mnpm --prefix backend-fork ci^[[0m
+source-and-inquiry	Run npm --prefix backend-fork ci	2026-10-07T16:37:49.9905327Z shell: /usr/bin/bash -e {0}
+source-and-inquiry	Run npm --prefix backend-fork ci	2026-10-07T16:37:49.9905573Z env:
+source-and-inquiry	Run npm --prefix backend-fork ci	2026-10-07T16:37:49.9905741Z   CARGO_BUILD_JOBS: 1
+source-and-inquiry	Run npm --prefix backend-fork ci	2026-10-07T16:37:49.9905994Z   CARGO_INCREMENTAL: 0
+source-and-inquiry	Run npm --prefix backend-fork ci	2026-10-07T16:37:49.9906180Z   CARGO_PROFILE_DEV_DEBUG: 0
+source-and-inquiry	Run npm --prefix backend-fork ci	2026-10-07T16:37:49.9906415Z   CARGO_PROFILE_TEST_DEBUG: 0
+source-and-inquiry	Run npm --prefix backend-fork ci	2026-10-07T16:37:49.9906626Z ##[endgroup]
+source-and-inquiry	Run npm --prefix backend-fork ci	2026-10-07T16:37:50.3628814Z 
+source-and-inquiry	Run npm --prefix backend-fork ci	2026-10-07T16:37:50.3630049Z added 2 packages, and audited 3 packages in 315ms
+source-and-inquiry	Run npm --prefix backend-fork ci	2026-10-07T16:37:50.3631096Z 
+source-and-inquiry	Run npm --prefix backend-fork ci	2026-10-07T16:37:50.3631589Z 1 package is looking for funding
+source-and-inquiry	Run npm --prefix backend-fork ci	2026-10-07T16:37:50.3632023Z   run `npm fund` for details
+source-and-inquiry	Run npm --prefix backend-fork ci	2026-10-07T16:37:50.3638197Z 
+source-and-inquiry	Run npm --prefix backend-fork ci	2026-10-07T16:37:50.3638486Z found 0 vulnerabilities
+source-and-inquiry	Full npm dependency audits	﻿2026-10-07T16:37:50.3805926Z ##[group]Run npm audit --audit-level=low
+source-and-inquiry	Full npm dependency audits	2026-10-07T16:37:50.3806264Z ^[[36;1mnpm audit --audit-level=low^[[0m
+source-and-inquiry	Full npm dependency audits	2026-10-07T16:37:50.3806554Z ^[[36;1mnpm --prefix backend-fork audit --audit-level=low^[[0m
+source-and-inquiry	Full npm dependency audits	2026-10-07T16:37:50.3864682Z shell: /usr/bin/bash -e {0}
+source-and-inquiry	Full npm dependency audits	2026-10-07T16:37:50.3864930Z env:
+source-and-inquiry	Full npm dependency audits	2026-10-07T16:37:50.3865108Z   CARGO_BUILD_JOBS: 1
+source-and-inquiry	Full npm dependency audits	2026-10-07T16:37:50.3865294Z   CARGO_INCREMENTAL: 0
+source-and-inquiry	Full npm dependency audits	2026-10-07T16:37:50.3865480Z   CARGO_PROFILE_DEV_DEBUG: 0
+source-and-inquiry	Full npm dependency audits	2026-10-07T16:37:50.3865683Z   CARGO_PROFILE_TEST_DEBUG: 0
+source-and-inquiry	Full npm dependency audits	2026-10-07T16:37:50.3865889Z ##[endgroup]
+source-and-inquiry	Full npm dependency audits	2026-10-07T16:37:50.8267607Z found 0 vulnerabilities
+source-and-inquiry	Full npm dependency audits	2026-10-07T16:37:51.1645213Z found 0 vulnerabilities
+source-and-inquiry	Run npm run lint	﻿2026-10-07T16:37:51.1927541Z ##[group]Run npm run lint
+source-and-inquiry	Run npm run lint	2026-10-07T16:37:51.1927797Z ^[[36;1mnpm run lint^[[0m
+source-and-inquiry	Run npm run lint	2026-10-07T16:37:51.1983269Z shell: /usr/bin/bash -e {0}
+source-and-inquiry	Run npm run lint	2026-10-07T16:37:51.1983495Z env:
+source-and-inquiry	Run npm run lint	2026-10-07T16:37:51.1983665Z   CARGO_BUILD_JOBS: 1
+source-and-inquiry	Run npm run lint	2026-10-07T16:37:51.1983846Z   CARGO_INCREMENTAL: 0
+source-and-inquiry	Run npm run lint	2026-10-07T16:37:51.1984038Z   CARGO_PROFILE_DEV_DEBUG: 0
+source-and-inquiry	Run npm run lint	2026-10-07T16:37:51.1984249Z   CARGO_PROFILE_TEST_DEBUG: 0
+source-and-inquiry	Run npm run lint	2026-10-07T16:37:51.1984445Z ##[endgroup]
+source-and-inquiry	Run npm run lint	2026-10-07T16:37:51.3879614Z 
+source-and-inquiry	Run npm run lint	2026-10-07T16:37:51.3880124Z > console-web@1.0.0 lint
+source-and-inquiry	Run npm run lint	2026-10-07T16:37:51.3880543Z > tsc --noEmit
+source-and-inquiry	Run npm run lint	2026-10-07T16:37:51.3880926Z 
+source-and-inquiry	Run npm test	﻿2026-10-07T16:37:56.3944217Z ##[group]Run npm test
+source-and-inquiry	Run npm test	2026-10-07T16:37:56.3944458Z ^[[36;1mnpm test^[[0m
+source-and-inquiry	Run npm test	2026-10-07T16:37:56.3998570Z shell: /usr/bin/bash -e {0}
+source-and-inquiry	Run npm test	2026-10-07T16:37:56.3998803Z env:
+source-and-inquiry	Run npm test	2026-10-07T16:37:56.3998965Z   CARGO_BUILD_JOBS: 1
+source-and-inquiry	Run npm test	2026-10-07T16:37:56.3999149Z   CARGO_INCREMENTAL: 0
+source-and-inquiry	Run npm test	2026-10-07T16:37:56.3999519Z   CARGO_PROFILE_DEV_DEBUG: 0
+source-and-inquiry	Run npm test	2026-10-07T16:37:56.3999729Z   CARGO_PROFILE_TEST_DEBUG: 0
+source-and-inquiry	Run npm test	2026-10-07T16:37:56.3999923Z ##[endgroup]
+source-and-inquiry	Run npm test	2026-10-07T16:37:56.4880479Z 
+source-and-inquiry	Run npm test	2026-10-07T16:37:56.4881227Z > console-web@1.0.0 test
+source-and-inquiry	Run npm test	2026-10-07T16:37:56.4881543Z > vitest run
+source-and-inquiry	Run npm test	2026-10-07T16:37:56.4881650Z 
+source-and-inquiry	Run npm test	2026-10-07T16:37:56.7049343Z 
+source-and-inquiry	Run npm test	2026-10-07T16:37:56.7051420Z ^[[1m^[[30m^[[46m RUN ^[[49m^[[39m^[[22m ^[[36mv4.1.11 ^[[39m^[[90m/home/runner/work/console-nextjs/console-nextjs^[[39m
+source-and-inquiry	Run npm test	2026-10-07T16:37:56.7052000Z 
+source-and-inquiry	Run npm test	2026-10-07T16:37:57.1975644Z  ^[[32m✓^[[39m tests/workflows.test.ts ^[[2m(^[[22m^[[2m14 tests^[[22m^[[2m)^[[22m^[[32m 32^[[2mms^[[22m^[[39m
+source-and-inquiry	Run npm test	2026-10-07T16:37:57.2034430Z  ^[[32m✓^[[39m tests/ui-workflows.test.ts ^[[2m(^[[22m^[[2m6 tests^[[22m^[[2m)^[[22m^[[32m 10^[[2mms^[[22m^[[39m
+source-and-inquiry	Run npm test	2026-10-07T16:37:57.2238677Z  ^[[32m✓^[[39m tests/domain.test.ts ^[[2m(^[[22m^[[2m52 tests^[[22m^[[2m)^[[22m^[[32m 51^[[2mms^[[22m^[[39m
+source-and-inquiry	Run npm test	2026-10-07T16:37:57.4184412Z  ^[[32m✓^[[39m tests/integration-lifecycle.test.ts ^[[2m(^[[22m^[[2m2 tests^[[22m^[[2m)^[[22m^[[32m 19^[[2mms^[[22m^[[39m
+source-and-inquiry	Run npm test	2026-10-07T16:37:57.4378320Z  ^[[32m✓^[[39m tests/adversarial-fuzz.test.ts ^[[2m(^[[22m^[[2m11 tests^[[22m^[[2m)^[[22m^[[32m 30^[[2mms^[[22m^[[39m
+source-and-inquiry	Run npm test	2026-10-07T16:37:57.5597505Z  ^[[32m✓^[[39m tests/storefront.test.ts ^[[2m(^[[22m^[[2m15 tests^[[22m^[[2m)^[[22m^[[32m 78^[[2mms^[[22m^[[39m
+source-and-inquiry	Run npm test	2026-10-07T16:37:57.7098308Z  ^[[32m✓^[[39m tests/server-mutation-guard.test.ts ^[[2m(^[[22m^[[2m5 tests^[[22m^[[2m)^[[22m^[[32m 19^[[2mms^[[22m^[[39m
+source-and-inquiry	Run npm test	2026-10-07T16:37:57.7340128Z  ^[[32m✓^[[39m tests/payslip-boundary.test.ts ^[[2m(^[[22m^[[2m4 tests^[[22m^[[2m)^[[22m^[[32m 108^[[2mms^[[22m^[[39m
+source-and-inquiry	Run npm test	2026-10-07T16:37:57.7413707Z  ^[[32m✓^[[39m tests/browser-session-boundary.test.ts ^[[2m(^[[22m^[[2m6 tests^[[22m^[[2m)^[[22m^[[32m 117^[[2mms^[[22m^[[39m
+source-and-inquiry	Run npm test	2026-10-07T16:37:57.8548247Z  ^[[32m✓^[[39m tests/store-persistence.test.ts ^[[2m(^[[22m^[[2m1 test^[[22m^[[2m)^[[22m^[[32m 32^[[2mms^[[22m^[[39m
+source-and-inquiry	Run npm test	2026-10-07T16:37:57.8593578Z 
+source-and-inquiry	Run npm test	2026-10-07T16:37:57.8601904Z ^[[2m Test Files ^[[22m ^[[1m^[[32m10 passed^[[39m^[[22m^[[90m (10)^[[39m
+source-and-inquiry	Run npm test	2026-10-07T16:37:57.8604997Z ^[[2m      Tests ^[[22m ^[[1m^[[32m116 passed^[[39m^[[22m^[[90m (116)^[[39m
+source-and-inquiry	Run npm test	2026-10-07T16:37:57.8606411Z ^[[2m   Start at ^[[22m 16:37:56
+source-and-inquiry	Run npm test	2026-10-07T16:37:57.8608818Z ^[[2m   Duration ^[[22m 1.15s^[[2m (transform 638ms, setup 0ms, import 1.18s, tests 497ms, environment 1ms)^[[22m
+source-and-inquiry	Run npm test	2026-10-07T16:37:57.8609484Z 
+source-and-inquiry	Run npm run build	﻿2026-10-07T16:37:58.0895256Z ##[group]Run npm run build
+source-and-inquiry	Run npm run build	2026-10-07T16:37:58.0895641Z ^[[36;1mnpm run build^[[0m
+source-and-inquiry	Run npm run build	2026-10-07T16:37:58.0957392Z shell: /usr/bin/bash -e {0}
+source-and-inquiry	Run npm run build	2026-10-07T16:37:58.0957626Z env:
+source-and-inquiry	Run npm run build	2026-10-07T16:37:58.0957799Z   CARGO_BUILD_JOBS: 1
+source-and-inquiry	Run npm run build	2026-10-07T16:37:58.0957987Z   CARGO_INCREMENTAL: 0
+source-and-inquiry	Run npm run build	2026-10-07T16:37:58.0958175Z   CARGO_PROFILE_DEV_DEBUG: 0
+source-and-inquiry	Run npm run build	2026-10-07T16:37:58.0958387Z   CARGO_PROFILE_TEST_DEBUG: 0
+source-and-inquiry	Run npm run build	2026-10-07T16:37:58.0958583Z ##[endgroup]
+source-and-inquiry	Run npm run build	2026-10-07T16:37:58.2811384Z 
+source-and-inquiry	Run npm run build	2026-10-07T16:37:58.2812036Z > console-web@1.0.0 build
+source-and-inquiry	Run npm run build	2026-10-07T16:37:58.2812529Z > node tools/production-runtime.mjs --build
+source-and-inquiry	Run npm run build	2026-10-07T16:37:58.2812768Z 
+source-and-inquiry	Run npm run build	2026-10-07T16:37:58.6782917Z ▲ Next.js 16.3.8 (webpack)
+source-and-inquiry	Run npm run build	2026-10-07T16:37:58.6893787Z ✓ Running next.config.mjs took 11ms
+source-and-inquiry	Run npm run build	2026-10-07T16:37:58.6896042Z ⚠ No build cache found. Please configure build caching for faster rebuilds. Read more: https://nextjs.org/docs/messages/no-cache
+source-and-inquiry	Run npm run build	2026-10-07T16:37:58.7073306Z Attention: Next.js now collects completely anonymous telemetry regarding usage.
+source-and-inquiry	Run npm run build	2026-10-07T16:37:58.7074347Z This information is used to shape Next.js' roadmap and prioritize features.
+source-and-inquiry	Run npm run build	2026-10-07T16:37:58.7075767Z You can learn more, including how to opt-out if you'd not like to participate in this anonymous program, by visiting the following URL:
+source-and-inquiry	Run npm run build	2026-10-07T16:37:58.7076728Z https://nextjs.org/telemetry
+source-and-inquiry	Run npm run build	2026-10-07T16:37:58.7076956Z 
+source-and-inquiry	Run npm run build	2026-10-07T16:37:58.7244538Z 
+source-and-inquiry	Run npm run build	2026-10-07T16:37:58.7498617Z   Creating an optimized production build ...
+source-and-inquiry	Run npm run build	2026-10-07T16:38:05.9310508Z ✓ Compiled successfully in 5.5s
+source-and-inquiry	Run npm run build	2026-10-07T16:38:05.9328877Z   Running TypeScript ...
+source-and-inquiry	Run npm run build	2026-10-07T16:38:10.8193428Z   Finished TypeScript in 4.9s ...
+source-and-inquiry	Run npm run build	2026-10-07T16:38:10.8214064Z   Collecting page data using 3 workers ...
+source-and-inquiry	Run npm run build	2026-10-07T16:38:11.9075920Z   Generating static pages using 3 workers (0/1) ...
+source-and-inquiry	Run npm run build	2026-10-07T16:38:12.0341891Z ✓ Generating static pages using 3 workers (1/1) in 129ms
+source-and-inquiry	Run npm run build	2026-10-07T16:38:12.2537874Z   Finalizing page optimization ...
+source-and-inquiry	Run npm run build	2026-10-07T16:38:12.2538764Z   Collecting build traces ...
+source-and-inquiry	Run npm run build	2026-10-07T16:38:17.6753657Z 
+source-and-inquiry	Run npm run build	2026-10-07T16:38:17.6767965Z Route (app)
+source-and-inquiry	Run npm run build	2026-10-07T16:38:17.6768859Z ┌ ƒ /
+source-and-inquiry	Run npm run build	2026-10-07T16:38:17.6769255Z ├ ƒ /_not-found
+source-and-inquiry	Run npm run build	2026-10-07T16:38:17.6769835Z ├ ƒ /api/browser-session/login
+source-and-inquiry	Run npm run build	2026-10-07T16:38:17.6770468Z ├ ƒ /api/browser-session/logout
+source-and-inquiry	Run npm run build	2026-10-07T16:38:17.6771274Z ├ ƒ /api/browser-session/start
+source-and-inquiry	Run npm run build	2026-10-07T16:38:17.6771687Z ├ ƒ /login
+source-and-inquiry	Run npm run build	2026-10-07T16:38:17.6771992Z ├ ƒ /me/[context]/attendance
+source-and-inquiry	Run npm run build	2026-10-07T16:38:17.6772398Z ├ ƒ /me/[context]/payslips
+source-and-inquiry	Run npm run build	2026-10-07T16:38:17.6772780Z ├ ƒ /me/[context]/payslips/[id]
+source-and-inquiry	Run npm run build	2026-10-07T16:38:17.6793075Z ├ ƒ /storefront
+source-and-inquiry	Run npm run build	2026-10-07T16:38:17.6793429Z ├ ƒ /storefront/[id]
+source-and-inquiry	Run npm run build	2026-10-07T16:38:17.6793814Z └ ƒ /storefront/[id]/media/[mediaId]
+source-and-inquiry	Run npm run build	2026-10-07T16:38:17.6794095Z 
+source-and-inquiry	Run npm run build	2026-10-07T16:38:17.6794117Z 
+source-and-inquiry	Run npm run build	2026-10-07T16:38:17.6794392Z ƒ  (Dynamic)  server-rendered on demand
+source-and-inquiry	Run npm run build	2026-10-07T16:38:17.6794689Z 
+source-and-inquiry	Run npm run test:source-closure	﻿2026-10-07T16:38:17.7730048Z ##[group]Run npm run test:source-closure
+source-and-inquiry	Run npm run test:source-closure	2026-10-07T16:38:17.7730366Z ^[[36;1mnpm run test:source-closure^[[0m
+source-and-inquiry	Run npm run test:source-closure	2026-10-07T16:38:17.7785864Z shell: /usr/bin/bash -e {0}
+source-and-inquiry	Run npm run test:source-closure	2026-10-07T16:38:17.7786097Z env:
+source-and-inquiry	Run npm run test:source-closure	2026-10-07T16:38:17.7786264Z   CARGO_BUILD_JOBS: 1
+source-and-inquiry	Run npm run test:source-closure	2026-10-07T16:38:17.7786457Z   CARGO_INCREMENTAL: 0
+source-and-inquiry	Run npm run test:source-closure	2026-10-07T16:38:17.7786658Z   CARGO_PROFILE_DEV_DEBUG: 0
+source-and-inquiry	Run npm run test:source-closure	2026-10-07T16:38:17.7786864Z   CARGO_PROFILE_TEST_DEBUG: 0
+source-and-inquiry	Run npm run test:source-closure	2026-10-07T16:38:17.7787056Z ##[endgroup]
+source-and-inquiry	Run npm run test:source-closure	2026-10-07T16:38:17.8622417Z 
+source-and-inquiry	Run npm run test:source-closure	2026-10-07T16:38:17.8623131Z > console-web@1.0.0 test:source-closure
+source-and-inquiry	Run npm run test:source-closure	2026-10-07T16:38:17.8623778Z > python3 -m unittest discover -s tools -p 'test_*.py'
+source-and-inquiry	Run npm run test:source-closure	2026-10-07T16:38:17.8624117Z 
+source-and-inquiry	Run npm run test:source-closure	2026-10-07T16:38:18.3267353Z ...........................
+source-and-inquiry	Run npm run test:source-closure	2026-10-07T16:38:18.3267890Z ----------------------------------------------------------------------
+source-and-inquiry	Run npm run test:source-closure	2026-10-07T16:38:18.3268245Z Ran 27 tests in 0.209s
+source-and-inquiry	Run npm run test:source-closure	2026-10-07T16:38:18.3268379Z 
+source-and-inquiry	Run npm run test:source-closure	2026-10-07T16:38:18.3268493Z OK
+source-and-inquiry	Frozen source and fork custody	﻿2026-10-07T16:38:18.3502726Z ##[group]Run PYTHONPATH=tools python3 -c 'import json,acceptance; result=acceptance.inspect_fork(); print(json.dumps(result,indent=2)); raise SystemExit(result["status"] != "passed")'
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.3503724Z ^[[36;1mPYTHONPATH=tools python3 -c 'import json,acceptance; result=acceptance.inspect_fork(); print(json.dumps(result,indent=2)); raise SystemExit(result["status"] != "passed")'^[[0m
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.3559891Z shell: /usr/bin/bash -e {0}
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.3560105Z env:
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.3560265Z   CARGO_BUILD_JOBS: 1
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.3560457Z   CARGO_INCREMENTAL: 0
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.3560640Z   CARGO_PROFILE_DEV_DEBUG: 0
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.3560997Z   CARGO_PROFILE_TEST_DEBUG: 0
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.3561252Z ##[endgroup]
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9354448Z {
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9354988Z   "head": "05200e43af13b527ce031b04369e05852862f1d6",
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9355640Z   "manifest_sha256": "e40816fe4204e6d1cacf9f9cff02dece66a0835c129745bbaa6381f6eb27ece0",
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9356197Z   "expected_files": 4027,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9356542Z   "discovered_files": 4111,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9356816Z   "status": "passed",
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9357299Z   "delta_sha256": "2de393e10770bd325848e36cfbf7d68b57c32433dd90b79434bd85dc4ff007ad",
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9357784Z   "suffix_versions": [
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9358030Z     226,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9358242Z     227,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9358433Z     228,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9358623Z     229,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9358817Z     230,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9359024Z     231,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9359217Z     232,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9359403Z     233,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9359607Z     234,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9359798Z     235,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9359989Z     236,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9360177Z     237,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9360375Z     238,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9360558Z     239,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9360941Z     240,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9361138Z     241
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9361333Z   ],
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9361536Z   "lineages": {
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9362179Z     "fresh": [
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9362412Z       0,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9362602Z       226,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9362803Z       227,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9363000Z       228,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9363201Z       229,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9363400Z       230,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9363587Z       231,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9363790Z       232,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9363984Z       233,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9364174Z       234,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9364370Z       235,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9364564Z       236,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9364757Z       237,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9364952Z       238,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9365156Z       239,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9365382Z       240,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9365608Z       241
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9365842Z     ],
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9366083Z     "historical": [
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9366345Z       1,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9366580Z       2,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9366799Z       3,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9367025Z       4,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9367241Z       5,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9367472Z       6,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9367700Z       7,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9367937Z       8,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9368164Z       9,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9368390Z       10,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9368625Z       11,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9368855Z       12,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9369078Z       13,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9369300Z       14,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9369570Z       15,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9369770Z       16,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9369971Z       17,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9370204Z       18,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9370419Z       19,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9370850Z       20,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9371102Z       21,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9371292Z       22,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9371470Z       23,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9371662Z       24,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9371855Z       25,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9372070Z       26,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9372297Z       27,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9372498Z       28,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9372711Z       29,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9372934Z       30,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9373141Z       31,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9373345Z       32,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9373570Z       33,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9374079Z       34,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9374330Z       35,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9374554Z       36,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9374776Z       37,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9375010Z       38,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9375235Z       39,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9375459Z       40,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9375693Z       41,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9375913Z       42,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9376137Z       43,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9376358Z       44,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9376593Z       45,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9376833Z       46,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9377075Z       47,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9377300Z       48,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9377513Z       49,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9377728Z       50,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9377949Z       51,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9378179Z       52,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9378406Z       53,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9378643Z       54,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9378869Z       55,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9379082Z       56,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9379289Z       57,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9379507Z       58,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9379723Z       59,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9379921Z       60,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9380121Z       61,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9380325Z       62,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9380530Z       63,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9380888Z       64,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9381114Z       65,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9381346Z       66,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9381550Z       67,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9381779Z       68,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9382007Z       69,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9382236Z       70,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9382470Z       71,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9382698Z       72,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9382924Z       73,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9383143Z       74,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9383363Z       75,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9383561Z       76,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9383757Z       77,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9383991Z       78,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9384206Z       79,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9384419Z       80,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9384638Z       81,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9384855Z       82,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9385061Z       83,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9385273Z       84,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9385491Z       85,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9385863Z       86,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9386082Z       87,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9386298Z       88,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9386515Z       89,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9386727Z       90,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9386933Z       91,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9387150Z       92,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9387359Z       93,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9387569Z       94,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9387784Z       95,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9388002Z       96,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9388214Z       97,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9388425Z       98,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9388646Z       99,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9388859Z       100,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9389081Z       101,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9389290Z       102,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9389511Z       103,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9389720Z       104,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9389928Z       105,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9390147Z       106,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9390364Z       107,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9390579Z       108,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9390919Z       109,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9391138Z       110,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9391342Z       111,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9391550Z       112,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9391768Z       113,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9391980Z       114,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9392189Z       115,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9392404Z       116,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9392622Z       117,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9392837Z       118,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9393052Z       119,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9393273Z       120,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9393470Z       121,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9393660Z       122,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9393856Z       123,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9394058Z       124,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9394267Z       125,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9394483Z       126,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9394705Z       127,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9394916Z       128,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9395122Z       129,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9395352Z       130,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9395568Z       131,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9395792Z       132,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9396009Z       133,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9396232Z       134,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9396440Z       135,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9396653Z       136,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9396876Z       137,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9397284Z       138,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9397516Z       139,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9397734Z       140,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9397969Z       141,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9398190Z       142,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9398419Z       143,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9398650Z       144,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9398881Z       145,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9399105Z       146,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9399333Z       147,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9399578Z       148,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9399804Z       149,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9400002Z       150,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9400231Z       151,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9400451Z       152,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9400858Z       153,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9401065Z       154,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9401283Z       155,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9401508Z       156,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9401732Z       157,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9401951Z       158,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9402169Z       159,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9402395Z       160,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9402599Z       161,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9402803Z       162,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9403051Z       163,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9403287Z       164,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9403524Z       165,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9403754Z       166,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9403991Z       167,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9404210Z       168,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9404415Z       169,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9404660Z       170,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9404876Z       171,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9405105Z       172,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9405316Z       173,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9405533Z       174,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9405746Z       175,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9405956Z       176,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9406181Z       177,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9406393Z       178,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9406598Z       179,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9406829Z       180,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9407047Z       181,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9407274Z       182,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9407483Z       183,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9407701Z       184,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9407911Z       185,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9408123Z       186,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9408335Z       187,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9408689Z       188,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9408896Z       189,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9409097Z       190,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9409312Z       191,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9409532Z       192,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9409749Z       193,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9409965Z       194,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9410181Z       195,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9410403Z       196,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9410611Z       197,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9410970Z       198,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9411189Z       199,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9411418Z       200,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9411656Z       201,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9411864Z       202,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9412068Z       203,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9412264Z       204,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9412465Z       205,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9412656Z       206,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9412846Z       207,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9413055Z       208,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9413265Z       209,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9413491Z       210,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9413714Z       211,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9413940Z       212,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9414131Z       213,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9414337Z       214,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9414542Z       215,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9414750Z       216,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9414968Z       217,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9415192Z       218,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9415389Z       219,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9415574Z       220,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9415760Z       221,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9415971Z       222,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9416166Z       223,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9416355Z       224,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9416568Z       225,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9416775Z       226,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9416983Z       227,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9417183Z       228,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9417408Z       229,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9417618Z       230,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9417813Z       231,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9418018Z       232,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9418213Z       233,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9418412Z       234,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9418604Z       235,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9418808Z       236,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9419004Z       237,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9419199Z       238,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9419396Z       239,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9419598Z       240,
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9419946Z       241
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9420144Z     ]
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9420354Z   },
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9420991Z   "scope": "immutable frozen manifest plus documented fork deltas; not application acceptance"
+source-and-inquiry	Frozen source and fork custody	2026-10-07T16:38:18.9421496Z }
+source-and-inquiry	Run npm run test:production-routes	﻿2026-10-07T16:38:18.9465832Z ##[group]Run npm run test:production-routes
+source-and-inquiry	Run npm run test:production-routes	2026-10-07T16:38:18.9466143Z ^[[36;1mnpm run test:production-routes^[[0m
+source-and-inquiry	Run npm run test:production-routes	2026-10-07T16:38:18.9520070Z shell: /usr/bin/bash -e {0}
+source-and-inquiry	Run npm run test:production-routes	2026-10-07T16:38:18.9520286Z env:
+source-and-inquiry	Run npm run test:production-routes	2026-10-07T16:38:18.9520448Z   CARGO_BUILD_JOBS: 1
+source-and-inquiry	Run npm run test:production-routes	2026-10-07T16:38:18.9520632Z   CARGO_INCREMENTAL: 0
+source-and-inquiry	Run npm run test:production-routes	2026-10-07T16:38:18.9521000Z   CARGO_PROFILE_DEV_DEBUG: 0
+source-and-inquiry	Run npm run test:production-routes	2026-10-07T16:38:18.9521211Z   CARGO_PROFILE_TEST_DEBUG: 0
+source-and-inquiry	Run npm run test:production-routes	2026-10-07T16:38:18.9521405Z ##[endgroup]
+source-and-inquiry	Run npm run test:production-routes	2026-10-07T16:38:19.0350365Z 
+source-and-inquiry	Run npm run test:production-routes	2026-10-07T16:38:19.0351152Z > console-web@1.0.0 test:production-routes
+source-and-inquiry	Run npm run test:production-routes	2026-10-07T16:38:19.0351581Z > node tools/test-production-routes.mjs
+source-and-inquiry	Run npm run test:production-routes	2026-10-07T16:38:19.0351764Z 
+source-and-inquiry	Run npm run test:production-routes	2026-10-07T16:38:29.9683920Z Production / redirects to /storefront; 17 console routes return 404; fixture chunks absent; media reports unavailable backend.
+source-and-inquiry	Run node tools/test-own-payslip-routes.mjs	﻿2026-10-07T16:38:30.0025030Z ##[group]Run node tools/test-own-payslip-routes.mjs
+source-and-inquiry	Run node tools/test-own-payslip-routes.mjs	2026-10-07T16:38:30.0025388Z ^[[36;1mnode tools/test-own-payslip-routes.mjs^[[0m
+source-and-inquiry	Run node tools/test-own-payslip-routes.mjs	2026-10-07T16:38:30.0080117Z shell: /usr/bin/bash -e {0}
+source-and-inquiry	Run node tools/test-own-payslip-routes.mjs	2026-10-07T16:38:30.0080360Z env:
+source-and-inquiry	Run node tools/test-own-payslip-routes.mjs	2026-10-07T16:38:30.0080525Z   CARGO_BUILD_JOBS: 1
+source-and-inquiry	Run node tools/test-own-payslip-routes.mjs	2026-10-07T16:38:30.0080898Z   CARGO_INCREMENTAL: 0
+source-and-inquiry	Run node tools/test-own-payslip-routes.mjs	2026-10-07T16:38:30.0081088Z   CARGO_PROFILE_DEV_DEBUG: 0
+source-and-inquiry	Run node tools/test-own-payslip-routes.mjs	2026-10-07T16:38:30.0081293Z   CARGO_PROFILE_TEST_DEBUG: 0
+source-and-inquiry	Run node tools/test-own-payslip-routes.mjs	2026-10-07T16:38:30.0081500Z ##[endgroup]
+source-and-inquiry	Run node tools/test-own-payslip-routes.mjs	2026-10-07T16:38:30.7507383Z 8 production payslip route negatives passed; no authenticated/financial acceptance claimed.
+source-and-inquiry	Run node --test tools/test-production-runtime.test.mjs	﻿2026-10-07T16:38:30.7698013Z ##[group]Run node --test tools/test-production-runtime.test.mjs
+source-and-inquiry	Run node --test tools/test-production-runtime.test.mjs	2026-10-07T16:38:30.7698678Z ^[[36;1mnode --test tools/test-production-runtime.test.mjs^[[0m
+source-and-inquiry	Run node --test tools/test-production-runtime.test.mjs	2026-10-07T16:38:30.7756670Z shell: /usr/bin/bash -e {0}
+source-and-inquiry	Run node --test tools/test-production-runtime.test.mjs	2026-10-07T16:38:30.7757055Z env:
+source-and-inquiry	Run node --test tools/test-production-runtime.test.mjs	2026-10-07T16:38:30.7757227Z   CARGO_BUILD_JOBS: 1
+source-and-inquiry	Run node --test tools/test-production-runtime.test.mjs	2026-10-07T16:38:30.7757417Z   CARGO_INCREMENTAL: 0
+source-and-inquiry	Run node --test tools/test-production-runtime.test.mjs	2026-10-07T16:38:30.7757629Z   CARGO_PROFILE_DEV_DEBUG: 0
+source-and-inquiry	Run node --test tools/test-production-runtime.test.mjs	2026-10-07T16:38:30.7757841Z   CARGO_PROFILE_TEST_DEBUG: 0
+source-and-inquiry	Run node --test tools/test-production-runtime.test.mjs	2026-10-07T16:38:30.7758038Z ##[endgroup]
+source-and-inquiry	Run node --test tools/test-production-runtime.test.mjs	2026-10-07T16:38:42.3822268Z ✔ deployment and browser consumers stage the same locked production closure (11527.922099ms)
+source-and-inquiry	Run node --test tools/test-production-runtime.test.mjs	2026-10-07T16:39:14.8386316Z ✔ runtime verification rejects changed config, runtime bytes and extra secret files (32456.352939ms)
+source-and-inquiry	Run node --test tools/test-production-runtime.test.mjs	2026-10-07T16:39:15.5588588Z ✔ storefront consumers release owned staging resources after custody rejection (721.223958ms)
+source-and-inquiry	Run node --test tools/test-production-runtime.test.mjs	2026-10-07T16:39:15.6174338Z ℹ tests 3
+source-and-inquiry	Run node --test tools/test-production-runtime.test.mjs	2026-10-07T16:39:15.6174626Z ℹ suites 0
+source-and-inquiry	Run node --test tools/test-production-runtime.test.mjs	2026-10-07T16:39:15.6174885Z ℹ pass 3
+source-and-inquiry	Run node --test tools/test-production-runtime.test.mjs	2026-10-07T16:39:15.6175240Z ℹ fail 0
+source-and-inquiry	Run node --test tools/test-production-runtime.test.mjs	2026-10-07T16:39:15.6175497Z ℹ cancelled 0
+source-and-inquiry	Run node --test tools/test-production-runtime.test.mjs	2026-10-07T16:39:15.6175816Z ℹ skipped 0
+source-and-inquiry	Run node --test tools/test-production-runtime.test.mjs	2026-10-07T16:39:15.6176077Z ℹ todo 0
+source-and-inquiry	Run node --test tools/test-production-runtime.test.mjs	2026-10-07T16:39:15.6176382Z ℹ duration_ms 44809.036353
+source-and-inquiry	Run node --test tools/browser-business-failure.test.mjs tools/browser-business-temporal.test.mjs tools/browser-business-restore.test.mjs	﻿2026-10-07T16:39:15.6253474Z ##[group]Run node --test tools/browser-business-failure.test.mjs tools/browser-business-temporal.test.mjs tools/browser-business-restore.test.mjs
+source-and-inquiry	Run node --test tools/browser-business-failure.test.mjs tools/browser-business-temporal.test.mjs tools/browser-business-restore.test.mjs	2026-10-07T16:39:15.6254313Z ^[[36;1mnode --test tools/browser-business-failure.test.mjs tools/browser-business-temporal.test.mjs tools/browser-business-restore.test.mjs^[[0m
+source-and-inquiry	Run node --test tools/browser-business-failure.test.mjs tools/browser-business-temporal.test.mjs tools/browser-business-restore.test.mjs	2026-10-07T16:39:15.6308375Z shell: /usr/bin/bash -e {0}
+source-and-inquiry	Run node --test tools/browser-business-failure.test.mjs tools/browser-business-temporal.test.mjs tools/browser-business-restore.test.mjs	2026-10-07T16:39:15.6308591Z env:
+source-and-inquiry	Run node --test tools/browser-business-failure.test.mjs tools/browser-business-temporal.test.mjs tools/browser-business-restore.test.mjs	2026-10-07T16:39:15.6308748Z   CARGO_BUILD_JOBS: 1
+source-and-inquiry	Run node --test tools/browser-business-failure.test.mjs tools/browser-business-temporal.test.mjs tools/browser-business-restore.test.mjs	2026-10-07T16:39:15.6308934Z   CARGO_INCREMENTAL: 0
+source-and-inquiry	Run node --test tools/browser-business-failure.test.mjs tools/browser-business-temporal.test.mjs tools/browser-business-restore.test.mjs	2026-10-07T16:39:15.6309125Z   CARGO_PROFILE_DEV_DEBUG: 0
+source-and-inquiry	Run node --test tools/browser-business-failure.test.mjs tools/browser-business-temporal.test.mjs tools/browser-business-restore.test.mjs	2026-10-07T16:39:15.6309325Z   CARGO_PROFILE_TEST_DEBUG: 0
+source-and-inquiry	Run node --test tools/browser-business-failure.test.mjs tools/browser-business-temporal.test.mjs tools/browser-business-restore.test.mjs	2026-10-07T16:39:15.6309517Z ##[endgroup]
+source-and-inquiry	Run node --test tools/browser-business-failure.test.mjs tools/browser-business-temporal.test.mjs tools/browser-business-restore.test.mjs	2026-10-07T16:39:15.7322532Z ✔ only the first exact probe frame yields a fixed basename and bounded numbers (3.126377ms)
+source-and-inquiry	Run node --test tools/browser-business-failure.test.mjs tools/browser-business-temporal.test.mjs tools/browser-business-restore.test.mjs	2026-10-07T16:39:15.7361633Z ✔ sensitive assertion headers and unrelated paths never enter diagnostic output (0.491309ms)
+source-and-inquiry	Run node --test tools/browser-business-failure.test.mjs tools/browser-business-temporal.test.mjs tools/browser-business-restore.test.mjs	2026-10-07T16:39:15.7363064Z ✔ absent, malformed, overlong, and unsafe diagnostic inputs are omitted (0.363799ms)
+source-and-inquiry	Run node --test tools/browser-business-failure.test.mjs tools/browser-business-temporal.test.mjs tools/browser-business-restore.test.mjs	2026-10-07T16:39:15.7390140Z ✔ native multiline assertion messages cannot forge a source location (0.936509ms)
+source-and-inquiry	Run node --test tools/browser-business-failure.test.mjs tools/browser-business-temporal.test.mjs tools/browser-business-restore.test.mjs	2026-10-07T16:39:15.7391342Z ✔ unverified or accessor-backed messages are omitted without invoking their getter (0.254407ms)
+source-and-inquiry	Run node --test tools/browser-business-failure.test.mjs tools/browser-business-temporal.test.mjs tools/browser-business-restore.test.mjs	2026-10-07T16:39:15.7392307Z ✔ issued-payslip failures retain only their exact safe source location (0.232956ms)
+source-and-inquiry	Run node --test tools/browser-business-failure.test.mjs tools/browser-business-temporal.test.mjs tools/browser-business-restore.test.mjs	2026-10-07T16:39:16.7369617Z ✔ restore prerequisites do nothing when no preauth cookie remains (0.811454ms)
+source-and-inquiry	Run node --test tools/browser-business-failure.test.mjs tools/browser-business-temporal.test.mjs tools/browser-business-restore.test.mjs	2026-10-07T16:39:16.7370618Z ✔ restore prerequisites observe natural expiry without clearing or replacing cookies (1002.676285ms)
+source-and-inquiry	Run node --test tools/browser-business-failure.test.mjs tools/browser-business-temporal.test.mjs tools/browser-business-restore.test.mjs	2026-10-07T16:39:17.7402049Z ✔ an unrelated cookie change cannot be excused by preauth expiry (1003.153517ms)
+source-and-inquiry	Run node --test tools/browser-business-failure.test.mjs tools/browser-business-temporal.test.mjs tools/browser-business-restore.test.mjs	2026-10-07T16:39:18.7425486Z ✔ premature preauth disappearance fails the recorded expiry check (1002.145687ms)
+source-and-inquiry	Run node --test tools/browser-business-failure.test.mjs tools/browser-business-temporal.test.mjs tools/browser-business-restore.test.mjs	2026-10-07T16:39:19.7442328Z ✔ a session cannot disappear even when its recorded expiry has elapsed (1001.424115ms)
+source-and-inquiry	Run node --test tools/browser-business-failure.test.mjs tools/browser-business-temporal.test.mjs tools/browser-business-restore.test.mjs	2026-10-07T16:39:20.7463688Z ✔ a persistent preauth cookie reaches the original bounded deadline (1002.379124ms)
+source-and-inquiry	Run node --test tools/browser-business-failure.test.mjs tools/browser-business-temporal.test.mjs tools/browser-business-restore.test.mjs	2026-10-07T16:39:20.7539298Z ✔ an elapsed preauthentication cookie may disappear while every live cookie survives unchanged (1.001485ms)
+source-and-inquiry	Run node --test tools/browser-business-failure.test.mjs tools/browser-business-temporal.test.mjs tools/browser-business-restore.test.mjs	2026-10-07T16:39:20.7540252Z ✔ a live or session cookie cannot disappear (0.851012ms)
+source-and-inquiry	Run node --test tools/browser-business-failure.test.mjs tools/browser-business-temporal.test.mjs tools/browser-business-restore.test.mjs	2026-10-07T16:39:20.7541154Z ✔ an observation before expiry cannot excuse later disappearance (0.163472ms)
+source-and-inquiry	Run node --test tools/browser-business-failure.test.mjs tools/browser-business-temporal.test.mjs tools/browser-business-restore.test.mjs	2026-10-07T16:39:20.7541747Z ✔ no cookie may be added even when its expiry has elapsed (0.144775ms)
+source-and-inquiry	Run node --test tools/browser-business-failure.test.mjs tools/browser-business-temporal.test.mjs tools/browser-business-restore.test.mjs	2026-10-07T16:39:20.7542216Z ✔ every surviving cookie attribute must remain exact (1.817947ms)
+source-and-inquiry	Run node --test tools/browser-business-failure.test.mjs tools/browser-business-temporal.test.mjs tools/browser-business-restore.test.mjs	2026-10-07T16:39:20.7542654Z ✔ duplicate names in either observation fail closed (0.892835ms)
+source-and-inquiry	Run node --test tools/browser-business-failure.test.mjs tools/browser-business-temporal.test.mjs tools/browser-business-restore.test.mjs	2026-10-07T16:39:20.7543126Z ✔ an invalid observation time cannot authorize disappearance (3.758364ms)
+source-and-inquiry	Run node --test tools/browser-business-failure.test.mjs tools/browser-business-temporal.test.mjs tools/browser-business-restore.test.mjs	2026-10-07T16:39:20.7575307Z ℹ tests 19
+source-and-inquiry	Run node --test tools/browser-business-failure.test.mjs tools/browser-business-temporal.test.mjs tools/browser-business-restore.test.mjs	2026-10-07T16:39:20.7575644Z ℹ suites 0
+source-and-inquiry	Run node --test tools/browser-business-failure.test.mjs tools/browser-business-temporal.test.mjs tools/browser-business-restore.test.mjs	2026-10-07T16:39:20.7575916Z ℹ pass 19
+source-and-inquiry	Run node --test tools/browser-business-failure.test.mjs tools/browser-business-temporal.test.mjs tools/browser-business-restore.test.mjs	2026-10-07T16:39:20.7576186Z ℹ fail 0
+source-and-inquiry	Run node --test tools/browser-business-failure.test.mjs tools/browser-business-temporal.test.mjs tools/browser-business-restore.test.mjs	2026-10-07T16:39:20.7576472Z ℹ cancelled 0
+source-and-inquiry	Run node --test tools/browser-business-failure.test.mjs tools/browser-business-temporal.test.mjs tools/browser-business-restore.test.mjs	2026-10-07T16:39:20.7576782Z ℹ skipped 0
+source-and-inquiry	Run node --test tools/browser-business-failure.test.mjs tools/browser-business-temporal.test.mjs tools/browser-business-restore.test.mjs	2026-10-07T16:39:20.7577047Z ℹ todo 0
+source-and-inquiry	Run node --test tools/browser-business-failure.test.mjs tools/browser-business-temporal.test.mjs tools/browser-business-restore.test.mjs	2026-10-07T16:39:20.7577800Z ℹ duration_ms 5091.290173
+source-and-inquiry	Run npx playwright install --with-deps chromium	﻿2026-10-07T16:39:20.7656045Z ##[group]Run npx playwright install --with-deps chromium
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:20.7656384Z ^[[36;1mnpx playwright install --with-deps chromium^[[0m
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:20.7711022Z shell: /usr/bin/bash -e {0}
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:20.7711233Z env:
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:20.7711398Z   CARGO_BUILD_JOBS: 1
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:20.7711580Z   CARGO_INCREMENTAL: 0
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:20.7711770Z   CARGO_PROFILE_DEV_DEBUG: 0
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:20.7711978Z   CARGO_PROFILE_TEST_DEBUG: 0
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:20.7712169Z ##[endgroup]
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:21.7287649Z Installing dependencies...
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:21.7353017Z Switching to root user to install dependencies...
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:21.8850443Z Get:1 file:/etc/apt/apt-mirrors.txt Mirrorlist [144 B]
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:21.9124523Z Hit:2 http://azure.archive.ubuntu.com/ubuntu noble InRelease
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:21.9133155Z Get:3 http://azure.archive.ubuntu.com/ubuntu noble-updates InRelease [126 kB]
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:21.9175040Z Get:4 http://azure.archive.ubuntu.com/ubuntu noble-backports InRelease [126 kB]
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:21.9196136Z Get:6 https://packages.microsoft.com/ubuntu/24.04/prod noble InRelease [3600 B]
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:21.9204160Z Get:5 http://azure.archive.ubuntu.com/ubuntu noble-security InRelease [126 kB]
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:22.0193835Z Get:7 http://azure.archive.ubuntu.com/ubuntu noble-updates/main amd64 Packages [1375 kB]
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:22.0319098Z Get:8 http://azure.archive.ubuntu.com/ubuntu noble-updates/main Translation-en [306 kB]
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:22.0324926Z Get:9 http://azure.archive.ubuntu.com/ubuntu noble-updates/main amd64 Components [181 kB]
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:22.0341075Z Get:10 http://azure.archive.ubuntu.com/ubuntu noble-updates/universe amd64 Packages [1702 kB]
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:22.0415592Z Get:11 http://azure.archive.ubuntu.com/ubuntu noble-updates/universe Translation-en [341 kB]
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:22.0436409Z Get:12 http://azure.archive.ubuntu.com/ubuntu noble-updates/universe amd64 Components [388 kB]
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:22.0461330Z Get:13 http://azure.archive.ubuntu.com/ubuntu noble-updates/restricted amd64 Packages [1730 kB]
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:22.0592294Z Get:14 http://azure.archive.ubuntu.com/ubuntu noble-updates/restricted Translation-en [396 kB]
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:22.0638400Z Get:15 http://azure.archive.ubuntu.com/ubuntu noble-updates/multiverse Translation-en [13.3 kB]
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:22.0643426Z Get:16 http://azure.archive.ubuntu.com/ubuntu noble-updates/multiverse amd64 Components [940 B]
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:22.1097608Z Get:17 http://azure.archive.ubuntu.com/ubuntu noble-backports/main amd64 Components [5752 B]
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:22.1112185Z Get:18 http://azure.archive.ubuntu.com/ubuntu noble-backports/universe amd64 Components [12.6 kB]
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:22.1113427Z Get:19 https://packages.microsoft.com/ubuntu/24.04/prod noble/main amd64 Packages [519 kB]
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:22.1191828Z Get:20 https://packages.microsoft.com/ubuntu/24.04/prod noble/main armhf Packages [12.6 kB]
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:22.1232982Z Get:21 https://packages.microsoft.com/ubuntu/24.04/prod noble/main arm64 Packages [463 kB]
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:22.1486997Z Get:22 http://azure.archive.ubuntu.com/ubuntu noble-security/main amd64 Packages [1073 kB]
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:22.1545834Z Get:23 http://azure.archive.ubuntu.com/ubuntu noble-security/main Translation-en [223 kB]
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:22.1554779Z Get:24 http://azure.archive.ubuntu.com/ubuntu noble-security/main amd64 Components [46.4 kB]
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:22.1564816Z Get:25 http://azure.archive.ubuntu.com/ubuntu noble-security/universe amd64 Packages [1218 kB]
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:22.1620631Z Get:26 http://azure.archive.ubuntu.com/ubuntu noble-security/universe Translation-en [245 kB]
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:22.1637031Z Get:27 http://azure.archive.ubuntu.com/ubuntu noble-security/universe amd64 Components [76.3 kB]
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:22.1649088Z Get:28 http://azure.archive.ubuntu.com/ubuntu noble-security/restricted amd64 Packages [1566 kB]
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:22.1718555Z Get:29 http://azure.archive.ubuntu.com/ubuntu noble-security/restricted Translation-en [361 kB]
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:22.1737399Z Get:30 http://azure.archive.ubuntu.com/ubuntu noble-security/multiverse Translation-en [11.6 kB]
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:31.4684152Z Fetched 12.6 MB in 1s (11.3 MB/s)
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:32.1607978Z Reading package lists...
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:32.1837467Z Reading package lists...
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:32.3789877Z Building dependency tree...
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:32.3796201Z Reading state information...
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:32.5245458Z libasound2t64 is already the newest version (1.2.11-1ubuntu0.3).
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:32.5246104Z libasound2t64 set to manually installed.
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:32.5246711Z libatk-bridge2.0-0t64 is already the newest version (2.52.0-1build1).
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:32.5247307Z libatk-bridge2.0-0t64 set to manually installed.
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:32.5247856Z libatk1.0-0t64 is already the newest version (2.52.0-1build1).
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:32.5248372Z libatk1.0-0t64 set to manually installed.
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:32.5248911Z libatspi2.0-0t64 is already the newest version (2.52.0-1build1).
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:32.5249501Z libatspi2.0-0t64 set to manually installed.
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:32.5250074Z libcairo2 is already the newest version (1.18.0-3build1).
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:32.5250579Z libcairo2 set to manually installed.
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:32.5251397Z libcups2t64 is already the newest version (2.4.7-1.2ubuntu7.14).
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:32.5252012Z libcups2t64 set to manually installed.
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:32.5252608Z libdbus-1-3 is already the newest version (1.14.10-4ubuntu4.1).
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:32.5253132Z libdbus-1-3 set to manually installed.
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:32.5253684Z libdrm2 is already the newest version (2.4.125-1ubuntu0.1~24.04.2).
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:32.5254164Z libdrm2 set to manually installed.
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:32.5254622Z libglib2.0-0t64 is already the newest version (2.80.0-6ubuntu3.9).
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:32.5255086Z libglib2.0-0t64 set to manually installed.
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:32.5255424Z libnspr4 is already the newest version (2:4.35-1.1build1).
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:32.5255732Z libnspr4 set to manually installed.
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:32.5256039Z libnss3 is already the newest version (2:3.98-1ubuntu0.2).
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:32.5256325Z libnss3 set to manually installed.
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:32.5256789Z libpango-1.0-0 is already the newest version (1.52.1+ds-1build1).
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:32.5257148Z libpango-1.0-0 set to manually installed.
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:32.5257460Z libx11-6 is already the newest version (2:1.8.7-1build1).
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:32.5257750Z libx11-6 set to manually installed.
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:32.5258036Z libxcb1 is already the newest version (1.15-1ubuntu2).
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:32.5258366Z libxcb1 set to manually installed.
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:32.5258767Z libxcomposite1 is already the newest version (1:0.4.5-1build3).
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:32.5259100Z libxcomposite1 set to manually installed.
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:32.5259424Z libxdamage1 is already the newest version (1:1.1.6-1build1).
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:32.5259730Z libxdamage1 set to manually installed.
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:32.5260063Z libxext6 is already the newest version (2:1.3.4-1build2).
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:32.5260479Z libxext6 set to manually installed.
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:32.5261050Z libxfixes3 is already the newest version (1:6.0.0-2build1).
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:32.5261507Z libxfixes3 set to manually installed.
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:32.5261991Z libxkbcommon0 is already the newest version (1.6.0-1build1).
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:32.5262432Z libxkbcommon0 set to manually installed.
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:32.5262929Z libxrandr2 is already the newest version (2:1.5.2-2build1).
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:32.5263267Z libxrandr2 set to manually installed.
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:32.5263576Z xvfb is already the newest version (2:21.1.12-1ubuntu1.8).
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:32.5264001Z fonts-noto-color-emoji is already the newest version (2.047-0ubuntu0.24.04.1).
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:32.5264719Z libfontconfig1 is already the newest version (2.15.0-1.1ubuntu2).
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:32.5265244Z libfontconfig1 set to manually installed.
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:32.5265753Z fonts-liberation is already the newest version (1:2.1.5-3).
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:32.5266317Z fonts-liberation set to manually installed.
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:32.5266771Z The following additional packages will be installed:
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:32.5267183Z   libgl1-mesa-dri libglx-mesa0 mesa-libgallium xfonts-encodings xfonts-utils
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:32.5267711Z Recommended packages:
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:32.5268048Z   fonts-ipafont-mincho fonts-tlwg-loma
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:32.5426746Z The following NEW packages will be installed:
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:32.5427240Z   fonts-freefont-ttf fonts-ipafont-gothic fonts-tlwg-loma-otf fonts-unifont
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:32.5431993Z   fonts-wqy-zenhei xfonts-cyrillic xfonts-encodings xfonts-scalable
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:32.5432337Z   xfonts-utils
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:32.5435449Z The following packages will be upgraded:
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:32.5439115Z   libfreetype6 libgbm1 libgl1-mesa-dri libglx-mesa0 mesa-libgallium
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:32.5584612Z 5 upgraded, 9 newly installed, 0 to remove and 25 not upgraded.
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:32.5585222Z Need to get 32.5 MB of archives.
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:32.5585814Z After this operation, 79.5 MB of additional disk space will be used.
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:32.5586378Z Get:1 file:/etc/apt/apt-mirrors.txt Mirrorlist [144 B]
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:32.6457988Z Get:2 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 fonts-ipafont-gothic all 00303-21ubuntu1 [3513 kB]
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:32.7795714Z Get:3 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 fonts-freefont-ttf all 20211204+svn4273-2 [5641 kB]
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:32.9560400Z Get:4 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 fonts-tlwg-loma-otf all 1:0.7.3-1 [107 kB]
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:33.0208255Z Get:5 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 fonts-unifont all 1:15.1.01-1build1 [2993 kB]
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:33.1440514Z Get:6 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 fonts-wqy-zenhei all 0.9.45-8 [7472 kB]
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:33.3584953Z Get:7 http://azure.archive.ubuntu.com/ubuntu noble-updates/main amd64 libfreetype6 amd64 2.13.2+dfsg-1ubuntu0.2 [403 kB]
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:33.4298399Z Get:8 http://azure.archive.ubuntu.com/ubuntu noble-updates/main amd64 libgl1-mesa-dri amd64 25.2.8-0ubuntu0.24.04.4 [38.0 kB]
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:33.4935190Z Get:9 http://azure.archive.ubuntu.com/ubuntu noble-updates/main amd64 libglx-mesa0 amd64 25.2.8-0ubuntu0.24.04.4 [110 kB]
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:33.5589640Z Get:10 http://azure.archive.ubuntu.com/ubuntu noble-updates/main amd64 libgbm1 amd64 25.2.8-0ubuntu0.24.04.4 [34.2 kB]
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:33.6227163Z Get:11 http://azure.archive.ubuntu.com/ubuntu noble-updates/main amd64 mesa-libgallium amd64 25.2.8-0ubuntu0.24.04.4 [10.8 MB]
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:33.9035754Z Get:12 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 xfonts-encodings all 1:1.0.5-0ubuntu2 [578 kB]
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:33.9721043Z Get:13 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 xfonts-utils amd64 1:7.7+6build3 [94.4 kB]
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:34.0369006Z Get:14 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 xfonts-cyrillic all 1:1.0.5+nmu1 [384 kB]
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:34.1037803Z Get:15 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 xfonts-scalable all 1:1.0.3-1.3 [304 kB]
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:34.3796566Z Fetched 32.5 MB in 2s (20.9 MB/s)
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:34.3980970Z Selecting previously unselected package fonts-ipafont-gothic.
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:34.4181453Z (Reading database ... 
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:34.4181817Z (Reading database ... 5%
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:34.4182131Z (Reading database ... 10%
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:34.4182356Z (Reading database ... 15%
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:34.4182566Z (Reading database ... 20%
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:34.4182761Z (Reading database ... 25%
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:34.4182967Z (Reading database ... 30%
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:34.4183164Z (Reading database ... 35%
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:34.4183736Z (Reading database ... 40%
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:34.4184050Z (Reading database ... 45%
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:34.4184349Z (Reading database ... 50%
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:34.4212549Z (Reading database ... 55%
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:34.6130862Z (Reading database ... 60%
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:34.8949262Z (Reading database ... 65%
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:35.1147106Z (Reading database ... 70%
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:35.3024013Z (Reading database ... 75%
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:35.4261975Z (Reading database ... 80%
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:35.5609064Z (Reading database ... 85%
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:35.7222375Z (Reading database ... 90%
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:35.8157206Z (Reading database ... 95%
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:35.8158004Z (Reading database ... 100%
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:35.8158741Z (Reading database ... 202296 files and directories currently installed.)
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:35.8199677Z Preparing to unpack .../00-fonts-ipafont-gothic_00303-21ubuntu1_all.deb ...
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:35.8326734Z Unpacking fonts-ipafont-gothic (00303-21ubuntu1) ...
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:36.0468474Z Selecting previously unselected package fonts-freefont-ttf.
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:36.0579046Z Preparing to unpack .../01-fonts-freefont-ttf_20211204+svn4273-2_all.deb ...
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:36.1085034Z Unpacking fonts-freefont-ttf (20211204+svn4273-2) ...
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:36.2190013Z Selecting previously unselected package fonts-tlwg-loma-otf.
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:36.2301748Z Preparing to unpack .../02-fonts-tlwg-loma-otf_1%3a0.7.3-1_all.deb ...
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:36.2307952Z Unpacking fonts-tlwg-loma-otf (1:0.7.3-1) ...
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:36.2494687Z Selecting previously unselected package fonts-unifont.
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:36.2606742Z Preparing to unpack .../03-fonts-unifont_1%3a15.1.01-1build1_all.deb ...
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:36.2613398Z Unpacking fonts-unifont (1:15.1.01-1build1) ...
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:36.4770946Z Selecting previously unselected package fonts-wqy-zenhei.
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:36.4880918Z Preparing to unpack .../04-fonts-wqy-zenhei_0.9.45-8_all.deb ...
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:36.4965999Z Unpacking fonts-wqy-zenhei (0.9.45-8) ...
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:36.9805658Z Preparing to unpack .../05-libfreetype6_2.13.2+dfsg-1ubuntu0.2_amd64.deb ...
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:36.9827520Z Unpacking libfreetype6:amd64 (2.13.2+dfsg-1ubuntu0.2) over (2.13.2+dfsg-1ubuntu0.1) ...
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:37.0193630Z Preparing to unpack .../06-libgl1-mesa-dri_25.2.8-0ubuntu0.24.04.4_amd64.deb ...
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:37.0321663Z Unpacking libgl1-mesa-dri:amd64 (25.2.8-0ubuntu0.24.04.4) over (25.2.8-0ubuntu0.24.04.2) ...
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:37.0743096Z Preparing to unpack .../07-libglx-mesa0_25.2.8-0ubuntu0.24.04.4_amd64.deb ...
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:37.0759681Z Unpacking libglx-mesa0:amd64 (25.2.8-0ubuntu0.24.04.4) over (25.2.8-0ubuntu0.24.04.2) ...
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:37.1092045Z Preparing to unpack .../08-libgbm1_25.2.8-0ubuntu0.24.04.4_amd64.deb ...
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:37.1108454Z Unpacking libgbm1:amd64 (25.2.8-0ubuntu0.24.04.4) over (25.2.8-0ubuntu0.24.04.2) ...
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:37.1428756Z Preparing to unpack .../09-mesa-libgallium_25.2.8-0ubuntu0.24.04.4_amd64.deb ...
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:37.1445248Z Unpacking mesa-libgallium:amd64 (25.2.8-0ubuntu0.24.04.4) over (25.2.8-0ubuntu0.24.04.2) ...
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:37.5052367Z Selecting previously unselected package xfonts-encodings.
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:37.5165050Z Preparing to unpack .../10-xfonts-encodings_1%3a1.0.5-0ubuntu2_all.deb ...
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:37.5170086Z Unpacking xfonts-encodings (1:1.0.5-0ubuntu2) ...
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:37.5415879Z Selecting previously unselected package xfonts-utils.
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:37.5523525Z Preparing to unpack .../11-xfonts-utils_1%3a7.7+6build3_amd64.deb ...
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:37.5528903Z Unpacking xfonts-utils (1:7.7+6build3) ...
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:37.5792765Z Selecting previously unselected package xfonts-cyrillic.
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:37.5902948Z Preparing to unpack .../12-xfonts-cyrillic_1%3a1.0.5+nmu1_all.deb ...
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:37.5908063Z Unpacking xfonts-cyrillic (1:1.0.5+nmu1) ...
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:37.6183979Z Selecting previously unselected package xfonts-scalable.
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:37.6295466Z Preparing to unpack .../13-xfonts-scalable_1%3a1.0.3-1.3_all.deb ...
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:37.6300517Z Unpacking xfonts-scalable (1:1.0.3-1.3) ...
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:37.6783757Z Setting up mesa-libgallium:amd64 (25.2.8-0ubuntu0.24.04.4) ...
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:37.6801002Z Setting up libgbm1:amd64 (25.2.8-0ubuntu0.24.04.4) ...
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:37.6815280Z Setting up libgl1-mesa-dri:amd64 (25.2.8-0ubuntu0.24.04.4) ...
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:37.6880274Z Setting up fonts-wqy-zenhei (0.9.45-8) ...
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:37.7109380Z Setting up fonts-freefont-ttf (20211204+svn4273-2) ...
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:37.7122651Z Setting up fonts-tlwg-loma-otf (1:0.7.3-1) ...
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:37.7136314Z Setting up libfreetype6:amd64 (2.13.2+dfsg-1ubuntu0.2) ...
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:37.7150021Z Setting up xfonts-encodings (1:1.0.5-0ubuntu2) ...
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:37.7163687Z Setting up fonts-ipafont-gothic (00303-21ubuntu1) ...
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:37.7220355Z update-alternatives: using /usr/share/fonts/opentype/ipafont-gothic/ipag.ttf to provide /usr/share/fonts/truetype/fonts-japanese-gothic.ttf (fonts-japanese-gothic.ttf) in auto mode
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:37.7232733Z Setting up fonts-unifont (1:15.1.01-1build1) ...
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:37.7248621Z Setting up libglx-mesa0:amd64 (25.2.8-0ubuntu0.24.04.4) ...
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:37.7263064Z Setting up xfonts-utils (1:7.7+6build3) ...
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:37.7296837Z Setting up xfonts-cyrillic (1:1.0.5+nmu1) ...
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:37.7533990Z Setting up xfonts-scalable (1:1.0.3-1.3) ...
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:37.7775473Z Processing triggers for libc-bin (2.39-0ubuntu8.9) ...
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:37.9403010Z Processing triggers for man-db (2.12.0-4build2) ...
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:37.9420960Z Not building database; man-db/auto-update is not 'true'.
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:37.9433046Z Processing triggers for fontconfig (2.15.0-1.1ubuntu2) ...
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:38.5628042Z 
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:38.5628928Z Running kernel seems to be up-to-date.
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:38.5629187Z 
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:38.5629300Z Restarting services...
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:38.5693022Z  systemctl restart php8.3-fpm.service
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:38.6684226Z 
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:38.6685682Z No containers need to be restarted.
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:38.6691234Z 
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:38.6691613Z No user sessions are running outdated binaries.
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:38.6691889Z 
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:38.6692140Z No VM guests are running outdated hypervisor (qemu) binaries on this host.
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:39.5593054Z Downloading Chrome for Testing 153.0.8010.12 (playwright chromium v1243) from https://cdn.playwright.dev/builds/cft/153.0.8010.12/linux64/chrome-linux64.zip
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:39.9070110Z |                                                                                |   0% of 186.8 MiB
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:40.0789105Z |■■■■■■■■                                                                        |  10% of 186.8 MiB
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:40.1535059Z |■■■■■■■■■■■■■■■■                                                                |  20% of 186.8 MiB
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:40.2324775Z |■■■■■■■■■■■■■■■■■■■■■■■■                                                        |  30% of 186.8 MiB
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:40.2822126Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                                |  40% of 186.8 MiB
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:40.3466956Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                        |  50% of 186.8 MiB
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:40.3929768Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                |  60% of 186.8 MiB
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:40.4545655Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                        |  70% of 186.8 MiB
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:40.5037741Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                |  80% of 186.8 MiB
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:40.5901991Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■        |  90% of 186.8 MiB
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:40.6562498Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■| 100% of 186.8 MiB
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:43.0691159Z Chrome for Testing 153.0.8010.12 (playwright chromium v1243) downloaded to /home/runner/.cache/ms-playwright/chromium-1243
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:43.0694554Z Downloading FFmpeg (playwright ffmpeg v1011) from https://cdn.playwright.dev/dbazure/download/playwright/builds/ffmpeg/1011/ffmpeg-linux.zip
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:43.3368359Z |                                                                                |   0% of 2.3 MiB
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:43.3406398Z |■■■■■■■■                                                                        |  10% of 2.3 MiB
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:43.3425936Z |■■■■■■■■■■■■■■■■                                                                |  20% of 2.3 MiB
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:43.3439073Z |■■■■■■■■■■■■■■■■■■■■■■■■                                                        |  30% of 2.3 MiB
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:43.3452677Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                                |  40% of 2.3 MiB
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:43.3464042Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                        |  50% of 2.3 MiB
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:43.3474498Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                |  60% of 2.3 MiB
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:43.3485035Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                        |  70% of 2.3 MiB
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:43.3494735Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                |  80% of 2.3 MiB
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:43.3507166Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■        |  90% of 2.3 MiB
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:43.3513215Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■| 100% of 2.3 MiB
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:43.3966312Z FFmpeg (playwright ffmpeg v1011) downloaded to /home/runner/.cache/ms-playwright/ffmpeg-1011
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:43.3969466Z Downloading Chrome Headless Shell 153.0.8010.12 (playwright chromium-headless-shell v1243) from https://cdn.playwright.dev/builds/cft/153.0.8010.12/linux64/chrome-headless-shell-linux64.zip
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:43.7391956Z |                                                                                |   0% of 114.3 MiB
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:43.8893609Z |■■■■■■■■                                                                        |  10% of 114.3 MiB
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:43.9547466Z |■■■■■■■■■■■■■■■■                                                                |  20% of 114.3 MiB
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:44.0107957Z |■■■■■■■■■■■■■■■■■■■■■■■■                                                        |  30% of 114.3 MiB
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:44.0777342Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                                |  40% of 114.3 MiB
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:44.1486065Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                        |  50% of 114.3 MiB
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:44.2222416Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                |  60% of 114.3 MiB
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:44.2726262Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                        |  70% of 114.3 MiB
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:44.3270385Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                |  80% of 114.3 MiB
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:44.3919223Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■        |  90% of 114.3 MiB
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:44.4708309Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■| 100% of 114.3 MiB
+source-and-inquiry	Run npx playwright install --with-deps chromium	2026-10-07T16:39:46.2491419Z Chrome Headless Shell 153.0.8010.12 (playwright chromium-headless-shell v1243) downloaded to /home/runner/.cache/ms-playwright/chromium_headless_shell-1243
+source-and-inquiry	Run node --test tools/enrollment-fault-deadlines.test.mjs tools/test-native-browser-enrollment.test.mjs	﻿2026-10-07T16:39:46.2795246Z ##[group]Run node --test tools/enrollment-fault-deadlines.test.mjs tools/test-native-browser-enrollment.test.mjs
+source-and-inquiry	Run node --test tools/enrollment-fault-deadlines.test.mjs tools/test-native-browser-enrollment.test.mjs	2026-10-07T16:39:46.2795924Z ^[[36;1mnode --test tools/enrollment-fault-deadlines.test.mjs tools/test-native-browser-enrollment.test.mjs^[[0m
+source-and-inquiry	Run node --test tools/enrollment-fault-deadlines.test.mjs tools/test-native-browser-enrollment.test.mjs	2026-10-07T16:39:46.2850802Z shell: /usr/bin/bash -e {0}
+source-and-inquiry	Run node --test tools/enrollment-fault-deadlines.test.mjs tools/test-native-browser-enrollment.test.mjs	2026-10-07T16:39:46.2851088Z env:
+source-and-inquiry	Run node --test tools/enrollment-fault-deadlines.test.mjs tools/test-native-browser-enrollment.test.mjs	2026-10-07T16:39:46.2851250Z   CARGO_BUILD_JOBS: 1
+source-and-inquiry	Run node --test tools/enrollment-fault-deadlines.test.mjs tools/test-native-browser-enrollment.test.mjs	2026-10-07T16:39:46.2851435Z   CARGO_INCREMENTAL: 0
+source-and-inquiry	Run node --test tools/enrollment-fault-deadlines.test.mjs tools/test-native-browser-enrollment.test.mjs	2026-10-07T16:39:46.2851630Z   CARGO_PROFILE_DEV_DEBUG: 0
+source-and-inquiry	Run node --test tools/enrollment-fault-deadlines.test.mjs tools/test-native-browser-enrollment.test.mjs	2026-10-07T16:39:46.2851840Z   CARGO_PROFILE_TEST_DEBUG: 0
+source-and-inquiry	Run node --test tools/enrollment-fault-deadlines.test.mjs tools/test-native-browser-enrollment.test.mjs	2026-10-07T16:39:46.2852035Z ##[endgroup]
+source-and-inquiry	Run node --test tools/enrollment-fault-deadlines.test.mjs tools/test-native-browser-enrollment.test.mjs	2026-10-07T16:39:46.3672669Z ✔ slow prerequisite startup does not spend the requested cleanup budget (1.944052ms)
+source-and-inquiry	Run node --test tools/enrollment-fault-deadlines.test.mjs tools/test-native-browser-enrollment.test.mjs	2026-10-07T16:39:46.3678081Z ✔ a ready runner that fails to exit still triggers the cleanup fallback (4.245605ms)
+source-and-inquiry	Run node --test tools/enrollment-fault-deadlines.test.mjs tools/test-native-browser-enrollment.test.mjs	2026-10-07T16:39:46.3678766Z ✔ never-ready startup has one absolute bounded termination deadline (0.55939ms)
+source-and-inquiry	Run node --test tools/enrollment-fault-deadlines.test.mjs tools/test-native-browser-enrollment.test.mjs	2026-10-07T16:39:46.3679361Z ✔ a second fault cannot reset an already running cleanup deadline (0.286034ms)
+source-and-inquiry	Run node --test tools/enrollment-fault-deadlines.test.mjs tools/test-native-browser-enrollment.test.mjs	2026-10-07T16:39:46.3691705Z ✔ late cleanup cannot erase evidence of forced intervention (0.444469ms)
+source-and-inquiry	Run node --test tools/enrollment-fault-deadlines.test.mjs tools/test-native-browser-enrollment.test.mjs	2026-10-07T16:39:46.3692564Z ✔ natural completion disposes both clocks and cannot rearm them (0.373203ms)
+source-and-inquiry	Run node --test tools/enrollment-fault-deadlines.test.mjs tools/test-native-browser-enrollment.test.mjs	2026-10-07T16:39:46.7206577Z ✔ enrollment runner confirms cleanup after eof-before-origin (356.09275ms)
+source-and-inquiry	Run node --test tools/enrollment-fault-deadlines.test.mjs tools/test-native-browser-enrollment.test.mjs	2026-10-07T16:39:47.0564158Z ✔ enrollment runner confirms cleanup after partial-eof-before-origin (335.665469ms)
+source-and-inquiry	Run node --test tools/enrollment-fault-deadlines.test.mjs tools/test-native-browser-enrollment.test.mjs	2026-10-07T16:39:47.3927232Z ✔ enrollment runner confirms cleanup after frame-eof-before-origin (336.215325ms)
+source-and-inquiry	Run node --test tools/enrollment-fault-deadlines.test.mjs tools/test-native-browser-enrollment.test.mjs	2026-10-07T16:39:59.9321414Z ✔ enrollment runner confirms cleanup after signal-after-origin (12539.280096ms)
+source-and-inquiry	Run node --test tools/enrollment-fault-deadlines.test.mjs tools/test-native-browser-enrollment.test.mjs	2026-10-07T16:40:15.6596748Z ✔ enrollment runner confirms cleanup after eof-after-ready (15727.047216ms)
+source-and-inquiry	Run node --test tools/enrollment-fault-deadlines.test.mjs tools/test-native-browser-enrollment.test.mjs	2026-10-07T16:40:32.3876395Z ✔ enrollment runner confirms cleanup after oversized (16728.397425ms)
+source-and-inquiry	Run node --test tools/enrollment-fault-deadlines.test.mjs tools/test-native-browser-enrollment.test.mjs	2026-10-07T16:40:47.9449724Z ✔ enrollment runner confirms cleanup after wrong-version (15557.225662ms)
+source-and-inquiry	Run node --test tools/enrollment-fault-deadlines.test.mjs tools/test-native-browser-enrollment.test.mjs	2026-10-07T16:41:03.4376026Z ✔ enrollment runner confirms cleanup after wrong-sequence (15492.494396ms)
+source-and-inquiry	Run node --test tools/enrollment-fault-deadlines.test.mjs tools/test-native-browser-enrollment.test.mjs	2026-10-07T16:41:18.7830983Z ✔ enrollment runner confirms cleanup after wrong-kind (15345.289894ms)
+source-and-inquiry	Run node --test tools/enrollment-fault-deadlines.test.mjs tools/test-native-browser-enrollment.test.mjs	2026-10-07T16:41:34.2137167Z ✔ enrollment runner confirms cleanup after legacy-selection (15430.586664ms)
+source-and-inquiry	Run node --test tools/enrollment-fault-deadlines.test.mjs tools/test-native-browser-enrollment.test.mjs	2026-10-07T16:41:49.8866375Z ✔ enrollment runner confirms cleanup after missing-selection (15672.891686ms)
+source-and-inquiry	Run node --test tools/enrollment-fault-deadlines.test.mjs tools/test-native-browser-enrollment.test.mjs	2026-10-07T16:42:05.5371770Z ✔ enrollment runner confirms cleanup after malformed-selection (15650.363217ms)
+source-and-inquiry	Run node --test tools/enrollment-fault-deadlines.test.mjs tools/test-native-browser-enrollment.test.mjs	2026-10-07T16:42:20.9997183Z ✔ enrollment runner confirms cleanup after weak-uv (15462.498968ms)
+source-and-inquiry	Run node --test tools/enrollment-fault-deadlines.test.mjs tools/test-native-browser-enrollment.test.mjs	2026-10-07T16:42:21.3761529Z ✔ business runner confirms cleanup after eof-before-origin (376.280028ms)
+source-and-inquiry	Run node --test tools/enrollment-fault-deadlines.test.mjs tools/test-native-browser-enrollment.test.mjs	2026-10-07T16:42:21.7386875Z ✔ business runner confirms cleanup after partial-eof-before-origin (362.675662ms)
+source-and-inquiry	Run node --test tools/enrollment-fault-deadlines.test.mjs tools/test-native-browser-enrollment.test.mjs	2026-10-07T16:42:22.1020433Z ✔ business runner confirms cleanup after frame-eof-before-origin (363.283884ms)
+source-and-inquiry	Run node --test tools/enrollment-fault-deadlines.test.mjs tools/test-native-browser-enrollment.test.mjs	2026-10-07T16:42:22.1086570Z ℹ tests 22
+source-and-inquiry	Run node --test tools/enrollment-fault-deadlines.test.mjs tools/test-native-browser-enrollment.test.mjs	2026-10-07T16:42:22.1087056Z ℹ suites 0
+source-and-inquiry	Run node --test tools/enrollment-fault-deadlines.test.mjs tools/test-native-browser-enrollment.test.mjs	2026-10-07T16:42:22.1087396Z ℹ pass 22
+source-and-inquiry	Run node --test tools/enrollment-fault-deadlines.test.mjs tools/test-native-browser-enrollment.test.mjs	2026-10-07T16:42:22.1087776Z ℹ fail 0
+source-and-inquiry	Run node --test tools/enrollment-fault-deadlines.test.mjs tools/test-native-browser-enrollment.test.mjs	2026-10-07T16:42:22.1088145Z ℹ cancelled 0
+source-and-inquiry	Run node --test tools/enrollment-fault-deadlines.test.mjs tools/test-native-browser-enrollment.test.mjs	2026-10-07T16:42:22.1088533Z ℹ skipped 0
+source-and-inquiry	Run node --test tools/enrollment-fault-deadlines.test.mjs tools/test-native-browser-enrollment.test.mjs	2026-10-07T16:42:22.1088864Z ℹ todo 0
+source-and-inquiry	Run node --test tools/enrollment-fault-deadlines.test.mjs tools/test-native-browser-enrollment.test.mjs	2026-10-07T16:42:22.1089240Z ℹ duration_ms 155791.837163
+source-and-inquiry	Source parser and certificate CLI security regressions	﻿2026-10-07T16:42:22.1169604Z ##[group]Run node --test backend-fork/scripts/check-request-body-contract.test.mjs backend-fork/scripts/korean-connectivity/local-certificate-agent.test.mjs
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:22.1170496Z ^[[36;1mnode --test backend-fork/scripts/check-request-body-contract.test.mjs backend-fork/scripts/korean-connectivity/local-certificate-agent.test.mjs^[[0m
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:22.1225390Z shell: /usr/bin/bash -e {0}
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:22.1225606Z env:
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:22.1225761Z   CARGO_BUILD_JOBS: 1
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:22.1225957Z   CARGO_INCREMENTAL: 0
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:22.1226167Z   CARGO_PROFILE_DEV_DEBUG: 0
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:22.1226365Z   CARGO_PROFILE_TEST_DEBUG: 0
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:22.1226549Z ##[endgroup]
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.5516970Z ▶ request body contract gate
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.5517781Z   ✔ parses many outer attributes within the bounded CLI run (57.226926ms)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.5518638Z   ✔ reports a spec property the struct's rename_all makes unreachable (10.991081ms)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.5519851Z   ✔ reports a required spec property that is not a field of the bound struct at all (2.11083ms)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.5521129Z   ✔ reports a handler-required field the spec does not list as required (1.920068ms)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.5522086Z   ✔ reports a handler-required field the spec makes optional when nothing renames it (1.641735ms)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.5522990Z   ✔ does not report the renamed-field mismatch twice, once from each side (1.972866ms)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.5523605Z   ✔ treats an Option field as optional rather than a missing required entry (1.938655ms)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.5524576Z   ✔ reads a raw-identifier field under the name serde publishes it as (1.529739ms)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.5526621Z   ✔ skips a struct without deny_unknown_fields instead of counting it as compared (1.185624ms)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.5529310Z   ✔ flags an anchor operation that stops resolving instead of silently comparing less (144.042912ms)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.5530811Z   ✔ resolves every anchor and stays above the floor against this repository (2067.475221ms)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.5532688Z   ✔ exits 1 naming the floor when the resolver finds nothing to compare (38.480768ms)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.5536224Z   ✔ exits 1 on the floor alone, with every anchor resolved and no findings (210.186133ms)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.5537797Z   ✔ exits 0 stating what it compared, against this repository (2115.141549ms)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.5540043Z   ✔ lets an explicit #[serde(rename)] override rename_all (1.18688ms)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.5541444Z   ✔ treats #[serde(default)] on a non-Option field as optional (0.767548ms)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.5547665Z   ✔ resolves and compares an inline requestBody schema, not only a $ref (0.78849ms)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.5549173Z   ✔ binds the struct in the handler's own file, not a same-named one in another crate (0.934977ms)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.5551982Z   ✔ refuses to guess between same-named structs instead of comparing an arbitrary one (1.69891ms)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.5552975Z   ✔ fails closed when a request struct exists only inside an unexpanded macro (0.678747ms)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.5554719Z ✔ request body contract gate (4663.998242ms)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.5558019Z ▶ own-property helper rejects Object.prototype keys
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.5558759Z   ✔ own() and hasOwnKey() return nothing for every hostile key on an empty map (0.146548ms)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.5571865Z   ✔ own() still returns authored own properties (0.169351ms)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.5578615Z ✔ own-property helper rejects Object.prototype keys (0.439362ms)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.5579871Z ▶ request-body contract rejects prototype-chain schema resolution
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.5580639Z   ✔ jsonRequestSchema resolves nothing through the JS prototype chain (0.215069ms)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.5581712Z   ✔ does not treat Object.prototype names as present in schema.properties (0.700539ms)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.5582617Z ✔ request-body contract rejects prototype-chain schema resolution (1.005662ms)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.5583271Z ▶ serde rename_all reproduction
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.5583761Z   ✔ renames outcome the way serde does (0.18861ms)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.5584660Z   ✔ renames very_tasty the way serde does (0.046369ms)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.5585183Z   ✔ renames a the way serde does (0.031136ms)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.5585662Z   ✔ renames z42 the way serde does (0.030655ms)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.5586192Z ✔ serde rename_all reproduction (0.392432ms)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.5608017Z ▶ serde enum-variant reproduction
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.5608913Z   ✔ uses serde's variant rules rather than its different field rules (0.152687ms)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.5612403Z ✔ serde enum-variant reproduction (0.203652ms)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.5613442Z ▶ request body enum-variant contract
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.5614127Z   ✔ compares a qualified Option enum through a nullable oneOf $ref (1.017229ms)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.5614853Z   ✔ reports a variant the spec advertises but serde rejects (0.753027ms)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.5615530Z   ✔ reports a variant serde accepts but the spec omits (0.764293ms)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.5635985Z   ✖ does not let a top-level line comment hide the following Rust enum variant (1864.892864ms)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.5637333Z   ✖ does not let a char literal close an outer Rust enum body (1823.346247ms)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.5638316Z   ✖ does not let a byte-char literal close an outer Rust enum body (1817.912088ms)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.5639377Z   ✖ discovers no enum from an unexpanded macro_rules token tree at module scope (1838.495827ms)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.5644916Z   ✖ discovers no cfg-disabled enum nested in a function body (1819.844747ms)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.5691980Z   ✖ discovers no cfg-disabled enum nested in a const initializer block (1806.893398ms)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.5709350Z   ✖ discovers no cfg-disabled enum nested in an impl method body (1796.776629ms)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.5710262Z   ✔ discovers no enum from async, closure, trait, or static initializer bodies (1.07905ms)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.5711186Z   ✔ resolves an enum through its explicit inline-module path (0.799806ms)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.5711996Z   ✔ resolves a grouped import from an inline module without guessing another module (0.812355ms)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.5712821Z   ✔ resolves a qualified enum declared in a file-backed module (0.793036ms)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.5713631Z   ✔ follows a file-backed module's path attribute instead of its physical-name decoy (2.428652ms)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.5714473Z   ✔ uses Rust's relative path rules in file modules and inline modules (4.175302ms)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.5715257Z   ✔ ignores path-shaped comments, strings, and unrelated attributes (0.968937ms)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.5716130Z   ✔ propagates cfg uncertainty through a path-remapped file module (0.813997ms)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.5717133Z   ✔ propagates inner cfg_attr uncertainty from a path target with valid rustc configurations (502.284509ms)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.5718079Z   ✔ propagates inner cfg_attr after Rust file shebang and BOM preludes (453.852406ms)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.5718735Z   ✔ fails closed on misplaced, duplicate, or unsupported Rust file preludes (6.492539ms)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.5719303Z   ✔ propagates direct, conditional, duplicate, and conflicting inner cfg attributes (2.295695ms)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.5719801Z   ✔ keeps lint-only inner cfg_attr modules resolvable (0.90365ms)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.5720247Z   ✔ fails closed on malformed or unsupported inner module attributes (5.202316ms)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.5721003Z   ✔ fails closed on unknown, duplicate, conflicting, conditional, or malformed path mappings (4.976811ms)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.5721605Z   ✔ leaves missing, non-Rust, and ambiguous ordinary module targets unresolved (3.4525ms)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.5722471Z   ✔ resolves a qualified enum through an imported module alias (1.299237ms)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.5722943Z   ✔ does not resolve an unknown qualified path by bare-name fallback (1.307089ms)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.5723389Z   ✔ fails closed on a cfg-conditional module-scope enum (1.261101ms)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.5723854Z   ✔ propagates cfg uncertainty from an inline module to its enum (1.162904ms)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.5724351Z   ✔ fails closed when a field enum exists only inside an unexpanded macro (1.05238ms)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.5724999Z   ✔ keeps the outer enum boundary across every supported Rust lexical form (5.337917ms)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.5725495Z   ✔ does not discover enum items fabricated inside comments or literals (0.972212ms)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.5725974Z   ✔ fails closed on lexically invalid or unbalanced Rust item bodies (2.390746ms)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.5726504Z   ✔ keeps variants visible across line, doc, comma-bearing, and nested block comments (3.409958ms)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.5727064Z   ✔ treats comments as whitespace instead of fabricating joined variant names (1.455718ms)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.5727628Z   ✔ does not read comment syntax or commas inside discriminant literals as enum structure (0.854557ms)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.5728223Z   ✔ fails closed on syntax-bearing attributes even when their strings look like comments (0.756672ms)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.5728739Z   ✔ reports a serde enum when OpenAPI leaves the string unrestricted (1.009607ms)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.5729248Z   ✔ registers a String-backed spec enum instead of pretending to compare it (1.063958ms)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.5729810Z   ✔ registers tagged/data enums and unsupported variant attributes instead of guessing (2.105533ms)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.5730255Z   ✔ refuses an ambiguous bare enum name (1.308701ms)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.5730827Z   ✔ normalizes placeholder names without normalizing literal path bytes (1.216624ms)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.5731680Z   ✔ fails closed when placeholder normalization makes two operations collide (1.336252ms)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.5732367Z   ✔ makes enum findings fatal in the CLI (43.883623ms)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.5733007Z   ✔ enforces the enum floor independently of body resolution (44.35314ms)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.5733665Z ✖ request body enum-variant contract (13881.660208ms)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.5734219Z ▶ undecidable register is exact and fail-closed
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.5734840Z   ✔ rejects a missing, malformed, or duplicate register (2.928894ms)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.5735710Z   ✔ rejects unknown reasons, reason drift, stale entries, and equal-count substitution (2.470234ms)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.5736444Z   ✔ makes register drift fatal in the CLI (40.932933ms)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.5737086Z ✔ undecidable register is exact and fail-closed (46.546568ms)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.5737613Z ▶ live request body census
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.5738326Z   ✖ binds the exact source-first body and enum populations to the reviewed register (2512.584312ms)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.5739089Z ✖ live request body census (2512.700133ms)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6312840Z ✔ fixture proof output is 0600 under a permissive umask and keeps its contract (87.028337ms)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6315165Z ✔ existing output and symlink are rejected without changing their targets (241.04485ms)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6316363Z ✔ unknown argument text is never returned in a CLI failure (35.133995ms)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6317548Z ✔ wrong local fixture-key password fails privately without publishing proof (114.04779ms)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6318668Z ✔ writable output parent is rejected without publishing proof (127.386604ms)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6319696Z ✔ writable output ancestor is rejected without publishing proof (86.863581ms)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6320970Z ✔ missing output parent is rejected without creating directories (94.480149ms)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6321517Z ℹ tests 86
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6321770Z ℹ suites 8
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6322016Z ℹ pass 78
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6322267Z ℹ fail 8
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6322517Z ℹ cancelled 0
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6323176Z ℹ skipped 0
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6323426Z ℹ todo 0
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6323720Z ℹ duration_ms 21475.270097
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6359121Z 
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6359441Z ✖ failing tests:
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6359648Z 
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6360054Z test at backend-fork/scripts/check-request-body-contract.test.mjs:896:3
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6361161Z ✖ does not let a top-level line comment hide the following Rust enum variant (1864.892864ms)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6361657Z   AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6362265Z   + actual - expected
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6362455Z   
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6362600Z     {
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6362769Z       enumCandidates: 22,
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6362973Z       enumResolved: 7,
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6363152Z       enumSkipped: 15,
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6363327Z   +   population: 296,
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6363502Z   +   resolved: 57,
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6363678Z   -   population: 294,
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6363864Z   -   resolved: 55,
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6364037Z       skipped: 239
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6364201Z     }
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6364346Z   
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6364914Z       at TestContext.<anonymous> (file:///home/runner/work/console-nextjs/console-nextjs/backend-fork/scripts/check-request-body-contract.test.mjs:918:12)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6365503Z       at Test.runInAsyncScope (node:async_hooks:227:14)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6365810Z       at Test.run (node:internal/test_runner/test:1402:25)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6366189Z       at Suite.processPendingSubtests (node:internal/test_runner/test:974:18)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6366568Z       at Test.postRun (node:internal/test_runner/test:1542:19)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6366878Z       at Test.run (node:internal/test_runner/test:1467:12)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6367296Z       at async Suite.processPendingSubtests (node:internal/test_runner/test:974:7) {
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6367622Z     generatedMessage: true,
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6367824Z     code: 'ERR_ASSERTION',
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6368229Z     actual: { population: 296, resolved: 57, skipped: 239, enumCandidates: 22, enumResolved: 7, enumSkipped: 15 },
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6368890Z     expected: { population: 294, resolved: 55, skipped: 239, enumCandidates: 22, enumResolved: 7, enumSkipped: 15 },
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6369563Z     operator: 'deepStrictEqual',
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6369772Z     diff: 'simple'
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6369934Z   }
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6370020Z 
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6370251Z test at backend-fork/scripts/check-request-body-contract.test.mjs:948:3
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6370948Z ✖ does not let a char literal close an outer Rust enum body (1823.346247ms)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6371376Z   AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6371684Z   + actual - expected
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6371855Z   
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6372000Z     {
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6372182Z       enumCandidates: 22,
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6372373Z       enumResolved: 7,
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6372550Z       enumSkipped: 15,
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6372742Z   +   population: 296,
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6372946Z   +   resolved: 57,
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6373119Z   -   population: 294,
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6373309Z   -   resolved: 55,
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6373480Z       skipped: 239
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6373657Z     }
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6373802Z   
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6374415Z       at assertLiveCycleKindProbationFinding (file:///home/runner/work/console-nextjs/console-nextjs/backend-fork/scripts/check-request-body-contract.test.mjs:116:10)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6375400Z       at TestContext.<anonymous> (file:///home/runner/work/console-nextjs/console-nextjs/backend-fork/scripts/check-request-body-contract.test.mjs:949:5)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6376007Z       at Test.runInAsyncScope (node:async_hooks:227:14)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6376351Z       at Test.run (node:internal/test_runner/test:1402:25)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6376757Z       at Suite.processPendingSubtests (node:internal/test_runner/test:974:18)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6377348Z       at Test.postRun (node:internal/test_runner/test:1542:19)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6377695Z       at Test.run (node:internal/test_runner/test:1467:12)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6378088Z       at async Suite.processPendingSubtests (node:internal/test_runner/test:974:7) {
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6378427Z     generatedMessage: true,
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6378623Z     code: 'ERR_ASSERTION',
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6379046Z     actual: { population: 296, resolved: 57, skipped: 239, enumCandidates: 22, enumResolved: 7, enumSkipped: 15 },
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6379793Z     expected: { population: 294, resolved: 55, skipped: 239, enumCandidates: 22, enumResolved: 7, enumSkipped: 15 },
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6380258Z     operator: 'deepStrictEqual',
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6380465Z     diff: 'simple'
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6380775Z   }
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6380884Z 
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6381141Z test at backend-fork/scripts/check-request-body-contract.test.mjs:952:3
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6381726Z ✖ does not let a byte-char literal close an outer Rust enum body (1817.912088ms)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6382218Z   AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6382540Z   + actual - expected
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6382730Z   
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6382891Z     {
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6383074Z       enumCandidates: 22,
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6383280Z       enumResolved: 7,
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6383483Z       enumSkipped: 15,
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6383659Z   +   population: 296,
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6383872Z   +   resolved: 57,
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6384100Z   -   population: 294,
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6384283Z   -   resolved: 55,
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6384454Z       skipped: 239
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6384635Z     }
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6384785Z   
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6385358Z       at assertLiveCycleKindProbationFinding (file:///home/runner/work/console-nextjs/console-nextjs/backend-fork/scripts/check-request-body-contract.test.mjs:116:10)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6386281Z       at TestContext.<anonymous> (file:///home/runner/work/console-nextjs/console-nextjs/backend-fork/scripts/check-request-body-contract.test.mjs:953:5)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6386861Z       at Test.runInAsyncScope (node:async_hooks:227:14)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6387190Z       at Test.run (node:internal/test_runner/test:1402:25)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6387808Z       at Suite.processPendingSubtests (node:internal/test_runner/test:974:18)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6388453Z       at Test.postRun (node:internal/test_runner/test:1542:19)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6388957Z       at Test.run (node:internal/test_runner/test:1467:12)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6389586Z       at async Suite.processPendingSubtests (node:internal/test_runner/test:974:7) {
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6390152Z     generatedMessage: true,
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6390469Z     code: 'ERR_ASSERTION',
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6391042Z     actual: { population: 296, resolved: 57, skipped: 239, enumCandidates: 22, enumResolved: 7, enumSkipped: 15 },
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6391736Z     expected: { population: 294, resolved: 55, skipped: 239, enumCandidates: 22, enumResolved: 7, enumSkipped: 15 },
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6392334Z     operator: 'deepStrictEqual',
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6392538Z     diff: 'simple'
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6392701Z   }
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6392789Z 
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6393022Z test at backend-fork/scripts/check-request-body-contract.test.mjs:956:3
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6393619Z ✖ discovers no enum from an unexpanded macro_rules token tree at module scope (1838.495827ms)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6394086Z   AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6394407Z   + actual - expected
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6394579Z   
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6394721Z     {
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6394884Z       enumCandidates: 22,
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6395072Z       enumResolved: 7,
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6395252Z       enumSkipped: 15,
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6395428Z   +   population: 296,
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6395602Z   +   resolved: 57,
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6395771Z   -   population: 294,
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6395943Z   -   resolved: 55,
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6396120Z       skipped: 239
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6396280Z     }
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6396423Z   
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6396984Z       at assertLiveCycleKindProbationFinding (file:///home/runner/work/console-nextjs/console-nextjs/backend-fork/scripts/check-request-body-contract.test.mjs:116:10)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6397878Z       at TestContext.<anonymous> (file:///home/runner/work/console-nextjs/console-nextjs/backend-fork/scripts/check-request-body-contract.test.mjs:957:5)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6398427Z       at Test.runInAsyncScope (node:async_hooks:227:14)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6398857Z       at Test.run (node:internal/test_runner/test:1402:25)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6399221Z       at Suite.processPendingSubtests (node:internal/test_runner/test:974:18)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6399634Z       at Test.postRun (node:internal/test_runner/test:1542:19)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6399951Z       at Test.run (node:internal/test_runner/test:1467:12)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6400329Z       at async Suite.processPendingSubtests (node:internal/test_runner/test:974:7) {
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6400801Z     generatedMessage: true,
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6401046Z     code: 'ERR_ASSERTION',
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6401449Z     actual: { population: 296, resolved: 57, skipped: 239, enumCandidates: 22, enumResolved: 7, enumSkipped: 15 },
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6402031Z     expected: { population: 294, resolved: 55, skipped: 239, enumCandidates: 22, enumResolved: 7, enumSkipped: 15 },
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6402434Z     operator: 'deepStrictEqual',
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6402639Z     diff: 'simple'
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6402799Z   }
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6402885Z 
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6403114Z test at backend-fork/scripts/check-request-body-contract.test.mjs:966:3
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6403618Z ✖ discovers no cfg-disabled enum nested in a function body (1819.844747ms)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6404059Z   AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6404377Z   + actual - expected
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6404549Z   
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6404701Z     {
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6404865Z       enumCandidates: 22,
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6405056Z       enumResolved: 7,
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6405236Z       enumSkipped: 15,
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6405410Z   +   population: 296,
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6405587Z   +   resolved: 57,
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6405758Z   -   population: 294,
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6405928Z   -   resolved: 55,
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6406097Z       skipped: 239
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6406256Z     }
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6406397Z   
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6406965Z       at assertLiveCycleKindProbationFinding (file:///home/runner/work/console-nextjs/console-nextjs/backend-fork/scripts/check-request-body-contract.test.mjs:116:10)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6407862Z       at TestContext.<anonymous> (file:///home/runner/work/console-nextjs/console-nextjs/backend-fork/scripts/check-request-body-contract.test.mjs:967:5)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6408415Z       at Test.runInAsyncScope (node:async_hooks:227:14)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6408725Z       at Test.run (node:internal/test_runner/test:1402:25)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6409292Z       at Suite.processPendingSubtests (node:internal/test_runner/test:974:18)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6409666Z       at Test.postRun (node:internal/test_runner/test:1542:19)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6409981Z       at Test.run (node:internal/test_runner/test:1467:12)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6410427Z       at async Suite.processPendingSubtests (node:internal/test_runner/test:974:7) {
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6410906Z     generatedMessage: true,
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6411113Z     code: 'ERR_ASSERTION',
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6411519Z     actual: { population: 296, resolved: 57, skipped: 239, enumCandidates: 22, enumResolved: 7, enumSkipped: 15 },
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6412098Z     expected: { population: 294, resolved: 55, skipped: 239, enumCandidates: 22, enumResolved: 7, enumSkipped: 15 },
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6412505Z     operator: 'deepStrictEqual',
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6412707Z     diff: 'simple'
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6412869Z   }
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6412955Z 
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6413187Z test at backend-fork/scripts/check-request-body-contract.test.mjs:975:3
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6413741Z ✖ discovers no cfg-disabled enum nested in a const initializer block (1806.893398ms)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6414183Z   AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6414518Z   + actual - expected
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6414706Z   
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6414851Z     {
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6415015Z       enumCandidates: 22,
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6415228Z       enumResolved: 7,
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6415534Z       enumSkipped: 15,
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6415802Z   +   population: 296,
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6415977Z   +   resolved: 57,
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6416149Z   -   population: 294,
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6416321Z   -   resolved: 55,
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6416490Z       skipped: 239
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6416647Z     }
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6416787Z   
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6417357Z       at assertLiveCycleKindProbationFinding (file:///home/runner/work/console-nextjs/console-nextjs/backend-fork/scripts/check-request-body-contract.test.mjs:116:10)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6418401Z       at TestContext.<anonymous> (file:///home/runner/work/console-nextjs/console-nextjs/backend-fork/scripts/check-request-body-contract.test.mjs:976:5)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6419306Z       at Test.runInAsyncScope (node:async_hooks:227:14)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6419831Z       at Test.run (node:internal/test_runner/test:1402:25)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6420410Z       at Suite.processPendingSubtests (node:internal/test_runner/test:974:18)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6421140Z       at Test.postRun (node:internal/test_runner/test:1542:19)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6421571Z       at Test.run (node:internal/test_runner/test:1467:12)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6421957Z       at async Suite.processPendingSubtests (node:internal/test_runner/test:974:7) {
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6422284Z     generatedMessage: true,
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6422493Z     code: 'ERR_ASSERTION',
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6422918Z     actual: { population: 296, resolved: 57, skipped: 239, enumCandidates: 22, enumResolved: 7, enumSkipped: 15 },
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6423512Z     expected: { population: 294, resolved: 55, skipped: 239, enumCandidates: 22, enumResolved: 7, enumSkipped: 15 },
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6423911Z     operator: 'deepStrictEqual',
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6424115Z     diff: 'simple'
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6424284Z   }
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6424367Z 
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6424598Z test at backend-fork/scripts/check-request-body-contract.test.mjs:984:3
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6425144Z ✖ discovers no cfg-disabled enum nested in an impl method body (1796.776629ms)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6425587Z   AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6425895Z   + actual - expected
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6426066Z   
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6426216Z     {
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6426376Z       enumCandidates: 22,
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6426567Z       enumResolved: 7,
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6426745Z       enumSkipped: 15,
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6426962Z   +   population: 296,
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6428271Z   +   resolved: 57,
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6428444Z   -   population: 294,
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6428621Z   -   resolved: 55,
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6428814Z       skipped: 239
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6429236Z     }
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6429814Z   
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6430542Z       at assertLiveCycleKindProbationFinding (file:///home/runner/work/console-nextjs/console-nextjs/backend-fork/scripts/check-request-body-contract.test.mjs:116:10)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6432943Z       at TestContext.<anonymous> (file:///home/runner/work/console-nextjs/console-nextjs/backend-fork/scripts/check-request-body-contract.test.mjs:985:5)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6433922Z       at Test.runInAsyncScope (node:async_hooks:227:14)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6434959Z       at Test.run (node:internal/test_runner/test:1402:25)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6435501Z       at Suite.processPendingSubtests (node:internal/test_runner/test:974:18)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6435906Z       at Test.postRun (node:internal/test_runner/test:1542:19)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6436265Z       at Test.run (node:internal/test_runner/test:1467:12)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6437608Z       at async Suite.processPendingSubtests (node:internal/test_runner/test:974:7) {
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6437962Z     generatedMessage: true,
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6438607Z     code: 'ERR_ASSERTION',
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6439406Z     actual: { population: 296, resolved: 57, skipped: 239, enumCandidates: 22, enumResolved: 7, enumSkipped: 15 },
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6440094Z     expected: { population: 294, resolved: 55, skipped: 239, enumCandidates: 22, enumResolved: 7, enumSkipped: 15 },
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6440924Z     operator: 'deepStrictEqual',
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6441146Z     diff: 'simple'
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6441335Z   }
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6441424Z 
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6441666Z test at backend-fork/scripts/check-request-body-contract.test.mjs:2148:3
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6442273Z ✖ binds the exact source-first body and enum populations to the reviewed register (2512.584312ms)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6442765Z   AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6443066Z   
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6443235Z   296 !== 294
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6443408Z   
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6443944Z       at TestContext.<anonymous> (file:///home/runner/work/console-nextjs/console-nextjs/backend-fork/scripts/check-request-body-contract.test.mjs:2151:12)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6444525Z       at Test.runInAsyncScope (node:async_hooks:227:14)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6444853Z       at Test.run (node:internal/test_runner/test:1402:25)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6445184Z       at Test.start (node:internal/test_runner/test:1262:17)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6445493Z       at node:internal/test_runner/test:1903:71
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6445803Z       at node:internal/per_context/primordials:504:82
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6446081Z       at new Promise (<anonymous>)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6446402Z       at new SafePromise (node:internal/per_context/primordials:478:3)
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6446732Z       at node:internal/per_context/primordials:504:9
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6446997Z       at Array.map (<anonymous>) {
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6447209Z     generatedMessage: true,
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6447405Z     code: 'ERR_ASSERTION',
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6447592Z     actual: 296,
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6447760Z     expected: 294,
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6447940Z     operator: 'strictEqual',
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6448134Z     diff: 'simple'
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6448293Z   }
+source-and-inquiry	Source parser and certificate CLI security regressions	2026-10-07T16:42:43.6457846Z ##[error]Process completed with exit code 1.
+source-and-inquiry	Rust build disk readback	﻿2026-10-07T16:42:43.6593835Z ##[group]Run df -h .
+source-and-inquiry	Rust build disk readback	2026-10-07T16:42:43.6594071Z ^[[36;1mdf -h .^[[0m
+source-and-inquiry	Rust build disk readback	2026-10-07T16:42:43.6648398Z shell: /usr/bin/bash -e {0}
+source-and-inquiry	Rust build disk readback	2026-10-07T16:42:43.6648618Z env:
+source-and-inquiry	Rust build disk readback	2026-10-07T16:42:43.6648785Z   CARGO_BUILD_JOBS: 1
+source-and-inquiry	Rust build disk readback	2026-10-07T16:42:43.6648967Z   CARGO_INCREMENTAL: 0
+source-and-inquiry	Rust build disk readback	2026-10-07T16:42:43.6649153Z   CARGO_PROFILE_DEV_DEBUG: 0
+source-and-inquiry	Rust build disk readback	2026-10-07T16:42:43.6649348Z   CARGO_PROFILE_TEST_DEBUG: 0
+source-and-inquiry	Rust build disk readback	2026-10-07T16:42:43.6649539Z ##[endgroup]
+source-and-inquiry	Rust build disk readback	2026-10-07T16:42:43.6741937Z Filesystem      Size  Used Avail Use% Mounted on
+source-and-inquiry	Rust build disk readback	2026-10-07T16:42:43.6742641Z /dev/root       145G   61G   85G  42% /
+source-and-inquiry	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	﻿2026-10-07T16:42:43.6854380Z Post job cleanup.
+source-and-inquiry	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:42:43.7581887Z [command]/usr/bin/git version
+source-and-inquiry	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:42:43.7629364Z git version 2.55.0
+source-and-inquiry	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:42:43.7660234Z Temporarily overriding HOME='/home/runner/work/_temp/776932f3-d9a1-4dc5-877c-a419528112ce' before making global git config changes
+source-and-inquiry	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:42:43.7661550Z Adding repository directory to the temporary git global config as a safe directory
+source-and-inquiry	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:42:43.7666286Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/console-nextjs/console-nextjs
+source-and-inquiry	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:42:43.7699373Z Removing SSH command configuration
+source-and-inquiry	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:42:43.7705539Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+source-and-inquiry	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:42:43.7741321Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+source-and-inquiry	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:42:43.7987275Z Removing HTTP extra header
+source-and-inquiry	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:42:43.7987873Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+source-and-inquiry	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:42:43.8033013Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+source-and-inquiry	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:42:43.8265780Z Removing includeIf entries pointing to credentials config files
+source-and-inquiry	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:42:43.8272827Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+source-and-inquiry	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:42:43.8305179Z includeif.gitdir:/home/runner/work/console-nextjs/console-nextjs/.git.path
+source-and-inquiry	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:42:43.8305869Z includeif.gitdir:/home/runner/work/console-nextjs/console-nextjs/.git/worktrees/*.path
+source-and-inquiry	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:42:43.8306432Z includeif.gitdir:/github/workspace/.git.path
+source-and-inquiry	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:42:43.8306877Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+source-and-inquiry	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:42:43.8314520Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/console-nextjs/console-nextjs/.git.path
+source-and-inquiry	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:42:43.8343445Z /home/runner/work/_temp/git-credentials-1570cee0-b044-4b50-9b4c-c556c0867134.config
+source-and-inquiry	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:42:43.8354109Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/console-nextjs/console-nextjs/.git.path \/home\/runner\/work\/_temp\/git\-credentials\-1570cee0\-b044\-4b50\-9b4c\-c556c0867134\.config
+source-and-inquiry	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:42:43.8423057Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/console-nextjs/console-nextjs/.git/worktrees/*.path
+source-and-inquiry	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:42:43.8455488Z /home/runner/work/_temp/git-credentials-1570cee0-b044-4b50-9b4c-c556c0867134.config
+source-and-inquiry	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:42:43.8466041Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/console-nextjs/console-nextjs/.git/worktrees/*.path \/home\/runner\/work\/_temp\/git\-credentials\-1570cee0\-b044\-4b50\-9b4c\-c556c0867134\.config
+source-and-inquiry	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:42:43.8504468Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git.path
+source-and-inquiry	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:42:43.8530195Z /github/runner_temp/git-credentials-1570cee0-b044-4b50-9b4c-c556c0867134.config
+source-and-inquiry	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:42:43.8537792Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git.path \/github\/runner_temp\/git\-credentials\-1570cee0\-b044\-4b50\-9b4c\-c556c0867134\.config
+source-and-inquiry	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:42:43.8572541Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+source-and-inquiry	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:42:43.8597000Z /github/runner_temp/git-credentials-1570cee0-b044-4b50-9b4c-c556c0867134.config
+source-and-inquiry	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:42:43.8604906Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path \/github\/runner_temp\/git\-credentials\-1570cee0\-b044\-4b50\-9b4c\-c556c0867134\.config
+source-and-inquiry	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:42:43.8645069Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+source-and-inquiry	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-07T16:42:43.8858423Z Removing credentials config '/home/runner/work/_temp/git-credentials-1570cee0-b044-4b50-9b4c-c556c0867134.config'
+source-and-inquiry	Complete job	﻿2026-10-07T16:42:43.9015029Z Cleaning up orphan processes

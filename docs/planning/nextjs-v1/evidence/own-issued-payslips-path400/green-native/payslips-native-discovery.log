@@ -1,0 +1,4 @@
+browser_sessions::browser_payslips::issued_payslips_are_recipient_company_and_kind_scoped_without_read_effects: test
+browser_sessions::browser_payslips::malformed_issued_artifacts_fail_unavailable_without_successful_null_projection: test
+
+2 tests, 0 benchmarks

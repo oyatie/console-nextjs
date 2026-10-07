@@ -1,0 +1,101 @@
+{
+  "version": 1,
+  "scope": "PR18 source body census expects the two new fully resolved payslip POST operations",
+  "prior_candidate": "918cbbbc5cb3bacd60cea1e16536beec3615a1f6",
+  "status": "local86green_reviewed_scoped_patch_finalcommit_review_and_hostedpending",
+  "source_change": {
+    "path": "backend-fork/scripts/check-request-body-contract.test.mjs",
+    "sha256": "ce5b030ae2cc0a5b34d13a4a7c9ee08486dabfd0cc7a9999d02b68cc24346ac3",
+    "change": "Exactlysix294→296 and55→57literals acrossthreeexisting exact assertions. No parser/floor/register or other assertion change."
+  },
+  "population_delta": {
+    "baseline_commit": "7ccf7d15275653ddfd1ca8629d4c4caed1bfa6c7",
+    "base_counts": {
+      "population": 294,
+      "resolved": 55,
+      "skipped": 239,
+      "enumCandidates": 22,
+      "enumResolved": 7,
+      "enumSkipped": 15
+    },
+    "current_counts": {
+      "population": 296,
+      "resolved": 57,
+      "skipped": 239,
+      "enumCandidates": 22,
+      "enumResolved": 7,
+      "enumSkipped": 15
+    },
+    "request_body_operation_delta": {
+      "added": [
+        "POST /api/v1/me/browser-session/payslips",
+        "POST /api/v1/me/browser-session/payslips/{id}"
+      ],
+      "removed": []
+    },
+    "undecidable_register_and_all_findings_equivalent": true,
+    "scope": "Source-parser baseline reconstruction: current Rust sources with new module removed and app owner/aggregate restored from exactmain; no production source edits. Saved reports precede assertion update.",
+    "prior_proof_attempt": "Census baseline/current completed; final operation-delta import used a nonexistent explicit node_modules path and exited1. Corrected attempt uses installed package resolution from the parser itself; no application change."
+  },
+  "red_local": {
+    "command": "node --test backend-fork/scripts/check-request-body-contract.test.mjs",
+    "admission": "Existing fanout.admit_lane observed executableRED on clean918candidate; raw/admission retained",
+    "counts": {
+      "executed": 79,
+      "passed": 71,
+      "failed": 8,
+      "skipped": 0
+    }
+  },
+  "hosted_failure": {
+    "run": 37653508474,
+    "job": 112902644734,
+    "counts": {
+      "executed": 86,
+      "passed": 78,
+      "failed": 8,
+      "skipped": 0
+    },
+    "failed_step": 18,
+    "unreached": "AllhostedRust/native/browser17/payroll/Inbox/OpenAPI gates skipped after this failure",
+    "checkout": "Synthetic8b752812a331669423df0972caa82240852d51f4 has base7ccf7d1 and head918cbbb parents; tree854627bc2b584c15b99a25285db0c9adf9ec4cfd exactly equals reviewed918candidate"
+  },
+  "green_local": {
+    "counts": {
+      "executed": 86,
+      "passed": 86,
+      "failed": 0,
+      "skipped": 0,
+      "cancelled": 0,
+      "todo": 0
+    },
+    "receipt": "evidence/own-issued-payslips-ci-census/local/green-report.json"
+  },
+  "security": {
+    "alerts": [
+      133,
+      134,
+      135,
+      136
+    ],
+    "rule": "py/clear-text-storage-sensitive-data",
+    "severity": "high7.5",
+    "assessment": "Truepositive plaintextpassword-to-file in four immutable historical runner snapshots; two independent reviews accept scoped disposable-test/bootstrap risk. Not a falsepositive, fixed finding or zero-results claim.",
+    "controls": "Fresh256bit perrun password,700temp parent/600pwfile before initdb, normalunlink before serverstart, isolatedloopbackSCRAM cluster, recordedcleanup; no committedvalues/product/CI runtime/deploymentpath.",
+    "limits": "SameUID/root/ACLs trusted; initialwrite precedeschmod; noO_EXCL/O_NOFOLLOW; initdb failure delaysunlink; hardkill/powerloss can leave files/processes; unlink is not erasure.",
+    "alert_state": "No alert state changed. Automatic approval review rejected attempted dismissal for lack of explicit user authorization; optional question pending. Continuewithalertsvisible.",
+    "future": "Future active successor runners should use verified stdin bootstrap; do not rewrite or rename historical snapshots to silence findings.",
+    "other_languages": "CodeQLJS/TS andPython use incrementaloverlay baselines, so lowPRresultcounts do not prove historical alerts fixed. Rust was stillrunning at thischeckpoint."
+  },
+  "portable_selection": {
+    "path": "evidence/own-issued-payslips-ci-census/selection.json",
+    "sha256": "d65ab76979f808f14da4682f5d3df10bead0888cda3210595e9dbc089649c346",
+    "files": 13
+  },
+  "review": "Executionreviewer ACCEPT sixliteral semanticdelta and86currentgreen; exactfollowupcommit/hosted/queue/readback remain separate.",
+  "limits": [
+    "No business/SSR/authorization/Rust code or CI gate changed. Earlier native/browser/Inbox proofs remain separately source-qualified.",
+    "FullHR/Org/Payroll/Foundry/legal/identity/two-site/launch remainunverified.",
+    "No deployment, live institutional act, payment or collection."
+  ]
+}

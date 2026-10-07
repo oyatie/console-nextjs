@@ -1,0 +1,21 @@
+{
+  "command": [
+    "/Users/jasonlee/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
+    "--test",
+    "tools/enrollment-fault-deadlines.test.mjs",
+    "tools/test-native-browser-enrollment.test.mjs"
+  ],
+  "started_at": "2026-10-07T17:13:05.718736+00:00",
+  "finished_at": "2026-10-07T17:17:47.248271+00:00",
+  "duration_seconds": 281.5278125839541,
+  "exit_code": 1,
+  "inputs": {
+    "tools/test-native-browser-enrollment.mjs": "a524d18cc776fd2b2965ad13167ec89ec55e312297cb8bd3ba7ae5ec406dcd41",
+    "tools/test-browser-business-session.mjs": "1cb6789221da05d08c9f25198e519b9d6264c6e2d9147441173dc34755cd3023",
+    "tools/test-native-browser-enrollment.test.mjs": "1fcda2c4e3bc521b3ffcf839af5aeec9e5cf150a33bc646e8e46c1f8781b65a8",
+    "tools/enrollment-fault-deadlines.test.mjs": "7e4aa20a3cfac678c5f5d8b620456da7b6e74d72fd6f64824b05cde363bc4bca"
+  },
+  "log_sha256": "2facd0008d5b73c86b85fd22206898b7a0fb6a4a05049c430a79a4e2deda9569",
+  "scope": "Real runner/process fault tests only; not native API/passkey acceptance",
+  "test_assertions_unchanged": true
+}

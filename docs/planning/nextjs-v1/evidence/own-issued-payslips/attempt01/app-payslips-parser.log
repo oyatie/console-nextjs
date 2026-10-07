@@ -1,0 +1,13 @@
+
+running 2 tests
+test browser_payslips::tests::issued_money_is_exact_and_source_bound ... ok
+test browser_payslips::tests::malformed_issuance_never_becomes_zero_or_a_balanced_statement ... ok
+
+successes:
+
+successes:
+    browser_payslips::tests::issued_money_is_exact_and_source_bound
+    browser_payslips::tests::malformed_issuance_never_becomes_zero_or_a_balanced_statement
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 166 filtered out; finished in 0.00s
+

@@ -1,0 +1,18 @@
+type: object
+additionalProperties: false
+required: [run_id, line_id, period_start, period_end, gross_won, deductions, total_deductions_won, net_won, tax_table_version, calculation_version]
+description: Read projection of the immutable payroll_run-issued artifact. Deductions have unique codes and balance to the stored total; gross minus total equals net. Issuance is not evidence of bank settlement.
+properties:
+  run_id: { $ref: '#/components/schemas/Uuid' }
+  line_id: { $ref: '#/components/schemas/Uuid' }
+  period_start: { type: string, format: date }
+  period_end: { type: string, format: date }
+  gross_won: { $ref: '#/components/schemas/BrowserPayslipMoney', pattern: '^(?:0|[1-9][0-9]*)$' }
+  deductions:
+    type: array
+    maxItems: 6
+    items: { $ref: '#/components/schemas/BrowserPayslipDeduction' }
+  total_deductions_won: { $ref: '#/components/schemas/BrowserPayslipMoney', pattern: '^(?:0|[1-9][0-9]*)$' }
+  net_won: { $ref: '#/components/schemas/BrowserPayslipMoney' }
+  tax_table_version: { type: string, minLength: 1 }
+  calculation_version: { type: integer, format: int32, minimum: 1 }

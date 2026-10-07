@@ -1,6 +1,12 @@
 {
   "source": "console-inbox-rest",
   "paths": {
+    "/api/v1/me/browser-session/payslips": [
+      "post"
+    ],
+    "/api/v1/me/browser-session/payslips/{id}": [
+      "post"
+    ],
     "/api/v1/me/inbox-docs": [
       "get"
     ],
@@ -12,12 +18,21 @@
     ]
   },
   "schemas": [
+    "BrowserPayslipDeduction",
+    "BrowserPayslipDetailResponse",
+    "BrowserPayslipDocument",
+    "BrowserPayslipListRequest",
+    "BrowserPayslipListResponse",
+    "BrowserPayslipMoney",
+    "BrowserPayslipPayload",
+    "BrowserPayslipSummary",
     "InboxDocConfirmReceiptRequest",
     "InboxDocDetail",
     "InboxDocPage",
     "InboxDocSummary"
   ],
   "external_schemas": [
+    "BrowserSessionIdentityRequest",
     "ErrorBody",
     "PasskeyStepUpAssertion",
     "Timestamp",

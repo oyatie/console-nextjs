@@ -1,0 +1,194 @@
+{
+  "scope": "single-site real native/password-auth runtime proof; browser outcomes separately counted when executed; not payroll/legal/two-site durability acceptance",
+  "runner_sha256": "8cf1d7d1c16af9d52b5aa6fe28517c44ad0946612f3b16e096a3a16a0021c0fc",
+  "status": "passed",
+  "commands": [
+    {
+      "name": "initdb",
+      "command": [
+        "/opt/homebrew/opt/postgresql@18/bin/initdb",
+        "-D",
+        "/private/tmp/own-payslip-pg-lj6i5qfa/data",
+        "--username=console_buck_admin",
+        "--auth-local=scram-sha-256",
+        "--auth-host=scram-sha-256",
+        "--pwfile=/private/tmp/own-payslip-pg-lj6i5qfa/admin-password",
+        "--no-locale",
+        "--encoding=UTF8"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 0.947,
+      "output_sha256": "712b239827eac393d89a45bf3449a9422b3c5ad44797e5c715470d5a2ae2c7e6"
+    },
+    {
+      "name": "start",
+      "command": [
+        "/opt/homebrew/opt/postgresql@18/bin/pg_ctl",
+        "-D",
+        "/private/tmp/own-payslip-pg-lj6i5qfa/data",
+        "-l",
+        "/Users/jasonlee/Developer/frontend/.worktrees/own-issued-payslips/.artifacts/own-issued-payslips-native-20261007T160146.803781Z/postgres.log",
+        "-o",
+        "-c listen_addresses='127.0.0.1' -c port=52796 -c unix_socket_directories=/private/tmp/own-payslip-pg-lj6i5qfa/socket -c log_statement=none -c log_min_error_statement=panic",
+        "-w",
+        "start"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 0.195,
+      "output_sha256": "66afd0411ccc09366e99fdd99b85f21899c8d2d064f5835126859618802153ad"
+    },
+    {
+      "name": "createdb",
+      "command": [
+        "/opt/homebrew/opt/postgresql@18/bin/createdb",
+        "-h",
+        "127.0.0.1",
+        "-p",
+        "52796",
+        "-U",
+        "console_buck_admin",
+        "own_payslips_disposable"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 0.187,
+      "output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "topology",
+      "command": [
+        "bash",
+        "/Users/jasonlee/Developer/frontend/.worktrees/own-issued-payslips/backend-fork/ops/postgres-reconcile-topology.sh"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 0.63,
+      "output_sha256": "0d3b9f5d44b25649ac035d2d98430aff35d74d46e5e94f94c14d5abf33dba76a"
+    },
+    {
+      "name": "inbox-adapter-discovery",
+      "command": [
+        "/private/tmp/own-issued-payslips-target-20261007/debug/deps/inbox_docs_rls_surfaces_as_runtime_role-6b00b225b79effa9",
+        "--list"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 0.023,
+      "output_sha256": "6b69658750be5656f71b47d6aa2c050d858e48c6660b498521a6589818dc3f08"
+    },
+    {
+      "name": "inbox-adapter",
+      "command": [
+        "/private/tmp/own-issued-payslips-target-20261007/debug/deps/inbox_docs_rls_surfaces_as_runtime_role-6b00b225b79effa9",
+        "--test-threads=1",
+        "--show-output"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 24.924,
+      "output_sha256": "9669e5d3b56889b3216270aea807a9110590a210ebe81a5e3a65cc14bbc31746"
+    },
+    {
+      "name": "inbox-rest-api-discovery",
+      "command": [
+        "/private/tmp/own-issued-payslips-target-20261007/debug/deps/api-71403a0bbf366cfe",
+        "--list"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 0.025,
+      "output_sha256": "6110b35b7e8b6b56b3a30540bd050c812c95124609a0fa7592f3d06de73c4080"
+    },
+    {
+      "name": "inbox-rest-api",
+      "command": [
+        "/private/tmp/own-issued-payslips-target-20261007/debug/deps/api-71403a0bbf366cfe",
+        "--test-threads=1",
+        "--show-output"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 6.716,
+      "output_sha256": "d0d5fef6580d78062716efacbfbfb6064a609998b5c6943f314f000a11b25a87"
+    },
+    {
+      "name": "stop",
+      "command": [
+        "/opt/homebrew/opt/postgresql@18/bin/pg_ctl",
+        "-D",
+        "/private/tmp/own-payslip-pg-lj6i5qfa/data",
+        "-m",
+        "immediate",
+        "-w",
+        "stop"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 0.123,
+      "output_sha256": "ca19178a35ab4153b75b494963b66ce8243e1b94c173107c87b44d09db23652d"
+    }
+  ],
+  "suites": [
+    {
+      "name": "inbox-adapter",
+      "binary_sha256": "502f621b690bf41e12d4d2c57e913e1aba33d54736abe4a3a343ebb7848400af",
+      "status": "passed",
+      "discovered": 9,
+      "executed": 9,
+      "passed": 9,
+      "failed": 0,
+      "skipped": 0,
+      "filtered": 0
+    },
+    {
+      "name": "inbox-rest-api",
+      "binary_sha256": "2a3618a38e8b9ed09975dec1a8d7b422f110cc2e55fb3bca44b096cb851f021f",
+      "status": "passed",
+      "discovered": 2,
+      "executed": 2,
+      "passed": 2,
+      "failed": 0,
+      "skipped": 0,
+      "filtered": 0
+    }
+  ],
+  "browser_scenarios": null,
+  "source_inputs": {
+    "backend-fork/backend/Cargo.lock": "366ea7828ad8da2f49ebf06944b376246abdc1308dbe676c4531f9064cdca109",
+    "backend-fork/backend/app/src/browser_payslips.rs": "cf3c6da16cfed1fd5391d25291ac2398def31cd97a44e785aa13fa926b52359d",
+    "backend-fork/backend/app/tests/auth_rest.rs": "46f613012f5e06a6b75fd2f4cc76d1ffae40946c66df849b5b5d5e2e171127f6",
+    "backend-fork/backend/app/tests/auth_rest/browser_sessions.rs": "036eb868e88abb0860258a54a01ea0f363daa5b676cfb70b382a06b389944af3",
+    "backend-fork/backend/app/tests/auth_rest/browser_payslips.rs": "01f2968388ba77b0c41e7f8534b2f154868217ab0b589933c5f9c71185f1d991",
+    "backend-fork/backend/app/tests/auth_rest/genuine_browser.rs": "3f237ca93df4f9a62a0bddb0edc3805e713f0b8f64cf3854457779def079b932",
+    "backend-fork/backend/app/tests/openapi_drift.rs": "129f4d667708ceaa7e30781f0ebcb05cee21522d44c9b3734f2640311a6eeeb4",
+    "backend-fork/backend/crates/inbox/adapter-postgres/src/lib.rs": "dc688bf1be43fb4294c50d35b639b26b77c54ab313dd40f07564275c20c56e59",
+    "backend-fork/backend/crates/inbox/rest/src/openapi.rs": "f63ca7b2f339109d64e41bf419361cc0a2cfb0ba9fc1ca1e742767abc63caac4",
+    "backend-fork/backend/openapi/openapi.yaml": "0ec7f42505d1c97326b27bec4b0af915af6b9362c1445bdb9f75814522d45696",
+    "tools/browser-payslips.mjs": "9ba32b93f4559bcde12ad5894689a9642a7b2ff145b46a621950926c8d97c57b",
+    "tools/browser-business-restore.mjs": "20b3b480186e040eff539fc2224031addadba15caa8c68ea28e86190f145655d",
+    "tools/browser-business-boundary.mjs": "be65504095db8a6058af16af58f175d4484b087dba269fc4b382af4c4a94cb42",
+    "tools/browser-business-temporal.mjs": "f4113ee8101ad8d28d043d0e8713288e8aca2dbb086bbbd506e20dab166d606d",
+    "tools/test-browser-business-session.mjs": "f54a3d214ef34eea1dcb1888d4ea97ba0402b9a3e8ab761d8f5f71cfd13c1250",
+    "tools/production-runtime.mjs": "7e4d05bac69900295f8777c931999f2987acd36c947f281cbea7d1bbdf673367",
+    "src/lib/server/payslips.ts": "8d07f570f592d8455d925f68ec49e5b76449a1cda3bbae60922bf5677acaff6f",
+    "src/lib/server/browser-session.ts": "f26eef7d6299d25a2017f83beebbf77241085725e8f7065bc31c50cb0de60a3e",
+    "src/app/me/[context]/payslips/page.public.tsx": "5dc96e1c1b00180bee8db7a17b02730dd7f457af4fcc0075376d67266867e01c",
+    "src/app/me/[context]/payslips/[id]/page.public.tsx": "8a2480d2486d9e68ad6d11467368cbbb7af98ba6eb92e2dff89f0bbd32725d9f",
+    "package-lock.json": "4e4d170ceac13405a5f60f0876ca2138b04dec01607f11b437e86a64cf5395d7",
+    "next-env.d.ts": "1862ac4bbbc5192d4bf562161df66ea547ed3e67173100656ab606ae9797db2b",
+    "tools/browser-business-failure.mjs": "33dab5c0431ddc913c83a3f42607de606cc8d2e8f304e77a0b654cf6feff7375",
+    ".next/build-inputs.json": "36edcda13e0bf2d9bfd1485c6a26d9ca5cf18adaec2a5b22dc2507ac433aa837",
+    ".next/BUILD_ID": "a4a514df1a3b203bf3cd30fbc2cb0ac001a96a65637888e5f6373f2b8bc80424",
+    ".next/server/app-paths-manifest.json": "2aeb1c6fbcf93364a455e83466ce35a53c5185b22f8fb028b6bf8521630cdfad"
+  },
+  "worker_binary": {
+    "path": "/private/tmp/own-issued-payslips-target-20261007/debug/console-app",
+    "sha256": "1e2d8ace8a7fae2d082c97001119002c49f17024ed6b8c2498da9c05df8318f4"
+  },
+  "owned_temporary_directory": "/private/tmp/own-payslip-pg-lj6i5qfa",
+  "owned_database_endpoint": {
+    "host": "127.0.0.1",
+    "port": 52796,
+    "host_auth": "scram-sha-256"
+  },
+  "observed_postmaster_pid": 34087,
+  "cluster_stopped": true,
+  "source_inputs_unchanged": true,
+  "worker_binary_unchanged": true,
+  "temporary_credential_files_removed": true,
+  "observed_postmaster_pid_absent": true,
+  "credential_cleanup_scope": "Observed temporary-file cleanup only; no process-memory or cryptographic-erasure claim."
+}
