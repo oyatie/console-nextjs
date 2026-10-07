@@ -880,7 +880,8 @@ try {
     preauth: randomBytes(32).toString("base64url"), certFile, keyFile, caPem: configure.tls_cert_pem };
   configure.tls_key_pem = ""; configure.ingress_key = "";
   const initialRuntime = await startRuntime({ main: true }); await runtimeReady(initialRuntime);
-  startup = chromium.launchServer({ channel: "chromium", env: cleanEnv,
+  // Chromium's extra temp files belong to the stage, beyond SDK-owned profiles.
+  startup = chromium.launchServer({ channel: "chromium", env: { ...cleanEnv, TMPDIR: stage },
     ignoreDefaultArgs: ["--disable-back-forward-cache"] }).then((server) => { browserServer = server; });
   await startup; assert.ok(!closing); browser = await chromium.connect(browserServer.wsEndpoint());
   await writeFrame({ kind: "ready", origin, runtime_digest: runtimeDigest });

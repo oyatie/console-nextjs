@@ -1,0 +1,37 @@
+{
+  "version": 1,
+  "observed_at": "2026-10-07T17:17:57.113626+00:00",
+  "verdict": "ACCEPT_SOURCE_SCOPED_PENDING_RUNTIME_EVIDENCE",
+  "base_head": "3c745d2e85a801bfee66b5373e75f24e7fd24a95",
+  "scope": "Only two uncommitted Chromium child TMPDIR overrides and explanatory comments in test runners; no product code or acceptance relaxation.",
+  "diff_sha256": "a7916fbc7192805f49d3ef63de741172aac34e475de0f1a769f62c7ce3294e87",
+  "files": {
+    "tools/test-browser-business-session.mjs": "1cb6789221da05d08c9f25198e519b9d6264c6e2d9147441173dc34755cd3023",
+    "tools/test-native-browser-enrollment.mjs": "a524d18cc776fd2b2965ad13167ec89ec55e312297cb8bd3ba7ae5ec406dcd41"
+  },
+  "findings": [],
+  "checks": [
+    {
+      "command": "node --check tools/test-browser-business-session.mjs",
+      "outcome": "PASS"
+    },
+    {
+      "command": "node --check tools/test-native-browser-enrollment.mjs",
+      "outcome": "PASS"
+    }
+  ],
+  "review_assertions": [
+    "Fresh mkdtemp-owned0700stage already exists before browser launch; TMPDIR comes from owner variable, overriding inherited caller TMPDIR only for Chromium child.",
+    "cleanEnv remains explicit allowlist; no other inherited environment or business credentials added.",
+    "Stage holds extra child temporary files outside runtime subdirectory; immutable production runtime closure and manifest unchanged.",
+    "Cleanup reconciles asynchronous startup and waits for browser SDK process/artifact cleanup plus application-process shutdown before rmstage.",
+    "Cleanup rejection cannot claim success; existing6secondhardbound,exit3,pendingSDKkill assertions and forced-intervention detection unchanged.",
+    "Fault tests still assert owned directory empty before parent cleanup; no accepted leftover or relaxed assertion introduced.",
+    "Test runners excluded from actual product-runtime input map and runtime packaging."
+  ],
+  "limits": [
+    "22faultchecks and17realbrowserjourneys were underway at source review; no new execution claim.",
+    "Hosted source/inquiryCI andCodeQL must rerun at exactfollowuphead before merge.",
+    "Hard kill/power-loss cleanup remains unconfirmed rather than falsely successful."
+  ]
+}

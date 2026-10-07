@@ -238,7 +238,8 @@ try {
   assert.ok(ready);
   assert.ok(!closing);
   startupPhase = "chromium-launch";
-  startup = chromium.launchServer({ env: cleanEnv }).then((server) => { browserServer = server; });
+  // Chromium's extra temp files belong to the stage, beyond SDK-owned profiles.
+  startup = chromium.launchServer({ env: { ...cleanEnv, TMPDIR: stage } }).then((server) => { browserServer = server; });
   await startup;
   assert.ok(!closing);
   startupPhase = "chromium-connect";

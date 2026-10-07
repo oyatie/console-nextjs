@@ -1,0 +1,46 @@
+{
+  "version": 1,
+  "scope": "Hosted Chromium cleanup RED, local prerequisite failure, unchanged full fault-suite GREEN and scoped review; earlier97 selected files remain unchanged",
+  "files": {
+    "hosted-failure/source-and-inquiry-37655815720-112911142567.log": {
+      "sha256": "e302842ecf900f844ac06b83bee9b504436453da617baeac2be4406ece0e3044",
+      "bytes": 142540
+    },
+    "hosted-failure/audit.json": {
+      "sha256": "17b78c8b494bc41521f3d09456849b0feed9735f6f86168b883bd97c175afdb0",
+      "bytes": 22754
+    },
+    "local/attempt1-failed.log": {
+      "sha256": "2facd0008d5b73c86b85fd22206898b7a0fb6a4a05049c430a79a4e2deda9569",
+      "bytes": 2850
+    },
+    "local/attempt1-failed.json": {
+      "sha256": "f9bd4c948b4b2c8eda584bc76f7d76dca1f3b3dfa3c43a42cbb0b16f1740a74d",
+      "bytes": 1081
+    },
+    "local/attempt2-passed.log": {
+      "sha256": "1e3b63f94b54bec8cbeb2fa9005eb0edcb2b413f1c805db5daacf91bccff8019",
+      "bytes": 1868
+    },
+    "local/attempt2-passed.json": {
+      "sha256": "8f3e549b1c912d533b0cbd6af4492efcb4e94589705f8be9c7473cb3055eccc1",
+      "bytes": 1339
+    },
+    "review/owner-source.json": {
+      "sha256": "f9b1a3967000f75da07b7c07ca25f1e0197a60fc69b2c14ad9e10b5cea7c454f",
+      "bytes": 2188
+    },
+    "security/rust-baseline-extraction-comparison.json": {
+      "sha256": "f09fcb9f1099613094d480587911198fadb5483ac55b80acffa374699eb581ea",
+      "bytes": 18665
+    },
+    "review/ui-code.json": {
+      "sha256": "9f3c44df5c626ab62e79336150906a0dcff3415287123adfc73ab7bfe1aff3ea",
+      "bytes": 4554
+    }
+  },
+  "scan": {
+    "matches": 0,
+    "scope": "Six credential-shaped patterns over full selected streams; not comprehensive secret audit"
+  }
+}
