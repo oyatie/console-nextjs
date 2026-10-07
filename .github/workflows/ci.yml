@@ -27,6 +27,7 @@ jobs:
           node-version-file: .node-version
           cache: npm
       - run: npm ci
+      - run: npm --prefix backend-fork ci
       - name: Full npm dependency audits
         run: |
           npm audit --audit-level=low
