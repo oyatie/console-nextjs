@@ -1,0 +1,14 @@
+{
+  "recorded_at_utc": "2026-10-07T02:16:56.733325+00:00",
+  "reason": "Independent package reviewer identified inaccurate base-builder manifest exclusion prose; exact selected current full logs are included.",
+  "only_changed_json_field": "exclusions",
+  "before_exclusions": "generated helper keys/binaries, duplicated JWT public fixture, registry archives, sensitive dumps, full hosted logs/ZIP",
+  "after_exclusions": "Generated helper keys/binaries, duplicated JWT public fixture, registry archives, sensitive dumps, unselected raw hosted logs, and original provider/CodeQL ZIPs. The independently screened selected current source and CodeQL job logs are included.",
+  "manifest_before_sha256": "ca6f1a067f99a3314a516e645298749697c7ad3f3d738a1bc1a9c0643bb44182",
+  "manifest_after_sha256": "5439ffc0e01f4dfac1008e2d98b0a91d2874b2db555d706cd2ef46497e5d1e8d",
+  "archive_sha256_unchanged": "817d2f72bb96574441b189006db290f01e3dd3fdd72fc2719cf7c1e3fcd3f77c",
+  "members_unchanged": 465,
+  "frozen_builder_modified": false,
+  "source_or_selection_modified": false,
+  "status": "metadata_only_corrected_pending_independent_final_readback"
+}

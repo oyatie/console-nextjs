@@ -1568,6 +1568,60 @@
         "Compromised runtime raw SQL is outside this established-owner lock-serialization proof.",
         "Exact final metadata revision, hosted CI, independent COMMENT and protected queue/merge readback remain pending at this checkpoint. No deployment or live effects."
       ]
+    },
+    {
+      "reviewer": "/root/hosted_ci_adversarial_audit/native17_source_audit",
+      "verdict": "ACCEPT_FINAL_PACKAGE_SELECTION",
+      "scope": "PR17 implementation source, separate CI-only PostgreSQL wrapper, partial local terminal and interrupted observer evidence and exact portable package; wider product/release excluded",
+      "implementation_source_commit": "09d19f40f158c75ccfa7084d781aca80532a338e",
+      "evidence_status": "scoped_source_runtime_and_exact_selection_accepted_final_publication_reviews_external",
+      "receipts": [
+        {
+          "path": ".artifacts/acceptance/inbox-terminal-cursor/integration-20261007/dependency-security/security-immutable-implementation-commit-independent-approval06.json",
+          "sha256": "f67684003647968f85fe21f00c4781eb52c07768b5db39ae8668f596c449801c"
+        },
+        {
+          "path": ".artifacts/acceptance/inbox-terminal-cursor/integration-20261007/dependency-security/hosted-e6-source-terminal-failure-adversarial-audit01.json",
+          "sha256": "da8582bd663c0eccfba85e54fa168b5bbc5fa6153fe56bc13b00aa4d0a6f36be"
+        },
+        {
+          "path": ".artifacts/acceptance/inbox-terminal-cursor/integration-20261007/dependency-security/security-fork-npm-ci-bootstrap-static-adversarial-approval01.json",
+          "sha256": "485eae7212cff6f263f08c5ef31fd516724143b460b3c3fce657794ca53fab19"
+        },
+        {
+          "path": ".artifacts/acceptance/inbox-terminal-cursor/integration-20261007/dependency-security/security-final38f-scoped-source-runtime-matrix-independent-approval01.json",
+          "sha256": "19311b2f23b8d8233ab2599ed4e5c046e4a6308cd3a67b11aa484ebc1d7023da"
+        },
+        {
+          "path": ".artifacts/acceptance/inbox-terminal-cursor/integration-20261007/dependency-security/security-final38f-matrix-evidence-frozen-portable-scan01.json",
+          "sha256": "a1e1785c4ac839c6c51785325ec2a84d299ad7c32942d551a5b37e91e1d3d26c"
+        }
+      ],
+      "evidence": {
+        "path": "docs/planning/nextjs-v1/evidence/pr17-security-stabilization/security-stabilization-evidence.manifest.json",
+        "sha256": "5439ffc0e01f4dfac1008e2d98b0a91d2874b2db555d706cd2ef46497e5d1e8d"
+      },
+      "remaining_holds": [
+        "Earlier 40-path static approval predates one parser inventory repair and is historical; bounded source approval06 covers only its stated immutable source/native/browser scope.",
+        "Driver02 compile timeout, Driver03 missing-DATABASE_URL setup RED, and historical native124/125 remain preserved. No failed or unreached gate is silently counted as passed.",
+        "Exact package publication review, future metadata-head hosted, protected merge-group and merged-main readback and full enterprise launch acceptance remain separate.",
+        "No deployment or live institutional, mail, payment or collection effect occurred.",
+        "Native125/browser17 are source-qualified reuse from implementation commit 09d19f40 through two CI-only e6d870c/38f302e; Driver04 has no fresh native/browser credit.",
+        "Driver04 strict mail Clippy exited255 after manual SIGINT with three gates unreached; shared-cache sample/census is bounded, not a historical-cause proof. Driver06 mail/storage strict Clippy passed with zero runtime tests; Driver06/07 observers interrupted partial app Clippy without terminal receipts, and local Inbox/OpenAPI remain unreached.",
+        "Hosted e6 failed at fork js-yaml module load; local38f npm install/Node86 pass did not alone establish hosted acceptance. Later scoped hosted38f source/runtime matrix is independently accepted, while final archive/document and Git-blob publication reviews are recorded separately.",
+        "Driver07 observer CalledProcessError lacks retained original detail; cause remains UNKNOWN. Guard stop and post-stop group observations are not app Clippy acceptance or product assertion failure. Separately accepted hosted source coverage does not rewrite local Driver06/07.",
+        "Scoped exact owned target cleanup was recorded after Driver07 stop; no runtime or Clippy acceptance follows from cleanup.",
+        "Exact scoped hosted38f source/runtime proof is included after independent terminal audit and accepted exact selection. Final archive/manifest readback and future metadata-head/merge-group receipts remain separate to avoid a self-hash cycle.",
+        "Current38f direct-head CodeQL four-job success/zero-result analyses and zero current-ref alert snapshot are scoped static evidence. Four full raw logs passed bounded seven-pattern scanning; CodeQL alone grants no all54-fixed/runtime/release claim.",
+        "Hosted source job50/0 raw counts and full a43 synthetic-merge tree equality to reviewed38f, remote42-blob custody, browser17 and provider artifact are independently accepted for scoped source/runtime evidence only. Full product and release remain unaccepted."
+      ],
+      "ci_postgres_commit": "e6d870cae97e6850f264a5e1548de81770f3b866",
+      "ci_fork_tooling_commit": "38f302eda98e3b45ccf41beff5d9c0d8bcce15c2",
+      "selection_approval": {
+        "path": "docs/planning/nextjs-v1/evidence/pr17-security-stabilization/selection-approval.json",
+        "sha256": "c57d93fc7ed5eaf4fc08aeedb1d4c1dd7dd479dafb72f7c96910aba37902c1c8",
+        "proposal_sha256": "7146a1c27c92f0146388058537dfb8ed565a192b0dd561f9469a366f08e270eb"
+      }
     }
   ],
   "findings": [

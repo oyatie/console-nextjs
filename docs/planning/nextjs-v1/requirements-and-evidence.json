@@ -2675,6 +2675,292 @@
         "R7 browser17 proof remains separate and unchanged; no new Payroll/Org/Foundry UI journey or full module/launch acceptance.",
         "No deployment, institutional operation, payment, mail exposure or collection."
       ]
+    },
+    {
+      "scope": "PR17 dependency/security stabilization: local identity/browser, policy, request-body, Office and mail/storage compatibility; all B/P modules and release remain unverified",
+      "candidate_commit": "38f302eda98e3b45ccf41beff5d9c0d8bcce15c2",
+      "implementation_source_commit": "09d19f40f158c75ccfa7084d781aca80532a338e",
+      "status": "scoped_hosted_38f_and_exact_selection_accepted_final_publication_reviews_external",
+      "evidence": {
+        "path": "docs/planning/nextjs-v1/evidence/pr17-security-stabilization/security-stabilization-evidence.manifest.json",
+        "sha256": "5439ffc0e01f4dfac1008e2d98b0a91d2874b2db555d706cd2ef46497e5d1e8d"
+      },
+      "package": {
+        "path": "docs/planning/nextjs-v1/evidence/pr17-security-stabilization/security-stabilization-evidence.tar.gz",
+        "sha256": "817d2f72bb96574441b189006db290f01e3dd3fdd72fc2719cf7c1e3fcd3f77c"
+      },
+      "tests": {
+        "native": {
+          "discovered": 125,
+          "executed": 125,
+          "passed": 125,
+          "failed": 0,
+          "ignored": 0,
+          "filtered": 0,
+          "provenance": "source-qualified reused result at implementation 09d19f40 through CI-only e6d870c and 38f302e; no fresh Driver04/06/07 native execution"
+        },
+        "embedded_browser_scenarios": {
+          "discovered": 17,
+          "executed": 17,
+          "passed": 17,
+          "failed": 0,
+          "skipped": 0,
+          "unreached": 0,
+          "extra_libtest_credit": 0,
+          "provenance": "nested source-qualified reused result at implementation 09d19f40 through CI-only e6d870c and 38f302e; no fresh Driver04/06/07 browser execution"
+        },
+        "serialized_browser_checks": {
+          "passed": 11,
+          "extra_libtest_credit": 0
+        },
+        "office_jwt_unit": {
+          "executed": 12,
+          "passed": 12,
+          "filtered_unrelated": 154
+        },
+        "driver02_mail_compile_timeout": {
+          "exit_code": 124,
+          "executed": 0
+        },
+        "driver03_mail_setup_red": {
+          "executed": 69,
+          "passed": 61,
+          "failed": 8,
+          "cause_observed": "DATABASE_URL absent"
+        },
+        "driver04_pgtest_mail_scoped": {
+          "executed": 69,
+          "passed": 69,
+          "failed": 0,
+          "status": "scoped_pass_other_driver_gates_pending",
+          "cleanup_reported": true,
+          "source_commit": "e6d870cae97e6850f264a5e1548de81770f3b866"
+        },
+        "driver04_clippy_interrupted": {
+          "exit_code": 255,
+          "manual_sigint": true,
+          "strict_clippy_accepted": false,
+          "runtime_test_credit": 0,
+          "unreached_original_gates": 3,
+          "shared_cache_observation_only": true
+        },
+        "hosted_e6_parser_certificate": {
+          "run_id": 37551808719,
+          "status": "failed",
+          "node_entries": 8,
+          "certificate_passed": 7,
+          "file_load_failed": 1,
+          "parser_named_bodies_executed": 0,
+          "observed_cause": "declared fork js-yaml missing at module load"
+        },
+        "ci_38f_fork_clean_install": {
+          "exit_code": 0,
+          "runtime_test_credit": 0
+        },
+        "ci_38f_local_node86": {
+          "discovered": 86,
+          "executed": 86,
+          "passed": 86,
+          "failed": 0,
+          "skipped": 0
+        },
+        "isolated_cache_continuation": {
+          "driver06_mail_storage_strict_clippy": {
+            "exit_code": 0,
+            "duration_seconds": 122.3954614159884,
+            "runtime_test_credit": 0,
+            "inputs_unchanged": true,
+            "receipt": ".artifacts/acceptance/inbox-terminal-cursor/security-expiry-mail-tls-clippy-final-20261007T004046Z-44157.json"
+          },
+          "driver06_disk_observer": {
+            "status": "final_disk_observation_unavailable_not_accepted",
+            "error_class": "TimeoutExpired",
+            "direct_driver_exit_code": -2,
+            "app_clippy_terminal_receipt": false,
+            "app_clippy_result": "UNKNOWN",
+            "remaining_commands": 3,
+            "receipt": ".artifacts/acceptance/inbox-terminal-cursor/integration-20261007/dependency-security/security-owner-orchestration06-terminal-stop01.json"
+          },
+          "driver07_disk_observer": {
+            "status": "disk_guard_stopped_not_accepted",
+            "error_class": "CalledProcessError",
+            "original_error_detail_retained": false,
+            "cause": "UNKNOWN",
+            "direct_driver_exit_code": -2,
+            "manual_sigint": true,
+            "app_clippy_terminal_receipt": false,
+            "app_clippy_result": "UNKNOWN",
+            "local_inbox_and_openapi": "unreached",
+            "runtime_test_credit": 0,
+            "owned_group_reported_absent_twice": true,
+            "receipt": ".artifacts/acceptance/inbox-terminal-cursor/integration-20261007/dependency-security/security-owner-orchestration07-terminal-stop01.json"
+          },
+          "observed_disk_threshold_breach": false,
+          "separate_hosted_exact_source_coverage": "accepted scoped hosted synthetic-merge a43 tree-equal38f raw audit; local Driver06/07 remain nonaccepted",
+          "owned_cache_cleanup": {
+            "status": "removed_exact_owned_cache",
+            "allocated_bytes_before": 1598889984,
+            "shared_cache_modified": false,
+            "source_modified": false,
+            "prior_failure_logs_removed": false,
+            "runtime_test_credit": 0,
+            "receipt": ".artifacts/acceptance/inbox-terminal-cursor/integration-20261007/dependency-security/owned-target-cleanup-terminal01.json"
+          }
+        },
+        "hosted_38f": {
+          "run_id": 37553241502,
+          "job_id": 112573426358,
+          "actual_checkout": "synthetic merge a43a9b8b6071b51265bf9f4fe8a083f5cd843704",
+          "complete_tested_tree_equals_reviewed_38f_head_tree": true,
+          "tree": "e76ec042ce5081ce11dfa829ca985972d58d9658",
+          "reviewed_source_blobs_remote_matched": 42,
+          "successful_steps": 50,
+          "failed_steps": 0,
+          "native_auth_rest": {
+            "discovered": 125,
+            "executed": 125,
+            "passed": 125,
+            "failed": 0,
+            "ignored": 0,
+            "filtered": 0
+          },
+          "embedded_browser": {
+            "discovered": 17,
+            "executed": 17,
+            "passed": 17,
+            "failed": 0,
+            "skipped": 0,
+            "unreached": 0,
+            "nested_checks": 11,
+            "extra_libtest_credit": 0
+          },
+          "inbox_adapter": {
+            "discovered": 9,
+            "executed": 9,
+            "passed": 9,
+            "failed": 0,
+            "ignored": 0,
+            "filtered": 0
+          },
+          "inbox_rest": {
+            "discovered": 2,
+            "executed": 2,
+            "passed": 2,
+            "failed": 0,
+            "ignored": 0,
+            "filtered": 0
+          },
+          "openapi_drift": {
+            "discovered": 19,
+            "executed": 19,
+            "passed": 19,
+            "failed": 0,
+            "ignored": 0,
+            "filtered": 0
+          },
+          "office_jwt": {
+            "executed": 12,
+            "passed": 12,
+            "failed": 0,
+            "filtered_unrelated": 154
+          },
+          "mail_storage": {
+            "executed": 69,
+            "passed": 69,
+            "failed": 0
+          },
+          "parser_certificate_node": {
+            "executed": 86,
+            "passed": 86,
+            "failed": 0
+          },
+          "private_import_python": {
+            "executed": 15,
+            "passed": 15,
+            "failed": 0,
+            "reused_local_binding_only_five_unchanged_importer_paths": true
+          },
+          "frontend_vitest": {
+            "executed": 112,
+            "passed": 112,
+            "files": 9
+          },
+          "hosted_strict_app_clippy": {
+            "status": "passed_broader_invocation",
+            "runtime_test_credit": 0,
+            "identical_to_local_interrupted_command": false
+          },
+          "complete_provider": {
+            "full_json_bytes": 2016188,
+            "commands": 6,
+            "input_hashes": 180,
+            "complete_streams": 12,
+            "jwt_version": "10.4.0",
+            "selected_active_rsa_or_rustcrypto": false,
+            "runtime_test_credit": 0
+          },
+          "independent_matrix": {
+            "path": ".artifacts/acceptance/inbox-terminal-cursor/integration-20261007/dependency-security/security-final38f-scoped-source-runtime-matrix-independent-approval01.json",
+            "sha256": "19311b2f23b8d8233ab2599ed4e5c046e4a6308cd3a67b11aa484ebc1d7023da"
+          },
+          "frozen_portable_scan": {
+            "path": ".artifacts/acceptance/inbox-terminal-cursor/integration-20261007/dependency-security/security-final38f-matrix-evidence-frozen-portable-scan01.json",
+            "sha256": "a1e1785c4ac839c6c51785325ec2a84d299ad7c32942d551a5b37e91e1d3d26c"
+          }
+        },
+        "codeql_38f_scoped": {
+          "source_commit": "38f302eda98e3b45ccf41beff5d9c0d8bcce15c2",
+          "checkout": "direct PR head, 42 reviewed blobs matched",
+          "language_jobs_successful": 4,
+          "exact_commit_analyses": 4,
+          "results_per_analysis": 0,
+          "error_warning_fields": "empty",
+          "current_ref_alert_snapshot_count": 0,
+          "full_raw_job_logs_selected": 4,
+          "configured_full_byte_scan_patterns": 7,
+          "pattern_matches": 0,
+          "runtime_test_credit": 0,
+          "independent_audit": ".artifacts/acceptance/inbox-terminal-cursor/integration-20261007/dependency-security/codeql38f-terminal-raw-log-findings-independent-audit01-20261007T011609Z.json"
+        },
+        "hosted_38f_metadata": {
+          "run_id": 37553241502,
+          "job_id": 112573426358,
+          "job_metadata_status": "success",
+          "successful_steps": 50,
+          "failed_steps": 0,
+          "actual_checkout_kind": "synthetic_merge",
+          "actual_checkout_commit": "a43a9b8b6071b51265bf9f4fe8a083f5cd843704",
+          "pr_head_commit": "38f302eda98e3b45ccf41beff5d9c0d8bcce15c2",
+          "full_raw_log_private_sha256": "768c4da191022b49740ef259f814f83863e272d12950a62e38786f4a5767343a",
+          "full_provider_json_private_sha256": "2a40d60447e90913f9b2f02ceacc8d1308a09b639e88ba70cbf4a627bbdd296b",
+          "raw_counts_source_parity_and_artifact_audit": "independently accepted scoped source/runtime matrix; metadata itself remains zero test credit",
+          "runtime_test_credit": 0
+        }
+      },
+      "limitations": [
+        "Driver02 timeout, Driver03 eight setup failures and historical native124/125 remain retained; later passes do not erase them or establish the earlier slow-compilation cause.",
+        "The 17 browser scenarios and eleven serialized checks are nested under native execution, not extra libtest cases. Static audits and Clippy/format/CLI exits carry zero runtime-test credit.",
+        "Disposable single-site PostgreSQL and software/passkey browser tooling do not prove two-site durability, physical identity or full product acceptance.",
+        "Two distinct CI-only commits follow reviewed implementation source. Scoped hosted38f source/runtime proof is independently accepted; exact package selection/manifest readback, future metadata-head hosted, protected merge-group and merged-main readback remain.",
+        "No deployment, public mail exposure, institutional operation, payment or collection.",
+        "The future metadata/package commit must be bound by an external post-publication Git-blob review; this JSON entry must not self-reference its own commit hash.",
+        "Native125 and embedded browser17 are source-qualified reuse at the reviewed implementation commit through the two CI-only commits; Driver04/06/07 have no fresh native/browser test credit.",
+        "Driver04 mail strict Clippy exited255 after manual SIGINT; its shared-cache directory sample is a bounded observation, not a general or historical timeout diagnosis. Three gates stayed unreached.",
+        "Hosted e6 failed before parser body load on missing declared fork js-yaml: seven certificate passes, one wrapper failure, zero parser bodies. Later scoped hosted38f proof is separately accepted; it does not explain the earlier failure.",
+        "Full hosted e6 log is privately retained outside the package; only the verbatim failed step and parent hash/line bounds are proposed for publication.",
+        "Driver06/07 disk-observer stops retain partial app Clippy logs without terminal receipts; Driver07 observation error detail and cause remain UNKNOWN. Local Inbox/OpenAPI were unreached. Separately accepted hosted source targets do not convert those local outcomes into passes.",
+        "The exact owned isolated target cache was removed after scoped review and fresh process/reference checks; shared cache, source and failure logs stayed intact. Cache cleanup is not gate acceptance.",
+        "Exact scoped hosted38f source/runtime proof is selected for the proposed package; later metadata-head hosted and protected merge-group receipts remain external post-publication audit evidence, not embedded in a self-referencing package.",
+        "Current direct-head 38f CodeQL zero-result analyses and zero current-ref alert snapshot are scoped static evidence, not proof all54 historical findings fixed or release/runtime acceptance. ZIP remains private; four full raw job logs are selected after bounded configured scan. Current38f source/runtime evidence is independently accepted on synthetic-merge/tree parity; future metadata/package-head and protected merge-group checks remain separate external gates.",
+        "Hosted38f job metadata reported50 successful steps/zero failed. Independent raw accounting, complete tested-tree equality to reviewed38f, remote42-blob custody, browser17 and complete provider artifact now accept only the scoped source/runtime matrix; broader product/release gates remain.",
+        "Hosted app Clippy uses broader locked invocation without local offline flag and a different job budget; no identical local Driver07 command/deadline success is inferred. Python15 reused local proof binds five unchanged importer paths while complete old map predates three unrelated parser paths and CI."
+      ],
+      "ci_postgres_commit": "e6d870cae97e6850f264a5e1548de81770f3b866",
+      "ci_fork_tooling_commit": "38f302eda98e3b45ccf41beff5d9c0d8bcce15c2",
+      "scoped_source_matrix": {
+        "path": ".artifacts/acceptance/inbox-terminal-cursor/integration-20261007/dependency-security/security-final38f-scoped-source-runtime-matrix-independent-approval01.json",
+        "sha256": "19311b2f23b8d8233ab2599ed4e5c046e4a6308cd3a67b11aa484ebc1d7023da"
+      }
     }
   ],
   "foundation_evidence": [
@@ -4887,6 +5173,43 @@
         "Fresh exact-commit review, hosted CI, protected merge-group checks and merge readback remain pending at this checkpoint.",
         "No deployment, live institutional operation, payment, public mail or collection."
       ]
+    },
+    {
+      "scope": "PR17 bounded dependency/security stabilization and CI PostgreSQL test admission; no B/P module completion",
+      "implementation_source_commit": "09d19f40f158c75ccfa7084d781aca80532a338e",
+      "status": "scoped_hosted_38f_and_exact_selection_accepted_final_publication_reviews_external",
+      "evidence": {
+        "path": "docs/planning/nextjs-v1/evidence/pr17-security-stabilization/security-stabilization-evidence.manifest.json",
+        "sha256": "5439ffc0e01f4dfac1008e2d98b0a91d2874b2db555d706cd2ef46497e5d1e8d"
+      },
+      "package": {
+        "path": "docs/planning/nextjs-v1/evidence/pr17-security-stabilization/security-stabilization-evidence.tar.gz",
+        "sha256": "817d2f72bb96574441b189006db290f01e3dd3fdd72fc2719cf7c1e3fcd3f77c"
+      },
+      "independent_review": {
+        "status": "exact_selection_accepted_final_archive_document_and_publication_reviews_external",
+        "selection_approval_path": "docs/planning/nextjs-v1/evidence/pr17-security-stabilization/selection-approval.json",
+        "selection_approval_sha256": "c57d93fc7ed5eaf4fc08aeedb1d4c1dd7dd479dafb72f7c96910aba37902c1c8"
+      },
+      "limitations": [
+        "Historical failed attempts and zero-test compile/audit results remain separate from current positive tests.",
+        "Scoped hosted38f source/runtime matrix is accepted; final package/manifest, future metadata-head hosted, protected merge-group and merged-main readback remain separate.",
+        "Full enterprise modules, legal acceptance, capacity/restore, two-site durability/fencing and launch remain unaccepted.",
+        "The future metadata/package commit must be bound by an external post-publication Git-blob review; this JSON entry must not self-reference its own commit hash.",
+        "Native125/browser17 remain source-qualified reuse, not fresh Driver04 execution; only the CI workflow changed in e6d870c.",
+        "Driver04 strict mail Clippy was interrupted and three gates unreached; hosted e6 parser/certificate failed before parser bodies. Later hosted38f scoped proof does not rewrite these historical failures.",
+        "Driver06 mail/storage strict Clippy exited0 with zero runtime tests. Driver06/07 observer stops interrupted partial app Clippy without terminal receipts; local Inbox/OpenAPI are unreached. No observed disk threshold breach or product assertion failure is inferred; hosted source proof remains separate.",
+        "Exact owned isolated target cleanup was scoped and recorded without touching shared cache, source or prior failure logs; it adds no runtime acceptance.",
+        "Later metadata-head hosted and merge-group receipts must be retained and audited externally after publication; do not rewrite this package to contain its own future commit proof.",
+        "Current direct-head38f CodeQL four-job/zero-result evidence is scoped static analysis only; historical54 findings and full product/release acceptance remain separate. Hosted source/runtime proof is independently scoped.",
+        "Hosted source job50/0 metadata is backed by raw counts, full a43 synthetic-merge tree equality to reviewed38f, remote42-blob custody, browser17 and complete provider artifact audits. Local Driver06/07 remain interrupted/UNKNOWN."
+      ],
+      "ci_postgres_commit": "e6d870cae97e6850f264a5e1548de81770f3b866",
+      "ci_fork_tooling_commit": "38f302eda98e3b45ccf41beff5d9c0d8bcce15c2",
+      "scoped_source_matrix": {
+        "path": ".artifacts/acceptance/inbox-terminal-cursor/integration-20261007/dependency-security/security-final38f-scoped-source-runtime-matrix-independent-approval01.json",
+        "sha256": "19311b2f23b8d8233ab2599ed4e5c046e4a6308cd3a67b11aa484ebc1d7023da"
+      }
     }
   ]
 }
