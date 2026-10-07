@@ -1,0 +1,8 @@
+type: object
+additionalProperties: false
+required: [id, title, created_at, payload]
+properties:
+  id: { $ref: '#/components/schemas/Uuid' }
+  title: { type: string }
+  created_at: { $ref: '#/components/schemas/Timestamp' }
+  payload: { $ref: '#/components/schemas/BrowserPayslipPayload' }

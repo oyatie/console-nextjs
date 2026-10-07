@@ -1,0 +1,28 @@
+tags: [me]
+operationId: listBrowserPayslips
+summary: Read the authenticated browser recipient's issued payslip artifacts
+security:
+- BrowserIngress: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/BrowserPayslipListRequest'
+responses:
+  '200':
+    description: Recipient and Company scoped read; no issuance, receipt confirmation or payment effect.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/BrowserPayslipListResponse'
+  '401':
+    description: Missing, expired, revoked or mismatched browser authority.
+  '404':
+    description: Unknown, other recipient, other Company or non-payslip document; no distinction is disclosed.
+  '413':
+    description: Body exceeds the 4096-byte limit.
+  '422':
+    description: Malformed closed request.
+  '503':
+    description: Ingress or storage unavailable, or issued artifact cannot be safely projected.

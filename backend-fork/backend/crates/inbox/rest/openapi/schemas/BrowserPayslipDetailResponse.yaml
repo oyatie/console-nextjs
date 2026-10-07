@@ -1,0 +1,8 @@
+type: object
+additionalProperties: false
+required: [company_id, browser_context, expires_at, document]
+properties:
+  company_id: { $ref: '#/components/schemas/Uuid' }
+  browser_context: { $ref: '#/components/schemas/Uuid' }
+  expires_at: { $ref: '#/components/schemas/Timestamp' }
+  document: { $ref: '#/components/schemas/BrowserPayslipDocument' }

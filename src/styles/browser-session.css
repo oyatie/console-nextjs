@@ -21,5 +21,9 @@
 .browser-table-region td:nth-child(5) { max-width: 300px; overflow-wrap: anywhere; }
 .browser-pagination { display: flex; flex-wrap: wrap; align-items: center; gap: 16px; }
 .browser-pagination a { padding: 12px 8px; }
+.browser-document-list { list-style: none; padding: 0; }
+.browser-document-list li { padding: 16px 0; border-bottom: 1px solid var(--border); overflow-wrap: anywhere; }
+.browser-deductions table { min-width: 480px; }
+.browser-deductions td:last-child, .browser-card dd { overflow-wrap: anywhere; }
 html[data-console-browser-blocked="1"] #console-browser-private-region { display: none !important; visibility: hidden !important; }
 @media (max-width: 600px) { .browser-header { flex-direction: column; gap: 0; } .browser-card { padding: 16px; } }

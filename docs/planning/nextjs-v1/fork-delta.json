@@ -25,11 +25,11 @@
         "mode": 420
       },
       "after": {
-        "sha256": "29c928cb57ff974a5cdfcfc6c80f93e7135885de632b5fb0b8c29fd5e1511ef9",
-        "bytes": 226019,
+        "sha256": "366ea7828ad8da2f49ebf06944b376246abdc1308dbe676c4531f9064cdca109",
+        "bytes": 226074,
         "mode": 420
       },
-      "reason": "Lock offline-compatible rustls dependencies for signed HTTPS object GETs; preserve existing backend dependency owners. Lock the existing hashing and mail-preparation dependencies for the immutable request/MIME contract. Retire v1 AI permission authority at every runtime door and role owner command; preserve historical policy rows, assignment identity and audit evidence with red-first regressions. Add already-workspace test dependencies for the real sales REST PostgreSQL inquiry probe; preserve the locked application dependency graph. Reviewed C2/R7 genuine resident-authenticator test dependency closure and frontend-e2e gate; locked source-only dependency additions, no provider fallback. PR17 reviewed dependency security patches; provider graph/JWT/TLS compatibility gates preserve owners and protocols. PR17 approved conservative expiry time reused after current-authority waits without signed deadline or codec changes."
+      "reason": "Lock offline-compatible rustls dependencies for signed HTTPS object GETs; preserve existing backend dependency owners. Lock the existing hashing and mail-preparation dependencies for the immutable request/MIME contract. Retire v1 AI permission authority at every runtime door and role owner command; preserve historical policy rows, assignment identity and audit evidence with red-first regressions. Add already-workspace test dependencies for the real sales REST PostgreSQL inquiry probe; preserve the locked application dependency graph. Reviewed C2/R7 genuine resident-authenticator test dependency closure and frontend-e2e gate; locked source-only dependency additions, no provider fallback. PR17 reviewed dependency security patches; provider graph/JWT/TLS compatibility gates preserve owners and protocols. PR17 approved conservative expiry time reused after current-authority waits without signed deadline or codec changes. Recipient-owned issued-payslip browser read reuses Inbox custody; exact artifact projection, Company/kind isolation, real passkey browser checks and closed read-only contracts."
     },
     {
       "path": "backend/Cargo.toml",
@@ -53,11 +53,21 @@
         "mode": 420
       },
       "after": {
-        "sha256": "b624085d1307f553d127d91cf8c74a60401cb4a12ebd411e0959477cad18c6b8",
-        "bytes": 9040,
+        "sha256": "e95812dffcfc27c307a08216ee2240f4c599cab35b1d7ddbd04b39e313c47a19",
+        "bytes": 9133,
         "mode": 420
       },
-      "reason": "Bind ordinary and delegated access to exact live refresh families; enforce strict source and absolute deadlines after lock waits. Preserve authentication assertions using real-family test fixtures. Reviewed C2/R7 genuine resident-authenticator test dependency closure and frontend-e2e gate; locked source-only dependency additions, no provider fallback. Record inherited merged PR #15 provenance at exact base 7bbb48cc24952ec1639c393767e11bc0de6cc63c after matching regular Git blobs; repair prior stale/missing metadata only, not new runtime code."
+      "reason": "Bind ordinary and delegated access to exact live refresh families; enforce strict source and absolute deadlines after lock waits. Preserve authentication assertions using real-family test fixtures. Reviewed C2/R7 genuine resident-authenticator test dependency closure and frontend-e2e gate; locked source-only dependency additions, no provider fallback. Record inherited merged PR #15 provenance at exact base 7bbb48cc24952ec1639c393767e11bc0de6cc63c after matching regular Git blobs; repair prior stale/missing metadata only, not new runtime code. Recipient-owned issued-payslip browser read reuses Inbox custody; exact artifact projection, Company/kind isolation, real passkey browser checks and closed read-only contracts."
+    },
+    {
+      "path": "backend/app/src/browser_payslips.rs",
+      "before": null,
+      "after": {
+        "sha256": "cf3c6da16cfed1fd5391d25291ac2398def31cd97a44e785aa13fa926b52359d",
+        "bytes": 12047,
+        "mode": 420
+      },
+      "reason": "Recipient-owned issued-payslip browser read reuses Inbox custody; exact artifact projection, Company/kind isolation, real passkey browser checks and closed read-only contracts."
     },
     {
       "path": "backend/app/src/browser_session_cleanup.rs",
@@ -91,11 +101,11 @@
         "mode": 420
       },
       "after": {
-        "sha256": "e25d959c47286b1797d463e868bf0b16ab27725b62133d441af8a7899892e93b",
-        "bytes": 278819,
+        "sha256": "0893476d1cc02ed72b51a737265afe35c377913da27c0b135e37ea029ebd4bd4",
+        "bytes": 279282,
         "mode": 420
       },
-      "reason": "Coordinated authentication lock implementation from independently approved exact tests24f4a4: Account-first owners, exact locator revalidation, database validation clock, shared self-delete, sorted roster and additive0227 removal guard. Candidate pending verification/review. Retry SQLx migration advisory-lock waits in short transactions so concurrent CREATE INDEX CONCURRENTLY cannot deadlock a second migrator; restore required connection budgets after lock acquisition. Expose write_ready=false in readiness while fenced two-site write admission remains unimplemented; preserve existing availability status. Map new Employment read errors at the existing org-change composition seam: unreadable state to redacted Internal and unresolved reactivation to Conflict. Remove the inherited loopback Intelligence bind route from the v1 product; the R4 plan includes no AI/model feature. Reuse the middleware-resolved current Principal for both audit GETs, removing stale JWT branch reconstruction after revocation or scope narrowing. Keep the audit attestation registration and configured route inventory on one shared path constant. Map native Payroll SSR outcome directly to omitted, authorized empty/populated or failure; remove redundant Payroll floor only. Preserve Organization/HR composition and existing rendering/assets. R7c compose exact dedicated HR browser route and bounded cleanup worker with redacted optional auth configuration; legacy transport admission unchanged."
+      "reason": "Coordinated authentication lock implementation from independently approved exact tests24f4a4: Account-first owners, exact locator revalidation, database validation clock, shared self-delete, sorted roster and additive0227 removal guard. Candidate pending verification/review. Retry SQLx migration advisory-lock waits in short transactions so concurrent CREATE INDEX CONCURRENTLY cannot deadlock a second migrator; restore required connection budgets after lock acquisition. Expose write_ready=false in readiness while fenced two-site write admission remains unimplemented; preserve existing availability status. Map new Employment read errors at the existing org-change composition seam: unreadable state to redacted Internal and unresolved reactivation to Conflict. Remove the inherited loopback Intelligence bind route from the v1 product; the R4 plan includes no AI/model feature. Reuse the middleware-resolved current Principal for both audit GETs, removing stale JWT branch reconstruction after revocation or scope narrowing. Keep the audit attestation registration and configured route inventory on one shared path constant. Map native Payroll SSR outcome directly to omitted, authorized empty/populated or failure; remove redundant Payroll floor only. Preserve Organization/HR composition and existing rendering/assets. R7c compose exact dedicated HR browser route and bounded cleanup worker with redacted optional auth configuration; legacy transport admission unchanged. Recipient-owned issued-payslip browser read reuses Inbox custody; exact artifact projection, Company/kind isolation, real passkey browser checks and closed read-only contracts."
     },
     {
       "path": "backend/app/src/schema_install.rs",
@@ -143,11 +153,11 @@
         "mode": 420
       },
       "after": {
-        "sha256": "f487dc4a7ca6f944ca0eab32bf2d9b30a703ff142cda7fbd4430032dadabc4dd",
-        "bytes": 169494,
+        "sha256": "46f613012f5e06a6b75fd2f4cc76d1ffae40946c66df849b5b5d5e2e171127f6",
+        "bytes": 170674,
         "mode": 420
       },
-      "reason": "Keep signed device-login proof, source and scope regressions; prove refresh signing failure after rotation cannot commit an undisclosed replacement. Add a red signed HTTP regression showing an OTP-derived family's access and refresh cannot acquire business authority after its source is replaced. Bind newly redeemed legacy OTP families and passkey registration ceremonies to the exact live source in one owner transaction, recheck JWT expiry after lock waits, and retain red purpose-authority probes. This is unactivated version-0 containment, not a version-1 session cutover. Add real signed HTTP/runtime-role PostgreSQL credential reset session-revocation, isolation, interleaving and rollback regressions; preserve existing tests. Restrict positively classified legacy OTP families at shared ordinary admission and locked device approval; preserve direct enrollment, v0 compatibility and dormant v1. Add genuine runtime-role regressions and correct QR approval descriptions. C2/R7c approved actual WebAuthn/PostgreSQL/native/browser regressions, private custody and exact-family owner failures, compatibility and current-authority constructor fields. Preserve inherited assertions; reviewed prerequisite correction and whitespace-only formatting. Record inherited merged PR #15 provenance at exact base 7bbb48cc24952ec1639c393767e11bc0de6cc63c after matching regular Git blobs; repair prior stale/missing metadata only, not new runtime code."
+      "reason": "Keep signed device-login proof, source and scope regressions; prove refresh signing failure after rotation cannot commit an undisclosed replacement. Add a red signed HTTP regression showing an OTP-derived family's access and refresh cannot acquire business authority after its source is replaced. Bind newly redeemed legacy OTP families and passkey registration ceremonies to the exact live source in one owner transaction, recheck JWT expiry after lock waits, and retain red purpose-authority probes. This is unactivated version-0 containment, not a version-1 session cutover. Add real signed HTTP/runtime-role PostgreSQL credential reset session-revocation, isolation, interleaving and rollback regressions; preserve existing tests. Restrict positively classified legacy OTP families at shared ordinary admission and locked device approval; preserve direct enrollment, v0 compatibility and dormant v1. Add genuine runtime-role regressions and correct QR approval descriptions. C2/R7c approved actual WebAuthn/PostgreSQL/native/browser regressions, private custody and exact-family owner failures, compatibility and current-authority constructor fields. Preserve inherited assertions; reviewed prerequisite correction and whitespace-only formatting. Record inherited merged PR #15 provenance at exact base 7bbb48cc24952ec1639c393767e11bc0de6cc63c after matching regular Git blobs; repair prior stale/missing metadata only, not new runtime code. Recipient-owned issued-payslip browser read reuses Inbox custody; exact artifact projection, Company/kind isolation, real passkey browser checks and closed read-only contracts."
     },
     {
       "path": "backend/app/tests/auth_rest/browser_logout_review.rs",
@@ -160,24 +170,34 @@
       "reason": "C2/R7c approved actual WebAuthn/PostgreSQL/native/browser regressions, private custody and exact-family owner failures, compatibility and current-authority constructor fields. Preserve inherited assertions; reviewed prerequisite correction and whitespace-only formatting."
     },
     {
+      "path": "backend/app/tests/auth_rest/browser_payslips.rs",
+      "before": null,
+      "after": {
+        "sha256": "01f2968388ba77b0c41e7f8534b2f154868217ab0b589933c5f9c71185f1d991",
+        "bytes": 6090,
+        "mode": 420
+      },
+      "reason": "Recipient-owned issued-payslip browser read reuses Inbox custody; exact artifact projection, Company/kind isolation, real passkey browser checks and closed read-only contracts."
+    },
+    {
       "path": "backend/app/tests/auth_rest/browser_sessions.rs",
       "before": null,
       "after": {
-        "sha256": "af3da5f340ecaa1d78ad46d41fdc0a53be6d515a678727d54542fdffaff6d454",
-        "bytes": 288060,
+        "sha256": "036eb868e88abb0860258a54a01ea0f363daa5b676cfb70b382a06b389944af3",
+        "bytes": 288184,
         "mode": 420
       },
-      "reason": "C2/R7c approved actual WebAuthn/PostgreSQL/native/browser regressions, private custody and exact-family owner failures, compatibility and current-authority constructor fields. Preserve inherited assertions; reviewed prerequisite correction and whitespace-only formatting. Independently reviewed failure-only RealWorker exit/readiness/static stderr classification; child owner precedes fallible diagnostic reader, Interrupted reads retry, no raw output or deadline/predicate change."
+      "reason": "C2/R7c approved actual WebAuthn/PostgreSQL/native/browser regressions, private custody and exact-family owner failures, compatibility and current-authority constructor fields. Preserve inherited assertions; reviewed prerequisite correction and whitespace-only formatting. Independently reviewed failure-only RealWorker exit/readiness/static stderr classification; child owner precedes fallible diagnostic reader, Interrupted reads retry, no raw output or deadline/predicate change. Recipient-owned issued-payslip browser read reuses Inbox custody; exact artifact projection, Company/kind isolation, real passkey browser checks and closed read-only contracts."
     },
     {
       "path": "backend/app/tests/auth_rest/genuine_browser.rs",
       "before": null,
       "after": {
-        "sha256": "3fc7ff40ce5b01325515803864ba2e87386562f4dd0bf744b2c22c594261879b",
-        "bytes": 110318,
+        "sha256": "3f237ca93df4f9a62a0bddb0edc3805e713f0b8f64cf3854457779def079b932",
+        "bytes": 111765,
         "mode": 420
       },
-      "reason": "C2/R7c approved actual WebAuthn/PostgreSQL/native/browser regressions, private custody and exact-family owner failures, compatibility and current-authority constructor fields. Preserve inherited assertions; reviewed prerequisite correction and whitespace-only formatting. Independently approved bounded static HTTP/failure diagnostics and fixture-only relocation of subject freshness1/1 before genuine issuance; preserve all runtime validation and17 required browser assertions. Record the static native phase error before cleanup can mask it; preserve all phase/overall/cleanup deadlines and required assertions. Independently reviewed numeric checked-frame failure diagnostic; exact original20s countzero RED authorizes first-origin-only90s staging prerequisite, preserving later20s phases, overall130s/watchdog140s and cleanup8/8/2. Prior PR #15 metadata-only reconciliation remains preserved at reviewed PR #17 head 8ca17fbf1197d7c990e65f2a247a96a514c6db57."
+      "reason": "C2/R7c approved actual WebAuthn/PostgreSQL/native/browser regressions, private custody and exact-family owner failures, compatibility and current-authority constructor fields. Preserve inherited assertions; reviewed prerequisite correction and whitespace-only formatting. Independently approved bounded static HTTP/failure diagnostics and fixture-only relocation of subject freshness1/1 before genuine issuance; preserve all runtime validation and17 required browser assertions. Record the static native phase error before cleanup can mask it; preserve all phase/overall/cleanup deadlines and required assertions. Independently reviewed numeric checked-frame failure diagnostic; exact original20s countzero RED authorizes first-origin-only90s staging prerequisite, preserving later20s phases, overall130s/watchdog140s and cleanup8/8/2. Prior PR #15 metadata-only reconciliation remains preserved at reviewed PR #17 head 8ca17fbf1197d7c990e65f2a247a96a514c6db57. Recipient-owned issued-payslip browser read reuses Inbox custody; exact artifact projection, Company/kind isolation, real passkey browser checks and closed read-only contracts."
     },
     {
       "path": "backend/app/tests/auth_rest/purpose.rs",
@@ -345,11 +365,11 @@
         "mode": 420
       },
       "after": {
-        "sha256": "902392bb6fa0e180398d0fc67e63c43c30b0f2d8c273771c8b14857e2f6119ee",
-        "bytes": 55866,
+        "sha256": "129f4d667708ceaa7e30781f0ebcb05cee21522d44c9b3734f2640311a6eeeb4",
+        "bytes": 59167,
         "mode": 420
       },
-      "reason": "Remove the Intelligence bind exception from the production route census while preserving other route-contract assertions. Require the already registered audit attestation path in the configured route inventory. Require the served OpenAPI path × method response for the reachable unavailable-listing 409; preserve existing inventory assertions. C2/R7c approved actual WebAuthn/PostgreSQL/native/browser regressions, private custody and exact-family owner failures, compatibility and current-authority constructor fields. Preserve inherited assertions; reviewed prerequisite correction and whitespace-only formatting. Record inherited merged PR #15 provenance at exact base 7bbb48cc24952ec1639c393767e11bc0de6cc63c after matching regular Git blobs; repair prior stale/missing metadata only, not new runtime code."
+      "reason": "Remove the Intelligence bind exception from the production route census while preserving other route-contract assertions. Require the already registered audit attestation path in the configured route inventory. Require the served OpenAPI path × method response for the reachable unavailable-listing 409; preserve existing inventory assertions. C2/R7c approved actual WebAuthn/PostgreSQL/native/browser regressions, private custody and exact-family owner failures, compatibility and current-authority constructor fields. Preserve inherited assertions; reviewed prerequisite correction and whitespace-only formatting. Record inherited merged PR #15 provenance at exact base 7bbb48cc24952ec1639c393767e11bc0de6cc63c after matching regular Git blobs; repair prior stale/missing metadata only, not new runtime code. Recipient-owned issued-payslip browser read reuses Inbox custody; exact artifact projection, Company/kind isolation, real passkey browser checks and closed read-only contracts."
     },
     {
       "path": "backend/app/tests/platform_onboarding_e2e.rs",
@@ -1127,11 +1147,11 @@
         "mode": 420
       },
       "after": {
-        "sha256": "1ed3378ac948a68f9ccead84150a574eb8b45e7480f65438960d988bc197ba6a",
-        "bytes": 16688,
+        "sha256": "dc688bf1be43fb4294c50d35b639b26b77c54ab313dd40f07564275c20c56e59",
+        "bytes": 18077,
         "mode": 420
       },
-      "reason": "Reviewed staged-roster coverage and atomic local payslip publication at existing payroll/Inbox owners, immutable dedup replay and frozen real-session/runtime-role regressions. No full-module, legal, payment or two-site claim. Preserve recipient/Company/filter and owned chronological anchors while terminating exact-full Inbox pages using bounded authorized lookahead; test-first real PostgreSQL cursor, clamp and immutable-read regressions."
+      "reason": "Reviewed staged-roster coverage and atomic local payslip publication at existing payroll/Inbox owners, immutable dedup replay and frozen real-session/runtime-role regressions. No full-module, legal, payment or two-site claim. Preserve recipient/Company/filter and owned chronological anchors while terminating exact-full Inbox pages using bounded authorized lookahead; test-first real PostgreSQL cursor, clamp and immutable-read regressions. Recipient-owned issued-payslip browser read reuses Inbox custody; exact artifact projection, Company/kind isolation, real passkey browser checks and closed read-only contracts."
     },
     {
       "path": "backend/crates/inbox/adapter-postgres/tests/inbox_docs_rls_surfaces_as_runtime_role.rs",
@@ -1146,6 +1166,134 @@
         "mode": 420
       },
       "reason": "Reviewed staged-roster coverage and atomic local payslip publication at existing payroll/Inbox owners, immutable dedup replay and frozen real-session/runtime-role regressions. No full-module, legal, payment or two-site claim. Preserve recipient/Company/filter and owned chronological anchors while terminating exact-full Inbox pages using bounded authorized lookahead; test-first real PostgreSQL cursor, clamp and immutable-read regressions."
+    },
+    {
+      "path": "backend/crates/inbox/rest/openapi/manifest.json",
+      "before": {
+        "sha256": "1eeb49f4dbe08bfd3a4446ad657ee7a9dc102e36777971853d0c0008d4d8d7c7",
+        "bytes": 456,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "ef2fc5efafd81c4641c960e71bf15424a27920e3ffe0abd4db3f1981fa0af850",
+        "bytes": 877,
+        "mode": 420
+      },
+      "reason": "Recipient-owned issued-payslip browser read reuses Inbox custody; exact artifact projection, Company/kind isolation, real passkey browser checks and closed read-only contracts."
+    },
+    {
+      "path": "backend/crates/inbox/rest/openapi/paths/api__v1__me__browser-session__payslips.post.yaml",
+      "before": null,
+      "after": {
+        "sha256": "49fda1344fc091b55f96404481cd8a1823167fa1036d739d338d7273a0590e50",
+        "bytes": 958,
+        "mode": 420
+      },
+      "reason": "Recipient-owned issued-payslip browser read reuses Inbox custody; exact artifact projection, Company/kind isolation, real passkey browser checks and closed read-only contracts."
+    },
+    {
+      "path": "backend/crates/inbox/rest/openapi/paths/api__v1__me__browser-session__payslips__id.post.yaml",
+      "before": null,
+      "after": {
+        "sha256": "75daa5958f69f8fcd35a86a0f8bccc67244ed1734880c5024c6c5a1c4de970d2",
+        "bytes": 1062,
+        "mode": 420
+      },
+      "reason": "Recipient-owned issued-payslip browser read reuses Inbox custody; exact artifact projection, Company/kind isolation, real passkey browser checks and closed read-only contracts."
+    },
+    {
+      "path": "backend/crates/inbox/rest/openapi/schemas/BrowserPayslipDeduction.yaml",
+      "before": null,
+      "after": {
+        "sha256": "9127281066ac0bbaf9b699e0b032b84ddd9060bc2d6c6567a977dff836ab104d",
+        "bytes": 431,
+        "mode": 420
+      },
+      "reason": "Recipient-owned issued-payslip browser read reuses Inbox custody; exact artifact projection, Company/kind isolation, real passkey browser checks and closed read-only contracts."
+    },
+    {
+      "path": "backend/crates/inbox/rest/openapi/schemas/BrowserPayslipDetailResponse.yaml",
+      "before": null,
+      "after": {
+        "sha256": "babdb8e6b97dc6bb426a56de45ed78ebf3a6920c5af42f6b17c022b7b3b63479",
+        "bytes": 349,
+        "mode": 420
+      },
+      "reason": "Recipient-owned issued-payslip browser read reuses Inbox custody; exact artifact projection, Company/kind isolation, real passkey browser checks and closed read-only contracts."
+    },
+    {
+      "path": "backend/crates/inbox/rest/openapi/schemas/BrowserPayslipDocument.yaml",
+      "before": null,
+      "after": {
+        "sha256": "a937663d09c4a43431d57b9718c815589d2c6a277d98a38a03b05d0666adb8a4",
+        "bytes": 289,
+        "mode": 420
+      },
+      "reason": "Recipient-owned issued-payslip browser read reuses Inbox custody; exact artifact projection, Company/kind isolation, real passkey browser checks and closed read-only contracts."
+    },
+    {
+      "path": "backend/crates/inbox/rest/openapi/schemas/BrowserPayslipListRequest.yaml",
+      "before": null,
+      "after": {
+        "sha256": "1a2026715ecf83e402961cea608274eaf5fb0dbe679bf4d4e571e38a7a813e35",
+        "bytes": 335,
+        "mode": 420
+      },
+      "reason": "Recipient-owned issued-payslip browser read reuses Inbox custody; exact artifact projection, Company/kind isolation, real passkey browser checks and closed read-only contracts."
+    },
+    {
+      "path": "backend/crates/inbox/rest/openapi/schemas/BrowserPayslipListResponse.yaml",
+      "before": null,
+      "after": {
+        "sha256": "8c5bb0a692a58015eb7bf696559004018ce2833d674f98a62de9acdc7daa51f9",
+        "bytes": 560,
+        "mode": 420
+      },
+      "reason": "Recipient-owned issued-payslip browser read reuses Inbox custody; exact artifact projection, Company/kind isolation, real passkey browser checks and closed read-only contracts."
+    },
+    {
+      "path": "backend/crates/inbox/rest/openapi/schemas/BrowserPayslipMoney.yaml",
+      "before": null,
+      "after": {
+        "sha256": "528640301168d6dc74638ce5b4c896a1f73d1cddd3650024bfdf6b831ceb0139",
+        "bytes": 173,
+        "mode": 420
+      },
+      "reason": "Recipient-owned issued-payslip browser read reuses Inbox custody; exact artifact projection, Company/kind isolation, real passkey browser checks and closed read-only contracts."
+    },
+    {
+      "path": "backend/crates/inbox/rest/openapi/schemas/BrowserPayslipPayload.yaml",
+      "before": null,
+      "after": {
+        "sha256": "dc80dde73c2707795a0adfdfd431daf072cfb5f0a044f6b2cd2b1f17ad101392",
+        "bytes": 1107,
+        "mode": 420
+      },
+      "reason": "Recipient-owned issued-payslip browser read reuses Inbox custody; exact artifact projection, Company/kind isolation, real passkey browser checks and closed read-only contracts."
+    },
+    {
+      "path": "backend/crates/inbox/rest/openapi/schemas/BrowserPayslipSummary.yaml",
+      "before": null,
+      "after": {
+        "sha256": "55d77ba4904869788907967ee72272f6eae6117db74c6e8caec5dbbefe9e942c",
+        "bytes": 214,
+        "mode": 420
+      },
+      "reason": "Recipient-owned issued-payslip browser read reuses Inbox custody; exact artifact projection, Company/kind isolation, real passkey browser checks and closed read-only contracts."
+    },
+    {
+      "path": "backend/crates/inbox/rest/src/openapi.rs",
+      "before": {
+        "sha256": "fe5750382bcd76cfa64022ae2f5f595d4c8312f695063e4194652fbffc6b6f0f",
+        "bytes": 2021,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "f63ca7b2f339109d64e41bf419361cc0a2cfb0ba9fc1ca1e742767abc63caac4",
+        "bytes": 3762,
+        "mode": 420
+      },
+      "reason": "Recipient-owned issued-payslip browser read reuses Inbox custody; exact artifact projection, Company/kind isolation, real passkey browser checks and closed read-only contracts."
     },
     {
       "path": "backend/crates/inbox/rest/tests/api.rs",
@@ -2655,11 +2803,11 @@
         "mode": 420
       },
       "after": {
-        "sha256": "d6deaa3b8dd08e5658d9f7b29d936318ca4982250462d4e665fed10d673665c2",
-        "bytes": 1228361,
+        "sha256": "0ec7f42505d1c97326b27bec4b0af915af6b9362c1445bdb9f75814522d45696",
+        "bytes": 1235045,
         "mode": 420
       },
-      "reason": "Describe stable outbound operation IDs, conflict and truthful UNKNOWN response; synchronize the mail HTTP contract. Publish the inquiry 409 in the served OpenAPI document without unrelated generated-media drift. Regenerate exact canonical composition including reviewed attendance contract and inherited storefront-media projection drift; no storefront owner/fragment change. Restrict positively classified legacy OTP families at shared ordinary admission and locked device approval; preserve direct enrollment, v0 compatibility and dormant v1. Add genuine runtime-role regressions and correct QR approval descriptions. C2 explicit discoverable start and R7c closed browser session/HR API path-method-response contracts under existing owners; preserve legacy aliases and exact nine-item timestamp wire schema. Record inherited merged PR #15 provenance at exact base 7bbb48cc24952ec1639c393767e11bc0de6cc63c after matching regular Git blobs; repair prior stale/missing metadata only, not new runtime code. Generated bulk OpenAPI exactly from reviewed canonical fragments, documenting actual response media and admission limit."
+      "reason": "Describe stable outbound operation IDs, conflict and truthful UNKNOWN response; synchronize the mail HTTP contract. Publish the inquiry 409 in the served OpenAPI document without unrelated generated-media drift. Regenerate exact canonical composition including reviewed attendance contract and inherited storefront-media projection drift; no storefront owner/fragment change. Restrict positively classified legacy OTP families at shared ordinary admission and locked device approval; preserve direct enrollment, v0 compatibility and dormant v1. Add genuine runtime-role regressions and correct QR approval descriptions. C2 explicit discoverable start and R7c closed browser session/HR API path-method-response contracts under existing owners; preserve legacy aliases and exact nine-item timestamp wire schema. Record inherited merged PR #15 provenance at exact base 7bbb48cc24952ec1639c393767e11bc0de6cc63c after matching regular Git blobs; repair prior stale/missing metadata only, not new runtime code. Generated bulk OpenAPI exactly from reviewed canonical fragments, documenting actual response media and admission limit. Recipient-owned issued-payslip browser read reuses Inbox custody; exact artifact projection, Company/kind isolation, real passkey browser checks and closed read-only contracts."
     },
     {
       "path": "backend/openapi/shared/manifest.json",
@@ -2698,6 +2846,20 @@
         "mode": 420
       },
       "reason": "C2 explicit discoverable start and R7c closed browser session/HR API path-method-response contracts under existing owners; preserve legacy aliases and exact nine-item timestamp wire schema."
+    },
+    {
+      "path": "backend/openapi/split_openapi.py",
+      "before": {
+        "sha256": "c889d1ed3d3feefd597c31c62b09c434675298efe4dd0cf2f36523d9eafeab51",
+        "bytes": 24873,
+        "mode": 420
+      },
+      "after": {
+        "sha256": "035b0bea58bfc5c29ae156a1c40697d49da6aa317f60ac9b08f2acc21a0dedf5",
+        "bytes": 24927,
+        "mode": 420
+      },
+      "reason": "Recipient-owned issued-payslip browser read reuses Inbox custody; exact artifact projection, Company/kind isolation, real passkey browser checks and closed read-only contracts."
     },
     {
       "path": "ops/postgres-reconcile-topology.sh",

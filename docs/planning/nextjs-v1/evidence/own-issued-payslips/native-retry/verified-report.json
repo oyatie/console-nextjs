@@ -1,0 +1,64 @@
+{
+  "status": "passed",
+  "scope": "single-site real native/password-auth runtime and production browser custody proof; not payroll/legal/two-site durability acceptance",
+  "observed_at": "2026-10-07T16:00:42.069684+00:00",
+  "original_report_sha256": "835fb5f106c1ca1ad536622306d8330e8d151f528e4f521518ce41feabc98860",
+  "original_runner_sha256": "6d88dd16599056c86975cf59083389b1f1e1b6af80e3d38ab260c69b756b1043",
+  "finalizer_sha256": "6cc2391e0d438409b8c5f1298b61e1268366f430468f40f388230186af6ff0c0",
+  "checks": {
+    "original_report_passed": true,
+    "runner_provenance_exact": true,
+    "pg_ctl_stop_confirmed": true,
+    "owned_temporary_directory_absent": true,
+    "observed_postmaster_pid_absent": true,
+    "source_unchanged_during_run": true,
+    "source_still_matches": true,
+    "worker_unchanged_during_run": true,
+    "worker_still_matches": true,
+    "exact_suite_population": true,
+    "all_browser_scenarios_passed": true
+  },
+  "temporary_credential_files_removed": true,
+  "unsupported_original_claim": "ephemeral_credentials_destroyed is not credited; temporary-file removal does not claim process-memory or cryptographic erasure",
+  "suites": [
+    {
+      "name": "worker-prerequisites",
+      "binary_sha256": "35004386db0e6ee09bf0214207edc68ca0e85acc1a9af6698630755990602d11",
+      "status": "passed",
+      "discovered": 2,
+      "executed": 2,
+      "passed": 2,
+      "failed": 0,
+      "skipped": 0,
+      "filtered": 125
+    },
+    {
+      "name": "auth-rest-full",
+      "binary_sha256": "35004386db0e6ee09bf0214207edc68ca0e85acc1a9af6698630755990602d11",
+      "status": "passed",
+      "discovered": 127,
+      "executed": 127,
+      "passed": 127,
+      "failed": 0,
+      "skipped": 0,
+      "filtered": 0
+    },
+    {
+      "name": "openapi-drift",
+      "binary_sha256": "5d1deaf599e477d9b27d9632da7bd4e7e84c1e0285f116ad5f5a6c6565934ed6",
+      "status": "passed",
+      "discovered": 20,
+      "executed": 20,
+      "passed": 20,
+      "failed": 0,
+      "skipped": 0,
+      "filtered": 0
+    }
+  ],
+  "browser_counts": {
+    "passed": 17,
+    "failed": 0,
+    "unreached": 0,
+    "skipped": 0
+  }
+}

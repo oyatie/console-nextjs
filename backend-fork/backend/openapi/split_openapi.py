@@ -98,6 +98,7 @@ MANUAL_PREFIXES = [
     ("/api/v1/me/notifications", "notifications"),
     ("/api/v1/me/todos", "todos"),
     ("/api/v1/me/inbox", "inbox"),
+    ("/api/v1/me/browser-session/payslips", "inbox"),
     ("/api/v1/me/dispatch", "dispatch"),
     ("/api/v1/me/", "identity"),
     ("/api/v1/period-locks", "finance-gl"),

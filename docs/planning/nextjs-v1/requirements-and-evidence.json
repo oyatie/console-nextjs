@@ -144,26 +144,33 @@
         "console_inbox_adapter_postgres::PgInboxStore::emit_inbox_doc_in_tx",
         "console_payroll_rest::PayrollRestState::visible_run_summaries",
         "console_app::compose_ui_screens",
-        "console_inbox_adapter_postgres::PgInboxStore::list"
+        "console_inbox_adapter_postgres::PgInboxStore::list",
+        "console_inbox_adapter_postgres::PgInboxStore::list_payslips",
+        "console_inbox_adapter_postgres::PgInboxStore::get_payslip",
+        "console_app::browser_payslips",
+        "Next production /me/[context]/payslips list/detail"
       ],
       "contracts": [
         "Bounded existing payroll.create_run / PayrollDraftStaging owner paths: exact Company/run/period; pre-close refresh; known frozen no-op; locked-existing acknowledgment without refresh. Full module contract unverified.",
         "Bounded staged-roster exact current-version coverage at submission/APPROVE; captured recipients, immutable Inbox replay and independent final artifact validation in one local Company transaction. Full legal/approval/payment/UI/durability contract unverified.",
         "Bounded SSR omission/authorized empty/populated/failure outcome through existing audited PayrollRunRead owner; same REST contract, no raw error or rows/hydration after failure. First100 pagination and full module remain incomplete.",
-        "Bounded recipient Inbox metadata pagination ends only when no authorized eligible lookahead exists; owned chronological anchors remain valid across filters. Full Payroll/browser/legal/durability contract remains unverified."
+        "Bounded recipient Inbox metadata pagination ends only when no authorized eligible lookahead exists; owned chronological anchors remain valid across filters. Full Payroll/browser/legal/durability contract remains unverified.",
+        "Bounded issued-recipient artifacts only: Company/recipient/kind restrictions before body retrieval; current browser session recheck; canonical run/source-bound exact int64 string amounts; list cursor return and restoration privacy. No issuance/notice confirmation/payment mutation."
       ],
       "tests": [
         "pay_run_port_as_runtime_role: 25 real PostgreSQL cases",
         "payroll_drain_period_lock: 7 real PostgreSQL cases",
         "Frozen payroll population probe:100/100 across8 complete owner/Router/Inbox/leave/workflow targets, zero filters/skips; strict locked/offline Clippy passed5 owner/lib/selected-target checks.",
         "Payroll SSR complete health_readiness15/15; neighboring REST lib10/API17/UIlib7 all passed, zero skips/filters; strict relevant Clippy. Real single-site PostgreSQL/Router proof only.",
-        "Inbox native9 and existing HTTP2 execute completely with unchanged assertions, library6/tooling18 pass; strict Inbox owner/HTTP Clippy and frozen source custody pass. Single-site owner/query coverage only."
+        "Inbox native9 and existing HTTP2 execute completely with unchanged assertions, library6/tooling18 pass; strict Inbox owner/HTTP Clippy and frozen source custody pass. Single-site owner/query coverage only.",
+        "Own-issued payslips: full native127/127, embedded production browser17/17, OpenAPI20/20, Inbox9/9 andREST2/2; fresh frontend116/116 and tooling27/27. Worker prerequisite2 are repeated filtered cases; supporting development10 and session logs remain separately scoped."
       ],
       "evidence": [
         "payroll-roster-restage-evidence.json: source b0a017a; 32/32 native pass; 11 intended red failures; independent code approval. Full module/GUI/rollback/two-site acceptance remains unverified.",
         "payroll-population-coverage-evidence.json sha256:1cec6ddbe5e09c3093e187acf4a3e0a5e5eb586b44db0c9a39abbd6077820578; source 3c544ba3267d99d9e25917e7da0871fc8f7ef4e3; unchanged approved tests RED100/87pass/13reviewed failures -> GREEN100/100. Module status stays unverified.",
         "payroll-ssr-failure-evidence.json sha256:63d0b54c5bc5d02f1371853d8e4f7c4e4062c2192066500e3058fdd3d2b60a53; runtime source6d5f612736cc6d2f5e85bf9c3f5274f6317b7a86; independently reviewed intended RED4/15 -> unchanged GREEN15/15. Full module status stays unverified.",
-        "inbox-terminal-cursor-evidence.json sha256:bb0e43442bb763b2a8175201740e9eb5516f77000f7da85657a565bb53324a1a; ownerf0a1723, fixture/CI2bfb22b; RED9(6pass3terminal failures)→GREEN9, inheritedHTTP2RED→real-familyGREEN2. Full module status stays unverified."
+        "inbox-terminal-cursor-evidence.json sha256:bb0e43442bb763b2a8175201740e9eb5516f77000f7da85657a565bb53324a1a; ownerf0a1723, fixture/CI2bfb22b; RED9(6pass3terminal failures)→GREEN9, inheritedHTTP2RED→real-familyGREEN2. Full module status stays unverified.",
+        "own-issued-payslips-evidence.json sha256:784702ed285c4d8c214aaea06aa5f13572bbe8b35ee95cd6ad606051cbadbc96; bounded read-only journey proof, historical failures retained; final committed-candidate/hosted/queue pending. Full module status stays unverified."
       ],
       "status": "unverified"
     },
@@ -5210,6 +5217,24 @@
         "path": ".artifacts/acceptance/inbox-terminal-cursor/integration-20261007/dependency-security/security-final38f-scoped-source-runtime-matrix-independent-approval01.json",
         "sha256": "19311b2f23b8d8233ab2599ed4e5c046e4a6308cd3a67b11aa484ebc1d7023da"
       }
+    },
+    {
+      "scope": "Read-only own-issued-payslip list/detail and production attendance navigation; full B06 and HR/Org/Foundry remain unverified",
+      "base_commit": "7ccf7d15275653ddfd1ca8629d4c4caed1bfa6c7",
+      "status": "bounded_local_pass_final_commit_review_and_hosted_delivery_pending",
+      "evidence": {
+        "path": "docs/planning/nextjs-v1/own-issued-payslips-evidence.json",
+        "sha256": "784702ed285c4d8c214aaea06aa5f13572bbe8b35ee95cd6ad606051cbadbc96"
+      },
+      "limitations": [
+        "Production journey uses separate real accounts/native sessions/PostgreSQL and software virtual WebAuthn authenticators; no attended human identity/physical passkey claim.",
+        "Test-only specimens use actual producer/Inbox custody but do not prove statutory payroll, independent approval/publication ceremony or payment.",
+        "Single-site temporary PostgreSQL18; no two-site durability/fencing/safe-emission acceptance.",
+        "Current authority is rechecked after reads; complete emission-time serialization remains unverified.",
+        "Full B06, HR/Org/Foundry, legal/capacity/restore/cutover/launch remain unverified.",
+        "No deployment, institution act, payment, live collection or public exposure.",
+        "Runtime hash bindings exclude this metadata/index/review package to avoid self-references."
+      ]
     }
   ]
 }

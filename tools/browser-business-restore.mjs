@@ -277,7 +277,8 @@ async function installProbe(page, selector, facts, queueLogout, observeReact = f
     new MutationObserver(() => { if (state.restored) report("mutation"); })
       .observe(document, { subtree: true, childList: true, attributes: true });
   }, { selector, names: [facts.company_name, facts.account_name,
-    ...facts.first_page.items.map((item) => item.note)], queueLogout, observeReact, key: PROBE, prefix: PREFIX,
+    ...facts.first_page.items.map((item) => item.note),
+    ...(facts.payslips ?? []).map((item) => item.title), "9,007,199,254,740,993"], queueLogout, observeReact, key: PROBE, prefix: PREFIX,
     bindingName, inputNonce });
   } catch (error) {
     closed = true; page.off("console", listener);
@@ -299,6 +300,8 @@ async function installProbe(page, selector, facts, queueLogout, observeReact = f
 function assertPrivateTextHidden(text, actor) {
   assert.ok(!text.includes(actor.facts.company_name) && !text.includes(actor.facts.account_name));
   for (const row of actor.facts.first_page.items) assert.ok(!text.includes(row.note));
+  for (const row of actor.facts.payslips ?? []) assert.ok(!text.includes(row.title));
+  assert.ok(!text.includes("9,007,199,254,740,993"));
 }
 
 async function assertPrivateHidden(page, actor, h) {
@@ -400,10 +403,11 @@ async function ordinaryLogoutBack(h) {
   } finally { probe?.remove(); await page.close(); }
 }
 
-async function cacheVariant(h, mode) {
+async function cacheVariant(h, mode, payslip = false) {
   await h.signIn("a");
   const actor = h.actors.get("a"); const session = { ...h.sessions.get("a") };
-  const url = `${actor.origin}/me/${session.context}/attendance/`;
+  const url = payslip ? `${actor.origin}/me/${session.context}/payslips/${actor.facts.payslips[0].id}/`
+    : `${actor.origin}/me/${session.context}/attendance/`;
   const page = await actor.context.newPage();
   const queued = mode === "queued-react-css";
   let probe;
@@ -573,8 +577,12 @@ async function cacheVariant(h, mode) {
     }
     assert.equal(await region.count(), 1);
     const inside = await region.textContent();
-    assert.ok(inside.includes(actor.facts.company_name) && inside.includes(actor.facts.account_name));
-    for (const item of actor.facts.first_page.items) assert.ok(inside.includes(item.note));
+    if (payslip) {
+      assert.ok(inside.includes(actor.facts.payslips[0].title) && inside.includes("9,007,199,254,740,993"));
+    } else {
+      assert.ok(inside.includes(actor.facts.company_name) && inside.includes(actor.facts.account_name));
+      for (const item of actor.facts.first_page.items) assert.ok(inside.includes(item.note));
+    }
     original = await page.evaluate((key) => window[key].document, PROBE);
     if (queued) queuedCheckpoint = "initial-hydration";
     const beforeHydration = ["blocked-bundles", "blocked-css-bundles", "delayed-bundles"].includes(mode);
@@ -841,7 +849,8 @@ export async function runRestoreScenarios(h) {
     prerequisiteReason = isPrerequisite(error) ? error.message : "actual restore-prerequisite assertion failed";
   }
   for (const [id, variants] of [
-    ["P15", [["ordinary-logout-back", ordinaryLogoutBack], ["native-revocation-real-bfcache", (input) => cacheVariant(input, "normal")]]],
+    ["P15", [["ordinary-logout-back", ordinaryLogoutBack], ["native-revocation-real-bfcache", (input) => cacheVariant(input, "normal")],
+      ["issued-payslip-native-revocation-real-bfcache", (input) => cacheVariant(input, "normal", true)]]],
     ["P16", ["blocked-bundles", "blocked-css-bundles", "delayed-bundles", "queued-react-css",
       "offline", "missing-guard", "thrown-guard"].map((mode) => [mode, (input) => cacheVariant(input, mode)])],
   ]) {

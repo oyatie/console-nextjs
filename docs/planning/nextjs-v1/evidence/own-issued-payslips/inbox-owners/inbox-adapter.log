@@ -1,0 +1,27 @@
+
+running 9 tests
+test concurrent_dedup_collision_revalidates_the_committed_document ... ok
+test dedup_redelivery_requires_every_immutable_field_and_preserves_the_receipt ... ok
+test filters_and_dedup_idempotency ... ok
+test foreign_cursors_fail_closed_and_owned_chronological_anchors_survive_filter_changes ... ok
+test full_terminal_page_ignores_other_recipients_companies_and_kinds ... ok
+test legal_notice_lock_confirm_and_cross_user_isolation ... ok
+test maximum_page_size_is_bounded_and_exact_full_tail_terminates ... ok
+test payslip_is_frictionless_and_never_receipt_confirmed ... ok
+test tied_timestamps_page_without_gaps_duplicates_or_phantom_next ... ok
+
+successes:
+
+successes:
+    concurrent_dedup_collision_revalidates_the_committed_document
+    dedup_redelivery_requires_every_immutable_field_and_preserves_the_receipt
+    filters_and_dedup_idempotency
+    foreign_cursors_fail_closed_and_owned_chronological_anchors_survive_filter_changes
+    full_terminal_page_ignores_other_recipients_companies_and_kinds
+    legal_notice_lock_confirm_and_cross_user_isolation
+    maximum_page_size_is_bounded_and_exact_full_tail_terminates
+    payslip_is_frictionless_and_never_receipt_confirmed
+    tied_timestamps_page_without_gaps_duplicates_or_phantom_next
+
+test result: ok. 9 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 24.89s
+

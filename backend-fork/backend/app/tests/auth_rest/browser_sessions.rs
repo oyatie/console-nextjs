@@ -4,6 +4,8 @@
 use super::*;
 #[path = "browser_logout_review.rs"]
 mod browser_logout_review;
+#[path = "browser_payslips.rs"]
+mod browser_payslips;
 #[path = "resident_authenticator.rs"]
 mod resident_authenticator;
 use base64::{Engine as _, engine::general_purpose::URL_SAFE_NO_PAD};
@@ -110,7 +112,9 @@ async fn post_raw(
         .uri(uri)
         .method("POST")
         .header(header::CONTENT_TYPE, "application/json");
-    if [START, LOGIN, LOGOUT, HISTORY].contains(&uri) {
+    if [START, LOGIN, LOGOUT, HISTORY].contains(&uri)
+        || uri.starts_with("/api/v1/me/browser-session/payslips")
+    {
         builder = browser_ingress(builder);
     }
     if let Some(token) = bearer {

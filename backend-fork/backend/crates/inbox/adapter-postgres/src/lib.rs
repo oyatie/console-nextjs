@@ -196,6 +196,33 @@ impl PgInboxStore {
     /// only — payloads never appear in the list, so a locked legal notice's body
     /// is never disclosed here.
     pub async fn list(&self, query: ListInboxDocsQuery) -> Result<InboxDocPage, PgInboxError> {
+        self.list_inner(query, false).await
+    }
+
+    /// Payslip-only self-service. Other document kinds cannot anchor this view.
+    pub async fn list_payslips(
+        &self,
+        recipient: UserId,
+        before_id: Option<InboxDocId>,
+        limit: i64,
+    ) -> Result<InboxDocPage, PgInboxError> {
+        self.list_inner(
+            ListInboxDocsQuery {
+                recipient,
+                filter: InboxDocFilter::Payslip,
+                before_id,
+                limit,
+            },
+            true,
+        )
+        .await
+    }
+
+    async fn list_inner(
+        &self,
+        query: ListInboxDocsQuery,
+        payslip_anchor: bool,
+    ) -> Result<InboxDocPage, PgInboxError> {
         let limit = query.limit.clamp(1, 200);
         let recipient_uuid = *query.recipient.as_uuid();
         let org = current_org().map_err(KernelError::from)?;
@@ -226,6 +253,9 @@ impl PgInboxStore {
                     builder.push_bind(*before_id.as_uuid());
                     builder.push(" AND recipient_user_id = ");
                     builder.push_bind(recipient_uuid);
+                    if payslip_anchor {
+                        builder.push(" AND kind = 'payslip'");
+                    }
                     builder.push(")");
                 }
                 builder.push(" ORDER BY created_at DESC, id DESC LIMIT ");
@@ -252,6 +282,22 @@ impl PgInboxStore {
     /// cross-user isolation guarantee). A LOCKED legal notice's `payload` is
     /// withheld (`None`); this is a pure read and never confirms receipt.
     pub async fn get(&self, query: GetInboxDocQuery) -> Result<InboxDocDetail, PgInboxError> {
+        self.get_inner(query, None).await
+    }
+
+    /// Restrict kind in SQL before any legal-notice payload is retrieved.
+    pub async fn get_payslip(
+        &self,
+        query: GetInboxDocQuery,
+    ) -> Result<InboxDocDetail, PgInboxError> {
+        self.get_inner(query, Some("payslip")).await
+    }
+
+    async fn get_inner(
+        &self,
+        query: GetInboxDocQuery,
+        kind: Option<&'static str>,
+    ) -> Result<InboxDocDetail, PgInboxError> {
         let org = current_org().map_err(KernelError::from)?;
         let recipient_uuid = *query.recipient.as_uuid();
         let id_uuid = *query.id.as_uuid();
@@ -261,10 +307,12 @@ impl PgInboxStore {
                 Ok(sqlx::query(
                     "SELECT id, recipient_user_id, kind, notice_type, title, legal_basis, \
                      source_kind, source_id, confirmed_by, confirmed_at, created_at, payload \
-                     FROM inbox_docs WHERE id = $1 AND recipient_user_id = $2",
+                     FROM inbox_docs WHERE id = $1 AND recipient_user_id = $2 \
+                     AND ($3::text IS NULL OR kind = $3)",
                 )
                 .bind(id_uuid)
                 .bind(recipient_uuid)
+                .bind(kind)
                 .fetch_optional(tx.as_mut())
                 .await?)
             })

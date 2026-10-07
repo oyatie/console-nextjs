@@ -4836,3 +4836,30 @@ async fn assert_audit_count(pool: &PgPool, action: &str, expected: i64) {
         .unwrap();
     assert_eq!(count, expected, "unexpected audit count for {action}");
 }
+
+// Test-only canonical producer payload, shared by native HTTP and genuine browser consumers.
+fn issued_payslip_payload() -> (Uuid, Value) {
+    use console_payroll_adapter_postgres::lifecycle::{IssuanceLine, RunHead, payslip_payload};
+    let run = RunHead {
+        id: Uuid::new_v4(),
+        period_start: time::Date::from_calendar_date(2026, time::Month::September, 1).unwrap(),
+        period_end: time::Date::from_calendar_date(2026, time::Month::September, 30).unwrap(),
+        source_label: "test-only".into(),
+        status: "PAID".into(),
+        submitted_by: None,
+        legal_basis: json!({}),
+    };
+    let line = IssuanceLine {
+        line_id: Uuid::new_v4(),
+        employee_id: Uuid::new_v4(),
+        employee_display_name: "수신 주체".into(),
+        recipient_user_id: Uuid::new_v4(),
+        version: 1,
+        gross_won: 9_007_199_254_740_993,
+        total_deductions_won: 1,
+        net_won: 9_007_199_254_740_992,
+        tax_table_version: "test-only".into(),
+        deductions: json!([{"code":"INCOME_TAX","label_ko":"소득세","amount_won":1,"source_url":"https://www.nts.go.kr/"}]),
+    };
+    (run.id, payslip_payload(&run, &line))
+}

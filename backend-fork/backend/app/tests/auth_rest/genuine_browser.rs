@@ -2317,6 +2317,38 @@ async fn product_facts(
         )
         .await?;
     }
+    // Actual Inbox owner delivery in the disposable test Company. This tests
+    // artifact custody/read transport, not statutory payroll calculation or bank settlement.
+    let mut payslips = Vec::new();
+    for index in 0..if actor == "a" { 26 } else { 1 } {
+        let (run, payload) = issued_payslip_payload();
+        let title = format!("{actor}-검증 명세서-{index}");
+        let doc = console_inbox_domain::NewInboxDoc::new(
+            console_inbox_domain::InboxDocKind::Payslip,
+            &title,
+            None,
+            None,
+            Some("payroll_run"),
+            Some(&run.to_string()),
+            payload,
+        )
+        .map_err(|_| "fixture: issued artifact format")?;
+        let stored = console_platform_request_context::scope_org(
+            OrgId::from_uuid(org),
+            console_inbox_adapter_postgres::PgInboxStore::new(context.runtime.clone())
+                .emit_inbox_doc(console_inbox_application::EmitInboxDocCommand {
+                    actor: None,
+                    recipient: UserId::from_uuid(user),
+                    doc,
+                    dedup_key: None,
+                    trace: TraceContext::generate(),
+                    occurred_at: OffsetDateTime::now_utc(),
+                }),
+        )
+        .await
+        .map_err(|_| "native: issued artifact delivery")?;
+        payslips.push(json!({"id": stored.id, "title": stored.title}));
+    }
     let first = product_legacy_page(client, native_origin, token, 0).await?;
     let second = product_legacy_page(client, native_origin, token, 25).await?;
     if first["total"] != count
@@ -2332,7 +2364,7 @@ async fn product_facts(
         .write(json!({"kind":"fixture","actor":actor,
         "company_name":format!("브라우저 {actor} 법인"),
         "account_name":format!("브라우저 {actor} 사용자"),
-        "first_page":first,"second_page":second}))
+        "first_page":first,"second_page":second,"payslips":payslips}))
         .await?;
     Ok(ProductActor {
         actor: actor.into(),

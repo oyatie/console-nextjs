@@ -184,6 +184,7 @@ import { writeFile, lstat } from "node:fs/promises";
 import { pathToFileURL } from "node:url";
 import { request as httpsRequest } from "node:https";
 import { request as httpRequest } from "node:http";
+import { runPayslipJourney, checkPayslipLogout } from "./browser-payslips.mjs";
 clearTimeout(watchdog); // C2 source watchdog remains unchanged in its own runner.
 const productWatchdog = setTimeout(interrupted, 1800000);
 async function readFrame(waitMs) {
@@ -488,7 +489,7 @@ const ATTENDANCE = new RegExp(`^/me/(${UUID})/attendance/$`);
 const scenarios = [
   ["P01", "runtime/exclusion/launcher/config negatives"],
   ["P02", "two genuine product sign-ins and native family logout"],
-  ["P03", "real own-history count, rows, pagination and reload"],
+  ["P03", "real own-history and issued-payslip pagination, detail, reload and return"],
   ["P04", "responsive keyboard and inaccessible-script recovery"],
   ["P05", "two actual source peers and ingress spoofing negatives"],
   ["P06", "Origin/CSRF/context/duplicate-cookie/body boundaries"],
@@ -961,10 +962,13 @@ try {
   await checkTable("a", a.facts.first_page); await checkTable("b", actors.get("b").facts.first_page);
   const harness = proposalHarness();
   const { boundary, temporal, restore } = scenarioModules;
+  await runPayslipJourney(harness);
   await boundary.historyVariants(harness); pass("P03");
   await boundary.runBoundaryScenarios(harness);
   activeScenario = "P02";
-  await logout("a"); await checkTable("b", actors.get("b").facts.first_page); await logout("b");
+  const payslipContext = sessions.get("a").context;
+  await logout("a"); await checkPayslipLogout(harness, payslipContext);
+  await checkTable("b", actors.get("b").facts.first_page); await logout("b");
   pass("P02");
   await temporal.runTemporalScenarios(harness);
   await signIn("a"); await signIn("b");

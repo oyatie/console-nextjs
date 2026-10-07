@@ -309,7 +309,7 @@ export async function historyVariants(h) {
       const facts = await h.control({ op: "fixture-history", actor: "a", mode });
       assert.equal(facts.actor, "a"); assert.equal(facts.employee_linked, mode === "linked-empty");
       assert.equal(facts.first_page.total, 0); assert.deepEqual(facts.first_page.items, []);
-      entry.facts = facts;
+      entry.facts = { ...original, ...facts };
       await entry.page.goto(`${entry.origin}/me/${session.context}/attendance/`, { waitUntil: "domcontentloaded" });
       await h.checkTable("a", facts.first_page);
       const text = await entry.page.locator("body").innerText();
@@ -320,7 +320,7 @@ export async function historyVariants(h) {
       await h.checkpoint("a", session.context, session.token, "open", session.cookieExpires, session.signedCounter);
     }
   } finally {
-    entry.facts = await h.control({ op: "fixture-history", actor: "a", mode: "populated" });
+    entry.facts = { ...original, ...await h.control({ op: "fixture-history", actor: "a", mode: "populated" }) };
   }
   await entry.page.goto(`${entry.origin}/me/${session.context}/attendance/`);
   await h.checkTable("a", original.first_page);

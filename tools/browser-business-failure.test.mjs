@@ -66,3 +66,10 @@ test("unverified or accessor-backed messages are omitted without invoking their 
   assert.equal(browserFailureLocation(inheritedStack), undefined);
   assert.equal(reads, 0);
 });
+
+test("issued-payslip failures retain only their exact safe source location", () => {
+  const payslip = new URL("browser-payslips.mjs", import.meta.url).href;
+  assert.deepEqual(browserFailureLocation(failure(`Error: private\n    at check (${payslip}:60:12)\n    at ${url}:485:9`)),
+    { file: "browser-payslips.mjs", line: 60, column: 12 });
+  assert.equal(browserFailureLocation(failure(`Error: private\n    at ${payslip}?token=private:60:12`)), undefined);
+});

@@ -979,6 +979,8 @@ dependencies = [
  "console-identity-adapter-postgres",
  "console-identity-rest",
  "console-inbox-adapter-postgres",
+ "console-inbox-application",
+ "console-inbox-domain",
  "console-inbox-rest",
  "console-inspection-adapter-postgres",
  "console-inspection-rest",

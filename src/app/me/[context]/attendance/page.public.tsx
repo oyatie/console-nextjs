@@ -47,6 +47,7 @@ export default async function AttendancePage({ params, searchParams }: {
   const path = `/me/${context}/attendance/`;
   return <PrivateBoundary><main className="browser-shell">
     <header className="browser-header"><div><a href="/">Oyatie</a><h1>나의 근태 기록</h1></div><LogoutControl context={context} csrf={csrf} /></header>
+    <nav aria-label="나의 기록" className="browser-pagination"><span aria-current="page">근태 기록</span><a href={`/me/${context}/payslips/`}>급여명세서</a></nav>
     <section className="browser-card" aria-label="현재 조회 정보">
       <dl className="browser-context"><div><dt>회사</dt><dd>{data.context.company_name}</dd></div>
         <div><dt>계정</dt><dd>{data.context.account_display_name}</dd></div>

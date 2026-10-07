@@ -1,0 +1,549 @@
+{
+  "scope": "single-site real native/password-auth runtime and production browser custody proof; not payroll/legal/two-site durability acceptance",
+  "status": "passed",
+  "commands": [
+    {
+      "name": "initdb",
+      "command": [
+        "/opt/homebrew/opt/postgresql@18/bin/initdb",
+        "-D",
+        "/private/tmp/own-payslip-pg-f5ctt3au/data",
+        "--username=console_buck_admin",
+        "--auth-local=scram-sha-256",
+        "--auth-host=scram-sha-256",
+        "--pwfile=/private/tmp/own-payslip-pg-f5ctt3au/admin-password",
+        "--no-locale",
+        "--encoding=UTF8"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 1.398,
+      "output_sha256": "bf1122cca74b578de549d36983727b5365dcb831d5b453bbf7bb3c40d2096bc0"
+    },
+    {
+      "name": "start",
+      "command": [
+        "/opt/homebrew/opt/postgresql@18/bin/pg_ctl",
+        "-D",
+        "/private/tmp/own-payslip-pg-f5ctt3au/data",
+        "-l",
+        "/Users/jasonlee/Developer/frontend/.worktrees/own-issued-payslips/.artifacts/own-issued-payslips-native-20261007T153915.439088Z/postgres.log",
+        "-o",
+        "-c listen_addresses='127.0.0.1' -c port=65487 -c unix_socket_directories=/private/tmp/own-payslip-pg-f5ctt3au/socket -c log_statement=none -c log_min_error_statement=panic",
+        "-w",
+        "start"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 0.201,
+      "output_sha256": "66afd0411ccc09366e99fdd99b85f21899c8d2d064f5835126859618802153ad"
+    },
+    {
+      "name": "createdb",
+      "command": [
+        "/opt/homebrew/opt/postgresql@18/bin/createdb",
+        "-h",
+        "127.0.0.1",
+        "-p",
+        "65487",
+        "-U",
+        "console_buck_admin",
+        "own_payslips_disposable"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 0.403,
+      "output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "topology",
+      "command": [
+        "bash",
+        "/Users/jasonlee/Developer/frontend/.worktrees/own-issued-payslips/backend-fork/ops/postgres-reconcile-topology.sh"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 0.721,
+      "output_sha256": "0d3b9f5d44b25649ac035d2d98430aff35d74d46e5e94f94c14d5abf33dba76a"
+    },
+    {
+      "name": "worker-prerequisites-discovery",
+      "command": [
+        "/private/tmp/own-issued-payslips-target-20261007/debug/deps/auth_rest-04a1d435de6b5d33",
+        "browser_sessions::real_worker",
+        "--list"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 0.043,
+      "output_sha256": "c843246996b1f22e3facf8a886d0486260794c7da67171c05232fc3c77448364"
+    },
+    {
+      "name": "worker-prerequisites",
+      "command": [
+        "/private/tmp/own-issued-payslips-target-20261007/debug/deps/auth_rest-04a1d435de6b5d33",
+        "browser_sessions::real_worker",
+        "--test-threads=1",
+        "--show-output"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 48.079,
+      "output_sha256": "b20c54e9b2b22914caef009f660416159e20b75f9209e6b899a957b52f9cd9f4"
+    },
+    {
+      "name": "auth-rest-full-discovery",
+      "command": [
+        "/private/tmp/own-issued-payslips-target-20261007/debug/deps/auth_rest-04a1d435de6b5d33",
+        "--list"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 0.037,
+      "output_sha256": "ff3d5572267dd0384ce7bbdd936f7c5708327db34e26daedef03274f39a78225"
+    },
+    {
+      "name": "auth-rest-full",
+      "command": [
+        "/private/tmp/own-issued-payslips-target-20261007/debug/deps/auth_rest-04a1d435de6b5d33",
+        "--test-threads=1",
+        "--show-output"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 1192.826,
+      "output_sha256": "5b3cbf35fdf76b32fdf3ef15e8183d078367ae8afb0be17ec7b317e17a04f92d"
+    },
+    {
+      "name": "openapi-drift-discovery",
+      "command": [
+        "/private/tmp/own-issued-payslips-target-20261007/debug/deps/openapi_drift-42fc300dada6e28d",
+        "--list"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 0.042,
+      "output_sha256": "f1524abd3839a2b86bf3d2451c62fa69066d73d1f0a59f7bcf5d4212385323f2"
+    },
+    {
+      "name": "openapi-drift",
+      "command": [
+        "/private/tmp/own-issued-payslips-target-20261007/debug/deps/openapi_drift-42fc300dada6e28d",
+        "--test-threads=1",
+        "--show-output"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 0.289,
+      "output_sha256": "02c56a34dfa24a0dd1c0ea2491b0efa14f85bbba76bce5dc9a907c32464576cd"
+    },
+    {
+      "name": "stop",
+      "command": [
+        "/opt/homebrew/opt/postgresql@18/bin/pg_ctl",
+        "-D",
+        "/private/tmp/own-payslip-pg-f5ctt3au/data",
+        "-m",
+        "immediate",
+        "-w",
+        "stop"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 0.133,
+      "output_sha256": "ca19178a35ab4153b75b494963b66ce8243e1b94c173107c87b44d09db23652d"
+    }
+  ],
+  "suites": [
+    {
+      "name": "worker-prerequisites",
+      "binary_sha256": "35004386db0e6ee09bf0214207edc68ca0e85acc1a9af6698630755990602d11",
+      "status": "passed",
+      "discovered": 2,
+      "executed": 2,
+      "passed": 2,
+      "failed": 0,
+      "skipped": 0,
+      "filtered": 125
+    },
+    {
+      "name": "auth-rest-full",
+      "binary_sha256": "35004386db0e6ee09bf0214207edc68ca0e85acc1a9af6698630755990602d11",
+      "status": "passed",
+      "discovered": 127,
+      "executed": 127,
+      "passed": 127,
+      "failed": 0,
+      "skipped": 0,
+      "filtered": 0
+    },
+    {
+      "name": "openapi-drift",
+      "binary_sha256": "5d1deaf599e477d9b27d9632da7bd4e7e84c1e0285f116ad5f5a6c6565934ed6",
+      "status": "passed",
+      "discovered": 20,
+      "executed": 20,
+      "passed": 20,
+      "failed": 0,
+      "skipped": 0,
+      "filtered": 0
+    }
+  ],
+  "browser_scenarios": {
+    "v": 1,
+    "seq": 598,
+    "kind": "report",
+    "discovered": 17,
+    "executed": 17,
+    "counts": {
+      "passed": 17,
+      "failed": 0,
+      "unreached": 0,
+      "skipped": 0
+    },
+    "failure_class": null,
+    "scenarios": [
+      {
+        "id": "P01",
+        "name": "runtime/exclusion/launcher/config negatives",
+        "status": "passed"
+      },
+      {
+        "id": "P02",
+        "name": "two genuine product sign-ins and native family logout",
+        "status": "passed"
+      },
+      {
+        "id": "P03",
+        "name": "real own-history and issued-payslip pagination, detail, reload and return",
+        "status": "passed"
+      },
+      {
+        "id": "P04",
+        "name": "responsive keyboard and inaccessible-script recovery",
+        "status": "passed"
+      },
+      {
+        "id": "P05",
+        "name": "two actual source peers and ingress spoofing negatives",
+        "status": "passed"
+      },
+      {
+        "id": "P06",
+        "name": "Origin/CSRF/context/duplicate-cookie/body boundaries",
+        "status": "passed"
+      },
+      {
+        "id": "P07",
+        "name": "eight-preauth/eight-session admission boundaries",
+        "status": "passed"
+      },
+      {
+        "id": "P08",
+        "name": "independent tabs, stable reads and no context fallback",
+        "status": "passed"
+      },
+      {
+        "id": "P09",
+        "name": "reversed actual start responses",
+        "status": "passed"
+      },
+      {
+        "id": "P10",
+        "name": "reversed actual finish/header-arrival responses",
+        "status": "passed"
+      },
+      {
+        "id": "P11",
+        "name": "reversed logout versus a new independent login",
+        "status": "passed"
+      },
+      {
+        "id": "P12",
+        "name": "lost committed login result and consumed-assertion handling",
+        "status": "passed"
+      },
+      {
+        "id": "P13",
+        "name": "lost logout across genuine short-family expiry",
+        "status": "passed",
+        "checks": [
+          {
+            "id": "lost-result-expired-access",
+            "status": "passed",
+            "evidence": {
+              "observed": {
+                "kind": "http-failure",
+                "status": 503
+              },
+              "native_owner_status": 204,
+              "actual_cookie_expired": true,
+              "unknown_before_refresh": true,
+              "conservative_absent_after_refresh": true,
+              "same_sender_alive": true,
+              "late_header_claim": false
+            }
+          },
+          {
+            "id": "near-expiry-intact-late-headers",
+            "status": "passed",
+            "evidence": {
+              "native_owner_status": 204,
+              "original_public_status": 204,
+              "empty_body": true,
+              "actual_cookie_expired": true,
+              "recovery_document_refreshed": true,
+              "original_request_pending_until_b_cookie": true,
+              "exact_original_generation_headers": true,
+              "same_sender_alive": true,
+              "newer_b_cookie_and_reads_preserved": true
+            }
+          }
+        ]
+      },
+      {
+        "id": "P14",
+        "name": "current authority, key replacement and cleanup restart",
+        "status": "passed"
+      },
+      {
+        "id": "P15",
+        "name": "logout Back and witnessed real BFCache restore",
+        "status": "passed",
+        "checks": [
+          {
+            "id": "ordinary-logout-back",
+            "status": "passed",
+            "evidence": {
+              "ordinary_back": true,
+              "cached_restore_seen": false
+            }
+          },
+          {
+            "id": "native-revocation-real-bfcache",
+            "status": "passed",
+            "evidence": {
+              "mode": "normal",
+              "blocked_scripts": 0,
+              "blocked_styles": 0,
+              "transformed_documents": [],
+              "trusted_original_restore": true,
+              "original_document": "5a4bb078-34dd-4d3c-89fe-794a244667bb"
+            }
+          },
+          {
+            "id": "issued-payslip-native-revocation-real-bfcache",
+            "status": "passed",
+            "evidence": {
+              "mode": "normal",
+              "blocked_scripts": 0,
+              "blocked_styles": 0,
+              "transformed_documents": [],
+              "trusted_original_restore": true,
+              "original_document": "894e87fe-dc11-4171-b18a-3455e68a0720"
+            }
+          }
+        ],
+        "measured_guard_sha256": "a1c04481ce25603ade8e8fcd645ec27ff4730b446a4c54d81680b5c2fac76d97",
+        "measured_guard_documents": 2
+      },
+      {
+        "id": "P16",
+        "name": "actual restore before hydration with CSS/React/offline faults",
+        "status": "passed",
+        "checks": [
+          {
+            "id": "blocked-bundles",
+            "status": "passed",
+            "evidence": {
+              "mode": "blocked-bundles",
+              "blocked_scripts": 14,
+              "blocked_styles": 0,
+              "transformed_documents": [],
+              "trusted_original_restore": true,
+              "original_document": "349bc35c-7368-4c12-96c4-88281892b502"
+            }
+          },
+          {
+            "id": "blocked-css-bundles",
+            "status": "passed",
+            "evidence": {
+              "mode": "blocked-css-bundles",
+              "blocked_scripts": 14,
+              "blocked_styles": 3,
+              "transformed_documents": [],
+              "trusted_original_restore": true,
+              "original_document": "b0cf1159-f5e0-4133-8975-47e4c31ce3aa"
+            }
+          },
+          {
+            "id": "delayed-bundles",
+            "status": "passed",
+            "evidence": {
+              "mode": "delayed-bundles",
+              "blocked_scripts": 0,
+              "blocked_styles": 0,
+              "transformed_documents": [],
+              "delayed_bundle_sha256": [
+                "05edb393b20e280e5523d09a1de289b8225b3336fc10b7a8980d6265da416866",
+                "50a514868e4e913e186ebce1bbfeb0294466488528a42d14347c4df3cdf94cc3",
+                "8dc2c1d71557b434c654ec58acb1441bc0fb200c520ff548f606d88e689ee643",
+                "d77ffbf856b56b4ac7a59c41e5cc4e01612e2574ee3ed739adad6eb595a9f1f3",
+                "05edb393b20e280e5523d09a1de289b8225b3336fc10b7a8980d6265da416866",
+                "50a514868e4e913e186ebce1bbfeb0294466488528a42d14347c4df3cdf94cc3",
+                "3ab99aa9c591bc1d526562f14806257e7562759c7476700df26a3aff12964fa6",
+                "fdf8e052c44354f91ddea79a5f2627808e024a5cf8e89b4d1f0f6f2e468e5a73",
+                "8dc2c1d71557b434c654ec58acb1441bc0fb200c520ff548f606d88e689ee643",
+                "d77ffbf856b56b4ac7a59c41e5cc4e01612e2574ee3ed739adad6eb595a9f1f3",
+                "422b03fdf9f8309f7e7902b9d1a8867ff9f202aa4a479d12e3c3c19afdcbfcaa",
+                "fdf8e052c44354f91ddea79a5f2627808e024a5cf8e89b4d1f0f6f2e468e5a73",
+                "05edb393b20e280e5523d09a1de289b8225b3336fc10b7a8980d6265da416866",
+                "50a514868e4e913e186ebce1bbfeb0294466488528a42d14347c4df3cdf94cc3",
+                "8dc2c1d71557b434c654ec58acb1441bc0fb200c520ff548f606d88e689ee643",
+                "d77ffbf856b56b4ac7a59c41e5cc4e01612e2574ee3ed739adad6eb595a9f1f3"
+              ],
+              "trusted_original_restore": true,
+              "original_document": "362a4a15-6061-4379-9240-912f518fbfeb"
+            }
+          },
+          {
+            "id": "queued-react-css",
+            "status": "passed",
+            "evidence": {
+              "mode": "queued-react-css",
+              "blocked_scripts": 0,
+              "blocked_styles": 0,
+              "transformed_documents": [],
+              "queued_ordering_observation": {
+                "stage": "verified-native-denial",
+                "native_gate_match": true,
+                "native_context_match": true,
+                "native_status_401": true,
+                "pending": {
+                  "original": true,
+                  "restored": true,
+                  "queued": true,
+                  "started": false
+                },
+                "pending_matches_expected": true
+              },
+              "trusted_original_restore": true,
+              "original_document": "d44a2f76-66e9-4ccd-a384-73021ffdf1f7",
+              "original_input_observations": [
+                {
+                  "kind": "snapshot",
+                  "sequence": 1,
+                  "category": "reply-received",
+                  "configured_budget_ms": 20000,
+                  "observed_elapsed_ms": 7,
+                  "elapsed_capped": false,
+                  "native_input_completed": true,
+                  "valid_original_reply_received": true,
+                  "local_deadline_fired": false
+                },
+                {
+                  "kind": "release",
+                  "sequence": 2,
+                  "category": "reply-received",
+                  "configured_budget_ms": 20000,
+                  "observed_elapsed_ms": 5,
+                  "elapsed_capped": false,
+                  "native_input_completed": true,
+                  "valid_original_reply_received": true,
+                  "local_deadline_fired": false
+                }
+              ]
+            }
+          },
+          {
+            "id": "offline",
+            "status": "passed",
+            "evidence": {
+              "mode": "offline",
+              "blocked_scripts": 0,
+              "blocked_styles": 0,
+              "transformed_documents": [],
+              "trusted_original_restore": true,
+              "original_document": "ea863eb7-c34e-4750-8030-29ea8f9e1fc1"
+            }
+          },
+          {
+            "id": "missing-guard",
+            "status": "passed",
+            "evidence": {
+              "mode": "missing-guard",
+              "blocked_scripts": 0,
+              "blocked_styles": 0,
+              "transformed_documents": [
+                {
+                  "upstream_status": 200,
+                  "upstream_sha256": "e4d53ce38cd8e1558c66d8ec9296a5682af4683cb6afd50dbe2e50bcb29d9cec",
+                  "delivered_sha256": "c86b0b7f8db6eb92d3eae19596dbc3d6aef44b543e01d56b1835c6e146b1c4a6",
+                  "pinned_guard_sha256": "a1c04481ce25603ade8e8fcd645ec27ff4730b446a4c54d81680b5c2fac76d97"
+                }
+              ],
+              "trusted_original_restore": true,
+              "original_document": "65072ba4-f096-41ad-aa7b-e2d50b0cb522"
+            }
+          },
+          {
+            "id": "thrown-guard",
+            "status": "passed",
+            "evidence": {
+              "mode": "thrown-guard",
+              "blocked_scripts": 0,
+              "blocked_styles": 0,
+              "transformed_documents": [
+                {
+                  "upstream_status": 200,
+                  "upstream_sha256": "9963a606fff4b94dd8a3808f366f237c423ecd216c8f85a2f008f66b78e64849",
+                  "delivered_sha256": "04fb1f1cc5cb723f7c451dac2befa8781d7cfa9bbb20d38f419fb95fc1235b56",
+                  "pinned_guard_sha256": "a1c04481ce25603ade8e8fcd645ec27ff4730b446a4c54d81680b5c2fac76d97"
+                }
+              ],
+              "trusted_original_restore": true,
+              "original_document": "15e697c7-ee23-4256-bc20-751814f6cf5b"
+            }
+          }
+        ],
+        "measured_guard_sha256": "a1c04481ce25603ade8e8fcd645ec27ff4730b446a4c54d81680b5c2fac76d97",
+        "measured_guard_documents": 2
+      },
+      {
+        "id": "P17",
+        "name": "real unavailable/malformed service and failure cleanup",
+        "status": "passed"
+      }
+    ]
+  },
+  "source_inputs": {
+    "backend-fork/backend/Cargo.lock": "366ea7828ad8da2f49ebf06944b376246abdc1308dbe676c4531f9064cdca109",
+    "backend-fork/backend/app/src/browser_payslips.rs": "cf3c6da16cfed1fd5391d25291ac2398def31cd97a44e785aa13fa926b52359d",
+    "backend-fork/backend/app/tests/auth_rest.rs": "46f613012f5e06a6b75fd2f4cc76d1ffae40946c66df849b5b5d5e2e171127f6",
+    "backend-fork/backend/app/tests/auth_rest/browser_sessions.rs": "036eb868e88abb0860258a54a01ea0f363daa5b676cfb70b382a06b389944af3",
+    "backend-fork/backend/app/tests/auth_rest/browser_payslips.rs": "01f2968388ba77b0c41e7f8534b2f154868217ab0b589933c5f9c71185f1d991",
+    "backend-fork/backend/app/tests/auth_rest/genuine_browser.rs": "3f237ca93df4f9a62a0bddb0edc3805e713f0b8f64cf3854457779def079b932",
+    "backend-fork/backend/app/tests/openapi_drift.rs": "129f4d667708ceaa7e30781f0ebcb05cee21522d44c9b3734f2640311a6eeeb4",
+    "backend-fork/backend/crates/inbox/adapter-postgres/src/lib.rs": "dc688bf1be43fb4294c50d35b639b26b77c54ab313dd40f07564275c20c56e59",
+    "backend-fork/backend/crates/inbox/rest/src/openapi.rs": "f63ca7b2f339109d64e41bf419361cc0a2cfb0ba9fc1ca1e742767abc63caac4",
+    "backend-fork/backend/openapi/openapi.yaml": "0ec7f42505d1c97326b27bec4b0af915af6b9362c1445bdb9f75814522d45696",
+    "tools/browser-payslips.mjs": "9ba32b93f4559bcde12ad5894689a9642a7b2ff145b46a621950926c8d97c57b",
+    "tools/browser-business-restore.mjs": "20b3b480186e040eff539fc2224031addadba15caa8c68ea28e86190f145655d",
+    "tools/browser-business-boundary.mjs": "be65504095db8a6058af16af58f175d4484b087dba269fc4b382af4c4a94cb42",
+    "tools/browser-business-temporal.mjs": "f4113ee8101ad8d28d043d0e8713288e8aca2dbb086bbbd506e20dab166d606d",
+    "tools/test-browser-business-session.mjs": "f54a3d214ef34eea1dcb1888d4ea97ba0402b9a3e8ab761d8f5f71cfd13c1250",
+    "tools/production-runtime.mjs": "7e4d05bac69900295f8777c931999f2987acd36c947f281cbea7d1bbdf673367",
+    "src/lib/server/payslips.ts": "8d07f570f592d8455d925f68ec49e5b76449a1cda3bbae60922bf5677acaff6f",
+    "src/lib/server/browser-session.ts": "f26eef7d6299d25a2017f83beebbf77241085725e8f7065bc31c50cb0de60a3e",
+    "src/app/me/[context]/payslips/page.public.tsx": "5dc96e1c1b00180bee8db7a17b02730dd7f457af4fcc0075376d67266867e01c",
+    "src/app/me/[context]/payslips/[id]/page.public.tsx": "8a2480d2486d9e68ad6d11467368cbbb7af98ba6eb92e2dff89f0bbd32725d9f",
+    "package-lock.json": "4e4d170ceac13405a5f60f0876ca2138b04dec01607f11b437e86a64cf5395d7",
+    "next-env.d.ts": "1862ac4bbbc5192d4bf562161df66ea547ed3e67173100656ab606ae9797db2b",
+    "tools/browser-business-failure.mjs": "33dab5c0431ddc913c83a3f42607de606cc8d2e8f304e77a0b654cf6feff7375",
+    ".next/build-inputs.json": "36edcda13e0bf2d9bfd1485c6a26d9ca5cf18adaec2a5b22dc2507ac433aa837",
+    ".next/BUILD_ID": "a4a514df1a3b203bf3cd30fbc2cb0ac001a96a65637888e5f6373f2b8bc80424",
+    ".next/server/app-paths-manifest.json": "2aeb1c6fbcf93364a455e83466ce35a53c5185b22f8fb028b6bf8521630cdfad"
+  },
+  "worker_binary": {
+    "path": "/private/tmp/own-issued-payslips-target-20261007/debug/console-app",
+    "sha256": "1e2d8ace8a7fae2d082c97001119002c49f17024ed6b8c2498da9c05df8318f4"
+  },
+  "owned_database_endpoint": {
+    "host": "127.0.0.1",
+    "port": 65487,
+    "host_auth": "scram-sha-256"
+  },
+  "cluster_stopped": true,
+  "source_inputs_unchanged": true,
+  "worker_binary_unchanged": true,
+  "ephemeral_credentials_destroyed": true
+}

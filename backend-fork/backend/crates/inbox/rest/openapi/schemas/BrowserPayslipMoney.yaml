@@ -1,0 +1,4 @@
+type: string
+maxLength: 20
+pattern: '^(?:0|-?[1-9][0-9]*)$'
+description: Exact signed int64 KRW integer encoded as a canonical decimal string; never a floating JSON number.
