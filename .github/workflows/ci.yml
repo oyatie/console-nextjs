@@ -41,7 +41,7 @@ jobs:
           PYTHONPATH=tools python3 -c 'import json,acceptance; result=acceptance.inspect_fork(); print(json.dumps(result,indent=2)); raise SystemExit(result["status"] != "passed")'
       - run: npm run test:production-routes
       - run: node --test tools/test-production-runtime.test.mjs
-      - run: node --test tools/browser-business-failure.test.mjs tools/browser-business-temporal.test.mjs
+      - run: node --test tools/browser-business-failure.test.mjs tools/browser-business-temporal.test.mjs tools/browser-business-restore.test.mjs
       - run: npx playwright install --with-deps chromium
       - run: node --test tools/enrollment-fault-deadlines.test.mjs tools/test-native-browser-enrollment.test.mjs
       - name: Source parser and certificate CLI security regressions
