@@ -1,0 +1,29 @@
+{
+  "baseline_commit": "7ccf7d15275653ddfd1ca8629d4c4caed1bfa6c7",
+  "base_counts": {
+    "population": 294,
+    "resolved": 55,
+    "skipped": 239,
+    "enumCandidates": 22,
+    "enumResolved": 7,
+    "enumSkipped": 15
+  },
+  "current_counts": {
+    "population": 296,
+    "resolved": 57,
+    "skipped": 239,
+    "enumCandidates": 22,
+    "enumResolved": 7,
+    "enumSkipped": 15
+  },
+  "request_body_operation_delta": {
+    "added": [
+      "POST /api/v1/me/browser-session/payslips",
+      "POST /api/v1/me/browser-session/payslips/{id}"
+    ],
+    "removed": []
+  },
+  "undecidable_register_and_all_findings_equivalent": true,
+  "scope": "Source-parser baseline reconstruction: current Rust sources with new module removed and app owner/aggregate restored from exactmain; no production source edits. Saved reports precede assertion update.",
+  "prior_proof_attempt": "Census baseline/current completed; final operation-delta import used a nonexistent explicit node_modules path and exited1. Corrected attempt uses installed package resolution from the parser itself; no application change."
+}

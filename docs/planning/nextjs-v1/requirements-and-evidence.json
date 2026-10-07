@@ -172,7 +172,8 @@
         "payroll-ssr-failure-evidence.json sha256:63d0b54c5bc5d02f1371853d8e4f7c4e4062c2192066500e3058fdd3d2b60a53; runtime source6d5f612736cc6d2f5e85bf9c3f5274f6317b7a86; independently reviewed intended RED4/15 -> unchanged GREEN15/15. Full module status stays unverified.",
         "inbox-terminal-cursor-evidence.json sha256:bb0e43442bb763b2a8175201740e9eb5516f77000f7da85657a565bb53324a1a; ownerf0a1723, fixture/CI2bfb22b; RED9(6pass3terminal failures)→GREEN9, inheritedHTTP2RED→real-familyGREEN2. Full module status stays unverified.",
         "own-issued-payslips-evidence.json sha256:784702ed285c4d8c214aaea06aa5f13572bbe8b35ee95cd6ad606051cbadbc96; bounded read-only journey proof, historical failures retained; final committed-candidate/hosted/queue pending. Full module status stays unverified.",
-        "own-issued-payslips-contract-evidence.json sha256:e3176742ec72127f9ada269da8d9774fee4e8053fa22d281f4d600b2b35ac550; initial ownerREQUEST_CHANGES corrected with preservedRED/native2/drift20/staticGREEN; final repaired-commit/hosted/queue pending. Full module stays unverified."
+        "own-issued-payslips-contract-evidence.json sha256:e3176742ec72127f9ada269da8d9774fee4e8053fa22d281f4d600b2b35ac550; initial ownerREQUEST_CHANGES corrected with preservedRED/native2/drift20/staticGREEN; final repaired-commit/hosted/queue pending. Full module stays unverified.",
+        "own-issued-payslips-ci-evidence.json sha256:9e181d7353b522f31802646d4fc69c18112a86cec93df5cf9dc266df4f48e753; hostedparser/certificate78pass/8stale-censusfail -> local86/86 aftersixcountliterals; nativehostedgatesunreached. FourarchiveCodeQLwarningsaccepted afterreview, remainopen. Moduleunverified."
       ],
       "status": "unverified"
     },
@@ -5250,6 +5251,20 @@
         "Original proof remains separately bound to3a; current correction is native2/drift20, not a reexecuted127/browser17.",
         "Final immutable-candidate review, hosted checks, protected queue and merged-main readback remain separate.",
         "Full module/identity/two-site/launch remain unverified."
+      ]
+    },
+    {
+      "scope": "PR18 source body census expects the two new fully resolved payslip POST operations",
+      "status": "local86green_reviewed_scoped_patch_finalcommit_review_and_hostedpending",
+      "prior_candidate": "918cbbbc5cb3bacd60cea1e16536beec3615a1f6",
+      "evidence": {
+        "path": "docs/planning/nextjs-v1/own-issued-payslips-ci-evidence.json",
+        "sha256": "9e181d7353b522f31802646d4fc69c18112a86cec93df5cf9dc266df4f48e753"
+      },
+      "limitations": [
+        "No business/SSR/authorization/Rust code or CI gate changed. Earlier native/browser/Inbox proofs remain separately source-qualified.",
+        "FullHR/Org/Payroll/Foundry/legal/identity/two-site/launch remainunverified.",
+        "No deployment, live institutional act, payment or collection."
       ]
     }
   ]

@@ -1,0 +1,352 @@
+▶ request body contract gate
+  ✔ parses many outer attributes within the bounded CLI run (75.464875ms)
+  ✔ reports a spec property the struct's rename_all makes unreachable (3.470917ms)
+  ✔ reports a required spec property that is not a field of the bound struct at all (2.686958ms)
+  ✔ reports a handler-required field the spec does not list as required (2.376209ms)
+  ✔ reports a handler-required field the spec makes optional when nothing renames it (2.989917ms)
+  ✔ does not report the renamed-field mismatch twice, once from each side (2.674667ms)
+  ✔ treats an Option field as optional rather than a missing required entry (3.515916ms)
+  ✔ reads a raw-identifier field under the name serde publishes it as (2.205459ms)
+  ✔ skips a struct without deny_unknown_fields instead of counting it as compared (2.290625ms)
+  ✔ flags an anchor operation that stops resolving instead of silently comparing less (70.997834ms)
+  ✔ resolves every anchor and stays above the floor against this repository (2357.945042ms)
+  ✔ exits 1 naming the floor when the resolver finds nothing to compare (47.857083ms)
+  ✔ exits 1 on the floor alone, with every anchor resolved and no findings (163.464083ms)
+  ✔ exits 0 stating what it compared, against this repository (2007.270875ms)
+  ✔ lets an explicit #[serde(rename)] override rename_all (2.090708ms)
+  ✔ treats #[serde(default)] on a non-Option field as optional (1.9085ms)
+  ✔ resolves and compares an inline requestBody schema, not only a $ref (2.263083ms)
+  ✔ binds the struct in the handler's own file, not a same-named one in another crate (2.345709ms)
+  ✔ refuses to guess between same-named structs instead of comparing an arbitrary one (5.296833ms)
+  ✔ fails closed when a request struct exists only inside an unexpanded macro (2.225583ms)
+✔ request body contract gate (4763.072708ms)
+▶ own-property helper rejects Object.prototype keys
+  ✔ own() and hasOwnKey() return nothing for every hostile key on an empty map (0.134708ms)
+  ✔ own() still returns authored own properties (0.087125ms)
+✔ own-property helper rejects Object.prototype keys (0.357959ms)
+▶ request-body contract rejects prototype-chain schema resolution
+  ✔ jsonRequestSchema resolves nothing through the JS prototype chain (0.16975ms)
+  ✔ does not treat Object.prototype names as present in schema.properties (1.932958ms)
+✔ request-body contract rejects prototype-chain schema resolution (2.185875ms)
+▶ serde rename_all reproduction
+  ✔ renames outcome the way serde does (0.159041ms)
+  ✔ renames very_tasty the way serde does (0.037583ms)
+  ✔ renames a the way serde does (0.02675ms)
+  ✔ renames z42 the way serde does (0.02525ms)
+✔ serde rename_all reproduction (0.336167ms)
+▶ serde enum-variant reproduction
+  ✔ uses serde's variant rules rather than its different field rules (0.118791ms)
+✔ serde enum-variant reproduction (0.165417ms)
+▶ request body enum-variant contract
+  ✔ compares a qualified Option enum through a nullable oneOf $ref (2.574083ms)
+  ✔ reports a variant the spec advertises but serde rejects (3.007ms)
+  ✔ reports a variant serde accepts but the spec omits (2.112ms)
+  ✖ does not let a top-level line comment hide the following Rust enum variant (2232.568875ms)
+  ✖ does not let a char literal close an outer Rust enum body (2096.671ms)
+  ✖ does not let a byte-char literal close an outer Rust enum body (2170.529542ms)
+  ✖ discovers no enum from an unexpanded macro_rules token tree at module scope (2231.519416ms)
+  ✖ discovers no cfg-disabled enum nested in a function body (2212.904209ms)
+  ✖ discovers no cfg-disabled enum nested in a const initializer block (2668.819333ms)
+  ✖ discovers no cfg-disabled enum nested in an impl method body (2116.414584ms)
+  ✔ discovers no enum from async, closure, trait, or static initializer bodies (3.5355ms)
+  ✔ resolves an enum through its explicit inline-module path (3.693042ms)
+  ✔ resolves a grouped import from an inline module without guessing another module (2.96575ms)
+  ✔ resolves a qualified enum declared in a file-backed module (3.296584ms)
+  ✔ follows a file-backed module's path attribute instead of its physical-name decoy (12.116291ms)
+  ✔ uses Rust's relative path rules in file modules and inline modules (17.863ms)
+  ✔ ignores path-shaped comments, strings, and unrelated attributes (2.824792ms)
+  ✔ propagates cfg uncertainty through a path-remapped file module (1.815084ms)
+  ✔ propagates inner cfg_attr uncertainty from a path target with valid rustc configurations (622.972ms)
+  ✔ propagates inner cfg_attr after Rust file shebang and BOM preludes (1057.808958ms)
+  ✔ fails closed on misplaced, duplicate, or unsupported Rust file preludes (14.614958ms)
+  ✔ propagates direct, conditional, duplicate, and conflicting inner cfg attributes (6.476209ms)
+  ✔ keeps lint-only inner cfg_attr modules resolvable (1.943834ms)
+  ✔ fails closed on malformed or unsupported inner module attributes (9.359291ms)
+  ✔ fails closed on unknown, duplicate, conflicting, conditional, or malformed path mappings (9.298166ms)
+  ✔ leaves missing, non-Rust, and ambiguous ordinary module targets unresolved (5.147208ms)
+  ✔ resolves a qualified enum through an imported module alias (1.729083ms)
+  ✔ does not resolve an unknown qualified path by bare-name fallback (1.978084ms)
+  ✔ fails closed on a cfg-conditional module-scope enum (1.686625ms)
+  ✔ propagates cfg uncertainty from an inline module to its enum (1.766708ms)
+  ✔ fails closed when a field enum exists only inside an unexpanded macro (1.665667ms)
+  ✔ keeps the outer enum boundary across every supported Rust lexical form (7.131ms)
+  ✔ does not discover enum items fabricated inside comments or literals (1.602292ms)
+  ✔ fails closed on lexically invalid or unbalanced Rust item bodies (5.992375ms)
+  ✔ keeps variants visible across line, doc, comma-bearing, and nested block comments (6.759708ms)
+  ✔ treats comments as whitespace instead of fabricating joined variant names (3.357875ms)
+  ✔ does not read comment syntax or commas inside discriminant literals as enum structure (1.604583ms)
+  ✔ fails closed on syntax-bearing attributes even when their strings look like comments (1.718666ms)
+  ✔ reports a serde enum when OpenAPI leaves the string unrestricted (1.835708ms)
+  ✔ registers a String-backed spec enum instead of pretending to compare it (1.814042ms)
+  ✔ registers tagged/data enums and unsupported variant attributes instead of guessing (3.350459ms)
+  ✔ refuses an ambiguous bare enum name (2.068791ms)
+  ✔ normalizes placeholder names without normalizing literal path bytes (1.648875ms)
+  ✔ fails closed when placeholder normalization makes two operations collide (1.984625ms)
+  ✔ makes enum findings fatal in the CLI (56.741167ms)
+  ✔ enforces the enum floor independently of body resolution (64.221875ms)
+✖ request body enum-variant contract (17685.512041ms)
+▶ undecidable register is exact and fail-closed
+  ✔ rejects a missing, malformed, or duplicate register (20.17675ms)
+  ✔ rejects unknown reasons, reason drift, stale entries, and equal-count substitution (8.217541ms)
+  ✔ makes register drift fatal in the CLI (57.589792ms)
+✔ undecidable register is exact and fail-closed (86.170083ms)
+▶ live request body census
+  ✖ binds the exact source-first body and enum populations to the reviewed register (2614.813333ms)
+✖ live request body census (2614.914292ms)
+ℹ tests 79
+ℹ suites 8
+ℹ pass 71
+ℹ fail 8
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 26630.440042
+
+✖ failing tests:
+
+test at backend-fork/scripts/check-request-body-contract.test.mjs:896:3
+✖ does not let a top-level line comment hide the following Rust enum variant (2232.568875ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    {
+      enumCandidates: 22,
+      enumResolved: 7,
+      enumSkipped: 15,
+  +   population: 296,
+  +   resolved: 57,
+  -   population: 294,
+  -   resolved: 55,
+      skipped: 239
+    }
+  
+      at TestContext.<anonymous> (file:///Users/jasonlee/Developer/frontend/.worktrees/own-issued-payslips/backend-fork/scripts/check-request-body-contract.test.mjs:918:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Suite.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: { population: 296, resolved: 57, skipped: 239, enumCandidates: 22, enumResolved: 7, enumSkipped: 15 },
+    expected: { population: 294, resolved: 55, skipped: 239, enumCandidates: 22, enumResolved: 7, enumSkipped: 15 },
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at backend-fork/scripts/check-request-body-contract.test.mjs:948:3
+✖ does not let a char literal close an outer Rust enum body (2096.671ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    {
+      enumCandidates: 22,
+      enumResolved: 7,
+      enumSkipped: 15,
+  +   population: 296,
+  +   resolved: 57,
+  -   population: 294,
+  -   resolved: 55,
+      skipped: 239
+    }
+  
+      at assertLiveCycleKindProbationFinding (file:///Users/jasonlee/Developer/frontend/.worktrees/own-issued-payslips/backend-fork/scripts/check-request-body-contract.test.mjs:116:10)
+      at TestContext.<anonymous> (file:///Users/jasonlee/Developer/frontend/.worktrees/own-issued-payslips/backend-fork/scripts/check-request-body-contract.test.mjs:949:5)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Suite.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: { population: 296, resolved: 57, skipped: 239, enumCandidates: 22, enumResolved: 7, enumSkipped: 15 },
+    expected: { population: 294, resolved: 55, skipped: 239, enumCandidates: 22, enumResolved: 7, enumSkipped: 15 },
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at backend-fork/scripts/check-request-body-contract.test.mjs:952:3
+✖ does not let a byte-char literal close an outer Rust enum body (2170.529542ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    {
+      enumCandidates: 22,
+      enumResolved: 7,
+      enumSkipped: 15,
+  +   population: 296,
+  +   resolved: 57,
+  -   population: 294,
+  -   resolved: 55,
+      skipped: 239
+    }
+  
+      at assertLiveCycleKindProbationFinding (file:///Users/jasonlee/Developer/frontend/.worktrees/own-issued-payslips/backend-fork/scripts/check-request-body-contract.test.mjs:116:10)
+      at TestContext.<anonymous> (file:///Users/jasonlee/Developer/frontend/.worktrees/own-issued-payslips/backend-fork/scripts/check-request-body-contract.test.mjs:953:5)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Suite.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: { population: 296, resolved: 57, skipped: 239, enumCandidates: 22, enumResolved: 7, enumSkipped: 15 },
+    expected: { population: 294, resolved: 55, skipped: 239, enumCandidates: 22, enumResolved: 7, enumSkipped: 15 },
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at backend-fork/scripts/check-request-body-contract.test.mjs:956:3
+✖ discovers no enum from an unexpanded macro_rules token tree at module scope (2231.519416ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    {
+      enumCandidates: 22,
+      enumResolved: 7,
+      enumSkipped: 15,
+  +   population: 296,
+  +   resolved: 57,
+  -   population: 294,
+  -   resolved: 55,
+      skipped: 239
+    }
+  
+      at assertLiveCycleKindProbationFinding (file:///Users/jasonlee/Developer/frontend/.worktrees/own-issued-payslips/backend-fork/scripts/check-request-body-contract.test.mjs:116:10)
+      at TestContext.<anonymous> (file:///Users/jasonlee/Developer/frontend/.worktrees/own-issued-payslips/backend-fork/scripts/check-request-body-contract.test.mjs:957:5)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Suite.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: { population: 296, resolved: 57, skipped: 239, enumCandidates: 22, enumResolved: 7, enumSkipped: 15 },
+    expected: { population: 294, resolved: 55, skipped: 239, enumCandidates: 22, enumResolved: 7, enumSkipped: 15 },
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at backend-fork/scripts/check-request-body-contract.test.mjs:966:3
+✖ discovers no cfg-disabled enum nested in a function body (2212.904209ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    {
+      enumCandidates: 22,
+      enumResolved: 7,
+      enumSkipped: 15,
+  +   population: 296,
+  +   resolved: 57,
+  -   population: 294,
+  -   resolved: 55,
+      skipped: 239
+    }
+  
+      at assertLiveCycleKindProbationFinding (file:///Users/jasonlee/Developer/frontend/.worktrees/own-issued-payslips/backend-fork/scripts/check-request-body-contract.test.mjs:116:10)
+      at TestContext.<anonymous> (file:///Users/jasonlee/Developer/frontend/.worktrees/own-issued-payslips/backend-fork/scripts/check-request-body-contract.test.mjs:967:5)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Suite.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: { population: 296, resolved: 57, skipped: 239, enumCandidates: 22, enumResolved: 7, enumSkipped: 15 },
+    expected: { population: 294, resolved: 55, skipped: 239, enumCandidates: 22, enumResolved: 7, enumSkipped: 15 },
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at backend-fork/scripts/check-request-body-contract.test.mjs:975:3
+✖ discovers no cfg-disabled enum nested in a const initializer block (2668.819333ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    {
+      enumCandidates: 22,
+      enumResolved: 7,
+      enumSkipped: 15,
+  +   population: 296,
+  +   resolved: 57,
+  -   population: 294,
+  -   resolved: 55,
+      skipped: 239
+    }
+  
+      at assertLiveCycleKindProbationFinding (file:///Users/jasonlee/Developer/frontend/.worktrees/own-issued-payslips/backend-fork/scripts/check-request-body-contract.test.mjs:116:10)
+      at TestContext.<anonymous> (file:///Users/jasonlee/Developer/frontend/.worktrees/own-issued-payslips/backend-fork/scripts/check-request-body-contract.test.mjs:976:5)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Suite.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: { population: 296, resolved: 57, skipped: 239, enumCandidates: 22, enumResolved: 7, enumSkipped: 15 },
+    expected: { population: 294, resolved: 55, skipped: 239, enumCandidates: 22, enumResolved: 7, enumSkipped: 15 },
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at backend-fork/scripts/check-request-body-contract.test.mjs:984:3
+✖ discovers no cfg-disabled enum nested in an impl method body (2116.414584ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    {
+      enumCandidates: 22,
+      enumResolved: 7,
+      enumSkipped: 15,
+  +   population: 296,
+  +   resolved: 57,
+  -   population: 294,
+  -   resolved: 55,
+      skipped: 239
+    }
+  
+      at assertLiveCycleKindProbationFinding (file:///Users/jasonlee/Developer/frontend/.worktrees/own-issued-payslips/backend-fork/scripts/check-request-body-contract.test.mjs:116:10)
+      at TestContext.<anonymous> (file:///Users/jasonlee/Developer/frontend/.worktrees/own-issued-payslips/backend-fork/scripts/check-request-body-contract.test.mjs:985:5)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Suite.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: { population: 296, resolved: 57, skipped: 239, enumCandidates: 22, enumResolved: 7, enumSkipped: 15 },
+    expected: { population: 294, resolved: 55, skipped: 239, enumCandidates: 22, enumResolved: 7, enumSkipped: 15 },
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at backend-fork/scripts/check-request-body-contract.test.mjs:2148:3
+✖ binds the exact source-first body and enum populations to the reviewed register (2614.813333ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  296 !== 294
+  
+      at TestContext.<anonymous> (file:///Users/jasonlee/Developer/frontend/.worktrees/own-issued-payslips/backend-fork/scripts/check-request-body-contract.test.mjs:2151:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.start (node:internal/test_runner/test:1262:17)
+      at node:internal/test_runner/test:1903:71
+      at node:internal/per_context/primordials:504:82
+      at new Promise (<anonymous>)
+      at new SafePromise (node:internal/per_context/primordials:478:3)
+      at node:internal/per_context/primordials:504:9
+      at Array.map (<anonymous>) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 296,
+    expected: 294,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

@@ -1,0 +1,62 @@
+{
+  "version": 1,
+  "scope": "ExactCIcensus failure/repair and scoped security assessment; earlier84selected files remain unchanged",
+  "files": {
+    "hosted-failure/source-and-inquiry-37653508474-112902644734.log": {
+      "sha256": "eece3455a72135cbe3b7638a430b8baba89feda680b4dc190183e87f7bde8a7e",
+      "bytes": 200584
+    },
+    "hosted-failure/source-and-inquiry-37653508474-audit.json": {
+      "sha256": "f57f8d707992a23c635f18264c441d582eae148f4dceeb7b0efa6d79abd36d7b",
+      "bytes": 21059
+    },
+    "local/admission.json": {
+      "sha256": "4993f319bfb7b3ae0ec1deff4df8060bb5d65df2f06286cd41d708438a861d8f",
+      "bytes": 251
+    },
+    "local/baseline-census.json": {
+      "sha256": "ebd166cc578de8f5df0026a7481756de079fc225f67ec054c6742edf54705218",
+      "bytes": 66972
+    },
+    "local/current-census.json": {
+      "sha256": "9d7e91cc4610aa6a4574ce70d45cc8888110905c9799c2f026d9e134baac8532",
+      "bytes": 66972
+    },
+    "local/green-report.json": {
+      "sha256": "55f8d759ebce48d3b2411b8cc8e6f5a1f61661c1e908a12a2b7a2b84818426b9",
+      "bytes": 421
+    },
+    "local/green.log": {
+      "sha256": "3d23375502230c830638ed92859a36efb758629b85365491e4ce11b0d7f0ebcc",
+      "bytes": 8240
+    },
+    "local/operation-delta.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "local/operation-delta.stdout": {
+      "sha256": "680fdd6c01209c29135fa6f087a61357a2d091fdfb3b654f8834b2f42c1ee5a8",
+      "bytes": 116
+    },
+    "local/population-delta.json": {
+      "sha256": "86454e4ff79841c6af53780ebec95caa5dcf6b48661f6cec0bb7cec207f6d766",
+      "bytes": 1097
+    },
+    "local/red.log": {
+      "sha256": "81f08b4dcf8c34c4849318767999ca4c2bceb17191f1c55d5543070809c587cd",
+      "bytes": 19393
+    },
+    "security-review/codeql-python-alerts133-136-disposition-review.json": {
+      "sha256": "81e3ee864763520f44715c7e9506700e6dbe4ed2ac587764684a8af04710fecd",
+      "bytes": 3558
+    },
+    "security-review/own-issued-payslips-codeql-disposition-ui.json": {
+      "sha256": "bcac382201ce3ae9fb3b72ac0ba0d047f6f35fdba9b24573355808194871aa51",
+      "bytes": 7869
+    }
+  },
+  "scan": {
+    "matches": 0,
+    "scope": "Six credential-shaped patterns over entire selected streams; not comprehensive secret audit"
+  }
+}

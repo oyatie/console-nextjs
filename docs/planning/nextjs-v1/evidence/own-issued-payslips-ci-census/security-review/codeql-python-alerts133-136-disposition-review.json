@@ -1,0 +1,62 @@
+{
+  "version": 1,
+  "observed_at": "2026-10-07T16:46:41.080093+00:00",
+  "commit": "918cbbbc5cb3bacd60cea1e16536beec3615a1f6",
+  "run_id": 37653505465,
+  "analysis_id": 1909875651,
+  "alert_numbers": [
+    133,
+    134,
+    135,
+    136
+  ],
+  "rule": "py/clear-text-storage-sensitive-data",
+  "scanner_severity": "high",
+  "review_verdict": "ACCEPT_BOUNDED_ARCHIVE_TEST_BOOTSTRAP_RISK",
+  "recommended_disposition": "wont_fix",
+  "not_false_positive": "The source does write a plaintext temporary password; scanner evidence is factually true.",
+  "impact": "Archived isolated test-bootstrap mechanism, no committed secret values or production/browser persistence. Reading requires access inside an atomically-created0700 temporary parent. Root, sameUID and OSACL trust are explicit local-host assumptions.",
+  "controls": [
+    "Fresh256-bit random per-run password; external credentials/DATABASE_URL excluded from inherited test environment.",
+    "Owned loopback-only SCRAM disposable PostgreSQL; no live DB/institution/Company authority binding.",
+    "tempfile.mkdtemp atomically creates0700 parent; password file chmod0600 before initdb; pre-chmod interval remains protected by parent.",
+    "Plaintext file lifetime is initdb bootstrap only: bounded120-second initdb thenunlink before server start; ordinary exceptions leave TemporaryDirectory cleanup.",
+    "Successful run receipts and logs independently show stop0, exact directory absence and recorded postmaster absence.",
+    "Full selected evidence streams contain source generation code, not actual passwords; diagnostics scrub generated secret strings.",
+    "Production build manifest includes no docs; finalDocker copies only staged runtime allowlist; no CI execution path to docs runner snapshots."
+  ],
+  "limits": [
+    "Hardkill/powerloss can leave an owner-only disposable credential; no cryptographic erasure or process-memory claim.",
+    "This is not a blanket dismissal of password storage in production, client stores, logs or live delegated-credential stores.",
+    "A stdin pipe bootstrap is a reasonable future active-harness simplification; changing immutable historical source solely to silence alerts is not warranted.",
+    "PR CodeQL Python/JS analysis uses overlay-changes;0results does not prove preexisting main alerts fixed.",
+    "Rust analysis remained pending at this disposition observation; no final CodeQL gate verdict."
+  ],
+  "evidence": {
+    "codeql-python-1909875651.sarif.json": {
+      "sha256": "7947e194dd0e35ff4110180209f323d05122a928c0d60c18906868880104f5d1",
+      "bytes": 246226
+    },
+    "codeql-open-alerts-head-observation-20261007T164000Z.json": {
+      "sha256": "1d0cea8587547c971946815221f45586611a5a28473bfc9065cef8da1e91b58f",
+      "bytes": 14625
+    },
+    "codeql-main-analyses-observation-20261007T164000Z.json": {
+      "sha256": "79735fbab91c1ba2543ec51209a35a47844ad1379b7f3607b5a496965e32b48f",
+      "bytes": 5204
+    },
+    "codeql-actions-job-112902644245.log": {
+      "sha256": "c4a5f321a4fe05bb7eb7a1383c059ae0f892b1802cd174eb72693035360b9134",
+      "bytes": 117304
+    },
+    "codeql-python-job-112902644541.log": {
+      "sha256": "0d6ec31723ac358d232c3930ca9c9348c42de2896ba3f3e6b6388e1925bd6319",
+      "bytes": 119708
+    },
+    "codeql-js-ts-job-112902644572.log": {
+      "sha256": "d2bc1e57022d0f3c8fc0071bc0dbe1201eee5e876b9b87e441558721f5ad7961",
+      "bytes": 174367
+    }
+  },
+  "actions_taken": "Read-only assessment; no GitHub dismissal/comment/rerun, tracked source/evidence mutation or merge performed."
+}

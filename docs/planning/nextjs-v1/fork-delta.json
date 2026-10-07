@@ -2953,11 +2953,11 @@
         "mode": 420
       },
       "after": {
-        "sha256": "22f48c1bc6e51864b863fa60ed5d2bc26bc9774f288b22b4d47b1a3bdca3d451",
+        "sha256": "ce5b030ae2cc0a5b34d13a4a7c9ee08486dabfd0cc7a9999d02b68cc24346ac3",
         "bytes": 80560,
         "mode": 420
       },
-      "reason": "PR17 test-first security regressions for actual bulk admission, source-parser bounds, private artifact publication and CLI errors; synthetic local-only inputs. Reconcile the three actual PR16 browser transport request-body additions against independently identical original/current parser reports; preserve exact register guards, enum bounds and all lexical tests."
+      "reason": "PR17 test-first security regressions for actual bulk admission, source-parser bounds, private artifact publication and CLI errors; synthetic local-only inputs. Reconcile the three actual PR16 browser transport request-body additions against independently identical original/current parser reports; preserve exact register guards, enum bounds and all lexical tests. Preserve all source-first fail-closed assertions and account for exactly two fully resolved new payslip POST bodies in existing census expectations."
     },
     {
       "path": "scripts/import_coss_group_workbooks.py",
