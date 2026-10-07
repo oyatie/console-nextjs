@@ -1543,6 +1543,9 @@ fn issued_browser_payslip_contract_matches_read_only_owner_routes() {
             body.contains("security:\n      - BrowserIngress: []") && !body.contains("bearerAuth")
         );
         assert!(body.contains(request) && body.contains(response));
+        if path.ends_with("/{id}") {
+            assert!(body.contains("'400':"), "malformed path must be documented");
+        }
         for status in ["200", "401", "404", "413", "422", "503"] {
             assert!(
                 body.contains(&format!("'{status}':")),

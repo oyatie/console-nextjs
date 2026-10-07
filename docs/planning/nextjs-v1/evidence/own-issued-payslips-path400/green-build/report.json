@@ -1,0 +1,63 @@
+{
+  "status": "passed",
+  "scope": "contract400 GREEN compile; no product code mutation",
+  "source_inputs": {
+    "backend-fork/backend/Cargo.lock": "366ea7828ad8da2f49ebf06944b376246abdc1308dbe676c4531f9064cdca109",
+    "backend-fork/backend/app/src/browser_payslips.rs": "cf3c6da16cfed1fd5391d25291ac2398def31cd97a44e785aa13fa926b52359d",
+    "backend-fork/backend/app/tests/auth_rest/browser_payslips.rs": "8d40c2fc8f29ecb991458bedf24fbb73e4a226b46e5e4497f031849534716406",
+    "backend-fork/backend/app/tests/openapi_drift.rs": "e88011f808f67347f6dd8e6f32a855b1eb43f76b50993df3227afb67d3e2d1b4",
+    "backend-fork/backend/crates/inbox/rest/openapi/paths/api__v1__me__browser-session__payslips__id.post.yaml": "bab2bedb289a199892d3a4d81452663e513574437749c36568071b87853a2c24",
+    "backend-fork/backend/openapi/openapi.yaml": "d533b16bbd70b202c562ab61233348eaa5bf5dd4792add498e5bb8d6b0083f72"
+  },
+  "env": {
+    "SQLX_OFFLINE": "true",
+    "CARGO_TARGET_DIR": "/private/tmp/own-issued-payslips-target-20261007",
+    "CARGO_BUILD_JOBS": "2",
+    "CARGO_INCREMENTAL": "0",
+    "CARGO_PROFILE_DEV_DEBUG": "0",
+    "CARGO_PROFILE_TEST_DEBUG": "0"
+  },
+  "commands": [
+    {
+      "name": "auth-rest-compile",
+      "command": [
+        "cargo",
+        "+1.98.1",
+        "test",
+        "--locked",
+        "--offline",
+        "-p",
+        "console-app",
+        "--features",
+        "frontend-e2e",
+        "--test",
+        "auth_rest",
+        "--no-run"
+      ],
+      "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/own-issued-payslips/backend-fork/backend",
+      "exit_code": 0,
+      "duration_seconds": 74.35,
+      "output_sha256": "3461dba4d739fc5554acffc36aa01b524e32110b08b35f399e515879dd3b392c"
+    },
+    {
+      "name": "openapi-drift-compile",
+      "command": [
+        "cargo",
+        "+1.98.1",
+        "test",
+        "--locked",
+        "--offline",
+        "-p",
+        "console-app",
+        "--test",
+        "openapi_drift",
+        "--no-run"
+      ],
+      "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/own-issued-payslips/backend-fork/backend",
+      "exit_code": 0,
+      "duration_seconds": 35.763,
+      "output_sha256": "1ff8a888ab663a5696f53a15f32cf55db1e577160a3f0a204a5347eba898ee02"
+    }
+  ],
+  "source_inputs_unchanged": true
+}

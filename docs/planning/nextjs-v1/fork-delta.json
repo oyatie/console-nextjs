@@ -173,11 +173,11 @@
       "path": "backend/app/tests/auth_rest/browser_payslips.rs",
       "before": null,
       "after": {
-        "sha256": "01f2968388ba77b0c41e7f8534b2f154868217ab0b589933c5f9c71185f1d991",
-        "bytes": 6090,
+        "sha256": "8d40c2fc8f29ecb991458bedf24fbb73e4a226b46e5e4497f031849534716406",
+        "bytes": 6358,
         "mode": 420
       },
-      "reason": "Recipient-owned issued-payslip browser read reuses Inbox custody; exact artifact projection, Company/kind isolation, real passkey browser checks and closed read-only contracts."
+      "reason": "Recipient-owned issued-payslip browser read reuses Inbox custody; exact artifact projection, Company/kind isolation, real passkey browser checks and closed read-only contracts. Document the existing malformed detail UUID400 and preserve a direct native/contract regression."
     },
     {
       "path": "backend/app/tests/auth_rest/browser_sessions.rs",
@@ -365,11 +365,11 @@
         "mode": 420
       },
       "after": {
-        "sha256": "129f4d667708ceaa7e30781f0ebcb05cee21522d44c9b3734f2640311a6eeeb4",
-        "bytes": 59167,
+        "sha256": "e88011f808f67347f6dd8e6f32a855b1eb43f76b50993df3227afb67d3e2d1b4",
+        "bytes": 59297,
         "mode": 420
       },
-      "reason": "Remove the Intelligence bind exception from the production route census while preserving other route-contract assertions. Require the already registered audit attestation path in the configured route inventory. Require the served OpenAPI path × method response for the reachable unavailable-listing 409; preserve existing inventory assertions. C2/R7c approved actual WebAuthn/PostgreSQL/native/browser regressions, private custody and exact-family owner failures, compatibility and current-authority constructor fields. Preserve inherited assertions; reviewed prerequisite correction and whitespace-only formatting. Record inherited merged PR #15 provenance at exact base 7bbb48cc24952ec1639c393767e11bc0de6cc63c after matching regular Git blobs; repair prior stale/missing metadata only, not new runtime code. Recipient-owned issued-payslip browser read reuses Inbox custody; exact artifact projection, Company/kind isolation, real passkey browser checks and closed read-only contracts."
+      "reason": "Remove the Intelligence bind exception from the production route census while preserving other route-contract assertions. Require the already registered audit attestation path in the configured route inventory. Require the served OpenAPI path × method response for the reachable unavailable-listing 409; preserve existing inventory assertions. C2/R7c approved actual WebAuthn/PostgreSQL/native/browser regressions, private custody and exact-family owner failures, compatibility and current-authority constructor fields. Preserve inherited assertions; reviewed prerequisite correction and whitespace-only formatting. Record inherited merged PR #15 provenance at exact base 7bbb48cc24952ec1639c393767e11bc0de6cc63c after matching regular Git blobs; repair prior stale/missing metadata only, not new runtime code. Recipient-owned issued-payslip browser read reuses Inbox custody; exact artifact projection, Company/kind isolation, real passkey browser checks and closed read-only contracts. Document the existing malformed detail UUID400 and preserve a direct native/contract regression."
     },
     {
       "path": "backend/app/tests/platform_onboarding_e2e.rs",
@@ -1195,11 +1195,11 @@
       "path": "backend/crates/inbox/rest/openapi/paths/api__v1__me__browser-session__payslips__id.post.yaml",
       "before": null,
       "after": {
-        "sha256": "75daa5958f69f8fcd35a86a0f8bccc67244ed1734880c5024c6c5a1c4de970d2",
-        "bytes": 1062,
+        "sha256": "bab2bedb289a199892d3a4d81452663e513574437749c36568071b87853a2c24",
+        "bytes": 1120,
         "mode": 420
       },
-      "reason": "Recipient-owned issued-payslip browser read reuses Inbox custody; exact artifact projection, Company/kind isolation, real passkey browser checks and closed read-only contracts."
+      "reason": "Recipient-owned issued-payslip browser read reuses Inbox custody; exact artifact projection, Company/kind isolation, real passkey browser checks and closed read-only contracts. Document the existing malformed detail UUID400 and preserve a direct native/contract regression."
     },
     {
       "path": "backend/crates/inbox/rest/openapi/schemas/BrowserPayslipDeduction.yaml",
@@ -2803,11 +2803,11 @@
         "mode": 420
       },
       "after": {
-        "sha256": "0ec7f42505d1c97326b27bec4b0af915af6b9362c1445bdb9f75814522d45696",
-        "bytes": 1235045,
+        "sha256": "d533b16bbd70b202c562ab61233348eaa5bf5dd4792add498e5bb8d6b0083f72",
+        "bytes": 1235115,
         "mode": 420
       },
-      "reason": "Describe stable outbound operation IDs, conflict and truthful UNKNOWN response; synchronize the mail HTTP contract. Publish the inquiry 409 in the served OpenAPI document without unrelated generated-media drift. Regenerate exact canonical composition including reviewed attendance contract and inherited storefront-media projection drift; no storefront owner/fragment change. Restrict positively classified legacy OTP families at shared ordinary admission and locked device approval; preserve direct enrollment, v0 compatibility and dormant v1. Add genuine runtime-role regressions and correct QR approval descriptions. C2 explicit discoverable start and R7c closed browser session/HR API path-method-response contracts under existing owners; preserve legacy aliases and exact nine-item timestamp wire schema. Record inherited merged PR #15 provenance at exact base 7bbb48cc24952ec1639c393767e11bc0de6cc63c after matching regular Git blobs; repair prior stale/missing metadata only, not new runtime code. Generated bulk OpenAPI exactly from reviewed canonical fragments, documenting actual response media and admission limit. Recipient-owned issued-payslip browser read reuses Inbox custody; exact artifact projection, Company/kind isolation, real passkey browser checks and closed read-only contracts."
+      "reason": "Describe stable outbound operation IDs, conflict and truthful UNKNOWN response; synchronize the mail HTTP contract. Publish the inquiry 409 in the served OpenAPI document without unrelated generated-media drift. Regenerate exact canonical composition including reviewed attendance contract and inherited storefront-media projection drift; no storefront owner/fragment change. Restrict positively classified legacy OTP families at shared ordinary admission and locked device approval; preserve direct enrollment, v0 compatibility and dormant v1. Add genuine runtime-role regressions and correct QR approval descriptions. C2 explicit discoverable start and R7c closed browser session/HR API path-method-response contracts under existing owners; preserve legacy aliases and exact nine-item timestamp wire schema. Record inherited merged PR #15 provenance at exact base 7bbb48cc24952ec1639c393767e11bc0de6cc63c after matching regular Git blobs; repair prior stale/missing metadata only, not new runtime code. Generated bulk OpenAPI exactly from reviewed canonical fragments, documenting actual response media and admission limit. Recipient-owned issued-payslip browser read reuses Inbox custody; exact artifact projection, Company/kind isolation, real passkey browser checks and closed read-only contracts. Document the existing malformed detail UUID400 and preserve a direct native/contract regression."
     },
     {
       "path": "backend/openapi/shared/manifest.json",

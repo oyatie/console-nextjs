@@ -1,0 +1,56 @@
+
+running 20 tests
+test ai_assist_action_constructors_are_absent_from_landable_http_surfaces ... ok
+test app_does_not_wire_intelligence_draft_dispatch_or_depend_on_the_seam_crate ... ok
+test audit_attestation_route_is_in_configured_inventory ... ok
+test bounded_generated_sections_reject_later_operation_or_enum_text ... ok
+test bounded_generated_sections_reject_missing_end_boundary - should panic ... ok
+test browser_session_contract_is_handle_only_and_matches_dedicated_owner_routes ... ok
+test configured_route_inventory_covers_router_route_calls ... ok
+test configured_route_inventory_includes_each_configured_surface ... ok
+test intelligence_and_chat_http_surfaces_are_absent ... ok
+test internal_intelligence_bind_is_forbidden ... ok
+test issued_browser_payslip_contract_matches_read_only_owner_routes ... ok
+test openapi_documents_closed_inventory_movement_source_variants ... ok
+test openapi_documents_closed_month_as_year_month_not_calendar_date ... ok
+test openapi_documents_evidence_register_snapshot_and_evidentiary_contract ... ok
+test openapi_documents_hr_attendance_branch_scope_query ... ok
+test openapi_documents_native_discoverable_passkey_modes ... ok
+test openapi_yaml_covers_configured_route_inventory ... ok
+test openapi_yaml_covers_platform_route_operations ... ok
+test platform_route_operation_gate_rejects_missing_contract_entry ... ok
+test storefront_inquiry_contract_documents_the_reachable_conflict ... ok
+
+successes:
+
+---- bounded_generated_sections_reject_missing_end_boundary stdout ----
+
+thread 'bounded_generated_sections_reject_missing_end_boundary' (131677993) panicked at app/tests/openapi_drift.rs:1100:28:
+missing end absent
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+successes:
+    ai_assist_action_constructors_are_absent_from_landable_http_surfaces
+    app_does_not_wire_intelligence_draft_dispatch_or_depend_on_the_seam_crate
+    audit_attestation_route_is_in_configured_inventory
+    bounded_generated_sections_reject_later_operation_or_enum_text
+    bounded_generated_sections_reject_missing_end_boundary
+    browser_session_contract_is_handle_only_and_matches_dedicated_owner_routes
+    configured_route_inventory_covers_router_route_calls
+    configured_route_inventory_includes_each_configured_surface
+    intelligence_and_chat_http_surfaces_are_absent
+    internal_intelligence_bind_is_forbidden
+    issued_browser_payslip_contract_matches_read_only_owner_routes
+    openapi_documents_closed_inventory_movement_source_variants
+    openapi_documents_closed_month_as_year_month_not_calendar_date
+    openapi_documents_evidence_register_snapshot_and_evidentiary_contract
+    openapi_documents_hr_attendance_branch_scope_query
+    openapi_documents_native_discoverable_passkey_modes
+    openapi_yaml_covers_configured_route_inventory
+    openapi_yaml_covers_platform_route_operations
+    platform_route_operation_gate_rejects_missing_contract_entry
+    storefront_inquiry_contract_documents_the_reachable_conflict
+
+test result: ok. 20 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.21s
+

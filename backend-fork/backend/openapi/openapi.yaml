@@ -9197,6 +9197,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/BrowserPayslipDetailResponse'
+        '400':
+          description: Malformed UUID path identifier.
         '401':
           description: Missing, expired, revoked or mismatched browser authority.
         '404':

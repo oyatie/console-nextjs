@@ -1,0 +1,13 @@
+
+running 2 tests
+test browser_sessions::browser_payslips::issued_payslips_are_recipient_company_and_kind_scoped_without_read_effects ... ok
+test browser_sessions::browser_payslips::malformed_issued_artifacts_fail_unavailable_without_successful_null_projection ... ok
+
+successes:
+
+successes:
+    browser_sessions::browser_payslips::issued_payslips_are_recipient_company_and_kind_scoped_without_read_effects
+    browser_sessions::browser_payslips::malformed_issued_artifacts_fail_unavailable_without_successful_null_projection
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 125 filtered out; finished in 8.71s
+

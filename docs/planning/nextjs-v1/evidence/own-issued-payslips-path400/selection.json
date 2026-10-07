@@ -1,0 +1,122 @@
+{
+  "version": 1,
+  "scope": "Additive malformed-native-detail400 contract correction; original evidence files untouched.",
+  "files": {
+    "green-build/auth-rest-compile.log": {
+      "sha256": "3461dba4d739fc5554acffc36aa01b524e32110b08b35f399e515879dd3b392c",
+      "bytes": 1080
+    },
+    "green-build/openapi-drift-compile.log": {
+      "sha256": "1ff8a888ab663a5696f53a15f32cf55db1e577160a3f0a204a5347eba898ee02",
+      "bytes": 866
+    },
+    "green-build/report.json": {
+      "sha256": "397cb34c44ce05efe0d36c21f87b4d5a5abc51288f79d9172d8d7f653e9efe4b",
+      "bytes": 2289
+    },
+    "green-native/openapi-drift-discovery.log": {
+      "sha256": "f1524abd3839a2b86bf3d2451c62fa69066d73d1f0a59f7bcf5d4212385323f2",
+      "bytes": 1305
+    },
+    "green-native/openapi-drift.log": {
+      "sha256": "2609bd43f31d37f6f7c83664a4ef25ad9f4dcec3be537a1a3f29353dcfaa6f1a",
+      "bytes": 3092
+    },
+    "green-native/payslips-native-discovery.log": {
+      "sha256": "123ce8d9c1fe2820569caa8c6665e577af77623b6a843c6db838798cfb55f540",
+      "bytes": 261
+    },
+    "green-native/payslips-native.log": {
+      "sha256": "581759ed6f0e646305eeb1082087fc32123150321d2609609d5fb84e3a2c7a4d",
+      "bytes": 623
+    },
+    "green-native/report.json": {
+      "sha256": "b19d97862b8555a34313fa3607f006979acf2b0b34040a86708ca3989c1ed5ff",
+      "bytes": 8594
+    },
+    "green-native/runner.py": {
+      "sha256": "8cf1d7d1c16af9d52b5aa6fe28517c44ad0946612f3b16e096a3a16a0021c0fc",
+      "bytes": 12687
+    },
+    "green-native/start.log": {
+      "sha256": "66afd0411ccc09366e99fdd99b85f21899c8d2d064f5835126859618802153ad",
+      "bytes": 52
+    },
+    "green-native/stop.log": {
+      "sha256": "ca19178a35ab4153b75b494963b66ce8243e1b94c173107c87b44d09db23652d",
+      "bytes": 56
+    },
+    "green-static/auth-rest-clippy.log": {
+      "sha256": "a0db33182935ec87e59adc62e50b7613c76f68821de5e63f10e969bf903147a8",
+      "bytes": 587
+    },
+    "green-static/openapi-drift-clippy.log": {
+      "sha256": "15ebfff858fb106369a4da929d196496c185d509da90b0c67d8e9fff11e79392",
+      "bytes": 441
+    },
+    "green-static/report.json": {
+      "sha256": "d664041e2fbb51aa78712546291b77a977d8982ea3078705e68daf0eadb25114",
+      "bytes": 2820
+    },
+    "green-static/workspace-rustfmt.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "initial-reviews/own-issued-payslips-owner-initial.json": {
+      "sha256": "2b082f0d3f893450d5b2d54eb472c9866c97faed07998af8deb6fc3fceff48a3",
+      "bytes": 3825
+    },
+    "initial-reviews/own-issued-payslips-ui-final.json": {
+      "sha256": "467c5c467c22f48dd88bb6c7c19fac57dacd62ac09ffdc0e0becef989e60e769",
+      "bytes": 4527
+    },
+    "red-build/auth-rest-compile.log": {
+      "sha256": "ac7150b1eb4cde245d781d4a4499e8c41d93f4a6aaaf76ed96ea95d141132aad",
+      "bytes": 934
+    },
+    "red-build/openapi-drift-compile.log": {
+      "sha256": "b522297807acea4e0c0493cb92aa52e6ddebed232ed09575d794ca28d02bc226",
+      "bytes": 865
+    },
+    "red-build/report.json": {
+      "sha256": "db97931a8c2ca348fe44b3ef4dd2e76cea860166433931f8849536dc46c06cf0",
+      "bytes": 2188
+    },
+    "red-native/openapi-drift-discovery.log": {
+      "sha256": "f1524abd3839a2b86bf3d2451c62fa69066d73d1f0a59f7bcf5d4212385323f2",
+      "bytes": 1305
+    },
+    "red-native/openapi-drift.log": {
+      "sha256": "35a0dedbf6f7e0bff8e2c3993020f4840cb230efca19f880cf5213916b0189c3",
+      "bytes": 3371
+    },
+    "red-native/payslips-native-discovery.log": {
+      "sha256": "123ce8d9c1fe2820569caa8c6665e577af77623b6a843c6db838798cfb55f540",
+      "bytes": 261
+    },
+    "red-native/payslips-native.log": {
+      "sha256": "ec2b882c78453a984ec892fa5bba9ace9532c74d9046361ac7758c7efddbb869",
+      "bytes": 623
+    },
+    "red-native/report.json": {
+      "sha256": "cac8dbe01fd58f7f4182f367a0b96216f4267b4a4a18c4d02f89ae09d6ad3070",
+      "bytes": 8597
+    },
+    "red-native/runner.py": {
+      "sha256": "8cf1d7d1c16af9d52b5aa6fe28517c44ad0946612f3b16e096a3a16a0021c0fc",
+      "bytes": 12687
+    },
+    "red-native/start.log": {
+      "sha256": "66afd0411ccc09366e99fdd99b85f21899c8d2d064f5835126859618802153ad",
+      "bytes": 52
+    },
+    "red-native/stop.log": {
+      "sha256": "ca19178a35ab4153b75b494963b66ce8243e1b94c173107c87b44d09db23652d",
+      "bytes": 56
+    }
+  },
+  "scan": {
+    "scope": "Six credential-shaped patterns over full selected bytes; not a comprehensive secret audit",
+    "matches": 0
+  }
+}

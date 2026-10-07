@@ -73,6 +73,15 @@ async fn issued_payslips_are_recipient_company_and_kind_scoped_without_read_effe
     let own = body_json(post_raw(f.router.clone(), &uri, None, handle(&sa)).await).await;
     assert_eq!(own["document"]["payload"]["gross_won"], "9007199254740993");
     assert_eq!(own["expires_at"], sa["expires_at"]);
+    let malformed = post_raw(
+        f.router.clone(),
+        &format!("{PAYSLIPS}/not-a-uuid"),
+        None,
+        handle(&sa),
+    )
+    .await;
+    assert_eq!(malformed.status(), StatusCode::BAD_REQUEST);
+    assert!(set_cookie_values(&malformed).is_empty());
     for (uri, session) in [
         (uri.as_str(), &sb),
         (uri.as_str(), &sc),

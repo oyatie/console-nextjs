@@ -1,0 +1,86 @@
+{
+  "status": "passed",
+  "scope": "strict affected auth/contract static gates; zero executed tests, not a runtime-suite rerun",
+  "source_inputs": {
+    "backend-fork/backend/Cargo.lock": "366ea7828ad8da2f49ebf06944b376246abdc1308dbe676c4531f9064cdca109",
+    "backend-fork/backend/app/src/browser_payslips.rs": "cf3c6da16cfed1fd5391d25291ac2398def31cd97a44e785aa13fa926b52359d",
+    "backend-fork/backend/app/tests/auth_rest/browser_payslips.rs": "8d40c2fc8f29ecb991458bedf24fbb73e4a226b46e5e4497f031849534716406",
+    "backend-fork/backend/app/tests/openapi_drift.rs": "e88011f808f67347f6dd8e6f32a855b1eb43f76b50993df3227afb67d3e2d1b4",
+    "backend-fork/backend/crates/inbox/rest/openapi/paths/api__v1__me__browser-session__payslips__id.post.yaml": "bab2bedb289a199892d3a4d81452663e513574437749c36568071b87853a2c24",
+    "backend-fork/backend/openapi/openapi.yaml": "d533b16bbd70b202c562ab61233348eaa5bf5dd4792add498e5bb8d6b0083f72"
+  },
+  "commands": [
+    {
+      "name": "auth-rest-clippy",
+      "kind": "lint",
+      "command": [
+        "cargo",
+        "+1.98.1",
+        "clippy",
+        "--locked",
+        "--offline",
+        "-p",
+        "console-app",
+        "--features",
+        "frontend-e2e",
+        "--test",
+        "auth_rest",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/own-issued-payslips/backend-fork/backend",
+      "exit_code": 0,
+      "duration_seconds": 62.538,
+      "discovered": 0,
+      "executed": 0,
+      "skipped": 0,
+      "output_sha256": "a0db33182935ec87e59adc62e50b7613c76f68821de5e63f10e969bf903147a8"
+    },
+    {
+      "name": "openapi-drift-clippy",
+      "kind": "lint",
+      "command": [
+        "cargo",
+        "+1.98.1",
+        "clippy",
+        "--locked",
+        "--offline",
+        "-p",
+        "console-app",
+        "--test",
+        "openapi_drift",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/own-issued-payslips/backend-fork/backend",
+      "exit_code": 0,
+      "duration_seconds": 11.689,
+      "discovered": 0,
+      "executed": 0,
+      "skipped": 0,
+      "output_sha256": "15ebfff858fb106369a4da929d196496c185d509da90b0c67d8e9fff11e79392"
+    },
+    {
+      "name": "workspace-rustfmt",
+      "kind": "format",
+      "command": [
+        "cargo",
+        "+1.98.1",
+        "fmt",
+        "--all",
+        "--",
+        "--check"
+      ],
+      "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/own-issued-payslips/backend-fork/backend",
+      "exit_code": 0,
+      "duration_seconds": 5.155,
+      "discovered": 0,
+      "executed": 0,
+      "skipped": 0,
+      "output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "source_inputs_unchanged": true
+}

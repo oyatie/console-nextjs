@@ -1,0 +1,62 @@
+{
+  "status": "passed",
+  "scope": "read-only contract missing400 RED compile; no product or contract mutation",
+  "source_inputs": {
+    "backend-fork/backend/Cargo.lock": "366ea7828ad8da2f49ebf06944b376246abdc1308dbe676c4531f9064cdca109",
+    "backend-fork/backend/app/tests/auth_rest/browser_payslips.rs": "8d40c2fc8f29ecb991458bedf24fbb73e4a226b46e5e4497f031849534716406",
+    "backend-fork/backend/app/tests/openapi_drift.rs": "e88011f808f67347f6dd8e6f32a855b1eb43f76b50993df3227afb67d3e2d1b4",
+    "backend-fork/backend/crates/inbox/rest/openapi/paths/api__v1__me__browser-session__payslips__id.post.yaml": "75daa5958f69f8fcd35a86a0f8bccc67244ed1734880c5024c6c5a1c4de970d2",
+    "backend-fork/backend/openapi/openapi.yaml": "0ec7f42505d1c97326b27bec4b0af915af6b9362c1445bdb9f75814522d45696"
+  },
+  "env": {
+    "SQLX_OFFLINE": "true",
+    "CARGO_TARGET_DIR": "/private/tmp/own-issued-payslips-target-20261007",
+    "CARGO_BUILD_JOBS": "2",
+    "CARGO_INCREMENTAL": "0",
+    "CARGO_PROFILE_DEV_DEBUG": "0",
+    "CARGO_PROFILE_TEST_DEBUG": "0"
+  },
+  "commands": [
+    {
+      "name": "auth-rest-compile",
+      "command": [
+        "cargo",
+        "+1.98.1",
+        "test",
+        "--locked",
+        "--offline",
+        "-p",
+        "console-app",
+        "--features",
+        "frontend-e2e",
+        "--test",
+        "auth_rest",
+        "--no-run"
+      ],
+      "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/own-issued-payslips/backend-fork/backend",
+      "exit_code": 0,
+      "duration_seconds": 42.505,
+      "output_sha256": "ac7150b1eb4cde245d781d4a4499e8c41d93f4a6aaaf76ed96ea95d141132aad"
+    },
+    {
+      "name": "openapi-drift-compile",
+      "command": [
+        "cargo",
+        "+1.98.1",
+        "test",
+        "--locked",
+        "--offline",
+        "-p",
+        "console-app",
+        "--test",
+        "openapi_drift",
+        "--no-run"
+      ],
+      "cwd": "/Users/jasonlee/Developer/frontend/.worktrees/own-issued-payslips/backend-fork/backend",
+      "exit_code": 0,
+      "duration_seconds": 2.995,
+      "output_sha256": "b522297807acea4e0c0493cb92aa52e6ddebed232ed09575d794ca28d02bc226"
+    }
+  ],
+  "source_inputs_unchanged": true
+}

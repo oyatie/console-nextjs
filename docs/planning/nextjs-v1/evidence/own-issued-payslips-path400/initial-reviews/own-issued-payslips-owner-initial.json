@@ -1,0 +1,41 @@
+{
+  "version": 1,
+  "observed_at": "2026-10-07T16:23:28Z",
+  "verdict": "REQUEST_CHANGES",
+  "commit": "3a146c55576ff4f2f9ec3a1a5389c015cac1800d",
+  "base_commit": "7ccf7d15275653ddfd1ca8629d4c4caed1bfa6c7",
+  "scope": "Independent adversarial review of recipient-owned issued-payslip backend/read boundaries, API contracts, CI, fork custody and portable selected evidence/index accuracy.",
+  "findings": [
+    {
+      "id": "OWNER-400",
+      "severity": "P2",
+      "path": "backend-fork/backend/crates/inbox/rest/openapi/paths/api__v1__me__browser-session__payslips__id.post.yaml",
+      "problem": "Malformed detail UUID paths are rejected by Axum Path<InboxDocId> with HTTP 400, but the added OpenAPI detail responses omit 400. The route drift assertion and native tests do not exercise this malformed native path.",
+      "evidence": "The reviewed handler extracts Path<InboxDocId>; the locked Axum 0.8.9 path deserializer maps UUID parse/deserialization errors to BAD_REQUEST. This initial review established the mismatch by source inspection, not an independently executed HTTP probe.",
+      "requested_fix": "Document the native detail 400 response in its owning fragment and aggregate, add a direct-native malformed-path regression and retain existing drift/security assertions."
+    }
+  ],
+  "accepted_checks": {
+    "native_auth": "127 exact discovery/header/terminal/success sets, all passed; includes one browser consumer",
+    "browser": "17 scenarios all passed, including issued-payslip genuine BFCache native revocation; no skipped/unreached",
+    "openapi": "20 exact named tests passed on the initial candidate; malformed-path response coverage remains the finding",
+    "inbox_adapter": "9 exact named tests passed",
+    "inbox_rest": "2 exact named tests passed",
+    "portable_evidence": "56 files exactly selected/tracked; all hash and byte counts match; retry/Inbox copies equal independently audited local originals",
+    "compiler": "4111 backend snapshot hash/byte/mode records match current inputs; fresh locked/offline no-run compiler returns the previously executed binary hashes; seven compiler/static log receipts match",
+    "fork": "247 fork-delta after-images match; all 24 changed backend paths recorded; migration files unchanged in this diff",
+    "frontend": "116 frontend and 27 tooling terminal outcomes accurately recorded; supporting 168/21/10/8/6 session logs remain separately scoped",
+    "cleanup": "Both owned PostgreSQL instances stopped; exact temporary directories and recorded postmaster PIDs absent; original credential-destruction overclaim retained but uncredited",
+    "metadata": "Runtime/index/requirements hash references match; failed attempts and UNKNOWN startup history retained; final commit/hosted/merge gates remain external",
+    "diff_and_attribution": "Source-only diff check passed; reviewed worktree was clean at initial commit; human-only commit attribution"
+  },
+  "limits": [
+    "No new heavy build or runtime execution was performed by this reviewer; raw evidence and source were independently inspected.",
+    "Filtered prerequisite two-test repetition is not additional unique native coverage.",
+    "Compiler reuse is not a reproducible-build, complete toolchain or host attestation and adds no executed runtime bodies.",
+    "Credential cleanup claims observed temporary-file removal only, not process-memory or cryptographic erasure.",
+    "Full B06, HR/Org/Foundry, statutory payroll, attended identity, two-site durability/fencing, complete emission-time authority serialization, capacity/restore/cutover and launch remain unverified.",
+    "No deployment, institutional act, payment, collection or public exposure is approved.",
+    "This untracked receipt preserves the initial candidate verdict; it does not approve later commits."
+  ]
+}
