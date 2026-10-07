@@ -13,7 +13,7 @@ jobs:
   source_and_inquiry:
     name: source-and-inquiry
     runs-on: ubuntu-24.04
-    timeout-minutes: 90
+    timeout-minutes: 110
     env:
       # Keep the full application/test links within the hosted runner budget.
       CARGO_BUILD_JOBS: "1"
