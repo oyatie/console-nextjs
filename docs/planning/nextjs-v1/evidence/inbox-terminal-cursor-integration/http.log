@@ -1,0 +1,35 @@
+NOTICE:  topology.canonical_enforcement: examined 0 canonical tables []
+topology: eight application roles reconciled and verified
+NOTICE:  database "canonical_probe_59741" does not exist, skipping
+NOTICE:  topology.canonical_enforcement: examined 0 canonical tables []
+topology: eight application roles reconciled and verified
+psql:/canonical-migrations/0023_coldstart_revoke_fixed_seed.sql:29: NOTICE:  extension "pgcrypto" already exists, skipping
+psql:/canonical-migrations/0118_search_trgm_indexes.sql:7: NOTICE:  extension "pg_trgm" already exists, skipping
+psql:/canonical-migrations/0193_maintenance_gaps.sql:136: NOTICE:  identifier "equipment_maintenance_history_evidence_require_verified_snapshot" will be truncated to "equipment_maintenance_history_evidence_require_verified_snapsho"
+psql:/canonical-migrations/0193_maintenance_gaps.sql:167: NOTICE:  identifier "equipment_maintenance_history_evidence_require_verified_snapshot" will be truncated to "equipment_maintenance_history_evidence_require_verified_snapsho"
+psql:/canonical-migrations/0207_create_erasure_ledger.sql:131: NOTICE:  extension "pgcrypto" already exists, skipping
+NOTICE:  topology.canonical_enforcement: examined 20 canonical tables [company_revisions,employee_person_bindings,employees,employment_heads,employment_revisions,employment_source_bindings,job_position_revisions,job_positions,org_unit_revisions,org_unit_source_bindings,org_units,organizations,payroll_disbursements,payroll_draft_lines,payroll_draft_runs,payroll_line_calculations,payroll_payslip_deliveries,payroll_run_exceptions,person_revisions,persons]
+topology: eight application roles reconciled and verified
+canonical-enforce: enforced on canonical_probe_59741, examined 20 tables [company_revisions,employee_person_bindings,employees,employment_heads,employment_revisions,employment_source_bindings,job_position_revisions,job_positions,org_unit_revisions,org_unit_source_bindings,org_units,organizations,payroll_disbursements,payroll_draft_lines,payroll_draft_runs,payroll_line_calculations,payroll_payslip_deliveries,payroll_run_exceptions,person_revisions,persons]
+postgres ready on 33417
+    Blocking waiting for file lock on package cache
+    Blocking waiting for file lock on package cache
+    Blocking waiting for file lock on package cache
+   Compiling console-platform-db v0.1.0 (/Users/jasonlee/Developer/frontend/.worktrees/inbox-terminal-cursor/backend-fork/backend/crates/platform/db)
+   Compiling console-platform-authz v0.1.0 (/Users/jasonlee/Developer/frontend/.worktrees/inbox-terminal-cursor/backend-fork/backend/crates/platform/authz)
+   Compiling console-platform-auth v0.1.0 (/Users/jasonlee/Developer/frontend/.worktrees/inbox-terminal-cursor/backend-fork/backend/crates/platform/auth)
+   Compiling console-platform-group v0.1.0 (/Users/jasonlee/Developer/frontend/.worktrees/inbox-terminal-cursor/backend-fork/backend/crates/platform/group)
+   Compiling console-platform-request-context v0.1.0 (/Users/jasonlee/Developer/frontend/.worktrees/inbox-terminal-cursor/backend-fork/backend/crates/platform/request-context)
+   Compiling console-platform-test-support v0.1.0 (/Users/jasonlee/Developer/frontend/.worktrees/inbox-terminal-cursor/backend-fork/backend/crates/platform/test-support)
+   Compiling console-inbox-adapter-postgres v0.1.0 (/Users/jasonlee/Developer/frontend/.worktrees/inbox-terminal-cursor/backend-fork/backend/crates/inbox/adapter-postgres)
+   Compiling console-inbox-rest v0.1.0 (/Users/jasonlee/Developer/frontend/.worktrees/inbox-terminal-cursor/backend-fork/backend/crates/inbox/rest)
+    Finished `test` profile [unoptimized] target(s) in 4m 17s
+     Running tests/api.rs (/Users/jasonlee/Developer/frontend/.artifacts/cargo-target/debug/deps/api-99e22fcfc27880f8)
+
+running 2 tests
+test inbox_payslip_filter_is_person_scoped_and_not_receipt_gated ... ok
+test inbox_receipt_flow_is_person_scoped_and_passkey_gated ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 14.41s
+
+clean: console-conformance-59741 removed with its volume

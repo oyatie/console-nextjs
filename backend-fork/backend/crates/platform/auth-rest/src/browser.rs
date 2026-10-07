@@ -301,10 +301,10 @@ impl AuthRestState {
         let mut tx = self.pool.begin().await.map_err(DbError::Sqlx)?;
         let company = locate_and_arm(&mut tx, &hash, context).await?;
         let mut row = read_mapping(&mut tx, company, &hash, context).await?;
-        if row.closed_at.is_some()
-            || row.owner_removed_at.is_some()
-            || row.expires_at <= OffsetDateTime::now_utc()
-        {
+        let now = console_platform_auth::authentication_time_tx(&mut tx, OffsetDateTime::now_utc())
+            .await
+            .map_err(DbError::Sqlx)?;
+        if row.closed_at.is_some() || row.owner_removed_at.is_some() || row.expires_at <= now {
             return Err(denied());
         }
         let binding = row.binding();
@@ -333,6 +333,10 @@ impl AuthRestState {
         if !valid_source {
             return Err(denied());
         }
+        let now = console_platform_auth::authentication_time_tx(&mut tx, OffsetDateTime::now_utc())
+            .await
+            .map_err(DbError::Sqlx)?;
+        claims.validate_expiry_at(now).map_err(|_| denied())?;
         tx.commit().await.map_err(DbError::Sqlx)?;
         let principal = console_platform_request_context::resolve_principal_from_bearer_token(
             &services.jwt_verifier,

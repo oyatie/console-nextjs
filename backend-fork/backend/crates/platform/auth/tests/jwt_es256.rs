@@ -36,6 +36,60 @@ fn es256_issuer() -> JwtIssuer {
 }
 
 #[test]
+fn expiry_uses_trusted_time_and_preserves_delegated_deadline() {
+    let issuer = es256_issuer();
+    let token = issuer
+        .issue_access_token(AccessTokenInput {
+            subject: UserId::new(),
+            org_id: OrgId::knl(),
+            roles: vec!["MEMBER".to_owned()],
+            branches: vec![],
+            platform: false,
+            view_as: false,
+            read_only: false,
+            display_name: None,
+            feature_grants: vec![],
+            authz_subject_version: 0,
+            authz_policy_version: 0,
+            session_generation: 0,
+            issued_at: OffsetDateTime::now_utc(),
+        })
+        .unwrap();
+    let mut claims = issuer.verify_access_token(&token).unwrap();
+    let deadline = OffsetDateTime::from_unix_timestamp(claims.exp).unwrap();
+    assert!(
+        claims
+            .validate_expiry_at(deadline - Duration::seconds(1))
+            .is_ok()
+    );
+    assert!(claims.validate_expiry_at(deadline).is_err());
+    assert!(
+        claims
+            .validate_expiry_at(deadline + Duration::seconds(1))
+            .is_err()
+    );
+    claims.actor_session = Some(console_platform_auth::ActorSession {
+        family_id: uuid::Uuid::new_v4(),
+        expires_at: claims.exp,
+        home_org: OrgId::platform(),
+        subject_version: 0,
+        session_generation: 0,
+    });
+    assert!(
+        claims
+            .validate_expiry_at(deadline - Duration::seconds(1))
+            .is_ok()
+    );
+    assert!(claims.validate_expiry_at(deadline).is_err());
+    claims.exp += 1;
+    assert!(
+        claims
+            .validate_expiry_at(deadline - Duration::seconds(1))
+            .is_err()
+    );
+}
+
+#[test]
 fn es256_access_token_round_trips_with_expected_claims() {
     let issuer = es256_issuer();
 
@@ -537,4 +591,240 @@ fn legacy_access_token_without_freshness_claims_defaults_to_zero() {
     assert_eq!(claims.authz_subject_version, 0);
     assert_eq!(claims.authz_policy_version, 0);
     assert_eq!(claims.session_generation, 0);
+}
+// Provider migration vectors use dedicated offline keys, never service credentials.
+mod provider_interoperability {
+    use jsonwebtoken::{Algorithm, DecodingKey, EncodingKey, Header, Validation, decode, encode};
+    use openssl::{
+        bn::BigNum,
+        ec::{EcGroup, EcKey},
+        ecdsa::EcdsaSig,
+        hash::MessageDigest,
+        nid::Nid,
+        pkey::PKey,
+        rsa::Rsa,
+        sign::{Signer, Verifier},
+    };
+    use serde_json::Value;
+
+    fn fixtures() -> Vec<Value> {
+        let vectors: Value =
+            serde_json::from_str(include_str!("fixtures/jwt_provider_compatibility.json")).unwrap();
+        let cases = vectors["cases"].as_array().unwrap().clone();
+        let observed: Vec<_> = cases
+            .iter()
+            .map(|case| {
+                (
+                    case["name"].as_str().unwrap(),
+                    case["algorithm"].as_str().unwrap(),
+                )
+            })
+            .collect();
+        assert_eq!(
+            observed,
+            vec![
+                ("ES256-PKCS8", "ES256"),
+                ("RS256-PKCS8", "RS256"),
+                ("RS256-PKCS1", "RS256"),
+                ("HS256", "HS256"),
+            ]
+        );
+        cases
+    }
+
+    fn algorithm(case: &Value) -> Algorithm {
+        match case["algorithm"].as_str().unwrap() {
+            "ES256" => Algorithm::ES256,
+            "HS256" => Algorithm::HS256,
+            "RS256" => Algorithm::RS256,
+            other => panic!("unexpected fixture algorithm: {other}"),
+        }
+    }
+
+    fn decoding_key(case: &Value) -> DecodingKey {
+        let pem = case["public_pem"].as_str().unwrap().as_bytes();
+        match algorithm(case) {
+            Algorithm::ES256 => DecodingKey::from_ec_pem(pem).unwrap(),
+            Algorithm::RS256 => DecodingKey::from_rsa_pem(pem).unwrap(),
+            Algorithm::HS256 => {
+                DecodingKey::from_secret(case["secret"].as_str().unwrap().as_bytes())
+            }
+            _ => unreachable!(),
+        }
+    }
+
+    fn encoding_key(case: &Value) -> EncodingKey {
+        let pem = case["private_pem"].as_str().unwrap().as_bytes();
+        match algorithm(case) {
+            Algorithm::ES256 => EncodingKey::from_ec_pem(pem).unwrap(),
+            Algorithm::RS256 => EncodingKey::from_rsa_pem(pem).unwrap(),
+            Algorithm::HS256 => {
+                EncodingKey::from_secret(case["secret"].as_str().unwrap().as_bytes())
+            }
+            _ => unreachable!(),
+        }
+    }
+
+    fn validation(algorithm: Algorithm) -> Validation {
+        let mut validation = Validation::new(algorithm);
+        validation.set_issuer(&["console-provider-compatibility"]);
+        validation.set_audience(&["offline-jwt-compatibility"]);
+        validation.sub = Some("dedicated-test-fixture".to_owned());
+        validation.validate_nbf = true;
+        validation
+    }
+
+    fn decode_url(value: &str) -> Vec<u8> {
+        let mut value = value.replace('-', "+").replace('_', "/");
+        value.extend(std::iter::repeat_n('=', (4 - value.len() % 4) % 4));
+        openssl::base64::decode_block(&value).unwrap()
+    }
+
+    fn encode_url(value: &[u8]) -> String {
+        openssl::base64::encode_block(value)
+            .trim_end_matches('=')
+            .replace('+', "-")
+            .replace('/', "_")
+    }
+
+    #[test]
+    fn old_provider_tokens_preserve_claims_and_reject_tampering_wrong_keys_and_algorithms() {
+        let cases = fixtures();
+        assert_eq!(cases.len(), 4);
+        for case in cases {
+            let algorithm = algorithm(&case);
+            let token = case["token"].as_str().unwrap();
+            let validation = validation(algorithm);
+            let decoded = decode::<Value>(token, &decoding_key(&case), &validation).unwrap();
+            assert_eq!(decoded.claims, case["claims"]);
+            assert_eq!(
+                serde_json::to_value(decoded.header).unwrap(),
+                case["header"]
+            );
+
+            let mut parts: Vec<_> = token.split('.').map(str::to_owned).collect();
+            assert_eq!(parts.len(), 3);
+            let mut signature = decode_url(&parts[2]);
+            signature[0] ^= 1;
+            parts[2] = encode_url(&signature);
+            let tampered = parts.join(".");
+            assert_eq!(
+                decode::<Value>(&tampered, &decoding_key(&case), &validation)
+                    .unwrap_err()
+                    .kind(),
+                &jsonwebtoken::errors::ErrorKind::InvalidSignature
+            );
+
+            let mut parts: Vec<_> = token.split('.').map(str::to_owned).collect();
+            let mut claims = case["claims"].clone();
+            claims["org"] = Value::String("22222222-2222-4222-8222-222222222222".to_owned());
+            claims["roles"] = serde_json::json!(["ADMIN"]);
+            parts[1] = encode_url(&serde_json::to_vec(&claims).unwrap());
+            assert_eq!(
+                decode::<Value>(&parts.join("."), &decoding_key(&case), &validation)
+                    .unwrap_err()
+                    .kind(),
+                &jsonwebtoken::errors::ErrorKind::InvalidSignature
+            );
+
+            let wrong_key = match algorithm {
+                Algorithm::ES256 => {
+                    let group = EcGroup::from_curve_name(Nid::X9_62_PRIME256V1).unwrap();
+                    let key = PKey::from_ec_key(EcKey::generate(&group).unwrap()).unwrap();
+                    DecodingKey::from_ec_pem(&key.public_key_to_pem().unwrap()).unwrap()
+                }
+                Algorithm::RS256 => {
+                    let key = PKey::from_rsa(Rsa::generate(2048).unwrap()).unwrap();
+                    DecodingKey::from_rsa_pem(&key.public_key_to_pem().unwrap()).unwrap()
+                }
+                Algorithm::HS256 => DecodingKey::from_secret(b"independent-wrong-test-key"),
+                _ => unreachable!(),
+            };
+            assert!(decode::<Value>(token, &wrong_key, &validation).is_err());
+            let wrong_algorithm = if algorithm == Algorithm::ES256 {
+                Algorithm::RS256
+            } else {
+                Algorithm::ES256
+            };
+            assert!(
+                decode::<Value>(
+                    token,
+                    &decoding_key(&case),
+                    &self::validation(wrong_algorithm)
+                )
+                .is_err()
+            );
+        }
+    }
+
+    #[test]
+    fn current_provider_signatures_verify_with_independent_openssl() {
+        let cases = fixtures();
+        assert_eq!(cases.len(), 4);
+        for case in cases {
+            let header: Header = serde_json::from_value(case["header"].clone()).unwrap();
+            let token = encode(&header, &case["claims"], &encoding_key(&case)).unwrap();
+            let decoded =
+                decode::<Value>(&token, &decoding_key(&case), &validation(algorithm(&case)))
+                    .unwrap();
+            assert_eq!(decoded.claims, case["claims"]);
+            assert_eq!(
+                serde_json::to_value(decoded.header).unwrap(),
+                case["header"]
+            );
+            let parts: Vec<_> = token.split('.').collect();
+            assert_eq!(parts.len(), 3);
+            let input = format!("{}.{}", parts[0], parts[1]);
+            let mut signature = decode_url(parts[2]);
+            if algorithm(&case) == Algorithm::HS256 {
+                let key = PKey::hmac(case["secret"].as_str().unwrap().as_bytes()).unwrap();
+                let mut signer = Signer::new(MessageDigest::sha256(), &key).unwrap();
+                signer.update(input.as_bytes()).unwrap();
+                assert_eq!(signature, signer.sign_to_vec().unwrap());
+            } else {
+                if algorithm(&case) == Algorithm::ES256 {
+                    assert_eq!(
+                        signature.len(),
+                        64,
+                        "JWS uses fixed-width r/s, not ASN.1 DER"
+                    );
+                    signature = EcdsaSig::from_private_components(
+                        BigNum::from_slice(&signature[..32]).unwrap(),
+                        BigNum::from_slice(&signature[32..]).unwrap(),
+                    )
+                    .unwrap()
+                    .to_der()
+                    .unwrap();
+                }
+                let key =
+                    PKey::public_key_from_pem(case["public_pem"].as_str().unwrap().as_bytes())
+                        .unwrap();
+                let mut verifier = Verifier::new(MessageDigest::sha256(), &key).unwrap();
+                verifier.update(input.as_bytes()).unwrap();
+                assert!(
+                    verifier.verify(&signature).unwrap(),
+                    "fixture {}",
+                    case["name"]
+                );
+            }
+        }
+    }
+
+    #[test]
+    fn sec1_private_key_rejection_is_preserved() {
+        let vectors: Value =
+            serde_json::from_str(include_str!("fixtures/jwt_provider_compatibility.json")).unwrap();
+        let cases = vectors["rejected_cases"].as_array().unwrap();
+        assert_eq!(cases.len(), 1);
+        let case = &cases[0];
+        assert_eq!(case["name"], "ES256-SEC1");
+        assert_eq!(case["algorithm"], "ES256");
+        assert_eq!(case["error_kind"], "InvalidKeyFormat");
+        let error = EncodingKey::from_ec_pem(case["private_pem"].as_str().unwrap().as_bytes())
+            .expect_err("SEC1 is rejected by the existing PEM owner");
+        assert_eq!(
+            error.kind(),
+            &jsonwebtoken::errors::ErrorKind::InvalidKeyFormat
+        );
+    }
 }

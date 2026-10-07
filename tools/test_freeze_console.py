@@ -59,5 +59,37 @@ class SourceClosureTests(unittest.TestCase):
             self.assertEqual(list(Path(temp).glob(".console-freeze-*")), [])
 
 
+FIXTURE = "backend/crates/platform/auth/tests/fixtures/jwt_provider_compatibility.json"
+SOURCE = Path(__file__).resolve().parents[1] / "backend-fork" / FIXTURE
+
+
+class ReviewedTestKeyCustodyTests(unittest.TestCase):
+    def test_exact_reviewed_keys_only_and_unchanged_symlink_boundary(self):
+        data = SOURCE.read_bytes()
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            path = root / FIXTURE
+            path.parent.mkdir(parents=True)
+            path.write_bytes(data)
+            self.assertEqual(freeze.read_file(root, FIXTURE)[0], data)
+            path.write_bytes(data + b" ")
+            with self.assertRaisesRegex(ValueError, "private-key marker"):
+                freeze.read_file(root, FIXTURE)
+            other = root / "other.json"
+            other.write_bytes(data)
+            with self.assertRaisesRegex(ValueError, "private-key marker"):
+                freeze.read_file(root, "other.json")
+            path.unlink()
+            path.symlink_to(other)
+            with self.assertRaisesRegex(ValueError, "symlink"):
+                freeze.read_file(root, FIXTURE)
+            path.unlink()
+            path.parent.rmdir()
+            path.parent.symlink_to(other.parent)
+            with self.assertRaisesRegex(ValueError, "symlink"):
+                freeze.read_file(root, FIXTURE)
+
+
+
 if __name__ == "__main__":
     unittest.main()

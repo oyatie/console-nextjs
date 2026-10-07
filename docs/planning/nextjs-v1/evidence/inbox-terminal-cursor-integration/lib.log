@@ -1,0 +1,30 @@
+NOTICE:  topology.canonical_enforcement: examined 0 canonical tables []
+topology: eight application roles reconciled and verified
+NOTICE:  database "canonical_probe_65920" does not exist, skipping
+NOTICE:  topology.canonical_enforcement: examined 0 canonical tables []
+topology: eight application roles reconciled and verified
+psql:/canonical-migrations/0023_coldstart_revoke_fixed_seed.sql:29: NOTICE:  extension "pgcrypto" already exists, skipping
+psql:/canonical-migrations/0118_search_trgm_indexes.sql:7: NOTICE:  extension "pg_trgm" already exists, skipping
+psql:/canonical-migrations/0193_maintenance_gaps.sql:136: NOTICE:  identifier "equipment_maintenance_history_evidence_require_verified_snapshot" will be truncated to "equipment_maintenance_history_evidence_require_verified_snapsho"
+psql:/canonical-migrations/0193_maintenance_gaps.sql:167: NOTICE:  identifier "equipment_maintenance_history_evidence_require_verified_snapshot" will be truncated to "equipment_maintenance_history_evidence_require_verified_snapsho"
+psql:/canonical-migrations/0207_create_erasure_ledger.sql:131: NOTICE:  extension "pgcrypto" already exists, skipping
+NOTICE:  topology.canonical_enforcement: examined 20 canonical tables [company_revisions,employee_person_bindings,employees,employment_heads,employment_revisions,employment_source_bindings,job_position_revisions,job_positions,org_unit_revisions,org_unit_source_bindings,org_units,organizations,payroll_disbursements,payroll_draft_lines,payroll_draft_runs,payroll_line_calculations,payroll_payslip_deliveries,payroll_run_exceptions,person_revisions,persons]
+topology: eight application roles reconciled and verified
+canonical-enforce: enforced on canonical_probe_65920, examined 20 tables [company_revisions,employee_person_bindings,employees,employment_heads,employment_revisions,employment_source_bindings,job_position_revisions,job_positions,org_unit_revisions,org_unit_source_bindings,org_units,organizations,payroll_disbursements,payroll_draft_lines,payroll_draft_runs,payroll_line_calculations,payroll_payslip_deliveries,payroll_run_exceptions,person_revisions,persons]
+postgres ready on 33418
+   Compiling console-inbox-adapter-postgres v0.1.0 (/Users/jasonlee/Developer/frontend/.worktrees/inbox-terminal-cursor/backend-fork/backend/crates/inbox/adapter-postgres)
+   Compiling console-inbox-rest v0.1.0 (/Users/jasonlee/Developer/frontend/.worktrees/inbox-terminal-cursor/backend-fork/backend/crates/inbox/rest)
+    Finished `test` profile [unoptimized] target(s) in 33.08s
+     Running unittests src/lib.rs (/Users/jasonlee/Developer/frontend/.artifacts/cargo-target/debug/deps/console_inbox_adapter_postgres-132d3c208cdb048f)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/lib.rs (/Users/jasonlee/Developer/frontend/.artifacts/cargo-target/debug/deps/console_inbox_rest-8b69e9cf375e68e6)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+clean: console-conformance-65920 removed with its volume

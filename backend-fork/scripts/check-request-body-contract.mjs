@@ -37,9 +37,9 @@ const ENUM_ANCHORS = [
 ];
 
 const RESOLVED_FLOOR = 45;
-const CENSUS_FLOOR = 291;
+const CENSUS_FLOOR = 294;
 const ENUM_RESOLVED_FLOOR = 7;
-const BODY_UNDECIDABLE_MAX = 238;
+const BODY_UNDECIDABLE_MAX = 239;
 const ENUM_UNDECIDABLE_MAX = 15;
 const REGISTER_VERSION = 1;
 const REGISTER_PATH = "scripts/request-body-contract-undecidable.json";
@@ -585,7 +585,7 @@ function moduleScopeHead(source, projection, start, end, file, modulePath) {
   return { cursor, ...innerModuleAttributeInfo(attributes, file, modulePath) };
 }
 
-function moduleHead(authored, projection, file, terminator) {
+function outerItemHead(authored, projection, file) {
   let cursor = skipProjectedWhitespace(projection, 0);
   const attributes = [];
   while (projection.startsWith("#[", cursor)) {
@@ -599,8 +599,13 @@ function moduleHead(authored, projection, file, terminator) {
   if (projection.startsWith("#![", cursor)) {
     throw new Error(`inner module attribute outside the start of a scope in ${file}`);
   }
+  return { attributes, declaration: projection.slice(cursor) };
+}
+
+function moduleHead(authored, projection, file, terminator) {
+  const { attributes, declaration: head } = outerItemHead(authored, projection, file);
   const ending = terminator === ";" ? ";" : "";
-  const declaration = projection.slice(cursor).match(new RegExp(
+  const declaration = head.match(new RegExp(
     `^(?:pub(?:\\s*\\([^)]*\\))?\\s+)?(?:unsafe\\s+)?mod\\s+((?:r#)?[A-Za-z_][A-Za-z0-9_]*)\\s*${ending}\\s*$`,
   ));
   if (!declaration) return null;
@@ -649,7 +654,7 @@ function moduleScopes(
           const head = surface.slice(itemStart - start, index - start).join("");
           const authoredHead = source.slice(itemStart, index);
           const inlineModule = moduleHead(authoredHead, head, file, "{");
-          const useGroup = /^\s*(?:#\[[\s\S]*?\]\s*)*(?:pub(?:\s*\([^)]*\))?\s+)?use\s+(?:(?:(?:r#)?[A-Za-z_][A-Za-z0-9_]*)\s*::\s*)*$/.test(head);
+          const useGroup = /^(?:pub(?:\s*\([^)]*\))?\s+)?use\s+(?:(?:(?:r#)?[A-Za-z_][A-Za-z0-9_]*)\s*::\s*)*$/.test(outerItemHead(authoredHead, head, file).declaration);
           if (inlineModule) {
             const pathBase = insideInline ? moduleDirectory : dirname(absoluteFile);
             const childDirectory = inlineModule.path === null

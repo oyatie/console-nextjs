@@ -245,7 +245,7 @@ async fn platform_group_crud_assigns_subsidiaries_and_audits(pool: PgPool) {
         )),
     )
     .await;
-    assert_eq!(status, StatusCode::CREATED, "{created_account:?}");
+    assert_eq!(status, StatusCode::CREATED);
     assert!(created_account["otp"].as_str().unwrap().len() >= 8);
     let account = &created_account["account"];
     let account_user_id = Uuid::parse_str(account["user_id"].as_str().unwrap()).unwrap();

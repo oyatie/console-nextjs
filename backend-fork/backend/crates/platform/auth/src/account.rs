@@ -31,7 +31,7 @@ pub async fn authentication_time_tx(
     let current: OffsetDateTime = sqlx::query_scalar("SELECT clock_timestamp()")
         .fetch_one(tx.as_mut())
         .await?;
-    Ok(trusted.max(current))
+    Ok(trusted.max(current).max(OffsetDateTime::now_utc()))
 }
 
 /// Both HTTP aliases share the count, ownership check, deletion and audit.

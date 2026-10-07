@@ -1814,24 +1814,25 @@ async fn browser_attendance(
     let org = session.principal.org_id;
     let user = session.principal.user_id;
     record_hr_read("employee_attendance_self");
-    let (context, history) = match console_platform_request_context::scope_org(org,
+    let (context, history, observed_at) = match console_platform_request_context::scope_org(org,
         with_org_snapshot::<_, _, HrError>(&pool, org, move |tx| {
             Box::pin(async move {
                 let names: (String, String) = sqlx::query_as(
                     "SELECT o.name,u.display_name FROM users u JOIN organizations o ON o.id=u.org_id WHERE u.id=$1 AND u.org_id=$2 AND u.is_active AND o.status='ACTIVE'",
                 ).bind(*user.as_uuid()).bind(*org.as_uuid()).fetch_one(tx.as_mut()).await?;
                 let (linked, history) = own_attendance_in_tx(tx, org, user, body.limit, body.offset).await?;
+                let now = console_platform_auth::authentication_time_tx(tx, OffsetDateTime::now_utc()).await?;
                 Ok((BrowserAttendanceContext {
                     company_id: *org.as_uuid(), company_name: names.0,
                     account_display_name: names.1, employee_linked: linked,
-                }, history))
+                }, history, now))
             })
         })
     ).await {
         Ok(result) => result,
         Err(error) => return error.into_response(),
     };
-    if session.expires_at <= OffsetDateTime::now_utc() {
+    if session.expires_at <= observed_at.max(OffsetDateTime::now_utc()) {
         return (StatusCode::UNAUTHORIZED, "browser session expired").into_response();
     }
     Json(BrowserAttendanceResponse {

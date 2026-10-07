@@ -85,7 +85,8 @@ hex = "0.4.3"
 url = "2.5.8"
 bytes = "1.11.1"
 # Version verified live against crates.io 2026-06-12: jsonwebtoken 10.4.0.
-jsonwebtoken = { version = "10.4.0", default-features = false, features = ["rust_crypto", "use_pem"] }
+# One workspace provider: AWS-LC avoids the vulnerable RustCrypto rsa crate.
+jsonwebtoken = { version = "10.4.0", default-features = false, features = ["aws_lc_rs", "use_pem"] }
 # apalis 1.0.0-rc.9, apalis-postgres 1.0.0-rc.8, apalis-sql 1.0.0-rc.9.
 # No stable apalis 1.0.0 release was available at verification time.
 apalis = { version = "=1.0.0-rc.9" }
@@ -158,7 +159,8 @@ subtle = "2.6.1"
 # matches the resolved IP against the RFC1918 / loopback / link-local / ULA /
 # CGNAT denylist. hickory-resolver brings its own tokio runtime integration and
 # does NOT add a second rustls stack (it speaks plain UDP/TCP DNS by default).
-hickory-resolver = "0.26.1"
+# Security floor; the lock keeps resolver/net/proto on the reviewed patch.
+hickory-resolver = "0.26.2"
 ipnet = "2.12.0"
 # Inbound IMAP sync (B-mail-3). Versions verified live against the crates.io
 # index 2026-06-23: async-imap 0.11.2, mail-parser 0.11.4, tokio-rustls 0.26.4,
@@ -176,7 +178,7 @@ ipnet = "2.12.0"
 async-imap = { version = "0.11.2", default-features = false, features = ["runtime-tokio"] }
 mail-parser = "0.11.4"
 tokio-rustls = { version = "0.26.4", default-features = false, features = ["ring", "tls12"] }
-rustls = { version = "0.23", default-features = false, features = ["ring", "std", "tls12"] }
+rustls = { version = "0.23.45", default-features = false, features = ["ring", "std", "tls12"] }
 webpki-roots = "1.0.8"
 futures = { version = "0.3.32", default-features = false, features = ["std"] }
 

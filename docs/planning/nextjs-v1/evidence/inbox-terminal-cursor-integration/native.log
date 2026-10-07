@@ -1,0 +1,38 @@
+NOTICE:  topology.canonical_enforcement: examined 0 canonical tables []
+topology: eight application roles reconciled and verified
+NOTICE:  database "canonical_probe_32740" does not exist, skipping
+NOTICE:  topology.canonical_enforcement: examined 0 canonical tables []
+topology: eight application roles reconciled and verified
+psql:/canonical-migrations/0023_coldstart_revoke_fixed_seed.sql:29: NOTICE:  extension "pgcrypto" already exists, skipping
+psql:/canonical-migrations/0118_search_trgm_indexes.sql:7: NOTICE:  extension "pg_trgm" already exists, skipping
+psql:/canonical-migrations/0193_maintenance_gaps.sql:136: NOTICE:  identifier "equipment_maintenance_history_evidence_require_verified_snapshot" will be truncated to "equipment_maintenance_history_evidence_require_verified_snapsho"
+psql:/canonical-migrations/0193_maintenance_gaps.sql:167: NOTICE:  identifier "equipment_maintenance_history_evidence_require_verified_snapshot" will be truncated to "equipment_maintenance_history_evidence_require_verified_snapsho"
+psql:/canonical-migrations/0207_create_erasure_ledger.sql:131: NOTICE:  extension "pgcrypto" already exists, skipping
+NOTICE:  topology.canonical_enforcement: examined 20 canonical tables [company_revisions,employee_person_bindings,employees,employment_heads,employment_revisions,employment_source_bindings,job_position_revisions,job_positions,org_unit_revisions,org_unit_source_bindings,org_units,organizations,payroll_disbursements,payroll_draft_lines,payroll_draft_runs,payroll_line_calculations,payroll_payslip_deliveries,payroll_run_exceptions,person_revisions,persons]
+topology: eight application roles reconciled and verified
+canonical-enforce: enforced on canonical_probe_32740, examined 20 tables [company_revisions,employee_person_bindings,employees,employment_heads,employment_revisions,employment_source_bindings,job_position_revisions,job_positions,org_unit_revisions,org_unit_source_bindings,org_units,organizations,payroll_disbursements,payroll_draft_lines,payroll_draft_runs,payroll_line_calculations,payroll_payslip_deliveries,payroll_run_exceptions,person_revisions,persons]
+postgres ready on 33416
+    Blocking waiting for file lock on package cache
+   Compiling console-platform-db v0.1.0 (/Users/jasonlee/Developer/frontend/.worktrees/inbox-terminal-cursor/backend-fork/backend/crates/platform/db)
+   Compiling console-platform-authz v0.1.0 (/Users/jasonlee/Developer/frontend/.worktrees/inbox-terminal-cursor/backend-fork/backend/crates/platform/authz)
+   Compiling console-platform-group v0.1.0 (/Users/jasonlee/Developer/frontend/.worktrees/inbox-terminal-cursor/backend-fork/backend/crates/platform/group)
+   Compiling console-platform-auth v0.1.0 (/Users/jasonlee/Developer/frontend/.worktrees/inbox-terminal-cursor/backend-fork/backend/crates/platform/auth)
+   Compiling console-platform-request-context v0.1.0 (/Users/jasonlee/Developer/frontend/.worktrees/inbox-terminal-cursor/backend-fork/backend/crates/platform/request-context)
+   Compiling console-inbox-adapter-postgres v0.1.0 (/Users/jasonlee/Developer/frontend/.worktrees/inbox-terminal-cursor/backend-fork/backend/crates/inbox/adapter-postgres)
+    Finished `test` profile [unoptimized] target(s) in 2m 33s
+     Running tests/inbox_docs_rls_surfaces_as_runtime_role.rs (/Users/jasonlee/Developer/frontend/.artifacts/cargo-target/debug/deps/inbox_docs_rls_surfaces_as_runtime_role-46ee8b168e8666b7)
+
+running 9 tests
+test concurrent_dedup_collision_revalidates_the_committed_document ... ok
+test dedup_redelivery_requires_every_immutable_field_and_preserves_the_receipt ... ok
+test filters_and_dedup_idempotency ... ok
+test foreign_cursors_fail_closed_and_owned_chronological_anchors_survive_filter_changes ... ok
+test full_terminal_page_ignores_other_recipients_companies_and_kinds ... ok
+test legal_notice_lock_confirm_and_cross_user_isolation ... ok
+test maximum_page_size_is_bounded_and_exact_full_tail_terminates ... ok
+test payslip_is_frictionless_and_never_receipt_confirmed ... ok
+test tied_timestamps_page_without_gaps_duplicates_or_phantom_next ... ok
+
+test result: ok. 9 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 32.53s
+
+clean: console-conformance-32740 removed with its volume

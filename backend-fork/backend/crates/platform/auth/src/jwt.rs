@@ -180,7 +180,12 @@ pub struct AccessClaims {
 impl AccessClaims {
     /// No grace beyond a signed session deadline, including after database waits.
     pub fn validate_expiry(&self) -> Result<(), AuthError> {
-        let now = time::OffsetDateTime::now_utc().unix_timestamp();
+        self.validate_expiry_at(time::OffsetDateTime::now_utc())
+    }
+
+    /// Use the authentication owner's trusted time after current-authority reads.
+    pub fn validate_expiry_at(&self, now: time::OffsetDateTime) -> Result<(), AuthError> {
+        let now = now.unix_timestamp();
         if self.exp <= now
             || self
                 .actor_session

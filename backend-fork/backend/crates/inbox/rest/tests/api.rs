@@ -29,7 +29,7 @@ use console_platform_auth::{
 };
 use console_platform_authz::Feature;
 use console_platform_db::{DbError, with_audit};
-use console_platform_test_support::runtime_role_pool;
+use console_platform_test_support::{issue_session_token, runtime_role_pool};
 use http::{Request, StatusCode, header};
 use p256::ecdsa::SigningKey;
 use p256::elliptic_curve::rand_core::OsRng;
@@ -144,17 +144,21 @@ async fn inbox_receipt_flow_is_person_scoped_and_passkey_gated(pool: PgPool) {
             .with_passkey_step_up(Some(passkey_service())),
     );
     let token_a = issue_token(
+        &pool,
         private_pem.as_bytes(),
         public_key_pem.as_bytes(),
         user_a,
         &["ADMIN"],
-    );
+    )
+    .await;
     let token_b = issue_token(
+        &pool,
         private_pem.as_bytes(),
         public_key_pem.as_bytes(),
         user_b,
         &["ADMIN"],
-    );
+    )
+    .await;
 
     // A lists action-required: sees exactly its own locked legal notice.
     let list = get_json(
@@ -311,17 +315,21 @@ async fn inbox_payslip_filter_is_person_scoped_and_not_receipt_gated(pool: PgPoo
     assert_ne!(payslip.id, legal.id);
 
     let token_a = issue_token(
+        &pool,
         private_pem.as_bytes(),
         public_key_pem.as_bytes(),
         user_a,
         &["MEMBER"],
-    );
+    )
+    .await;
     let token_b = issue_token(
+        &pool,
         private_pem.as_bytes(),
         public_key_pem.as_bytes(),
         user_b,
         &["MEMBER"],
-    );
+    )
+    .await;
     let verifier = JwtVerifier::from_es256_public_pem(
         JwtSettings {
             issuer: TEST_ISSUER.to_owned(),
@@ -679,7 +687,8 @@ async fn into_json(response: axum::response::Response) -> JsonResponse {
     JsonResponse { status, json }
 }
 
-fn issue_token(
+async fn issue_token(
+    pool: &PgPool,
     private_key_pem: &[u8],
     public_key_pem: &[u8],
     user_id: UserId,
@@ -695,8 +704,10 @@ fn issue_token(
         public_key_pem,
     )
     .unwrap();
-    issuer
-        .issue_access_token(AccessTokenInput {
+    issue_session_token(
+        pool,
+        &issuer,
+        AccessTokenInput {
             subject: user_id,
             org_id: OrgId::knl(),
             roles: roles.iter().map(|role| (*role).to_owned()).collect(),
@@ -710,8 +721,11 @@ fn issue_token(
             authz_policy_version: 0,
             session_generation: 0,
             issued_at: OffsetDateTime::now_utc(),
-        })
-        .unwrap()
+        },
+        None,
+        Vec::new(),
+    )
+    .await
 }
 
 async fn seed_user(pool: &PgPool, user_id: UserId, name: &str, roles: &[&str]) {

@@ -8,8 +8,8 @@ import {
   createVerify,
   generateKeyPairSync,
 } from "node:crypto";
-import { mkdir, readFile, writeFile } from "node:fs/promises";
-import { dirname } from "node:path";
+import { link, mkdtemp, open, readFile, realpath, rm, stat } from "node:fs/promises";
+import { basename, dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { createEvidenceRecord, assertEvidenceSafe } from "./evidence-ledger.mjs";
 import { sha256, stableJson } from "./adapter-sdk.mjs";
@@ -398,14 +398,43 @@ async function runCli(argv) {
   } else {
     result = runLocalCertificateLoginFixture(args);
   }
-  await mkdir(dirname(args.outPath), { recursive: true });
-  await writeFile(args.outPath, `${JSON.stringify(result, null, 2)}\n`, "utf8");
-  console.log(JSON.stringify({ ok: true, out: args.outPath, execution_mode: result.execution_mode, accepted_boundary: result.server_envelope.accepted_boundary }, null, 2));
+  const parent = await realpath(dirname(args.outPath));
+  for (let directory = parent;; directory = dirname(directory)) {
+    const info = await stat(directory);
+    if (!info.isDirectory() || (info.uid !== 0 && info.uid !== process.getuid?.())) {
+      throw new Error("untrusted output directory");
+    }
+    if (directory === parent && info.uid !== process.getuid?.()) {
+      throw new Error("output directory must belong to the operator");
+    }
+    const stickyAncestor = directory !== parent && info.uid === 0 && (info.mode & 0o1000);
+    if ((info.mode & 0o022) && !stickyAncestor) {
+      throw new Error("writable output directory");
+    }
+    if (directory === dirname(directory)) break;
+  }
+  // The operator also trusts OS ACLs; publish through this validated canonical parent.
+  const destination = join(parent, basename(args.outPath));
+  const stage = await mkdtemp(join(parent, ".private-artifact-"));
+  try {
+    const staged = join(stage, "content");
+    const output = await open(staged, "wx", 0o600);
+    try {
+      await output.writeFile(`${JSON.stringify(result, null, 2)}\n`, "utf8");
+      await output.sync();
+    } finally {
+      await output.close();
+    }
+    await link(staged, destination);
+  } finally {
+    await rm(stage, { recursive: true, force: true });
+  }
+  console.log(JSON.stringify({ ok: true, execution_mode: result.execution_mode, accepted_boundary: result.server_envelope.accepted_boundary }, null, 2));
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
-  runCli(process.argv.slice(2)).catch((error) => {
-    console.error(error.message);
+  runCli(process.argv.slice(2)).catch(() => {
+    console.error("local certificate agent failed");
     process.exit(1);
   });
 }

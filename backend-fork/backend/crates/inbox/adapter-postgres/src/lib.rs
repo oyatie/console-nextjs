@@ -229,7 +229,8 @@ impl PgInboxStore {
                     builder.push(")");
                 }
                 builder.push(" ORDER BY created_at DESC, id DESC LIMIT ");
-                builder.push_bind(limit);
+                // A full page is terminal unless another eligible row exists.
+                builder.push_bind(limit + 1);
                 Ok(builder.build().fetch_all(tx.as_mut()).await?)
             })
         })
@@ -237,9 +238,10 @@ impl PgInboxStore {
 
         let items = rows
             .iter()
+            .take(limit as usize)
             .map(summary_from_row)
             .collect::<Result<Vec<_>, _>>()?;
-        let next_cursor = (items.len() as i64 == limit)
+        let next_cursor = (rows.len() as i64 > limit)
             .then(|| items.last().map(|item| item.id))
             .flatten();
         Ok(InboxDocPage { items, next_cursor })

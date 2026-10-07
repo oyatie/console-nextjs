@@ -21,7 +21,7 @@ webauthn-rs = { version = "0.5.5", features = [
     "danger-allow-state-serialisation",
     "conditional-ui",
 ] }
-jsonwebtoken = { version = "10.4.0", default-features = false, features = ["rust_crypto", "use_pem"] }
+jsonwebtoken = { workspace = true }
 sha2 = "0.11.0"
 url = "2.5.8"
 # Force the lockfile-pinned OpenSSL source into the auth test closure. The

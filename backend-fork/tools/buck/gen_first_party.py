@@ -262,6 +262,7 @@ TEST_RESOURCE_REQUIREMENTS = {
             'tests/org_change_api.rs': 'postgres',
             'tests/persona_ess_http.rs': 'postgres',
             'tests/platform_onboarding_e2e.rs': 'postgres',
+            'tests/policy_bulk_admission_api.rs': 'postgres',
             'tests/purchase_request_collection_api.rs': 'postgres',
             'tests/realtime_ws.rs': 'postgres',
             'tests/realtime_authority.rs': 'postgres',

@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import { createHash, randomUUID } from "node:crypto";
 import { setTimeout as delay } from "node:timers/promises";
 import { browserFailureLocation } from "./browser-business-failure.mjs";
+import { assertReadCookies } from "./browser-business-temporal.mjs";
 
 const LOGIN = "/login/";
 const LOGOUT = "/api/browser-session/logout/";
@@ -19,6 +20,21 @@ function selectedCookie(cookies, session) {
 }
 function cookieState(cookies) {
   return cookies.map((cookie) => ({ ...cookie })).sort((a, b) => a.name.localeCompare(b.name));
+}
+export async function waitForRestoreCookiePrerequisites(context) {
+  const preauth = (cookie) => cookie.name.startsWith("__Host-console-preauth-");
+  let cookies = await context.cookies();
+  const original = cookies;
+  const stable = cookieState(cookies.filter((cookie) => !preauth(cookie)));
+  const deadline = performance.now() + 70_000;
+  while (cookies.some(preauth)) {
+    if (performance.now() >= deadline) throw new Unreached("preexisting preauth cookies did not naturally expire before restore proof");
+    await delay(1000);
+    cookies = await context.cookies();
+    assertReadCookies(original, cookies, Date.now() / 1000);
+    assert.deepEqual(cookieState(cookies.filter((cookie) => !preauth(cookie))), stable,
+      "waiting for preauth expiry must preserve every other cookie");
+  }
 }
 async function until(predicate, timeout) {
   const deadline = Date.now() + timeout;
@@ -395,6 +411,7 @@ async function cacheVariant(h, mode) {
   const cacheFailures = [];
   let cacheObserver;
   let mainFrameId;
+  let exactMainCacheRestores = 0;
   const queuedPhaseTimeline = [];
   const queuedVariantStartedAt = performance.now();
   let queuedBackIssued = false;
@@ -409,8 +426,11 @@ async function cacheVariant(h, mode) {
   }
   const frameNavigatedListener = ({ frame, type }) => {
     try {
-      if (frame?.id === mainFrameId && frame.url === url) recordQueuedPhase("exact-main-frame-commit", {
-        navigation_type: ["Navigation", "BackForwardCacheRestore"].includes(type) ? type : "unrecognized" });
+      if (frame?.id === mainFrameId && frame.url === url) {
+        if (type === "BackForwardCacheRestore") exactMainCacheRestores = Math.min(32, exactMainCacheRestores + 1);
+        recordQueuedPhase("exact-main-frame-commit", {
+          navigation_type: ["Navigation", "BackForwardCacheRestore"].includes(type) ? type : "unrecognized" });
+      }
     } catch { /* Passive fixed metadata cannot replace the actual outcome. */ }
   };
   function assertOriginalPrivateHidden(snapshot) {
@@ -429,14 +449,19 @@ async function cacheVariant(h, mode) {
     "InjectedJavascript", "InjectedStyleSheet", "KeepaliveRequest", "CacheLimitPrunedOnModerateMemoryPressure",
     "CacheLimitPrunedOnCriticalMemoryPressure", "ContentWebAuthenticationAPI", "Unknown",
   ]);
-  const cacheFailureListener = ({ notRestoredExplanations }) => {
-    for (const explanation of notRestoredExplanations ?? []) {
-      if (cacheFailures.length >= 32) break;
-      const type = ["SupportPending", "PageSupportNeeded", "Circumstantial"].includes(explanation.type)
-        ? explanation.type : "unrecognized";
-      const reason = cacheReasonAllowlist.has(explanation.reason) ? explanation.reason : "unrecognized";
-      cacheFailures.push({ type, reason });
-    }
+  const cacheFailureListener = ({ frameId, notRestoredExplanations }) => {
+    try {
+      if (frameId !== mainFrameId) return;
+      for (const explanation of notRestoredExplanations ?? []) {
+        if (cacheFailures.length >= 32) break;
+        const type = ["SupportPending", "PageSupportNeeded", "Circumstantial"].includes(explanation.type)
+          ? explanation.type : "unrecognized";
+        const reason = cacheReasonAllowlist.has(explanation.reason) ? explanation.reason : "unrecognized";
+        // This owned page issues one history Back to the exact original URL.
+        // Keep main-frame failures even when that navigation never commits.
+        cacheFailures.push({ type, reason });
+      }
+    } catch { /* Passive fixed metadata cannot replace the actual outcome. */ }
   };
   const evidence = { mode, blocked_scripts: 0, blocked_styles: 0, transformed_documents: [] };
   let readGate; let back; let queuedResponse; let original; let consumedFault = false;
@@ -522,14 +547,12 @@ async function cacheVariant(h, mode) {
   const routed = ["blocked-bundles", "blocked-css-bundles", "delayed-bundles", "missing-guard", "thrown-guard"].includes(mode);
   try {
     probe = await installProbe(page, h.guardContract.privateRegionSelector, actor.facts, queued, mode === "delayed-bundles");
-    if (queued) {
-      queuedCheckpoint = "cache-observer";
-      cacheObserver = await actor.context.newCDPSession(page);
-      cacheObserver.on("Page.backForwardCacheNotUsed", cacheFailureListener);
-      cacheObserver.on("Page.frameNavigated", frameNavigatedListener);
-      mainFrameId = (await cacheObserver.send("Page.getFrameTree")).frameTree.frame.id;
-      await cacheObserver.send("Page.enable");
-    }
+    if (queued) queuedCheckpoint = "cache-observer";
+    cacheObserver = await actor.context.newCDPSession(page);
+    cacheObserver.on("Page.backForwardCacheNotUsed", cacheFailureListener);
+    cacheObserver.on("Page.frameNavigated", frameNavigatedListener);
+    mainFrameId = (await cacheObserver.send("Page.getFrameTree")).frameTree.frame.id;
+    await cacheObserver.send("Page.enable");
     if (routed) await page.route("**/*", intercept);
     if (queued) queuedCheckpoint = "initial-document";
     const response = await page.goto(url, { waitUntil: mode === "delayed-bundles" ? "commit" : "domcontentloaded" });
@@ -743,6 +766,12 @@ async function cacheVariant(h, mode) {
     return evidence;
   } catch (error) {
     primaryError = error;
+    const cacheObservation = {
+      not_restored_reasons: cacheFailures.map((entry) => ({ ...entry })),
+      exact_main_cache_restores: exactMainCacheRestores,
+      trusted_departures: (probe?.events ?? []).filter((event) => event.event === "pagehide" && event.trusted && event.document === original).length,
+      trusted_original_restores: (probe?.events ?? []).filter((event) => event.event === "pageshow" && event.trusted && event.persisted && event.document === original).length,
+    };
     if (queued) error.cacheObservation = {
       queued_checkpoint: queuedCheckpoint,
       failure_location: browserFailureLocation(error) ?? null,
@@ -752,11 +781,9 @@ async function cacheVariant(h, mode) {
       // Copy at failure reporting; late callbacks/cleanup cannot rewrite it.
       queued_phase_timeline: queuedPhaseTimeline.map((entry) => ({ ...entry,
         ...(entry.cdp_rejection ? { cdp_rejection: { ...entry.cdp_rejection } } : {}) })),
-      not_restored_reasons: cacheFailures,
-      trusted_departures: (probe?.events ?? []).filter((event) => event.event === "pagehide" && event.trusted && event.document === original).length,
-      trusted_original_restores: (probe?.events ?? []).filter((event) => event.event === "pageshow" && event.trusted && event.persisted && event.document === original).length,
+      ...cacheObservation,
     };
-    else error.cacheObservation = { mode, failure_location: browserFailureLocation(error) ?? null };
+    else error.cacheObservation = { mode, failure_location: browserFailureLocation(error) ?? null, ...cacheObservation };
     throw error;
   } finally {
     tearingDown = true;
@@ -802,12 +829,16 @@ export async function runRestoreScenarios(h) {
   let prerequisites; let prerequisiteStatus = "unreached"; let prerequisiteReason;
   try {
     if (typeof h.control !== "function") throw new Unreached("actual native owner-control adapter absent");
+    // P14 preserves a rejected preauth cookie. Chromium notices its natural
+    // expiry on a later request/read and evicts no-store cached documents.
+    // Drain that unrelated lifetime before any original restore document loads.
+    await waitForRestoreCookiePrerequisites(h.actors.get("a").context);
     h.guardContract = await measureGuard(h); // Complete before installing any HTML/script/network fault.
     await h.logout("a"); // Close measured A generation before each variant creates its own.
     prerequisites = true;
   } catch (error) {
     prerequisiteStatus = isPrerequisite(error) ? "unreached" : "failed";
-    prerequisiteReason = isPrerequisite(error) ? error.message : "actual unfaulted guard-measurement assertion failed";
+    prerequisiteReason = isPrerequisite(error) ? error.message : "actual restore-prerequisite assertion failed";
   }
   for (const [id, variants] of [
     ["P15", [["ordinary-logout-back", ordinaryLogoutBack], ["native-revocation-real-bfcache", (input) => cacheVariant(input, "normal")]]],

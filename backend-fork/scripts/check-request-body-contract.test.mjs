@@ -123,9 +123,9 @@ function assertLiveCycleKindProbationFinding(root) {
       enumSkipped: report.enumSkipped,
     },
     {
-      population: 291,
-      resolved: 53,
-      skipped: 238,
+      population: 294,
+      resolved: 55,
+      skipped: 239,
       enumCandidates: 22,
       enumResolved: 7,
       enumSkipped: 15,
@@ -263,6 +263,31 @@ const camelDeny = '#[serde(rename_all = "camelCase", deny_unknown_fields)]';
 const widgetOperation = "POST /api/v1/widgets/{widget_id}/consumptions";
 
 describe("request body contract gate", () => {
+  it("parses many outer attributes within the bounded CLI run", () => {
+    const root = widgetFixture({
+      derive: camelDeny,
+      fields: "    quantity_consumed_milli: i64,",
+      required: ["quantityConsumedMilli"],
+      properties: "quantityConsumedMilli: { type: integer }",
+    });
+    writeObservedRegister(root);
+    const source = join(root, "backend/crates/widget/rest/src/lib.rs");
+    writeFileSync(source, `${readFileSync(source, "utf8")}\n${"#[allow(dead_code)]\n".repeat(64)}fn many_attributes() {}\n`);
+
+    const result = spawnSync(process.execPath, [cli, root, "--json"], {
+      encoding: "utf8",
+      timeout: 5000,
+    });
+    assert.equal(result.error, undefined);
+    // This one-operation fixture must retain the existing production census floors.
+    assert.equal(result.status, 1, result.stderr);
+    const report = JSON.parse(result.stdout);
+    assert.equal(report.population, 1);
+    assert.equal(report.resolved, 1);
+    assert.deepEqual(report.findings, []);
+    assert.deepEqual(report.registerFindings, []);
+  });
+
   it("reports a spec property the struct's rename_all makes unreachable", () => {
     // rename_all = "camelCase" + deny_unknown_fields means a snake_case body field is a
     // guaranteed 422, not a maybe.
@@ -900,9 +925,9 @@ describe("request body enum-variant contract", () => {
         enumSkipped: report.enumSkipped,
       },
       {
-        population: 291,
-        resolved: 53,
-        skipped: 238,
+        population: 294,
+        resolved: 55,
+        skipped: 239,
         enumCandidates: 22,
         enumResolved: 7,
         enumSkipped: 15,
@@ -2123,9 +2148,9 @@ describe("live request body census", () => {
   it("binds the exact source-first body and enum populations to the reviewed register", () => {
     const report = evaluateRequestBodyContract({ repoRoot });
 
-    assert.equal(report.population, 291);
-    assert.equal(report.resolved, 53);
-    assert.equal(report.skipped, 238);
+    assert.equal(report.population, 294);
+    assert.equal(report.resolved, 55);
+    assert.equal(report.skipped, 239);
     assert.equal(report.enumCandidates, 22);
     assert.equal(report.enumResolved, 7);
     assert.equal(report.enumSkipped, 15);
