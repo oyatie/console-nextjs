@@ -140,7 +140,7 @@ jobs:
         working-directory: backend-fork/backend
         run: |
           cargo test --locked -p console-app --lib office::tests -- --test-threads=1
-          cargo test --locked -p console-comms-adapter-smtp -p console-comms-adapter-imap -p console-platform-email -p console-platform-storage --lib -- --test-threads=1
+          bash "$GITHUB_WORKSPACE/backend-fork/tools/lanes/pgtest.sh" "$GITHUB_WORKSPACE/backend-fork" cargo test --locked -p console-comms-adapter-smtp -p console-comms-adapter-imap -p console-platform-email -p console-platform-storage --lib -- --test-threads=1
           cargo clippy --locked -p console-comms-adapter-smtp -p console-comms-adapter-imap -p console-platform-email -p console-platform-storage --lib -- -D warnings
       - name: PostgreSQL payroll source validation, roster and workflow recovery
         env:
